@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.eef.runtime.internal.model.impl.EClassBindingImpl;
 import org.eclipse.emf.eef.runtime.internal.model.impl.PropertiesEditingModelImpl;
@@ -14,7 +15,7 @@ import org.eclipse.emf.eef.runtime.internal.model.impl.PropertiesEditingModelImp
  * @author glefur
  *
  */
-public interface PropertiesEditingModel {
+public interface PropertiesEditingModel extends AdapterFactory {
 
 	/**
 	 * Add a new binding in the model.
