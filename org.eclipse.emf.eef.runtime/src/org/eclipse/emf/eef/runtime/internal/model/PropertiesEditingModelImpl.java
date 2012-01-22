@@ -9,10 +9,16 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
 import org.eclipse.emf.eef.runtime.model.EClassBinding;
 import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
+
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -30,12 +36,36 @@ public class PropertiesEditingModelImpl extends AdapterFactoryImpl implements Pr
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#createAdapter(org.eclipse.emf.common.notify.Notifier, java.lang.Object)
 	 */
-	@Override
 	protected Adapter createAdapter(Notifier target, Object type) {
 		return new PropertiesEditingComponentImpl(this);
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#isFactoryForType(java.lang.Object)
+	 */
+	public boolean isFactoryForType(final Object type) {
+		return Collections2.filter(bindings, Predicates.compose(
+				new Predicate<EClass>() {
+					/**
+					 * {@inheritDoc}
+					 * @see com.google.common.base.Predicate#apply(java.lang.Object)
+					 */
+					public boolean apply(EClass input) {
+						return type == input;
+					}
+					
+				}, 
+				new Function<EClassBinding, EClass>() {
+					/**
+					 * {@inheritDoc}
+					 * @see com.google.common.base.Function#apply(java.lang.Object)
+					 */
+					public EClass apply(EClassBinding input) {
+						return input.getEClass();
+					}
+			})).size() > 0;
+	}
 
 	/**
 	 * {@inheritDoc}

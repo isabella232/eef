@@ -3,9 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.context;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
 /**
@@ -13,7 +12,6 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
  *
  */
 public interface PropertiesEditingContext {
-
 	
 	/**
 	 * @return the {@link PropertiesEditingModel} of the editing context.
@@ -36,10 +34,11 @@ public interface PropertiesEditingContext {
 	 * @param viewHandlerProvider {@link ViewHandlerProvider} to set.
 	 */
 	void setViewHandlerProvider(ViewHandlerProvider viewHandlerProvider);
-
-	/**
-	 * @return a {@link ViewHandler} able to manage a view for the edited {@link EObject}.
-	 */
-	ViewHandler getViewHandler();
 	
+	/**
+	 * Returns a {@link PropertiesEditingComponent} binding the edited model element.
+	 * @return a {@link PropertiesEditingComponent} binded on the edited model element.
+	 */
+	PropertiesEditingComponent getComponent();
+
 }

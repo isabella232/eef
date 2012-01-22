@@ -4,9 +4,9 @@
 package org.eclipse.emf.eef.runtime.context.impl;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
 /**
@@ -60,14 +60,12 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getViewHandler()
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getComponent()
 	 */
-	public ViewHandler getViewHandler() {
-		Object associatedView = editingModel.getAssociatedView(eObject);
-		if (viewHandlerProvider.canHandle(associatedView)) {
-			return viewHandlerProvider.getHandler(associatedView);
-		}
-		return null;
+	public PropertiesEditingComponent getComponent() {
+		PropertiesEditingComponent component = (PropertiesEditingComponent) editingModel.adapt(eObject, PropertiesEditingComponent.class);
+		component.setEditingContext(this);
+		return component;
 	}
-		
+	
 }
