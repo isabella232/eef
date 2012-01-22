@@ -65,7 +65,7 @@ public class SampleView extends Composite {
 	/**
 	 * @param active the selection state to set to the active checkbox.
 	 */
-	public void setActive(boolean active) {
+	public void setActive(Boolean active) {
 		this.activeCheckbox.setSelection(active);
 	}
 }

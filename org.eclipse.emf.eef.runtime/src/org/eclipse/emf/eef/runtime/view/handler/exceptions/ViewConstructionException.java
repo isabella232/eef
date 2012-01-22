@@ -10,7 +10,7 @@ package org.eclipse.emf.eef.runtime.view.handler.exceptions;
 public class ViewConstructionException extends Exception {
 
 	/**
-	 * Serializtion ID
+	 * Serialization ID
 	 */
 	private static final long serialVersionUID = 5957853568765322237L;
 

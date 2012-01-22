@@ -4,12 +4,12 @@
 package org.eclipse.emf.eef.runtime.ui.view.handlers;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.ui.internal.view.helpers.ReflectHelper;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -23,7 +23,7 @@ public class ReflectViewHandler implements ViewHandler {
 	private ReflectHelper helper;
 
 	/**
-	 * @param viewClass {@link Composite} to handle.
+	 * @param viewClass View class to handle.
 	 */
 	public ReflectViewHandler(final Class<?> viewClass) {
 		this.viewClass = viewClass;
@@ -59,14 +59,20 @@ public class ReflectViewHandler implements ViewHandler {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws Exception 
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#setValue(java.lang.Object, java.lang.Object)
 	 */
-	public void setValue(Object field, Object value) {
+	public void setValue(Object field, Object value) throws ViewHandlingException {
 		if (field instanceof String) {
-			reflectSet((String) field, value);
-		} else if (field instanceof EStructuralFeature) {
-			reflectSet(((EStructuralFeature) field).getName(), value);
-		}
+			Method searchSetter = helper.searchSetter((String)field, value.getClass());
+			if (searchSetter != null) {
+				try {
+					searchSetter.invoke(view, value);
+				} catch (Exception e) {
+					throw new ViewHandlingException("An error occured during view handling.", e);
+				}
+			}
+		} 
 	}
 
 	/**
@@ -79,8 +85,4 @@ public class ReflectViewHandler implements ViewHandler {
 		return helper;
 	}
 	
-	private void reflectSet(String feature, Object value) {
-		
-	}
-
 }

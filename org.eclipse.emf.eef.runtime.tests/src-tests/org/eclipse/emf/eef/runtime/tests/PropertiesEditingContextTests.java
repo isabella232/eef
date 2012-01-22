@@ -26,7 +26,7 @@ import org.junit.Test;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingDomainTests {
+public class PropertiesEditingContextTests {
 
 	private PropertiesEditingContext context;
 
@@ -58,7 +58,7 @@ public class PropertiesEditingDomainTests {
 		try {
 			handler.createView(composite);
 		} catch (ViewConstructionException e) {
-			fail("An error occured during view creation?");
+			fail("An error occured during view creation");
 		}
 		shell.pack ();
 		shell.open ();

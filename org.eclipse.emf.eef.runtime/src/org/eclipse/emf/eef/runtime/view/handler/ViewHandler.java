@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.view.handler;
 
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
+import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 
 
 
@@ -30,7 +31,8 @@ public interface ViewHandler {
 	 * Sets a value to the given field. 
 	 * @param field feature to process.
 	 * @param value the new value.
+	 * @throws Exception 
 	 */
-	void setValue(Object field, Object value);
+	void setValue(Object field, Object value) throws ViewHandlingException;
 
 }
