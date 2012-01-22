@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.model.impl;
+package org.eclipse.emf.eef.runtime.internal.model;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.eef.runtime.model.EClassBinding;

@@ -28,11 +28,12 @@ public class SampleView extends Composite {
 		this.setLayout(new GridLayout(3,false));
 		Label nameLabel = new Label(this, SWT.NONE);
 		nameLabel.setText("Name:");
-		nameText = new Text(this, SWT.NONE);
+		nameText = new Text(this, SWT.BORDER);
 		GridData textData = new GridData(GridData.FILL_HORIZONTAL);
 		textData.horizontalSpan = 2;
 		nameText.setLayoutData(textData);
 		activeCheckbox = new Button(this, SWT.CHECK);
+		activeCheckbox.setText("Active");
 		GridData activeData = new GridData(GridData.FILL_HORIZONTAL);
 		activeData.horizontalSpan = 3;
 		activeCheckbox.setLayoutData(activeData);

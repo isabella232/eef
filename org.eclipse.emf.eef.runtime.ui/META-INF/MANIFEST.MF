@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UI Rutime of the Extended Editing Framework
+Bundle-SymbolicName: org.eclipse.emf.eef.runtime.ui
+Bundle-Version: 2.0.0.qualifier
+Bundle-Activator: org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI
+Bundle-Vendor: Eclipse Modeling Project
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.eef.runtime;visibility:=reexport
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.emf.eef.runtime.ui.view.handlers

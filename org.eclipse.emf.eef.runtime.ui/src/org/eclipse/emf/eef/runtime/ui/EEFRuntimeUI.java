@@ -1,4 +1,4 @@
-package org.eclipse.emf.eef.runtime;
+package org.eclipse.emf.eef.runtime.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -6,18 +6,18 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class EEFRuntimePlugin extends AbstractUIPlugin {
+public class EEFRuntimeUI extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.emf.eef.runtime"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.eclipse.emf.eef.runtime.ui"; //$NON-NLS-1$
 
 	// The shared instance
-	private static EEFRuntimePlugin plugin;
+	private static EEFRuntimeUI plugin;
 	
 	/**
 	 * The constructor
 	 */
-	public EEFRuntimePlugin() {
+	public EEFRuntimeUI() {
 	}
 
 	/*
@@ -43,7 +43,7 @@ public class EEFRuntimePlugin extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static EEFRuntimePlugin getDefault() {
+	public static EEFRuntimeUI getDefault() {
 		return plugin;
 	}
 

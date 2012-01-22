@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.model.impl;
+package org.eclipse.emf.eef.runtime.internal.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +9,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
 import org.eclipse.emf.eef.runtime.model.EClassBinding;
 import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
@@ -51,7 +52,18 @@ public class PropertiesEditingModelImpl extends AdapterFactoryImpl implements Pr
 	public void removeBinding(EClassBinding binding) {
 		bindings.remove(binding);
 	}
-	
-	
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.model.PropertiesEditingModel#getAssociatedView(org.eclipse.emf.ecore.EObject)
+	 */
+	public Object getAssociatedView(EObject eObject) {
+		for (EClassBinding binding : bindings) {
+			if (eObject.eClass().equals(binding.getEClass())) {
+				return binding.getView();
+			}
+		}
+		return null;
+	}
 	
 }

@@ -8,8 +8,9 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.eef.runtime.internal.model.impl.EClassBindingImpl;
-import org.eclipse.emf.eef.runtime.internal.model.impl.PropertiesEditingModelImpl;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.internal.model.EClassBindingImpl;
+import org.eclipse.emf.eef.runtime.internal.model.PropertiesEditingModelImpl;
 
 /**
  * @author glefur
@@ -29,6 +30,15 @@ public interface PropertiesEditingModel extends AdapterFactory {
 	 */
 	void removeBinding(EClassBinding binding);
 	
+
+	/**
+	 * Returns the view associated to the given {@link EObject}.
+	 * @param eObject {@link EObject} to edit.
+	 * @return the associated view.
+	 */
+	Object getAssociatedView(EObject eObject);
+	
+
 	public class Builder {
 		
 		private Collection<ComponentSettings> settings;
@@ -62,6 +72,4 @@ public interface PropertiesEditingModel extends AdapterFactory {
 		}
 		
 	}
-	
-	
 }
