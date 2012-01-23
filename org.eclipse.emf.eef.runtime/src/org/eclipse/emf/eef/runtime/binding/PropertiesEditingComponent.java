@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.binding;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
 /**
@@ -24,5 +25,11 @@ public interface PropertiesEditingComponent extends Adapter {
 	 * @return a {@link ViewHandler} editing the model element.
 	 */
 	public abstract ViewHandler<?> getViewHandler();
+
+	/**
+	 * Notify the component that a widget of a managed view has changed.
+	 * @param editingEvent {@link PropertiesEditingEvent} described the view change.
+	 */
+	void fireViewChange(PropertiesEditingEvent editingEvent);
 
 }

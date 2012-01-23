@@ -15,5 +15,6 @@ Export-Package: org.eclipse.emf.eef.runtime.binding,
  org.eclipse.emf.eef.runtime.context,
  org.eclipse.emf.eef.runtime.context.impl,
  org.eclipse.emf.eef.runtime.model,
+ org.eclipse.emf.eef.runtime.notify,
  org.eclipse.emf.eef.runtime.view.handler,
  org.eclipse.emf.eef.runtime.view.handler.exceptions

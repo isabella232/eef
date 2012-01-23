@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
@@ -29,6 +30,14 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	public PropertiesEditingComponentImpl(PropertiesEditingModel editingModel) {
 		this.editingModel = editingModel;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#setEditingContext(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 */
+	public void setEditingContext(PropertiesEditingContext editingContext) {
+		this.editingContext = editingContext;
 	}
 
 	/**
@@ -62,10 +71,17 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#setEditingContext(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#fireViewChange(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
-	public void setEditingContext(PropertiesEditingContext editingContext) {
-		this.editingContext = editingContext;
+	public void fireViewChange(PropertiesEditingEvent editingEvent) {
+		EObject editedObject = (EObject) getTarget();
+		EStructuralFeature feature = editedObject.eClass().getEStructuralFeature((String)editingEvent.getAffectedEditor());
+		//TODO: version super triviale. Il faut checker le type d'event pour décider de l'opération à effectuer.
+		//      il faudra également checker les config interne de l'editingModel pour voir s'il n'y a pas un comportement de redéfini.
+		// 		Je pense également peut etre à un getSF case insensitive ...
+		if (feature != null) {
+			editedObject.eSet(feature, editingEvent.getNewValue());
+		}
 	}
 
 	/**
