@@ -7,7 +7,8 @@ import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
 import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
-import org.eclipse.emf.eef.runtime.ui.view.handlers.ReflectViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ComposedViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
@@ -34,6 +35,7 @@ public class EEFTestStuffsBuilder {
 	 */
 	public ViewHandlerProvider buildViewHandlerProvider() {
 		return new ComposedViewHandlerProvider.Builder()
+						.addHandler(new SWTViewHandlerProvider())
 						.addHandler(new ReflectViewHandlerProvider())
 						.build();
 	}

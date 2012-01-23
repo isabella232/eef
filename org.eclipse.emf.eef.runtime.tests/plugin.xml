@@ -16,5 +16,19 @@
             class="org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage"
             genModel="model/eeftests.genmodel"/>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.eclipse.emf.eef.runtime"
+            name="Extended Editing Framework">
+      </category>
+      <view
+            category="org.eclipse.emf.eef.runtime"
+            class="org.eclipse.emf.eef.runtime.tests.ui.views.EEFTesterView"
+            icon="icons/sample.gif"
+            id="org.eclipse.emf.eef.runtime.tests.ui.views.EEFTesterView"
+            name="EEF Tester View">
+      </view>
+   </extension>
 
 </plugin>

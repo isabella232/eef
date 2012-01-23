@@ -44,7 +44,7 @@ public class ViewNotificationTests {
 
 	@Test
 	public void testSingleSet() {
-		ViewHandler handler = context.getComponent().getViewHandler();
+		ViewHandler<?> handler = context.getComponent().getViewHandler();
 		Display display = new Display ();
 		Shell shell = new Shell (display);
 		shell.setLayout (new FillLayout());

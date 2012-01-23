@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
@@ -12,6 +13,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
+import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.swt.SWT;
@@ -43,13 +45,14 @@ public class PropertiesEditingContextTests {
 
 	@Test
 	public void testViewHandling() {
-		ViewHandler viewHandler = context.getComponent().getViewHandler();
+		ViewHandler<?> viewHandler = context.getComponent().getViewHandler();
 		assertNotNull("ViewHandler not initialized", viewHandler);
+		assertTrue("Bad ViewHandler selection", viewHandler instanceof SWTViewHandler);
 	}
 	
 	@Test
 	public void testViewAssociation() {
-		ViewHandler handler = context.getComponent().getViewHandler();
+		SWTViewHandler handler = (SWTViewHandler) context.getComponent().getViewHandler();
 		Display display = new Display ();
 		Shell shell = new Shell (display);
 		shell.setLayout (new FillLayout());

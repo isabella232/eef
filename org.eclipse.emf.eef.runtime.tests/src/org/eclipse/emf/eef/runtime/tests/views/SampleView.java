@@ -3,7 +3,15 @@
  */
 package org.eclipse.emf.eef.runtime.tests.views;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -19,6 +27,9 @@ public class SampleView extends Composite {
 
 	private Text nameText;
 	private Button activeCheckbox;
+	
+	private boolean notify = true;
+	private PropertyChangeSupport propertyChangeSupport;
 
 	/**
 	 * @param parent
@@ -32,15 +43,54 @@ public class SampleView extends Composite {
 		GridData textData = new GridData(GridData.FILL_HORIZONTAL);
 		textData.horizontalSpan = 2;
 		nameText.setLayoutData(textData);
+		nameText.addModifyListener(new ModifyListener() {
+			
+			public void modifyText(ModifyEvent e) {
+				if (notify) {
+					propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "name", null, nameText.getText()));
+				}
+			}
+		});
 		activeCheckbox = new Button(this, SWT.CHECK);
 		activeCheckbox.setText("Active");
 		GridData activeData = new GridData(GridData.FILL_HORIZONTAL);
 		activeData.horizontalSpan = 3;
 		activeCheckbox.setLayoutData(activeData);
+		activeCheckbox.addSelectionListener(new SelectionAdapter() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 */
+			public void widgetSelected(SelectionEvent e) {
+				if (notify) {
+					propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "active", null, activeCheckbox.getSelection()));
+				}
+			}
+			
+		});
+		propertyChangeSupport = new PropertyChangeSupport(this);
 	}
 	
+	
 	/**
-	 * @return the name's Text value.
+	 * @param listener
+	 * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener)
+	 */
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(listener);
+	}
+
+	/**
+	 * @param listener
+	 * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener)
+	 */
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+
+	/**
+	 * @return the name property.
 	 */
 	public String getName() {
 		return nameText.getText();
@@ -51,21 +101,25 @@ public class SampleView extends Composite {
 	 */
 	public void setName(String name) {
 		if (name != null) {
+			notify = false;
 			this.nameText.setText(name);
+			notify = true;
 		}
 	}
 	
 	/**
-	 * @return the active checkbox selection state
+	 * @return the active property.
 	 */
 	public boolean isActive() {
-		return this.activeCheckbox.getSelection();
+		return activeCheckbox.getSelection();
 	}
 	
 	/**
 	 * @param active the selection state to set to the active checkbox.
 	 */
 	public void setActive(Boolean active) {
+		notify = false;
 		this.activeCheckbox.setSelection(active);
+		notify = true;
 	}
 }
