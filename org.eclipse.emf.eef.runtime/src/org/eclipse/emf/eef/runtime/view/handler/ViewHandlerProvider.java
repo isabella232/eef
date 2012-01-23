@@ -21,6 +21,6 @@ public interface ViewHandlerProvider {
 	 * @param view view to handle.
 	 * @return a {@link ViewHandler} managing the given view.
 	 */
-	ViewHandler getHandler(Object view);
+	ViewHandler<?> getHandler(Object view);
 	
 }

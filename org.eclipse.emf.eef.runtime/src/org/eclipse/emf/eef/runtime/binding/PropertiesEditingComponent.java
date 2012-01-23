@@ -23,6 +23,6 @@ public interface PropertiesEditingComponent extends Adapter {
 	 * Returns a {@link ViewHandler} able to manage a view for the edited model element.
 	 * @return a {@link ViewHandler} editing the model element.
 	 */
-	public abstract ViewHandler getViewHandler();
+	public abstract ViewHandler<?> getViewHandler();
 
 }

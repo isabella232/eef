@@ -22,7 +22,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 
 	private PropertiesEditingContext editingContext;
 	private PropertiesEditingModel editingModel;
-	private ViewHandler viewHandler;
+	private ViewHandler<?> viewHandler;
 	
 	/**
 	 * @param editingModel
@@ -72,12 +72,12 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewHandler()
 	 */
-	public ViewHandler getViewHandler() {
+	public ViewHandler<?> getViewHandler() {
 		ViewHandlerProvider viewHandlerProvider = editingContext.getViewHandlerProvider();
 		if (viewHandlerProvider != null) {
 			Object associatedView = editingModel.getAssociatedView((EObject) getTarget());
 			if (viewHandlerProvider.canHandle(associatedView)) {
-				ViewHandler handler = viewHandlerProvider.getHandler(associatedView);
+				ViewHandler<?> handler = viewHandlerProvider.getHandler(associatedView);
 				if (handler != null) {
 					this.viewHandler = handler;
 					return handler;

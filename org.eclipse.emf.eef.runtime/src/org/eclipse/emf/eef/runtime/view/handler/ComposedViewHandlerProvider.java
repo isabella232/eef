@@ -38,7 +38,7 @@ public class ComposedViewHandlerProvider implements ViewHandlerProvider {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#getHandler(java.lang.Object)
 	 */
-	public ViewHandler getHandler(Object view) {
+	public ViewHandler<?> getHandler(Object view) {
 		for (ViewHandlerProvider provider : providers) {
 			if (provider.canHandle(view)) {
 				return provider.getHandler(view);
