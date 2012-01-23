@@ -47,7 +47,8 @@ public class SampleView extends Composite {
 			
 			public void modifyText(ModifyEvent e) {
 				if (notify) {
-					propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "name", null, nameText.getText()));
+					PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(this, "name", null, nameText.getText());
+					propertyChangeSupport.firePropertyChange(propertyChangeEvent);
 				}
 			}
 		});
