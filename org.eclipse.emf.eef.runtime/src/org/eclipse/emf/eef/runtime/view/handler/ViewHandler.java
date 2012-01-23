@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.view.handler;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 
@@ -12,7 +13,7 @@ import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface ViewHandler {
+public interface ViewHandler<T> {
 
 	/**
 	 * Handled view getter.
@@ -20,19 +21,25 @@ public interface ViewHandler {
 	 * @throws ViewConstructionException An error occured during view construction.
 	 * @return the handled view.
 	 */
-	Object createView(Object... args) throws ViewConstructionException;
+	T createView(Object... args) throws ViewConstructionException;
 	
 	/**
 	 * @return the handled view.
 	 */
-	Object getView();
+	T getView();
 	
 	/**
 	 * Sets a value to the given field. 
 	 * @param field feature to process.
 	 * @param value the new value.
-	 * @throws Exception 
+	 * @throws Exception an error occured du view handling.
 	 */
 	void setValue(Object field, Object value) throws ViewHandlingException;
+
+	/**
+	 * Initialize a view with the current EObject properties.
+	 * @param eObject {@link EObject} to use for initialization.
+	 */
+	void initView(EObject eObject);
 
 }

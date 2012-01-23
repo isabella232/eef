@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.handlers;
+package org.eclipse.emf.eef.runtime.ui.view.handlers.swt;
 
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
@@ -11,14 +11,14 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ReflectViewHandlerProvider implements ViewHandlerProvider {
+public class SWTViewHandlerProvider implements ViewHandlerProvider {
 
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#canHandle(java.lang.Object)
 	 */
 	public boolean canHandle(Object view) {
-		if (view instanceof Class<?>) {
+		if (view instanceof Class<?> ) {
 			return isCompositeClass((Class<?>) view);
 		}
 		return false;
@@ -28,8 +28,9 @@ public class ReflectViewHandlerProvider implements ViewHandlerProvider {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#getHandler(java.lang.Object)
 	 */
-	public ViewHandler getHandler(Object view) {
-		return new ReflectViewHandler((Class<?>) view);
+	@SuppressWarnings("unchecked")
+	public ViewHandler<? extends Composite> getHandler(Object view) {
+		return new SWTViewHandler((Class<? extends Composite>) view);
 	}
 
 	/**

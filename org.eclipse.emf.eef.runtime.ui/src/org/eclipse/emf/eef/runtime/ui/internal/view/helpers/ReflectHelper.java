@@ -10,14 +10,14 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ReflectHelper {
+public class ReflectHelper<T> {
 
-	private Class<?> clazz;
+	private Class<? extends T> clazz;
 
 	/**
 	 * @param clazz {@link Class} to analyze.
 	 */
-	public ReflectHelper(Class<?> clazz) {
+	public ReflectHelper(Class<? extends T> clazz) {
 		this.clazz = clazz;
 	}
 
@@ -26,9 +26,9 @@ public class ReflectHelper {
 	 * @param args arguments to match
 	 * @return a constructor that can be called with the given arguments <code>null</code> otherwise.
 	 */
-	public Constructor<?> searchAvailableConstructor(Object... args) {
+	public Constructor<? extends T> searchAvailableConstructor(Object... args) {
 		Class<?>[] paramTypes = new Class<?>[args.length];
-		Constructor<?> result = null;
+		Constructor<? extends T> result = null;
 		for (int i = 0; i < args.length; i++) {
 			paramTypes[i] = args[i].getClass();
 		}

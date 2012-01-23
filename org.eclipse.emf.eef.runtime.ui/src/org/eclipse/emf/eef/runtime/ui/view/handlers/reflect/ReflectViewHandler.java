@@ -1,11 +1,13 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.handlers;
+package org.eclipse.emf.eef.runtime.ui.view.handlers.reflect;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.ui.internal.view.helpers.ReflectHelper;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
@@ -15,17 +17,17 @@ import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ReflectViewHandler implements ViewHandler {
+public class ReflectViewHandler<T> implements ViewHandler<T> {
 
-	protected Class<?> viewClass;
-	protected Object view;
+	protected Class<? extends T> viewClass;
+	protected T view;
 	
-	private ReflectHelper helper;
+	private ReflectHelper<T> helper;
 
 	/**
 	 * @param viewClass View class to handle.
 	 */
-	public ReflectViewHandler(final Class<?> viewClass) {
+	public ReflectViewHandler(final Class<? extends T> viewClass) {
 		this.viewClass = viewClass;
 	}
 
@@ -33,9 +35,9 @@ public class ReflectViewHandler implements ViewHandler {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#createView(java.lang.Object[])
 	 */
-	public Object createView(Object... viewConstructArgs) throws ViewConstructionException {
+	public T createView(Object... viewConstructArgs) throws ViewConstructionException {
 		if (view == null) {
-			Constructor<?> availableConstructor = getHelper().searchAvailableConstructor(viewConstructArgs);
+			Constructor<? extends T> availableConstructor = getHelper().searchAvailableConstructor(viewConstructArgs);
 			if (availableConstructor != null) {
 				try {
 					view = availableConstructor.newInstance(viewConstructArgs);
@@ -53,7 +55,7 @@ public class ReflectViewHandler implements ViewHandler {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#getView()
 	 */
-	public Object getView() {
+	public T getView() {
 		return view;
 	}
 
@@ -76,11 +78,25 @@ public class ReflectViewHandler implements ViewHandler {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#initView(java.lang.Object, org.eclipse.emf.ecore.EObject)
+	 */
+	public void initView(EObject eObject) {
+		for (EStructuralFeature feature : eObject.eClass().getEAllStructuralFeatures()) {
+			try {
+				setValue(feature.getName(), eObject.eGet(feature));
+			} catch (ViewHandlingException e) {
+				//NOTE: Silent catch
+			}
+		}
+	}
+
+	/**
 	 * @return a {@link ReflectHelper} on the view class.
 	 */
-	private ReflectHelper getHelper() {
+	private ReflectHelper<T> getHelper() {
 		if (helper == null) {
-			helper = new ReflectHelper(viewClass);
+			helper = new ReflectHelper<T>(viewClass);
 		}
 		return helper;
 	}
