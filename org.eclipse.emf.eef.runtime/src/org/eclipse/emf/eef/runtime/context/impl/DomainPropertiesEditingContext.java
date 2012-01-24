@@ -3,7 +3,10 @@
  */
 package org.eclipse.emf.eef.runtime.context.impl;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 /**
@@ -34,5 +37,18 @@ public class DomainPropertiesEditingContext extends EObjectPropertiesEditingCont
 	public void setEditingDomain(EditingDomain editingDomain) {
 		this.editingDomain = editingDomain;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext#performSet(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 */
+	public void performSet(EObject eObject, EStructuralFeature feature, Object value) {
+		Command setCommand = SetCommand.create(editingDomain, eObject, feature, value);
+		if (setCommand != null) {
+			editingDomain.getCommandStack().execute(setCommand);
+		}
+	}
+	
+	
 	
 }

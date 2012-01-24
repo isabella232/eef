@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.context;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
@@ -40,5 +42,13 @@ public interface PropertiesEditingContext {
 	 * @return a {@link PropertiesEditingComponent} binded on the edited model element.
 	 */
 	PropertiesEditingComponent getComponent();
+
+	/**
+	 * Set a value to the given feature of the given {@link EObject}.
+	 * @param eObject {@link EObject} to edit.
+	 * @param feature {@link EStructuralFeature} to modify.
+	 * @param value the value of the feature.
+	 */
+	void performSet(EObject eObject, EStructuralFeature feature, Object value);
 
 }

@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.context.impl;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
@@ -67,5 +68,15 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 		component.setEditingContext(this);
 		return component;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#performSet(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 */
+	public void performSet(EObject eObject, EStructuralFeature feature, Object value) {
+		eObject.eSet(feature, value);
+	}
+	
+	
 	
 }

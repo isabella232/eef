@@ -94,7 +94,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 		//      il faudra également checker les config interne de l'editingModel pour voir s'il n'y a pas un comportement de redéfini.
 		// 		Je pense également peut etre à un getSF case insensitive ...
 		if (feature != null) {
-			editedObject.eSet(feature, editingEvent.getNewValue());
+			editingContext.performSet(editedObject, feature, editingEvent.getNewValue());
 		}
 	}
 
