@@ -11,6 +11,7 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
@@ -24,6 +25,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	private PropertiesEditingContext editingContext;
 	private PropertiesEditingModel editingModel;
 	private ViewHandler<?> viewHandler;
+	private ViewChangeNotifier viewChangeNotifier;
 	
 	/**
 	 * @param editingModel
@@ -69,6 +71,18 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 		}
 	}
 	
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewChangeNotifier()
+	 */
+	public ViewChangeNotifier getViewChangeNotifier() {
+		if (viewChangeNotifier == null) {
+			viewChangeNotifier = new ViewChangeNotifier(this);
+		}
+		return viewChangeNotifier;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#fireViewChange(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)

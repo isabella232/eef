@@ -1,19 +1,12 @@
 package org.eclipse.emf.eef.runtime.tests.ui.views;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import org.eclipse.emf.eef.eeftests.bindingmodel.AbstractSample;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
 import org.eclipse.emf.eef.eeftests.bindingmodel.Root;
 import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
-import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
-import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
-import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
@@ -58,11 +51,7 @@ public class EEFTesterView extends ViewPart {
 			try {
 				Composite view = swtHandler.createView(parent);
 				view.setLayoutData(new GridData(GridData.FILL_BOTH));
-				viewHandler.initView(eObjectToEdit);
-				if (view instanceof SampleView) {
-					final SampleView sampleView = (SampleView)view;
-					sampleView.addPropertyChangeListener(new ViewChangeNotifier(component));
-				}
+				viewHandler.initView(component);
 			} catch (ViewConstructionException e) {
 //				EEF.getDefault().getLog().log(new Status(IStatus.ERROR, EEFTester.PLUGIN_ID, "Unable to create view.", e));
 				e.printStackTrace();

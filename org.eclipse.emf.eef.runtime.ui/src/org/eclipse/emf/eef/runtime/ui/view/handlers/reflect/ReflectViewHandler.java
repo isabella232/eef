@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.internal.view.helpers.ReflectHelper;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
@@ -79,9 +80,10 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#initView(java.lang.Object, org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
-	public void initView(EObject eObject) {
+	public void initView(PropertiesEditingComponent component) {
+		EObject eObject = (EObject) component.getTarget();
 		for (EStructuralFeature feature : eObject.eClass().getEAllStructuralFeatures()) {
 			try {
 				setValue(feature.getName(), eObject.eGet(feature));
@@ -89,6 +91,15 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 				//NOTE: Silent catch
 			}
 		}
+		Method searchListenerAdder = helper.searchListenerAdder();
+		if (searchListenerAdder != null) {
+			try {
+				searchListenerAdder.invoke(view, component.getViewChangeNotifier());
+			} catch (Exception e) {
+				//NOTE: Silent catch
+			}
+		}
+		
 	}
 
 	/**

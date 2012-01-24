@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.internal.view.helpers;
 
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
@@ -61,6 +62,17 @@ public class ReflectHelper<T> {
 		return method;
 	}
 	
+	public Method searchListenerAdder() {
+		Method method = null;
+		try {
+			method = clazz.getMethod("addPropertyChangeListener", PropertyChangeListener.class);
+		} catch (SecurityException e) {
+			method = null;
+		} catch (NoSuchMethodException e) {
+			method = null;
+		}
+		return method;
+	}
 	
 	/**
 	 * Sets the first character of the string to upper.

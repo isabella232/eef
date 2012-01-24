@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.view.handler;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 
@@ -38,8 +38,8 @@ public interface ViewHandler<T> {
 
 	/**
 	 * Initialize a view with the current EObject properties.
-	 * @param eObject {@link EObject} to use for initialization.
+	 * @param component {@link PropertiesEditingComponent} to use for initialization.
 	 */
-	void initView(EObject eObject);
+	void initView(PropertiesEditingComponent component);
 
 }
