@@ -55,19 +55,29 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
 	public void notifyChanged(Notification msg) {
-		if (msg.getEventType() == Notification.SET) {
+		switch (msg.getEventType()) {
+		case Notification.SET:
 			if (msg.getFeature() instanceof EStructuralFeature) {
 				EStructuralFeature structuralFeature = (EStructuralFeature)msg.getFeature();
-				if (structuralFeature.isMany()) {
-					//TODO: to be continued!
-				} else {
-					try {
-						viewHandler.setValue(structuralFeature.getName(), msg.getNewValue());
-					} catch (ViewHandlingException e) {
-						//TODO: define an error management strategy
-					}
+				try {
+					// TODO: Ici se joue la résolution de feature. En cas de sous binding ... il faut invoquer le setValue sur le bon éditeur
+					//		 Techniquement il faut donc interroger le component (qui lui meme doit interroger l'editingModel) pour trouver le
+					// 		 bon éditeur. Ensuite la logique est transmise au handler.
+					//		 Dans le cas du reflect, si c'est une string, il bidouille un setter, sinon, il faudrait qu'il appelle la bonne methode
+					//		 Ce qui implique de pouvoir définir cette méthode ...
+					viewHandler.setValue(structuralFeature.getName(), msg.getNewValue());
+				} catch (ViewHandlingException e) {
+					//TODO: define an error management strategy
 				}
-			}
+			}			
+			break;
+		case Notification.UNSET: {
+			
+		}
+		default:
+			break;
+		}
+		if (msg.getEventType() == Notification.SET) {
 		}
 	}
 	

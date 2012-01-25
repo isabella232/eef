@@ -9,11 +9,11 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.internal.model.EClassBindingImpl;
 import org.eclipse.emf.eef.runtime.internal.model.PropertiesEditingModelImpl;
+import org.eclipse.emf.eef.runtime.model.EClassBinding.EClassBindingBuilder;
 
 /**
- * @author glefur
+ * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
 public interface PropertiesEditingModel extends AdapterFactory {
@@ -41,35 +41,27 @@ public interface PropertiesEditingModel extends AdapterFactory {
 
 	public class Builder {
 		
-		private Collection<ComponentSettings> settings;
+		private Collection<EClassBindingBuilder> bindingBuilders;
 		
 		public Builder() {
-			this.settings = new ArrayList<PropertiesEditingModel.Builder.ComponentSettings>();
+			this.bindingBuilders = new ArrayList<EClassBindingBuilder>();
 		}
 
 		public PropertiesEditingModel build() {
 			PropertiesEditingModel result = new PropertiesEditingModelImpl();
-			for (ComponentSettings cSettings : settings) {
-				result.addBinding(new EClassBindingImpl(cSettings.eClass, cSettings.view));
+			for (EClassBindingBuilder bindingBuilder : bindingBuilders) {
+				result.addBinding(bindingBuilder.buildBinding());
 			}
 			return result;
 		}
 		
-		public Builder bind(EClass eClass, Object view) {
-			ComponentSettings newSettings = new ComponentSettings();
-			newSettings.eClass = eClass;
-			newSettings.view = view;
-			settings.add(newSettings);
-			return this;
+		public EClassBindingBuilder bindClass(EClass eClass, Object view) {
+			EClassBindingBuilder builder = new EClassBindingBuilder(this);
+			builder.eClass = eClass;
+			builder.view = view;
+			bindingBuilders.add(builder);
+			return builder;
 		}
-		
-
-		private class ComponentSettings {
-			
-			EClass eClass;
-			Object view;
-			
-		}
-		
+				
 	}
 }
