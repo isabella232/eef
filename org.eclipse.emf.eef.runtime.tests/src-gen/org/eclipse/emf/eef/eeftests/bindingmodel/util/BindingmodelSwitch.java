@@ -10,8 +10,10 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.eef.eeftests.bindingmodel.*;
+import org.eclipse.emf.eef.eeftests.bindingmodel.AbstractSample;
+import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
+import org.eclipse.emf.eef.eeftests.bindingmodel.Root;
+import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
 
 /**
  * <!-- begin-user-doc -->

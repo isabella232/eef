@@ -4,18 +4,13 @@
 package org.eclipse.emf.eef.runtime.tests.util;
 
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ComposedViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
