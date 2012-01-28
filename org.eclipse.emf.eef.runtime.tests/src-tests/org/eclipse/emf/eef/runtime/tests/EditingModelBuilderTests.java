@@ -47,7 +47,7 @@ public class EditingModelBuilderTests {
 	}
 	
 	@Test
-	public void testSimpleBinding() {
+	public void testFullBindingSyntax() {
 		PropertiesEditingModel model = 
 				new EditingModelBuilder()
 					.bindClass(BindingmodelPackage.Literals.SAMPLE).withView(SampleView.class)
