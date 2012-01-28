@@ -25,8 +25,8 @@ public class EEFTestStuffsBuilder {
 	 */
 	public PropertiesEditingModel buildEditingModel() {
 		return new EditingModelBuilder()
-						.bindClass(BindingmodelPackage.Literals.SAMPLE, SampleView.class)
-						.bindClass(BindingmodelPackage.Literals.ROOT, RootView.class)
+						.bindClass(BindingmodelPackage.Literals.SAMPLE).withView(SampleView.class)
+						.bindClass(BindingmodelPackage.Literals.ROOT).withView(RootView.class)
 						.build();
 	}
 	
