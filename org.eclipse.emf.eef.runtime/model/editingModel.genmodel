@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.eef.runtime/src-gen"
+    modelPluginID="org.eclipse.emf.eef.runtime" modelName="EditingModel" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+  <foreignModel>editingModel.ecore</foreignModel>
+  <genPackages prefix="EditingModel" basePackage="org.eclipse.emf.eef.runtime" disposableProviderFactory="true"
+      ecorePackage="editingModel.ecore#/">
+    <genDataTypes ecoreDataType="editingModel.ecore#//ViewHandler">
+      <genTypeParameters ecoreTypeParameter="editingModel.ecore#//ViewHandler/T"/>
+    </genDataTypes>
+    <genClasses ecoreClass="editingModel.ecore#//PropertiesEditingModel">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//PropertiesEditingModel/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//PropertiesEditingModel/bindings"/>
+      <genOperations ecoreOperation="editingModel.ecore#//PropertiesEditingModel/getAssociatedViews">
+        <genParameters ecoreParameter="editingModel.ecore#//PropertiesEditingModel/getAssociatedViews/eObject"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="editingModel.ecore#//EClassBinding">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference editingModel.ecore#//EClassBinding/eClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//EClassBinding/view"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//EClassBinding/handler"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.binding;
 
+import java.util.List;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -22,10 +24,10 @@ public interface PropertiesEditingComponent extends Adapter {
 	void setEditingContext(PropertiesEditingContext editingContext);
 
 	/**
-	 * Returns a {@link ViewHandler} able to manage a view for the edited model element.
-	 * @return a {@link ViewHandler} editing the model element.
+	 * Returns all {@link ViewHandler}s able to manage the views for the edited model element.
+	 * @return a list of {@link ViewHandler} editing the model element.
 	 */
-	public abstract ViewHandler<?> getViewHandler();
+	List<ViewHandler<?>> getViewHandlers();
 
 	/**
 	 * @return the component {@link ViewChangeNotifier}.

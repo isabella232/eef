@@ -6,6 +6,8 @@ package org.eclipse.emf.eef.runtime.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.List;
+
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
 import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -30,7 +32,7 @@ public class ViewNotificationTests {
 
 	private PropertiesEditingContext context;
 	private Sample modelElement;
-	
+
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -45,28 +47,31 @@ public class ViewNotificationTests {
 
 	@Test
 	public void testSingleSet() {
-		ViewHandler<?> handler = context.getComponent().getViewHandler();
-		Display display = new Display ();
-		Shell shell = new Shell (display);
-		shell.setLayout (new FillLayout());
-		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setLayout(new FillLayout());
-		try {
-			handler.createView(composite);
-		} catch (ViewConstructionException e) {
-			fail("An error occured during view creation");
+		List<ViewHandler<?>> handlers = context.getComponent().getViewHandlers();
+		if (handlers.size() == 1) {
+			ViewHandler<?> handler = handlers.get(0);
+			Display display = new Display ();
+			Shell shell = new Shell (display);
+			shell.setLayout (new FillLayout());
+			Composite composite = new Composite(shell, SWT.NONE);
+			composite.setLayout(new FillLayout());
+			try {
+				handler.createView(composite);
+			} catch (ViewConstructionException e) {
+				fail("An error occured during view creation");
+			}
+			shell.pack ();
+			shell.open ();
+
+			modelElement.setName("New name");
+			assertEquals("Bad view refresh", modelElement.getName(), ((SampleView)handler.getView()).getName());
+
+			modelElement.setActive(true);
+			assertEquals("Bad view refresh", modelElement.isActive(), ((SampleView)handler.getView()).isActive());
+
+			display.dispose ();
 		}
-		shell.pack ();
-		shell.open ();
 
-		modelElement.setName("New name");
-		assertEquals("Bad view refresh", modelElement.getName(), ((SampleView)handler.getView()).getName());
-		
-		modelElement.setActive(true);
-		assertEquals("Bad view refresh", modelElement.isActive(), ((SampleView)handler.getView()).isActive());
-
-		display.dispose ();
-	
 	}
 
 }

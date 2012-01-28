@@ -7,7 +7,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.EditingModelProvider;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
 /**
@@ -17,7 +18,7 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 public class EObjectPropertiesEditingContext implements PropertiesEditingContext {
 
 	protected EObject eObject;
-	private PropertiesEditingModel editingModel;
+	private EditingModelProvider modelProvider;
 	private ViewHandlerProvider viewHandlerProvider;
 	
 	/**
@@ -32,7 +33,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingModel()
 	 */
 	public PropertiesEditingModel getEditingModel() {
-		return editingModel;
+		return modelProvider.getEditingModel();
 	}
 
 	/**
@@ -40,7 +41,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setEditingModel(org.eclipse.emf.eef.runtime.model.PropertiesEditingModel)
 	 */
 	public void setEditingModel(PropertiesEditingModel editingModel) {
-		this.editingModel = editingModel;
+		this.modelProvider = new EditingModelProvider(editingModel);
 	}
 
 	/**
@@ -64,7 +65,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getComponent()
 	 */
 	public PropertiesEditingComponent getComponent() {
-		PropertiesEditingComponent component = (PropertiesEditingComponent) editingModel.adapt(eObject, PropertiesEditingComponent.class);
+		PropertiesEditingComponent component = (PropertiesEditingComponent) modelProvider.adapt(eObject, PropertiesEditingComponent.class);
 		component.setEditingContext(this);
 		return component;
 	}

@@ -1,19 +1,14 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.model;
-
-import java.util.ArrayList;
-import java.util.Collection;
+package org.eclipse.emf.eef.runtime.editingModel;
 
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
-import org.eclipse.emf.eef.runtime.model.EClassBinding;
-import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -24,12 +19,22 @@ import com.google.common.collect.Collections2;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingModelImpl extends AdapterFactoryImpl implements PropertiesEditingModel {
+public class EditingModelProvider extends AdapterFactoryImpl implements AdapterFactory {
 
-	private Collection<EClassBinding> bindings;
+	private PropertiesEditingModel editingModel;
 
-	public PropertiesEditingModelImpl() {
-		this.bindings = new ArrayList<EClassBinding>();
+	/**
+	 * @param editingModel
+	 */
+	public EditingModelProvider(PropertiesEditingModel editingModel) {
+		this.editingModel = editingModel;
+	}
+	
+	/**
+	 * @return the editingModel
+	 */
+	public PropertiesEditingModel getEditingModel() {
+		return editingModel;
 	}
 
 	/**
@@ -37,7 +42,7 @@ public class PropertiesEditingModelImpl extends AdapterFactoryImpl implements Pr
 	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#createAdapter(org.eclipse.emf.common.notify.Notifier, java.lang.Object)
 	 */
 	protected Adapter createAdapter(Notifier target, Object type) {
-		return new PropertiesEditingComponentImpl(this);
+		return new PropertiesEditingComponentImpl(editingModel);
 	}
 
 	/**
@@ -45,7 +50,7 @@ public class PropertiesEditingModelImpl extends AdapterFactoryImpl implements Pr
 	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#isFactoryForType(java.lang.Object)
 	 */
 	public boolean isFactoryForType(final Object type) {
-		return Collections2.filter(bindings, Predicates.compose(
+		return Collections2.filter(editingModel.getBindings(), Predicates.compose(
 				new Predicate<EClass>() {
 					/**
 					 * {@inheritDoc}
@@ -67,33 +72,5 @@ public class PropertiesEditingModelImpl extends AdapterFactoryImpl implements Pr
 			})).size() > 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.model.PropertiesEditingModel#addBinding(org.eclipse.emf.eef.runtime.model.EClassBinding)
-	 */
-	public void addBinding(EClassBinding binding) {
-		bindings.add(binding);
-	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.model.PropertiesEditingModel#removeBinding(org.eclipse.emf.eef.runtime.model.EClassBinding)
-	 */
-	public void removeBinding(EClassBinding binding) {
-		bindings.remove(binding);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.model.PropertiesEditingModel#getAssociatedView(org.eclipse.emf.ecore.EObject)
-	 */
-	public Object getAssociatedView(EObject eObject) {
-		for (EClassBinding binding : bindings) {
-			if (eObject.eClass().equals(binding.getEClass())) {
-				return binding.getView();
-			}
-		}
-		return null;
-	}
-	
 }

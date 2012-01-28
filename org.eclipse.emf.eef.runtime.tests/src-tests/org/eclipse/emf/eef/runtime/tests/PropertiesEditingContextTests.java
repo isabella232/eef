@@ -4,9 +4,10 @@
 package org.eclipse.emf.eef.runtime.tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.List;
 
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -45,14 +46,14 @@ public class PropertiesEditingContextTests {
 
 	@Test
 	public void testViewHandling() {
-		ViewHandler<?> viewHandler = context.getComponent().getViewHandler();
-		assertNotNull("ViewHandler not initialized", viewHandler);
-		assertTrue("Bad ViewHandler selection", viewHandler instanceof SWTViewHandler);
+		List<ViewHandler<?>> viewHandlers = context.getComponent().getViewHandlers();
+		assertEquals("ViewHandler not initialized", viewHandlers.size(), 1);
+		assertTrue("Bad ViewHandler selection", viewHandlers.get(0) instanceof SWTViewHandler);
 	}
 	
 	@Test
 	public void testViewAssociation() {
-		SWTViewHandler handler = (SWTViewHandler) context.getComponent().getViewHandler();
+		SWTViewHandler handler = (SWTViewHandler) context.getComponent().getViewHandlers().get(0);
 		Display display = new Display ();
 		Shell shell = new Shell (display);
 		shell.setLayout (new FillLayout());

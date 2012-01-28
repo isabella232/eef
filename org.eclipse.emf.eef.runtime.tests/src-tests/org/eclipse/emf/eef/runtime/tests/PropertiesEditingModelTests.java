@@ -7,7 +7,8 @@ import static org.junit.Assert.assertNotNull;
 
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.EditingModelProvider;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class PropertiesEditingModelTests {
 	
 	@Test
 	public void testBinding() {
-		PropertiesEditingModel model = builder.buildEditingModel();
+		EditingModelProvider model = new EditingModelProvider(builder.buildEditingModel());
 		PropertiesEditingComponent component = (PropertiesEditingComponent) model.adapt(BindingmodelFactory.eINSTANCE.createSample(), PropertiesEditingComponent.class);
 		assertNotNull("Binding not initialized", component);
 	}

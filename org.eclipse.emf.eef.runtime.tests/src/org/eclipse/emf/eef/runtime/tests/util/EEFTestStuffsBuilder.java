@@ -4,7 +4,8 @@
 package org.eclipse.emf.eef.runtime.tests.util;
 
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
-import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
@@ -23,7 +24,7 @@ public class EEFTestStuffsBuilder {
 	 * @return a sample {@link PropertiesEditingModel}.
 	 */
 	public PropertiesEditingModel buildEditingModel() {
-		return new PropertiesEditingModel.Builder()
+		return new EditingModelBuilder()
 						.bindClass(BindingmodelPackage.Literals.SAMPLE, SampleView.class)
 						.bindClass(BindingmodelPackage.Literals.ROOT, RootView.class)
 						.build();

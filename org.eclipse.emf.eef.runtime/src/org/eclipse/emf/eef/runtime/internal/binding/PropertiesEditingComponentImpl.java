@@ -3,13 +3,16 @@
  */
 package org.eclipse.emf.eef.runtime.internal.binding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
@@ -24,7 +27,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 
 	private PropertiesEditingContext editingContext;
 	private PropertiesEditingModel editingModel;
-	private ViewHandler<?> viewHandler;
+	private List<ViewHandler<?>> viewHandlers;
 	private ViewChangeNotifier viewChangeNotifier;
 	
 	/**
@@ -65,7 +68,9 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 					// 		 bon éditeur. Ensuite la logique est transmise au handler.
 					//		 Dans le cas du reflect, si c'est une string, il bidouille un setter, sinon, il faudrait qu'il appelle la bonne methode
 					//		 Ce qui implique de pouvoir définir cette méthode ...
-					viewHandler.setValue(structuralFeature.getName(), msg.getNewValue());
+					for (ViewHandler<?> viewHandler : viewHandlers) {
+						viewHandler.setValue(structuralFeature.getName(), msg.getNewValue());						
+					}
 				} catch (ViewHandlingException e) {
 					//TODO: define an error management strategy
 				}
@@ -110,20 +115,22 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewHandler()
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewHandlers()
 	 */
-	public ViewHandler<?> getViewHandler() {
+	public List<ViewHandler<?>> getViewHandlers() {
+		viewHandlers = new ArrayList<ViewHandler<?>>();
 		ViewHandlerProvider viewHandlerProvider = editingContext.getViewHandlerProvider();
 		if (viewHandlerProvider != null) {
-			Object associatedView = editingModel.getAssociatedView((EObject) getTarget());
-			if (viewHandlerProvider.canHandle(associatedView)) {
-				ViewHandler<?> handler = viewHandlerProvider.getHandler(associatedView);
-				if (handler != null) {
-					this.viewHandler = handler;
-					return handler;
+			List<Object> associatedViews = editingModel.getAssociatedViews((EObject) getTarget());
+			for (Object associatedView : associatedViews) {
+				if (viewHandlerProvider.canHandle(associatedView)) {
+					ViewHandler<?> handler = viewHandlerProvider.getHandler(associatedView);
+					if (handler != null) {
+						viewHandlers.add(handler);
+					}
 				}
 			}
 		}
-		return null;
+		return viewHandlers;
 	}
 }

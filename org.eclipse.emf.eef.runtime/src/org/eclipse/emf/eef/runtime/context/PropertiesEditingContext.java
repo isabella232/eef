@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.context;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.model.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
 /**

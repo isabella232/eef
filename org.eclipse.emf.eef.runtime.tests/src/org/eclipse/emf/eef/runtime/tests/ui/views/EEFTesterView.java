@@ -45,16 +45,17 @@ public class EEFTesterView extends ViewPart {
 		context.setEditingModel(builder.buildEditingModel());
 		context.setViewHandlerProvider(builder.buildViewHandlerProvider());
 		final PropertiesEditingComponent component = context.getComponent();
-		ViewHandler<?> viewHandler = component.getViewHandler();
-		if (viewHandler instanceof SWTViewHandler) {
-			SWTViewHandler swtHandler = (SWTViewHandler)viewHandler;
-			try {
-				Composite view = swtHandler.createView(parent);
-				view.setLayoutData(new GridData(GridData.FILL_BOTH));
-				viewHandler.initView(component);
-			} catch (ViewConstructionException e) {
+		for (ViewHandler<?> viewHandler : component.getViewHandlers()) {
+			if (viewHandler instanceof SWTViewHandler) {
+				SWTViewHandler swtHandler = (SWTViewHandler)viewHandler;
+				try {
+					Composite view = swtHandler.createView(parent);
+					view.setLayoutData(new GridData(GridData.FILL_BOTH));
+					viewHandler.initView(component);
+				} catch (ViewConstructionException e) {
 //				EEF.getDefault().getLog().log(new Status(IStatus.ERROR, EEFTester.PLUGIN_ID, "Unable to create view.", e));
-				e.printStackTrace();
+					e.printStackTrace();
+				}
 			}
 		}
 	}
