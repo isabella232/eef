@@ -27,7 +27,7 @@ public class ModelNotificationTests extends UIEditingTestCase {
 	}
 
 	@Test
-	public void testSingleSet() {
+	public void testViewRefreshs() {
 		Sample sample = (Sample) elementToEdit;
 		sample.setName("New name");
 		SampleView sampleView = (SampleView)views.get(0);

@@ -156,7 +156,7 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * @generated NOT
 	 */
 	public EStructuralFeature feature(Object view) {
-		for (PropertyBinding binding : propertyBindings) {
+		for (PropertyBinding binding : getPropertyBindings()) {
 			if (binding.getEditor().equals(view)) {
 				return binding.getFeature();
 			}
@@ -173,7 +173,7 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * @generated NOT
 	 */
 	public Object propertyEditor(EStructuralFeature feature) {
-		for (PropertyBinding binding : propertyBindings) {
+		for (PropertyBinding binding : getPropertyBindings()) {
 			if (binding.getFeature().equals(feature)) {
 				return binding.getEditor();
 			}
