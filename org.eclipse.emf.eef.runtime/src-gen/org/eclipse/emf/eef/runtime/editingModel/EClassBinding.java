@@ -9,6 +9,7 @@ package org.eclipse.emf.eef.runtime.editingModel;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
  * <!-- begin-user-doc -->
@@ -86,5 +87,21 @@ public interface EClassBinding extends EObject {
 	 * @generated
 	 */
 	EList<PropertyBinding> getPropertyBindings();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model viewRequired="true"
+	 * @generated
+	 */
+	EStructuralFeature feature(Object view);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model featureRequired="true"
+	 * @generated
+	 */
+	Object propertyEditor(EStructuralFeature feature);
 
 } // EClassBinding

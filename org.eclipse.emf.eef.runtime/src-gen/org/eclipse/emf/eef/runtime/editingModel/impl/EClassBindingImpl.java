@@ -12,6 +12,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -147,6 +148,37 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 			propertyBindings = new EObjectContainmentEList<PropertyBinding>(PropertyBinding.class, this, EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS);
 		}
 		return propertyBindings;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EStructuralFeature feature(Object view) {
+		for (PropertyBinding binding : propertyBindings) {
+			if (binding.getEditor().equals(view)) {
+				return binding.getFeature();
+			}
+		}
+		if (view instanceof String) {
+			return eClass.getEStructuralFeature((String)view);
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Object propertyEditor(EStructuralFeature feature) {
+		for (PropertyBinding binding : propertyBindings) {
+			if (binding.getFeature().equals(feature)) {
+				return binding.getEditor();
+			}
+		} 
+		return feature.getName();
 	}
 
 	/**

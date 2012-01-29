@@ -28,6 +28,12 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference editingModel.ecore#//EClassBinding/eClass"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//EClassBinding/views"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//EClassBinding/propertyBindings"/>
+      <genOperations ecoreOperation="editingModel.ecore#//EClassBinding/feature">
+        <genParameters ecoreParameter="editingModel.ecore#//EClassBinding/feature/view"/>
+      </genOperations>
+      <genOperations ecoreOperation="editingModel.ecore#//EClassBinding/propertyEditor">
+        <genParameters ecoreParameter="editingModel.ecore#//EClassBinding/propertyEditor/feature"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="editingModel.ecore#//View">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//View/handler"/>

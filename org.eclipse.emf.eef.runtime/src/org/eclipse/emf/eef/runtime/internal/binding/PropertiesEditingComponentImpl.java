@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
@@ -62,14 +63,15 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 		case Notification.SET:
 			if (msg.getFeature() instanceof EStructuralFeature) {
 				EStructuralFeature structuralFeature = (EStructuralFeature)msg.getFeature();
+				EClassBinding binding = editingModel.binding((EObject) getTarget());
+				Object propertyEditor = binding.propertyEditor(structuralFeature);
 				try {
-					// TODO: Ici se joue la résolution de feature. En cas de sous binding ... il faut invoquer le setValue sur le bon éditeur
-					//		 Techniquement il faut donc interroger le component (qui lui meme doit interroger l'editingModel) pour trouver le
-					// 		 bon éditeur. Ensuite la logique est transmise au handler.
+					// TODO: Ici se joue la résolution de feature. 
+					//		 Ensuite la logique est transmise au handler.
 					//		 Dans le cas du reflect, si c'est une string, il bidouille un setter, sinon, il faudrait qu'il appelle la bonne methode
 					//		 Ce qui implique de pouvoir définir cette méthode ...
 					for (ViewHandler<?> viewHandler : viewHandlers) {
-						viewHandler.setValue(structuralFeature.getName(), msg.getNewValue());						
+						viewHandler.setValue(propertyEditor, msg.getNewValue());						
 					}
 				} catch (ViewHandlingException e) {
 					//TODO: define an error management strategy
@@ -104,9 +106,9 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	public void fireViewChange(PropertiesEditingEvent editingEvent) {
 		EObject editedObject = (EObject) getTarget();
-		EStructuralFeature feature = editedObject.eClass().getEStructuralFeature((String)editingEvent.getAffectedEditor());
+		EClassBinding binding = editingModel.binding(editedObject);
+		EStructuralFeature feature = binding.feature(editingEvent.getAffectedEditor());
 		//TODO: version super triviale. Il faut checker le type d'event pour décider de l'opération à effectuer.
-		//      il faudra également checker les config interne de l'editingModel pour voir s'il n'y a pas un comportement de redéfini.
 		// 		Je pense également peut etre à un getSF case insensitive ...
 		if (feature != null) {
 			editingContext.performSet(editedObject, feature, editingEvent.getNewValue());
