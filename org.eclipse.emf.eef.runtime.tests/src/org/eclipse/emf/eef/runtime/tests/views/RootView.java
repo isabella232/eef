@@ -6,11 +6,11 @@ package org.eclipse.emf.eef.runtime.tests.views;
 import java.util.Collection;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.List;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Label;
  */
 public class RootView extends Composite {
 
-	private ListViewer samplesList;
+	private List samplesList;
 	private Collection<Object> samples;
 
 	/**
@@ -29,8 +29,7 @@ public class RootView extends Composite {
 		this.setLayout(new GridLayout(3, false));
 		Label samplesLabel = new Label(this, SWT.None);
 		samplesLabel.setText("Samples :");
-		samplesList = new ListViewer(this);
-		samplesList.setContentProvider(new ArrayContentProvider());
+		samplesList = new List(this, SWT.NONE);
 	}
 
 	/**
@@ -38,23 +37,30 @@ public class RootView extends Composite {
 	 */
 	public void setSamples(Collection<Object> samples) {
 		this.samples = samples;
-		samplesList.setInput(samples);
+		for (Object object : samples) {
+			samplesList.add(object.toString());
+		}
 	}
 	
 	/**
 	 * @param sample
 	 */
-	public void addSample(Object sample) {
-		samples.add(sample);
-		samplesList.refresh();
+	public void addSamples(Object sample) {
+		samplesList.add(sample.toString());
 	}
 	
 	/**
 	 * @param sample
 	 */
-	public void removeSample(Object sample) {
-		samples.remove(sample);
-		samplesList.refresh();
+	public void removeSamples(Object sample) {
+		samplesList.remove(sample.toString());
+	}
+	
+	/**
+	 * @return
+	 */
+	public int samplesSize() {
+		return samplesList.getItemCount();
 	}
 	
 }

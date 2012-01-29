@@ -121,6 +121,15 @@ public class SampleView extends Composite {
 	}
 	
 	/**
+	 * @param name value to set to the name's Text.
+	 */
+	public void clearName() {
+		notify = false;
+		this.nameText.setText("");
+		notify = true;
+	}
+	
+	/**
 	 * @return the active property.
 	 */
 	public boolean isActive() {

@@ -47,6 +47,30 @@ public abstract class UIEditingTestCase {
 	@Before
 	public void setUp() throws Exception {
 		elementToEdit = elementToEdit();
+		initUI();
+	}
+
+	/**
+	 * @return
+	 */
+	protected EObject elementToEdit() {
+		return BindingmodelFactory.eINSTANCE.createSample();
+	}
+
+	/**
+	 * @return the {@link PropertiesEditingModel} for the test case
+	 */
+	protected abstract PropertiesEditingModel buildEditingModel();
+	
+	@After
+	public void tearDown() {
+		disposeUI();
+	}
+
+	/**
+	 * 
+	 */
+	protected void initUI() {
 		context = new EObjectPropertiesEditingContext(elementToEdit);
 		context.setEditingModel(buildEditingModel());
 		context.setViewHandlerProvider(new EEFTestStuffsBuilder().buildViewHandlerProvider());
@@ -69,23 +93,6 @@ public abstract class UIEditingTestCase {
 	}
 
 	/**
-	 * @return
-	 */
-	protected EObject elementToEdit() {
-		return BindingmodelFactory.eINSTANCE.createSample();
-	}
-
-	/**
-	 * @return the {@link PropertiesEditingModel} for the test case
-	 */
-	protected abstract PropertiesEditingModel buildEditingModel();
-	
-	@After
-	public void tearDown() {
-		display.dispose();		
-	}
-
-	/**
 	 * @param composite
 	 * @param handler
 	 * @param index 
@@ -105,6 +112,14 @@ public abstract class UIEditingTestCase {
 			fail("An error occured during view creation");
 		}
 		return view;
+	}
+
+	/**
+	 * 
+	 */
+	protected void disposeUI() {
+		display.dispose();
+		views.clear();
 	}
 
 }

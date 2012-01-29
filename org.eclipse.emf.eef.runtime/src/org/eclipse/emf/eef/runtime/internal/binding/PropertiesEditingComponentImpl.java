@@ -98,7 +98,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 			case Notification.REMOVE:
 				try {
 					for (ViewHandler<?> viewHandler : viewHandlers) {
-						viewHandler.removeValue(propertyEditor, msg.getNewValue());						
+						viewHandler.removeValue(propertyEditor, msg.getOldValue());						
 					}
 				} catch (ViewHandlingException e) {
 					//TODO: define an error management strategy

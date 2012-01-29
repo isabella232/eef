@@ -101,10 +101,10 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	 */
 	public void addValue(Object field, Object newValue) throws ViewHandlingException {
 		if (field instanceof String) {
-			Method adder = helper.searchAdder((String)field);
+			Method adder = helper.searchAdder((String)field, newValue.getClass());
 			if (adder != null) {
 				try {
-					adder.invoke(view);
+					adder.invoke(view, newValue);
 				} catch (Exception e) {
 					throw new ViewHandlingException("An error occured during view handling.", e);
 				}
@@ -116,9 +116,17 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeValue(java.lang.Object, java.lang.Object)
 	 */
-	public void removeValue(Object propertyEditor, Object newValue) throws ViewHandlingException {
-		// TODO Auto-generated method stub
-		
+	public void removeValue(Object field, Object newValue) throws ViewHandlingException {
+		if (field instanceof String) {
+			Method remover = helper.searchRemover((String)field, newValue.getClass());
+			if (remover != null) {
+				try {
+					remover.invoke(view, newValue);
+				} catch (Exception e) {
+					throw new ViewHandlingException("An error occured during view handling.", e);
+				}
+			}
+		} 		
 	}
 
 	/**
