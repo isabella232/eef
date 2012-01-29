@@ -10,6 +10,8 @@ import java.beans.PropertyChangeSupport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -69,6 +71,7 @@ public class SampleView extends Composite {
 				}
 			}
 			
+			
 		});
 		propertyChangeSupport = new PropertyChangeSupport(this);
 	}
@@ -109,6 +112,15 @@ public class SampleView extends Composite {
 	}
 	
 	/**
+	 * @param name value to set to the name's Text.
+	 */
+	public void notifiedSetName(String name) {
+		if (name != null) {
+			this.nameText.setText(name);
+		}
+	}
+	
+	/**
 	 * @return the active property.
 	 */
 	public boolean isActive() {
@@ -122,5 +134,12 @@ public class SampleView extends Composite {
 		notify = false;
 		this.activeCheckbox.setSelection(active);
 		notify = true;
+	}
+
+	/**
+	 * @param active the selection state to set to the active checkbox.
+	 */
+	public void notifiedSetActive(Boolean active) {
+		this.activeCheckbox.setSelection(active);
 	}
 }

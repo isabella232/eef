@@ -66,7 +66,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#setValue(java.lang.Object, java.lang.Object)
 	 */
 	public void setValue(Object field, Object value) throws ViewHandlingException {
-		if (field instanceof String) {
+		if (field instanceof String && value != null) {
 			Method searchSetter = helper.searchSetter((String)field, value.getClass());
 			if (searchSetter != null) {
 				try {

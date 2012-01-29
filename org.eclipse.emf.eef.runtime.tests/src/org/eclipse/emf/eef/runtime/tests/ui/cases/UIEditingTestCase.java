@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
@@ -35,7 +36,9 @@ public abstract class UIEditingTestCase {
 
 	protected EObject elementToEdit;
 	protected EObjectPropertiesEditingContext context;
+	protected PropertiesEditingComponent component;
 	protected List<Composite> views;
+
 
 
 	/**
@@ -52,7 +55,8 @@ public abstract class UIEditingTestCase {
 		shell.setLayout (new FillLayout());
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayout(new FillLayout());
-		List<ViewHandler<?>> viewHandlers = context.getComponent().getViewHandlers();
+		component = context.getComponent();
+		List<ViewHandler<?>> viewHandlers = component.getViewHandlers();
 		views = new ArrayList<Composite>();
 		for (int i = 0; i < viewHandlers.size(); i++) {
 			ViewHandler<?> handler = viewHandlers.get(i);			
@@ -96,6 +100,7 @@ public abstract class UIEditingTestCase {
 		container.setLayout(new FillLayout());
 		try {
 			view = handler.createView(container);
+			handler.initView(component);
 		} catch (ViewConstructionException e) {
 			fail("An error occured during view creation");
 		}
