@@ -4,8 +4,18 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="editingModel"
     nsURI="http://www.eclipse.org/emf/eef/editingmodel/1.0.0" nsPrefix="eef-model">
   <eClassifiers xsi:type="ecore:EClass" name="PropertiesEditingModel">
-    <eOperations name="getAssociatedViews" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
+    <eOperations name="binding" eType="#//EClassBinding">
       <eParameters name="eObject" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    </eOperations>
+    <eOperations name="views" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
+      <eParameters name="eObject" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    </eOperations>
+    <eOperations name="viewHandler">
+      <eGenericType eClassifier="#//ViewHandler">
+        <eTypeArguments/>
+      </eGenericType>
+      <eParameters name="eObject" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eParameters name="view" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" upperBound="-1"
@@ -14,14 +24,21 @@
   <eClassifiers xsi:type="ecore:EClass" name="EClassBinding">
     <eStructuralFeatures xsi:type="ecore:EReference" name="eClass" lowerBound="1"
         eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="view" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="views" upperBound="-1"
+        eType="#//View" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ViewHandler" instanceClassName="org.eclipse.emf.eef.runtime.view.handler.ViewHandler">
+    <eTypeParameters name="T"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="View" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="handler">
       <eGenericType eClassifier="#//ViewHandler">
         <eTypeArguments/>
       </eGenericType>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="ViewHandler" instanceClassName="org.eclipse.emf.eef.runtime.view.handler.ViewHandler">
-    <eTypeParameters name="T"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaView" eSuperTypes="#//View">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
   </eClassifiers>
 </ecore:EPackage>

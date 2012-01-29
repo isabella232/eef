@@ -61,6 +61,13 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	}
 
 	/**
+	 * @return the eObject
+	 */
+	public EObject getEObject() {
+		return eObject;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getComponent()
 	 */
@@ -77,7 +84,5 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	public void performSet(EObject eObject, EStructuralFeature feature, Object value) {
 		eObject.eSet(feature, value);
 	}
-	
-	
 	
 }

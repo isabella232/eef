@@ -21,7 +21,10 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.View;
+import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
 /**
  * <!-- begin-user-doc -->
@@ -125,14 +128,51 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList<Object> getAssociatedViews(EObject eObject) {
-		EList<Object> result = new BasicEList<Object>();
+	public EClassBinding binding(EObject eObject) {
 		for (EClassBinding binding : bindings) {
 			if (eObject.eClass().equals(binding.getEClass())) {
-				result.add(binding.getView());
+				return binding;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<Object> views(EObject eObject) {
+		EList<Object> result = new BasicEList<Object>();
+		EClassBinding binding = binding(eObject);
+		if (binding != null) {
+			for (View view : binding.getViews()) {
+				if (view instanceof JavaView) {
+					result.add(((JavaView) view).getDefinition());					
+				}
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public ViewHandler<?> viewHandler(EObject eObject, Object view) {
+		EClassBinding binding = binding(eObject);
+		if (binding != null) {
+			//TODO: I think this part of code should be an EOperation
+			for (View viewDefinition : binding.getViews()) {
+				if (viewDefinition instanceof JavaView) {
+					if (view.equals(((JavaView) viewDefinition).getDefinition())) {
+						return viewDefinition.getHandler();
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	/**

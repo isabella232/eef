@@ -6,9 +6,9 @@
  */
 package org.eclipse.emf.eef.runtime.editingModel;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,8 +19,7 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getEClass <em>EClass</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getView <em>View</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getHandler <em>Handler</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getViews <em>Views</em>}</li>
  * </ul>
  * </p>
  *
@@ -56,55 +55,19 @@ public interface EClassBinding extends EObject {
 	void setEClass(EClass value);
 
 	/**
-	 * Returns the value of the '<em><b>View</b></em>' attribute.
+	 * Returns the value of the '<em><b>Views</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.eef.runtime.editingModel.View}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>View</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Views</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>View</em>' attribute.
-	 * @see #setView(Object)
-	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getEClassBinding_View()
-	 * @model required="true"
+	 * @return the value of the '<em>Views</em>' containment reference list.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getEClassBinding_Views()
+	 * @model containment="true"
 	 * @generated
 	 */
-	Object getView();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getView <em>View</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>View</em>' attribute.
-	 * @see #getView()
-	 * @generated
-	 */
-	void setView(Object value);
-
-	/**
-	 * Returns the value of the '<em><b>Handler</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Handler</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Handler</em>' attribute.
-	 * @see #setHandler(ViewHandler)
-	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getEClassBinding_Handler()
-	 * @model dataType="org.eclipse.emf.eef.runtime.editingModel.ViewHandler<?>"
-	 * @generated
-	 */
-	ViewHandler<?> getHandler();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getHandler <em>Handler</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Handler</em>' attribute.
-	 * @see #getHandler()
-	 * @generated
-	 */
-	void setHandler(ViewHandler<?> value);
+	EList<View> getViews();
 
 } // EClassBinding

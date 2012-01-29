@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.eef.runtime.editingModel.*;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
@@ -64,6 +65,7 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 		switch (eClass.getClassifierID()) {
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL: return createPropertiesEditingModel();
 			case EditingModelPackage.ECLASS_BINDING: return createEClassBinding();
+			case EditingModelPackage.JAVA_VIEW: return createJavaView();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -117,6 +119,16 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 	public EClassBinding createEClassBinding() {
 		EClassBindingImpl eClassBinding = new EClassBindingImpl();
 		return eClassBinding;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public JavaView createJavaView() {
+		JavaViewImpl javaView = new JavaViewImpl();
+		return javaView;
 	}
 
 	/**

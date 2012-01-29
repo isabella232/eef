@@ -6,14 +6,20 @@
  */
 package org.eclipse.emf.eef.runtime.editingModel.impl;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
+import org.eclipse.emf.eef.runtime.editingModel.View;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,8 +29,7 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getEClass <em>EClass</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getView <em>View</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getHandler <em>Handler</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getViews <em>Views</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,34 +47,14 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	protected EClass eClass;
 
 	/**
-	 * The default value of the '{@link #getView() <em>View</em>}' attribute.
+	 * The cached value of the '{@link #getViews() <em>Views</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getView()
+	 * @see #getViews()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Object VIEW_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getView() <em>View</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getView()
-	 * @generated
-	 * @ordered
-	 */
-	protected Object view = VIEW_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getHandler() <em>Handler</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getHandler()
-	 * @generated
-	 * @ordered
-	 */
-	protected ViewHandler<?> handler;
+	protected EList<View> views;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -133,8 +118,11 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getView() {
-		return view;
+	public EList<View> getViews() {
+		if (views == null) {
+			views = new EObjectContainmentEList<View>(View.class, this, EditingModelPackage.ECLASS_BINDING__VIEWS);
+		}
+		return views;
 	}
 
 	/**
@@ -142,32 +130,13 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setView(Object newView) {
-		Object oldView = view;
-		view = newView;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.ECLASS_BINDING__VIEW, oldView, view));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ViewHandler<?> getHandler() {
-		return handler;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setHandler(ViewHandler<?> newHandler) {
-		ViewHandler<?> oldHandler = handler;
-		handler = newHandler;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.ECLASS_BINDING__HANDLER, oldHandler, handler));
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case EditingModelPackage.ECLASS_BINDING__VIEWS:
+				return ((InternalEList<?>)getViews()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -181,10 +150,8 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 			case EditingModelPackage.ECLASS_BINDING__ECLASS:
 				if (resolve) return getEClass();
 				return basicGetEClass();
-			case EditingModelPackage.ECLASS_BINDING__VIEW:
-				return getView();
-			case EditingModelPackage.ECLASS_BINDING__HANDLER:
-				return getHandler();
+			case EditingModelPackage.ECLASS_BINDING__VIEWS:
+				return getViews();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -194,17 +161,16 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case EditingModelPackage.ECLASS_BINDING__ECLASS:
 				setEClass((EClass)newValue);
 				return;
-			case EditingModelPackage.ECLASS_BINDING__VIEW:
-				setView(newValue);
-				return;
-			case EditingModelPackage.ECLASS_BINDING__HANDLER:
-				setHandler((ViewHandler<?>)newValue);
+			case EditingModelPackage.ECLASS_BINDING__VIEWS:
+				getViews().clear();
+				getViews().addAll((Collection<? extends View>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -221,11 +187,8 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 			case EditingModelPackage.ECLASS_BINDING__ECLASS:
 				setEClass((EClass)null);
 				return;
-			case EditingModelPackage.ECLASS_BINDING__VIEW:
-				setView(VIEW_EDEFAULT);
-				return;
-			case EditingModelPackage.ECLASS_BINDING__HANDLER:
-				setHandler((ViewHandler<?>)null);
+			case EditingModelPackage.ECLASS_BINDING__VIEWS:
+				getViews().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -241,30 +204,10 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 		switch (featureID) {
 			case EditingModelPackage.ECLASS_BINDING__ECLASS:
 				return eClass != null;
-			case EditingModelPackage.ECLASS_BINDING__VIEW:
-				return VIEW_EDEFAULT == null ? view != null : !VIEW_EDEFAULT.equals(view);
-			case EditingModelPackage.ECLASS_BINDING__HANDLER:
-				return handler != null;
+			case EditingModelPackage.ECLASS_BINDING__VIEWS:
+				return views != null && !views.isEmpty();
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (view: ");
-		result.append(view);
-		result.append(", handler: ");
-		result.append(handler);
-		result.append(')');
-		return result.toString();
 	}
 
 } //EClassBindingImpl
