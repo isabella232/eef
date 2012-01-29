@@ -23,6 +23,11 @@ import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Properties Editing Model</b></em>'.
@@ -125,7 +130,7 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList<Object> getAssociatedViews(EObject eObject) {
+	public EList<Object> getAssociatedViews(final EObject eObject) {
 		EList<Object> result = new BasicEList<Object>();
 		for (EClassBinding binding : bindings) {
 			if (eObject.eClass().equals(binding.getEClass())) {
