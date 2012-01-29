@@ -27,12 +27,17 @@
     <genClasses ecoreClass="editingModel.ecore#//EClassBinding">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference editingModel.ecore#//EClassBinding/eClass"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//EClassBinding/views"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//EClassBinding/propertyBindings"/>
     </genClasses>
     <genClasses image="false" ecoreClass="editingModel.ecore#//View">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//View/handler"/>
     </genClasses>
     <genClasses ecoreClass="editingModel.ecore#//JavaView">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//JavaView/definition"/>
+    </genClasses>
+    <genClasses ecoreClass="editingModel.ecore#//PropertyBinding">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference editingModel.ecore#//PropertyBinding/feature"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//PropertyBinding/editor"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -96,6 +96,12 @@ public class EditingModelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case EditingModelPackage.PROPERTY_BINDING: {
+				PropertyBinding propertyBinding = (PropertyBinding)theEObject;
+				T result = casePropertyBinding(propertyBinding);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -157,6 +163,21 @@ public class EditingModelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseJavaView(JavaView object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Property Binding</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Property Binding</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePropertyBinding(PropertyBinding object) {
 		return null;
 	}
 

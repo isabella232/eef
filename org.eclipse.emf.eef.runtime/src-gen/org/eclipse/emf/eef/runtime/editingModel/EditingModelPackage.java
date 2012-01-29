@@ -126,13 +126,22 @@ public interface EditingModelPackage extends EPackage {
 	int ECLASS_BINDING__VIEWS = 1;
 
 	/**
+	 * The feature id for the '<em><b>Property Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ECLASS_BINDING__PROPERTY_BINDINGS = 2;
+
+	/**
 	 * The number of structural features of the '<em>EClass Binding</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ECLASS_BINDING_FEATURE_COUNT = 2;
+	int ECLASS_BINDING_FEATURE_COUNT = 3;
 
 
 	/**
@@ -201,6 +210,43 @@ public interface EditingModelPackage extends EPackage {
 	int JAVA_VIEW_FEATURE_COUNT = VIEW_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl <em>Property Binding</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl
+	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getPropertyBinding()
+	 * @generated
+	 */
+	int PROPERTY_BINDING = 4;
+
+	/**
+	 * The feature id for the '<em><b>Feature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_BINDING__FEATURE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Editor</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_BINDING__EDITOR = 1;
+
+	/**
+	 * The number of structural features of the '<em>Property Binding</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_BINDING_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '<em>View Handler</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -208,7 +254,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getViewHandler()
 	 * @generated
 	 */
-	int VIEW_HANDLER = 4;
+	int VIEW_HANDLER = 5;
 
 
 	/**
@@ -276,6 +322,17 @@ public interface EditingModelPackage extends EPackage {
 	EReference getEClassBinding_Views();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getPropertyBindings <em>Property Bindings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Property Bindings</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getPropertyBindings()
+	 * @see #getEClassBinding()
+	 * @generated
+	 */
+	EReference getEClassBinding_PropertyBindings();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.View <em>View</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -316,6 +373,38 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getJavaView_Definition();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding <em>Property Binding</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Property Binding</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertyBinding
+	 * @generated
+	 */
+	EClass getPropertyBinding();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getFeature <em>Feature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Feature</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getFeature()
+	 * @see #getPropertyBinding()
+	 * @generated
+	 */
+	EReference getPropertyBinding_Feature();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getEditor <em>Editor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Editor</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getEditor()
+	 * @see #getPropertyBinding()
+	 * @generated
+	 */
+	EAttribute getPropertyBinding_Editor();
 
 	/**
 	 * Returns the meta object for data type '{@link org.eclipse.emf.eef.runtime.view.handler.ViewHandler <em>View Handler</em>}'.
@@ -403,6 +492,14 @@ public interface EditingModelPackage extends EPackage {
 		EReference ECLASS_BINDING__VIEWS = eINSTANCE.getEClassBinding_Views();
 
 		/**
+		 * The meta object literal for the '<em><b>Property Bindings</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ECLASS_BINDING__PROPERTY_BINDINGS = eINSTANCE.getEClassBinding_PropertyBindings();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.ViewImpl <em>View</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -437,6 +534,32 @@ public interface EditingModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute JAVA_VIEW__DEFINITION = eINSTANCE.getJavaView_Definition();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl <em>Property Binding</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl
+		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getPropertyBinding()
+		 * @generated
+		 */
+		EClass PROPERTY_BINDING = eINSTANCE.getPropertyBinding();
+
+		/**
+		 * The meta object literal for the '<em><b>Feature</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROPERTY_BINDING__FEATURE = eINSTANCE.getPropertyBinding_Feature();
+
+		/**
+		 * The meta object literal for the '<em><b>Editor</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTY_BINDING__EDITOR = eINSTANCE.getPropertyBinding_Editor();
 
 		/**
 		 * The meta object literal for the '<em>View Handler</em>' data type.

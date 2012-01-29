@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getEClass <em>EClass</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getViews <em>Views</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getPropertyBindings <em>Property Bindings</em>}</li>
  * </ul>
  * </p>
  *
@@ -69,5 +70,21 @@ public interface EClassBinding extends EObject {
 	 * @generated
 	 */
 	EList<View> getViews();
+
+	/**
+	 * Returns the value of the '<em><b>Property Bindings</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Property Bindings</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Property Bindings</em>' containment reference list.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getEClassBinding_PropertyBindings()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<PropertyBinding> getPropertyBindings();
 
 } // EClassBinding

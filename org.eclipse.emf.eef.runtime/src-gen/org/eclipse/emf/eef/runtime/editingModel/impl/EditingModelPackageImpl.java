@@ -20,6 +20,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
@@ -57,6 +58,13 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * @generated
 	 */
 	private EClass javaViewEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass propertyBindingEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -188,6 +196,15 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getEClassBinding_PropertyBindings() {
+		return (EReference)eClassBindingEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getView() {
 		return viewEClass;
 	}
@@ -217,6 +234,33 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 */
 	public EAttribute getJavaView_Definition() {
 		return (EAttribute)javaViewEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPropertyBinding() {
+		return propertyBindingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPropertyBinding_Feature() {
+		return (EReference)propertyBindingEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPropertyBinding_Editor() {
+		return (EAttribute)propertyBindingEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -263,12 +307,17 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		eClassBindingEClass = createEClass(ECLASS_BINDING);
 		createEReference(eClassBindingEClass, ECLASS_BINDING__ECLASS);
 		createEReference(eClassBindingEClass, ECLASS_BINDING__VIEWS);
+		createEReference(eClassBindingEClass, ECLASS_BINDING__PROPERTY_BINDINGS);
 
 		viewEClass = createEClass(VIEW);
 		createEAttribute(viewEClass, VIEW__HANDLER);
 
 		javaViewEClass = createEClass(JAVA_VIEW);
 		createEAttribute(javaViewEClass, JAVA_VIEW__DEFINITION);
+
+		propertyBindingEClass = createEClass(PROPERTY_BINDING);
+		createEReference(propertyBindingEClass, PROPERTY_BINDING__FEATURE);
+		createEAttribute(propertyBindingEClass, PROPERTY_BINDING__EDITOR);
 
 		// Create data types
 		viewHandlerEDataType = createEDataType(VIEW_HANDLER);
@@ -330,6 +379,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		initEClass(eClassBindingEClass, EClassBinding.class, "EClassBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEClassBinding_EClass(), theEcorePackage.getEClass(), null, "eClass", null, 1, 1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEClassBinding_Views(), this.getView(), null, "views", null, 0, -1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEClassBinding_PropertyBindings(), this.getPropertyBinding(), null, "propertyBindings", null, 0, -1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(viewEClass, View.class, "View", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(this.getViewHandler());
@@ -339,6 +389,10 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 
 		initEClass(javaViewEClass, JavaView.class, "JavaView", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getJavaView_Definition(), ecorePackage.getEJavaObject(), "definition", null, 1, 1, JavaView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(propertyBindingEClass, PropertyBinding.class, "PropertyBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPropertyBinding_Feature(), theEcorePackage.getEStructuralFeature(), null, "feature", null, 1, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPropertyBinding_Editor(), ecorePackage.getEJavaObject(), "editor", null, 1, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(viewHandlerEDataType, ViewHandler.class, "ViewHandler", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

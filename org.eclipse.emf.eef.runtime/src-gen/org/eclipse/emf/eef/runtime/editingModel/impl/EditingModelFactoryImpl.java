@@ -66,6 +66,7 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL: return createPropertiesEditingModel();
 			case EditingModelPackage.ECLASS_BINDING: return createEClassBinding();
 			case EditingModelPackage.JAVA_VIEW: return createJavaView();
+			case EditingModelPackage.PROPERTY_BINDING: return createPropertyBinding();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -129,6 +130,16 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 	public JavaView createJavaView() {
 		JavaViewImpl javaView = new JavaViewImpl();
 		return javaView;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PropertyBinding createPropertyBinding() {
+		PropertyBindingImpl propertyBinding = new PropertyBindingImpl();
+		return propertyBinding;
 	}
 
 	/**

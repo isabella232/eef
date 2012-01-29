@@ -26,6 +26,8 @@
         eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="views" upperBound="-1"
         eType="#//View" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="propertyBindings" upperBound="-1"
+        eType="#//PropertyBinding" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ViewHandler" instanceClassName="org.eclipse.emf.eef.runtime.view.handler.ViewHandler">
     <eTypeParameters name="T"/>
@@ -39,6 +41,12 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavaView" eSuperTypes="#//View">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyBinding">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="editor" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
   </eClassifiers>
 </ecore:EPackage>

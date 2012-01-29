@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 
 /**
@@ -30,6 +31,7 @@ import org.eclipse.emf.eef.runtime.editingModel.View;
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getEClass <em>EClass</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getViews <em>Views</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getPropertyBindings <em>Property Bindings</em>}</li>
  * </ul>
  * </p>
  *
@@ -55,6 +57,16 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * @ordered
 	 */
 	protected EList<View> views;
+
+	/**
+	 * The cached value of the '{@link #getPropertyBindings() <em>Property Bindings</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPropertyBindings()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<PropertyBinding> propertyBindings;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -130,11 +142,25 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<PropertyBinding> getPropertyBindings() {
+		if (propertyBindings == null) {
+			propertyBindings = new EObjectContainmentEList<PropertyBinding>(PropertyBinding.class, this, EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS);
+		}
+		return propertyBindings;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case EditingModelPackage.ECLASS_BINDING__VIEWS:
 				return ((InternalEList<?>)getViews()).basicRemove(otherEnd, msgs);
+			case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
+				return ((InternalEList<?>)getPropertyBindings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -152,6 +178,8 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 				return basicGetEClass();
 			case EditingModelPackage.ECLASS_BINDING__VIEWS:
 				return getViews();
+			case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
+				return getPropertyBindings();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -172,6 +200,10 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 				getViews().clear();
 				getViews().addAll((Collection<? extends View>)newValue);
 				return;
+			case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
+				getPropertyBindings().clear();
+				getPropertyBindings().addAll((Collection<? extends PropertyBinding>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -190,6 +222,9 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 			case EditingModelPackage.ECLASS_BINDING__VIEWS:
 				getViews().clear();
 				return;
+			case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
+				getPropertyBindings().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -206,6 +241,8 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 				return eClass != null;
 			case EditingModelPackage.ECLASS_BINDING__VIEWS:
 				return views != null && !views.isEmpty();
+			case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
+				return propertyBindings != null && !propertyBindings.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
