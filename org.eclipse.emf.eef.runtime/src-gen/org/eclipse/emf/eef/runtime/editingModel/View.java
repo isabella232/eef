@@ -7,7 +7,6 @@
 package org.eclipse.emf.eef.runtime.editingModel;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
 /**

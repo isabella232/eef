@@ -6,7 +6,6 @@ package org.eclipse.emf.eef.runtime.tests;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
-import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
 import org.eclipse.emf.eef.eeftests.bindingmodel.Root;
 import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;

@@ -5,7 +5,6 @@ package org.eclipse.emf.eef.runtime.tests.views;
 
 import java.util.Collection;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
