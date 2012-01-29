@@ -128,6 +128,14 @@ public class EditingModelBuilder {
 			}
 			return javaView;
 		}
+		
+		/**
+		 * @param view
+		 * @return
+		 */
+		public EClassViewBindingBuilder withView(Object view) {
+			return parentBuilder.withView(view);
+		}
 
 		/**
 		 * @param eClass
