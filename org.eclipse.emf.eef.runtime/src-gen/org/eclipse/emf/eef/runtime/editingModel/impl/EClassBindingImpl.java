@@ -169,6 +169,7 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * TODO: This could return a list a bindings ...
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */

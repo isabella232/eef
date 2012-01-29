@@ -37,9 +37,33 @@ public interface ViewHandler<T> {
 	void setValue(Object field, Object value) throws ViewHandlingException;
 
 	/**
+	 * Unsets a value to the given field.
+	 * @param field feature to process.
+	 * @throws Exception an error occured du view handling.
+	 */
+	void unsetValue(Object field) throws ViewHandlingException;
+	
+	/**
+	 * Add a new value to the given field. 
+	 * @param field feature to process.
+	 * @param value the new value.
+	 * @throws Exception an error occured du view handling.
+	 */
+	void addValue(Object field, Object newValue) throws ViewHandlingException;
+
+	/**
+	 * Remove a value from the given field. 
+	 * @param field feature to process.
+	 * @param value the new value.
+	 * @throws Exception an error occured du view handling.
+	 */
+	void removeValue(Object field, Object value) throws ViewHandlingException;
+
+	/**
 	 * Initialize a view with the current EObject properties.
 	 * @param component {@link PropertiesEditingComponent} to use for initialization.
 	 */
 	void initView(PropertiesEditingComponent component);
+
 
 }

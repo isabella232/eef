@@ -67,15 +67,58 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	 */
 	public void setValue(Object field, Object value) throws ViewHandlingException {
 		if (field instanceof String && value != null) {
-			Method searchSetter = helper.searchSetter((String)field, value.getClass());
-			if (searchSetter != null) {
+			Method setter = helper.searchSetter((String)field, value.getClass());
+			if (setter != null) {
 				try {
-					searchSetter.invoke(view, value);
+					setter.invoke(view, value);
 				} catch (Exception e) {
 					throw new ViewHandlingException("An error occured during view handling.", e);
 				}
 			}
 		} 
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#unsetValue(java.lang.Object)
+	 */
+	public void unsetValue(Object field) throws ViewHandlingException {
+		if (field instanceof String) {
+			Method unsetter = helper.searchUnsetter((String)field);
+			if (unsetter != null) {
+				try {
+					unsetter.invoke(view);
+				} catch (Exception e) {
+					throw new ViewHandlingException("An error occured during view handling.", e);
+				}
+			}
+		} 		
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#addValue(java.lang.Object, java.lang.Object)
+	 */
+	public void addValue(Object field, Object newValue) throws ViewHandlingException {
+		if (field instanceof String) {
+			Method adder = helper.searchAdder((String)field);
+			if (adder != null) {
+				try {
+					adder.invoke(view);
+				} catch (Exception e) {
+					throw new ViewHandlingException("An error occured during view handling.", e);
+				}
+			}
+		} 		
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeValue(java.lang.Object, java.lang.Object)
+	 */
+	public void removeValue(Object propertyEditor, Object newValue) throws ViewHandlingException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**

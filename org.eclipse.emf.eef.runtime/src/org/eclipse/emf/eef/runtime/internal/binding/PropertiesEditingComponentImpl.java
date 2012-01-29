@@ -30,7 +30,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	private PropertiesEditingModel editingModel;
 	private List<ViewHandler<?>> viewHandlers;
 	private ViewChangeNotifier viewChangeNotifier;
-	
+
 	/**
 	 * @param editingModel
 	 */
@@ -53,18 +53,18 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	public boolean isAdapterForType(Object type) {
 		return type == PropertiesEditingComponent.class;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
 	public void notifyChanged(Notification msg) {
-		switch (msg.getEventType()) {
-		case Notification.SET:
-			if (msg.getFeature() instanceof EStructuralFeature) {
-				EStructuralFeature structuralFeature = (EStructuralFeature)msg.getFeature();
-				EClassBinding binding = editingModel.binding((EObject) getTarget());
-				Object propertyEditor = binding.propertyEditor(structuralFeature);
+		if (msg.getFeature() instanceof EStructuralFeature) {
+			EStructuralFeature structuralFeature = (EStructuralFeature)msg.getFeature();
+			EClassBinding binding = editingModel.binding((EObject) getTarget());
+			Object propertyEditor = binding.propertyEditor(structuralFeature);
+			switch (msg.getEventType()) {
+			case Notification.SET:
 				try {
 					// TODO: Ici se joue la résolution de feature. 
 					//		 Ensuite la logique est transmise au handler.
@@ -76,19 +76,41 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 				} catch (ViewHandlingException e) {
 					//TODO: define an error management strategy
 				}
-			}			
-			break;
-		case Notification.UNSET: {
-			
-		}
-		default:
-			break;
-		}
-		if (msg.getEventType() == Notification.SET) {
-		}
+				break;
+			case Notification.UNSET:
+				try {
+					for (ViewHandler<?> viewHandler : viewHandlers) {
+						viewHandler.unsetValue(propertyEditor);						
+					}
+				} catch (ViewHandlingException e) {
+					//TODO: define an error management strategy
+				}
+				break;
+			case Notification.ADD:
+				try {
+					for (ViewHandler<?> viewHandler : viewHandlers) {
+						viewHandler.addValue(propertyEditor, msg.getNewValue());						
+					}
+				} catch (ViewHandlingException e) {
+					//TODO: define an error management strategy
+				}
+				break;
+			case Notification.REMOVE:
+				try {
+					for (ViewHandler<?> viewHandler : viewHandlers) {
+						viewHandler.removeValue(propertyEditor, msg.getNewValue());						
+					}
+				} catch (ViewHandlingException e) {
+					//TODO: define an error management strategy
+				}
+				break;
+			default:
+				break;
+			}
+		}			
 	}
-	
-	
+
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewChangeNotifier()
