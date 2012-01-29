@@ -18,7 +18,9 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
 /**
@@ -41,6 +43,20 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * @generated
 	 */
 	private EClass eClassBindingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass viewEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass javaViewEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -163,8 +179,8 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEClassBinding_View() {
-		return (EAttribute)eClassBindingEClass.getEStructuralFeatures().get(1);
+	public EReference getEClassBinding_Views() {
+		return (EReference)eClassBindingEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -172,8 +188,35 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEClassBinding_Handler() {
-		return (EAttribute)eClassBindingEClass.getEStructuralFeatures().get(2);
+	public EClass getView() {
+		return viewEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getView_Handler() {
+		return (EAttribute)viewEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getJavaView() {
+		return javaViewEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getJavaView_Definition() {
+		return (EAttribute)javaViewEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -219,8 +262,13 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 
 		eClassBindingEClass = createEClass(ECLASS_BINDING);
 		createEReference(eClassBindingEClass, ECLASS_BINDING__ECLASS);
-		createEAttribute(eClassBindingEClass, ECLASS_BINDING__VIEW);
-		createEAttribute(eClassBindingEClass, ECLASS_BINDING__HANDLER);
+		createEReference(eClassBindingEClass, ECLASS_BINDING__VIEWS);
+
+		viewEClass = createEClass(VIEW);
+		createEAttribute(viewEClass, VIEW__HANDLER);
+
+		javaViewEClass = createEClass(JAVA_VIEW);
+		createEAttribute(javaViewEClass, JAVA_VIEW__DEFINITION);
 
 		// Create data types
 		viewHandlerEDataType = createEDataType(VIEW_HANDLER);
@@ -258,22 +306,39 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		javaViewEClass.getESuperTypes().add(this.getView());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(propertiesEditingModelEClass, PropertiesEditingModel.class, "PropertiesEditingModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPropertiesEditingModel_Name(), ecorePackage.getEString(), "name", null, 0, 1, PropertiesEditingModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertiesEditingModel_Bindings(), this.getEClassBinding(), null, "bindings", null, 0, -1, PropertiesEditingModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		EOperation op = addEOperation(propertiesEditingModelEClass, ecorePackage.getEJavaObject(), "getAssociatedViews", 0, -1, IS_UNIQUE, IS_ORDERED);
+		EOperation op = addEOperation(propertiesEditingModelEClass, this.getEClassBinding(), "binding", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theEcorePackage.getEObject(), "eObject", 1, 1, IS_UNIQUE, IS_ORDERED);
 
-		initEClass(eClassBindingEClass, EClassBinding.class, "EClassBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEClassBinding_EClass(), theEcorePackage.getEClass(), null, "eClass", null, 1, 1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEClassBinding_View(), ecorePackage.getEJavaObject(), "view", null, 1, 1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		op = addEOperation(propertiesEditingModelEClass, ecorePackage.getEJavaObject(), "views", 0, -1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEObject(), "eObject", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(propertiesEditingModelEClass, null, "viewHandler", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEObject(), "eObject", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEJavaObject(), "view", 0, 1, IS_UNIQUE, IS_ORDERED);
 		EGenericType g1 = createEGenericType(this.getViewHandler());
 		EGenericType g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
-		initEAttribute(getEClassBinding_Handler(), g1, "handler", null, 0, 1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEOperation(op, g1);
+
+		initEClass(eClassBindingEClass, EClassBinding.class, "EClassBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getEClassBinding_EClass(), theEcorePackage.getEClass(), null, "eClass", null, 1, 1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEClassBinding_Views(), this.getView(), null, "views", null, 0, -1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(viewEClass, View.class, "View", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(this.getViewHandler());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		initEAttribute(getView_Handler(), g1, "handler", null, 0, 1, View.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(javaViewEClass, JavaView.class, "JavaView", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getJavaView_Definition(), ecorePackage.getEJavaObject(), "definition", null, 1, 1, JavaView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(viewHandlerEDataType, ViewHandler.class, "ViewHandler", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

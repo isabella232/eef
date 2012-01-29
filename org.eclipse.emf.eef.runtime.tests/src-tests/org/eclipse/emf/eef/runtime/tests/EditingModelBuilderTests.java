@@ -12,6 +12,7 @@ import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
+import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
@@ -31,11 +32,15 @@ public class EditingModelBuilderTests {
 		fullExpected = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
 		EClassBinding eClassBinding = EditingModelFactory.eINSTANCE.createEClassBinding();
 		eClassBinding.setEClass(BindingmodelPackage.Literals.SAMPLE);
-		eClassBinding.setView(SampleView.class);
+		JavaView sampleView = EditingModelFactory.eINSTANCE.createJavaView();
+		sampleView.setDefinition(SampleView.class);
+		eClassBinding.getViews().add(sampleView);
 		fullExpected.getBindings().add(eClassBinding);
 		eClassBinding = EditingModelFactory.eINSTANCE.createEClassBinding();
 		eClassBinding.setEClass(BindingmodelPackage.Literals.ROOT);
-		eClassBinding.setView(RootView.class);
+		JavaView rootView = EditingModelFactory.eINSTANCE.createJavaView();
+		rootView.setDefinition(RootView.class);
+		eClassBinding.getViews().add(rootView);
 		fullExpected.getBindings().add(eClassBinding);		
 	}
 	

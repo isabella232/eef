@@ -44,6 +44,15 @@ public interface EditingModelFactory extends EFactory {
 	EClassBinding createEClassBinding();
 
 	/**
+	 * Returns a new object of class '<em>Java View</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Java View</em>'.
+	 * @generated
+	 */
+	JavaView createJavaView();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

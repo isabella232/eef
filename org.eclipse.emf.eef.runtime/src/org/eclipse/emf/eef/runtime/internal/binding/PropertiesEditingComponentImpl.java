@@ -121,12 +121,17 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 		viewHandlers = new ArrayList<ViewHandler<?>>();
 		ViewHandlerProvider viewHandlerProvider = editingContext.getViewHandlerProvider();
 		if (viewHandlerProvider != null) {
-			List<Object> associatedViews = editingModel.getAssociatedViews((EObject) getTarget());
+			List<Object> associatedViews = editingModel.views((EObject) getTarget());
 			for (Object associatedView : associatedViews) {
-				if (viewHandlerProvider.canHandle(associatedView)) {
-					ViewHandler<?> handler = viewHandlerProvider.getHandler(associatedView);
-					if (handler != null) {
-						viewHandlers.add(handler);
+				ViewHandler<?> specifiedHandler = editingModel.viewHandler((EObject) getTarget(), associatedView);
+				if (specifiedHandler != null) {
+					viewHandlers.add(specifiedHandler);
+				} else {
+					if (viewHandlerProvider.canHandle(associatedView)) {
+						ViewHandler<?> handler = viewHandlerProvider.getHandler(associatedView);
+						if (handler != null) {
+							viewHandlers.add(handler);
+						}
 					}
 				}
 			}

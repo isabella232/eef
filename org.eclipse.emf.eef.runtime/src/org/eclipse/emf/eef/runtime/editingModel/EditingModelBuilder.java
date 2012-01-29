@@ -17,7 +17,7 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 public class EditingModelBuilder {
 
 	private Collection<EClassBindingBuilder> bindingBuilders;
-	
+
 	public EditingModelBuilder() {
 		this.bindingBuilders = new ArrayList<EClassBindingBuilder>();
 	}
@@ -25,29 +25,32 @@ public class EditingModelBuilder {
 	public PropertiesEditingModel build() {
 		PropertiesEditingModel result = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
 		for (EClassBindingBuilder bindingBuilder : bindingBuilders) {
-			result.getBindings().addAll(bindingBuilder.buildBinding());
+			EClassBinding binding = bindingBuilder.buildBinding();
+			if (binding != null) {
+				result.getBindings().add(binding);
+			}
 		}
 		return result;
 	}
-	
+
 	public EClassBindingBuilder bindClass(EClass eClass) {
 		EClassBindingBuilder builder = new EClassBindingBuilder(this, eClass);
 		bindingBuilders.add(builder);
 		return builder;
 	}
-	
+
 	public class EClassBindingBuilder {
-		
+
 		private EClass eClass;		
 		private EditingModelBuilder parentBuilder;
 		private List<EClassViewBindingBuilder> viewBuilders;
-		
+
 		private EClassBindingBuilder(EditingModelBuilder parentBuilder, EClass eClass) {
 			this.parentBuilder = parentBuilder;
 			this.viewBuilders = new ArrayList<EClassViewBindingBuilder>();
 			this.eClass = eClass;
 		}
-		
+
 		/**
 		 * @param view
 		 * @return
@@ -57,25 +60,24 @@ public class EditingModelBuilder {
 			viewBuilders.add(builder);
 			return builder;
 		}
-		
+
 		/**
 		 * Build the EClassBinding
 		 * @return a {@link EClassBinding}.
 		 */
-		private Collection<EClassBinding> buildBinding() {
-			Collection<EClassBinding> result = new ArrayList<EClassBinding>();
-			for (EClassViewBindingBuilder viewBuilder : viewBuilders)  {
+		private EClassBinding buildBinding() {
+			if (viewBuilders.size() > 0) {
 				EClassBinding eClassBinding = EditingModelFactory.eINSTANCE.createEClassBinding();
 				eClassBinding.setEClass(eClass);
-				eClassBinding.setView(viewBuilder.view);
-				if (viewBuilder.handler != null) {
-					eClassBinding.setHandler(viewBuilder.handler);
+				for (EClassViewBindingBuilder viewBuilder : viewBuilders)  {
+					eClassBinding.getViews().add(viewBuilder.buildView());
 				}
-				result.add(eClassBinding);
+				return eClassBinding;
+			} else {
+				return null;
 			}
-			return result;
 		}
-		
+
 		/**
 		 * @param eClass
 		 * @return
@@ -83,7 +85,7 @@ public class EditingModelBuilder {
 		public EClassBindingBuilder bindClass(EClass eClass) {
 			return parentBuilder.bindClass(eClass);
 		}
-		
+
 		/**
 		 * Build the {@link PropertiesEditingModel}.
 		 * @return the {@link PropertiesEditingModel}.
@@ -93,7 +95,7 @@ public class EditingModelBuilder {
 		}
 
 	}
-	
+
 	public class EClassViewBindingBuilder {
 
 		private EClassBindingBuilder parentBuilder;
@@ -117,17 +119,30 @@ public class EditingModelBuilder {
 			this.handler = handler;
 			return this;
 		}
-		
+
+		public View buildView() {
+			JavaView javaView = EditingModelFactory.eINSTANCE.createJavaView();
+			javaView.setDefinition(view);
+			if (handler != null) {
+				javaView.setHandler(handler);
+			}
+			return javaView;
+		}
+
+		/**
+		 * @param eClass
+		 * @return
+		 */
 		public EClassBindingBuilder bindClass(EClass eClass) {
 			return parentBuilder.bindClass(eClass);
 		}
-		
+
 		/**
 		 * @return
 		 */
 		public PropertiesEditingModel build() {
 			return parentBuilder.build();
 		}
-		
+
 	}
 }

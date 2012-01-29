@@ -13,14 +13,26 @@
     <genClasses ecoreClass="editingModel.ecore#//PropertiesEditingModel">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//PropertiesEditingModel/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//PropertiesEditingModel/bindings"/>
-      <genOperations ecoreOperation="editingModel.ecore#//PropertiesEditingModel/getAssociatedViews">
-        <genParameters ecoreParameter="editingModel.ecore#//PropertiesEditingModel/getAssociatedViews/eObject"/>
+      <genOperations ecoreOperation="editingModel.ecore#//PropertiesEditingModel/binding">
+        <genParameters ecoreParameter="editingModel.ecore#//PropertiesEditingModel/binding/eObject"/>
+      </genOperations>
+      <genOperations ecoreOperation="editingModel.ecore#//PropertiesEditingModel/views">
+        <genParameters ecoreParameter="editingModel.ecore#//PropertiesEditingModel/views/eObject"/>
+      </genOperations>
+      <genOperations ecoreOperation="editingModel.ecore#//PropertiesEditingModel/viewHandler">
+        <genParameters ecoreParameter="editingModel.ecore#//PropertiesEditingModel/viewHandler/eObject"/>
+        <genParameters ecoreParameter="editingModel.ecore#//PropertiesEditingModel/viewHandler/view"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="editingModel.ecore#//EClassBinding">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference editingModel.ecore#//EClassBinding/eClass"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//EClassBinding/view"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//EClassBinding/handler"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//EClassBinding/views"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="editingModel.ecore#//View">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//View/handler"/>
+    </genClasses>
+    <genClasses ecoreClass="editingModel.ecore#//JavaView">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//JavaView/definition"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
