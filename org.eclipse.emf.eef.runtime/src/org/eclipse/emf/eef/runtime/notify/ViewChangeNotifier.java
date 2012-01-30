@@ -30,7 +30,7 @@ public class ViewChangeNotifier implements PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		component.fireViewChange(new PropertiesEditingEventImpl(
 				evt.getSource(), evt.getPropertyName(), 
-				((evt instanceof TypedPropertyChangedEvent)?((TypedPropertyChangedEvent)evt).getEventType():-1), 
+				((evt instanceof TypedPropertyChangedEvent)?((TypedPropertyChangedEvent)evt).getEventType():PropertiesEditingEvent.SET), 
 				evt.getOldValue(), evt.getNewValue()));
 	}
 

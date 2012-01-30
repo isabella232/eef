@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 
 /**
@@ -35,13 +36,56 @@ public abstract class SemanticEditingPolicy implements PropertiesEditingPolicy {
 		EObject editedObject = (EObject) editingComponent.getTarget();
 		EClassBinding binding = editingComponent.getEditingContext().getEditingModel().binding(editedObject);
 		EStructuralFeature feature = binding.feature(editingEvent.getAffectedEditor());
-		performSet((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());
-	}
+		if (editingEvent instanceof TypedPropertyChangedEvent) {
+			switch (editingEvent.getEventType()) {
+			case PropertiesEditingEvent.SET:
+				performSet((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());				
+				break;
+			case PropertiesEditingEvent.UNSET:
+				performUnset((EObject) editingComponent.getTarget(), feature);								
+			case PropertiesEditingEvent.ADD:
+				performAdd((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());				
+			case PropertiesEditingEvent.REMOVE:
+				performRemove((EObject) editingComponent.getTarget(), feature, editingEvent.getOldValue());				
+			default:
+				performSet((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());				
+				break;
+			}
+		} else {
+			performSet((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());
+		}
+	}	
+
 
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#performSet(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 * Sets the given value to the feature of the EObject.
+	 * @param eObject {@link EObject} to edit.
+	 * @param feature {@link EStructuralFeature} to edit.
+	 * @param value value to set.
 	 */
-	public abstract void performSet(EObject eObject, EStructuralFeature feature, Object value);
+	protected abstract void performSet(EObject eObject, EStructuralFeature feature, Object value);
+
+	/**
+	 * Unsets the given feature of an EObject.
+	 * @param eObject {@link EObject} to edit.
+	 * @param feature {@link EStructuralFeature} to unset.
+	 */
+	protected abstract void performUnset(EObject eObject, EStructuralFeature feature);
+
+	/**
+	 * Add the given value to the feature of the EObject.
+	 * @param eObject {@link EObject} to edit.
+	 * @param feature {@link EStructuralFeature} to edit.
+	 * @param newValue new value to add.
+	 */
+	protected abstract void performAdd(EObject eObject, EStructuralFeature feature, Object newValue);
+
+	/**
+	 * Remove a value to the feature of the EObject.
+	 * @param eObject {@link EObject} to edit.
+	 * @param feature {@link EStructuralFeature} to edit.
+	 * @param newValue value to remove.
+	 */
+	protected abstract void performRemove(EObject eObject, EStructuralFeature feature, Object oldValue);
 
 }

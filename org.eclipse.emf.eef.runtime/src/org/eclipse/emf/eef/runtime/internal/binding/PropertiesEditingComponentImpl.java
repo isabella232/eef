@@ -84,7 +84,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 						viewHandler.setValue(propertyEditor, msg.getNewValue());						
 					}
 				} catch (ViewHandlingException e) {
-					//TODO: define an error management strategy
+					//NOTE: Silent catch
 				}
 				break;
 			case Notification.UNSET:
@@ -93,7 +93,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 						viewHandler.unsetValue(propertyEditor);						
 					}
 				} catch (ViewHandlingException e) {
-					//TODO: define an error management strategy
+					//NOTE: Silent catch
 				}
 				break;
 			case Notification.ADD:
@@ -102,7 +102,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 						viewHandler.addValue(propertyEditor, msg.getNewValue());						
 					}
 				} catch (ViewHandlingException e) {
-					//TODO: define an error management strategy
+					//NOTE: Silent catch
 				}
 				break;
 			case Notification.REMOVE:
@@ -111,7 +111,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 						viewHandler.removeValue(propertyEditor, msg.getOldValue());						
 					}
 				} catch (ViewHandlingException e) {
-					//TODO: define an error management strategy
+					//NOTE: Silent catch
 				}
 				break;
 			default:
