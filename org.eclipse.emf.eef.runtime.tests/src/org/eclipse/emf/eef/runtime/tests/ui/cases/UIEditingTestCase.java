@@ -79,7 +79,7 @@ public abstract class UIEditingTestCase {
 		shell.setLayout (new FillLayout());
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayout(new FillLayout());
-		component = context.getComponent();
+		component = context.getEditingComponent();
 		List<ViewHandler<?>> viewHandlers = component.getViewHandlers();
 		views = new ArrayList<Composite>();
 		for (int i = 0; i < viewHandlers.size(); i++) {

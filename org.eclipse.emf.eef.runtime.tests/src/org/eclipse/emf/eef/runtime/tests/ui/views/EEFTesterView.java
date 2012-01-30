@@ -44,7 +44,7 @@ public class EEFTesterView extends ViewPart {
 		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(eObjectToEdit);
 		context.setEditingModel(builder.buildEditingModel());
 		context.setViewHandlerProvider(builder.buildViewHandlerProvider());
-		final PropertiesEditingComponent component = context.getComponent();
+		final PropertiesEditingComponent component = context.getEditingComponent();
 		for (ViewHandler<?> viewHandler : component.getViewHandlers()) {
 			if (viewHandler instanceof SWTViewHandler) {
 				SWTViewHandler swtHandler = (SWTViewHandler)viewHandler;

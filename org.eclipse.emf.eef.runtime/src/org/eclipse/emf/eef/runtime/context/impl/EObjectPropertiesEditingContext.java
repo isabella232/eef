@@ -4,11 +4,13 @@
 package org.eclipse.emf.eef.runtime.context.impl;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.policies.SemanticDirectEditingPolicy;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
 /**
@@ -69,9 +71,9 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getComponent()
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingComponent()
 	 */
-	public PropertiesEditingComponent getComponent() {
+	public PropertiesEditingComponent getEditingComponent() {
 		PropertiesEditingComponent component = (PropertiesEditingComponent) modelProvider.adapt(eObject, PropertiesEditingComponent.class);
 		component.setEditingContext(this);
 		return component;
@@ -79,10 +81,15 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#performSet(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
-	public void performSet(EObject eObject, EStructuralFeature feature, Object value) {
-		eObject.eSet(feature, value);
+	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
+		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
+			return new SemanticDirectEditingPolicy(semanticEditingContext.getEditingComponent(), semanticEditingContext.getEditingEvent());
+		}
+		return null;
 	}
+
 	
 }

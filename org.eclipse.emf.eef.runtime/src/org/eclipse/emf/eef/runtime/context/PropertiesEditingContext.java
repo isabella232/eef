@@ -3,10 +3,9 @@
  */
 package org.eclipse.emf.eef.runtime.context;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
 /**
@@ -41,14 +40,13 @@ public interface PropertiesEditingContext {
 	 * Returns a {@link PropertiesEditingComponent} binding the edited model element.
 	 * @return a {@link PropertiesEditingComponent} binded on the edited model element.
 	 */
-	PropertiesEditingComponent getComponent();
+	PropertiesEditingComponent getEditingComponent();
 
 	/**
-	 * Set a value to the given feature of the given {@link EObject}.
-	 * @param eObject {@link EObject} to edit.
-	 * @param feature {@link EStructuralFeature} to modify.
-	 * @param value the value of the feature.
+	 * Return the {@link PropertiesEditingPolicy} to perform for the given {@link PropertiesEditingContext}.
+	 * @param context editing context.
+	 * @return {@link PropertiesEditingPolicy} to perform.
 	 */
-	void performSet(EObject eObject, EStructuralFeature feature, Object value);
+	PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context);
 
 }

@@ -3,11 +3,12 @@
  */
 package org.eclipse.emf.eef.runtime.context.impl;
 
-import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.policies.SemanticDomainEditingPolicy;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -40,14 +41,17 @@ public class DomainPropertiesEditingContext extends EObjectPropertiesEditingCont
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext#performSet(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
-	public void performSet(EObject eObject, EStructuralFeature feature, Object value) {
-		Command setCommand = SetCommand.create(editingDomain, eObject, feature, value);
-		if (setCommand != null) {
-			editingDomain.getCommandStack().execute(setCommand);
+	@Override
+	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
+		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
+			return new SemanticDomainEditingPolicy(editingDomain, semanticEditingContext.getEditingComponent(), semanticEditingContext.getEditingEvent());
 		}
+		return super.getEditingPolicy(editingContext);
 	}
+
 	
 	
 	

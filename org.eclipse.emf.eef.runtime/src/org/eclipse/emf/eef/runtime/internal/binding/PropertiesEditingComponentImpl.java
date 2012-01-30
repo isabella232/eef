@@ -14,8 +14,10 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
@@ -36,6 +38,14 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	public PropertiesEditingComponentImpl(PropertiesEditingModel editingModel) {
 		this.editingModel = editingModel;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingContext()
+	 */
+	public PropertiesEditingContext getEditingContext() {
+		return editingContext;
 	}
 
 	/**
@@ -127,13 +137,9 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#fireViewChange(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public void fireViewChange(PropertiesEditingEvent editingEvent) {
-		EObject editedObject = (EObject) getTarget();
-		EClassBinding binding = editingModel.binding(editedObject);
-		EStructuralFeature feature = binding.feature(editingEvent.getAffectedEditor());
-		//TODO: version super triviale. Il faut checker le type d'event pour décider de l'opération à effectuer.
-		// 		Je pense également peut etre à un getSF case insensitive ...
-		if (feature != null) {
-			editingContext.performSet(editedObject, feature, editingEvent.getNewValue());
+		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(new SemanticPropertiesEditingContext(this, editingEvent));
+		if (editingPolicy != null) {
+			editingPolicy.execute();
 		}
 	}
 
