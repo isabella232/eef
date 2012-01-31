@@ -5,10 +5,11 @@ Bundle-SymbolicName: org.eclipse.emf.eef.runtime.ui
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI
 Bundle-Vendor: Eclipse Modeling Project
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.ui;visibility:=reexport,
+ org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.emf.eef.runtime;visibility:=reexport,
- com.google.guava
+ com.google.guava,
+ org.eclipse.ui.forms;visibility:=reexport
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.eef.runtime.ui.view.handlers.reflect,

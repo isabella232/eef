@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.internal.context;
 
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
@@ -69,9 +70,16 @@ public class DelegatingPropertiesEditingContext implements PropertiesEditingCont
 	 * @return
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
-	public PropertiesEditingPolicy getEditingPolicy(
-			PropertiesEditingContext context) {
+	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context) {
 		return delegatingContext.getEditingPolicy(context);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getAdapterFactory()
+	 */
+	public AdapterFactory getAdapterFactory() {
+		return delegatingContext.getAdapterFactory();
 	}
 
 

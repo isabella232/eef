@@ -58,6 +58,14 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getBinding()
+	 */
+	public EClassBinding getBinding() {
+		return editingModel.binding((EObject) getTarget());
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#isAdapterForType(java.lang.Object)
 	 */
 	public boolean isAdapterForType(Object type) {

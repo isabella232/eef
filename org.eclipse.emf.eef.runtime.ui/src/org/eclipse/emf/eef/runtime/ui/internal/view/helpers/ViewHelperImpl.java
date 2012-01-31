@@ -1,0 +1,157 @@
+/*******************************************************************************
+ * Copyright (c) 2011 Obeo.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Obeo - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.emf.eef.runtime.ui.internal.view.helpers;
+
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.IItemPropertySource;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.ui.view.ViewHelper;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+
+/**
+ * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
+ *
+ */
+public class ViewHelperImpl implements ViewHelper {
+	
+	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+
+	/**
+	 * Image registry key for help image (value <code>"dialog_help_image"</code> ).
+	 */
+	public static final String DLG_IMG_HELP = "dialog_help_image"; //$NON-NLS-1$
+
+	private PropertiesEditingComponent editingComponent;
+	private FormToolkit toolkit;
+	
+	/**
+	 * @param editingComponent
+	 */
+	public ViewHelperImpl(PropertiesEditingComponent editingComponent) {
+		this.editingComponent = editingComponent;
+		this.toolkit = null;
+	}
+
+	/**
+	 * @param editingComponent
+	 * @param toolkit
+	 */
+	public ViewHelperImpl(PropertiesEditingComponent editingComponent, FormToolkit toolkit) {
+		this.editingComponent = editingComponent;
+		this.toolkit = toolkit;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.parts.ViewHelper#createLabel(org.eclipse.swt.widgets.Composite, java.lang.Object, java.lang.String)
+	 */
+	public Label createLabel(Composite parent, Object editor, String alternate) {
+		String text = getDescription(editor, alternate);
+		if (!text.endsWith(": ") && !text.endsWith(":")) {
+			text += ": ";
+		}
+		Label label;
+		if (toolkit != null) {
+			label = toolkit.createLabel(parent, text);
+		} else {
+			label = new Label(parent, SWT.NONE);
+			label.setText(text);
+		}
+		EStructuralFeature associatedFeature = feature(editor);
+		if (associatedFeature != null && associatedFeature.isRequired()) {
+			label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
+		}
+		return label;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.parts.ViewHelper#getDescription(java.lang.Object, java.lang.String)
+	 */
+	public String getDescription(Object editor, String alternate) {
+		String text = alternate;
+		EStructuralFeature associatedFeature = feature(editor);
+		if (associatedFeature != null) {
+			IItemPropertySource labelProvider = (IItemPropertySource) editingComponent.getEditingContext().getAdapterFactory().adapt(editingComponent.getTarget(), org.eclipse.emf.edit.provider.IItemPropertySource.class);
+			if (labelProvider != null) {
+				IItemPropertyDescriptor propertyDescriptor = labelProvider.getPropertyDescriptor(editingComponent.getTarget(), associatedFeature);
+				if (propertyDescriptor != null) {
+					text = propertyDescriptor.getDisplayName(editor);
+				}
+			}
+		}
+		return text;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.parts.ViewHelper#createHelpButton(org.eclipse.swt.widgets.Composite, java.lang.Object)
+	 */
+	@SuppressWarnings("unused")
+	public Control createHelpButton(Composite parent, Object editor ) {
+		//To manage in future
+		String helpID = null;
+		String alternate = getHelpContent(editor);
+		Image image = JFaceResources.getImage(DLG_IMG_HELP);
+		if (helpID != null && !EMPTY_STRING.equals(helpID)) { //$NON-NLS-1$
+			ToolBar result = new ToolBar(parent, SWT.FLAT | SWT.NO_FOCUS);
+			((GridLayout)parent.getLayout()).numColumns++;
+			result.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
+			ToolItem item = new ToolItem(result, SWT.NONE);
+			item.setImage(image);
+			if (alternate != null && !EMPTY_STRING.equals(alternate)) //$NON-NLS-1$
+				item.setToolTipText(alternate);
+			return result;
+		} else {
+			Label result = null; 
+			if (toolkit != null) {
+				result = toolkit.createLabel(parent, EMPTY_STRING); //$NON-NLS-1$
+			} else {
+				result = new Label(parent, SWT.NONE);
+			}
+			if (alternate != null && !EMPTY_STRING.equals(alternate)) { //$NON-NLS-1$
+				result.setImage(image);
+				result.setToolTipText(alternate);
+			}
+			return result;
+		}
+	}
+	
+	/**
+	 * @param editor
+	 * @return
+	 */
+	private EStructuralFeature feature(Object editor) {
+		return editingComponent.getBinding().feature(editor);
+	}
+
+	/**
+	 * @param editor
+	 * @return
+	 * TODO: search a Documentation EAnnotation in the Ecore model
+	 */
+	private String getHelpContent(Object editor) {
+		return null;
+	}
+}
+

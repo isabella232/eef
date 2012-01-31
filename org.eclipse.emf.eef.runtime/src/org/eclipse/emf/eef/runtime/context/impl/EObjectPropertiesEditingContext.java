@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.context.impl;
 
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -20,8 +21,9 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 public class EObjectPropertiesEditingContext implements PropertiesEditingContext {
 
 	protected EObject eObject;
-	private EditingModelProvider modelProvider;
-	private ViewHandlerProvider viewHandlerProvider;
+	protected EditingModelProvider modelProvider;
+	protected ViewHandlerProvider viewHandlerProvider;
+	protected AdapterFactory adapterFactory;
 	
 	/**
 	 * @param eObject {@link EObject} to edit.
@@ -67,6 +69,20 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public EObject getEObject() {
 		return eObject;
+	}
+
+	/**
+	 * @return the adapterFactory
+	 */
+	public AdapterFactory getAdapterFactory() {
+		return adapterFactory;
+	}
+
+	/**
+	 * @param adapterFactory the adapterFactory to set
+	 */
+	public void setAdapterFactory(AdapterFactory adapterFactory) {
+		this.adapterFactory = adapterFactory;
 	}
 
 	/**

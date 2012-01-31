@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.context;
 
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
@@ -48,5 +49,10 @@ public interface PropertiesEditingContext {
 	 * @return {@link PropertiesEditingPolicy} to perform.
 	 */
 	PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context);
+
+	/**
+	 * @return the {@link AdapterFactory} of the context.
+	 */
+	AdapterFactory getAdapterFactory();
 
 }

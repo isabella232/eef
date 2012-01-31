@@ -6,7 +6,9 @@ package org.eclipse.emf.eef.runtime.binding;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
@@ -18,12 +20,24 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 public interface PropertiesEditingComponent extends Adapter {
 
 	/**
+<<<<<<< HEAD
 	 * Returns the editing context of the component.
 	 * @return the current {@link PropertiesEditingContext}.
+=======
+	 * @return the component's {@link PropertiesEditingContext}.
+>>>>>>> UPDATED: Working on Properties Editing views
 	 */
 	PropertiesEditingContext getEditingContext();
 	
 	/**
+<<<<<<< HEAD
+=======
+	 * @return the {@link EClassBinding} describing the target {@link EObject} mapping.
+	 */
+	EClassBinding getBinding();
+	
+	/**
+>>>>>>> UPDATED: Working on Properties Editing views
 	 * Sets the editing context for this component.
 	 * @param editingContext {@link PropertiesEditingContext} to set.
 	 */
@@ -39,7 +53,6 @@ public interface PropertiesEditingComponent extends Adapter {
 	 * @return the component {@link ViewChangeNotifier}.
 	 */
 	public ViewChangeNotifier getViewChangeNotifier();
-	
 	
 	/**
 	 * Notify the component that a widget of a managed view has changed.
