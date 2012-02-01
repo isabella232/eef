@@ -33,7 +33,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  *
  */
 public class ViewHelperImpl implements ViewHelper {
-	
+		
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	/**
@@ -137,6 +137,47 @@ public class ViewHelperImpl implements ViewHelper {
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#setID(org.eclipse.swt.widgets.Control, java.lang.Object)
+	 */
+	public void setID(Control widget, Object value) {
+		if (widget != null)
+			widget.setData(EEF_WIDGET_ID_KEY, value);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#getID(org.eclipse.swt.widgets.Control)
+	 */
+	public Object getID(Control widget) {
+		if (widget != null)
+			return widget.getData(EEF_WIDGET_ID_KEY);
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#setEEFtype(org.eclipse.swt.widgets.Control, java.lang.String)
+	 */
+	public void setEEFtype(Control widget, String value) {
+		if (widget != null)
+			widget.setData(EEF_WIDGET_TYPE_KEY, value);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#getEEFType(org.eclipse.swt.widgets.Control)
+	 */
+	public String getEEFType(Control widget) {
+		if (widget != null) {
+			Object data = widget.getData(EEF_WIDGET_ID_KEY);
+			if (data instanceof String)
+				return (String)data;
+		}
+		return UNKNOW_EEF_TYPE;
+	}
+
 	/**
 	 * @param editor
 	 * @return

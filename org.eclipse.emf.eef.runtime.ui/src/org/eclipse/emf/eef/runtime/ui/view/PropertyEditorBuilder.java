@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view;
 
+import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -11,16 +12,16 @@ import org.eclipse.swt.widgets.Composite;
  */
 public abstract class PropertyEditorBuilder {
 	
-	private PropertiesEditingView view;
-	
-	private Object editorID;
+	protected PropertiesEditingView view;
+	protected ElementEditor elementEditor;
 	
 	
 	/**
 	 * @param view {@link PropertiesEditingView} where the PropertyEditor is built.
 	 */
-	public PropertyEditorBuilder(PropertiesEditingView view) {
+	public PropertyEditorBuilder(PropertiesEditingView view, ElementEditor elementEditor) {
 		this.view = view;
+		this.elementEditor = elementEditor;
 	}
 
 	/**
@@ -28,17 +29,15 @@ public abstract class PropertyEditorBuilder {
 	 * @param parent {@link Composite} where to build the PropertyEditor.
 	 */
 	public void build(Composite parent) {
-		
-	}
-	
-	/**
-	 * Defines the ID of the PropertyEditor.
-	 * @param editorID ID of the PropertyEditor.
-	 * @return this {@link PropertyEditorBuilder}.
-	 */
-	public PropertyEditorBuilder editorID(Object editorID) {
-		this.editorID = editorID;
-		return this;
+		view.getViewHelper().createLabel(parent, elementEditor, elementEditor.getName());
+		createEditorContents(parent);
+		view.getViewHelper().createHelpButton(parent, elementEditor);
 	}
 
+	/**
+	 * Create the contents of the property editor in the owning Composite.
+	 * @param parent the owning {@link Composite}.
+	 */
+	protected abstract void createEditorContents(Composite parent);
+	
 }

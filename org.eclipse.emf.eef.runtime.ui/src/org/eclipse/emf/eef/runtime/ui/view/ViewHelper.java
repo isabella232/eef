@@ -21,6 +21,21 @@ import org.eclipse.swt.widgets.Label;
 public interface ViewHelper {
 	
 	/**
+	 * Defines the constant for an unknown EEF representation type.
+	 */
+	String UNKNOW_EEF_TYPE = "unknown eef type";
+
+	/**
+	 * Defines the key for the EEF widgets id.
+	 */
+	String EEF_WIDGET_ID_KEY = "org.eclipse.emf.eef.widgets.id";
+
+	/**
+	 * Defines the key for the EEF widgets type.
+	 */
+	String EEF_WIDGET_TYPE_KEY = "org.eclipse.emf.eef.widgets.type";
+
+	/**
 	 * Return the label text for a given editor.
 	 * @param editor key of editor to process
 	 * @param alternate altenative text
@@ -35,7 +50,7 @@ public interface ViewHelper {
 	 * @param alternate alternative text.
 	 * @return created label.
 	 */
-	public Label createLabel(Composite parent, Object editor, String alternate);
+	Label createLabel(Composite parent, Object editor, String alternate);
 	
 	/**
 	 * Instantiate a help button for the given feature.
@@ -45,6 +60,44 @@ public interface ViewHelper {
 	 * @param helpID help ID
 	 * @return created control.
 	 */
-	public Control createHelpButton(final Composite parent, Object editor);
+	Control createHelpButton(final Composite parent, Object editor);
+
+	/**
+	 * Return the ID of a widget
+	 * 
+	 * @param widget
+	 *            the widget to inspect
+	 * @return the ID of the widget
+	 */
+	String getEEFType(Control widget);
+
+	/**
+	 * Set the EEF type of widget.
+	 * 
+	 * @param widget
+	 *            the widget where put the ID
+	 * @param value
+	 *            the type of the widget
+	 */
+	void setEEFtype(Control widget, String value);
+
+	/**
+	 * Return the ID of a widget?
+	 * 
+	 * @param widget
+	 *            the widget to inspect
+	 * @return the ID of the widget
+	 */
+	Object getID(Control widget);
+
+	/**
+	 * Set an id to a given widget.
+	 * 
+	 * @param widget
+	 *            the widget where put the ID
+	 * @param value
+	 *            the ID to put
+	 */
+	void setID(Control widget, Object value);
 
 }
