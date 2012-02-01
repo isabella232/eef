@@ -24,7 +24,7 @@ public class TypedPropertyChangedEvent extends PropertyChangeEvent {
 	 * This applies for simple features.
 	 * @see Notification#getEventType
 	 */
-	int SET = Notification.SET;
+	public static int SET = Notification.SET;
 
 	/**
 	 * An {@link Notification#getEventType event type} indicating that 
@@ -32,42 +32,42 @@ public class TypedPropertyChangedEvent extends PropertyChangeEvent {
 	 * This applies for unsettable features.
 	 * @see Notification#getEventType
 	 */
-	int UNSET = Notification.UNSET;
+	public static int UNSET = Notification.UNSET;
 
 	/**
 	 * An {@link Notification#getEventType event type} indicating that 
 	 * a value has been inserted into a list-based feature of the notifier.
 	 * @see Notification#getEventType
 	 */
-	int ADD = Notification.ADD;
+	public static int ADD = Notification.ADD;
 
 	/**
 	 * An {@link Notification#getEventType event type} indicating that 
 	 * a value has been removed from a list-based feature of the notifier.
 	 * @see Notification#getEventType
 	 */
-	int REMOVE = Notification.REMOVE;
+	public static int REMOVE = Notification.REMOVE;
 
 	/**
 	 * An {@link Notification#getEventType event type} indicating that 
 	 * a several values have been added into a list-based feature of the notifier.
 	 * @see Notification#getEventType
 	 */
-	int ADD_MANY = Notification.ADD_MANY;
+	public static int ADD_MANY = Notification.ADD_MANY;
 
 	/**
 	 * An {@link Notification#getEventType event type} indicating that 
 	 * a several values have been removed from a list-based feature of the notifier.
 	 * @see Notification#getEventType
 	 */
-	int REMOVE_MANY = Notification.REMOVE_MANY;
+	public static int REMOVE_MANY = Notification.REMOVE_MANY;
 
 	/**
 	 * An {@link Notification#getEventType event type} indicating that 
 	 * a value has been moved within a list-based feature of the notifier.
 	 * @see Notification#getEventType
 	 */
-	int MOVE = Notification.MOVE;
+	public static int MOVE = Notification.MOVE;
 
 	private int eventType;
 

@@ -1,8 +1,9 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditor;
 
+import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.widgets.Composite;
 
@@ -10,7 +11,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class PropertyEditorBuilder {
+public abstract class StandardPropertyEditor implements PropertyEditor {
 	
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
@@ -18,15 +19,16 @@ public abstract class PropertyEditorBuilder {
 	
 	/**
 	 * @param view {@link PropertiesEditingView} where the PropertyEditor is built.
+	 * @param elementEditor {@link ElementEditor} specifying the Property Editor.
 	 */
-	public PropertyEditorBuilder(PropertiesEditingView view, ElementEditor elementEditor) {
+	public StandardPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}
 
 	/**
-	 * Build the PropertyEditor in the given composite.
-	 * @param parent {@link Composite} where to build the PropertyEditor.
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditor.PropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(Composite parent) {
 		view.getViewHelper().createLabel(parent, elementEditor, elementEditor.getName());

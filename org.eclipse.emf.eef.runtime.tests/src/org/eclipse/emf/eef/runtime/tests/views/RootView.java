@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.List;
 public class RootView extends Composite {
 
 	private List samplesList;
-	private Collection<Object> samples;
 
 	/**
 	 * @param parent the composite owner
@@ -35,7 +34,6 @@ public class RootView extends Composite {
 	 * @param samples
 	 */
 	public void setSamples(Collection<Object> samples) {
-		this.samples = samples;
 		for (Object object : samples) {
 			samplesList.add(object.toString());
 		}

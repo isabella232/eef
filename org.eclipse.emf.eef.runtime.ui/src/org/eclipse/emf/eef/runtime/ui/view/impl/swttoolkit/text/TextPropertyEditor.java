@@ -1,11 +1,12 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.impl;
+package org.eclipse.emf.eef.runtime.ui.view.impl.swttoolkit.text;
 
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
+import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.PropertyEditorBuilder;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditor.StandardPropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
@@ -20,7 +21,8 @@ import org.eclipse.swt.widgets.Text;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class TextPropertyEditorBuilder extends PropertyEditorBuilder {
+public class TextPropertyEditor extends StandardPropertyEditor {
+	
 
 	private Text text;
 
@@ -28,13 +30,13 @@ public class TextPropertyEditorBuilder extends PropertyEditorBuilder {
 	 * @param view
 	 * @param editorID
 	 */
-	public TextPropertyEditorBuilder(PropertiesEditingView view, ElementEditor editor) {
+	public TextPropertyEditor(PropertiesEditingView view, ElementEditor editor) {
 		super(view, editor);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertyEditorBuilder#createEditorContents(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditor.StandardPropertyEditor#createEditorContents(org.eclipse.swt.widgets.Composite)
 	 */
 	protected void createEditorContents(Composite parent) {
 		text = new Text(parent, SWT.BORDER);
@@ -52,8 +54,7 @@ public class TextPropertyEditorBuilder extends PropertyEditorBuilder {
 			@SuppressWarnings("synthetic-access")
 			public void focusLost(FocusEvent e) {
 				if (view.getEditingComponent() != null)
-					//TODO
-					view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor.getQualifiedIdentifier(), 1, null, text.getText()));
+					view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor.getQualifiedIdentifier(), TypedPropertyChangedEvent.SET, null, text.getText()));
 			}
 
 		});
@@ -70,8 +71,7 @@ public class TextPropertyEditorBuilder extends PropertyEditorBuilder {
 			public void keyPressed(KeyEvent e) {
 				if (e.character == SWT.CR) {
 					if (view.getEditingComponent() != null)
-						//TODO
-						view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor.getQualifiedIdentifier(), 1, null, text.getText()));
+						view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor.getQualifiedIdentifier(), TypedPropertyChangedEvent.SET, null, text.getText()));
 				}
 			}
 
