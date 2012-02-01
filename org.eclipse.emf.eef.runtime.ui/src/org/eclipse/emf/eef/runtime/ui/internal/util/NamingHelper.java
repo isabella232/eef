@@ -19,21 +19,23 @@ public class NamingHelper {
 		StringBuffer buffer = new StringBuffer();
 		EObject container = element.eContainer();
 		while (container instanceof ViewElement) {
-			if (equalsIngnoreWhiteSpacesAndCase(((ViewElement)container).getName(),baseName)) {
+			if (equalsIgnoreWhiteSpacesAndCase(((ViewElement)container).getName(),baseName)) {
 				buffer.append('_');
 			}
 			container = container.eContainer();
 		}
-		ViewsRepository repository = repository(container);
-		if (repository != null) {
-			if (equalsIngnoreWhiteSpacesAndCase(repository.getName(),baseName)) {
-				buffer.append('_');
+		if (container != null) {
+			ViewsRepository repository = repository(container);
+			if (repository != null) {
+				if (equalsIgnoreWhiteSpacesAndCase(repository.getName(),baseName)) {
+					buffer.append('_');
+				}
 			}
 		}
 		return buffer.toString();
 	}
 
-	private static boolean equalsIngnoreWhiteSpacesAndCase(String name1, String name2) {
+	private static boolean equalsIgnoreWhiteSpacesAndCase(String name1, String name2) {
 		return removeWhiteSpaces(name1).equalsIgnoreCase(removeWhiteSpaces(name2));
 	}
 	

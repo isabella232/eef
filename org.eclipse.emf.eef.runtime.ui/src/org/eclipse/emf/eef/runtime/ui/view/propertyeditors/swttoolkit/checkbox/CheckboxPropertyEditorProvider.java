@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.impl.swttoolkit.checkbox;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.checkbox;
 
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditor.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditor.providers.WidgetPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
@@ -20,7 +20,7 @@ public class CheckboxPropertyEditorProvider implements WidgetPropertyEditorProvi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditor.providers.ModelPropertyEditorProvider#getModel()
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
 	 */
 	public Widget getModel() {
 		if (widget == null) {
@@ -32,7 +32,7 @@ public class CheckboxPropertyEditorProvider implements WidgetPropertyEditorProvi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditor.providers.ModelPropertyEditorProvider#canHandle(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#canHandle(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
 	 */
 	public boolean canHandle(PropertiesEditingView view, ElementEditor editor) {
 		return getModel() == editor.getRepresentation();
@@ -40,7 +40,7 @@ public class CheckboxPropertyEditorProvider implements WidgetPropertyEditorProvi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditor.providers.ModelPropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
 	 */
 	public PropertyEditor getPropertyEditor(PropertiesEditingView view, ElementEditor editor) {
 		return new CheckboxPropertyEditor(view, editor);

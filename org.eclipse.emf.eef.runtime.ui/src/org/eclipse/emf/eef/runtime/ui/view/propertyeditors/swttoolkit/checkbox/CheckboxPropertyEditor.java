@@ -1,12 +1,12 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.impl.swttoolkit.checkbox;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.checkbox;
 
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditor.PropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -36,7 +36,7 @@ public class CheckboxPropertyEditor implements PropertyEditor {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditor.PropertyEditor#build(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(Composite parent) {
 		checkbox = new Button(parent, SWT.CHECK);

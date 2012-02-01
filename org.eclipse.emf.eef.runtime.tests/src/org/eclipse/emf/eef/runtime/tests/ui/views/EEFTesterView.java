@@ -1,12 +1,13 @@
 package org.eclipse.emf.eef.runtime.tests.ui.views;
 
-import org.eclipse.emf.eef.eeftests.bindingmodel.AbstractSample;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
 import org.eclipse.emf.eef.eeftests.bindingmodel.Root;
 import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
+import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
+import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
@@ -40,10 +41,7 @@ public class EEFTesterView extends ViewPart {
 	 */
 	public void createPartControl(Composite parent) {
 		EEFTestStuffsBuilder builder = new EEFTestStuffsBuilder();
-		AbstractSample eObjectToEdit = getModel().getSamples().get(0);
-		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(eObjectToEdit);
-		context.setEditingModel(builder.buildEditingModel());
-		context.setViewHandlerProvider(builder.buildViewHandlerProvider());
+		PropertiesEditingContext context = builder.buildEditingContextWithPropertiesEditingViews();
 		final PropertiesEditingComponent component = context.getEditingComponent();
 		for (ViewHandler<?> viewHandler : component.getViewHandlers()) {
 			if (viewHandler instanceof SWTViewHandler) {
@@ -53,9 +51,19 @@ public class EEFTesterView extends ViewPart {
 					view.setLayoutData(new GridData(GridData.FILL_BOTH));
 					viewHandler.initView(component);
 				} catch (ViewConstructionException e) {
-//				EEF.getDefault().getLog().log(new Status(IStatus.ERROR, EEFTester.PLUGIN_ID, "Unable to create view.", e));
+					//EEF.getDefault().getLog().log(new Status(IStatus.ERROR, EEFTester.PLUGIN_ID, "Unable to create view.", e));
 					e.printStackTrace();
 				}
+			} else if (viewHandler instanceof PropertiesEditingViewHandler) {
+				PropertiesEditingViewHandler propertiesEditingHandler = (PropertiesEditingViewHandler) viewHandler;
+				try {
+					PropertiesEditingView view = propertiesEditingHandler.createView(component, parent);
+					view.getContents().setLayoutData(new GridData(GridData.FILL_BOTH));
+					propertiesEditingHandler.initView(component);
+				} catch (ViewConstructionException e) {
+					e.printStackTrace();
+				}
+				
 			}
 		}
 	}

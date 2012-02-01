@@ -1,10 +1,9 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditor.providers;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditor.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 
 /**

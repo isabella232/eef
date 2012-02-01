@@ -54,6 +54,30 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 */
+	public void initView(PropertiesEditingComponent component) {
+		EObject eObject = (EObject) component.getTarget();
+		for (EStructuralFeature feature : eObject.eClass().getEAllStructuralFeatures()) {
+			try {
+				setValue(feature.getName(), eObject.eGet(feature));
+			} catch (ViewHandlingException e) {
+				//NOTE: Silent catch
+			}
+		}
+		Method searchListenerAdder = helper.searchListenerAdder();
+		if (searchListenerAdder != null) {
+			try {
+				searchListenerAdder.invoke(view, component.getViewChangeNotifier());
+			} catch (Exception e) {
+				//NOTE: Silent catch
+			}
+		}
+		
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#getView()
 	 */
 	public T getView() {
@@ -127,30 +151,6 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 				}
 			}
 		} 		
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
-	 */
-	public void initView(PropertiesEditingComponent component) {
-		EObject eObject = (EObject) component.getTarget();
-		for (EStructuralFeature feature : eObject.eClass().getEAllStructuralFeatures()) {
-			try {
-				setValue(feature.getName(), eObject.eGet(feature));
-			} catch (ViewHandlingException e) {
-				//NOTE: Silent catch
-			}
-		}
-		Method searchListenerAdder = helper.searchListenerAdder();
-		if (searchListenerAdder != null) {
-			try {
-				searchListenerAdder.invoke(view, component.getViewChangeNotifier());
-			} catch (Exception e) {
-				//NOTE: Silent catch
-			}
-		}
-		
 	}
 
 	/**

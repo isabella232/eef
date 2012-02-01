@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditor;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
 import org.eclipse.swt.widgets.Composite;
 

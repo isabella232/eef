@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.impl.swttoolkit;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit;
 
-import org.eclipse.emf.eef.runtime.ui.view.impl.swttoolkit.checkbox.CheckboxPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.impl.swttoolkit.text.TextPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditor.providers.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.checkbox.CheckboxPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.text.TextPropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 
@@ -27,7 +27,7 @@ public class SWTToolkitPropertyEditorProvider extends ToolkitPropertyEditorProvi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditor.providers.ModelPropertyEditorProvider#getModel()
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
 	 */
 	public Toolkit getModel() {
 		if (toolkit == null) {

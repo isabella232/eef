@@ -1,13 +1,12 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditor.providers;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditor.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 
@@ -28,7 +27,7 @@ public abstract class ToolkitPropertyEditorProvider implements ModelPropertyEdit
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditor.providers.PropertyEditorProvider#canHandle(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider#canHandle(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
 	 */
 	public boolean canHandle(PropertiesEditingView view, ElementEditor editor) {
 		for (WidgetPropertyEditorProvider provider : widgetProviders) {
@@ -41,7 +40,7 @@ public abstract class ToolkitPropertyEditorProvider implements ModelPropertyEdit
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditor.providers.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
 	 * TODO: need cache
 	 */
 	public PropertyEditor getPropertyEditor(PropertiesEditingView view, ElementEditor editor) {

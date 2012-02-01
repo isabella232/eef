@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditor;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -28,7 +28,7 @@ public abstract class StandardPropertyEditor implements PropertyEditor {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditor.PropertyEditor#build(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(Composite parent) {
 		view.getViewHelper().createLabel(parent, elementEditor, elementEditor.getName());

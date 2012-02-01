@@ -48,6 +48,13 @@ public class ComposedViewHandlerProvider implements ViewHandlerProvider {
 	}
 	
 	/**
+	 * @return the composed {@link ViewHandlerProvider}.
+	 */
+	public List<ViewHandlerProvider> getProviders() {
+		return providers;
+	}
+
+	/**
 	 * Builder for {@link ComposedViewHandlerProvider}.
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
 	 */

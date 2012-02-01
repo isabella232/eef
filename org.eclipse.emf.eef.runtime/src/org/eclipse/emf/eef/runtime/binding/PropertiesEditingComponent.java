@@ -20,24 +20,17 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 public interface PropertiesEditingComponent extends Adapter {
 
 	/**
-<<<<<<< HEAD
 	 * Returns the editing context of the component.
-	 * @return the current {@link PropertiesEditingContext}.
-=======
 	 * @return the component's {@link PropertiesEditingContext}.
->>>>>>> UPDATED: Working on Properties Editing views
 	 */
 	PropertiesEditingContext getEditingContext();
 	
 	/**
-<<<<<<< HEAD
-=======
 	 * @return the {@link EClassBinding} describing the target {@link EObject} mapping.
 	 */
 	EClassBinding getBinding();
 	
 	/**
->>>>>>> UPDATED: Working on Properties Editing views
 	 * Sets the editing context for this component.
 	 * @param editingContext {@link PropertiesEditingContext} to set.
 	 */

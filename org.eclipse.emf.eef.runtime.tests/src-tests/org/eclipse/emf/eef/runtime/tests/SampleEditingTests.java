@@ -27,7 +27,7 @@ public class SampleEditingTests extends UIEditingTestCase {
 	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#buildEditingModel()
 	 */
 	protected PropertiesEditingModel buildEditingModel() {
-		return new EEFTestStuffsBuilder().buildEditingModel();
+		return new EEFTestStuffsBuilder().buildEditingModelWithSWTViews();
 	}
 
 	@Test

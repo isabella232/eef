@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditor.providers;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
 import org.eclipse.emf.eef.views.toolkits.Widget;
 

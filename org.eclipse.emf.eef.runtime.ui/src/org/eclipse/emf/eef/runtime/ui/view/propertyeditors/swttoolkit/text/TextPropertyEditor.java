@@ -1,12 +1,12 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.impl.swttoolkit.text;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.text;
 
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditor.StandardPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.StandardPropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
@@ -36,7 +36,7 @@ public class TextPropertyEditor extends StandardPropertyEditor {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditor.StandardPropertyEditor#createEditorContents(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.StandardPropertyEditor#createEditorContents(org.eclipse.swt.widgets.Composite)
 	 */
 	protected void createEditorContents(Composite parent) {
 		text = new Text(parent, SWT.BORDER);
