@@ -85,7 +85,7 @@ public class EClassBindingResolverTests {
 	 * return EcorePackage.Literals.ECLASS__ABSTRACT.
 	 */
 	@Test
-	public void testFeatureSearchOnEEFViewBindingWithPropertyBinding() {
+	public void testFeatureSearchOnEEFViewBindingWithoutPropertyBinding() {
 		View sampleView = ViewsFactory.eINSTANCE.createView();
 		sampleView.setName("Sample View");
 		ElementEditor abstractEditor = ViewsFactory.eINSTANCE.createElementEditor();
@@ -100,11 +100,11 @@ public class EClassBindingResolverTests {
 
 	/**
 	 * Here the "EClass" EClass is binded to a "Sample" {@link View}. No PropertyBinding is
-	 * specified. The "feature" method on the "abstract" {@link ElementEditor} should
-	 * return EcorePackage.Literals.ECLASS__ABSTRACT.
+	 * specified. The "propertyEditor" method on the EcorePackage.Literals.ECLASS__ABSTRACT feature should
+	 * return "abstract" {@link ElementEditor} .
 	 */
 	@Test
-	public void testEditorSearchOnEEFViewBindingWithPropertyBinding() {
+	public void testEditorSearchOnEEFViewBindingWithoutPropertyBinding() {
 		View sampleView = ViewsFactory.eINSTANCE.createView();
 		sampleView.setName("Sample View");
 		ElementEditor abstractEditor = ViewsFactory.eINSTANCE.createElementEditor();
@@ -114,9 +114,47 @@ public class EClassBindingResolverTests {
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(sampleView)
 			.build();
-		Object propertyEditor = editingModel.getBindings().get(0)
-				.propertyEditor(EcorePackage.Literals.ECLASS__ABSTRACT);
-		assertEquals(abstractEditor, propertyEditor);
+		assertEquals(abstractEditor, editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ECLASS__ABSTRACT));
+	}
+
+	/**
+	 * Here the "EClass" EClass is binded to a "Sample" {@link View}. A PropertyBinding is
+	 * specified. The "feature" method on the "instanciable" {@link ElementEditor} should
+	 * return EcorePackage.Literals.ECLASS__ABSTRACT.
+	 */
+	@Test
+	public void testFeatureSearchOnEEFViewBindingWithPropertyBinding() {
+		View sampleView = ViewsFactory.eINSTANCE.createView();
+		sampleView.setName("Sample View");
+		ElementEditor instanciableEditor = ViewsFactory.eINSTANCE.createElementEditor();
+		instanciableEditor.setName("instanciable");
+		sampleView.getElements().add(instanciableEditor);
+		PropertiesEditingModel editingModel = new EditingModelBuilder()
+			.bindClass(EcorePackage.Literals.ECLASS)
+				.withView(sampleView)
+			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT, instanciableEditor)
+			.build();
+		assertEquals(EcorePackage.Literals.ECLASS__ABSTRACT, editingModel.getBindings().get(0).feature(instanciableEditor));
+	}
+
+	/**
+	 * Here the "EClass" EClass is binded to a "Sample" {@link View}. A PropertyBinding is
+	 * specified. The "feature" method on the EcorePackage.Literals.ECLASS__ABSTRACT feature should
+	 * return "instanciable" {@link ElementEditor}.
+	 */
+	@Test
+	public void testEditorSearchOnEEFViewBindingWithPropertyBinding() {
+		View sampleView = ViewsFactory.eINSTANCE.createView();
+		sampleView.setName("Sample View");
+		ElementEditor instanciableEditor = ViewsFactory.eINSTANCE.createElementEditor();
+		instanciableEditor.setName("instanciable");
+		sampleView.getElements().add(instanciableEditor);
+		PropertiesEditingModel editingModel = new EditingModelBuilder()
+			.bindClass(EcorePackage.Literals.ECLASS)
+				.withView(sampleView)
+			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT, instanciableEditor)
+			.build();
+		assertEquals(instanciableEditor, editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ECLASS__ABSTRACT));
 	}
 
 }
