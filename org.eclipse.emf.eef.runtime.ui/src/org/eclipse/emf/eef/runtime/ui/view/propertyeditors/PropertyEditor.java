@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -16,4 +17,10 @@ public interface PropertyEditor {
 	 * @param parent {@link Composite} where to build the PropertyEditor.
 	 */
 	public void build(Composite parent);
+	
+	/**
+	 * Initialize the PropertyEditor for the given feature.
+	 * @param feature {@link EStructuralFeature} managed by this {@link PropertyEditor}.
+	 */
+	public void init(EStructuralFeature feature);
 }

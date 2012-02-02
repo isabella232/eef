@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
@@ -199,12 +200,18 @@ public class EditingModelBuilder {
 		}
 
 		private View buildView() {
-			JavaView javaView = EditingModelFactory.eINSTANCE.createJavaView();
-			javaView.setDefinition(view);
-			if (handler != null) {
-				javaView.setHandler(handler);
+			View modelView = null;
+			if (view instanceof EObject) {
+				modelView = EditingModelFactory.eINSTANCE.createEObjectView();
+				((EObjectView) modelView).setDefinition((EObject) view);
+			} else  {
+				modelView = EditingModelFactory.eINSTANCE.createJavaView();
+				((JavaView) modelView).setDefinition(view);				
 			}
-			return javaView;
+			if (view != null && handler != null) {
+				modelView.setHandler(handler);
+			}
+			return modelView;
 		}
 		
 		/**

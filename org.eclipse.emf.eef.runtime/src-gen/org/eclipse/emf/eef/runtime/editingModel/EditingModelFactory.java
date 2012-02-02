@@ -62,6 +62,15 @@ public interface EditingModelFactory extends EFactory {
 	PropertyBinding createPropertyBinding();
 
 	/**
+	 * Returns a new object of class '<em>EObject View</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>EObject View</em>'.
+	 * @generated
+	 */
+	EObjectView createEObjectView();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

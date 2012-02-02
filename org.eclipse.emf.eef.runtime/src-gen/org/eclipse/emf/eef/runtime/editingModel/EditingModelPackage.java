@@ -247,6 +247,43 @@ public interface EditingModelPackage extends EPackage {
 	int PROPERTY_BINDING_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EObjectViewImpl <em>EObject View</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EObjectViewImpl
+	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEObjectView()
+	 * @generated
+	 */
+	int EOBJECT_VIEW = 5;
+
+	/**
+	 * The feature id for the '<em><b>Handler</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EOBJECT_VIEW__HANDLER = VIEW__HANDLER;
+
+	/**
+	 * The feature id for the '<em><b>Definition</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EOBJECT_VIEW__DEFINITION = VIEW_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>EObject View</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EOBJECT_VIEW_FEATURE_COUNT = VIEW_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '<em>View Handler</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -254,7 +291,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getViewHandler()
 	 * @generated
 	 */
-	int VIEW_HANDLER = 5;
+	int VIEW_HANDLER = 6;
 
 
 	/**
@@ -405,6 +442,27 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getPropertyBinding_Editor();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.EObjectView <em>EObject View</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>EObject View</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EObjectView
+	 * @generated
+	 */
+	EClass getEObjectView();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.eef.runtime.editingModel.EObjectView#getDefinition <em>Definition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Definition</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EObjectView#getDefinition()
+	 * @see #getEObjectView()
+	 * @generated
+	 */
+	EReference getEObjectView_Definition();
 
 	/**
 	 * Returns the meta object for data type '{@link org.eclipse.emf.eef.runtime.view.handler.ViewHandler <em>View Handler</em>}'.
@@ -560,6 +618,24 @@ public interface EditingModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PROPERTY_BINDING__EDITOR = eINSTANCE.getPropertyBinding_Editor();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EObjectViewImpl <em>EObject View</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EObjectViewImpl
+		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEObjectView()
+		 * @generated
+		 */
+		EClass EOBJECT_VIEW = eINSTANCE.getEObjectView();
+
+		/**
+		 * The meta object literal for the '<em><b>Definition</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EOBJECT_VIEW__DEFINITION = eINSTANCE.getEObjectView_Definition();
 
 		/**
 		 * The meta object literal for the '<em>View Handler</em>' data type.

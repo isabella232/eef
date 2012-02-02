@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.internal.view.helpers.ViewHelperImpl;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -19,6 +20,9 @@ import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+
+import com.google.common.collect.Iterators;
+import com.google.common.collect.UnmodifiableIterator;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -102,7 +106,16 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#init()
 	 */
 	public void init() {
-		
+		UnmodifiableIterator<ElementEditor> elementEditors = Iterators.filter(viewDescriptor.eAllContents(), ElementEditor.class);
+		while (elementEditors.hasNext()) {
+			ElementEditor elementEditor = elementEditors.next();
+			EStructuralFeature feature = editingComponent.getBinding().feature(elementEditor);
+			if (feature != null) {
+				PropertyEditor propertyEditor = propertyEditors.get(elementEditor);
+				propertyEditor.init(feature);
+			}
+			
+		}
 	}
 	
 	

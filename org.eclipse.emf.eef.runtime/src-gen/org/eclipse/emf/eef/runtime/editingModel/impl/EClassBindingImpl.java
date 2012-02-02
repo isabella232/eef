@@ -11,7 +11,9 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -19,6 +21,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
@@ -164,6 +167,19 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 		if (view instanceof String) {
 			return eClass.getEStructuralFeature((String)view);
 		}
+		if (view instanceof EObject) {
+			// Here we dont have an PropertyBinding to help us. We check if the view is an EObject (fon instance an ElementEditor)
+			// We looking for an "name" structural feature and if this feature is type of String, we try to associate this name
+			// with a structural feature of the handled EClass. For instance if an ElementEditor (which has a "name" feature) is named
+			// "active" and the current EClass has a feature named "active", we return this feature.
+			EStructuralFeature nameFeature = ((EObject) view).eClass().getEStructuralFeature("name");
+			if (nameFeature != null && "java.lang.String".equals(nameFeature.getEType().getInstanceClassName())) {
+				EStructuralFeature feature = eClass.getEStructuralFeature((String)((EObject) view).eGet(nameFeature));
+				if (feature != null) {
+					return feature;
+				}
+			}
+		}
 		return null;
 	}
 
@@ -178,7 +194,22 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 			if (binding.getFeature().equals(feature)) {
 				return binding.getEditor();
 			}
-		} 
+		}
+		for (Object view : views) {
+			if (view instanceof EObjectView) {
+				TreeIterator<EObject> eAllContents = ((EObjectView) view).getDefinition().eAllContents();
+				while (eAllContents.hasNext()) {
+					EObject next = eAllContents.next();
+					EStructuralFeature nameFeature = next.eClass().getEStructuralFeature("name");
+					if (nameFeature != null) {
+						Object name = next.eGet(nameFeature);
+						if (name instanceof String && name.equals(feature.getName())) {
+							return next;
+						}
+					}
+				}
+			}
+		}
 		return feature.getName();
 	}
 

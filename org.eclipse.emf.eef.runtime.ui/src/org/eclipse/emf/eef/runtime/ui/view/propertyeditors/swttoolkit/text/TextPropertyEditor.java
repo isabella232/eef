@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.text;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -23,8 +25,8 @@ import org.eclipse.swt.widgets.Text;
  */
 public class TextPropertyEditor extends StandardPropertyEditor {
 	
-
-	private Text text;
+	protected Text text;
+	protected EStructuralFeature feature;
 
 	/**
 	 * @param view
@@ -78,6 +80,18 @@ public class TextPropertyEditor extends StandardPropertyEditor {
 		});
 		view.getViewHelper().setID(text, elementEditor.getQualifiedIdentifier());
 		view.getViewHelper().setEEFtype(text, "eef::Text"); //$NON-NLS-1$
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.ecore.EStructuralFeature)
+	 */
+	public void init(EStructuralFeature feature) {
+		this.feature = feature;
+		Object value = ((EObject)view.getEditingComponent().getTarget()).eGet(feature);
+		if (value instanceof String) {
+			text.setText((String) value);
+		}
 	}
 
 }

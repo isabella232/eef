@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
+import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
@@ -60,7 +61,10 @@ public class EEFTestStuffsBuilder {
 		PropertiesEditingModel editingModel = new EditingModelBuilder()
 						.bindClass(BindingmodelPackage.Literals.SAMPLE).withView(views.get(0))
 						.build();
-		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(BindingmodelFactory.eINSTANCE.createSample());
+		Sample sampleToEdit = BindingmodelFactory.eINSTANCE.createSample();
+		sampleToEdit.setName("This is a named Sample");
+		sampleToEdit.setActive(true);
+		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(sampleToEdit);
 		context.setAdapterFactory(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
 		context.setEditingModel(editingModel);
 		context.setViewHandlerProvider(viewHandlerProvider);
@@ -97,12 +101,12 @@ public class EEFTestStuffsBuilder {
 		View sampleView = ViewsFactory.eINSTANCE.createView();
 		sampleView.setName("Sample");
 		ElementEditor nameEditor = ViewsFactory.eINSTANCE.createElementEditor();
-		nameEditor.setName("Name");
+		nameEditor.setName("name");
 		nameEditor.setRepresentation(searchWidget(swtToolkit, "Text"));
 		sampleView.getElements().add(nameEditor);
 
 		ElementEditor activeEditor = ViewsFactory.eINSTANCE.createElementEditor();
-		activeEditor.setName("Active");
+		activeEditor.setName("active");
 		activeEditor.setRepresentation(searchWidget(swtToolkit, "Checkbox"));
 		sampleView.getElements().add(activeEditor);
 		

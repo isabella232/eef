@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.checkbox;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -23,7 +25,8 @@ public class CheckboxPropertyEditor implements PropertyEditor {
 
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
-	private Button checkbox;
+	protected Button checkbox;
+	protected EStructuralFeature feature;
  
 	/**
 	 * @param view {@link PropertiesEditingView} where the PropertyEditor is built.
@@ -61,6 +64,19 @@ public class CheckboxPropertyEditor implements PropertyEditor {
 		view.getViewHelper().setID(checkbox, elementEditor.getQualifiedIdentifier());
 		view.getViewHelper().setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
 		view.getViewHelper().createHelpButton(parent, elementEditor);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.ecore.EStructuralFeature)
+	 */
+	public void init(EStructuralFeature feature) {
+		this.feature = feature;
+		Object value = ((EObject)view.getEditingComponent().getTarget()).eGet(feature);
+		if (value instanceof Boolean) {
+			checkbox.setSelection((Boolean) value);
+		}
+		
 	}
 
 }

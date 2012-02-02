@@ -9,6 +9,7 @@ package org.eclipse.emf.eef.runtime.editingModel.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+import org.eclipse.emf.eef.runtime.editingModel.*;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
@@ -104,6 +105,13 @@ public class EditingModelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case EditingModelPackage.EOBJECT_VIEW: {
+				EObjectView eObjectView = (EObjectView)theEObject;
+				T result = caseEObjectView(eObjectView);
+				if (result == null) result = caseView(eObjectView);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -180,6 +188,21 @@ public class EditingModelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T casePropertyBinding(PropertyBinding object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>EObject View</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>EObject View</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEObjectView(EObjectView object) {
 		return null;
 	}
 
