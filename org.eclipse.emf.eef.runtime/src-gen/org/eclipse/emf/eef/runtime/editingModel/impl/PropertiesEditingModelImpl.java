@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
@@ -149,6 +150,8 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 			for (View view : binding.getViews()) {
 				if (view instanceof JavaView) {
 					result.add(((JavaView) view).getDefinition());					
+				} else if (view instanceof EObjectView) {
+					result.add(((EObjectView) view).getDefinition());					
 				}
 			}
 		}
