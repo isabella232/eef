@@ -69,7 +69,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#setValue(java.lang.Object, java.lang.Object)
 	 */
 	public void setValue(Object field, Object value) throws ViewHandlingException {
-		
+		view.setValue(field, value);
 	}
 
 	/**

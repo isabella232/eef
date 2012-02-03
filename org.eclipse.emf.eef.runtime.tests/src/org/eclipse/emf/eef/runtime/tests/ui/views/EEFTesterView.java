@@ -11,8 +11,16 @@ import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditin
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 
@@ -28,6 +36,10 @@ public class EEFTesterView extends ViewPart {
 	public static final String ID = "org.eclipse.emf.eef.runtime.tester.views.EEFTesterView";
 
 	private Root model;
+
+	private Action action;
+
+	private PropertiesEditingContext context;
 	
 	/**
 	 * The constructor.
@@ -41,7 +53,7 @@ public class EEFTesterView extends ViewPart {
 	 */
 	public void createPartControl(Composite parent) {
 		EEFTestStuffsBuilder builder = new EEFTestStuffsBuilder();
-		PropertiesEditingContext context = builder.buildEditingContextWithPropertiesEditingViews();
+		context = builder.buildEditingContextWithPropertiesEditingViews();
 		final PropertiesEditingComponent component = context.getEditingComponent();
 		for (ViewHandler<?> viewHandler : component.getViewHandlers()) {
 			if (viewHandler instanceof SWTViewHandler) {
@@ -66,6 +78,8 @@ public class EEFTesterView extends ViewPart {
 				
 			}
 		}
+		makeActions();
+		contributeToActionBars();
 	}
 
 	private Root getModel() {
@@ -90,6 +104,41 @@ public class EEFTesterView extends ViewPart {
 	@Override
 	public void setFocus() {
 		
+	}
+
+	private void makeActions() {
+		action = new Action() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.jface.action.Action#run()
+			 */
+			public void run() {
+				Sample sample = (Sample)context.getEditingComponent().getTarget();
+				InputDialog dialog = new InputDialog(new Shell(), "New semantic contents", "Enter the new semantic contents", 
+						context != null?sample.getName():"", null);
+				if (dialog.open() == Window.OK) {
+					sample.setName(dialog.getValue());
+					sample.setActive(!sample.isActive());
+				}
+			}
+			
+		};
+		action.setText("Edit");
+		action.setToolTipText("Edit semantic contents");
+		action.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+			getImageDescriptor(ISharedImages.IMG_OBJ_ELEMENT));
+		
+
+	}
+
+	private void contributeToActionBars() {
+		IActionBars bars = getViewSite().getActionBars();
+		fillLocalToolBar(bars.getToolBarManager());
+	}
+	
+	private void fillLocalToolBar(IToolBarManager manager) {
+		manager.add(action);
 	}
 
 }

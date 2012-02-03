@@ -44,5 +44,12 @@ public interface PropertiesEditingView {
 	 * @param propertyEditorProvider {@link PropertyEditorProvider} to use to build {@link PropertiesEditingView} contents.
 	 */
 	void setPropertyEditorProvider(PropertyEditorProvider propertyEditorProvider);
+
+	/**
+	 * Sets the value to the given field.
+	 * @param field field to modify.
+	 * @param value new value
+	 */
+	void setValue(Object field, Object value);
 	
 }

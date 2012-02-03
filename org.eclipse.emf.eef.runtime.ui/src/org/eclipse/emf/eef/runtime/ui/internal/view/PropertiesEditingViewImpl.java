@@ -15,6 +15,7 @@ import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.ViewHelper;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SetUnsetPropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.SWT;
@@ -117,7 +118,18 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 			
 		}
 	}
-	
-	
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setValue(java.lang.Object, java.lang.Object)
+	 */
+	public void setValue(Object field, Object value) {
+		if (field instanceof ElementEditor) {
+			PropertyEditor propertyEditor = propertyEditors.get(field);
+			if (propertyEditor instanceof SetUnsetPropertyEditor) {
+				((SetUnsetPropertyEditor) propertyEditor).setValue(value);
+			}
+		}
+	}
 
 }

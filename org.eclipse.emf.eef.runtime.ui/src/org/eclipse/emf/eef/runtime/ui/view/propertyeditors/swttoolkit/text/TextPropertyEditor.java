@@ -3,11 +3,14 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.text;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SetUnsetPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.StandardPropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
@@ -23,7 +26,7 @@ import org.eclipse.swt.widgets.Text;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class TextPropertyEditor extends StandardPropertyEditor {
+public class TextPropertyEditor extends StandardPropertyEditor implements SetUnsetPropertyEditor {
 	
 	protected Text text;
 	protected EStructuralFeature feature;
@@ -89,6 +92,27 @@ public class TextPropertyEditor extends StandardPropertyEditor {
 		Object value = ((EObject)view.getEditingComponent().getTarget()).eGet(feature);
 		if (value instanceof String) {
 			text.setText((String) value);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SetUnsetPropertyEditor#setValue(java.lang.Object)
+	 */
+	public void setValue(Object value) {
+		if (value == null) {
+			text.setText("");
+		} else if (value instanceof String) {
+			text.setText((String) value);
+		} else if (value instanceof EObject) {
+			Adapter adapt = view.getEditingComponent().getEditingContext().getAdapterFactory().adapt((EObject)value, IItemLabelProvider.class);
+			if (adapt instanceof IItemLabelProvider) {
+				text.setText(((IItemLabelProvider) adapt).getText(value));
+			} else {
+				text.setText(value.toString());
+			}
+		} else {
+			text.setText(value.toString());
 		}
 	}
 
