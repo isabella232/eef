@@ -84,10 +84,6 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 			switch (msg.getEventType()) {
 			case Notification.SET:
 				try {
-					// TODO: Ici se joue la résolution de feature. 
-					//		 Ensuite la logique est transmise au handler.
-					//		 Dans le cas du reflect, si c'est une string, il bidouille un setter, sinon, il faudrait qu'il appelle la bonne methode
-					//		 Ce qui implique de pouvoir définir cette méthode ...
 					for (ViewHandler<?> viewHandler : viewHandlers) {
 						viewHandler.setValue(propertyEditor, msg.getNewValue());						
 					}

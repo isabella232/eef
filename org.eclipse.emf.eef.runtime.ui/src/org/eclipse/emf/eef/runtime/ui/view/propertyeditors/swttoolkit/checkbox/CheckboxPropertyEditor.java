@@ -43,7 +43,7 @@ public class CheckboxPropertyEditor implements PropertyEditor {
 	 */
 	public void build(Composite parent) {
 		checkbox = new Button(parent, SWT.CHECK);
-		checkbox.setText(view.getViewHelper().getDescription(elementEditor.getQualifiedIdentifier(), elementEditor.getName()));
+		checkbox.setText(view.getViewHelper().getDescription(elementEditor, elementEditor.getName()));
 		checkbox.addSelectionListener(new SelectionAdapter() {
 
 			/**
@@ -54,7 +54,7 @@ public class CheckboxPropertyEditor implements PropertyEditor {
 			 */
 			public void widgetSelected(SelectionEvent e) {
 				if (view.getEditingComponent() != null)
-					view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor.getQualifiedIdentifier(), TypedPropertyChangedEvent.SET, null, new Boolean(checkbox.getSelection())));
+					view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, new Boolean(checkbox.getSelection())));
 			}
 
 		});

@@ -16,7 +16,7 @@ import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * TODO: Add ability to defines view via annotations.
  */
 public class ReflectViewHandler<T> implements ViewHandler<T> {
 

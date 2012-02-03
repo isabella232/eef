@@ -50,13 +50,11 @@ public class TextPropertyEditor extends StandardPropertyEditor {
 			 * {@inheritDoc}
 			 * 
 			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.FocusEvent)
-			 * 
+			 * TODO: Prevent sending event when value hasn't changed. 
 			 */
-			@Override
-			@SuppressWarnings("synthetic-access")
 			public void focusLost(FocusEvent e) {
 				if (view.getEditingComponent() != null)
-					view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor.getQualifiedIdentifier(), TypedPropertyChangedEvent.SET, null, text.getText()));
+					view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, text.getText()));
 			}
 
 		});
@@ -66,14 +64,14 @@ public class TextPropertyEditor extends StandardPropertyEditor {
 			 * {@inheritDoc}
 			 * 
 			 * @see org.eclipse.swt.events.KeyAdapter#keyPressed(org.eclipse.swt.events.KeyEvent)
+			 * TODO: Prevent sending event when value hasn't changed. 
 			 * 
 			 */
-			@Override
 			@SuppressWarnings("synthetic-access")
 			public void keyPressed(KeyEvent e) {
 				if (e.character == SWT.CR) {
 					if (view.getEditingComponent() != null)
-						view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor.getQualifiedIdentifier(), TypedPropertyChangedEvent.SET, null, text.getText()));
+						view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, text.getText()));
 				}
 			}
 
