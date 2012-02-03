@@ -10,9 +10,14 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 public interface SetUnsetPropertyEditor {
 
 	/**
-	 * Sets a value to this {@link PropertyEditor}
+	 * Sets a value to this {@link PropertyEditor}.
 	 * @param value the new value.
 	 */
 	void setValue(Object value);
+	
+	/**
+	 * Unsets the value of this {@link PropertyEditor}.
+	 */
+	void unsetValue();
 	
 }

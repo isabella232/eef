@@ -89,4 +89,12 @@ public class CheckboxPropertyEditor implements PropertyEditor, SetUnsetPropertyE
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SetUnsetPropertyEditor#unsetValue()
+	 */
+	public void unsetValue() {
+		checkbox.setSelection(false);
+	}
+
 }

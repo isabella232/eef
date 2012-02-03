@@ -132,4 +132,17 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#unsetValue(java.lang.Object)
+	 */
+	public void unsetValue(Object field) {
+		if (field instanceof ElementEditor) {
+			PropertyEditor propertyEditor = propertyEditors.get(field);
+			if (propertyEditor instanceof SetUnsetPropertyEditor) {
+				((SetUnsetPropertyEditor) propertyEditor).unsetValue();
+			}
+		}
+	}
+
 }

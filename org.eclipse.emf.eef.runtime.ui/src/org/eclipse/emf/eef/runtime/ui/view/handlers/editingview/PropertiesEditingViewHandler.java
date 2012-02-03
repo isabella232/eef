@@ -77,7 +77,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#unsetValue(java.lang.Object)
 	 */
 	public void unsetValue(Object field) throws ViewHandlingException {
-		
+		view.unsetValue(field);
 	}
 
 	/**

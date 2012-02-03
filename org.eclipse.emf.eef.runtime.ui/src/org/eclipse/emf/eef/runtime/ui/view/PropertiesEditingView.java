@@ -51,5 +51,11 @@ public interface PropertiesEditingView {
 	 * @param value new value
 	 */
 	void setValue(Object field, Object value);
+
+	/**
+	 * Unsets the value of the given field.
+	 * @param field field to unset.
+	 */
+	void unsetValue(Object field);
 	
 }

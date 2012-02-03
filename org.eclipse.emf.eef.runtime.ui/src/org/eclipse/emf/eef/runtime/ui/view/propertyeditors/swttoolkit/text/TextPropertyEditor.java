@@ -116,4 +116,12 @@ public class TextPropertyEditor extends StandardPropertyEditor implements SetUns
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SetUnsetPropertyEditor#unsetValue()
+	 */
+	public void unsetValue() {
+		text.setText("");
+	}
+
 }
