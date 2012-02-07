@@ -1,7 +1,5 @@
 package org.eclipse.emf.eef.runtime.tests.ui.views;
 
-import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
-import org.eclipse.emf.eef.eeftests.bindingmodel.Root;
 import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -34,8 +32,6 @@ public class EEFTesterView extends ViewPart {
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "org.eclipse.emf.eef.runtime.tester.views.EEFTesterView";
-
-	private Root model;
 
 	private Action action;
 
