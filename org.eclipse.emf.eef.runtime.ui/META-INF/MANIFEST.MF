@@ -12,13 +12,16 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui;visibility:=reexport,
  org.eclipse.emf.eef.runtime;visibility:=reexport,
  com.google.guava,
- org.eclipse.ui.forms;visibility:=reexport
+ org.eclipse.ui.forms;visibility:=reexport,
+ org.eclipse.emf.edit.ui
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.eef.runtime.ui.view,
  org.eclipse.emf.eef.runtime.ui.view.handlers.editingview,
  org.eclipse.emf.eef.runtime.ui.view.handlers.reflect,
  org.eclipse.emf.eef.runtime.ui.view.handlers.swt,
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors,
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit,
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit.referencetable,
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit,
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.checkbox,
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.text,
@@ -28,3 +31,4 @@ Export-Package: org.eclipse.emf.eef.runtime.ui.view,
  org.eclipse.emf.eef.views.toolkits.impl,
  org.eclipse.emf.eef.views.toolkits.util,
  org.eclipse.emf.eef.views.util
+Bundle-Activator: org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI$Plugin

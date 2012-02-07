@@ -19,14 +19,14 @@
       <package
             uri="http://www.eclipse.org/emf/eef/views/1.0.0"
             class="org.eclipse.emf.eef.views.ViewsPackage"
-            genModel="model/views.genmodel"/>
+            genModel="resources/model/views.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.eclipse.org/emf/eef/views/toolkits/1.0.0"
             class="org.eclipse.emf.eef.views.toolkits.ToolkitsPackage"
-            genModel="model/views.genmodel"/>
+            genModel="resources/model/views.genmodel"/>
    </extension>
 
 </plugin>

@@ -1,50 +1,101 @@
 package org.eclipse.emf.eef.runtime.ui;
 
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
+import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class EEFRuntimeUI extends AbstractUIPlugin {
-
-	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.emf.eef.runtime.ui"; //$NON-NLS-1$
-
-	// The shared instance
-	private static EEFRuntimeUI plugin;
-	
+public class EEFRuntimeUI extends EMFPlugin {
 	/**
-	 * The constructor
+	 * Keep track of the singleton.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final EEFRuntimeUI INSTANCE = new EEFRuntimeUI();
+
+	/**
+	 * Keep track of the singleton.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private static Plugin plugin;
+
+	/**
+	 * Create the instance.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	public EEFRuntimeUI() {
+		super
+		  (new ResourceLocator [] {
+		   });
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	
+	/**
+	 * @return this instance as {@link ResourceLocator}.
 	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-		plugin = this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
+	public static ResourceLocator getResourceLocator() {
+		return INSTANCE;
 	}
 
 	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
+	 * Returns the singleton instance of the Eclipse plugin.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the singleton instance.
+	 * @generated
 	 */
-	public static EEFRuntimeUI getDefault() {
+	@Override
+	public ResourceLocator getPluginResourceLocator() {
 		return plugin;
 	}
 
+	/**
+	 * Returns the singleton instance of the Eclipse plugin.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the singleton instance.
+	 * @generated
+	 */
+	public static Plugin getPlugin() {
+		return plugin;
+	}
+
+	/**
+	 * The actual implementation of the Eclipse <b>Plugin</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static class Plugin extends EclipsePlugin {
+		/**
+		 * Creates an instance.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public Plugin() {
+			super();
+
+			// Remember the static instance.
+			//
+			plugin = this;
+		}
+		
+		/**
+		 * Return an embedded image of the runtime.
+		 * @param key ID of the image
+		 * @return the associated image.
+		 */
+		public Image getRuntimeImage(String key)  {
+			Object image = getResourceLocator().getImage(key);
+			return ExtendedImageRegistry.getInstance().getImage(image);
+		}
+	}
 }
