@@ -39,6 +39,9 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
  */
 public class EEFTestStuffsBuilder {
 
+	public static final String SAMPLE_NAME_INITIALIZATION_EDITING_VIEWS_CONTEXT = "This is a named Sample";
+	public static final boolean SAMPLE_ACTIVATION_INITIALIZATION_EDITING_VIEWS_CONTEXT = true;
+
 	/**
 	 * Build a {@link PropertiesEditingModel} with simple SWT views for the EEF tests.
 	 * @return a sample {@link PropertiesEditingModel}.
@@ -62,8 +65,8 @@ public class EEFTestStuffsBuilder {
 						.bindClass(BindingmodelPackage.Literals.SAMPLE).withView(views.get(0))
 						.build();
 		Sample sampleToEdit = BindingmodelFactory.eINSTANCE.createSample();
-		sampleToEdit.setName("This is a named Sample");
-		sampleToEdit.setActive(true);
+		sampleToEdit.setName(SAMPLE_NAME_INITIALIZATION_EDITING_VIEWS_CONTEXT);
+		sampleToEdit.setActive(SAMPLE_ACTIVATION_INITIALIZATION_EDITING_VIEWS_CONTEXT);
 		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(sampleToEdit);
 		context.setAdapterFactory(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
 		context.setEditingModel(editingModel);

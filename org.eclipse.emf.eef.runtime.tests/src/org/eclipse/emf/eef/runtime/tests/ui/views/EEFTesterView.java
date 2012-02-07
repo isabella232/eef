@@ -82,21 +82,6 @@ public class EEFTesterView extends ViewPart {
 		contributeToActionBars();
 	}
 
-	private Root getModel() {
-		if (model == null) {
-			model = BindingmodelFactory.eINSTANCE.createRoot();
-			Sample sample1 = BindingmodelFactory.eINSTANCE.createSample();
-			sample1.setName("Sample 1");
-			sample1.setActive(true);
-			model.getSamples().add(sample1);
-			Sample sample2 = BindingmodelFactory.eINSTANCE.createSample();
-			sample2.setName("Sample 2");
-			sample2.setActive(false);
-			model.getSamples().add(sample2);
-		}
-		return model;
-	}
-	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()

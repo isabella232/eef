@@ -11,6 +11,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
@@ -35,7 +36,7 @@ public abstract class UIEditingTestCase {
 	protected Display display;
 
 	protected EObject elementToEdit;
-	protected EObjectPropertiesEditingContext context;
+	protected PropertiesEditingContext context;
 	protected PropertiesEditingComponent component;
 	protected List<Composite> views;
 
@@ -58,10 +59,33 @@ public abstract class UIEditingTestCase {
 	}
 
 	/**
-	 * @return the {@link PropertiesEditingModel} for the test case
+	 * @return the {@link PropertiesEditingModel} for the test case.
 	 */
-	protected abstract PropertiesEditingModel buildEditingModel();
+	protected PropertiesEditingModel buildEditingModel() {
+		return new EEFTestStuffsBuilder().buildEditingModelWithSWTViews();
+	}
+
+	/**
+	 * @return {@link PropertiesEditingContext} for the test case.
+	 */
+	protected PropertiesEditingContext buildEditingContext() {
+		PropertiesEditingContext context = new EObjectPropertiesEditingContext(elementToEdit);
+		context.setEditingModel(buildEditingModel());
+		context.setViewHandlerProvider(new EEFTestStuffsBuilder().buildViewHandlerProvider());
+		return context;
+	}
 	
+	/**
+	 * @return the element to edit.
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends EObject> T getElementToEdit() {
+		if (context instanceof EObjectPropertiesEditingContext) {
+			return (T)((EObjectPropertiesEditingContext) context).getEObject();
+		}
+		return null;
+	}
+
 	@After
 	public void tearDown() {
 		disposeUI();
@@ -71,9 +95,7 @@ public abstract class UIEditingTestCase {
 	 * 
 	 */
 	protected void initUI() {
-		context = new EObjectPropertiesEditingContext(elementToEdit);
-		context.setEditingModel(buildEditingModel());
-		context.setViewHandlerProvider(new EEFTestStuffsBuilder().buildViewHandlerProvider());
+		context = buildEditingContext();
 		display = new Display();
 		Shell shell = new Shell(display);
 		shell.setLayout (new FillLayout());
@@ -83,10 +105,8 @@ public abstract class UIEditingTestCase {
 		List<ViewHandler<?>> viewHandlers = component.getViewHandlers();
 		views = new ArrayList<Composite>();
 		for (int i = 0; i < viewHandlers.size(); i++) {
-			ViewHandler<?> handler = viewHandlers.get(i);			
-			if (handler instanceof SWTViewHandler) {
-				views.add(buildView(composite, (SWTViewHandler) handler, i));
-			}
+			ViewHandler<?> handler = viewHandlers.get(i);
+			views.add(buildView(composite, handler, i));
 		}
 		shell.pack();
 		shell.open();
@@ -98,18 +118,22 @@ public abstract class UIEditingTestCase {
 	 * @param index 
 	 * @return 
 	 */
-	private Composite buildView(Composite composite, SWTViewHandler handler, int index) {
+	protected Composite buildView(Composite composite, ViewHandler<?> handler, int index) {
 		Composite view = null;
 		Group group = new Group(composite, SWT.NONE);
 		group.setText("View " + index);
 		group.setLayout(new FillLayout());
 		Composite container = new Composite(group, SWT.NONE);
 		container.setLayout(new FillLayout());
-		try {
-			view = handler.createView(container);
-			handler.initView(component);
-		} catch (ViewConstructionException e) {
-			fail("An error occured during view creation");
+		if (handler instanceof SWTViewHandler) {
+			try {
+				view = ((SWTViewHandler)handler).createView(container);
+				handler.initView(component);
+			} catch (ViewConstructionException e) {
+				fail("An error occured during view creation");
+			}
+		} else {
+			fail("Unable to build the view.");
 		}
 		return view;
 	}

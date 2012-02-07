@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
 import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
+import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.handlers.CustomSWTViewHandler;
@@ -25,7 +26,6 @@ public class CustomViewHandlerTests extends UIEditingTestCase {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#buildEditingModel()
 	 */
-	@Override
 	protected PropertiesEditingModel buildEditingModel() {
 		return new EditingModelBuilder()
 				.bindClass(BindingmodelPackage.Literals.SAMPLE)
@@ -38,7 +38,7 @@ public class CustomViewHandlerTests extends UIEditingTestCase {
 
 		SampleCustomView view = (SampleCustomView) views.get(0);
 		assertTrue("The view isn't properly initialized", !view.isActive());
-		((Sample)context.getEObject()).setActive(true);
+		((Sample)((EObjectPropertiesEditingContext)context).getEObject()).setActive(true);
 		assertTrue("The view isn't properly updated", view.isActive());
 	}
 

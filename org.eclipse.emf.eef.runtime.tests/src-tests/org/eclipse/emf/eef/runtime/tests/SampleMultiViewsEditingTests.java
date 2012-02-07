@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
 import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
+import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
@@ -37,9 +38,9 @@ public class SampleMultiViewsEditingTests extends UIEditingTestCase {
 
 	@Test
 	public void testMultiViewsEditing() {
-		((Sample)context.getEObject()).setName(NEW_NAME);
+		((Sample)((EObjectPropertiesEditingContext)context).getEObject()).setName(NEW_NAME);
 		assertTrue("The view isn't properly updated", NEW_NAME.equals(((SampleNameView)views.get(0)).getName()));
-		((Sample)context.getEObject()).setActive(true);
+		((Sample)((EObjectPropertiesEditingContext)context).getEObject()).setActive(true);
 		assertTrue("The view isn't properly updated", ((SampleActiveView)views.get(1)).isActive());
 		
 	}
