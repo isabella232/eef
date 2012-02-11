@@ -7,14 +7,12 @@ import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit.referencetable.ReferenceEditor;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.window.Window;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -51,7 +49,7 @@ public class EEFTesterView extends ViewPart {
 	 */
 	public void createPartControl(Composite parent) {
 		EEFTestStuffsBuilder builder = new EEFTestStuffsBuilder();
-		context = builder.buildEditingContextWithPropertiesEditingViews();
+		context = builder.buildEditingContextWithPropertiesEditingViewsForEcore();
 		final PropertiesEditingComponent component = context.getEditingComponent();
 		for (ViewHandler<?> viewHandler : component.getViewHandlers()) {
 			if (viewHandler instanceof SWTViewHandler) {
@@ -76,8 +74,6 @@ public class EEFTesterView extends ViewPart {
 				
 			}
 		}
-		ReferenceEditor editor = new ReferenceEditor(parent, SWT.NONE);
-		editor.setLayoutData(new GridData(GridData.FILL_BOTH));
 		makeActions();
 		contributeToActionBars();
 	}

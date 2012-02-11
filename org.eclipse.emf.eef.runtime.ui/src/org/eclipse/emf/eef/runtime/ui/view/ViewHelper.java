@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.view;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -99,5 +102,13 @@ public interface ViewHelper {
 	 *            the ID to put
 	 */
 	void setID(Control widget, Object value);
+	
+	/**
+	 * Compute the 'best' input from the given source. Searching the {@link Resource} or
+	 * the {@link ResourceSet} if it's an {@link EObject}.
+	 * @param sourceInput source.
+	 * @return the best input.
+	 */
+	Object getBestInput(Object sourceInput);
 
 }

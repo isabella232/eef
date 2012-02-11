@@ -10,9 +10,11 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.ui.internal.view.helpers.ViewHelperImpl;
+import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewHelperImpl;
+import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewSettingsImpl;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.ViewHelper;
+import org.eclipse.emf.eef.runtime.ui.view.ViewSettings;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SetUnsetPropertyEditor;
@@ -61,6 +63,14 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 	 */
 	public ViewHelper getViewHelper() {
 		return new ViewHelperImpl(editingComponent);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewSettings()
+	 */
+	public ViewSettings getViewSettings() {
+		return new ViewSettingsImpl();
 	}
 
 	/**

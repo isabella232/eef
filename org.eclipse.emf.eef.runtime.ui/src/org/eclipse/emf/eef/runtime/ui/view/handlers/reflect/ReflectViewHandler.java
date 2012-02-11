@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.ui.internal.view.helpers.ReflectHelper;
+import org.eclipse.emf.eef.runtime.ui.internal.view.util.ReflectHelper;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;

@@ -17,5 +17,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.junit4,
  org.eclipse.emf.eef.runtime,
  org.eclipse.ui,
- org.eclipse.emf.eef.runtime.ui
+ org.eclipse.emf.eef.runtime.ui,
+ org.eclipse.emf.ecore.xmi
 Bundle-ActivationPolicy: lazy

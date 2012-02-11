@@ -1,12 +1,14 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit.referencetable;
+package org.eclipse.emf.eef.runtime.ui.widgets;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
+import org.eclipse.emf.eef.runtime.ui.internal.widgets.util.NullContentProvider;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -22,6 +24,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DragSourceListener;
 import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -35,40 +39,124 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ReferenceEditor extends StructuredViewer {
+public class EReferenceEditor extends StructuredViewer {
 
 	private Composite control;
 	private TreeViewer tree;
+	private Collection<ReferenceEditorListener> listeners;
 	
 	/**
 	 * @param parent
 	 * @param style
 	 */
-	public ReferenceEditor(Composite parent, int style) {
+	public EReferenceEditor(Composite parent, int style) {
 		control = new Composite(parent, SWT.NONE);
-		control.setLayout(new GridLayout(4, false));
+		GridLayout layout = new GridLayout(4, false);
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		control.setLayout(layout);
 		Button addButton = new Button(control, SWT.PUSH);
 		GridData addButtonData = new GridData(GridData.FILL_HORIZONTAL);
 		addButtonData.horizontalAlignment = SWT.RIGHT;
 		addButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Add"));
 		addButton.setLayoutData(addButtonData);
+		addButton.addSelectionListener(new SelectionAdapter() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 */
+			public void widgetSelected(SelectionEvent e) {
+				for (ReferenceEditorListener listener : listeners) {
+					listener.add();
+				}
+			}
+			
+		});
 		
 		GridData buttonData = new GridData();
 		buttonData.horizontalAlignment = SWT.RIGHT;
 		Button removeButton = new Button(control, SWT.PUSH);
 		removeButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Delete"));
 		removeButton.setLayoutData(buttonData);
+		removeButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
+			
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
+			 */
+			public void fireSingleSelection(Object selection) {
+				for (ReferenceEditorListener listener : listeners) {
+					listener.remove(selection);
+				}
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorSelectionAdapter#fireMultiSelection(java.util.List)
+			 */
+			protected void fireMultiSelection(List<?> selection) {
+				for (ReferenceEditorListener listener : listeners) {
+					listener.removeAll(selection);
+				}
+			}
+			
+			
+		});
+		
 		Button upButton = new Button(control, SWT.PUSH);
 		upButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ArrowUp"));
 		upButton.setLayoutData(buttonData);
+		upButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
+			
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
+			 */
+			public void fireSingleSelection(Object selection) {
+				for (ReferenceEditorListener listener : listeners) {
+					listener.moveUp(selection);
+				}
+			}
+		});
+		
 		Button downButton = new Button(control, SWT.PUSH);
 		downButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ArrowDown"));
 		downButton.setLayoutData(buttonData);
+		downButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
+			
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
+			 */
+			public void fireSingleSelection(Object selection) {
+				for (ReferenceEditorListener listener : listeners) {
+					listener.moveDown(selection);
+				}
+			}
+		});
 
-		tree = new TreeViewer(control, SWT.BORDER);
+		tree = new TreeViewer(control, style);
 		GridData treeData = new GridData(GridData.FILL_BOTH);
 		treeData.horizontalSpan = 4;
 		tree.getControl().setLayoutData(treeData);
+		listeners = Lists.newArrayList();
+	}
+
+	/**
+	 * Add a {@link ReferenceEditorListener} to this instance.
+	 * @param listener {@link ReferenceEditorListener} to add.
+	 */
+	public void addReferenceEditorListener(ReferenceEditorListener listener) {
+		listeners.add(listener);
+	}
+	
+	/**
+	 * Remove a {@link ReferenceEditorListener} to this instance.
+	 * @param listener {@link ReferenceEditorListener} to remove.
+	 */
+	public void removeReferenceEditorListener(ReferenceEditorListener listener) {
+		listeners.remove(listener);
 	}
 	
 	/**
@@ -83,6 +171,14 @@ public class ReferenceEditor extends StructuredViewer {
 	 */
 	public Object getInput() {
 		return tree.getInput();
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.jface.viewers.Viewer#inputChanged(java.lang.Object, java.lang.Object)
+	 */
+	protected void inputChanged(Object input, Object oldInput) {
+		tree.setInput(input);
 	}
 
 	/**
@@ -145,6 +241,7 @@ public class ReferenceEditor extends StructuredViewer {
 	 * @see org.eclipse.jface.viewers.TreeViewer#setContentProvider(org.eclipse.jface.viewers.IContentProvider)
 	 */
 	public void setContentProvider(IContentProvider provider) {
+		super.setContentProvider(new NullContentProvider());
 		tree.setContentProvider(provider);
 	}
 
@@ -287,5 +384,77 @@ public class ReferenceEditor extends StructuredViewer {
 	public Control getControl() {
 		return control;
 	}
+	
+	
+	/**
+	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
+	 *
+	 */
+	public interface ReferenceEditorListener {
+
+		/**
+		 * Handle a "add" request.
+		 */
+		void add();
+		
+		/**
+		 * Handle a "edit" request.
+		 * @param editedElement Edited Element.
+		 */
+		void edit(Object editedElement);
+		
+		/**
+		 * Handle a "remove" request.
+		 * @param removedElement Removed Element.
+		 */
+		void remove(Object removedElement);
+		
+		/**
+		 * Handle a "remove" request for several elements.
+		 * @param removedElements Removed Elements.
+		 */
+		void removeAll(Collection<?> removedElements);
+		
+		/**
+		 * Handle a "move up" request.
+		 * @param movedElement Moved Element.
+		 */
+		void moveUp(Object movedElement);
+		
+		/**
+		 * Handle a "move down" request.
+		 * @param movedElement Moved Element.
+		 */
+		void moveDown(Object movedElement);
+		
+	}
+	
+	private abstract class ReferenceEditorSelectionAdapter extends SelectionAdapter {
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+		 */
+		public void widgetSelected(SelectionEvent e) {
+			if (tree.getSelection() != null && !tree.getSelection().isEmpty()) {
+				if (tree.getSelection() instanceof StructuredSelection) {
+					StructuredSelection sSel = (StructuredSelection) tree.getSelection();
+					if (sSel.size() == 1) {
+						fireSingleSelection(sSel.getFirstElement());
+					} else {
+						fireMultiSelection((List<?>) sSel.toList());
+					}
+
+				}
+			}
+		}
+		
+		public abstract void fireSingleSelection(Object selection);
+		
+		protected void fireMultiSelection(List<?> selection) {
+			//do nothing
+		}
+	}
+
 
 }

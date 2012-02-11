@@ -22,6 +22,11 @@ public interface PropertiesEditingView {
 	 * @return the {@link ViewHelper} for the view.
 	 */
 	ViewHelper getViewHelper();
+	
+	/**
+	 * @return the {@link ViewSettings} for the view.
+	 */
+	ViewSettings getViewSettings();
 
 	/**
 	 * Create the contents of the view in the given composite.

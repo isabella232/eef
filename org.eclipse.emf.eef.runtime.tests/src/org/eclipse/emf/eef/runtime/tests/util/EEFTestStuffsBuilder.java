@@ -7,7 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
@@ -24,7 +33,8 @@ import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ComposedPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.SWTToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit.EMFPropertiesToolkit;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.SWTToolkit;
 import org.eclipse.emf.eef.runtime.view.handler.ComposedViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -41,6 +51,7 @@ public class EEFTestStuffsBuilder {
 
 	public static final String SAMPLE_NAME_INITIALIZATION_EDITING_VIEWS_CONTEXT = "This is a named Sample";
 	public static final boolean SAMPLE_ACTIVATION_INITIALIZATION_EDITING_VIEWS_CONTEXT = true;
+	private ResourceSet resourceSet;
 
 	/**
 	 * Build a {@link PropertiesEditingModel} with simple SWT views for the EEF tests.
@@ -75,6 +86,34 @@ public class EEFTestStuffsBuilder {
 	}
 	
 	/**
+	 * Build a full sample of {@link PropertiesEditingContext} for the EEF tests.
+	 * @return a sample {@link PropertiesEditingContext}.
+	 */
+	public PropertiesEditingContext buildEditingContextWithPropertiesEditingViewsForEcore() {
+		// Creating ViewHandlerProvider
+		ViewHandlerProvider viewHandlerProvider = buildViewHandlerProvider();
+		
+		// Creating views
+		List<Toolkit> toolkits = new ArrayList<Toolkit>(2);
+		toolkits.add(searchSWTToolkit(viewHandlerProvider));
+		toolkits.add(searchEMFPropertiesToolkit(viewHandlerProvider));		
+		List<View> views = buildEcoreViews(toolkits);
+		
+		// Creation Editing Model
+		PropertiesEditingModel editingModel = new EditingModelBuilder()
+						.bindClass(EcorePackage.Literals.ECLASS).withView(views.get(0))
+						.build();
+		
+		// Creating model
+		EPackage sampleModel = buildEcoreSampleModel();
+		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(sampleModel.getEClassifiers().get(0));
+		context.setAdapterFactory(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+		context.setEditingModel(editingModel);
+		context.setViewHandlerProvider(viewHandlerProvider);
+		return context;
+	}
+	
+	/**
 	 * Build the {@link ViewHandlerProvider} for the EEF tests.
 	 * @return a sample {@link ViewHandlerProvider}
 	 */
@@ -94,10 +133,72 @@ public class EEFTestStuffsBuilder {
 	 */
 	public PropertyEditorProvider buildPropertyEditorProvider() {
 		return new ComposedPropertyEditorProvider.Builder()
-						.addPropertyEditorProvider(new SWTToolkitPropertyEditorProvider())
+						.addPropertyEditorProvider(new SWTToolkit())
+						.addPropertyEditorProvider(new EMFPropertiesToolkit())
 						.build();
 	}
+	
+	public EPackage buildEcoreSampleModel() {
+		Resource ecoreResource = getResourceSet().createResource(URI.createURI("eef://sample.ecore"));
+		EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+		ePackage.setName("sample");
+		ePackage.setNsPrefix("eef-sample");
+		ePackage.setNsURI("http://eef/sample");
+		EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+		eClass.setName("EClass1");
+		eClass.setAbstract(true);
+		ePackage.getEClassifiers().add(eClass);
+		EClass eClass2 = EcoreFactory.eINSTANCE.createEClass();
+		eClass2.setName("EClass2");
+		ePackage.getEClassifiers().add(eClass2);
+		eClass.getESuperTypes().add(eClass2);
+		EClass eClass3 = EcoreFactory.eINSTANCE.createEClass();
+		eClass3.setName("EClass3");
+		ePackage.getEClassifiers().add(eClass3);
+		eClass.getESuperTypes().add(eClass3);
+		ecoreResource.getContents().add(ePackage);
+		return ePackage;
+	}
+	
+	private ResourceSet getResourceSet() {
+		if (resourceSet == null) {
+			resourceSet = new ResourceSetImpl();
+			// Register the appropriate resource factory to handle all file extensions.
+			//
+			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
+				(Resource.Factory.Registry.DEFAULT_EXTENSION, 
+				 new XMIResourceFactoryImpl());
 
+			// Register the package to ensure it is available during loading.
+			//
+			resourceSet.getPackageRegistry().put
+				(BindingmodelPackage.eNS_URI, 
+				 BindingmodelPackage.eINSTANCE);
+	        
+		}
+		return resourceSet;
+	}
+
+	
+	private List<View> buildEcoreViews(List<Toolkit> toolkits) {
+		List<View> result = new ArrayList<View>();
+		View eClassView = ViewsFactory.eINSTANCE.createView();
+		eClassView.setName("EClass");
+		ElementEditor nameEditor = ViewsFactory.eINSTANCE.createElementEditor();
+		nameEditor.setName("name");
+		nameEditor.setRepresentation(searchWidget(toolkits.get(0), "Text"));
+		eClassView.getElements().add(nameEditor);
+		ElementEditor abstractEditor = ViewsFactory.eINSTANCE.createElementEditor();
+		abstractEditor.setName("abstract");
+		abstractEditor.setRepresentation(searchWidget(toolkits.get(0), "Checkbox"));
+		eClassView.getElements().add(abstractEditor);
+		ElementEditor superTypes = ViewsFactory.eINSTANCE.createElementEditor();
+		superTypes.setName("eSuperTypes");
+		superTypes.setRepresentation(searchWidget(toolkits.get(1), "EReferenceMultiEditor"));
+		eClassView.getElements().add(superTypes);
+		result.add(eClassView);
+		return result;
+	}
 
 	private List<View> buildSampleViews(Toolkit swtToolkit) {
 		List<View> result = new ArrayList<View>();
@@ -132,7 +233,19 @@ public class EEFTestStuffsBuilder {
 	private Toolkit searchSWTToolkit(ViewHandlerProvider provider) {
 		PropertiesEditingViewHandlerProvider propertiesEditingViewHandlerProvider = searchPropertiesEditingViewHandlerProvider(provider);
 		if (propertiesEditingViewHandlerProvider != null) {
-			ToolkitPropertyEditorProvider toolkitPropertyEditorProvider = searchToolkitPropertyEditorProvider(propertiesEditingViewHandlerProvider.getPropertyEditorProvider());
+			ToolkitPropertyEditorProvider toolkitPropertyEditorProvider = searchToolkitWithName(propertiesEditingViewHandlerProvider.getPropertyEditorProvider(), SWTToolkit.SWT_TOOLKIT_NAME);
+			if (toolkitPropertyEditorProvider != null) {
+				return toolkitPropertyEditorProvider.getModel();
+			}
+		}
+		
+		return null;
+	}
+	
+	private Toolkit searchEMFPropertiesToolkit(ViewHandlerProvider provider) {
+		PropertiesEditingViewHandlerProvider propertiesEditingViewHandlerProvider = searchPropertiesEditingViewHandlerProvider(provider);
+		if (propertiesEditingViewHandlerProvider != null) {
+			ToolkitPropertyEditorProvider toolkitPropertyEditorProvider = searchToolkitWithName(propertiesEditingViewHandlerProvider.getPropertyEditorProvider(), EMFPropertiesToolkit.EMF_PROPERTIES);
 			if (toolkitPropertyEditorProvider != null) {
 				return toolkitPropertyEditorProvider.getModel();
 			}
@@ -154,13 +267,16 @@ public class EEFTestStuffsBuilder {
 		return null;
 	}
 	
-	private SWTToolkitPropertyEditorProvider searchToolkitPropertyEditorProvider(PropertyEditorProvider provider) {
+	private ToolkitPropertyEditorProvider searchToolkitWithName(PropertyEditorProvider provider, String name) {
 		if (provider instanceof ToolkitPropertyEditorProvider) {
-			return (SWTToolkitPropertyEditorProvider) provider;
+			if (name.equals(((ToolkitPropertyEditorProvider) provider).getModel().getName())) {
+				return (ToolkitPropertyEditorProvider) provider;
+			}
 		} else if (provider instanceof ComposedPropertyEditorProvider) {
 			for (PropertyEditorProvider propertyEditorProvider : ((ComposedPropertyEditorProvider) provider).getPropertyEditorProviders()) {
-				if (propertyEditorProvider instanceof ToolkitPropertyEditorProvider) {
-					return (SWTToolkitPropertyEditorProvider) propertyEditorProvider;
+				ToolkitPropertyEditorProvider searchToolkitWithName = searchToolkitWithName(propertyEditorProvider, name);
+				if (searchToolkitWithName != null) {
+					return searchToolkitWithName;
 				}
 			}
 		}

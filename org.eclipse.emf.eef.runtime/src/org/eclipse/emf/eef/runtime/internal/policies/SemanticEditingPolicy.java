@@ -36,23 +36,22 @@ public abstract class SemanticEditingPolicy implements PropertiesEditingPolicy {
 		EObject editedObject = (EObject) editingComponent.getTarget();
 		EClassBinding binding = editingComponent.getEditingContext().getEditingModel().binding(editedObject);
 		EStructuralFeature feature = binding.feature(editingEvent.getAffectedEditor());
-		if (editingEvent instanceof TypedPropertyChangedEvent) {
-			switch (editingEvent.getEventType()) {
-			case PropertiesEditingEvent.SET:
-				performSet((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());				
-				break;
-			case PropertiesEditingEvent.UNSET:
-				performUnset((EObject) editingComponent.getTarget(), feature);								
-			case PropertiesEditingEvent.ADD:
-				performAdd((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());				
-			case PropertiesEditingEvent.REMOVE:
-				performRemove((EObject) editingComponent.getTarget(), feature, editingEvent.getOldValue());				
-			default:
-				performSet((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());				
-				break;
-			}
-		} else {
-			performSet((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());
+		switch (editingEvent.getEventType()) {
+		case PropertiesEditingEvent.SET:
+			performSet((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());				
+			break;
+		case PropertiesEditingEvent.UNSET:
+			performUnset((EObject) editingComponent.getTarget(), feature);								
+			break;
+		case PropertiesEditingEvent.ADD:
+			performAdd((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());				
+			break;
+		case PropertiesEditingEvent.REMOVE:
+			performRemove((EObject) editingComponent.getTarget(), feature, editingEvent.getOldValue());				
+			break;
+		default:
+			performSet((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());				
+			break;
 		}
 	}	
 

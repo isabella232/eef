@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.internal.view.helpers;
+package org.eclipse.emf.eef.runtime.ui.internal.view.util;
 
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Constructor;

@@ -16,17 +16,17 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
  */
 public class CheckboxPropertyEditorProvider implements WidgetPropertyEditorProvider {
 
-	private Widget widget;
+	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
 
+	static {
+		widget.setName("Checkbox");		
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
 	 */
 	public Widget getModel() {
-		if (widget == null) {
-			widget = ToolkitsFactory.eINSTANCE.createWidget();
-			widget.setName("Checkbox");
-		}
 		return widget;
 	}
 

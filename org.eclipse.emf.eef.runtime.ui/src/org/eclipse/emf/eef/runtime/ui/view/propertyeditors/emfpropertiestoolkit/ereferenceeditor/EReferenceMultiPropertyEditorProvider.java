@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.text;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit.ereferenceeditor;
 
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
@@ -14,12 +14,12 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class TextPropertyEditorProvider implements WidgetPropertyEditorProvider {
+public class EReferenceMultiPropertyEditorProvider implements WidgetPropertyEditorProvider {
 
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
-
+	
 	static {
-		widget.setName("Text");		
+		widget.setName("EReferenceMultiEditor");
 	}
 	
 	/**
@@ -32,7 +32,7 @@ public class TextPropertyEditorProvider implements WidgetPropertyEditorProvider 
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#canHandle(org.eclipse.emf.eef.views.ElementEditor)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider#canHandle(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
 	 */
 	public boolean canHandle(PropertiesEditingView view, ElementEditor editor) {
 		return getModel() == editor.getRepresentation();
@@ -40,10 +40,10 @@ public class TextPropertyEditorProvider implements WidgetPropertyEditorProvider 
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.views.ElementEditor)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
 	 */
 	public PropertyEditor getPropertyEditor(PropertiesEditingView view, ElementEditor editor) {
-		return new TextPropertyEditor(view, editor);
+		return new EReferenceMultiPropertyEditor(view, editor);
 	}
 
 }

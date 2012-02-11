@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit;
 
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit.ereferenceeditor.EReferenceMultiPropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 
@@ -14,13 +15,28 @@ import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 public class EMFPropertiesToolkit extends ToolkitPropertyEditorProvider {
 
 	/**
+	 * EMFProperties toolkit name.
+	 */
+	public static final String EMF_PROPERTIES = "EMFProperties";
+	
+	private static final Toolkit toolkit = ToolkitsFactory.eINSTANCE.createToolkit(); 
+	static {
+		toolkit.setName(EMF_PROPERTIES);
+	}
+	
+	/**
+	 * 
+	 */
+	public EMFPropertiesToolkit() {
+		addPropertyEditorProvider(new EReferenceMultiPropertyEditorProvider());
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
 	 */
 	public Toolkit getModel() {
-		Toolkit result = ToolkitsFactory.eINSTANCE.createToolkit();
-		result.setName("EMFProperties");
-		return result;
+		return toolkit;
 	}
 
 }

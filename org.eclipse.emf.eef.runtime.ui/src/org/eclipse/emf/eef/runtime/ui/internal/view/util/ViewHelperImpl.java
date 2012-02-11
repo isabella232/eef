@@ -9,9 +9,12 @@
  *     Obeo - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.emf.eef.runtime.ui.internal.view.helpers;
+package org.eclipse.emf.eef.runtime.ui.internal.view.util;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
@@ -193,6 +196,31 @@ public class ViewHelperImpl implements ViewHelper {
 	 */
 	private String getHelpContent(Object editor) {
 		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#getBestInput(java.lang.Object)
+	 */
+	public Object getBestInput(Object sourceInput) {
+		Resource resource = null;
+		if (sourceInput instanceof EObject) {
+			resource = ((EObject) sourceInput).eResource();
+		} else if (sourceInput instanceof Resource){
+			resource = (Resource) sourceInput;
+		}
+		ResourceSet resourceSet = null;
+		if (resource != null) {
+			resourceSet = resource.getResourceSet();
+		} else if (sourceInput instanceof ResourceSet) {
+			resourceSet = (ResourceSet) sourceInput;
+		}
+		if (resourceSet != null) {
+			return resourceSet;
+		} else if (resource != null) {
+			return resource;
+		}
+		return sourceInput;
 	}
 }
 

@@ -13,14 +13,22 @@ import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class SWTToolkitPropertyEditorProvider extends ToolkitPropertyEditorProvider {
+public class SWTToolkit extends ToolkitPropertyEditorProvider {
 
-	private Toolkit toolkit;
-
+	/**
+	 * SWT Toolkit name.
+	 */
+	public static final String SWT_TOOLKIT_NAME = "swt";
+	
+	private static final Toolkit toolkit = ToolkitsFactory.eINSTANCE.createToolkit();
+	static {
+		toolkit.setName(SWT_TOOLKIT_NAME);		
+	}
+	
 	/**
 	 * 
 	 */
-	public SWTToolkitPropertyEditorProvider() {
+	public SWTToolkit() {
 		addPropertyEditorProvider(new TextPropertyEditorProvider())
 		.addPropertyEditorProvider(new CheckboxPropertyEditorProvider());
 	}
@@ -30,10 +38,6 @@ public class SWTToolkitPropertyEditorProvider extends ToolkitPropertyEditorProvi
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
 	 */
 	public Toolkit getModel() {
-		if (toolkit == null) {
-			toolkit = ToolkitsFactory.eINSTANCE.createToolkit();
-			toolkit.setName("swt");
-		}
 		return toolkit;
 	}
 

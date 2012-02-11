@@ -1,7 +1,9 @@
 package org.eclipse.emf.eef.runtime.ui;
 
 import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.swt.graphics.Image;
 
@@ -74,6 +76,9 @@ public class EEFRuntimeUI extends EMFPlugin {
 	 * @generated
 	 */
 	public static class Plugin extends EclipsePlugin {
+
+		private AdapterFactory adapterFactory;
+
 		/**
 		 * Creates an instance.
 		 * <!-- begin-user-doc -->
@@ -96,6 +101,13 @@ public class EEFRuntimeUI extends EMFPlugin {
 		public Image getRuntimeImage(String key)  {
 			Object image = getResourceLocator().getImage(key);
 			return ExtendedImageRegistry.getInstance().getImage(image);
+		}
+		
+		public AdapterFactory getRegistryAdapterFactory() {
+			if (adapterFactory == null) {
+				adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+			}
+			return adapterFactory;
 		}
 	}
 }
