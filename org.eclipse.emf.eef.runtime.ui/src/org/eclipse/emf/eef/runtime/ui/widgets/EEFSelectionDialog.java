@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.ui.widgets;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -15,6 +17,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -22,6 +25,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -38,6 +43,7 @@ public class EEFSelectionDialog extends Dialog {
 	private IBaseLabelProvider labelProvider;
 	private Object input;
 	private Object selection;
+	private Collection<ViewerFilter> filters;
 	
 	/**
 	 * @param parent
@@ -45,6 +51,7 @@ public class EEFSelectionDialog extends Dialog {
 	public EEFSelectionDialog(Shell parent, boolean multi) {
 		super(parent);
 		this.multi = multi;
+		this.filters = Lists.newArrayList();
 	}
 
 	/**
@@ -111,6 +118,12 @@ public class EEFSelectionDialog extends Dialog {
 			style |= SWT.MULTI;
 		}
 		selectionViewer = new TreeViewer(control, style);
+		selectionViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+		
+		for (ViewerFilter filter : filters) {
+			selectionViewer.addFilter(filter);
+		}
+		
 		selectionViewer.setContentProvider(getContentProvider());
 		selectionViewer.setLabelProvider(getLabelProvider());
 		selectionViewer.setInput(input);
@@ -128,7 +141,7 @@ public class EEFSelectionDialog extends Dialog {
 				}
 			}
 		});
-		selectionViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+		
 		return control;
 	}
 
@@ -184,6 +197,13 @@ public class EEFSelectionDialog extends Dialog {
 	 */
 	public Object getSelection() {
 		return selection;
+	}
+
+	/**
+	 * @param choiceOfValuesFilter
+	 */
+	public void addFilter(ViewerFilter filter) {
+		this.filters.add(filter);
 	}
 
 }

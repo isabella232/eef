@@ -19,6 +19,7 @@ import org.eclipse.emf.eef.runtime.ui.widgets.EEFSelectionDialog;
 import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor;
 import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener;
 import org.eclipse.emf.eef.runtime.ui.widgets.util.ArrayFeatureContentProvider;
+import org.eclipse.emf.eef.runtime.ui.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -117,6 +118,12 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor {
 				EEFSelectionDialog dialog = new EEFSelectionDialog(eReferenceEditor.getControl().getShell(), true);
 				dialog.setTitle("Choose the element to add to the " + feature.getName() + " reference:");
 				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
+				dialog.addFilter(
+						new ChoiceOfValuesFilter(
+								view.getEditingComponent().getEditingContext().getAdapterFactory(), 
+								(EObject) view.getEditingComponent().getTarget(), 
+								EReferenceMultiPropertyEditor.this.feature, 
+								view.getViewSettings().getSelectionMode()));
 				dialog.setInput(view.getViewHelper().getBestInput(view.getEditingComponent().getTarget()));
 				if (dialog.open() == Window.OK) {
 					if (dialog.getSelection() != null) {
