@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.view.handler;
 
+import java.util.Collection;
+
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
@@ -32,14 +34,14 @@ public interface ViewHandler<T> {
 	 * Sets a value to the given field. 
 	 * @param field feature to process.
 	 * @param value the new value.
-	 * @throws Exception an error occured du view handling.
+	 * @throws Exception an error occurred during view handling.
 	 */
 	void setValue(Object field, Object value) throws ViewHandlingException;
 
 	/**
 	 * Unsets a value to the given field.
 	 * @param field feature to process.
-	 * @throws Exception an error occured du view handling.
+	 * @throws Exception an error occurred during view handling.
 	 */
 	void unsetValue(Object field) throws ViewHandlingException;
 	
@@ -47,23 +49,47 @@ public interface ViewHandler<T> {
 	 * Add a new value to the given field. 
 	 * @param field feature to process.
 	 * @param value the new value.
-	 * @throws Exception an error occured du view handling.
+	 * @throws Exception an error occurred during view handling.
 	 */
 	void addValue(Object field, Object newValue) throws ViewHandlingException;
+
+	/**
+	 * Add all the values to the given field. 
+	 * @param field feature to process.
+	 * @param values the new values.
+	 * @throws Exception an error occurred during view handling.
+	 */
+	void addAllValues(Object field, Collection<?> values) throws ViewHandlingException;
 
 	/**
 	 * Remove a value from the given field. 
 	 * @param field feature to process.
 	 * @param value the new value.
-	 * @throws Exception an error occured du view handling.
+	 * @throws Exception an error occurred during view handling.
 	 */
 	void removeValue(Object field, Object value) throws ViewHandlingException;
+
+	/**
+	 * Removes all the values to the given field. 
+	 * @param field feature to process.
+	 * @param values the new values.
+	 * @throws Exception an error occurred during view handling.
+	 */
+	void removeAllValues(Object field, Collection<?> values) throws ViewHandlingException;
+
+	/**
+	 * Moves a value at the given index in the field. 
+	 * @param field feature to process.
+	 * @param value the new value.
+	 * @param newIndex the new index.
+	 * @throws Exception an error occurred during view handling.
+	 */
+	void moveValue(Object field, Object value, int newIndex) throws ViewHandlingException;
 
 	/**
 	 * Initialize a view with the current EObject properties.
 	 * @param component {@link PropertiesEditingComponent} to use for initialization.
 	 */
 	void initView(PropertiesEditingComponent component);
-
 
 }

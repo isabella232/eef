@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;
 
+import java.util.Collection;
+
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.internal.view.PropertiesEditingViewImpl;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -85,7 +87,15 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#addValue(java.lang.Object, java.lang.Object)
 	 */
 	public void addValue(Object field, Object newValue) throws ViewHandlingException {
-		
+		view.addValue(field, newValue);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#addAllValues(java.lang.Object, java.util.Collection)
+	 */
+	public void addAllValues(Object field, Collection<?> values) throws ViewHandlingException {
+		view.addAllValues(field, values);
 	}
 
 	/**
@@ -93,7 +103,23 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeValue(java.lang.Object, java.lang.Object)
 	 */
 	public void removeValue(Object field, Object value) throws ViewHandlingException {
-		
+		view.removeValue(field, value);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeAllValues(java.lang.Object, java.util.Collection)
+	 */
+	public void removeAllValues(Object field, Collection<?> values) throws ViewHandlingException {
+		view.removeAllValues(field, values);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#moveValue(java.lang.Object, java.lang.Object, int)
+	 */
+	public void moveValue(Object field, Object value, int newIndex) throws ViewHandlingException {
+		view.moveValue(field, value, newIndex);
 	}
 
 }

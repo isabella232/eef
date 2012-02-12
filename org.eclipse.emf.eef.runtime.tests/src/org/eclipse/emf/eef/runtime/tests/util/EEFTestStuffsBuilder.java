@@ -155,7 +155,24 @@ public class EEFTestStuffsBuilder {
 		EClass eClass3 = EcoreFactory.eINSTANCE.createEClass();
 		eClass3.setName("EClass3");
 		ePackage.getEClassifiers().add(eClass3);
+		eClass.getESuperTypes().add(eClass3);
+		EClass eClass4 = EcoreFactory.eINSTANCE.createEClass();
+		eClass4.setName("EClass4");
+		ePackage.getEClassifiers().add(eClass4);
 		ecoreResource.getContents().add(ePackage);
+
+		Resource ecoreResource2 = getResourceSet().createResource(URI.createURI("eef://sample2.ecore"));
+		EPackage ePackage2 = EcoreFactory.eINSTANCE.createEPackage();
+		ePackage2.setName("sample2");
+		ePackage2.setNsPrefix("eef-sample2");
+		ePackage2.setNsURI("http://eef/sample2");
+		EClass eClass5 = EcoreFactory.eINSTANCE.createEClass();
+		eClass5.setName("EClass5");
+		eClass5.setAbstract(true);
+		ePackage2.getEClassifiers().add(eClass5);
+		ecoreResource2.getContents().add(ePackage2);
+		
+		
 		return ePackage;
 	}
 	

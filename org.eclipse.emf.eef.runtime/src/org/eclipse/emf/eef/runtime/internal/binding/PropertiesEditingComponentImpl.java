@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.internal.binding;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -109,10 +110,39 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 					//NOTE: Silent catch
 				}
 				break;
+			case Notification.ADD_MANY:
+				try {
+					for (ViewHandler<?> viewHandler : viewHandlers) {
+						viewHandler.addAllValues(propertyEditor, (Collection<?>) msg.getNewValue());						
+					}
+				} catch (ViewHandlingException e) {
+					//NOTE: Silent catch
+				}
+				break;
 			case Notification.REMOVE:
 				try {
 					for (ViewHandler<?> viewHandler : viewHandlers) {
 						viewHandler.removeValue(propertyEditor, msg.getOldValue());						
+					}
+				} catch (ViewHandlingException e) {
+					//NOTE: Silent catch
+				}
+				break;
+			case Notification.REMOVE_MANY:
+				try {
+					for (ViewHandler<?> viewHandler : viewHandlers) {
+						viewHandler.removeAllValues(propertyEditor, (Collection<?>) msg.getOldValue());						
+					}
+				} catch (ViewHandlingException e) {
+					//NOTE: Silent catch
+				}
+				break;
+			case Notification.MOVE:
+				try {
+					for (ViewHandler<?> viewHandler : viewHandlers) {
+						//TODO: find the good index
+						int newIndex = 0;
+						viewHandler.moveValue(propertyEditor, msg.getNewValue(), newIndex );						
 					}
 				} catch (ViewHandlingException e) {
 					//NOTE: Silent catch

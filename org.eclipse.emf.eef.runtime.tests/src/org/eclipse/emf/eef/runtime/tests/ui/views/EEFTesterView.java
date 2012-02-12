@@ -1,6 +1,11 @@
 package org.eclipse.emf.eef.runtime.tests.ui.views;
 
-import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
@@ -11,11 +16,8 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
@@ -95,13 +97,8 @@ public class EEFTesterView extends ViewPart {
 			 * @see org.eclipse.jface.action.Action#run()
 			 */
 			public void run() {
-				Sample sample = (Sample)context.getEditingComponent().getTarget();
-				InputDialog dialog = new InputDialog(new Shell(), "New semantic contents", "Enter the new semantic contents", 
-						context != null?sample.getName():"", null);
-				if (dialog.open() == Window.OK) {
-					sample.setName(dialog.getValue());
-					sample.setActive(!sample.isActive());
-				}
+				EClass eClass = (EClass) context.getEditingComponent().getTarget();
+				eClass.getESuperTypes().move(0, eClass.getESuperTypes().get(1));
 			}
 			
 		};

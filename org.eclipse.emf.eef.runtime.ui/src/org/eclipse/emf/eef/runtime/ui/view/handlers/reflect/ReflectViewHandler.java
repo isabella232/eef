@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.ui.view.handlers.reflect;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -138,6 +139,16 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#addAllValues(java.lang.Object, java.util.Collection)
+	 */
+	public void addAllValues(Object field, Collection<?> values) throws ViewHandlingException {
+		for (Object value : values) {
+			addValue(field, value);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeValue(java.lang.Object, java.lang.Object)
 	 */
 	public void removeValue(Object field, Object newValue) throws ViewHandlingException {
@@ -150,7 +161,26 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 					throw new ViewHandlingException("An error occured during view handling.", e);
 				}
 			}
-		} 		
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeAllValues(java.lang.Object, java.util.Collection)
+	 */
+	public void removeAllValues(Object field, Collection<?> values) throws ViewHandlingException {
+		for (Object value : values) {
+			removeValue(field, value);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#moveValue(java.lang.Object, java.lang.Object, int)
+	 */
+	public void moveValue(Object field, Object value, int newIndex) throws ViewHandlingException {
+		// TODO not handle for the moment.
+		
 	}
 
 	/**

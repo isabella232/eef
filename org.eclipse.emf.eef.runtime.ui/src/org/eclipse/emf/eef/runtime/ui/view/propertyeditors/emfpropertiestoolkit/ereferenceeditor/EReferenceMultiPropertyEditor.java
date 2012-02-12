@@ -14,6 +14,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.StandardPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.widgets.EEFSelectionDialog;
 import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor;
@@ -30,7 +31,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceMultiPropertyEditor extends StandardPropertyEditor {
+public class EReferenceMultiPropertyEditor extends StandardPropertyEditor implements MultivaluedPropertyEditor {
 
 	private EReferenceEditor eReferenceEditor;
 	private EStructuralFeature feature;
@@ -107,7 +108,7 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor {
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener#edit(java.lang.Object)
 			 */
 			public void edit(Object editedElement) {
-				//TODO
+				//TODO: We have to invoke the EditingPropertyPolicy
 			}
 			
 			/**
@@ -157,6 +158,46 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor {
 		eReferenceEditor.setLowerBound(feature.getLowerBound());
 		eReferenceEditor.setUpperBound(feature.getUpperBound());
 		eReferenceEditor.setInput(view.getEditingComponent().getTarget());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#addValue(java.lang.Object)
+	 */
+	public void addValue(Object value) {
+		eReferenceEditor.refresh();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#addAllValues(java.util.Collection)
+	 */
+	public void addAllValues(Collection<?> values) {
+		eReferenceEditor.refresh();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#removeValue(java.lang.Object)
+	 */
+	public void removeValue(Object value) {
+		eReferenceEditor.refresh();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#removeAllValues(java.util.Collection)
+	 */
+	public void removeAllValues(Collection<?> values) {
+		eReferenceEditor.refresh();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#moveValue(java.lang.Object, int)
+	 */
+	public void moveValue(Object value, int newIndex) {
+		eReferenceEditor.refresh();
 	}
 
 }
