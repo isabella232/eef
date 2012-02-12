@@ -44,7 +44,7 @@ public class ChoiceOfValuesFilter extends ViewerFilter {
 		this.mode = mode;
 		IItemPropertySource propertySource = (IItemPropertySource) this.adapterFactory.adapt(this.editedElement, IItemPropertySource.class);
 		if (propertySource != null) {
-			IItemPropertyDescriptor descriptor = propertySource.getPropertyDescriptor(this.editedElement, feature);
+			IItemPropertyDescriptor descriptor = propertySource.getPropertyDescriptor(this.editedElement, this.feature);
 			choiceOfValues = descriptor.getChoiceOfValues(this.editedElement);
 			intermediateChoices = Lists.newArrayList();
 			for (Object object : choiceOfValues) {
