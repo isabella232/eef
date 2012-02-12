@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.widgets;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +15,9 @@ import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeViewerListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -41,9 +44,16 @@ import com.google.common.collect.Lists;
  */
 public class EReferenceEditor extends StructuredViewer {
 
+	private int lowerBound = 0;
+	private int upperBound = -1;
+	
 	private Composite control;
 	private TreeViewer tree;
 	private Collection<ReferenceEditorListener> listeners;
+	private Button addButton;
+	private Button removeButton;
+	private Button upButton;
+	private Button downButton;
 	
 	/**
 	 * @param parent
@@ -55,7 +65,7 @@ public class EReferenceEditor extends StructuredViewer {
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		control.setLayout(layout);
-		Button addButton = new Button(control, SWT.PUSH);
+		addButton = new Button(control, SWT.PUSH);
 		GridData addButtonData = new GridData(GridData.FILL_HORIZONTAL);
 		addButtonData.horizontalAlignment = SWT.RIGHT;
 		addButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Add"));
@@ -76,7 +86,7 @@ public class EReferenceEditor extends StructuredViewer {
 		
 		GridData buttonData = new GridData();
 		buttonData.horizontalAlignment = SWT.RIGHT;
-		Button removeButton = new Button(control, SWT.PUSH);
+		removeButton = new Button(control, SWT.PUSH);
 		removeButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Delete"));
 		removeButton.setLayoutData(buttonData);
 		removeButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
@@ -104,7 +114,7 @@ public class EReferenceEditor extends StructuredViewer {
 			
 		});
 		
-		Button upButton = new Button(control, SWT.PUSH);
+		upButton = new Button(control, SWT.PUSH);
 		upButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ArrowUp"));
 		upButton.setLayoutData(buttonData);
 		upButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
@@ -120,7 +130,7 @@ public class EReferenceEditor extends StructuredViewer {
 			}
 		});
 		
-		Button downButton = new Button(control, SWT.PUSH);
+		downButton = new Button(control, SWT.PUSH);
 		downButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ArrowDown"));
 		downButton.setLayoutData(buttonData);
 		downButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
@@ -140,7 +150,27 @@ public class EReferenceEditor extends StructuredViewer {
 		GridData treeData = new GridData(GridData.FILL_BOTH);
 		treeData.horizontalSpan = 4;
 		tree.getControl().setLayoutData(treeData);
+		tree.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			public void selectionChanged(SelectionChangedEvent event) {
+				updateButtons();
+			}
+		});
 		listeners = Lists.newArrayList();
+	}
+
+	/**
+	 * @param lowerBound the lowerBound to set
+	 */
+	public void setLowerBound(int lowerBound) {
+		this.lowerBound = lowerBound;
+	}
+
+	/**
+	 * @param upperBound the upperBound to set
+	 */
+	public void setUpperBound(int upperBound) {
+		this.upperBound = upperBound;
 	}
 
 	/**
@@ -355,6 +385,7 @@ public class EReferenceEditor extends StructuredViewer {
 	@Override
 	protected void internalRefresh(Object element) {
 		tree.refresh();
+		updateButtons();
 	}
 
 	/**
@@ -384,8 +415,58 @@ public class EReferenceEditor extends StructuredViewer {
 	public Control getControl() {
 		return control;
 	}
+		
+	/**
+	 * Update the list buttons.
+	 */
+	protected void updateButtons() {
+		StructuredSelection selection = (StructuredSelection) tree.getSelection();
+		addButton.setEnabled(shouldEnableAdd(selection));
+		if (selection.size() == 0) {
+			removeButton.setEnabled(false);
+			upButton.setEnabled(false);
+			downButton.setEnabled(false);
+		} else if (selection.size() == 1) {
+			removeButton.setEnabled(shouldEnableRemove(selection));
+			upButton.setEnabled(shouldEnableUp(selection));
+			downButton.setEnabled(shouldEnableDown(selection));
+		} else {
+			removeButton.setEnabled(shouldEnableRemove(selection));
+			upButton.setEnabled(false);
+			downButton.setEnabled(false);
+		}
+	}
+
+	private boolean shouldEnableAdd(StructuredSelection selection) {
+		Object[] elements = ((IStructuredContentProvider)tree.getContentProvider()).getElements(tree.getInput());
+		return ((upperBound == -1) || (elements.length < upperBound));
+	}
 	
+	private boolean shouldEnableRemove(StructuredSelection selection) {
+		Object[] elements = ((IStructuredContentProvider)tree.getContentProvider()).getElements(tree.getInput());
+		return ((lowerBound == 0) || (elements.length > lowerBound));
+	}
 	
+	private boolean shouldEnableUp(StructuredSelection selection) {
+		Object selectedElement = selection.getFirstElement();
+		Object[] elements = ((IStructuredContentProvider)tree.getContentProvider()).getElements(tree.getInput());
+		if (elements != null) {
+			List<?> listInput = Arrays.asList(elements);
+			return listInput.size() > 1  && listInput.indexOf(selectedElement) > 0;
+		}
+		return false;
+	}
+
+	private boolean shouldEnableDown(StructuredSelection selection) {
+		Object selectedElement = selection.getFirstElement();
+		Object[] elements = ((IStructuredContentProvider)tree.getContentProvider()).getElements(tree.getInput());
+		if (elements != null) {
+			List<?> listInput = Arrays.asList(elements);
+			return (listInput.size() > 1)  && (listInput.indexOf(selectedElement) < listInput.size() - 1);
+		}
+		return false;
+	}
+
 	/**
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
 	 *
@@ -429,6 +510,10 @@ public class EReferenceEditor extends StructuredViewer {
 		
 	}
 	
+	/**
+	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
+	 *
+	 */
 	private abstract class ReferenceEditorSelectionAdapter extends SelectionAdapter {
 
 		/**
@@ -455,6 +540,5 @@ public class EReferenceEditor extends StructuredViewer {
 			//do nothing
 		}
 	}
-
 
 }

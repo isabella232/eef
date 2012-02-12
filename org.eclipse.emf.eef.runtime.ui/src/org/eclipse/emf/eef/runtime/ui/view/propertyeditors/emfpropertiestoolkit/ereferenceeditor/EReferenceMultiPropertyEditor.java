@@ -4,8 +4,10 @@
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit.ereferenceeditor;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -46,7 +48,7 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor {
 	 */
 	@Override
 	protected void createEditorContents(Composite parent) {
-		eReferenceEditor = new EReferenceEditor(parent, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+		eReferenceEditor = new EReferenceEditor(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 		eReferenceEditor.addReferenceEditorListener(new ReferenceEditorListener() {
 			
 			/**
@@ -72,8 +74,15 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor {
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener#moveUp(java.lang.Object)
 			 */
 			public void moveUp(Object movedElement) {
-				//TODO
-//				view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, moveElement, null));
+				EObject editedElement = (EObject) view.getEditingComponent().getTarget();
+				Object currentValue = editedElement.eGet(feature);
+				if (currentValue instanceof List<?>) {
+					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
+					if (oldIndex > 0) {
+						view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
+						eReferenceEditor.refresh();
+					}
+				}
 			}
 			
 			/**
@@ -81,8 +90,15 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor {
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener#moveDown(java.lang.Object)
 			 */
 			public void moveDown(Object movedElement) {
-				//TODO
-//				view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, moveElement, null));				
+				EObject editedElement = (EObject) view.getEditingComponent().getTarget();
+				Object currentValue = editedElement.eGet(feature);
+				if (currentValue instanceof List<?>) {
+					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
+					if (oldIndex < ((List<?>) currentValue).size()) {
+						view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
+						eReferenceEditor.refresh();
+					}
+				}
 			}
 			
 			/**
@@ -104,7 +120,11 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor {
 				dialog.setInput(view.getViewHelper().getBestInput(view.getEditingComponent().getTarget()));
 				if (dialog.open() == Window.OK) {
 					if (dialog.getSelection() != null) {
-						view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, null));
+						if (dialog.getSelection() instanceof Collection<?>) {
+							view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD_MANY, null, dialog.getSelection()));
+						} else {
+							view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, dialog.getSelection()));
+						}
 						eReferenceEditor.refresh();				
 					}
 				}
@@ -127,6 +147,8 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor {
 		}
 		eReferenceEditor.setContentProvider(new ArrayFeatureContentProvider(this.feature));
 		eReferenceEditor.setLabelProvider(new AdapterFactoryLabelProvider(currentAdapterFactory));
+		eReferenceEditor.setLowerBound(feature.getLowerBound());
+		eReferenceEditor.setUpperBound(feature.getUpperBound());
 		eReferenceEditor.setInput(view.getEditingComponent().getTarget());
 	}
 

@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.internal.policies;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
@@ -55,6 +56,19 @@ public class SemanticDirectEditingPolicy extends SemanticEditingPolicy {
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performAddMany(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
+	 */
+	@SuppressWarnings("unchecked")
+	protected void performAddMany(EObject eObject, EStructuralFeature feature, Collection<?> newValues) {
+		if (feature.isMany()) {
+			((Collection<Object>)eObject.eGet(feature)).addAll(newValues);
+		} else {
+			throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performRemove(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
@@ -63,6 +77,32 @@ public class SemanticDirectEditingPolicy extends SemanticEditingPolicy {
 			((Collection<Object>)eObject.eGet(feature)).remove(oldValue);
 		} else {
 			throw new IllegalArgumentException("Cannot _REMOVE_ a value to a single feature.");
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performRemoveMany(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
+	 */
+	@SuppressWarnings("unchecked")
+	protected void performRemoveMany(EObject eObject, EStructuralFeature feature, Collection<?> oldValues) {
+		if (feature.isMany()) {
+			((Collection<Object>)eObject.eGet(feature)).removeAll(oldValues);
+		} else {
+			throw new IllegalArgumentException("Cannot _REMOVE_ a value to a single feature.");
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performMove(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Integer, java.lang.Integer)
+	 */
+	protected void performMove(EObject eObject, EStructuralFeature feature, Integer oldIndex, Integer newIndex) {
+		Object currentValue = eObject.eGet(feature);
+		if (currentValue instanceof EList<?>) {
+			((EList<?>)eObject.eGet(feature)).move(newIndex, oldIndex);
+		} else {
+			throw new IllegalArgumentException("Cannot _MOVE_ a value in this feature.");
 		}
 	}
 

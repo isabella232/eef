@@ -155,12 +155,11 @@ public class EEFTestStuffsBuilder {
 		EClass eClass3 = EcoreFactory.eINSTANCE.createEClass();
 		eClass3.setName("EClass3");
 		ePackage.getEClassifiers().add(eClass3);
-		eClass.getESuperTypes().add(eClass3);
 		ecoreResource.getContents().add(ePackage);
 		return ePackage;
 	}
 	
-	private ResourceSet getResourceSet() {
+	public ResourceSet getResourceSet() {
 		if (resourceSet == null) {
 			resourceSet = new ResourceSetImpl();
 			// Register the appropriate resource factory to handle all file extensions.
