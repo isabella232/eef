@@ -21,7 +21,7 @@ public class PropertiesEditingViewEditingTestCase extends UIEditingTestCase {
 	 * @return the asked view.s
 	 */
 	protected Composite getView(int index) {
-		return (Composite) ((Composite) display.getShells()[0].getChildren()[0]).getChildren()[index ];
+		return (Composite) ((Composite) shell.getChildren()[0]).getChildren()[index ];
 	}
 	
 	/**

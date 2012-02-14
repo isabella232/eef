@@ -17,9 +17,9 @@ import org.junit.Test;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * NOTE: I don't know how to cause the 'Unset Event'
  */
-public class ModelNotificationTests extends UIEditingTestCase {
+public class ModelNotificationInBeanViewTests extends UIEditingTestCase {
 
 	/**
 	 * {@inheritDoc}
@@ -30,7 +30,7 @@ public class ModelNotificationTests extends UIEditingTestCase {
 	}
 
 	@Test
-	public void testSetUnsetRefreshs() {
+	public void testSetRefresh() {
 		disposeUI();
 		elementToEdit = elementToEdit();
 		initUI();
@@ -41,12 +41,11 @@ public class ModelNotificationTests extends UIEditingTestCase {
 		assertEquals("Bad view refresh", sample.getName(), sampleView.getName());
 
 		sample.setActive(true);
-		assertEquals("Bad view refresh", sample.isActive(), sampleView.isActive());
-		
+		assertEquals("Bad view refresh", sample.isActive(), sampleView.isActive());		
 	}
 	
 	@Test
-	public void testAddRemoveRefresh() {
+	public void testAddRemoveRefreshs() {
 		disposeUI();
 		elementToEdit = BindingmodelFactory.eINSTANCE.createRoot();
 		initUI();
@@ -60,5 +59,4 @@ public class ModelNotificationTests extends UIEditingTestCase {
 		root.getSamples().remove(0);
 		assertEquals("Bad view refresh", 0, rootView.samplesSize());
 	}
-
 }

@@ -15,13 +15,13 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
+import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
@@ -33,12 +33,13 @@ import org.junit.Before;
  */
 public abstract class UIEditingTestCase {
 
-	protected Display display;
 
 	protected EObject elementToEdit;
 	protected PropertiesEditingContext context;
 	protected PropertiesEditingComponent component;
-	protected List<Composite> views;
+	protected List<Object> views;
+
+	protected Shell shell;
 
 
 
@@ -96,14 +97,13 @@ public abstract class UIEditingTestCase {
 	 */
 	protected void initUI() {
 		context = buildEditingContext();
-		display = new Display();
-		Shell shell = new Shell(display);
+		shell = new Shell();
 		shell.setLayout (new FillLayout());
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayout(new FillLayout());
 		component = context.getEditingComponent();
 		List<ViewHandler<?>> viewHandlers = component.getViewHandlers();
-		views = new ArrayList<Composite>();
+		views = new ArrayList<Object>();
 		for (int i = 0; i < viewHandlers.size(); i++) {
 			ViewHandler<?> handler = viewHandlers.get(i);
 			views.add(buildView(composite, handler, i));
@@ -118,8 +118,8 @@ public abstract class UIEditingTestCase {
 	 * @param index 
 	 * @return 
 	 */
-	protected Composite buildView(Composite composite, ViewHandler<?> handler, int index) {
-		Composite view = null;
+	protected Object buildView(Composite composite, ViewHandler<?> handler, int index) {
+		Object view = null;
 		Group group = new Group(composite, SWT.NONE);
 		group.setText("View " + index);
 		group.setLayout(new FillLayout());
@@ -128,6 +128,13 @@ public abstract class UIEditingTestCase {
 		if (handler instanceof SWTViewHandler) {
 			try {
 				view = ((SWTViewHandler)handler).createView(container);
+				handler.initView(component);
+			} catch (ViewConstructionException e) {
+				fail("An error occured during view creation");
+			}
+		} else if (handler instanceof PropertiesEditingViewHandler) {
+			try {
+				view = ((PropertiesEditingViewHandler)handler).createView(component, container);
 				handler.initView(component);
 			} catch (ViewConstructionException e) {
 				fail("An error occured during view creation");
@@ -142,7 +149,7 @@ public abstract class UIEditingTestCase {
 	 * 
 	 */
 	protected void disposeUI() {
-		display.dispose();
+		shell.dispose();
 		views.clear();
 	}
 

@@ -1,10 +1,5 @@
 package org.eclipse.emf.eef.runtime.tests.ui.views;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
