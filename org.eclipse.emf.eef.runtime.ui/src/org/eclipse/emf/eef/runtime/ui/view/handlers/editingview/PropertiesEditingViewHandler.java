@@ -34,6 +34,13 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	}
 
 	/**
+	 * @return the viewDescriptor
+	 */
+	public View getViewDescriptor() {
+		return viewDescriptor;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#createView(java.lang.Object[])
 	 */

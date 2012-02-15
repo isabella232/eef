@@ -55,4 +55,9 @@ public interface PropertiesEditingContext {
 	 */
 	AdapterFactory getAdapterFactory();
 
+	/**
+	 * Dispose the current context. 
+	 */
+	void dispose();
+
 }

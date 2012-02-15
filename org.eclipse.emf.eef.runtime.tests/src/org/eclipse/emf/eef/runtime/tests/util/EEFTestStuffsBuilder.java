@@ -101,7 +101,10 @@ public class EEFTestStuffsBuilder {
 		
 		// Creation Editing Model
 		PropertiesEditingModel editingModel = new EditingModelBuilder()
-						.bindClass(EcorePackage.Literals.ECLASS).withView(views.get(0))
+						.bindClass(EcorePackage.Literals.ECLASS)
+							.withView(views.get(0))
+							.withView(views.get(1))
+								.bindProperty(EcorePackage.Literals.ECLASSIFIER__DEFAULT_VALUE, views.get(1).getElements().get(0))
 						.build();
 		
 		// Creating model
@@ -213,6 +216,13 @@ public class EEFTestStuffsBuilder {
 		superTypes.setRepresentation(searchWidget(toolkits.get(1), "EReferenceMultiEditor"));
 		eClassView.getElements().add(superTypes);
 		result.add(eClassView);
+		View eClassInstanceView = ViewsFactory.eINSTANCE.createView();
+		eClassInstanceView.setName("Instance");
+		ElementEditor instanceTypeName = ViewsFactory.eINSTANCE.createElementEditor();
+		instanceTypeName.setName("instance Type Name");
+		instanceTypeName.setRepresentation(searchWidget(toolkits.get(0), "Text"));
+		eClassInstanceView.getElements().add(instanceTypeName);
+		result.add(eClassInstanceView);
 		return result;
 	}
 

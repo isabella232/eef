@@ -11,27 +11,21 @@ import org.eclipse.swt.graphics.Image;
  * The activator class controls the plug-in life cycle
  */
 public class EEFRuntimeUI extends EMFPlugin {
+
+	public static final String PLUGIN_ID = "org.eclipse.emf.eef.runtime.ui";	
+	
 	/**
 	 * Keep track of the singleton.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public static final EEFRuntimeUI INSTANCE = new EEFRuntimeUI();
 
 	/**
 	 * Keep track of the singleton.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	private static Plugin plugin;
 
 	/**
 	 * Create the instance.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public EEFRuntimeUI() {
 		super
@@ -48,10 +42,7 @@ public class EEFRuntimeUI extends EMFPlugin {
 
 	/**
 	 * Returns the singleton instance of the Eclipse plugin.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @return the singleton instance.
-	 * @generated
 	 */
 	@Override
 	public ResourceLocator getPluginResourceLocator() {
@@ -60,10 +51,7 @@ public class EEFRuntimeUI extends EMFPlugin {
 
 	/**
 	 * Returns the singleton instance of the Eclipse plugin.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @return the singleton instance.
-	 * @generated
 	 */
 	public static Plugin getPlugin() {
 		return plugin;
@@ -71,9 +59,6 @@ public class EEFRuntimeUI extends EMFPlugin {
 
 	/**
 	 * The actual implementation of the Eclipse <b>Plugin</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public static class Plugin extends EclipsePlugin {
 
@@ -81,9 +66,6 @@ public class EEFRuntimeUI extends EMFPlugin {
 
 		/**
 		 * Creates an instance.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
 		 */
 		public Plugin() {
 			super();

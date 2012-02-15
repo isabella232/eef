@@ -1,16 +1,13 @@
 package org.eclipse.emf.eef.runtime.tests.ui.views;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
-import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
-import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
+import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
+import org.eclipse.emf.eef.runtime.ui.viewer.util.EEFContentProviderImpl;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
@@ -47,30 +44,11 @@ public class EEFTesterView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		EEFTestStuffsBuilder builder = new EEFTestStuffsBuilder();
 		context = builder.buildEditingContextWithPropertiesEditingViewsForEcore();
-		final PropertiesEditingComponent component = context.getEditingComponent();
-		for (ViewHandler<?> viewHandler : component.getViewHandlers()) {
-			if (viewHandler instanceof SWTViewHandler) {
-				SWTViewHandler swtHandler = (SWTViewHandler)viewHandler;
-				try {
-					Composite view = swtHandler.createView(parent);
-					view.setLayoutData(new GridData(GridData.FILL_BOTH));
-					viewHandler.initView(component);
-				} catch (ViewConstructionException e) {
-					//EEF.getDefault().getLog().log(new Status(IStatus.ERROR, EEFTester.PLUGIN_ID, "Unable to create view.", e));
-					e.printStackTrace();
-				}
-			} else if (viewHandler instanceof PropertiesEditingViewHandler) {
-				PropertiesEditingViewHandler propertiesEditingHandler = (PropertiesEditingViewHandler) viewHandler;
-				try {
-					PropertiesEditingView view = propertiesEditingHandler.createView(component, parent);
-					view.getContents().setLayoutData(new GridData(GridData.FILL_BOTH));
-					propertiesEditingHandler.initView(component);
-				} catch (ViewConstructionException e) {
-					e.printStackTrace();
-				}
-				
-			}
-		}
+
+		EEFViewer viewer = new EEFViewer(parent, SWT.NONE);
+		viewer.setLayoutData(new GridData(GridData.FILL_BOTH));
+		viewer.setContentProvider(new EEFContentProviderImpl());
+		viewer.setInput(context);
 		makeActions();
 		contributeToActionBars();
 	}

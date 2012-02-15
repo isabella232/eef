@@ -15,7 +15,7 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
  *
  */
 public class DelegatingPropertiesEditingContext implements PropertiesEditingContext {
-	
+
 	private PropertiesEditingContext delegatingContext;
 	
 	/**
@@ -82,5 +82,11 @@ public class DelegatingPropertiesEditingContext implements PropertiesEditingCont
 		return delegatingContext.getAdapterFactory();
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#dispose()
+	 */
+	public void dispose() {
+		delegatingContext.dispose();
+	}
 }

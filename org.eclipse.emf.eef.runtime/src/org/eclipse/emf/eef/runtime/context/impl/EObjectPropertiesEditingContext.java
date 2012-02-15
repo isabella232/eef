@@ -107,5 +107,12 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#dispose()
+	 */
+	public void dispose() {
+		//TODO
+	}
 	
 }
