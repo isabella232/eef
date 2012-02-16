@@ -58,7 +58,7 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor implem
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener#removeAll(java.util.Collection)
 			 */
 			public void removeAll(Collection<?> removedElements) {
-				view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE_MANY, removedElements, null));
+				view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE_MANY, removedElements, null));
 				eReferenceEditor.refresh();
 			}
 			
@@ -67,7 +67,7 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor implem
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener#remove(java.lang.Object)
 			 */
 			public void remove(Object removedElement) {
-				view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE, removedElement, null));
+				view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE, removedElement, null));
 				eReferenceEditor.refresh();
 			}
 			
@@ -81,7 +81,7 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor implem
 				if (currentValue instanceof List<?>) {
 					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 					if (oldIndex > 0) {
-						view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
+						view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
 						eReferenceEditor.refresh();
 					}
 				}
@@ -97,7 +97,7 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor implem
 				if (currentValue instanceof List<?>) {
 					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 					if (oldIndex < ((List<?>) currentValue).size()) {
-						view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
+						view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
 						eReferenceEditor.refresh();
 					}
 				}
@@ -129,9 +129,9 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor implem
 				if (dialog.open() == Window.OK) {
 					if (dialog.getSelection() != null) {
 						if (dialog.getSelection() instanceof Collection<?>) {
-							view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD_MANY, null, dialog.getSelection()));
+							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD_MANY, null, dialog.getSelection()));
 						} else {
-							view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, dialog.getSelection()));
+							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, dialog.getSelection()));
 						}
 						eReferenceEditor.refresh();				
 					}

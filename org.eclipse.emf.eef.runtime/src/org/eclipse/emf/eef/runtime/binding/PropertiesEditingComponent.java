@@ -6,10 +6,11 @@ package org.eclipse.emf.eef.runtime.binding;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
-import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.notify.EditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
@@ -17,7 +18,7 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface PropertiesEditingComponent extends Adapter {
+public interface PropertiesEditingComponent extends Adapter, EditingListener {
 
 	/**
 	 * Returns the editing context of the component.
@@ -43,14 +44,25 @@ public interface PropertiesEditingComponent extends Adapter {
 	List<ViewHandler<?>> getViewHandlers();
 
 	/**
-	 * @return the component {@link ViewChangeNotifier}.
+	 * @return the {@link ViewChangeNotifier} component.
 	 */
-	public ViewChangeNotifier getViewChangeNotifier();
+	ViewChangeNotifier getViewChangeNotifier();
 	
 	/**
-	 * Notify the component that a widget of a managed view has changed.
-	 * @param editingEvent {@link PropertiesEditingEvent} described the view change.
+	 * Add a listener to this component.
+	 * @param listener the {@link EditingListener} to add.
 	 */
-	void fireViewChange(PropertiesEditingEvent editingEvent);
-
+	void addEditingListener(EditingListener listener);
+	
+	/**
+	 * Remove a listener to this component.
+	 * @param listener the {@link EditingListener} to remove.
+	 */
+	void removeEditingListener(EditingListener listener);
+	
+	/**
+	 * Validate the element edited by the current component.
+	 * @return a result {@link Diagnostic} for this validation. 
+	 */
+	Diagnostic validate();
 }

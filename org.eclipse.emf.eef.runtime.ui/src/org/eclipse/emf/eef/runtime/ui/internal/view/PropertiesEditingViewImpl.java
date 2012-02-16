@@ -11,6 +11,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewHelperImpl;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewSettingsImpl;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -49,6 +50,7 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 		this.viewDescriptor = viewDescriptor;
 		this.editingComponent = editingComponent;
 		this.propertyEditors = new HashMap<ElementEditor, PropertyEditor>();
+		editingComponent.addEditingListener(this);
 	}
 
 	/**
@@ -129,6 +131,14 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 			}
 			
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.notify.EditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
+	 */
+	public void firePropertiesChanged(PropertiesEditingEvent event) {
+		// Default : Do nothing
 	}
 
 	/**

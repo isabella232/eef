@@ -1,7 +1,12 @@
 package org.eclipse.emf.eef.runtime;
 
+import java.util.Map;
+
 import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.Diagnostician;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -22,8 +27,8 @@ public class EEFRuntime extends EMFPlugin {
 	 */
 	public EEFRuntime() {
 		super
-		  (new ResourceLocator [] {
-		   });
+		(new ResourceLocator [] {
+		});
 	}
 
 	/**
@@ -47,6 +52,9 @@ public class EEFRuntime extends EMFPlugin {
 	 * @generated
 	 */
 	public static class Plugin extends EclipsePlugin {
+
+		private Diagnostician diagnostician;
+
 		/**
 		 * Creates an instance.
 		 * <!-- begin-user-doc -->
@@ -59,7 +67,29 @@ public class EEFRuntime extends EMFPlugin {
 			// Remember the static instance.
 			//
 			plugin = this;
-		}
-	}
 
+			diagnostician = new Diagnostician() {
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.emf.ecore.util.Diagnostician#doValidateContents(org.eclipse.emf.ecore.EObject,
+				 *      org.eclipse.emf.common.util.DiagnosticChain, java.util.Map)
+				 */
+				@Override
+				protected boolean doValidateContents(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context) {
+					return true;
+				}
+
+			};
+		}
+
+		/**
+		 * @return the diagnostician
+		 */
+		public Diagnostician getEEFValidator() {
+			return diagnostician;
+		}
+
+	}
 }

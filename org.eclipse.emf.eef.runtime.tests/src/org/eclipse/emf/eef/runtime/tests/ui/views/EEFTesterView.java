@@ -3,8 +3,8 @@ package org.eclipse.emf.eef.runtime.tests.ui.views;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
+import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
-import org.eclipse.emf.eef.runtime.ui.viewer.util.EEFContentProviderImpl;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
@@ -47,7 +47,7 @@ public class EEFTesterView extends ViewPart {
 
 		EEFViewer viewer = new EEFViewer(parent, SWT.NONE);
 		viewer.setLayoutData(new GridData(GridData.FILL_BOTH));
-		viewer.setContentProvider(new EEFContentProviderImpl());
+		viewer.setContentProvider(new EEFContentProvider());
 		viewer.setInput(context);
 		makeActions();
 		contributeToActionBars();

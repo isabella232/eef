@@ -55,7 +55,7 @@ public class CheckboxPropertyEditor implements PropertyEditor, SetUnsetPropertyE
 			 */
 			public void widgetSelected(SelectionEvent e) {
 				if (view.getEditingComponent() != null)
-					view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, new Boolean(checkbox.getSelection())));
+					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, new Boolean(checkbox.getSelection())));
 			}
 
 		});

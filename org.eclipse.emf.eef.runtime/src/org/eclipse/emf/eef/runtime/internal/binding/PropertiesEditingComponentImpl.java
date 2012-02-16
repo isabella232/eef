@@ -9,19 +9,30 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.notify.EditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -33,12 +44,14 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	private PropertiesEditingModel editingModel;
 	private List<ViewHandler<?>> viewHandlers;
 	private ViewChangeNotifier viewChangeNotifier;
+	private List<EditingListener> listeners;
 
 	/**
-	 * @param editingModel
+	 * @param editingModel model defining the properties editing definition. 
 	 */
 	public PropertiesEditingComponentImpl(PropertiesEditingModel editingModel) {
 		this.editingModel = editingModel;
+		this.listeners = Lists.newArrayList();
 	}
 
 	/**
@@ -63,6 +76,22 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	public EClassBinding getBinding() {
 		return editingModel.binding((EObject) getTarget());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#addEditingListener(org.eclipse.emf.eef.runtime.notify.EditingListener)
+	 */
+	public void addEditingListener(EditingListener listener) {
+		listeners.add(listener);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#removeEditingListener(org.eclipse.emf.eef.runtime.notify.EditingListener)
+	 */
+	public void removeEditingListener(EditingListener listener) {
+		listeners.remove(listener);		
 	}
 
 	/**
@@ -168,13 +197,21 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#fireViewChange(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
+	 * @see org.eclipse.emf.eef.runtime.notify.EditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
-	public void fireViewChange(PropertiesEditingEvent editingEvent) {
-		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(new SemanticPropertiesEditingContext(this, editingEvent));
-		if (editingPolicy != null) {
-			editingPolicy.execute();
+	public void firePropertiesChanged(PropertiesEditingEvent editingEvent) {
+		Diagnostic valueDiagnostic = validateValue(editingEvent);
+		if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
+			propagateEvent(new PropertiesValidationEditingEvent(editingEvent, valueDiagnostic));
+		} else {
+			PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(new SemanticPropertiesEditingContext(this, editingEvent));
+			if (editingPolicy != null) {
+				editingPolicy.execute();
+			}
+			propagateEvent(editingEvent);
 		}
+		Diagnostic validate = validate();
+		propagateEvent(new PropertiesValidationEditingEvent(editingEvent, validate));
 	}
 
 	/**
@@ -202,4 +239,53 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 		}
 		return viewHandlers;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.api.notify.IPropertiesEditionListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.api.notify.IPropertiesEditionEvent)
+	 */
+	private void propagateEvent(PropertiesEditingEvent event) {
+		event.addHolder(this);
+		for (EditingListener listener : listeners) {
+			if (!event.hold(listener))
+				listener.firePropertiesChanged(event);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#validate()
+	 */
+	public Diagnostic validate() {
+		Diagnostic validate = Diagnostic.OK_INSTANCE;
+		validate = EEFRuntime.getPlugin().getEEFValidator().validate((EObject) getTarget());
+		return validate;
+	}
+
+	/**
+	 * Validate the change described by the given event.
+	 * @param editingEvent {@link PropertiesEditingEvent} notifying a view change.
+	 * @return the {@link Diagnostic} of this validation.
+	 */
+	private Diagnostic validateValue(PropertiesEditingEvent editingEvent) {
+		Diagnostic ret = Diagnostic.OK_INSTANCE;
+		EStructuralFeature feature = getBinding().feature(editingEvent.getAffectedEditor());
+		if (editingEvent.getNewValue() != null && feature instanceof EAttribute) {
+			EAttribute attribute = (EAttribute)feature;
+			try {
+				Object newValue = editingEvent.getNewValue();
+				if (newValue instanceof String) {
+					newValue = EcoreUtil.createFromString(attribute.getEAttributeType(), (String)newValue);
+				}
+				ret = Diagnostician.INSTANCE.validate(attribute.getEAttributeType(), newValue);
+			} catch (IllegalArgumentException iae) {
+				ret = BasicDiagnostic.toDiagnostic(iae);
+			} catch (WrappedException we) {
+				ret = BasicDiagnostic.toDiagnostic(we);
+			}
+		}
+		return ret;
+	}
+
 }

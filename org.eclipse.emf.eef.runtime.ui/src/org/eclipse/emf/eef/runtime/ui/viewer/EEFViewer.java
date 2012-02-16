@@ -9,11 +9,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.notify.EditingListener;
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
-import org.eclipse.emf.eef.runtime.ui.viewer.util.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.jface.viewers.ContentViewer;
@@ -95,7 +95,7 @@ public class EEFViewer extends ContentViewer {
 	 */
 	public void setContentProvider(IContentProvider contentProvider) {
 		assert contentProvider instanceof EEFContentProvider:"The content provider of this viewer must implement EEFContentProvider interface.";
-		super.setContentProvider(contentProvider);
+	super.setContentProvider(contentProvider);
 	}
 
 	/**
@@ -184,6 +184,23 @@ public class EEFViewer extends ContentViewer {
 	 */
 	public void setLayoutData(Object layoutData) {
 		control.setLayoutData(layoutData);
+	}
+	
+	/**
+	 * Add a listener to the component of the context.
+	 * @param listener {@link EditingListener} to add.
+	 */
+	void addEditingListener(EditingListener listener) {
+		//TODO: to protect
+		((EEFContentProvider)getContentProvider()).addEditingListener(listener);
+	}
+
+	/**
+	 * Remove a listener to the component of the context.
+	 * @param listener {@link EditingListener} to remove.
+	 */
+	void removeEditingListener(EditingListener listener) {
+		((EEFContentProvider)getContentProvider()).removeEditingListener(listener);
 	}
 
 	/*

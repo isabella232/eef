@@ -14,8 +14,8 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
+import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
-import org.eclipse.emf.eef.runtime.ui.viewer.util.EEFContentProviderImpl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -115,7 +115,7 @@ public abstract class PropertiesEditingViewEditingTestCase extends TestCase {
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayout(new GridLayout(1, false));
 		viewer = new EEFViewer(composite, SWT.NONE);
-		viewer.setContentProvider(new EEFContentProviderImpl());
+		viewer.setContentProvider(new EEFContentProvider());
 		viewer.setInput(context);
 		shell.pack();
 		shell.open();

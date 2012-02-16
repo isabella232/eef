@@ -57,7 +57,7 @@ public class TextPropertyEditor extends StandardPropertyEditor implements SetUns
 			 */
 			public void focusLost(FocusEvent e) {
 				if (view.getEditingComponent() != null)
-					view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, text.getText()));
+					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, text.getText()));
 			}
 
 		});
@@ -74,7 +74,7 @@ public class TextPropertyEditor extends StandardPropertyEditor implements SetUns
 			public void keyPressed(KeyEvent e) {
 				if (e.character == SWT.CR) {
 					if (view.getEditingComponent() != null)
-						view.getEditingComponent().fireViewChange(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, text.getText()));
+						view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, text.getText()));
 				}
 			}
 
