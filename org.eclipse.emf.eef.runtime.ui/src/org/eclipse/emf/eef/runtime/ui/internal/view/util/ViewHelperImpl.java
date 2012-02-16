@@ -186,7 +186,7 @@ public class ViewHelperImpl implements ViewHelper {
 	 * @return
 	 */
 	private EStructuralFeature feature(Object editor) {
-		return editingComponent.getBinding().feature(editor);
+		return editingComponent.getBinding().feature(editor, editingComponent.getEditingContext().getOptions().autowire());
 	}
 
 	/**

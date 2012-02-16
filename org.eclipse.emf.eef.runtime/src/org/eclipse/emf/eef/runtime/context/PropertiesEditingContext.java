@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
@@ -54,7 +55,12 @@ public interface PropertiesEditingContext {
 	 * @return the {@link AdapterFactory} of the context.
 	 */
 	AdapterFactory getAdapterFactory();
-
+	
+	/**
+	 * @return the {@link ContextOptions} object of this context.
+	 */
+	ContextOptions getOptions();
+	
 	/**
 	 * Dispose the current context. 
 	 */

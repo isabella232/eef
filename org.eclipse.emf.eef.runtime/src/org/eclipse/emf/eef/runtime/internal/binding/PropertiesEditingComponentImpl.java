@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -39,6 +43,13 @@ import com.google.common.collect.Lists;
  *
  */
 public class PropertiesEditingComponentImpl extends AdapterImpl implements PropertiesEditingComponent {
+
+	public static final Object FIRE_PROPERTIES_CHANGED_JOB_FAMILY = new Object();
+	
+	/**
+	 * the job that will fire the property changed event
+	 */
+	protected FirePropertiesChangedJob firePropertiesChangedJob;
 
 	private PropertiesEditingContext editingContext;
 	private PropertiesEditingModel editingModel;
@@ -110,7 +121,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 		if (msg.getFeature() instanceof EStructuralFeature) {
 			EStructuralFeature structuralFeature = (EStructuralFeature)msg.getFeature();
 			EClassBinding binding = editingModel.binding((EObject) getTarget());
-			Object propertyEditor = binding.propertyEditor(structuralFeature);
+			Object propertyEditor = binding.propertyEditor(structuralFeature, editingContext.getOptions().autowire());
 			switch (msg.getEventType()) {
 			case Notification.SET:
 				try {
@@ -200,18 +211,50 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 * @see org.eclipse.emf.eef.runtime.notify.EditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public void firePropertiesChanged(PropertiesEditingEvent editingEvent) {
-		Diagnostic valueDiagnostic = validateValue(editingEvent);
-		if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
-			propagateEvent(new PropertiesValidationEditingEvent(editingEvent, valueDiagnostic));
-		} else {
-			PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(new SemanticPropertiesEditingContext(this, editingEvent));
-			if (editingPolicy != null) {
-				editingPolicy.execute();
-			}
-			propagateEvent(editingEvent);
+		if (editingContext.getOptions().validateEditing()) {
+			//@nottested
+			Diagnostic valueDiagnostic = validateValue(editingEvent);
+			if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
+				propagateEvent(new PropertiesValidationEditingEvent(editingEvent, valueDiagnostic));
+				return;
+			} 
 		}
-		Diagnostic validate = validate();
-		propagateEvent(new PropertiesValidationEditingEvent(editingEvent, validate));
+		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(new SemanticPropertiesEditingContext(this, editingEvent));
+		if (editingPolicy != null) {
+			editingPolicy.execute();
+		}
+		propagateEvent(editingEvent);
+		if (editingContext.getOptions().validateEditing()) {		
+			Diagnostic validate = validate();
+			propagateEvent(new PropertiesValidationEditingEvent(editingEvent, validate));
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#delayedFirePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
+	 * @nottested
+	 */
+	public void delayedFirePropertiesChanged(PropertiesEditingEvent event) {
+		if (getFirePropertiesChangedJob().cancel()) {
+			getFirePropertiesChangedJob().setEvent(event);
+			getFirePropertiesChangedJob().schedule(editingContext.getOptions().delayedFirePropertiesChangedDelay());
+		} else {
+			try {
+				getFirePropertiesChangedJob().join();
+				getFirePropertiesChangedJob().setEvent(event);
+				getFirePropertiesChangedJob().schedule();
+			} catch (InterruptedException e) {
+				getFirePropertiesChangedJob().setEvent(null);
+			}
+		}
+	}
+
+	protected FirePropertiesChangedJob getFirePropertiesChangedJob() {
+		if (firePropertiesChangedJob == null) {
+			firePropertiesChangedJob = new FirePropertiesChangedJob("Fire properties changed...");
+		}
+		return firePropertiesChangedJob;
 	}
 
 	/**
@@ -270,7 +313,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	private Diagnostic validateValue(PropertiesEditingEvent editingEvent) {
 		Diagnostic ret = Diagnostic.OK_INSTANCE;
-		EStructuralFeature feature = getBinding().feature(editingEvent.getAffectedEditor());
+		EStructuralFeature feature = getBinding().feature(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
 		if (editingEvent.getNewValue() != null && feature instanceof EAttribute) {
 			EAttribute attribute = (EAttribute)feature;
 			try {
@@ -286,6 +329,48 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 			}
 		}
 		return ret;
+	}
+
+	protected class FirePropertiesChangedJob extends Job {
+
+		private PropertiesEditingEvent fEvent;
+
+		public FirePropertiesChangedJob(String name) {
+			super(name);
+		}
+
+		@Override
+		public boolean belongsTo(Object family) {
+			return family == FIRE_PROPERTIES_CHANGED_JOB_FAMILY;
+		}
+
+		@Override
+		public boolean shouldSchedule() {
+			return fEvent != null;
+		}
+
+		@Override
+		public boolean shouldRun() {
+			return fEvent != null;
+		}
+
+		@Override
+		protected void canceling() {
+			super.canceling();
+			fEvent = null;
+		}
+
+		public void setEvent(PropertiesEditingEvent event) {
+			fEvent = event;
+		}
+
+		protected IStatus run(IProgressMonitor monitor) {
+//			deactivate();
+			firePropertiesChanged(fEvent);
+//			activate();
+			fEvent = null;
+			return Status.OK_STATUS;
+		}
 	}
 
 }

@@ -124,7 +124,7 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 		UnmodifiableIterator<ElementEditor> elementEditors = Iterators.filter(viewDescriptor.eAllContents(), ElementEditor.class);
 		while (elementEditors.hasNext()) {
 			ElementEditor elementEditor = elementEditors.next();
-			EStructuralFeature feature = editingComponent.getBinding().feature(elementEditor);
+			EStructuralFeature feature = editingComponent.getBinding().feature(elementEditor, editingComponent.getEditingContext().getOptions().autowire());
 			if (feature != null) {
 				PropertyEditor propertyEditor = propertyEditors.get(elementEditor);
 				propertyEditor.init(feature);
@@ -136,6 +136,7 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.notify.EditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
+	 * @nottested
 	 */
 	public void firePropertiesChanged(PropertiesEditingEvent event) {
 		// Default : Do nothing

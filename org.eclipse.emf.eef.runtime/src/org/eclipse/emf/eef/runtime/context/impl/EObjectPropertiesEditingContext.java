@@ -24,14 +24,24 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	protected EditingModelProvider modelProvider;
 	protected ViewHandlerProvider viewHandlerProvider;
 	protected AdapterFactory adapterFactory;
+	protected ContextOptions options;
 	
 	/**
 	 * @param eObject {@link EObject} to edit.
 	 */
 	public EObjectPropertiesEditingContext(EObject eObject) {
 		this.eObject = eObject;
+		this.options = initOptions();
 	}
 	
+	/**
+	 * Initialize the options of this context.
+	 * @return the {@link ContextOptions} to use.
+	 */
+	protected ContextOptions initOptions() {
+		return new ContextOptions();
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingModel()
@@ -93,6 +103,14 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 		PropertiesEditingComponent component = (PropertiesEditingComponent) modelProvider.adapt(eObject, PropertiesEditingComponent.class);
 		component.setEditingContext(this);
 		return component;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getOptions()
+	 */
+	public ContextOptions getOptions() {
+		return options;
 	}
 
 	/**

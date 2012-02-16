@@ -32,7 +32,7 @@ public class EClassBindingResolverTests {
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(SampleView.class)
 			.build();
-		assertEquals(EcorePackage.Literals.ENAMED_ELEMENT__NAME, editingModel.getBindings().get(0).feature("name"));
+		assertEquals(EcorePackage.Literals.ENAMED_ELEMENT__NAME, editingModel.getBindings().get(0).feature("name", true));
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class EClassBindingResolverTests {
 		.bindClass(EcorePackage.Literals.ECLASS)
 			.withView(SampleView.class)
 		.build();
-		assertEquals("name", editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ENAMED_ELEMENT__NAME));		
+		assertEquals("name", editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ENAMED_ELEMENT__NAME, true));		
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class EClassBindingResolverTests {
 				.withView(SampleTitleView.class)
 				.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME, "title")
 			.build();
-		assertEquals(EcorePackage.Literals.ENAMED_ELEMENT__NAME, editingModel.getBindings().get(0).feature("title"));
+		assertEquals(EcorePackage.Literals.ENAMED_ELEMENT__NAME, editingModel.getBindings().get(0).feature("title", true));
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class EClassBindingResolverTests {
 				.withView(SampleTitleView.class)
 				.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME, "title")
 			.build();
-		assertEquals("title", editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ENAMED_ELEMENT__NAME));
+		assertEquals("title", editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ENAMED_ELEMENT__NAME, true));
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class EClassBindingResolverTests {
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(sampleView)
 			.build();
-		assertEquals(EcorePackage.Literals.ECLASS__ABSTRACT, editingModel.getBindings().get(0).feature(abstractEditor));
+		assertEquals(EcorePackage.Literals.ECLASS__ABSTRACT, editingModel.getBindings().get(0).feature(abstractEditor, true));
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class EClassBindingResolverTests {
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(sampleView)
 			.build();
-		assertEquals(abstractEditor, editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ECLASS__ABSTRACT));
+		assertEquals(abstractEditor, editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ECLASS__ABSTRACT, true));
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class EClassBindingResolverTests {
 				.withView(sampleView)
 			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT, instanciableEditor)
 			.build();
-		assertEquals(EcorePackage.Literals.ECLASS__ABSTRACT, editingModel.getBindings().get(0).feature(instanciableEditor));
+		assertEquals(EcorePackage.Literals.ECLASS__ABSTRACT, editingModel.getBindings().get(0).feature(instanciableEditor, true));
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class EClassBindingResolverTests {
 				.withView(sampleView)
 			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT, instanciableEditor)
 			.build();
-		assertEquals(instanciableEditor, editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ECLASS__ABSTRACT));
+		assertEquals(instanciableEditor, editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ECLASS__ABSTRACT, true));
 	}
 
 }

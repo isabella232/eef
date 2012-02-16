@@ -91,17 +91,17 @@ public interface EClassBinding extends EObject {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model viewRequired="true"
+	 * @model viewRequired="true" autowireRequired="true"
 	 * @generated
 	 */
-	EStructuralFeature feature(Object view);
+	EStructuralFeature feature(Object view, boolean autowire);
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model featureRequired="true"
+	 * @model featureRequired="true" autowireRequired="true"
 	 * @generated
 	 */
-	Object propertyEditor(EStructuralFeature feature);
+	Object propertyEditor(EStructuralFeature feature, boolean autowire);
 
 } // EClassBinding

@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.notify.EditingListener;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
@@ -47,6 +48,13 @@ public interface PropertiesEditingComponent extends Adapter, EditingListener {
 	 * @return the {@link ViewChangeNotifier} component.
 	 */
 	ViewChangeNotifier getViewChangeNotifier();
+	
+	/**
+	 * Specifies that a feature value has changed. The event process must be delayed.
+	 * 
+	 * @param event information about this change.
+	 */
+	void delayedFirePropertiesChanged(PropertiesEditingEvent event);
 	
 	/**
 	 * Add a listener to this component.

@@ -158,25 +158,27 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EStructuralFeature feature(Object view) {
+	public EStructuralFeature feature(Object view, boolean autowire) {
 		for (PropertyBinding binding : getPropertyBindings()) {
 			if (binding.getEditor().equals(view)) {
 				return binding.getFeature();
 			}
 		}
-		if (view instanceof String) {
-			return eClass.getEStructuralFeature((String)view);
-		}
-		if (view instanceof EObject) {
-			// Here we dont have an PropertyBinding to help us. We check if the view is an EObject (fon instance an ElementEditor)
-			// We looking for an "name" structural feature and if this feature is type of String, we try to associate this name
-			// with a structural feature of the handled EClass. For instance if an ElementEditor (which has a "name" feature) is named
-			// "active" and the current EClass has a feature named "active", we return this feature.
-			EStructuralFeature nameFeature = ((EObject) view).eClass().getEStructuralFeature("name");
-			if (nameFeature != null && "java.lang.String".equals(nameFeature.getEType().getInstanceClassName())) {
-				EStructuralFeature feature = eClass.getEStructuralFeature((String)((EObject) view).eGet(nameFeature));
-				if (feature != null) {
-					return feature;
+		if (autowire) {
+			if (view instanceof String) {
+				return eClass.getEStructuralFeature((String)view);
+			}
+			if (view instanceof EObject) {
+				// Here we dont have an PropertyBinding to help us. We check if the view is an EObject (fon instance an ElementEditor)
+				// We looking for an "name" structural feature and if this feature is type of String, we try to associate this name
+				// with a structural feature of the handled EClass. For instance if an ElementEditor (which has a "name" feature) is named
+				// "active" and the current EClass has a feature named "active", we return this feature.
+				EStructuralFeature nameFeature = ((EObject) view).eClass().getEStructuralFeature("name");
+				if (nameFeature != null && "java.lang.String".equals(nameFeature.getEType().getInstanceClassName())) {
+					EStructuralFeature feature = eClass.getEStructuralFeature((String)((EObject) view).eGet(nameFeature));
+					if (feature != null) {
+						return feature;
+					}
 				}
 			}
 		}
@@ -189,22 +191,24 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Object propertyEditor(EStructuralFeature feature) {
+	public Object propertyEditor(EStructuralFeature feature, boolean autowire) {
 		for (PropertyBinding binding : getPropertyBindings()) {
 			if (binding.getFeature().equals(feature)) {
 				return binding.getEditor();
 			}
 		}
-		for (Object view : views) {
-			if (view instanceof EObjectView) {
-				TreeIterator<EObject> eAllContents = ((EObjectView) view).getDefinition().eAllContents();
-				while (eAllContents.hasNext()) {
-					EObject next = eAllContents.next();
-					EStructuralFeature nameFeature = next.eClass().getEStructuralFeature("name");
-					if (nameFeature != null) {
-						Object name = next.eGet(nameFeature);
-						if (name instanceof String && name.equals(feature.getName())) {
-							return next;
+		if (autowire) {
+			for (Object view : views) {
+				if (view instanceof EObjectView) {
+					TreeIterator<EObject> eAllContents = ((EObjectView) view).getDefinition().eAllContents();
+					while (eAllContents.hasNext()) {
+						EObject next = eAllContents.next();
+						EStructuralFeature nameFeature = next.eClass().getEStructuralFeature("name");
+						if (nameFeature != null) {
+							Object name = next.eGet(nameFeature);
+							if (name instanceof String && name.equals(feature.getName())) {
+								return next;
+							}
 						}
 					}
 				}
@@ -221,10 +225,10 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EditingModelPackage.ECLASS_BINDING__VIEWS:
-				return ((InternalEList<?>)getViews()).basicRemove(otherEnd, msgs);
-			case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
-				return ((InternalEList<?>)getPropertyBindings()).basicRemove(otherEnd, msgs);
+		case EditingModelPackage.ECLASS_BINDING__VIEWS:
+			return ((InternalEList<?>)getViews()).basicRemove(otherEnd, msgs);
+		case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
+			return ((InternalEList<?>)getPropertyBindings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -237,13 +241,13 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EditingModelPackage.ECLASS_BINDING__ECLASS:
-				if (resolve) return getEClass();
-				return basicGetEClass();
-			case EditingModelPackage.ECLASS_BINDING__VIEWS:
-				return getViews();
-			case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
-				return getPropertyBindings();
+		case EditingModelPackage.ECLASS_BINDING__ECLASS:
+			if (resolve) return getEClass();
+			return basicGetEClass();
+		case EditingModelPackage.ECLASS_BINDING__VIEWS:
+			return getViews();
+		case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
+			return getPropertyBindings();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -257,17 +261,17 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EditingModelPackage.ECLASS_BINDING__ECLASS:
-				setEClass((EClass)newValue);
-				return;
-			case EditingModelPackage.ECLASS_BINDING__VIEWS:
-				getViews().clear();
-				getViews().addAll((Collection<? extends View>)newValue);
-				return;
-			case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
-				getPropertyBindings().clear();
-				getPropertyBindings().addAll((Collection<? extends PropertyBinding>)newValue);
-				return;
+		case EditingModelPackage.ECLASS_BINDING__ECLASS:
+			setEClass((EClass)newValue);
+			return;
+		case EditingModelPackage.ECLASS_BINDING__VIEWS:
+			getViews().clear();
+			getViews().addAll((Collection<? extends View>)newValue);
+			return;
+		case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
+			getPropertyBindings().clear();
+			getPropertyBindings().addAll((Collection<? extends PropertyBinding>)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -280,15 +284,15 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EditingModelPackage.ECLASS_BINDING__ECLASS:
-				setEClass((EClass)null);
-				return;
-			case EditingModelPackage.ECLASS_BINDING__VIEWS:
-				getViews().clear();
-				return;
-			case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
-				getPropertyBindings().clear();
-				return;
+		case EditingModelPackage.ECLASS_BINDING__ECLASS:
+			setEClass((EClass)null);
+			return;
+		case EditingModelPackage.ECLASS_BINDING__VIEWS:
+			getViews().clear();
+			return;
+		case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
+			getPropertyBindings().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -301,12 +305,12 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EditingModelPackage.ECLASS_BINDING__ECLASS:
-				return eClass != null;
-			case EditingModelPackage.ECLASS_BINDING__VIEWS:
-				return views != null && !views.isEmpty();
-			case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
-				return propertyBindings != null && !propertyBindings.isEmpty();
+		case EditingModelPackage.ECLASS_BINDING__ECLASS:
+			return eClass != null;
+		case EditingModelPackage.ECLASS_BINDING__VIEWS:
+			return views != null && !views.isEmpty();
+		case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
+			return propertyBindings != null && !propertyBindings.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

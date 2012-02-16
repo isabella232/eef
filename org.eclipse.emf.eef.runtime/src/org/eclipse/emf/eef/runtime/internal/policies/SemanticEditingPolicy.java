@@ -36,7 +36,7 @@ public abstract class SemanticEditingPolicy implements PropertiesEditingPolicy {
 	public void execute() {
 		EObject editedObject = (EObject) editingComponent.getTarget();
 		EClassBinding binding = editingComponent.getEditingContext().getEditingModel().binding(editedObject);
-		EStructuralFeature feature = binding.feature(editingEvent.getAffectedEditor());
+		EStructuralFeature feature = binding.feature(editingEvent.getAffectedEditor(), editingComponent.getEditingContext().getOptions().autowire());
 		switch (editingEvent.getEventType()) {
 		case PropertiesEditingEvent.SET:
 			performSet((EObject) editingComponent.getTarget(), feature, editingEvent.getNewValue());				

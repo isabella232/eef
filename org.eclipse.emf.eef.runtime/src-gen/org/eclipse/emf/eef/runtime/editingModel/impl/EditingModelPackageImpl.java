@@ -413,9 +413,11 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 
 		op = addEOperation(eClassBindingEClass, theEcorePackage.getEStructuralFeature(), "feature", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEJavaObject(), "view", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEBoolean(), "autowire", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(eClassBindingEClass, ecorePackage.getEJavaObject(), "propertyEditor", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theEcorePackage.getEStructuralFeature(), "feature", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEBoolean(), "autowire", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(viewEClass, View.class, "View", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(this.getViewHandler());
