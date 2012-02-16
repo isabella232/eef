@@ -190,7 +190,7 @@ public class EEFViewer extends ContentViewer {
 	 * Add a listener to the component of the context.
 	 * @param listener {@link EditingListener} to add.
 	 */
-	void addEditingListener(EditingListener listener) {
+	public void addEditingListener(EditingListener listener) {
 		//TODO: to protect
 		((EEFContentProvider)getContentProvider()).addEditingListener(listener);
 	}
@@ -199,7 +199,7 @@ public class EEFViewer extends ContentViewer {
 	 * Remove a listener to the component of the context.
 	 * @param listener {@link EditingListener} to remove.
 	 */
-	void removeEditingListener(EditingListener listener) {
+	public void removeEditingListener(EditingListener listener) {
 		((EEFContentProvider)getContentProvider()).removeEditingListener(listener);
 	}
 
