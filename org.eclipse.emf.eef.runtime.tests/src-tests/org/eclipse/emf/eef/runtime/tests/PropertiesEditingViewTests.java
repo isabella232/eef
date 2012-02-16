@@ -3,8 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.tests;
 
-import static org.junit.Assert.assertEquals;
-
 import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.PropertiesEditingViewEditingTestCase;
@@ -24,10 +22,13 @@ public class PropertiesEditingViewTests extends PropertiesEditingViewEditingTest
 	private static final boolean NEW_SAMPLE_ACTIVE_FOR_TEST = !EEFTestStuffsBuilder.SAMPLE_ACTIVATION_INITIALIZATION_EDITING_VIEWS_CONTEXT;
 	private static final String NEW_SAMPLE_NAME_FOR_TEST = "New Sample name for Test";
 
+	
+	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#buildEditingContext()
+	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.PropertiesEditingViewEditingTestCase#buildEditingContext()
 	 */
+	@Override
 	protected PropertiesEditingContext buildEditingContext() {
 		return new EEFTestStuffsBuilder().buildEditingContextWithPropertiesEditingViews();
 	}
@@ -37,9 +38,8 @@ public class PropertiesEditingViewTests extends PropertiesEditingViewEditingTest
 	 */
 	@Test
 	public void testPropertiesEditingViewBuild() {
-		assertEquals("Bad count of views.", 1, views.size());
-		int index = 0;
-		Composite view = getView(index);
+		assertEquals("Bad count of views.", 1, getViews().size());
+		Composite view = getViews().get(0);
 		assertEquals("Bad view selection.", 5, view.getChildren().length);
 		Text nameText = getControl(view, 1);
 		assertEquals("Bad view initialization", EEFTestStuffsBuilder.SAMPLE_NAME_INITIALIZATION_EDITING_VIEWS_CONTEXT, nameText.getText());
@@ -54,7 +54,7 @@ public class PropertiesEditingViewTests extends PropertiesEditingViewEditingTest
 	public void testViewUpdate() {
 		Sample sample = getElementToEdit();
 		sample.setName(NEW_SAMPLE_NAME_FOR_TEST);
-		Composite view = getView(0);
+		Composite view = getViews().get(0);
 		Text nameText = getControl(view, 1);
 		assertEquals("bad view refresh", NEW_SAMPLE_NAME_FOR_TEST, nameText.getText());
 		sample.setActive(NEW_SAMPLE_ACTIVE_FOR_TEST);
