@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 public class EEFEditingWizard extends Wizard {
 
 	private PropertiesEditingContext context;
-	
+
 	/**
 	 * @param context {@link PropertiesEditingContext} to use in this wizard.
 	 */
@@ -47,8 +47,18 @@ public class EEFEditingWizard extends Wizard {
 	public boolean performFinish() {
 		return true;
 	}
-
 	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.jface.wizard.Wizard#performCancel()
+	 */
+	public boolean performCancel() {
+		context.undoEditing();
+		return true;
+	}
+
+
+
 	private class PropertiesEditingWizardPage extends WizardPage {
 
 		private EEFViewer viewer;
@@ -61,7 +71,7 @@ public class EEFEditingWizard extends Wizard {
 			super("Properties Editing");
 			setDescription("Edit the object properties.");
 		}
-		
+
 		/**
 		 * @param context the context to use.
 		 */
@@ -83,8 +93,7 @@ public class EEFEditingWizard extends Wizard {
 			viewer.setInput(context);
 			this.setControl(control);
 		}
-		
-	}
-	
-	
+
+	}	
+
 }

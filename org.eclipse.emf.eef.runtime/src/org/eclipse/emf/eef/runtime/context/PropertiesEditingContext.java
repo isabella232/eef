@@ -62,6 +62,11 @@ public interface PropertiesEditingContext {
 	ContextOptions getOptions();
 	
 	/**
+	 * Undo all the editing operations in this context.
+	 */
+	void undoEditing();
+	
+	/**
 	 * Dispose the current context. 
 	 */
 	void dispose();

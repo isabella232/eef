@@ -93,6 +93,14 @@ public class DelegatingPropertiesEditingContext implements PropertiesEditingCont
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#undoEditing()
+	 */
+	public void undoEditing() {
+		delegatingContext.undoEditing();
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#dispose()
 	 */
 	public void dispose() {

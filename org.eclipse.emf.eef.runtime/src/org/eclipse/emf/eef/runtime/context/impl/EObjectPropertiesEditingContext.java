@@ -5,6 +5,9 @@ package org.eclipse.emf.eef.runtime.context.impl;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.change.ChangeDescription;
+import org.eclipse.emf.ecore.change.util.ChangeRecorder;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelProvider;
@@ -21,10 +24,13 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 public class EObjectPropertiesEditingContext implements PropertiesEditingContext {
 
 	protected EObject eObject;
+	protected AdapterFactory adapterFactory;
+	protected ChangeRecorder changeRecorder;
+
+	protected ContextOptions options;
+
 	protected EditingModelProvider modelProvider;
 	protected ViewHandlerProvider viewHandlerProvider;
-	protected AdapterFactory adapterFactory;
-	protected ContextOptions options;
 	
 	/**
 	 * @param eObject {@link EObject} to edit.
@@ -32,6 +38,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	public EObjectPropertiesEditingContext(EObject eObject) {
 		this.eObject = eObject;
 		this.options = initOptions();
+		initChangeRecorder(eObject);
 	}
 	
 	/**
@@ -40,6 +47,22 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	protected ContextOptions initOptions() {
 		return new ContextOptions();
+	}
+
+	/**
+	 * @param context the {@link PropertiesEditingContext}.
+	 */
+	protected void initChangeRecorder(EObject eObject) {
+		Resource resource = eObject.eResource();
+		if (resource != null) {
+			if (resource.getResourceSet() != null) {
+				this.changeRecorder = new ChangeRecorder(resource.getResourceSet());
+			} else {
+				this.changeRecorder = new ChangeRecorder(resource);
+			}
+		} else {
+			this.changeRecorder = new ChangeRecorder(eObject);
+		}
 	}
 
 	/**
@@ -115,6 +138,14 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getChangeRecorder()
+	 */
+	public ChangeRecorder getChangeRecorder() {
+		return changeRecorder;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
@@ -127,10 +158,19 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#undoEditing()
+	 */
+	public void undoEditing() {
+		ChangeDescription endRecording = getChangeRecorder().endRecording();
+		endRecording.applyAndReverse();
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#dispose()
 	 */
 	public void dispose() {
-		//TODO
+		changeRecorder.dispose();
 	}
 	
 }
