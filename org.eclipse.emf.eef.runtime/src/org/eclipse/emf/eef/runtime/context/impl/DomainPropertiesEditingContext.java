@@ -21,8 +21,9 @@ public class DomainPropertiesEditingContext extends EObjectPropertiesEditingCont
 	/**
 	 * @param eObject
 	 */
-	public DomainPropertiesEditingContext(EObject eObject) {
+	public DomainPropertiesEditingContext(EditingDomain editingDomain, EObject eObject) {
 		super(eObject);
+		this.editingDomain = editingDomain;
 	}
 
 	/**
@@ -33,17 +34,9 @@ public class DomainPropertiesEditingContext extends EObjectPropertiesEditingCont
 	}
 
 	/**
-	 * @param editingDomain the editingDomain to set
-	 */
-	public void setEditingDomain(EditingDomain editingDomain) {
-		this.editingDomain = editingDomain;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
-	@Override
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;

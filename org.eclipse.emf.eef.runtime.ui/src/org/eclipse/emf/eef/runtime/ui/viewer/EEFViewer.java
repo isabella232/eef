@@ -53,7 +53,7 @@ public class EEFViewer extends ContentViewer {
 		control.setLayout(new FillLayout());
 		control.setLayoutData(new GridData(GridData.FILL_BOTH));
 		scroll = new ScrolledComposite(control, SWT.V_SCROLL | SWT.H_SCROLL);
-		folder = new CTabFolder(scroll, style);
+		folder = new CTabFolder(scroll, SWT.BORDER);
 		folder.setSimple(false);
 		scroll.setContent(folder);
 		scroll.setExpandHorizontal(true);
