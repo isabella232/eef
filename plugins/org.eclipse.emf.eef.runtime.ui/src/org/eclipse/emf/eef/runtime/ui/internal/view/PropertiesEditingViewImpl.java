@@ -136,7 +136,6 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.notify.EditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
-	 * @nottested
 	 */
 	public void firePropertiesChanged(PropertiesEditingEvent event) {
 		// Default : Do nothing

@@ -212,7 +212,6 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	public void firePropertiesChanged(PropertiesEditingEvent editingEvent) {
 		if (editingContext.getOptions().validateEditing()) {
-			//@nottested
 			Diagnostic valueDiagnostic = validateValue(editingEvent);
 			if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
 				propagateEvent(new PropertiesValidationEditingEvent(editingEvent, valueDiagnostic));
@@ -233,7 +232,6 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#delayedFirePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
-	 * @nottested
 	 */
 	public void delayedFirePropertiesChanged(PropertiesEditingEvent event) {
 		if (getFirePropertiesChangedJob().cancel()) {
