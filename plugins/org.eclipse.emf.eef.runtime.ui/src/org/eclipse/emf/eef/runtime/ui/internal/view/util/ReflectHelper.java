@@ -45,6 +45,9 @@ public class ReflectHelper<T> {
 		} catch (NoSuchMethodException e) {
 			result = null;
 		}
+		if (result == null) {
+			result = getConstructor(paramTypes);
+		}
 		return result;
 	}
 
@@ -57,7 +60,6 @@ public class ReflectHelper<T> {
 	public Method searchSetter(String field, Class<? extends Object> setterArgType) {
 		Method method = null;
 		try {
-			//TODO: this method doesn't manage autoboxing e.g. can't use boolean primitive type for EBool attribute.
 			method = getMethod("set" + toUpperFirst(field), setterArgType);
 		} catch (SecurityException e) {
 			method = null;
@@ -142,7 +144,19 @@ public class ReflectHelper<T> {
 		}
 	}
 
-	
+	@SuppressWarnings("unchecked")
+	private Constructor<? extends T> getConstructor(Class<?>[] paramTypes) {
+		Constructor<? extends T> result = null;
+		for (Constructor<?> constructor : clazz.getConstructors()) {
+			if (constructor.getParameterTypes().length == paramTypes.length) {
+				if (areCompatibles(paramTypes, constructor.getParameterTypes())) {
+					return (Constructor<? extends T>) constructor;
+				}
+			}
+		}
+		return result;
+	}
+
 	private Method getMethod(final String name, Class<?>... argTypes) {
 		Method method = null;
 		try {
@@ -175,6 +189,15 @@ public class ReflectHelper<T> {
 			}
 		}
 		return null;
+	}
+	
+	private boolean areCompatibles(Class<?>[] paramTypes, Class<?>[] parameterTypes) {
+		for (int i = 0; i < parameterTypes.length; i++) {
+			if (!areCompatible(paramTypes[i] , parameterTypes[i])) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private boolean areCompatible(Class<?> actualType, Class<?> expectedType) {
