@@ -36,7 +36,7 @@ public class PropertiesEditingEventImpl implements PropertiesEditingEvent {
 		this.newValue = newValue;
 		holders = Lists.newArrayList();
 		if (source instanceof EditingListener) {
-			hold((EditingListener) source);
+			addHolder((EditingListener) source);
 		}
 	}
 

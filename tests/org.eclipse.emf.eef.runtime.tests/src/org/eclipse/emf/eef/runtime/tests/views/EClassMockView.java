@@ -23,6 +23,7 @@ public class EClassMockView implements EditingListener {
 	private String name;
 	private boolean abstract_;
 	private Collection<EClass> eSuperTypes;
+	private Collection<PropertiesEditingEvent> events;
 
 	/**
 	 * @param support
@@ -31,6 +32,7 @@ public class EClassMockView implements EditingListener {
 		this.support = new PropertyChangeSupport(this);
 		editingComponent.addEditingListener(this);
 		eSuperTypes = new ArrayList<EClass>();
+		events = new ArrayList<PropertiesEditingEvent>();
 	}
 
 	/**
@@ -90,6 +92,13 @@ public class EClassMockView implements EditingListener {
 	}
 
 	/**
+	 * @return the events
+	 */
+	public Collection<PropertiesEditingEvent> getEvents() {
+		return events;
+	}
+
+	/**
 	 * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener)
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -101,6 +110,6 @@ public class EClassMockView implements EditingListener {
 	 * @see org.eclipse.emf.eef.runtime.notify.EditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public void firePropertiesChanged(PropertiesEditingEvent event) {
-		//TODO
+		events.add(event);
 	}
 }
