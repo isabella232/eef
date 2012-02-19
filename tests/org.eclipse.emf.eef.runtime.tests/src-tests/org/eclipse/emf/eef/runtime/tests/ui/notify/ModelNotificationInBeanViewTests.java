@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.tests;
+package org.eclipse.emf.eef.runtime.tests.ui.notify;
 
 import static org.junit.Assert.assertEquals;
 

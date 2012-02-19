@@ -10,7 +10,6 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.eef.eeftests.bindingmodel,
  org.eclipse.emf.eef.eeftests.bindingmodel.impl,
  org.eclipse.emf.eef.eeftests.bindingmodel.util,
- org.eclipse.emf.eef.runtime.tests,
  org.eclipse.emf.eef.runtime.tests.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.tests;
+package org.eclipse.emf.eef.runtime.tests.ui;
 
 import org.eclipse.emf.eef.runtime.tests.ui.cases.PropertiesEditingViewEditingTestCase;
 import org.junit.Test;
