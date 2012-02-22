@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit;
 
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.checkbox.CheckboxPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.text.TextPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.checkbox.CheckboxPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 

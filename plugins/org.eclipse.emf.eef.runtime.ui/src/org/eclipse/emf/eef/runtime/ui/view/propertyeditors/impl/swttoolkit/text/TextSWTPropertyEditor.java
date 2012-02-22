@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.text;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.text;
 
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.StandardSWTControlPropertyEditor;

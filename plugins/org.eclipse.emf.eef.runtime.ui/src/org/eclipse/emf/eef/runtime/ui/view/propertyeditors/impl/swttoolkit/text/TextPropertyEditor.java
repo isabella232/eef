@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.text;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.text;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
-import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.impl.util.EEFControlWrapperViewer;
+import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
@@ -56,6 +56,14 @@ public class TextPropertyEditor implements PropertyEditor, MonovaluedPropertyEdi
 			propertyEditorControl.getViewer().getMainControl().setText((String) value);
 		}
 		initListeners();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#getPropertyEditorViewer()
+	 */
+	public PropertyEditorViewer<?> getPropertyEditorViewer() {
+		return propertyEditorControl;
 	}
 
 	/**

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit.ereferenceeditor;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor;
 
 import java.util.Collection;
 import java.util.List;
@@ -64,6 +64,14 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 		propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());
 		propertyEditorViewer.getViewer().setUpperBound(feature.getUpperBound());
 		propertyEditorViewer.getViewer().setInput(view.getEditingComponent().getTarget());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#getPropertyEditorViewer()
+	 */
+	public PropertyEditorViewer<?> getPropertyEditorViewer() {
+		return propertyEditorViewer;
 	}
 
 	/**

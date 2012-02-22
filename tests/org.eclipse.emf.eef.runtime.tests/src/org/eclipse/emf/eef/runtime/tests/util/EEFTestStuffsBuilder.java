@@ -31,10 +31,10 @@ import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditin
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ComposedPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.SWTToolkit;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 import org.eclipse.emf.eef.runtime.view.handler.ComposedViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.views.ElementEditor;

@@ -30,12 +30,6 @@ public interface PropertiesEditingView extends EditingListener {
 	 * @return the {@link ViewSettings} for the view.
 	 */
 	ViewSettings getViewSettings();
-
-	/**
-	 * Create the contents of the view in the given composite.
-	 * @param composite owning {@link Composite}.
-	 */
-	void createContents(Composite composite);
 	
 	/**
 	 * @return the {@link Composite} containing view contents.

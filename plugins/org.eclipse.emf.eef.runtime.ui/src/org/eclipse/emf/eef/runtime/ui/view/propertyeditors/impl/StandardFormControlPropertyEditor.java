@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl;
 
-import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.impl.util.EEFControlWrapperViewer;
+import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -14,6 +14,8 @@ import org.eclipse.swt.widgets.Control;
  *
  */
 public abstract class StandardFormControlPropertyEditor<CONTROL extends Control> extends StandardFormPropertyEditor<EEFControlWrapperViewer<CONTROL>> {
+
+	private EEFControlWrapperViewer<CONTROL> wrapperViewer;
 
 	/**
 	 * @param view
@@ -28,18 +30,21 @@ public abstract class StandardFormControlPropertyEditor<CONTROL extends Control>
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public EEFControlWrapperViewer<CONTROL> getViewer() {
-		return new EEFControlWrapperViewer<CONTROL>() {
+		if (wrapperViewer == null) {
+			wrapperViewer = new EEFControlWrapperViewer<CONTROL>() {
 
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.impl.util.EEFControlWrapperViewer#getMainControl()
-			 */
-			public CONTROL getMainControl() {
-				return StandardFormControlPropertyEditor.this.getMainControl();
-			}
-			
-			
-		};
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
+				 */
+				public CONTROL getMainControl() {
+					return StandardFormControlPropertyEditor.this.getMainControl();
+				}
+
+
+			};
+		}
+		return wrapperViewer;
 	}
 
 	/**

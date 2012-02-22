@@ -15,6 +15,12 @@ public interface PropertyEditor {
 	 * Initialize the PropertyEditor for the given feature.
 	 * @param feature {@link EStructuralFeature} managed by this {@link PropertyEditor}.
 	 */
-	public void init(EStructuralFeature feature);
+	void init(EStructuralFeature feature);
 	
+	
+	/**
+	 * @return the {@link PropertyEditorViewer} responsible for building the UI part 
+	 * of this editor.
+	 */
+	PropertyEditorViewer<?> getPropertyEditorViewer();
 }

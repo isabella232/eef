@@ -1,22 +1,21 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.checkbox;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.checkbox;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
+import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.views.ElementEditor;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -26,45 +25,18 @@ public class CheckboxPropertyEditor implements PropertyEditor, MonovaluedPropert
 
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
-	protected Button checkbox;
+	protected PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer;
+
 	protected EStructuralFeature feature;
  
 	/**
 	 * @param view {@link PropertiesEditingView} where the PropertyEditor is built.
 	 * @param elementEditor {@link ElementEditor} specifying the Property Editor.
 	 */
-	public CheckboxPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public CheckboxPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer) {
 		this.view = view;
 		this.elementEditor = elementEditor;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#build(org.eclipse.swt.widgets.Composite)
-	 */
-	public void build(Composite parent) {
-		checkbox = new Button(parent, SWT.CHECK);
-		checkbox.setText(view.getViewHelper().getDescription(elementEditor, elementEditor.getName()));
-		checkbox.addSelectionListener(new SelectionAdapter() {
-
-			/**
-			 * {@inheritDoc}
-			 *
-			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-			 * 	
-			 */
-			public void widgetSelected(SelectionEvent e) {
-				if (view.getEditingComponent() != null)
-					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, new Boolean(checkbox.getSelection())));
-			}
-
-		});
-		GridData gMFSpecificPropertiesViewsData = new GridData(GridData.FILL_HORIZONTAL);
-		gMFSpecificPropertiesViewsData.horizontalSpan = 2;
-		checkbox.setLayoutData(gMFSpecificPropertiesViewsData);
-		view.getViewHelper().setID(checkbox, elementEditor.getQualifiedIdentifier());
-		view.getViewHelper().setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
-		view.getViewHelper().createHelpButton(parent, elementEditor);
+		this.propertyEditorViewer = propertyEditorViewer;
 	}
 
 	/**
@@ -75,8 +47,17 @@ public class CheckboxPropertyEditor implements PropertyEditor, MonovaluedPropert
 		this.feature = feature;
 		Object value = ((EObject)view.getEditingComponent().getTarget()).eGet(feature);
 		if (value instanceof Boolean) {
-			checkbox.setSelection((Boolean) value);
-		}		
+			propertyEditorViewer.getViewer().getMainControl().setSelection((Boolean) value);
+		}
+		initListeners();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#getPropertyEditorViewer()
+	 */
+	public PropertyEditorViewer<?> getPropertyEditorViewer() {
+		return propertyEditorViewer;
 	}
 
 	/**
@@ -85,7 +66,7 @@ public class CheckboxPropertyEditor implements PropertyEditor, MonovaluedPropert
 	 */
 	public void setValue(Object value) {
 		if (value instanceof Boolean) {
-			checkbox.setSelection((Boolean) value);
+			propertyEditorViewer.getViewer().getMainControl().setSelection((Boolean) value);
 		}
 	}
 
@@ -94,7 +75,24 @@ public class CheckboxPropertyEditor implements PropertyEditor, MonovaluedPropert
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#unsetValue()
 	 */
 	public void unsetValue() {
-		checkbox.setSelection(false);
+		propertyEditorViewer.getViewer().getMainControl().setSelection(false);
+	}
+
+	private void initListeners() {
+		propertyEditorViewer.getViewer().getMainControl().addSelectionListener(new SelectionAdapter() {
+
+			/**
+			 * {@inheritDoc}
+			 *
+			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 * 	
+			 */
+			public void widgetSelected(SelectionEvent e) {
+				if (view.getEditingComponent() != null)
+					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, new Boolean(propertyEditorViewer.getViewer().getMainControl().getSelection())));
+			}
+
+		});
 	}
 
 }
