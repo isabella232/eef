@@ -9,7 +9,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SetUnsetPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class CheckboxPropertyEditor implements PropertyEditor, SetUnsetPropertyEditor {
+public class CheckboxPropertyEditor implements PropertyEditor, MonovaluedPropertyEditor {
 
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
@@ -81,7 +81,7 @@ public class CheckboxPropertyEditor implements PropertyEditor, SetUnsetPropertyE
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SetUnsetPropertyEditor#setValue(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
 		if (value instanceof Boolean) {
@@ -91,7 +91,7 @@ public class CheckboxPropertyEditor implements PropertyEditor, SetUnsetPropertyE
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SetUnsetPropertyEditor#unsetValue()
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#unsetValue()
 	 */
 	public void unsetValue() {
 		checkbox.setSelection(false);

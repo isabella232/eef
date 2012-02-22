@@ -3,8 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit;
 
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.emfpropertiestoolkit.ereferenceeditor.EReferenceMultiPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 

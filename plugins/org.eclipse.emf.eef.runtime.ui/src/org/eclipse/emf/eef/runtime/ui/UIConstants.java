@@ -30,5 +30,10 @@ public interface UIConstants {
 	 * Defines the initial size for the Editing wizard.
 	 */
 	final Point INITIAL_WIZARD_SIZE = new Point(650, 800);
+	
+	/**
+	 * Defines a constant for the FormToolkit option's key.
+	 */
+	final String FORM_TOOLKIT = "FORM_TOOLKIT";
 
 }

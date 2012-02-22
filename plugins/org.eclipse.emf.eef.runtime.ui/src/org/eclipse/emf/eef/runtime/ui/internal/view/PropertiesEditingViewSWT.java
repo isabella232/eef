@@ -20,7 +20,8 @@ import org.eclipse.emf.eef.runtime.ui.view.ViewSettings;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SetUnsetPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.SWT;
@@ -34,7 +35,7 @@ import com.google.common.collect.UnmodifiableIterator;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingViewImpl implements PropertiesEditingView {
+public class PropertiesEditingViewSWT implements PropertiesEditingView {
 
 	private PropertiesEditingComponent editingComponent;
 	private View viewDescriptor;
@@ -46,7 +47,7 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 	/**
 	 * @param editingComponent {@link PropertiesEditingComponent} managing the view.
 	 */
-	public PropertiesEditingViewImpl(PropertiesEditingComponent editingComponent, View viewDescriptor) {
+	public PropertiesEditingViewSWT(PropertiesEditingComponent editingComponent, View viewDescriptor) {
 		this.viewDescriptor = viewDescriptor;
 		this.editingComponent = editingComponent;
 		this.propertyEditors = new HashMap<ElementEditor, PropertyEditor>();
@@ -100,7 +101,7 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 					ElementEditor elementEditor = (ElementEditor) next;
 					if (propertyEditorProvider.canHandle(this, elementEditor)) {
 						PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(this, elementEditor);
-						propertyEditor.build(contentsComposite);
+						((SWTPropertyEditor)propertyEditor).build(contentsComposite);
 						this.propertyEditors.put(elementEditor, propertyEditor);
 					}
 				}
@@ -148,8 +149,8 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 	public void setValue(Object field, Object value) {
 		if (field instanceof ElementEditor) {
 			PropertyEditor propertyEditor = propertyEditors.get(field);
-			if (propertyEditor instanceof SetUnsetPropertyEditor) {
-				((SetUnsetPropertyEditor) propertyEditor).setValue(value);
+			if (propertyEditor instanceof MonovaluedPropertyEditor) {
+				((MonovaluedPropertyEditor) propertyEditor).setValue(value);
 			}
 		}
 	}
@@ -161,8 +162,8 @@ public class PropertiesEditingViewImpl implements PropertiesEditingView {
 	public void unsetValue(Object field) {
 		if (field instanceof ElementEditor) {
 			PropertyEditor propertyEditor = propertyEditors.get(field);
-			if (propertyEditor instanceof SetUnsetPropertyEditor) {
-				((SetUnsetPropertyEditor) propertyEditor).unsetValue();
+			if (propertyEditor instanceof MonovaluedPropertyEditor) {
+				((MonovaluedPropertyEditor) propertyEditor).unsetValue();
 			}
 		}
 	}

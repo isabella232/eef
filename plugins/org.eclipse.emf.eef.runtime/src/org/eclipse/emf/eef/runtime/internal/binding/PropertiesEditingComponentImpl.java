@@ -210,7 +210,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.notify.EditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
-	public void firePropertiesChanged(PropertiesEditingEvent editingEvent) {
+	public synchronized void firePropertiesChanged(PropertiesEditingEvent editingEvent) {
 		if (editingContext.getOptions().validateEditing()) {
 			Diagnostic valueDiagnostic = validateValue(editingEvent);
 			if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
@@ -220,7 +220,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 		}
 		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(new SemanticPropertiesEditingContext(this, editingEvent));
 		if (editingPolicy != null) {
-			editingPolicy.execute();
+				editingPolicy.execute();				
 		}
 		propagateEvent(editingEvent);
 		if (editingContext.getOptions().validateEditing()) {		

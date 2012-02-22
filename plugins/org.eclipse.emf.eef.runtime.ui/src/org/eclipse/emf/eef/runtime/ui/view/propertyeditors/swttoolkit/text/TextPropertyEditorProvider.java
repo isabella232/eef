@@ -3,12 +3,14 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.text;
 
+import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -42,8 +44,13 @@ public class TextPropertyEditorProvider implements WidgetPropertyEditorProvider 
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.views.ElementEditor)
 	 */
-	public PropertyEditor getPropertyEditor(PropertiesEditingView view, ElementEditor editor) {
-		return new TextPropertyEditor(view, editor);
+	public PropertyEditor getPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+		FormToolkit toolkit = view.getEditingComponent().getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
+		if (toolkit != null) {
+			return new TextPropertyEditor(view, elementEditor, new TextSWTPropertyEditor(view, elementEditor));
+		} else {
+			return new TextPropertyEditor(view, elementEditor, new TextFormPropertyEditor(view, elementEditor));			
+		}
 	}
 
 }

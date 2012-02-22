@@ -15,7 +15,8 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.StandardPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.widgets.EEFSelectionDialog;
 import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor;
 import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener;
@@ -23,7 +24,6 @@ import org.eclipse.emf.eef.runtime.ui.widgets.util.ArrayFeatureContentProvider;
 import org.eclipse.emf.eef.runtime.ui.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.window.Window;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
@@ -31,49 +31,109 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceMultiPropertyEditor extends StandardPropertyEditor implements MultivaluedPropertyEditor {
+public class EReferenceMultiPropertyEditor implements PropertyEditor, MultivaluedPropertyEditor {
 
-	private EReferenceEditor eReferenceEditor;
-	private EStructuralFeature feature;
+	protected PropertiesEditingView view;
+	protected ElementEditor elementEditor;
+	protected PropertyEditorViewer<EReferenceEditor> propertyEditorViewer;
+	
+	protected EStructuralFeature feature;
 
 	/**
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EReferenceMultiPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
-		super(view, elementEditor);
+	public EReferenceMultiPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<EReferenceEditor> propertyEditorViewer) {
+		this.view = view;
+		this.elementEditor = elementEditor;
+		this.propertyEditorViewer = propertyEditorViewer;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.StandardPropertyEditor#createEditorContents(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.ecore.EStructuralFeature)
 	 */
-	@Override
-	protected void createEditorContents(Composite parent) {
-		eReferenceEditor = new EReferenceEditor(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
-		eReferenceEditor.addReferenceEditorListener(new ReferenceEditorListener() {
+	public void init(EStructuralFeature feature) {
+		this.feature = feature;
+		AdapterFactory currentAdapterFactory = view.getEditingComponent().getEditingContext().getAdapterFactory();
+		if (currentAdapterFactory == null) {
+			currentAdapterFactory = EEFRuntimeUI.getPlugin().getRegistryAdapterFactory();
+		}
+		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(this.feature));
+		propertyEditorViewer.getViewer().setLabelProvider(new AdapterFactoryLabelProvider(currentAdapterFactory));
+		propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());
+		propertyEditorViewer.getViewer().setUpperBound(feature.getUpperBound());
+		propertyEditorViewer.getViewer().setInput(view.getEditingComponent().getTarget());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#addValue(java.lang.Object)
+	 */
+	public void addValue(Object value) {
+		propertyEditorViewer.getViewer().refresh();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#addAllValues(java.util.Collection)
+	 */
+	public void addAllValues(Collection<?> values) {
+		propertyEditorViewer.getViewer().refresh();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#removeValue(java.lang.Object)
+	 */
+	public void removeValue(Object value) {
+		propertyEditorViewer.getViewer().refresh();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#removeAllValues(java.util.Collection)
+	 */
+	public void removeAllValues(Collection<?> values) {
+		propertyEditorViewer.getViewer().refresh();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#moveValue(java.lang.Object, int)
+	 */
+	public void moveValue(Object value, int newIndex) {
+		propertyEditorViewer.getViewer().refresh();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.StandardPropertyEditor#createEditorContents(org.eclipse.swt.widgets.Composite)
+	 */
+	protected void initListeners(Composite parent) {
+		propertyEditorViewer.getViewer().addReferenceEditorListener(new ReferenceEditorListener() {
 			
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener#removeAll(java.util.Collection)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#removeAll(java.util.Collection)
 			 */
 			public void removeAll(Collection<?> removedElements) {
 				view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE_MANY, removedElements, null));
-				eReferenceEditor.refresh();
+				propertyEditorViewer.getViewer().refresh();
 			}
 			
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener#remove(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#remove(java.lang.Object)
 			 */
 			public void remove(Object removedElement) {
 				view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE, removedElement, null));
-				eReferenceEditor.refresh();
+				propertyEditorViewer.getViewer().refresh();
 			}
 			
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener#moveUp(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#moveUp(java.lang.Object)
 			 */
 			public void moveUp(Object movedElement) {
 				EObject editedElement = (EObject) view.getEditingComponent().getTarget();
@@ -82,14 +142,14 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor implem
 					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 					if (oldIndex > 0) {
 						view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
-						eReferenceEditor.refresh();
+						propertyEditorViewer.getViewer().refresh();
 					}
 				}
 			}
 			
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener#moveDown(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#moveDown(java.lang.Object)
 			 */
 			public void moveDown(Object movedElement) {
 				EObject editedElement = (EObject) view.getEditingComponent().getTarget();
@@ -98,14 +158,14 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor implem
 					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 					if (oldIndex < ((List<?>) currentValue).size()) {
 						view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
-						eReferenceEditor.refresh();
+						propertyEditorViewer.getViewer().refresh();
 					}
 				}
 			}
 			
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener#edit(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#edit(java.lang.Object)
 			 */
 			public void edit(Object editedElement) {
 				//TODO: We have to invoke the EditingPropertyPolicy
@@ -113,10 +173,10 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor implem
 			
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener#add()
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#add()
 			 */
 			public void add() {
-				EEFSelectionDialog dialog = new EEFSelectionDialog(eReferenceEditor.getControl().getShell(), true);
+				EEFSelectionDialog dialog = new EEFSelectionDialog(propertyEditorViewer.getViewer().getControl().getShell(), true);
 				dialog.setTitle("Choose the element to add to the " + feature.getName() + " reference:");
 				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
 				dialog.addFilter(
@@ -133,71 +193,14 @@ public class EReferenceMultiPropertyEditor extends StandardPropertyEditor implem
 						} else {
 							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, dialog.getSelection()));
 						}
-						eReferenceEditor.refresh();				
+						propertyEditorViewer.getViewer().refresh();				
 					}
 				}
 			}
 		});
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.heightHint = view.getViewSettings().getMultiEditorHeight();
-		eReferenceEditor.setLayoutData(layoutData);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.ecore.EStructuralFeature)
-	 */
-	public void init(EStructuralFeature feature) {
-		this.feature = feature;
-		AdapterFactory currentAdapterFactory = view.getEditingComponent().getEditingContext().getAdapterFactory();
-		if (currentAdapterFactory == null) {
-			currentAdapterFactory = EEFRuntimeUI.getPlugin().getRegistryAdapterFactory();
-		}
-		eReferenceEditor.setContentProvider(new ArrayFeatureContentProvider(this.feature));
-		eReferenceEditor.setLabelProvider(new AdapterFactoryLabelProvider(currentAdapterFactory));
-		eReferenceEditor.setLowerBound(feature.getLowerBound());
-		eReferenceEditor.setUpperBound(feature.getUpperBound());
-		eReferenceEditor.setInput(view.getEditingComponent().getTarget());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#addValue(java.lang.Object)
-	 */
-	public void addValue(Object value) {
-		eReferenceEditor.refresh();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#addAllValues(java.util.Collection)
-	 */
-	public void addAllValues(Collection<?> values) {
-		eReferenceEditor.refresh();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#removeValue(java.lang.Object)
-	 */
-	public void removeValue(Object value) {
-		eReferenceEditor.refresh();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#removeAllValues(java.util.Collection)
-	 */
-	public void removeAllValues(Collection<?> values) {
-		eReferenceEditor.refresh();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#moveValue(java.lang.Object, int)
-	 */
-	public void moveValue(Object value, int newIndex) {
-		eReferenceEditor.refresh();
+		propertyEditorViewer.getViewer().setLayoutData(layoutData);
 	}
 
 }

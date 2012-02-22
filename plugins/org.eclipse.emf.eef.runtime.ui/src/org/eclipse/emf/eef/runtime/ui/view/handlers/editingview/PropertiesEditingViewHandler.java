@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;
 import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.ui.internal.view.PropertiesEditingViewImpl;
+import org.eclipse.emf.eef.runtime.ui.internal.view.PropertiesEditingViewSWT;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
@@ -47,7 +47,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public PropertiesEditingView createView(Object... args) throws ViewConstructionException {
 		if (view == null) {
 			if (args.length > 1 && args[0] instanceof PropertiesEditingComponent && args[1] instanceof Composite) {
-				view = new PropertiesEditingViewImpl((PropertiesEditingComponent) args[0], viewDescriptor);
+				view = new PropertiesEditingViewSWT((PropertiesEditingComponent) args[0], viewDescriptor);
 				view.setPropertyEditorProvider(handlerProvider.getPropertyEditorProvider());
 				view.createContents((Composite)args[1]);
 			}

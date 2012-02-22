@@ -15,17 +15,17 @@ public interface PropertyEditorProvider {
 	/**
 	 * Defines if the current builder can handle the given {@link ElementEditor}.
 	 * @param view {@link PropertiesEditingView} to process.
-	 * @param editor {@link ElementEditor} to process.
+	 * @param elementEditor {@link ElementEditor} to process.
 	 * @return <code>true</code> if the current {@link PropertyEditor} can handle the given {@link ElementEditor}.
 	 */
-	boolean canHandle(PropertiesEditingView view, ElementEditor editor);
+	boolean canHandle(PropertiesEditingView view, ElementEditor elementEditor);
 	
 	/**
 	 * Return the PropertyEditor for this ElementEditor
 	 * @param view {@link PropertiesEditingView} to process.
-	 * @param editor {@link ElementEditor} to process.
+	 * @param elementEditor {@link ElementEditor} to process.
 	 * @return the {@link PropertyEditor} for the given {@link ElementEditor}. 
 	 */
-	PropertyEditor getPropertyEditor(PropertiesEditingView view, ElementEditor editor);
+	PropertyEditor getPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor);
 
 }

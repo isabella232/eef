@@ -1,12 +1,14 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 
 /**

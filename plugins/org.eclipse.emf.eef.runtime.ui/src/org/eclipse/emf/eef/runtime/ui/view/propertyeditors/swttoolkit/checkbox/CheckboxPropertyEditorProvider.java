@@ -5,7 +5,7 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.swttoolkit.checkbox;
 
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
