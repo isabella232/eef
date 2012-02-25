@@ -25,7 +25,6 @@ import org.eclipse.emf.eef.runtime.ui.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -64,6 +63,7 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 		propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());
 		propertyEditorViewer.getViewer().setUpperBound(feature.getUpperBound());
 		propertyEditorViewer.getViewer().setInput(view.getEditingComponent().getTarget());
+		initListener();
 	}
 
 	/**
@@ -115,10 +115,9 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.StandardPropertyEditor#createEditorContents(org.eclipse.swt.widgets.Composite)
+	 * Initialize the listener on the EReferenceEditor.
 	 */
-	protected void initListeners(Composite parent) {
+	protected void initListener() {
 		propertyEditorViewer.getViewer().addReferenceEditorListener(new ReferenceEditorListener() {
 			
 			/**

@@ -20,6 +20,7 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
+import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.junit.After;
 import org.junit.Before;
 
@@ -38,7 +39,7 @@ public class NonUIEditingTestCase {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		EEFTestStuffsBuilder testBuilder = new EEFTestStuffsBuilder();
+		final EEFTestStuffsBuilder testBuilder = new EEFTestStuffsBuilder();
 		EPackage ecoreModel = testBuilder.buildEcoreSampleModel();
 		editedObject = ecoreModel.getEClassifiers().get(0);
 		final PropertiesEditingModel editingModel = buildEditingModel();
@@ -54,11 +55,18 @@ public class NonUIEditingTestCase {
 				result.add(editingModel);
 				return result;
 			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initViewHandlerProvider()
+			 */
+			protected ViewHandlerProvider initViewHandlerProvider() {
+				return testBuilder.buildViewHandlerProvider();
+			}
 			
 		});
 		context = 
 				new EObjectPropertiesEditingContext(adapterFactory, editedObject);
-		context.setViewHandlerProvider(testBuilder.buildViewHandlerProvider());
 		List<ViewHandler<?>> viewHandlers = context.getEditingComponent().getViewHandlers();
 		views = new ArrayList<Object>();
 		for (ViewHandler<?> viewHandler : viewHandlers) {

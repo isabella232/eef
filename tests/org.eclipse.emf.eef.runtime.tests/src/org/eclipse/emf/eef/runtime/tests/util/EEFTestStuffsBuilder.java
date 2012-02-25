@@ -71,7 +71,7 @@ public class EEFTestStuffsBuilder {
 	 * @return a sample {@link PropertiesEditingContext}.
 	 */
 	public PropertiesEditingContext buildEditingContextWithPropertiesEditingViews() {
-		ViewHandlerProvider viewHandlerProvider = buildViewHandlerProvider();
+		final ViewHandlerProvider viewHandlerProvider = buildViewHandlerProvider();
 		Toolkit swtToolkit = searchSWTToolkit(viewHandlerProvider);
 		List<View> views = buildSampleViews(swtToolkit);
 		final PropertiesEditingModel editingModel = new EditingModelBuilder()
@@ -92,6 +92,14 @@ public class EEFTestStuffsBuilder {
 				result.add(editingModel);
 				return result ;
 			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initViewHandlerProvider()
+			 */
+			protected ViewHandlerProvider initViewHandlerProvider() {
+				return viewHandlerProvider;
+			}
 			
 		});
 		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(adapterFactory, sampleToEdit);
@@ -104,7 +112,7 @@ public class EEFTestStuffsBuilder {
 	 */
 	public PropertiesEditingContext buildEditingContextWithPropertiesEditingViewsForEcore() {
 		// Creating ViewHandlerProvider
-		ViewHandlerProvider viewHandlerProvider = buildViewHandlerProvider();
+		final ViewHandlerProvider viewHandlerProvider = buildViewHandlerProvider();
 		
 		// Creating views
 		List<Toolkit> toolkits = new ArrayList<Toolkit>(2);
@@ -134,11 +142,18 @@ public class EEFTestStuffsBuilder {
 				result.add(editingModel);
 				return result;
 			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initViewHandlerProvider()
+			 */
+			protected ViewHandlerProvider initViewHandlerProvider() {
+				return viewHandlerProvider;
+			}
 			
 		});
 		EObjectPropertiesEditingContext context = 
 				new EObjectPropertiesEditingContext(adapterFactory, sampleModel.getEClassifiers().get(0));
-		context.setViewHandlerProvider(viewHandlerProvider);
 		return context;
 	}
 	

@@ -21,6 +21,7 @@ import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
+import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -80,17 +81,23 @@ public abstract class UIEditingTestCase {
 			 * {@inheritDoc}
 			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initSpecificEditingModel()
 			 */
-			@Override
 			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
 				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
 				result.add(buildEditingModel());
 				return result;
 			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initViewHandlerProvider()
+			 */
+			protected ViewHandlerProvider initViewHandlerProvider() {
+				return new EEFTestStuffsBuilder().buildViewHandlerProvider();
+			}
 			
 		});
 		PropertiesEditingContext context = 
 				new EObjectPropertiesEditingContext(adapterFactory, elementToEdit);
-		context.setViewHandlerProvider(new EEFTestStuffsBuilder().buildViewHandlerProvider());
 		return context;
 	}
 	

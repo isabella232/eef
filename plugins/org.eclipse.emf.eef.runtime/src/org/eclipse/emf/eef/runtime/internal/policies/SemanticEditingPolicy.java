@@ -16,10 +16,6 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-/**
- * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
- */
 public abstract class SemanticEditingPolicy implements PropertiesEditingPolicy {
 
 	private PropertiesEditingEvent editingEvent;

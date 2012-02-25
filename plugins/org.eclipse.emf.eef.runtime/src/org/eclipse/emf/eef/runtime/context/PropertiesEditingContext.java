@@ -7,24 +7,12 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
 public interface PropertiesEditingContext {
-	
-	/**
-	 * @return the {@link ViewHandlerProvider} of the editing context.
-	 */
-	ViewHandlerProvider getViewHandlerProvider();
-	
-	/**
-	 * Sets the {@link ViewHandlerProvider} to use in the editing context.
-	 * @param viewHandlerProvider {@link ViewHandlerProvider} to set.
-	 */
-	void setViewHandlerProvider(ViewHandlerProvider viewHandlerProvider);
 	
 	/**
 	 * Returns a {@link PropertiesEditingComponent} binding the edited model element.

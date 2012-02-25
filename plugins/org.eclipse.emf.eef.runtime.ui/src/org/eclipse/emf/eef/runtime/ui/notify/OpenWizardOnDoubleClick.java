@@ -4,15 +4,18 @@
 package org.eclipse.emf.eef.runtime.ui.notify;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
@@ -31,6 +34,8 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.StructuredSelection;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -58,19 +63,43 @@ public abstract class OpenWizardOnDoubleClick implements IDoubleClickListener {
 	 */
 	public void doubleClick(DoubleClickEvent event) {
 		StructuredSelection selection = (StructuredSelection) event.getSelection();
+		PropertiesEditingContext context;
 		if (selection.getFirstElement() instanceof EObject) {
-			PropertiesEditingContext context = new DomainPropertiesEditingContext(domain, adapterFactory, (EObject) selection.getFirstElement());
 			// Creating ViewHandlerProvider
-			ViewHandlerProvider viewHandlerProvider = buildViewHandlerProvider();
+			final ViewHandlerProvider viewHandlerProvider = buildViewHandlerProvider();
 			
 			// Creating views
-			List<Toolkit> toolkits = new ArrayList<Toolkit>(2);
+			final List<Toolkit> toolkits = new ArrayList<Toolkit>(2);
 			toolkits.add(searchSWTToolkit(viewHandlerProvider));
 			toolkits.add(searchEMFPropertiesToolkit(viewHandlerProvider));		
 			buildViews(toolkits);
 			
 			// Creating model
-			context.setViewHandlerProvider(viewHandlerProvider);
+			PropertiesEditingProvider editingProvider = new PropertiesEditingProvider() {
+				
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initSpecificEditingModel()
+				 */
+				protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
+					return Lists.newArrayList(buildEditingModel(buildViews(toolkits)));
+				}
+				
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initViewHandlerProvider()
+				 */
+				protected ViewHandlerProvider initViewHandlerProvider() {
+					return viewHandlerProvider;
+				}
+				
+			};
+			if (adapterFactory instanceof ComposedAdapterFactory) {
+				((ComposedAdapterFactory) adapterFactory).addAdapterFactory(editingProvider);
+				context = new DomainPropertiesEditingContext(domain, adapterFactory, (EObject) selection.getFirstElement());
+			} else {
+				context = new DomainPropertiesEditingContext(domain, editingProvider, (EObject) selection.getFirstElement());				
+			}
 			EEFWizardDialog dialog = new EEFWizardDialog(event.getViewer().getControl().getShell(), new EEFEditingWizard(context));
 			dialog.open();
 		}

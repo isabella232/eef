@@ -13,7 +13,6 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.SemanticDirectEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -24,7 +23,6 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	protected EObject eObject;
 	protected AdapterFactory adapterFactory;
 	protected ChangeRecorder changeRecorder;
-	protected ViewHandlerProvider viewHandlerProvider;
 
 	protected ContextOptions options;
 
@@ -75,22 +73,6 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public AdapterFactory getAdapterFactory() {
 		return adapterFactory;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getViewHandlerProvider()
-	 */
-	public ViewHandlerProvider getViewHandlerProvider() {
-		return viewHandlerProvider;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setViewHandlerProvider(org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider)
-	 */
-	public void setViewHandlerProvider(ViewHandlerProvider viewHandlerProvider) {
-		this.viewHandlerProvider = viewHandlerProvider;
 	}
 
 	/**

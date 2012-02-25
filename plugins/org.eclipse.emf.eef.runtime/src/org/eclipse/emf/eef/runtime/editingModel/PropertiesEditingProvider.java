@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
+import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -29,26 +30,7 @@ import com.google.common.collect.Lists;
 public class PropertiesEditingProvider extends AdapterFactoryImpl implements AdapterFactory {
 
 	private List<PropertiesEditingModel> editingModels;
-
-	/**
-	 * Default constructor.
-	 */
-	public PropertiesEditingProvider() {
-	}
-
-	/**
-	 * Returns the EditingModel describing the editing forms to edit the given object.
-	 * @param eObject the {@link EObject} to edit.
-	 * @return the {@link PropertiesEditingModel} to use for edit the given EObject.
-	 */
-	public PropertiesEditingModel getEditingModel(EObject eObject) {
-		for (PropertiesEditingModel editingModel : getEditingModels()) {
-			if (editingModel.binding(eObject) != null) {
-				return editingModel;
-			}
-		}
-		return null;
-	}
+	private ViewHandlerProvider viewHandlerProvider;
 
 	/**
 	 * {@inheritDoc}
@@ -95,10 +77,41 @@ public class PropertiesEditingProvider extends AdapterFactoryImpl implements Ada
 	}
 
 	/**
+	 * Returns the EditingModel describing the editing forms to edit the given object.
+	 * @param eObject the {@link EObject} to edit.
+	 * @return the {@link PropertiesEditingModel} to use for edit the given EObject.
+	 */
+	public PropertiesEditingModel getEditingModel(EObject eObject) {
+		for (PropertiesEditingModel editingModel : getEditingModels()) {
+			if (editingModel.binding(eObject) != null) {
+				return editingModel;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @return the {@link ViewHandlerProvider} to use from this {@link PropertiesEditingProvider}.
+	 */
+	public ViewHandlerProvider getViewHandlerProvider() {
+		if (viewHandlerProvider == null) {
+			viewHandlerProvider = initViewHandlerProvider();
+		}
+		return viewHandlerProvider;
+	}
+
+	/**
 	 * @return the specific {@link PropertiesEditingModel}s to use from this {@link PropertiesEditingProvider}.
 	 */
 	protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
 		return Collections.emptyList();
+	}
+
+	/**
+	 * @return the {@link ViewHandlerProvider} of this {@link PropertiesEditingProvider}.
+	 */
+	protected ViewHandlerProvider initViewHandlerProvider() {
+		return null;
 	}
 
 	/**

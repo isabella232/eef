@@ -8,7 +8,6 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -23,22 +22,6 @@ public class DelegatingPropertiesEditingContext implements PropertiesEditingCont
 	 */
 	public DelegatingPropertiesEditingContext(PropertiesEditingContext delegatingContext) {
 		this.delegatingContext = delegatingContext;
-	}
-
-	/**
-	 * @return
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getViewHandlerProvider()
-	 */
-	public ViewHandlerProvider getViewHandlerProvider() {
-		return delegatingContext.getViewHandlerProvider();
-	}
-
-	/**
-	 * @param viewHandlerProvider
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setViewHandlerProvider(org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider)
-	 */
-	public void setViewHandlerProvider(ViewHandlerProvider viewHandlerProvider) {
-		delegatingContext.setViewHandlerProvider(viewHandlerProvider);
 	}
 
 	/**
