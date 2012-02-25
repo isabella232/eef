@@ -100,7 +100,12 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getBinding()
 	 */
 	public EClassBinding getBinding() {
-		return getEditingModel().binding((EObject) getTarget());
+		PropertiesEditingModel editingModel = getEditingModel();
+		if (editingModel != null) {
+			return editingModel.binding((EObject) getTarget());
+		} else {
+			return null;
+		}
 	}
 
 
@@ -133,9 +138,10 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
 	public void notifyChanged(Notification msg) {
-		if (msg.getFeature() instanceof EStructuralFeature) {
+		PropertiesEditingModel editingModel = getEditingModel();
+		if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
 			EStructuralFeature structuralFeature = (EStructuralFeature)msg.getFeature();
-			EClassBinding binding = getEditingModel().binding((EObject) getTarget());
+			EClassBinding binding = editingModel.binding((EObject) getTarget());
 			Object propertyEditor = binding.propertyEditor(structuralFeature, editingContext.getOptions().autowire());
 			switch (msg.getEventType()) {
 			case Notification.SET:
@@ -276,17 +282,20 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	public List<ViewHandler<?>> getViewHandlers() {
 		viewHandlers = new ArrayList<ViewHandler<?>>();
-		List<Object> associatedViews = getEditingModel().views((EObject) getTarget());
-		ViewHandlerProvider viewHandlerProvider = editingProvider.getViewHandlerProvider();
-		for (Object associatedView : associatedViews) {
-			ViewHandler<?> specifiedHandler = getEditingModel().viewHandler((EObject) getTarget(), associatedView);
-			if (specifiedHandler != null) {
-				viewHandlers.add(specifiedHandler);
-			} else {
-				if (viewHandlerProvider.canHandle(associatedView)) {
-					ViewHandler<?> handler = viewHandlerProvider.getHandler(associatedView);
-					if (handler != null) {
-						viewHandlers.add(handler);
+		PropertiesEditingModel editingModel = getEditingModel();
+		if (editingModel != null) {
+			List<Object> associatedViews = editingModel.views((EObject) getTarget());
+			ViewHandlerProvider viewHandlerProvider = editingProvider.getViewHandlerProvider();
+			for (Object associatedView : associatedViews) {
+				ViewHandler<?> specifiedHandler = getEditingModel().viewHandler((EObject) getTarget(), associatedView);
+				if (specifiedHandler != null) {
+					viewHandlers.add(specifiedHandler);
+				} else {
+					if (viewHandlerProvider.canHandle(associatedView)) {
+						ViewHandler<?> handler = viewHandlerProvider.getHandler(associatedView);
+						if (handler != null) {
+							viewHandlers.add(handler);
+						}
 					}
 				}
 			}
