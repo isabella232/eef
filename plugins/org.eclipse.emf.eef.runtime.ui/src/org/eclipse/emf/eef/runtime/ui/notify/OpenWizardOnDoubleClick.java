@@ -59,7 +59,7 @@ public abstract class OpenWizardOnDoubleClick implements IDoubleClickListener {
 	public void doubleClick(DoubleClickEvent event) {
 		StructuredSelection selection = (StructuredSelection) event.getSelection();
 		if (selection.getFirstElement() instanceof EObject) {
-			PropertiesEditingContext context = new DomainPropertiesEditingContext(domain, (EObject) selection.getFirstElement());
+			PropertiesEditingContext context = new DomainPropertiesEditingContext(domain, adapterFactory, (EObject) selection.getFirstElement());
 			// Creating ViewHandlerProvider
 			ViewHandlerProvider viewHandlerProvider = buildViewHandlerProvider();
 			
@@ -67,14 +67,9 @@ public abstract class OpenWizardOnDoubleClick implements IDoubleClickListener {
 			List<Toolkit> toolkits = new ArrayList<Toolkit>(2);
 			toolkits.add(searchSWTToolkit(viewHandlerProvider));
 			toolkits.add(searchEMFPropertiesToolkit(viewHandlerProvider));		
-			List<View> views = buildViews(toolkits);
-			
-			// Creation Editing Model
-			PropertiesEditingModel editingModel = buildEditingModel(views);
+			buildViews(toolkits);
 			
 			// Creating model
-			((DomainPropertiesEditingContext) context).setAdapterFactory(adapterFactory);
-			context.setEditingModel(editingModel);
 			context.setViewHandlerProvider(viewHandlerProvider);
 			EEFWizardDialog dialog = new EEFWizardDialog(event.getViewer().getControl().getShell(), new EEFEditingWizard(context));
 			dialog.open();

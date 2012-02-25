@@ -10,8 +10,6 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.EditingModelProvider;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.SemanticDirectEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
@@ -26,21 +24,21 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	protected EObject eObject;
 	protected AdapterFactory adapterFactory;
 	protected ChangeRecorder changeRecorder;
+	protected ViewHandlerProvider viewHandlerProvider;
 
 	protected ContextOptions options;
 
-	protected EditingModelProvider modelProvider;
-	protected ViewHandlerProvider viewHandlerProvider;
-	
+
 	/**
 	 * @param eObject {@link EObject} to edit.
 	 */
-	public EObjectPropertiesEditingContext(EObject eObject) {
+	public EObjectPropertiesEditingContext(AdapterFactory adapterFactory, EObject eObject) {
+		this.adapterFactory = adapterFactory;
 		this.eObject = eObject;
 		this.options = initOptions();
 		initChangeRecorder(eObject);
 	}
-	
+
 	/**
 	 * Initialize the options of this context.
 	 * @return the {@link ContextOptions} to use.
@@ -66,19 +64,17 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingModel()
+	 * @return the eObject
 	 */
-	public PropertiesEditingModel getEditingModel() {
-		return modelProvider.getEditingModel();
+	public EObject getEObject() {
+		return eObject;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setEditingModel(org.eclipse.emf.eef.runtime.model.PropertiesEditingModel)
+	 * @return the adapterFactory
 	 */
-	public void setEditingModel(PropertiesEditingModel editingModel) {
-		this.modelProvider = new EditingModelProvider(editingModel);
+	public AdapterFactory getAdapterFactory() {
+		return adapterFactory;
 	}
 
 	/**
@@ -98,32 +94,11 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	}
 
 	/**
-	 * @return the eObject
-	 */
-	public EObject getEObject() {
-		return eObject;
-	}
-
-	/**
-	 * @return the adapterFactory
-	 */
-	public AdapterFactory getAdapterFactory() {
-		return adapterFactory;
-	}
-
-	/**
-	 * @param adapterFactory the adapterFactory to set
-	 */
-	public void setAdapterFactory(AdapterFactory adapterFactory) {
-		this.adapterFactory = adapterFactory;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingComponent()
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
-		PropertiesEditingComponent component = (PropertiesEditingComponent) modelProvider.adapt(eObject, PropertiesEditingComponent.class);
+		PropertiesEditingComponent component = (PropertiesEditingComponent) adapterFactory.adapt(eObject, PropertiesEditingComponent.class);
 		component.setEditingContext(this);
 		return component;
 	}
@@ -172,5 +147,5 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	public void dispose() {
 		changeRecorder.dispose();
 	}
-	
+
 }

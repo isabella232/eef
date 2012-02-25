@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.tests.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.util.TreeIterator;
@@ -25,6 +26,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
@@ -72,16 +74,27 @@ public class EEFTestStuffsBuilder {
 		ViewHandlerProvider viewHandlerProvider = buildViewHandlerProvider();
 		Toolkit swtToolkit = searchSWTToolkit(viewHandlerProvider);
 		List<View> views = buildSampleViews(swtToolkit);
-		PropertiesEditingModel editingModel = new EditingModelBuilder()
+		final PropertiesEditingModel editingModel = new EditingModelBuilder()
 						.bindClass(BindingmodelPackage.Literals.SAMPLE).withView(views.get(0))
 						.build();
 		Sample sampleToEdit = BindingmodelFactory.eINSTANCE.createSample();
 		sampleToEdit.setName(SAMPLE_NAME_INITIALIZATION_EDITING_VIEWS_CONTEXT);
 		sampleToEdit.setActive(SAMPLE_ACTIVATION_INITIALIZATION_EDITING_VIEWS_CONTEXT);
-		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(sampleToEdit);
-		context.setAdapterFactory(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
-		context.setEditingModel(editingModel);
-		context.setViewHandlerProvider(viewHandlerProvider);
+		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		adapterFactory.addAdapterFactory(new PropertiesEditingProvider() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initSpecificEditingModel()
+			 */
+			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
+				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
+				result.add(editingModel);
+				return result ;
+			}
+			
+		});
+		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(adapterFactory, sampleToEdit);
 		return context;
 	}
 	
@@ -100,7 +113,7 @@ public class EEFTestStuffsBuilder {
 		List<View> views = buildEcoreViews(toolkits);
 		
 		// Creation Editing Model
-		PropertiesEditingModel editingModel = new EditingModelBuilder()
+		final PropertiesEditingModel editingModel = new EditingModelBuilder()
 						.bindClass(EcorePackage.Literals.ECLASS)
 							.withView(views.get(0))
 							.withView(views.get(1))
@@ -109,9 +122,22 @@ public class EEFTestStuffsBuilder {
 		
 		// Creating model
 		EPackage sampleModel = buildEcoreSampleModel();
-		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(sampleModel.getEClassifiers().get(0));
-		context.setAdapterFactory(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
-		context.setEditingModel(editingModel);
+		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		adapterFactory.addAdapterFactory(new PropertiesEditingProvider() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initSpecificEditingModel()
+			 */
+			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
+				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
+				result.add(editingModel);
+				return result;
+			}
+			
+		});
+		EObjectPropertiesEditingContext context = 
+				new EObjectPropertiesEditingContext(adapterFactory, sampleModel.getEClassifiers().get(0));
 		context.setViewHandlerProvider(viewHandlerProvider);
 		return context;
 	}

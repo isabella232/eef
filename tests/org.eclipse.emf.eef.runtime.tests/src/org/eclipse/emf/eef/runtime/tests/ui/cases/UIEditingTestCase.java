@@ -6,14 +6,17 @@ package org.eclipse.emf.eef.runtime.tests.ui.cases;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
@@ -70,8 +73,23 @@ public abstract class UIEditingTestCase {
 	 * @return {@link PropertiesEditingContext} for the test case.
 	 */
 	protected PropertiesEditingContext buildEditingContext() {
-		PropertiesEditingContext context = new EObjectPropertiesEditingContext(elementToEdit);
-		context.setEditingModel(buildEditingModel());
+		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		adapterFactory.addAdapterFactory(new PropertiesEditingProvider() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initSpecificEditingModel()
+			 */
+			@Override
+			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
+				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
+				result.add(buildEditingModel());
+				return result;
+			}
+			
+		});
+		PropertiesEditingContext context = 
+				new EObjectPropertiesEditingContext(adapterFactory, elementToEdit);
 		context.setViewHandlerProvider(new EEFTestStuffsBuilder().buildViewHandlerProvider());
 		return context;
 	}

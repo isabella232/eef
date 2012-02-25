@@ -21,7 +21,7 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
  */
 public interface PropertiesEditingComponent extends Adapter, EditingListener {
 
-	/**
+    /**
 	 * Returns the editing context of the component.
 	 * @return the component's {@link PropertiesEditingContext}.
 	 */

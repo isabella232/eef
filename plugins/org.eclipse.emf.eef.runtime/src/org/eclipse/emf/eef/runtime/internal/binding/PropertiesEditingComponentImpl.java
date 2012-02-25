@@ -26,6 +26,7 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.EditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -52,16 +53,19 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	protected FirePropertiesChangedJob firePropertiesChangedJob;
 
 	private PropertiesEditingContext editingContext;
+	private PropertiesEditingProvider editingProvider;
 	private PropertiesEditingModel editingModel;
 	private List<ViewHandler<?>> viewHandlers;
 	private ViewChangeNotifier viewChangeNotifier;
 	private List<EditingListener> listeners;
 
+
+
 	/**
 	 * @param editingModel model defining the properties editing definition. 
 	 */
-	public PropertiesEditingComponentImpl(PropertiesEditingModel editingModel) {
-		this.editingModel = editingModel;
+	public PropertiesEditingComponentImpl(PropertiesEditingProvider editingProvider) {
+		this.editingProvider = editingProvider;
 		this.listeners = Lists.newArrayList();
 	}
 
@@ -82,12 +86,23 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	}
 
 	/**
+	 * @return the {@link PropertiesEditingModel} describing the Editing Forms for the given {@link EObject}.
+	 */
+	private PropertiesEditingModel getEditingModel() {
+		if (editingModel == null) {
+			editingModel = editingProvider.getEditingModel((EObject) getTarget());
+		}
+		return editingModel;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getBinding()
 	 */
 	public EClassBinding getBinding() {
-		return editingModel.binding((EObject) getTarget());
+		return getEditingModel().binding((EObject) getTarget());
 	}
+
 
 	/**
 	 * {@inheritDoc}
@@ -120,7 +135,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	public void notifyChanged(Notification msg) {
 		if (msg.getFeature() instanceof EStructuralFeature) {
 			EStructuralFeature structuralFeature = (EStructuralFeature)msg.getFeature();
-			EClassBinding binding = editingModel.binding((EObject) getTarget());
+			EClassBinding binding = getEditingModel().binding((EObject) getTarget());
 			Object propertyEditor = binding.propertyEditor(structuralFeature, editingContext.getOptions().autowire());
 			switch (msg.getEventType()) {
 			case Notification.SET:
@@ -263,9 +278,9 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 		viewHandlers = new ArrayList<ViewHandler<?>>();
 		ViewHandlerProvider viewHandlerProvider = editingContext.getViewHandlerProvider();
 		if (viewHandlerProvider != null) {
-			List<Object> associatedViews = editingModel.views((EObject) getTarget());
+			List<Object> associatedViews = getEditingModel().views((EObject) getTarget());
 			for (Object associatedView : associatedViews) {
-				ViewHandler<?> specifiedHandler = editingModel.viewHandler((EObject) getTarget(), associatedView);
+				ViewHandler<?> specifiedHandler = getEditingModel().viewHandler((EObject) getTarget(), associatedView);
 				if (specifiedHandler != null) {
 					viewHandlers.add(specifiedHandler);
 				} else {

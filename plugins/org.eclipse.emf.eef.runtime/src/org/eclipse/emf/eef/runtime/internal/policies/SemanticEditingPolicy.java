@@ -16,6 +16,10 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
+/**
+ * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
+ *
+ */
 public abstract class SemanticEditingPolicy implements PropertiesEditingPolicy {
 
 	private PropertiesEditingEvent editingEvent;
@@ -34,8 +38,7 @@ public abstract class SemanticEditingPolicy implements PropertiesEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute()
 	 */
 	public void execute() {
-		EObject editedObject = (EObject) editingComponent.getTarget();
-		EClassBinding binding = editingComponent.getEditingContext().getEditingModel().binding(editedObject);
+		EClassBinding binding = editingComponent.getBinding();
 		EStructuralFeature feature = binding.feature(editingEvent.getAffectedEditor(), editingComponent.getEditingContext().getOptions().autowire());
 		switch (editingEvent.getEventType()) {
 		case PropertiesEditingEvent.SET:

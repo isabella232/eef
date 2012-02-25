@@ -4,8 +4,10 @@
 package org.eclipse.emf.eef.runtime.context.impl;
 
 import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
@@ -21,13 +23,20 @@ public class DomainPropertiesEditingContext extends EObjectPropertiesEditingCont
 	private EditingDomain editingDomain;
 
 	/**
+	 * @param editingDomain
+	 * @param adapterFactory
 	 * @param eObject
 	 */
-	public DomainPropertiesEditingContext(EditingDomain editingDomain, EObject eObject) {
-		super(eObject);
+	public DomainPropertiesEditingContext(EditingDomain editingDomain, AdapterFactory adapterFactory, EObject eObject) {
+		super(adapterFactory, eObject);
 		this.editingDomain = editingDomain;
 	}
 
+	public DomainPropertiesEditingContext(AdapterFactoryEditingDomain editingDomain, EObject eObject) {
+		super(editingDomain.getAdapterFactory(), eObject);
+		this.editingDomain = editingDomain;
+	}
+	
 	/**
 	 * @return the editingDomain
 	 */

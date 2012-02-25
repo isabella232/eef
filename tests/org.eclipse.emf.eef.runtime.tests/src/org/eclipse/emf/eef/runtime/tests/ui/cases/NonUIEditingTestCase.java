@@ -4,16 +4,19 @@
 package org.eclipse.emf.eef.runtime.tests.ui.cases;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
@@ -38,10 +41,24 @@ public class NonUIEditingTestCase {
 		EEFTestStuffsBuilder testBuilder = new EEFTestStuffsBuilder();
 		EPackage ecoreModel = testBuilder.buildEcoreSampleModel();
 		editedObject = ecoreModel.getEClassifiers().get(0);
-		context = new EObjectPropertiesEditingContext(editedObject);
+		final PropertiesEditingModel editingModel = buildEditingModel();
+		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		adapterFactory.addAdapterFactory(new PropertiesEditingProvider() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initSpecificEditingModel()
+			 */
+			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
+				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
+				result.add(editingModel);
+				return result;
+			}
+			
+		});
+		context = 
+				new EObjectPropertiesEditingContext(adapterFactory, editedObject);
 		context.setViewHandlerProvider(testBuilder.buildViewHandlerProvider());
-		PropertiesEditingModel editingModel = buildEditingModel();
-		context.setEditingModel(editingModel);
 		List<ViewHandler<?>> viewHandlers = context.getEditingComponent().getViewHandlers();
 		views = new ArrayList<Object>();
 		for (ViewHandler<?> viewHandler : viewHandlers) {
