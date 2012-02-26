@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.tests.handlers;
 
 import org.eclipse.emf.eef.runtime.tests.views.SampleCustomView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
+import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 import org.eclipse.swt.widgets.Composite;
 
@@ -15,10 +16,11 @@ import org.eclipse.swt.widgets.Composite;
 public class CustomSWTViewHandler extends SWTViewHandler {
 
 	/**
+	 * @param handlerProvider
 	 * @param viewClass
 	 */
-	public CustomSWTViewHandler(Class<? extends Composite> viewClass) {
-		super(viewClass);
+	public CustomSWTViewHandler(ViewHandlerProvider handlerProvider, Class<? extends Composite> viewClass) {
+		super(handlerProvider, viewClass);
 	}
 
 	/**

@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
@@ -29,11 +31,13 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * TODO: manage a Semanticless mode.
  */
 public class ViewHelperImpl implements ViewHelper {
 		
@@ -48,19 +52,21 @@ public class ViewHelperImpl implements ViewHelper {
 	private FormToolkit toolkit;
 	
 	/**
+	 * Create a semanticless helper.
+	 */
+	public ViewHelperImpl() { }
+
+	/**
 	 * @param editingComponent
 	 */
 	public ViewHelperImpl(PropertiesEditingComponent editingComponent) {
 		this.editingComponent = editingComponent;
-		this.toolkit = null;
 	}
 
 	/**
-	 * @param editingComponent
-	 * @param toolkit
+	 * @param toolkit the toolkit to set
 	 */
-	public ViewHelperImpl(PropertiesEditingComponent editingComponent, FormToolkit toolkit) {
-		this.editingComponent = editingComponent;
+	public void setToolkit(FormToolkit toolkit) {
 		this.toolkit = toolkit;
 	}
 
@@ -221,6 +227,24 @@ public class ViewHelperImpl implements ViewHelper {
 			return resource;
 		}
 		return sourceInput;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#getEditingDomain(org.eclipse.ui.IWorkbenchPart)
+	 */
+	public EditingDomain getEditingDomain(IWorkbenchPart part) {
+		EditingDomain editingDomain = null;
+		if (part instanceof IEditingDomainProvider) {
+			editingDomain = ((IEditingDomainProvider)part).getEditingDomain();
+		} else if (part instanceof IEditorPart) {
+			if ((((IEditorPart)part).getAdapter(IEditingDomainProvider.class)) != null) {
+				editingDomain = ((IEditingDomainProvider)((IEditorPart)part).getAdapter(IEditingDomainProvider.class)).getEditingDomain();
+			} else if ((((IEditorPart)part).getAdapter(EditingDomain.class)) != null) {
+				editingDomain = (EditingDomain)((IEditorPart)part).getAdapter(EditingDomain.class);
+			}
+		}
+		return editingDomain;
 	}
 }
 

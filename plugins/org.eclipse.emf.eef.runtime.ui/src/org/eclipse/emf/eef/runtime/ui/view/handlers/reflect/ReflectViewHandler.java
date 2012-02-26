@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ReflectHelper;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
+import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 
@@ -22,6 +23,8 @@ import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException
 public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	protected Class<? extends T> viewClass;
+	private ViewHandlerProvider handlerProvider;
+
 	protected T view;
 	
 	private ReflectHelper<T> helper;
@@ -29,8 +32,9 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	/**
 	 * @param viewClass View class to handle.
 	 */
-	public ReflectViewHandler(final Class<? extends T> viewClass) {
+	public ReflectViewHandler(ViewHandlerProvider handlerProvider, final Class<? extends T> viewClass) {
 		this.viewClass = viewClass;
+		this.handlerProvider = handlerProvider;
 	}
 
 	/**
@@ -83,6 +87,14 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	 */
 	public T getView() {
 		return view;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#getProvider()
+	 */
+	public ViewHandlerProvider getProvider() {
+		return handlerProvider;
 	}
 
 	/**

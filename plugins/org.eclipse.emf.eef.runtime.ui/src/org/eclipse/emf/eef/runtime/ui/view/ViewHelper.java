@@ -13,12 +13,15 @@ package org.eclipse.emf.eef.runtime.ui.view;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
- * @author glefur
+ * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
 public interface ViewHelper {
@@ -38,6 +41,12 @@ public interface ViewHelper {
 	 */
 	String EEF_WIDGET_TYPE_KEY = "org.eclipse.emf.eef.widgets.type";
 
+	/**
+	 * Set the toolkit to use for creating widgets
+	 * @param toolkit widget factory.
+	 */
+	void setToolkit(FormToolkit toolkit);
+	
 	/**
 	 * Return the label text for a given editor.
 	 * @param editor key of editor to process
@@ -110,5 +119,12 @@ public interface ViewHelper {
 	 * @return the best input.
 	 */
 	Object getBestInput(Object sourceInput);
+
+	/**
+	 *	Search the editingDomain for the given WorkbenchPart.
+	 * @param part {@link IWorkbenchPart} editing the EObject.
+	 * @return {@link EditingDomain} to use to edit the current {@link EObject}.
+	 */
+	EditingDomain getEditingDomain(IWorkbenchPart part);
 
 }

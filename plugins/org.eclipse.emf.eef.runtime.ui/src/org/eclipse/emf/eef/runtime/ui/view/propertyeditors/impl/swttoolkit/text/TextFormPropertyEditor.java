@@ -33,7 +33,7 @@ public class TextFormPropertyEditor extends StandardFormControlPropertyEditor<Te
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.StandardFormPropertyEditor#createEditorContents(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
 	 */
 	protected void createEditorContents(FormToolkit toolkit, Composite parent) {
-		text = toolkit.createText(parent, "", SWT.BORDER);
+		text = toolkit.createText(parent, "", SWT.NONE);
 		text.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 		toolkit.paintBordersFor(parent);
 		GridData nameData = new GridData(GridData.FILL_HORIZONTAL);

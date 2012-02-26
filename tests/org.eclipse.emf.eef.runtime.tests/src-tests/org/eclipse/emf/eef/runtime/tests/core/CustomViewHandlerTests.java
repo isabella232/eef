@@ -29,7 +29,7 @@ public class CustomViewHandlerTests extends UIEditingTestCase {
 	protected PropertiesEditingModel buildEditingModel() {
 		return new EditingModelBuilder()
 				.bindClass(BindingmodelPackage.Literals.SAMPLE)
-					.withView(SampleCustomView.class).handler(new CustomSWTViewHandler(SampleCustomView.class))
+					.withView(SampleCustomView.class).handler(new CustomSWTViewHandler(null, SampleCustomView.class))
 				.build();
 	}
 	

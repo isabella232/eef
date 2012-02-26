@@ -7,10 +7,11 @@ import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
-import org.eclipse.emf.eef.runtime.ui.internal.view.FormImplPropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.internal.view.SWTImplPropertiesEditingView;
+import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditingView;
+import org.eclipse.emf.eef.runtime.ui.internal.view.impl.SWTImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
+import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.views.View;
@@ -82,6 +83,22 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 */
 	public PropertiesEditingView getView() { 
 		return view;
+	}
+
+	/**
+	 * Force the view of this {@link ViewHandler}.
+	 * @param propertiesEditingView the view to define for this handler.
+	 */
+	public void setView(PropertiesEditingView propertiesEditingView) {
+		view = propertiesEditingView;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#getProvider()
+	 */
+	public ViewHandlerProvider getProvider() {
+		return handlerProvider;
 	}
 
 	/**

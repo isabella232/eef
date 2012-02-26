@@ -37,6 +37,13 @@ public interface PropertiesEditingComponent extends Adapter, EditingListener {
 	 * @param editingContext {@link PropertiesEditingContext} to set.
 	 */
 	void setEditingContext(PropertiesEditingContext editingContext);
+	
+	/**
+	 * Returns the {@link ViewHandler} able to manage the given view.
+	 * @param view the view to manage.
+	 * @return a list of {@link ViewHandler} editing the model element.
+	 */
+	ViewHandler<?> getViewHandler(Object view);
 
 	/**
 	 * Returns all {@link ViewHandler}s able to manage the views for the edited model element.
@@ -73,4 +80,9 @@ public interface PropertiesEditingComponent extends Adapter, EditingListener {
 	 * @return a result {@link Diagnostic} for this validation. 
 	 */
 	Diagnostic validate();
+	
+	/**
+	 * Dispose this component. Main topic is to remove this adapter from its host.
+	 */
+	void dispose();
 }

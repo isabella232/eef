@@ -2,6 +2,8 @@ package org.eclipse.emf.eef.runtime;
 
 import java.util.Map;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -89,6 +91,24 @@ public class EEFRuntime extends EMFPlugin {
 		 */
 		public Diagnostician getEEFValidator() {
 			return diagnostician;
+		}
+		
+		/**
+		 * Log an error in the plugin.
+		 * @param message error message.
+		 * @param e the cause exception.
+		 */
+		public void logError(String message, Exception e) {
+			getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, message, e));
+		}
+
+		/**
+		 * Log a warning in the plugin.
+		 * @param message error message.
+		 * @param e the cause exception.
+		 */
+		public void logWarning(String message, Exception e) {
+			getLog().log(new Status(IStatus.WARNING, PLUGIN_ID, message, e));
 		}
 
 	}

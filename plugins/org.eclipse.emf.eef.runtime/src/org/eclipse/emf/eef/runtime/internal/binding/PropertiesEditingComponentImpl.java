@@ -3,7 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.internal.binding;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -278,26 +277,38 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewHandler(java.lang.Object)
+	 */
+	public ViewHandler<?> getViewHandler(Object view) {
+		if (viewHandlers == null) {
+			viewHandlers = Lists.newArrayList();
+		}
+		ViewHandlerProvider viewHandlerProvider = editingProvider.getViewHandlerProvider();
+		ViewHandler<?> specifiedHandler = getEditingModel().viewHandler((EObject) getTarget(), view);
+		if (specifiedHandler != null) {
+			viewHandlers.add(specifiedHandler);
+		} else {
+			if (viewHandlerProvider.canHandle(view)) {
+				ViewHandler<?> handler = viewHandlerProvider.getHandler(view);
+				if (handler != null) {
+					viewHandlers.add(handler);
+					return handler;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewHandlers()
 	 */
 	public List<ViewHandler<?>> getViewHandlers() {
-		viewHandlers = new ArrayList<ViewHandler<?>>();
 		PropertiesEditingModel editingModel = getEditingModel();
 		if (editingModel != null) {
 			List<Object> associatedViews = editingModel.views((EObject) getTarget());
-			ViewHandlerProvider viewHandlerProvider = editingProvider.getViewHandlerProvider();
 			for (Object associatedView : associatedViews) {
-				ViewHandler<?> specifiedHandler = getEditingModel().viewHandler((EObject) getTarget(), associatedView);
-				if (specifiedHandler != null) {
-					viewHandlers.add(specifiedHandler);
-				} else {
-					if (viewHandlerProvider.canHandle(associatedView)) {
-						ViewHandler<?> handler = viewHandlerProvider.getHandler(associatedView);
-						if (handler != null) {
-							viewHandlers.add(handler);
-						}
-					}
-				}
+				getViewHandler(associatedView);
 			}
 		}
 		return viewHandlers;
@@ -324,6 +335,14 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 		Diagnostic validate = Diagnostic.OK_INSTANCE;
 		validate = EEFRuntime.getPlugin().getEEFValidator().validate((EObject) getTarget());
 		return validate;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#dispose()
+	 */
+	public void dispose() {
+		getTarget().eAdapters().remove(this);
 	}
 
 	/**

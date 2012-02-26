@@ -30,7 +30,7 @@ public class SWTViewHandlerProvider implements ViewHandlerProvider {
 	 */
 	@SuppressWarnings("unchecked")
 	public ViewHandler<? extends Composite> getHandler(Object view) {
-		return new SWTViewHandler((Class<? extends Composite>) view);
+		return new SWTViewHandler(this, (Class<? extends Composite>) view);
 	}
 
 	/**

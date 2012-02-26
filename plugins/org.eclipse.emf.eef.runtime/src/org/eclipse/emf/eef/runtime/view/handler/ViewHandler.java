@@ -31,6 +31,11 @@ public interface ViewHandler<T> {
 	T getView();
 	
 	/**
+	 * @return the {@link ViewHandlerProvider} that created the current {@link ViewHandlerProvider};
+	 */
+	ViewHandlerProvider getProvider();
+	
+	/**
 	 * Sets a value to the given field. 
 	 * @param field feature to process.
 	 * @param value the new value.

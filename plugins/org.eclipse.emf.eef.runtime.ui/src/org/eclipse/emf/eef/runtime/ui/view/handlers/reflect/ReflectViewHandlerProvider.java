@@ -28,7 +28,7 @@ public class ReflectViewHandlerProvider implements ViewHandlerProvider {
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#getHandler(java.lang.Object)
 	 */
 	public ViewHandler<Object> getHandler(Object view) {
-		return new ReflectViewHandler<Object>((Class<?>) view);
+		return new ReflectViewHandler<Object>(this, (Class<?>) view);
 	}
 
 }

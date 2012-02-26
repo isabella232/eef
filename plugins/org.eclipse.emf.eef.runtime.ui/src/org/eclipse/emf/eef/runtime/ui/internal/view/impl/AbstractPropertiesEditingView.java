@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.internal.view;
+package org.eclipse.emf.eef.runtime.ui.internal.view.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,6 +19,7 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEdi
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.section.SectionPropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
@@ -38,6 +39,13 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	
 	protected Map<ElementEditor, PropertyEditor> propertyEditors;
 	protected Composite contentsComposite;
+	private ViewHelperImpl viewHelper;
+	
+	/**
+	 * Non-parameterized constructor for {@link SectionPropertiesEditingView} purpose.
+	 * Mustn't be use otherwise.
+	 */
+	public AbstractPropertiesEditingView() { }
 	
 	/**
 	 * @param editingComponent {@link PropertiesEditingComponent} managing the view.
@@ -62,7 +70,14 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewHelper()
 	 */
 	public ViewHelper getViewHelper() {
-		return new ViewHelperImpl(editingComponent);
+		if (viewHelper == null) {
+			if (editingComponent != null) {
+				viewHelper = new ViewHelperImpl(editingComponent);
+			} else {
+				return new ViewHelperImpl();
+			}
+		}
+		return viewHelper;
 	}
 
 	/**

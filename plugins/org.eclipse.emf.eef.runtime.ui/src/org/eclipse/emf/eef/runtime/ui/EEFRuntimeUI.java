@@ -1,5 +1,7 @@
 package org.eclipse.emf.eef.runtime.ui;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -75,6 +77,24 @@ public class EEFRuntimeUI extends EMFPlugin {
 			plugin = this;
 		}
 		
+		/**
+		 * Log an error in the plugin.
+		 * @param message error message.
+		 * @param e the cause exception.
+		 */
+		public void logError(String message, Exception e) {
+			getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, message, e));
+		}
+
+		/**
+		 * Log a warning in the plugin.
+		 * @param message error message.
+		 * @param e the cause exception.
+		 */
+		public void logWarning(String message, Exception e) {
+			getLog().log(new Status(IStatus.WARNING, PLUGIN_ID, message, e));
+		}
+
 		/**
 		 * Return an embedded image of the runtime.
 		 * @param key ID of the image

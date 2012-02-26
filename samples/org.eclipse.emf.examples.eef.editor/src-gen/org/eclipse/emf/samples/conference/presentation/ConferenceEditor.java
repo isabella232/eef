@@ -46,7 +46,6 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -68,7 +67,6 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
-import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.ui.notify.OpenWizardOnDoubleClick;
@@ -78,6 +76,7 @@ import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.samples.conference.ConferencePackage;
 import org.eclipse.emf.samples.conference.provider.ConferenceItemProviderAdapterFactory;
+import org.eclipse.emf.samples.conferences.providers.ConferencePropertiesEditingProvider;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -130,7 +129,8 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
-import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 
 /**
@@ -139,11 +139,13 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
  * <!-- end-user-doc -->
  * @generated
  */
-public class ConferenceEditor
-extends MultiPageEditorPart
-implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker {
+public class ConferenceEditor extends MultiPageEditorPart
+			implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker, ITabbedPropertySheetPageContributor {
 
 
+	/**
+	 * Contributor ID
+	 */
 	private static final String CONTRIBUTOR_ID = "org.eclipse.emf.samples.conference.properties";
 
 	/**
@@ -192,7 +194,7 @@ implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerPro
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	protected PropertySheetPage propertySheetPage;
+	protected TabbedPropertySheetPage propertySheetPage;
 
 	/**
 	 * This is the viewer that shadows the selection in the content outline.
@@ -1026,11 +1028,7 @@ implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerPro
 					 * @see org.eclipse.emf.eef.runtime.ui.notify.OpenWizardOnDoubleClick#buildEditingModel(java.util.List)
 					 */
 					protected PropertiesEditingModel buildEditingModel(List<View> views) {
-						return new EditingModelBuilder()
-										.bindClass(ConferencePackage.Literals.PERSON)
-											.withView(views.get(0))
-											.withView(views.get(1))
-												.build();
+						return ConferencePropertiesEditingProvider.generateModel(views);
 					}
 
 					/**
@@ -1038,30 +1036,7 @@ implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerPro
 					 * @see org.eclipse.emf.eef.runtime.ui.notify.OpenWizardOnDoubleClick#buildViews(java.util.List)
 					 */
 					protected List<View> buildViews(List<Toolkit> toolkits) {
-						List<View> result = new ArrayList<View>();
-						View identity = ViewsFactory.eINSTANCE.createView();
-						identity.setName("Identity");
-						ElementEditor firstnameEditor = ViewsFactory.eINSTANCE.createElementEditor();
-						firstnameEditor.setName("firstname");
-						firstnameEditor.setRepresentation(searchWidget(toolkits.get(0), "Text"));
-						identity.getElements().add(firstnameEditor);
-						ElementEditor lastnameEditor = ViewsFactory.eINSTANCE.createElementEditor();
-						lastnameEditor.setName("lastname");
-						lastnameEditor.setRepresentation(searchWidget(toolkits.get(0), "Text"));
-						identity.getElements().add(lastnameEditor);
-						ElementEditor isRegisteredEditor = ViewsFactory.eINSTANCE.createElementEditor();
-						isRegisteredEditor.setName("isRegistered");
-						isRegisteredEditor.setRepresentation(searchWidget(toolkits.get(0), "Checkbox"));
-						identity.getElements().add(isRegisteredEditor);
-						result.add(identity);
-						View conference = ViewsFactory.eINSTANCE.createView();
-						conference.setName("Conference");
-						ElementEditor assists = ViewsFactory.eINSTANCE.createElementEditor();
-						assists.setName("assists");
-						assists.setRepresentation(searchWidget(toolkits.get(1), "EReferenceMultiEditor"));
-						conference.getElements().add(assists);
-						result.add(conference);
-						return result;
+						return ConferencePropertiesEditingProvider.buildViews(toolkits);
 					}
 
 
@@ -1413,23 +1388,8 @@ implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerPro
 	 */
 	public IPropertySheetPage getPropertySheetPage() {
 		if (propertySheetPage == null) {
-			propertySheetPage =
-					new ExtendedPropertySheetPage(editingDomain) {
-				@Override
-				public void setSelectionToViewer(List<?> selection) {
-					ConferenceEditor.this.setSelectionToViewer(selection);
-					ConferenceEditor.this.setFocus();
-				}
-
-				@Override
-				public void setActionBars(IActionBars actionBars) {
-					super.setActionBars(actionBars);
-					getActionBarContributor().shareGlobalActions(this, actionBars);
-				}
-			};
-			propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
+			propertySheetPage = new TabbedPropertySheetPage(this);
 		}
-
 		return propertySheetPage;
 	}
 
