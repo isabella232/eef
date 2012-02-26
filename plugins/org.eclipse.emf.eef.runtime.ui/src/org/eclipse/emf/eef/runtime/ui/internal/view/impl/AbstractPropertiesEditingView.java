@@ -39,7 +39,6 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	
 	protected Map<ElementEditor, PropertyEditor> propertyEditors;
 	protected Composite contentsComposite;
-	private ViewHelperImpl viewHelper;
 	
 	/**
 	 * Non-parameterized constructor for {@link SectionPropertiesEditingView} purpose.
@@ -70,14 +69,11 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewHelper()
 	 */
 	public ViewHelper getViewHelper() {
-		if (viewHelper == null) {
-			if (editingComponent != null) {
-				viewHelper = new ViewHelperImpl(editingComponent);
-			} else {
-				return new ViewHelperImpl();
-			}
+		if (editingComponent != null) {
+			return new ViewHelperImpl(editingComponent);
+		} else {
+			return new ViewHelperImpl();
 		}
-		return viewHelper;
 	}
 
 	/**

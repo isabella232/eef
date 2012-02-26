@@ -67,14 +67,10 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
-import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.ui.notify.OpenWizardOnDoubleClick;
-import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
-import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
-import org.eclipse.emf.samples.conference.ConferencePackage;
 import org.eclipse.emf.samples.conference.provider.ConferenceItemProviderAdapterFactory;
 import org.eclipse.emf.samples.conferences.providers.ConferencePropertiesEditingProvider;
 import org.eclipse.jface.action.IMenuListener;
@@ -693,9 +689,6 @@ public class ConferenceEditor extends MultiPageEditorPart
 						Command mostRecentCommand = ((CommandStack)event.getSource()).getMostRecentCommand();
 						if (mostRecentCommand != null) {
 							setSelectionToViewer(mostRecentCommand.getAffectedObjects());
-						}
-						if (propertySheetPage != null && !propertySheetPage.getControl().isDisposed()) {
-							propertySheetPage.refresh();
 						}
 					}
 				});
