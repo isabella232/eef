@@ -1,7 +1,7 @@
 package org.eclipse.emf.eef.runtime.ui.internal.view.util;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
+import org.eclipse.emf.eef.runtime.ui.EEFRuntimeTabbed;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Color;
@@ -48,13 +48,13 @@ public class ValidationMessageInjector {
 				CLabel messageControl = getMessage();
 				messageControl.setText("Errors");
 				messageControl.setForeground(propertyComposite.getDisplay().getSystemColor(SWT.COLOR_RED));
-				messageControl.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ValidationErrors.gif"));
+				messageControl.setImage(EEFRuntimeTabbed.getPlugin().getRuntimeImage("ValidationErrors.gif"));
 				messageControl.setToolTipText(message);
 			} else if (severity == IStatus.WARNING) {
 				CLabel messageControl = getMessage();
 				messageControl.setText("Warnings");
 				messageControl.setForeground(propertyComposite.getDisplay().getSystemColor(SWT.COLOR_DARK_YELLOW));
-				messageControl.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ValidationWarnings.gif"));
+				messageControl.setImage(EEFRuntimeTabbed.getPlugin().getRuntimeImage("ValidationWarnings.gif"));
 				messageControl.setToolTipText(message);
 			} else {
 				dispose();

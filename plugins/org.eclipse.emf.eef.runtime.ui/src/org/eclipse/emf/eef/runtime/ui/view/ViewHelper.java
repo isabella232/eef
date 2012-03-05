@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -46,6 +47,11 @@ public interface ViewHelper {
 	 * @param toolkit widget factory.
 	 */
 	void setToolkit(FormToolkit toolkit);
+	
+	/**
+	 * @return the {@link PropertiesEditingComponent} of this helper.
+	 */
+	PropertiesEditingComponent getEditingComponent();
 	
 	/**
 	 * Return the label text for a given editor.

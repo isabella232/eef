@@ -64,7 +64,7 @@
             contributorId="org.eclipse.emf.samples.conference.properties">
          <propertySection
                class="org.eclipse.emf.samples.conferences.sections.ConferenceSectionPropertiesEditingView"
-               id="org.eclipse.emf.samples.conference.section.Conference"
+               id="org.eclipse.emf.samples.conference.section.PersonIdentity"
                tab="Identity">
             <input
                   type="org.eclipse.emf.samples.conference.Person">
@@ -72,7 +72,7 @@
          </propertySection>
          <propertySection
                class="org.eclipse.emf.samples.conferences.sections.ConferenceSectionPropertiesEditingView"
-               id="org.eclipse.emf.samples.conference.section.Conference"
+               id="org.eclipse.emf.samples.conference.section.PersonConference"
                tab="Conference">
             <input
                   type="org.eclipse.emf.samples.conference.Person">

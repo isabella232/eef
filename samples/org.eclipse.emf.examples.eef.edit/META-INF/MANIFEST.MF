@@ -14,5 +14,5 @@ Export-Package: org.eclipse.emf.samples.conference.provider,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.examples.eef;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,
- org.eclipse.emf.eef.runtime.ui;visibility:=reexport
+ org.eclipse.emf.eef.runtime.tabbed;visibility:=reexport
 Bundle-ActivationPolicy: lazy

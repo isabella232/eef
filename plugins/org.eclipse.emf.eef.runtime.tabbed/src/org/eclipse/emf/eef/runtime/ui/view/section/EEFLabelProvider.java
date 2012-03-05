@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.view.section;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
+import org.eclipse.emf.eef.runtime.ui.EEFRuntimeTabbed;
 import org.eclipse.jface.viewers.DecoratingLabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.graphics.Image;
@@ -21,7 +21,7 @@ public class EEFLabelProvider extends DecoratingLabelProvider {
 	 * 
 	 */
 	public EEFLabelProvider() {
-		super(new AdapterFactoryLabelProvider(EEFRuntimeUI.getPlugin().getRegistryAdapterFactory()), null);
+		super(new AdapterFactoryLabelProvider(EEFRuntimeTabbed.getPlugin().getRegistryAdapterFactory()), null);
 	}
 
 	/**

@@ -11,7 +11,6 @@ import org.eclipse.emf.eef.runtime.ui.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.ViewHelper;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.section.SectionPropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.layout.GridLayout;

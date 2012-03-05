@@ -3,12 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.section;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
@@ -23,10 +19,10 @@ import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.notify.EditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditingView;
+import org.eclipse.emf.eef.runtime.ui.internal.view.util.DescriptorHelper;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ValidationMessageInjector;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
@@ -91,6 +87,8 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	 */
 	protected AdapterFactory adapterFactory;
 
+	private DescriptorHelper descriptorHelper;
+
 	/**
 	 * 
 	 */
@@ -99,11 +97,12 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 		this.propertyEditors = new HashMap<ElementEditor, PropertyEditor>();
 	}
 
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.ui.views.properties.tabbed.ISection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
 	 */
-	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
+	public void createControls(Composite parent,TabbedPropertySheetPage tabbedPropertySheetPage) {
 		this.tabbedPropertySheetPage = tabbedPropertySheetPage;
 		this.parentComposite = parent;
 	}
@@ -123,33 +122,12 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 			if (newEObject != eObject) {
 				eObject = newEObject;
 				if (eObject != null) {
-					injector = new ValidationMessageInjector(tabbedPropertySheetPage);
-					messageManager = new PropertiesEditingMessageManager() {
-
-						@Override
-						protected void updateStatus(String message) {
-							if (injector != null) {
-								injector.setMessage(message, IStatus.OK);
-							}
-						}
-
-						@Override
-						protected void updateError(String message) {
-							if (injector != null) {
-								injector.setMessage(message, IStatus.ERROR);
-							}
-						}
-
-						@Override
-						protected void updateWarning(String message) {
-							if (injector != null) {
-								injector.setMessage(message, IStatus.WARNING);
-							}
-						}
-
-					};
-					dispose();
-					refreshComponent();
+					disposeComponentIfExist();
+					DomainPropertiesEditingContext editingContext = new DomainPropertiesEditingContext(editingDomain, adapterFactory, eObject);
+					editingContext.getOptions().setOption(UIConstants.FORM_TOOLKIT, tabbedPropertySheetPage.getWidgetFactory());
+					editingComponent = editingContext.getEditingComponent();
+					editingComponent.addEditingListener(this);
+					refreshComponent();					
 				}
 			}
 		}
@@ -158,32 +136,48 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.ui.views.properties.tabbed.ISection#refresh()
+	 */
+	public void refresh() {
+		if (editingComponent != null) {
+			init();
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.ui.views.properties.tabbed.ISection#aboutToBeShown()
 	 */
-	public void aboutToBeShown() {
-		/* empty default implementation */
-	}
+	public void aboutToBeShown() { }
 
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.ui.views.properties.tabbed.ISection#aboutToBeHidden()
 	 */
-	public void aboutToBeHidden() {
-		if (injector != null) {
-			injector.dispose();
-			injector = null;
-		}
-	}
+	public void aboutToBeHidden() {	}
 
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.ui.views.properties.tabbed.ISection#dispose()
 	 */
 	public void dispose() {
+		if (injector != null) {
+			injector.dispose();
+			injector = null;
+		}
+		disposeComponentIfExist();
+	}
+
+
+	/**
+	 * Dispose and null the editingComponent of the section if it's not null.
+	 */
+	private void disposeComponentIfExist() {
 		if (editingComponent != null) {
 			PropertiesEditingContext editingContext = editingComponent.getEditingContext();
-			editingComponent.dispose();
 			editingContext.dispose();
+			editingComponent.dispose();
+			editingComponent = null;
 		}
 	}
 
@@ -202,14 +196,6 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	public boolean shouldUseExtraSpace() {
 		return false;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.ui.views.properties.tabbed.ISection#refresh()
-	 */
-	public void refresh() {
-		init();
-	}	
 
 	/**
 	 * This method analyze an input to exact the EObject to edit.
@@ -242,11 +228,32 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	}
 
 	private void refreshComponent() {
-		DomainPropertiesEditingContext editingContext = new DomainPropertiesEditingContext(editingDomain, adapterFactory, eObject);
-		editingContext.getOptions().setOption(UIConstants.FORM_TOOLKIT, tabbedPropertySheetPage.getWidgetFactory());
-		editingComponent = editingContext.getEditingComponent();
+		injector = new ValidationMessageInjector(tabbedPropertySheetPage);
+		messageManager = new PropertiesEditingMessageManager() {
+
+			@Override
+			protected void updateStatus(String message) {
+				if (injector != null) {
+					injector.setMessage(message, IStatus.OK);
+				}
+			}
+
+			@Override
+			protected void updateError(String message) {
+				if (injector != null) {
+					injector.setMessage(message, IStatus.ERROR);
+				}
+			}
+
+			@Override
+			protected void updateWarning(String message) {
+				if (injector != null) {
+					injector.setMessage(message, IStatus.WARNING);
+				}
+			}
+
+		};
 		initToolkit();
-		editingComponent.addEditingListener(this);
 		viewDescriptor = searchViewFromDescriptor();
 		if (this.viewDescriptor != null) {
 			ViewHandler<?> viewHandler = editingComponent.getViewHandler(viewDescriptor);
@@ -259,6 +266,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 				}
 				setPropertyEditorProvider(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getPropertyEditorProvider());
 				createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
+				parentComposite.layout();
 				if (messageManager != null) {
 					messageManager.processMessage(new PropertiesValidationEditingEvent(null, Diagnostic.OK_INSTANCE));
 					// I think I can create many dead EditingListener like this.
@@ -274,104 +282,26 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	}
 
 	private View searchViewFromDescriptor() {
+		String descriptor = getDescriptorHelper().getDescriptor();
 		for (Object view : editingComponent.getBinding().getViews()) {
 			if (view instanceof EObjectView) {
 				EObject definition = ((EObjectView) view).getDefinition();
-				if (definition instanceof View && getDescriptor().equals(((View) definition).getName())) {
-					return (View) definition;
-				}
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Magic method For eclipse 3.2 & 3.3 & 3.4 & 3.5
-	 * 
-	 * @return
-	 */
-	protected String getDescriptor() {
-		Map<?, ?> descriptor = getPageDescriptor(tabbedPropertySheetPage);
-		for (Iterator<?> iterator = descriptor.keySet().iterator(); iterator.hasNext();) {
-			Object key = iterator.next();
-			Object tab = descriptor.get(key);
-			Method getSectionAtIndex = getMethod(tab, "getSectionAtIndex", int.class); //$NON-NLS-1$
-			if (getSectionAtIndex != null) {
-				Object result = callMethod(tab, getSectionAtIndex, new Integer(0));
-				if (result == this) {
-					Method getId = getMethod(key, "getId"); //$NON-NLS-1$
-					if (getId != null) {
-						String id = (String)callMethod(key, getId);
-						return id;
+				if (definition instanceof View) {
+					String viewName = ((View) definition).getName();
+					if (descriptor.equals(viewName)) {
+						return (View) definition;
 					}
 				}
 			}
 		}
-		return ""; //$NON-NLS-1$
-	}
-
-	private Map<?, ?> getPageDescriptor(TabbedPropertySheetPage propertySheetPage) {
-		Field descriptorToTabField = null;
-		boolean oldAccessible = false;
-		try {
-			Class<?> cls = propertySheetPage.getClass();
-			while (!cls.equals(TabbedPropertySheetPage.class)) {
-				cls = cls.getSuperclass();
-			}
-			descriptorToTabField = cls.getDeclaredField("descriptorToTab"); //$NON-NLS-1$
-			oldAccessible = descriptorToTabField.isAccessible();
-			descriptorToTabField.setAccessible(true);
-			return (Map<?, ?>)descriptorToTabField.get(propertySheetPage);
-
-		} catch (SecurityException e) {
-			EEFRuntimeUI.getPlugin().logError("Unable to access the descriptorToTab method", e);
-		} catch (NoSuchFieldException e) {
-			EEFRuntimeUI.getPlugin().logError("Unable to access the descriptorToTab method", e);
-		} catch (IllegalArgumentException e) {
-			EEFRuntimeUI.getPlugin().logError("Unable to access the descriptorToTab method", e);
-		} catch (IllegalAccessException e) {
-			EEFRuntimeUI.getPlugin().logError("Unable to access the descriptorToTab method", e);
-		} finally {
-			if (descriptorToTabField != null) {
-				descriptorToTabField.setAccessible(oldAccessible);
-			}
-		}
 		return null;
 	}
 
-	/**
-	 * @param source
-	 *            the source object
-	 * @param name
-	 *            the method to get
-	 * @param argsType
-	 *            the method arguments type
-	 * @return the given method
-	 */
-	private Method getMethod(Object source, String name, Class<?>... argsType) {
-		try {
-			return source.getClass().getDeclaredMethod(name, argsType);
-		} catch (Exception e) {
-			EEFRuntimeUI.getPlugin().logError("Unable to access a method", e);
+	private DescriptorHelper getDescriptorHelper() {
+		if (descriptorHelper == null) {
+			descriptorHelper = new DescriptorHelper(tabbedPropertySheetPage, this);
 		}
-		return null;
+		return descriptorHelper;
 	}
 
-	/**
-	 * @param source
-	 *            the source object
-	 * @param name
-	 *            the method to get
-	 * @param argsType
-	 *            the method arguments type
-	 * @return the result of the given method
-	 */
-	private Object callMethod(Object source, Method method, Object... args) {
-		try {
-			return method.invoke(source, args);
-		} catch (Exception e) {
-			EEFRuntimeUI.getPlugin().logError("Unable to invoke a method", e);
-		}
-		return null;
-	}
 }

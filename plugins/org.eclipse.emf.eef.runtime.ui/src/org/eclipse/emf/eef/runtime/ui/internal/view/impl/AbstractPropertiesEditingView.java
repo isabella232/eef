@@ -19,7 +19,6 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEdi
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.section.SectionPropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
@@ -39,6 +38,7 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	
 	protected Map<ElementEditor, PropertyEditor> propertyEditors;
 	protected Composite contentsComposite;
+	protected ViewHelperImpl helper;
 	
 	/**
 	 * Non-parameterized constructor for {@link SectionPropertiesEditingView} purpose.
@@ -70,7 +70,10 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	 */
 	public ViewHelper getViewHelper() {
 		if (editingComponent != null) {
-			return new ViewHelperImpl(editingComponent);
+			if (helper == null || editingComponent != helper.getEditingComponent()) {
+				helper = new ViewHelperImpl(editingComponent);
+			}
+			return helper;
 		} else {
 			return new ViewHelperImpl();
 		}

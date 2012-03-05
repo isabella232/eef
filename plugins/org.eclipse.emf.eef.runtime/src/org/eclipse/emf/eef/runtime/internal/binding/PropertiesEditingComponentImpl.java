@@ -342,7 +342,9 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#dispose()
 	 */
 	public void dispose() {
-		getTarget().eAdapters().remove(this);
+		if (getTarget() != null) {
+			getTarget().eAdapters().remove(this);
+		}
 	}
 
 	/**

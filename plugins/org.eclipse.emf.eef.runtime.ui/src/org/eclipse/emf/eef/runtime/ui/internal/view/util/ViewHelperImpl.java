@@ -64,6 +64,14 @@ public class ViewHelperImpl implements ViewHelper {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#getEditingComponent()
+	 */
+	public PropertiesEditingComponent getEditingComponent() {
+		return editingComponent;
+	}
+ 
+	/**
 	 * @param toolkit the toolkit to set
 	 */
 	public void setToolkit(FormToolkit toolkit) {
@@ -246,5 +254,6 @@ public class ViewHelperImpl implements ViewHelper {
 		}
 		return editingDomain;
 	}
+
 }
 
