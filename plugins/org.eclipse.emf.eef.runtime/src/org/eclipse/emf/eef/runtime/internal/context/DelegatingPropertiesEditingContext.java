@@ -13,7 +13,7 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class DelegatingPropertiesEditingContext implements PropertiesEditingContext {
+public abstract class DelegatingPropertiesEditingContext implements PropertiesEditingContext {
 
 	private PropertiesEditingContext delegatingContext;
 	
