@@ -1,0 +1,4 @@
+
+h1. EEF Runtime
+
+The EEF Runtime provides all the concepts to interpret EEF UI models into SWT composites and widgets. This runtime is composed of 3 parts :

@@ -1,0 +1,4 @@
+
+h1. Extended Editing Framework
+
+The *Extended Editing Framework* (_EEF_ ) is a presentation framework for the *Eclipse Modeling Framework*  (_EMF_ ). It provides a set of models dedicated to UI modeling and an interpreter rendering the UI models into JFace viewers. 

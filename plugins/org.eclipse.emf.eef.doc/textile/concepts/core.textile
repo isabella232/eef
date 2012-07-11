@@ -1,0 +1,57 @@
+h1. Runtime Core Concepts
+
+
+h2. Editing Context
+
+One of the main concept of EEF Runtime is the *Editing Context*. An editing context has two roles:
+
+* Bringing all data necessary for a EMF model editing (AdapterFactory, EditingDomain, ...)
+* Providing the *EEF editing policies*  to controllers (see Editing Policies)
+
+
+h3. Contexts Hierarchy
+
+!../../pics/Runtime - Core - Context Hierarchy.png! 
+
+ The root context of the EEF Runtime is the _EObjectPropertiesEditingContext_. This editing context,focused on one _EObject_, keep track of 
+
+* the edited element
+* the _AdapterFactory_ to use in this context
+* and the EEF options (see Context Options)
+
+This context store also a _ChangeRecorder_, this object keep track of all modifications done during the editing session. It permits to undo these modifications when the user require this action.
+
+Deriving this context, the _DomainPropertiesEditingContext_ store the _EditingDomain_ to use in order to perform EMF commands.
+
+Some editing contexts are derived from an utility context, the _DelegatingPropertiesEditingContext_. This one simply delegates all method calls to the context which it is associated. 
+The _SemanticPropertiesEditingContext_ is a one of these contexts. It stores a *EEF editing event* for editing policies purpose (see Editing Policies). 
+
+
+h3. Context Options
+
+h2. Editing Policies
+
+Editing operations in EEF are defined by *Editing Policies*. The way to obtain an *Editing Policy*  is to ask this one to an *Editing Context* with the same or another context describing the editing operation to perform. Like the *Editing Context*, the EEF core runtime provides a initial policies hierarchy for the default editing operations.
+
+
+h3. Policies Hierarchy
+
+!../../pics/Runtime - Core - Policies Hierarchy.png! 
+   
+The _SemanticEditingPolicies_ are used to edit a structural feature of an _EObject_. These policies set a value to a given feature. The _SemanticEditingPolicy_ class is abstract because there is two ways to edit an EObject and these two ways are implemented by two subclasses of the _SemanticEditingPolicy_:
+
+* EEF can directly modify the values of a given _EObject_ (using setters of this object) via a _SemanticDirectEditingPolicy_ 
+* EEF can modify an _EObject_  using EMF commands via a _SemanticDomainEditingPolicy_ 
+
+
+
+h2. EEF Notifying
+
+
+h2. Views handling
+
+
+h2. The _PropertiesEditingProvider_ 
+
+
+  
