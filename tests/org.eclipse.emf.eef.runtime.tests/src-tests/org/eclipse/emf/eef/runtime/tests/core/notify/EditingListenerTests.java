@@ -15,12 +15,13 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.NonUIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
+import org.eclipse.emf.eef.runtime.tests.views.EClassMockView2;
 import org.junit.Test;
 
 /**
@@ -37,14 +38,14 @@ public class EditingListenerTests extends NonUIEditingTestCase {
 		return new EditingModelBuilder()
 		.bindClass(EcorePackage.Literals.ECLASS)
 			.withView(EClassMockView.class)
-			.withView(EClassMockView.class)
+			.withView(EClassMockView2.class)
 		.build();
 	}
 
 	@Test
 	public void testNotificationsInterViews() {
 		EClassMockView view1 = (EClassMockView) views.get(0);
-		EClassMockView view2 = (EClassMockView) views.get(1);
+		EClassMockView2 view2 = (EClassMockView2) views.get(1);
 		view1.getSupport().firePropertyChange(new PropertyChangeEvent(view1, "name", null, "newEClassName"));
 		Collection<PropertiesEditingEvent> allEvents = view2.getEvents();
 		Collection<PropertiesEditingEvent> editingEvents = new ArrayList<PropertiesEditingEvent>();

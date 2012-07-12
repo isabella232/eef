@@ -9,8 +9,6 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 
-
-
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
@@ -35,6 +33,12 @@ public interface ViewHandler<T> {
 	 */
 	ViewHandlerProvider getProvider();
 	
+	/**
+	 * Initialize a view with the current EObject properties.
+	 * @param component {@link PropertiesEditingComponent} to use for initialization.
+	 */
+	void initView(PropertiesEditingComponent component);
+
 	/**
 	 * Sets a value to the given field. 
 	 * @param field feature to process.
@@ -90,11 +94,5 @@ public interface ViewHandler<T> {
 	 * @throws Exception an error occurred during view handling.
 	 */
 	void moveValue(Object field, Object value, int newIndex) throws ViewHandlingException;
-
-	/**
-	 * Initialize a view with the current EObject properties.
-	 * @param component {@link PropertiesEditingComponent} to use for initialization.
-	 */
-	void initView(PropertiesEditingComponent component);
 
 }

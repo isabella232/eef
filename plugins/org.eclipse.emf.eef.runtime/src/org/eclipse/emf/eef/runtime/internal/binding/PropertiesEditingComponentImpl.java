@@ -4,7 +4,9 @@
 package org.eclipse.emf.eef.runtime.internal.binding;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -27,8 +29,8 @@ import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
@@ -36,7 +38,9 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -54,7 +58,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	private PropertiesEditingContext editingContext;
 	private PropertiesEditingProvider editingProvider;
 	private PropertiesEditingModel editingModel;
-	private List<ViewHandler<?>> viewHandlers;
+	private Map<Object, ViewHandler<?>> viewHandlers;
 	private ViewChangeNotifier viewChangeNotifier;
 	private List<PropertiesEditingListener> listeners;
 
@@ -145,7 +149,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 			switch (msg.getEventType()) {
 			case Notification.SET:
 				try {
-					for (ViewHandler<?> viewHandler : viewHandlers) {
+					for (ViewHandler<?> viewHandler : getViewHandlers()) {
 						viewHandler.setValue(propertyEditor, msg.getNewValue());						
 					}
 				} catch (ViewHandlingException e) {
@@ -154,7 +158,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 				break;
 			case Notification.UNSET:
 				try {
-					for (ViewHandler<?> viewHandler : viewHandlers) {
+					for (ViewHandler<?> viewHandler : getViewHandlers()) {
 						viewHandler.unsetValue(propertyEditor);						
 					}
 				} catch (ViewHandlingException e) {
@@ -163,7 +167,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 				break;
 			case Notification.ADD:
 				try {
-					for (ViewHandler<?> viewHandler : viewHandlers) {
+					for (ViewHandler<?> viewHandler : getViewHandlers()) {
 						viewHandler.addValue(propertyEditor, msg.getNewValue());						
 					}
 				} catch (ViewHandlingException e) {
@@ -172,7 +176,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 				break;
 			case Notification.ADD_MANY:
 				try {
-					for (ViewHandler<?> viewHandler : viewHandlers) {
+					for (ViewHandler<?> viewHandler : getViewHandlers()) {
 						viewHandler.addAllValues(propertyEditor, (Collection<?>) msg.getNewValue());						
 					}
 				} catch (ViewHandlingException e) {
@@ -181,7 +185,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 				break;
 			case Notification.REMOVE:
 				try {
-					for (ViewHandler<?> viewHandler : viewHandlers) {
+					for (ViewHandler<?> viewHandler : getViewHandlers()) {
 						viewHandler.removeValue(propertyEditor, msg.getOldValue());						
 					}
 				} catch (ViewHandlingException e) {
@@ -190,7 +194,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 				break;
 			case Notification.REMOVE_MANY:
 				try {
-					for (ViewHandler<?> viewHandler : viewHandlers) {
+					for (ViewHandler<?> viewHandler : getViewHandlers()) {
 						viewHandler.removeAllValues(propertyEditor, (Collection<?>) msg.getOldValue());						
 					}
 				} catch (ViewHandlingException e) {
@@ -199,7 +203,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 				break;
 			case Notification.MOVE:
 				try {
-					for (ViewHandler<?> viewHandler : viewHandlers) {
+					for (ViewHandler<?> viewHandler : getViewHandlers()) {
 						//TODO: find the good index
 						int newIndex = 0;
 						viewHandler.moveValue(propertyEditor, msg.getNewValue(), newIndex );						
@@ -281,37 +285,41 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	public ViewHandler<?> getViewHandler(Object view) {
 		if (viewHandlers == null) {
-			viewHandlers = Lists.newArrayList();
+			viewHandlers = Maps.newHashMap();
 		}
-		ViewHandlerProvider viewHandlerProvider = editingProvider.getViewHandlerProvider();
-		ViewHandler<?> specifiedHandler = getEditingModel().viewHandler((EObject) getTarget(), view);
-		if (specifiedHandler != null) {
-			viewHandlers.add(specifiedHandler);
-		} else {
-			if (viewHandlerProvider.canHandle(view)) {
-				ViewHandler<?> handler = viewHandlerProvider.getHandler(view);
-				if (handler != null) {
-					viewHandlers.add(handler);
-					return handler;
+		if (viewHandlers.get(view) == null) {
+			ViewHandlerProvider viewHandlerProvider = editingProvider.getViewHandlerProvider();
+			ViewHandler<?> specifiedHandler = getEditingModel().viewHandler((EObject) getTarget(), view);
+			if (specifiedHandler != null) {	
+				viewHandlers.put(view, specifiedHandler);
+			} else {
+				if (viewHandlerProvider.canHandle(view)) {
+					ViewHandler<?> handler = viewHandlerProvider.getHandler(view);
+					if (handler != null) {
+						viewHandlers.put(view, handler);
+					}
 				}
 			}
 		}
-		return null;
+		return viewHandlers.get(view);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewHandlers()
 	 */
-	public List<ViewHandler<?>> getViewHandlers() {
+	public Collection<ViewHandler<?>> getViewHandlers() {
 		PropertiesEditingModel editingModel = getEditingModel();
 		if (editingModel != null) {
-			List<Object> associatedViews = editingModel.views((EObject) getTarget());
-			for (Object associatedView : associatedViews) {
-				getViewHandler(associatedView);
-			}
+			return Lists.transform(editingModel.views((EObject) getTarget()), new Function<Object, ViewHandler<?>>() {
+
+				public ViewHandler<?> apply(Object input) {
+					return getViewHandler(input);
+				}
+				
+			});
 		}
-		return viewHandlers;
+		return Collections.emptyList();
 	}
 
 	/**

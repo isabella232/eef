@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.tests.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
@@ -32,9 +32,9 @@ public class SampleEditingTests extends UIEditingTestCase {
 
 	@Test
 	public void testViewHandling() {
-		List<ViewHandler<?>> viewHandlers = context.getEditingComponent().getViewHandlers();
+		Collection<ViewHandler<?>> viewHandlers = context.getEditingComponent().getViewHandlers();
 		assertEquals("ViewHandler not initialized", viewHandlers.size(), 1);
-		assertTrue("Bad ViewHandler selection", viewHandlers.get(0) instanceof SWTViewHandler);
+		assertTrue("Bad ViewHandler selection", viewHandlers.iterator().next() instanceof SWTViewHandler);
 	}
 	
 	@Test

@@ -127,12 +127,13 @@ public abstract class UIEditingTestCase {
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayout(new FillLayout());
 		component = context.getEditingComponent();
-		List<ViewHandler<?>> viewHandlers = component.getViewHandlers();
+		Collection<ViewHandler<?>> viewHandlers = component.getViewHandlers();
 		views = new ArrayList<Object>();
-		for (int i = 0; i < viewHandlers.size(); i++) {
-			ViewHandler<?> handler = viewHandlers.get(i);
-			views.add(buildView(composite, handler, i));
+		int i = 0;
+		for (ViewHandler<?> viewHandler : viewHandlers) {
+			views.add(buildView(composite, viewHandler, i++));
 		}
+		
 		shell.pack();
 		shell.open();
 	}

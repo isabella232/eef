@@ -67,8 +67,9 @@ public class NonUIEditingTestCase {
 		});
 		context = 
 				new EObjectPropertiesEditingContext(adapterFactory, editedObject);
-		List<ViewHandler<?>> viewHandlers = context.getEditingComponent().getViewHandlers();
+		Collection<ViewHandler<?>> viewHandlers = context.getEditingComponent().getViewHandlers();
 		views = new ArrayList<Object>();
+		System.out.println(viewHandlers.size());
 		for (ViewHandler<?> viewHandler : viewHandlers) {
 			PropertiesEditingComponent editingComponent = context.getEditingComponent();
 			Object view = viewHandler.createView(editingComponent);

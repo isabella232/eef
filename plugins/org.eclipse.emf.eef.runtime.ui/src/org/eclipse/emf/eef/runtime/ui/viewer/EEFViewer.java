@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.viewer;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -113,7 +113,7 @@ public class EEFViewer extends ContentViewer {
 	public void refresh() {
 		clear();
 		PropertiesEditingContext context = ((EEFContentProvider) getContentProvider()).getContext();
-		List<ViewHandler<?>> viewHandlers = context.getEditingComponent().getViewHandlers();
+		Collection<ViewHandler<?>> viewHandlers = context.getEditingComponent().getViewHandlers();
 		PropertiesEditingComponent component = context.getEditingComponent();
 		int i = 1;
 		for (ViewHandler<?> handler : viewHandlers) {
