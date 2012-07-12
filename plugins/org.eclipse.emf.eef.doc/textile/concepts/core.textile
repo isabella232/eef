@@ -13,21 +13,28 @@ h3. Contexts Hierarchy
 
 !../../pics/Runtime - Core - Context Hierarchy.png! 
 
- The root context of the EEF Runtime is the _EObjectPropertiesEditingContext_. This editing context,focused on one _EObject_, keep track of 
+ The root context of the EEF Runtime is the @EObjectPropertiesEditingContext@ . This editing context, focused on one @EObject@ , keep track of 
 
 * the edited element
-* the _AdapterFactory_ to use in this context
+* the @AdapterFactory@  to use in this context
 * and the EEF options (see Context Options)
 
-This context store also a _ChangeRecorder_, this object keep track of all modifications done during the editing session. It permits to undo these modifications when the user require this action.
+This context store also a @ChangeRecorder@ , this object keep track of all modifications done during the editing session. It permits to undo these modifications when the user require this action.
 
-Deriving this context, the _DomainPropertiesEditingContext_ store the _EditingDomain_ to use in order to perform EMF commands.
+Deriving this context, the @DomainPropertiesEditingContext@  store the @EditingDomain@  to use in order to perform EMF commands.
 
-Some editing contexts are derived from an utility context, the _DelegatingPropertiesEditingContext_. This one simply delegates all method calls to the context which it is associated. 
-The _SemanticPropertiesEditingContext_ is a one of these contexts. It stores a *EEF editing event* for editing policies purpose (see Editing Policies). 
+Some editing contexts are derived from an utility context, the @DelegatingPropertiesEditingContext@ . This one simply delegates all method calls to the context which it is associated. 
+The @SemanticPropertiesEditingContext@  is a one of these contexts. It stores a EEF *Editing Event* for editing policies purpose (see Editing Policies). 
 
 
 h3. Context Options
+
+An editing context can be configured by several options defined in a @ContextOptions@  object. Options avaiblable are:
+* _Auto-wiring_: This option defines is a EEF component should try to automatically bind the properties of the edited @EObject@  with the field of the handled view (see Model Binding section).
+* Editing Validation: This option defines if a EEF component should validate the edited @EObject@  when the component changes one of its properties.
+* Properties Change Delay: This option defines the delay before a component change an @EObject@  properties when the _Delayed Properties Editing_ is actived (see Model Binding section).
+
+In addition of these options, a _ContextOptions_ stores a map of options accessible via the methods @setOption : String x Object -> void@ and @getOption : String -> Object@
 
 h2. Editing Policies
 
@@ -38,20 +45,53 @@ h3. Policies Hierarchy
 
 !../../pics/Runtime - Core - Policies Hierarchy.png! 
    
-The _SemanticEditingPolicies_ are used to edit a structural feature of an _EObject_. These policies set a value to a given feature. The _SemanticEditingPolicy_ class is abstract because there is two ways to edit an EObject and these two ways are implemented by two subclasses of the _SemanticEditingPolicy_:
+The @SemanticEditingPolicies@  are used to edit a structural feature of an @EObject@ . These policies set a value to a given feature. The @SemanticEditingPolicy@  class is abstract because there is two ways to edit an @EObject@  and these two ways are implemented by two subclasses of the @SemanticEditingPolicy@:
 
-* EEF can directly modify the values of a given _EObject_ (using setters of this object) via a _SemanticDirectEditingPolicy_ 
-* EEF can modify an _EObject_  using EMF commands via a _SemanticDomainEditingPolicy_ 
-
+* EEF can directly modify the values of a given @EObject@  (using setters of this object) via a @SemanticDirectEditingPolicy@ . A @SemanticDirectEditingPolicy@  is returned on asking a @PropertiesEditingPolicy@  to a @EObjectPropertiesEditingContext@  with a @SemanticPropertiesEditingContext@ .  
+* EEF can modify an _EObject_  using EMF commands via a @SemanticDomainEditingPolicy@. A @SemanticDomainEditingPolicy@ is returned on asking a @PropertiesEditingPolicy@ to a @DomainPropertiesEditingContext@ with a @SemanticPropertiesEditingContext@.  
 
 
 h2. EEF Notifying
 
+h3. Communication between views and controllers 
+
+The communication between views and controllers is managed by the EEF Notification system. A controller can process changes made in a view iif it receives @PropertiesEditingEvents@. This events describe the changes made in a view and are interpreted by the controllers to modify the EMF model.
+
+To listen @PropertiesEditingEvents@, EEF provides as interface : @PropertiesEditingListener@. Basically, @PropertiesEditingComponents@ (see Model Binding) are @PropertiesEditingListeners@. The @PropertiesEditingEvents@ received by @PropertiesEditingListeners@ are propagated by those so, it's possible for EEF users to develop theirs own @PropertiesEditingListeners@ in order to be notified of view changes.    
+
+Two @PropertiesEditingEvent@ implementations ara available in EEF runtime:
+* @PropertiesEditingEventImpl@: a basic @PropertiesEditingEvent@ implementation
+* @PropertiesValidationEditingEvent@: this event propagates the result on an _EMF validation_ into the EEF notication system. These event are use to provides the EEF live editing validation mechanism. 
+
+h3. Standard _Property Change Support_ adaptation
+
+A standard notification system is available on the java beans : _Property Change Support_. EEF can handle views if their implement this system. This implies that the view changes must be notified to its listeners by sending @PropertyChangedEvents@. The EEF runtime provides some utilities to extend this mechanism and to make it easier to use. 
+
+First, EEF provides a @TypedPropertyChangedEvent@ that let user specify the kind of change that have be done in the view. Indeed, a @PropertyChangedEvent@can only specify :
+* The changed element
+* The property name
+* The old value
+* The new value
+@TypedPropertyChangedEvent@ let you defining the kind of change.
+
+EEF alse provides a @ViewChangeNotifier@ which is an @PropertyChangeListener@ that converts @PropertyChangeEvents@ into @PropertiesEditingEvents@. In case of EEF has to handle view implementing the _Property Change Support_, it adds a @ViewChangeNotifier@ to the view in order to establish communication with  its @PropertiesEditingComponents@.
+
+!../../pics/Runtime - Core - Notifying.png! 
 
 h2. Views handling
 
 
-h2. The _PropertiesEditingProvider_ 
+h2. Model Binding 
+
+
+h3. Properties editing
+
+-> Delayed properties changed
+
+h3. Auto-wiring strategy
+
+
+h2. The @PropertiesEditingProvider@
 
 
   
