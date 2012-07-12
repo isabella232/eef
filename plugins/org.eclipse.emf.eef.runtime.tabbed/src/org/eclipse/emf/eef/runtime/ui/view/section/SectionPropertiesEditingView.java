@@ -16,7 +16,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
-import org.eclipse.emf.eef.runtime.notify.EditingListener;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
@@ -270,7 +270,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 				if (messageManager != null) {
 					messageManager.processMessage(new PropertiesValidationEditingEvent(null, Diagnostic.OK_INSTANCE));
 					// I think I can create many dead EditingListener like this.
-					editingComponent.addEditingListener(new EditingListener() {
+					editingComponent.addEditingListener(new PropertiesEditingListener() {
 
 						public void firePropertiesChanged(PropertiesEditingEvent event) {
 							messageManager.processMessage(event);

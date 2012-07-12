@@ -15,7 +15,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.notify.EditingListener;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
@@ -66,7 +66,7 @@ public class EditingListenerTests extends NonUIEditingTestCase {
 		assertTrue("Bad validation diagnostic.", validationListener.getEvents().get(0).getDiagnostic().getSeverity() != Diagnostic.OK);
 	}
 	
-	private final class ValidationEditingListener implements EditingListener {
+	private final class ValidationEditingListener implements PropertiesEditingListener {
 		
 		private List<PropertiesValidationEditingEvent> events;
 		

@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.notify.EditingListener;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
@@ -188,18 +188,18 @@ public class EEFViewer extends ContentViewer {
 	
 	/**
 	 * Add a listener to the component of the context.
-	 * @param listener {@link EditingListener} to add.
+	 * @param listener {@link PropertiesEditingListener} to add.
 	 */
-	public void addEditingListener(EditingListener listener) {
+	public void addEditingListener(PropertiesEditingListener listener) {
 		//TODO: to protect
 		((EEFContentProvider)getContentProvider()).addEditingListener(listener);
 	}
 
 	/**
 	 * Remove a listener to the component of the context.
-	 * @param listener {@link EditingListener} to remove.
+	 * @param listener {@link PropertiesEditingListener} to remove.
 	 */
-	public void removeEditingListener(EditingListener listener) {
+	public void removeEditingListener(PropertiesEditingListener listener) {
 		((EEFContentProvider)getContentProvider()).removeEditingListener(listener);
 	}
 

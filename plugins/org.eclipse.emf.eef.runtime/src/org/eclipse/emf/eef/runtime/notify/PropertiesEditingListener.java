@@ -7,7 +7,7 @@ package org.eclipse.emf.eef.runtime.notify;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface EditingListener {
+public interface PropertiesEditingListener {
 
 	/**
 	 * Specifies that a feature value has changed.

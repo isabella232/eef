@@ -91,12 +91,12 @@ public interface PropertiesEditingEvent {
 	 * Keep track of a new holder for this event.
 	 * @param holder the the new holder.
 	 */
-	void addHolder(EditingListener holder);
+	void addHolder(PropertiesEditingListener holder);
 
 	/**
 	 * Returns <code>true</code> if the given listener has already hold this event.
-	 * @param listener {@link EditingListener} to evaluate.
+	 * @param listener {@link PropertiesEditingListener} to evaluate.
 	 * @return <code>true</code> if this listener has already hold the current event.
 	 */
-	boolean hold(EditingListener listener);
+	boolean hold(PropertiesEditingListener listener);
 }

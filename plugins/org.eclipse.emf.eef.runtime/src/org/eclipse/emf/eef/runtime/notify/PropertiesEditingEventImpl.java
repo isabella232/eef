@@ -19,7 +19,7 @@ public class PropertiesEditingEventImpl implements PropertiesEditingEvent {
 	private Object oldValue;
 	private Object newValue;
 	
-	private List<EditingListener> holders;
+	private List<PropertiesEditingListener> holders;
 
 	/**
 	 * @param source the source of this event.
@@ -35,8 +35,8 @@ public class PropertiesEditingEventImpl implements PropertiesEditingEvent {
 		this.oldValue = oldValue;
 		this.newValue = newValue;
 		holders = Lists.newArrayList();
-		if (source instanceof EditingListener) {
-			addHolder((EditingListener) source);
+		if (source instanceof PropertiesEditingListener) {
+			addHolder((PropertiesEditingListener) source);
 		}
 	}
 
@@ -82,17 +82,17 @@ public class PropertiesEditingEventImpl implements PropertiesEditingEvent {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent#addHolder(org.eclipse.emf.eef.runtime.notify.EditingListener)
+	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent#addHolder(org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener)
 	 */
-	public void addHolder(EditingListener holder) {
+	public void addHolder(PropertiesEditingListener holder) {
 		holders.add(holder);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent#hold(org.eclipse.emf.eef.runtime.notify.EditingListener)
+	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent#hold(org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener)
 	 */
-	public boolean hold(EditingListener listener) {
+	public boolean hold(PropertiesEditingListener listener) {
 		return holders.contains(listener);
 	}
 

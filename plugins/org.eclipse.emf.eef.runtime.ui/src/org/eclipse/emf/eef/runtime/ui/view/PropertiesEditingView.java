@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.view;
 import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.notify.EditingListener;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
 import org.eclipse.swt.widgets.Composite;
 
@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface PropertiesEditingView extends EditingListener {
+public interface PropertiesEditingView extends PropertiesEditingListener {
 
 	/**
 	 * @return the {@link PropertiesEditingComponent} managing the view.
