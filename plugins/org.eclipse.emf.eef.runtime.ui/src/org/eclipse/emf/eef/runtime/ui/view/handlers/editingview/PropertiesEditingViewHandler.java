@@ -106,7 +106,9 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#setValue(java.lang.Object, java.lang.Object)
 	 */
 	public void setValue(Object field, Object value) throws ViewHandlingException {
-		view.setValue(field, value);
+		if (view != null) {
+			view.setValue(field, value);
+		}
 	}
 
 	/**
@@ -114,7 +116,9 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#unsetValue(java.lang.Object)
 	 */
 	public void unsetValue(Object field) throws ViewHandlingException {
-		view.unsetValue(field);
+		if (view != null) {
+			view.unsetValue(field);
+		}
 	}
 
 	/**
@@ -122,7 +126,9 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#addValue(java.lang.Object, java.lang.Object)
 	 */
 	public void addValue(Object field, Object newValue) throws ViewHandlingException {
-		view.addValue(field, newValue);
+		if (view != null) {
+			view.addValue(field, newValue);
+		}
 	}
 
 	/**
@@ -130,7 +136,9 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#addAllValues(java.lang.Object, java.util.Collection)
 	 */
 	public void addAllValues(Object field, Collection<?> values) throws ViewHandlingException {
-		view.addAllValues(field, values);
+		if (view != null) {
+			view.addAllValues(field, values);
+		}
 	}
 
 	/**
@@ -138,7 +146,9 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeValue(java.lang.Object, java.lang.Object)
 	 */
 	public void removeValue(Object field, Object value) throws ViewHandlingException {
-		view.removeValue(field, value);
+		if (view != null) {
+			view.removeValue(field, value);
+		}
 	}
 
 	/**
@@ -146,7 +156,9 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeAllValues(java.lang.Object, java.util.Collection)
 	 */
 	public void removeAllValues(Object field, Collection<?> values) throws ViewHandlingException {
-		view.removeAllValues(field, values);
+		if (view != null) {
+			view.removeAllValues(field, values);
+		}
 	}
 
 	/**
@@ -154,7 +166,9 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#moveValue(java.lang.Object, java.lang.Object, int)
 	 */
 	public void moveValue(Object field, Object value, int newIndex) throws ViewHandlingException {
-		view.moveValue(field, value, newIndex);
+		if (view != null) {
+			view.moveValue(field, value, newIndex);
+		}
 	}
 
 }
