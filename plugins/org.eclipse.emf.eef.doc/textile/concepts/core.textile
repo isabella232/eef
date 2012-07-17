@@ -5,34 +5,34 @@ h2. Editing Context
 
 One of the main concept of EEF Runtime is the *Editing Context*. An editing context has two roles:
 
-* Bringing all data necessary for a EMF model editing (AdapterFactory, EditingDomain, ...)
-* Providing the *EEF editing policies*  to controllers (see Editing Policies)
+* Bringing all data necessary for a EMF model editing (@AdapterFactory@, @EditingDomain@, ...)
+* Providing the *EEF Editing policies*  to controllers (see _Editing Policies_)
 
 
 h3. Contexts Hierarchy
 
 !../../pics/Runtime - Core - Context Hierarchy.png! 
 
- The root context of the EEF Runtime is the @EObjectPropertiesEditingContext@ . This editing context, focused on one @EObject@ , keep track of 
+The root context of the EEF Runtime is the @EObjectPropertiesEditingContext@. This editing context, focused on one @EObject@, keep track of 
 
 * the edited element
-* the @AdapterFactory@  to use in this context
-* and the EEF options (see Context Options)
+* the @AdapterFactory@ to use in this context
+* and the EEF options (see __Context Options__)
 
-This context store also a @ChangeRecorder@ , this object keep track of all modifications done during the editing session. It permits to undo these modifications when the user require this action.
+This context store also a @ChangeRecorder@s, this object keep track of all modifications done during the editing session. It permits to undo these modifications when the user require this action.
 
-Deriving this context, the @DomainPropertiesEditingContext@  store the @EditingDomain@  to use in order to perform EMF commands.
+Deriving this context, the @DomainPropertiesEditingContext@ store the @EditingDomain@ to use in order to perform EMF commands.
 
-Some editing contexts are derived from an utility context, the @DelegatingPropertiesEditingContext@ . This one simply delegates all method calls to the context which it is associated. 
-The @SemanticPropertiesEditingContext@  is a one of these contexts. It stores a EEF *Editing Event* for editing policies purpose (see Editing Policies). 
+Some editing contexts are derived from an utility context, the @DelegatingPropertiesEditingContext@. This one simply delegates all method calls to the context which it is associated. 
+The @SemanticPropertiesEditingContext@ is a one of these contexts. It stores a EEF *Editing Event* for editing policies purpose (see __Editing Policies__). 
 
 
 h3. Context Options
 
-An editing context can be configured by several options defined in a @ContextOptions@  object. Options avaiblable are:
-* _Auto-wiring_: This option defines is a EEF component should try to automatically bind the properties of the edited @EObject@  with the field of the handled view (see Model Binding section).
-* Editing Validation: This option defines if a EEF component should validate the edited @EObject@  when the component changes one of its properties.
-* Properties Change Delay: This option defines the delay before a component change an @EObject@  properties when the _Delayed Properties Editing_ is actived (see Model Binding section).
+An editing context can be configured by several options defined in a @ContextOptions@ object. Options avaiblable are:
+* _Auto-wiring_: This option defines is a EEF component should try to automatically bind the properties of the edited @EObject@ with the field of the handled view (see _Model Binding_).
+* Editing Validation: This option defines if a EEF component should validate the edited @EObject@ when the component changes one of its properties.
+* Properties Change Delay: This option defines the delay before a component change an @EObject@ properties when the _Delayed Properties Editing_ is actived (see _Model Binding_).
 
 In addition of these options, a _ContextOptions_ stores a map of options accessible via the methods @setOption : String x Object -> void@ and @getOption : String -> Object@
 
@@ -45,9 +45,9 @@ h3. Policies Hierarchy
 
 !../../pics/Runtime - Core - Policies Hierarchy.png! 
    
-The @SemanticEditingPolicies@  are used to edit a structural feature of an @EObject@ . These policies set a value to a given feature. The @SemanticEditingPolicy@  class is abstract because there is two ways to edit an @EObject@  and these two ways are implemented by two subclasses of the @SemanticEditingPolicy@:
+The @SemanticEditingPolicies@ are used to edit a structural feature of an @EObject@. These policies set a value to a given feature. The @SemanticEditingPolicy@ class is abstract because there is two ways to edit an @EObject@ and these two ways are implemented by two subclasses of the @SemanticEditingPolicy@:
 
-* EEF can directly modify the values of a given @EObject@  (using setters of this object) via a @SemanticDirectEditingPolicy@ . A @SemanticDirectEditingPolicy@  is returned on asking a @PropertiesEditingPolicy@  to a @EObjectPropertiesEditingContext@  with a @SemanticPropertiesEditingContext@ .  
+* EEF can directly modify the values of a given @EObject@ (using setters of this object) via a @SemanticDirectEditingPolicy@. A @SemanticDirectEditingPolicy@ is returned on asking a @PropertiesEditingPolicy@ to a @EObjectPropertiesEditingContext@ with a @SemanticPropertiesEditingContext@.  
 * EEF can modify an _EObject_  using EMF commands via a @SemanticDomainEditingPolicy@. A @SemanticDomainEditingPolicy@ is returned on asking a @PropertiesEditingPolicy@ to a @DomainPropertiesEditingContext@ with a @SemanticPropertiesEditingContext@.  
 
 
@@ -57,17 +57,17 @@ h3. Communication between views and controllers
 
 The communication between views and controllers is managed by the EEF Notification system. A controller can process changes made in a view iif it receives @PropertiesEditingEvents@. This events describe the changes made in a view and are interpreted by the controllers to modify the EMF model.
 
-To listen @PropertiesEditingEvents@, EEF provides as interface : @PropertiesEditingListener@. Basically, @PropertiesEditingComponents@ (see Model Binding) are @PropertiesEditingListeners@. The @PropertiesEditingEvents@ received by @PropertiesEditingListeners@ are propagated by those so, it's possible for EEF users to develop theirs own @PropertiesEditingListeners@ in order to be notified of view changes.    
+To listen @PropertiesEditingEvents@, EEF provides as interface : @PropertiesEditingListener@. Basically, @PropertiesEditingComponents@ (see _Model Binding_) are @PropertiesEditingListeners@. The @PropertiesEditingEvents@ received by @PropertiesEditingListeners@ are propagated by those so, it's possible for EEF users to develop theirs own @PropertiesEditingListeners@ in order to be notified of view changes.    
 
 Two @PropertiesEditingEvent@ implementations ara available in EEF runtime:
 * @PropertiesEditingEventImpl@: a basic @PropertiesEditingEvent@ implementation
-* @PropertiesValidationEditingEvent@: this event propagates the result on an _EMF validation_ into the EEF notication system. These event are use to provides the EEF live editing validation mechanism. 
+* @PropertiesValidationEditingEvent@: this event propagates the result on an _EMF validation_ into the EEF notification system. These event are use to provides the EEF live editing validation mechanism. 
 
 h3. Standard _Property Change Support_ adaptation
 
 A standard notification system is available on the java beans : _Property Change Support_. EEF can handle views if their implement this system. This implies that the view changes must be notified to its listeners by sending @PropertyChangedEvents@. The EEF runtime provides some utilities to extend this mechanism and to make it easier to use. 
 
-First, EEF provides a @TypedPropertyChangedEvent@ that let user specify the kind of change that have be done in the view. Indeed, a @PropertyChangedEvent@can only specify :
+First, EEF provides a @TypedPropertyChangedEvent@ that let user specify the kind of change that have be done in the view. Indeed, a @PropertyChangedEvent@ can only specify :
 * The changed element
 * The property name
 * The old value
@@ -80,18 +80,77 @@ EEF alse provides a @ViewChangeNotifier@ which is an @PropertyChangeListener@ th
 
 h2. Views handling
 
+An extensible view management system is available in EEF Rutime to allow EMF object editing with any kind of view. This system defines the concept of @ViewHandler@ to manage the view and to work with EEF controllers. A @ViewHandler@ has two main roles:
+
+* Creating the view when EEF need to display it to user
+* Update the view fields when the controller notify a model change
+
+The @ViewHandler@ interfaces provides all methods necessary for this job:
+
+
+pre.. 
+
+public interface ViewHandler<T> {
+
+	T createView(Object... args) throws ViewConstructionException;
+		
+	void initView(PropertiesEditingComponent component);
+
+	void setValue(Object field, Object value) throws ViewHandlingException;
+
+	void unsetValue(Object field) throws ViewHandlingException;
+	
+	void addValue(Object field, Object newValue) throws ViewHandlingException;
+
+	void addAllValues(Object field, Collection<?> values) throws ViewHandlingException;
+
+	void removeValue(Object field, Object value) throws ViewHandlingException;
+
+	void removeAllValues(Object field, Collection<?> values) throws ViewHandlingException;
+
+	void moveValue(Object field, Object value, int newIndex) throws ViewHandlingException;
+
+}
+
+p. EEF uses @ViewHandlerProvider@ to associate a @ViewHandler@ to a given kind of object. A @ViewHandlerProvider@ determines if a view can be handle by its kind of @ViewHandler@ and instantiates it when needed.  
 
 h2. Model Binding 
 
+The binding of the view with the model is performed by the @PropertiesEditingComponents@. This element has three roles:
 
-h3. Properties editing
+* Providing all the needed _ViewHandlers_ for the edited element. The component keeps track of this handler for its tasks needing views management.
+* Updating the view when the edited model is modified. This is done regarding the _ViewHandlers_ already provided by the component.
+* Updating the model when the views have changed.
+* Ensure editing validation when the option is set (see _Context Options_).
+ 
+h3. Model Updating
 
--> Delayed properties changed
+The model updating can be performed in two mode. The standard mode is a "real-time" updating, when the component received a notification from a view, this modification is interpreted as a modification to perform on the edited model and is immediately applied. 
+A second mode is available in EEF, the delayed mode. This mode has the same process that the real-time mode but instead of immediately applied the model change, EEF wait a delay. This delay can be defined in the options of the @PropertiesEditingContext@ (see _Context Options_). To apply a change in the delay mode, the delayed mode option must be passed in the @PropertiesEditingEvent@ constructor.
 
 h3. Auto-wiring strategy
 
+TODO
 
 h2. The @PropertiesEditingProvider@
 
+The @PropertiesEditingProvider@ is an EMF @AdapterFactory@ responsible for providing the @PropertiesEditingComponents@ for EMF edited objects. To do that, the @PropertiesEditingProvider@ bring the _Editing Models_ available for EEF (editing models are the EEF models describing the UI and the binding for given EMF models) and the _View Handlers_ available in EEF to interpret the views provided by the users.
 
-  
+The @PropertiesEditingProvider@ provides two methods in order to add specific _Editing Models_ or specific _View Handlers_. These methods can be use to change the default behavior of EEF. The specific element provided by these methods are evaluated before the standard models and handlers.
+
+
+pre.. 
+
+public class PropertiesEditingProvider extends AdapterFactoryImpl implements AdapterFactory {
+
+	...
+
+	protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel();
+
+	protected ViewHandlerProvider initViewHandlerProvider():
+
+}
+
+p.
+
+
