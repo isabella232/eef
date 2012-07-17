@@ -90,4 +90,12 @@ public class PropertiesValidationEditingEvent implements PropertiesEditingEvent 
 		return editingEvent.hold(toTest);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent#delayedChanges()
+	 */
+	public boolean delayedChanges() {
+		return false;
+	}
+
 }

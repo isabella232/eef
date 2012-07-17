@@ -18,6 +18,7 @@ public class PropertiesEditingEventImpl implements PropertiesEditingEvent {
 	private int eventType;
 	private Object oldValue;
 	private Object newValue;
+	private boolean delayed;
 	
 	private List<PropertiesEditingListener> holders;
 
@@ -34,10 +35,24 @@ public class PropertiesEditingEventImpl implements PropertiesEditingEvent {
 		this.eventType = eventType;
 		this.oldValue = oldValue;
 		this.newValue = newValue;
+		this.delayed = false;
 		holders = Lists.newArrayList();
 		if (source instanceof PropertiesEditingListener) {
 			addHolder((PropertiesEditingListener) source);
 		}
+	}
+
+	/**
+	 * @param source the source of this event.
+	 * @param affectedEditor the edited control. 
+	 * @param eventType the type of this event. Must be a constant from {@link PropertiesEditingEvent} interface.
+	 * @param oldValue the old value.
+	 * @param newValue the new value.
+	 * @param the delayed mode
+	 */
+	public PropertiesEditingEventImpl(Object source, Object affectedEditor, int eventType, Object oldValue, Object newValue, boolean delayed) {
+		this(source, affectedEditor, eventType, oldValue, newValue);
+		this.delayed = true;
 	}
 
 	/**
@@ -94,6 +109,14 @@ public class PropertiesEditingEventImpl implements PropertiesEditingEvent {
 	 */
 	public boolean hold(PropertiesEditingListener listener) {
 		return holders.contains(listener);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent#delayedChanges()
+	 */
+	public boolean delayedChanges() {
+		return delayed;
 	}
 
 }

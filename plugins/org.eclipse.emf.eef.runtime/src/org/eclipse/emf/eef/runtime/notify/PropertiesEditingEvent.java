@@ -99,4 +99,10 @@ public interface PropertiesEditingEvent {
 	 * @return <code>true</code> if this listener has already hold the current event.
 	 */
 	boolean hold(PropertiesEditingListener listener);
+	
+	/**
+	 * Defines if the model change(s) implied by this event must be applied immediately or after a delay.
+	 * @return  <code>true</code> is the model change(s) must be applied after a delay. 
+	 */
+	boolean delayedChanges();
 }

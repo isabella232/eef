@@ -235,6 +235,18 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public synchronized void firePropertiesChanged(PropertiesEditingEvent editingEvent) {
+		if (editingEvent.delayedChanges()) {
+			delayedApplyingPropertiesChanged(editingEvent);
+		} else {
+			directApplyingPropertyChanged(editingEvent);
+		}
+	}
+
+	/**
+	 * Applying the model change(s) implied by an event immediately.
+	 * @param editingEvent the {@link PropertiesEditingEvent} to process.
+	 */
+	private void directApplyingPropertyChanged(PropertiesEditingEvent editingEvent) {
 		if (editingContext.getOptions().validateEditing()) {
 			Diagnostic valueDiagnostic = validateValue(editingEvent);
 			if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
@@ -255,9 +267,9 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#delayedFirePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#delayedApplyingPropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
-	public void delayedFirePropertiesChanged(PropertiesEditingEvent event) {
+	public void delayedApplyingPropertiesChanged(PropertiesEditingEvent event) {
 		if (getFirePropertiesChangedJob().cancel()) {
 			getFirePropertiesChangedJob().setEvent(event);
 			getFirePropertiesChangedJob().schedule(editingContext.getOptions().delayedFirePropertiesChangedDelay());
@@ -415,7 +427,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 
 		protected IStatus run(IProgressMonitor monitor) {
 //			deactivate();
-			firePropertiesChanged(fEvent);
+			directApplyingPropertyChanged(fEvent);
 //			activate();
 			fEvent = null;
 			return Status.OK_STATUS;
