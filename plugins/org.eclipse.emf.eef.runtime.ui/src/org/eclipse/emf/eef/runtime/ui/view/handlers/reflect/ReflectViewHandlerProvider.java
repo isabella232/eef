@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.handlers.reflect;
 
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
@@ -11,7 +12,7 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
  *
  */
 public class ReflectViewHandlerProvider implements ViewHandlerProvider {
-
+	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#canHandle(java.lang.Object)
@@ -25,10 +26,10 @@ public class ReflectViewHandlerProvider implements ViewHandlerProvider {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#getHandler(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#getHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
-	public ViewHandler<Object> getHandler(Object view) {
-		return new ReflectViewHandler<Object>(this, (Class<?>) view);
+	public ViewHandler<Object> getHandler(PropertiesEditingComponent editingComponent, Object view) {
+		return new ReflectViewHandler<Object>(this, editingComponent, (Class<?>) view);
 	}
 
 }

@@ -44,8 +44,7 @@ public abstract class UIEditingTestCase {
 	protected List<Object> views;
 
 	protected Shell shell;
-
-
+	private Collection<ViewHandler<?>> viewHandlers;
 
 	/**
 	 * @throws java.lang.Exception
@@ -127,7 +126,7 @@ public abstract class UIEditingTestCase {
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayout(new FillLayout());
 		component = context.getEditingComponent();
-		Collection<ViewHandler<?>> viewHandlers = component.getViewHandlers();
+		viewHandlers = component.createViewHandlers();
 		views = new ArrayList<Object>();
 		int i = 0;
 		for (ViewHandler<?> viewHandler : viewHandlers) {
@@ -175,6 +174,9 @@ public abstract class UIEditingTestCase {
 	 * 
 	 */
 	protected void disposeUI() {
+		for (ViewHandler<?> handler : viewHandlers) {
+			handler.dispose();
+		}
 		shell.dispose();
 		views.clear();
 	}

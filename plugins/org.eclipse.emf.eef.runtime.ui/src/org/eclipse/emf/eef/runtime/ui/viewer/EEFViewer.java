@@ -43,6 +43,7 @@ public class EEFViewer extends ContentViewer {
 	protected ScrolledComposite scroll;
 	private ItemListener listener;
 	private boolean dynamicTabHeader = true;
+	private Collection<ViewHandler<?>> viewHandlers;
 
 	/**
 	 * @param parent {@link Composite} containing this viewer.
@@ -113,7 +114,7 @@ public class EEFViewer extends ContentViewer {
 	public void refresh() {
 		clear();
 		PropertiesEditingContext context = ((EEFContentProvider) getContentProvider()).getContext();
-		Collection<ViewHandler<?>> viewHandlers = context.getEditingComponent().getViewHandlers();
+		viewHandlers = context.getEditingComponent().createViewHandlers();
 		PropertiesEditingComponent component = context.getEditingComponent();
 		int i = 1;
 		for (ViewHandler<?> handler : viewHandlers) {
@@ -168,6 +169,11 @@ public class EEFViewer extends ContentViewer {
 					cTabItem.getControl().dispose();
 				if (!cTabItem.isDisposed())
 					cTabItem.dispose();
+			}
+		}
+		if (viewHandlers != null) {
+			for (ViewHandler<?> handler : viewHandlers) {
+				handler.dispose();
 			}
 		}
 	}

@@ -6,6 +6,8 @@ package org.eclipse.emf.eef.runtime.view.handler;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
@@ -36,12 +38,12 @@ public class ComposedViewHandlerProvider implements ViewHandlerProvider {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#getHandler(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#getHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
-	public ViewHandler<?> getHandler(Object view) {
+	public ViewHandler<?> getHandler(PropertiesEditingComponent editingComponent, Object view) {
 		for (ViewHandlerProvider provider : providers) {
 			if (provider.canHandle(view)) {
-				return provider.getHandler(view);
+				return provider.getHandler(editingComponent, view);
 			}
 		}
 		return null;

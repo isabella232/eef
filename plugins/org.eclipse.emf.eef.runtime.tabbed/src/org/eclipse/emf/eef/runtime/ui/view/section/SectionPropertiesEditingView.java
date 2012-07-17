@@ -89,6 +89,8 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 
 	private DescriptorHelper descriptorHelper;
 
+	private ViewHandler<?> viewHandler;
+
 	/**
 	 * 
 	 */
@@ -164,6 +166,9 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 		if (injector != null) {
 			injector.dispose();
 			injector = null;
+		}
+		if (viewHandler != null) {
+			viewHandler.dispose();
 		}
 		disposeComponentIfExist();
 	}
@@ -256,7 +261,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 		initToolkit();
 		viewDescriptor = searchViewFromDescriptor();
 		if (this.viewDescriptor != null) {
-			ViewHandler<?> viewHandler = editingComponent.getViewHandler(viewDescriptor);
+			viewHandler = editingComponent.createViewHandler(viewDescriptor);
 			if (viewHandler instanceof PropertiesEditingViewHandler) {
 				((PropertiesEditingViewHandler)viewHandler).setView(this);
 				if (parentComposite != null) {

@@ -33,6 +33,7 @@ public class NonUIEditingTestCase {
 	protected PropertiesEditingContext context;
 	protected List<Object> views;
 	protected EObject editedObject;
+	private Collection<ViewHandler<?>> viewHandlers;
 
 	/**
 	 * @throws java.lang.Exception
@@ -67,9 +68,8 @@ public class NonUIEditingTestCase {
 		});
 		context = 
 				new EObjectPropertiesEditingContext(adapterFactory, editedObject);
-		Collection<ViewHandler<?>> viewHandlers = context.getEditingComponent().getViewHandlers();
+		viewHandlers = context.getEditingComponent().createViewHandlers();
 		views = new ArrayList<Object>();
-		System.out.println(viewHandlers.size());
 		for (ViewHandler<?> viewHandler : viewHandlers) {
 			PropertiesEditingComponent editingComponent = context.getEditingComponent();
 			Object view = viewHandler.createView(editingComponent);
@@ -93,6 +93,9 @@ public class NonUIEditingTestCase {
 	 */
 	@After
 	public void tearDown() throws Exception {
+		for (ViewHandler<?> handler : viewHandlers) {
+			handler.dispose();
+		}
 		context.dispose();
 	}
 

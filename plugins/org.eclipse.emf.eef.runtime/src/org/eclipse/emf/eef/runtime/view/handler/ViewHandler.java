@@ -94,5 +94,11 @@ public interface ViewHandler<T> {
 	 * @throws Exception an error occurred during view handling.
 	 */
 	void moveValue(Object field, Object value, int newIndex) throws ViewHandlingException;
+	
+	
+	/**
+	 * Dispose the handler.
+	 */
+	void dispose();
 
 }

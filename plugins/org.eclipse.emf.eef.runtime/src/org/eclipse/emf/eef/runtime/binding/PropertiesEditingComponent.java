@@ -42,13 +42,23 @@ public interface PropertiesEditingComponent extends Adapter, PropertiesEditingLi
 	 * @param view the view to manage.
 	 * @return a list of {@link ViewHandler} editing the model element.
 	 */
-	ViewHandler<?> getViewHandler(Object view);
+	ViewHandler<?> createViewHandler(Object view);
 
 	/**
 	 * Returns all {@link ViewHandler}s able to manage the views for the edited model element.
 	 * @return a list of {@link ViewHandler} editing the model element.
 	 */
-	Collection<ViewHandler<?>> getViewHandlers();
+	Collection<ViewHandler<?>> createViewHandlers();
+	
+	/**
+	 * @param handler register a handler in the component.
+	 */
+	void registerViewHandler(ViewHandler<?> handler);
+
+	/**
+	 * @param handler unregister a handler in the component.
+	 */
+	void unregisterViewHandler(ViewHandler<?> handler);
 
 	/**
 	 * @return the {@link ViewChangeNotifier} component.

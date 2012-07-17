@@ -32,9 +32,12 @@ public class SampleEditingTests extends UIEditingTestCase {
 
 	@Test
 	public void testViewHandling() {
-		Collection<ViewHandler<?>> viewHandlers = context.getEditingComponent().getViewHandlers();
+		Collection<ViewHandler<?>> viewHandlers = context.getEditingComponent().createViewHandlers();
 		assertEquals("ViewHandler not initialized", viewHandlers.size(), 1);
 		assertTrue("Bad ViewHandler selection", viewHandlers.iterator().next() instanceof SWTViewHandler);
+		for (ViewHandler<?> viewHandler : viewHandlers) {
+			viewHandler.dispose();
+		}
 	}
 	
 	@Test

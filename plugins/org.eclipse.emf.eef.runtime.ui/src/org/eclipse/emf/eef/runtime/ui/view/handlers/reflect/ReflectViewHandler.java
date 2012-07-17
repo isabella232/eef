@@ -23,17 +23,20 @@ import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException
 public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	protected Class<? extends T> viewClass;
-	private ViewHandlerProvider handlerProvider;
+	protected ViewHandlerProvider handlerProvider;
+	protected PropertiesEditingComponent editingComponent;
 
 	protected T view;
 	
 	private ReflectHelper<T> helper;
 
 	/**
+	 * @param editingComponent the {@link PropertiesEditingComponent} requesting this handler.
 	 * @param viewClass View class to handle.
 	 */
-	public ReflectViewHandler(ViewHandlerProvider handlerProvider, final Class<? extends T> viewClass) {
+	public ReflectViewHandler(ViewHandlerProvider handlerProvider, PropertiesEditingComponent editingComponent, final Class<? extends T> viewClass) {
 		this.viewClass = viewClass;
+		this.editingComponent = editingComponent;
 		this.handlerProvider = handlerProvider;
 	}
 
@@ -203,6 +206,14 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 			helper = new ReflectHelper<T>(viewClass);
 		}
 		return helper;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#dispose()
+	 */
+	public void dispose() {
+		editingComponent.unregisterViewHandler(this);
 	}
 	
 }

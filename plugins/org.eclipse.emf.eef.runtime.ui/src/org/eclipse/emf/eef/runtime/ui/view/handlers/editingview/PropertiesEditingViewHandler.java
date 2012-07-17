@@ -26,15 +26,17 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	protected View viewDescriptor;
 	protected PropertiesEditingViewHandlerProvider handlerProvider;
+	protected PropertiesEditingComponent editingComponent;
 	protected PropertiesEditingView view;
 	
 	/**
 	 * @param handlerProvider 
 	 * @param viewDescriptor {@link View} to handle.
 	 */
-	public PropertiesEditingViewHandler(PropertiesEditingViewHandlerProvider handlerProvider, View viewDescriptor) {
-		this.viewDescriptor = viewDescriptor;
+	public PropertiesEditingViewHandler(PropertiesEditingViewHandlerProvider handlerProvider, PropertiesEditingComponent editingComponent, View viewDescriptor) {
 		this.handlerProvider = handlerProvider;
+		this.editingComponent = editingComponent;
+		this.viewDescriptor = viewDescriptor;
 	}
 
 	/**
@@ -169,6 +171,14 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 		if (view != null) {
 			view.moveValue(field, value, newIndex);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#dispose()
+	 */
+	public void dispose() {
+		this.editingComponent.unregisterViewHandler(this);
 	}
 
 }

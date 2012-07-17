@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;
 
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
@@ -42,10 +43,10 @@ public class PropertiesEditingViewHandlerProvider implements ViewHandlerProvider
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#getHandler(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#getHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
-	public ViewHandler<?> getHandler(Object view) {
-		return new PropertiesEditingViewHandler(this, (View) view);
+	public ViewHandler<?> getHandler(PropertiesEditingComponent editingComponent, Object view) {
+		return new PropertiesEditingViewHandler(this, editingComponent, (View) view);
 	}
 
 }
