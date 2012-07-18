@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <factory
+            uri="http://www.eclipse.org/emf/eef/editingmodel/1.0.0"
+            class="org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelModelWizardID"
+            name="%_UI_EditingModelModelWizard_label"
+            class="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/EditingModelModelFile.gif">
+         <description>%_UI_EditingModelModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+      <wizard
+            id="org.eclipse.emf.eef.views.presentation.ViewsModelWizardID"
+            name="%_UI_ViewsModelWizard_label"
+            class="org.eclipse.emf.eef.views.presentation.ViewsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ViewsModelFile.gif">
+         <description>%_UI_ViewsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelEditorID"
+            name="%_UI_EditingModelEditor_label"
+            icon="icons/full/obj16/EditingModelModelFile.gif"
+            extensions="editingmodel"
+            class="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelEditor"
+            contributorClass="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelActionBarContributor">
+      </editor>
+      <editor
+            id="org.eclipse.emf.eef.views.presentation.ViewsEditorID"
+            name="%_UI_ViewsEditor_label"
+            icon="icons/full/obj16/ViewsModelFile.gif"
+            extensions="views"
+            class="org.eclipse.emf.eef.views.presentation.ViewsEditor"
+            contributorClass="org.eclipse.emf.eef.views.presentation.ViewsActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

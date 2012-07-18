@@ -33,6 +33,13 @@ public class PropertiesEditingProvider extends AdapterFactoryImpl implements Ada
 	private ViewHandlerProvider viewHandlerProvider;
 
 	/**
+	 * Default constructor. Initialize default editing models.
+	 */
+	public PropertiesEditingProvider() {
+		initEditingModels();
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#createAdapter(org.eclipse.emf.common.notify.Notifier, java.lang.Object)
 	 */
@@ -106,7 +113,7 @@ public class PropertiesEditingProvider extends AdapterFactoryImpl implements Ada
 	protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
 		return Collections.emptyList();
 	}
-
+	
 	/**
 	 * @return the {@link ViewHandlerProvider} of this {@link PropertiesEditingProvider}.
 	 */
@@ -119,12 +126,15 @@ public class PropertiesEditingProvider extends AdapterFactoryImpl implements Ada
 	 * @return a list of {@link PropertiesEditingModel} available from this {@link PropertiesEditingProvider}.
 	 */
 	private List<PropertiesEditingModel> getEditingModels() {
+		return editingModels;
+	}
+
+	private void initEditingModels() {
 		if (editingModels == null) {
 			editingModels = Lists.newArrayList();
 			editingModels.addAll(initSpecificEditingModel());
 			// Init here the default editingModels from the registry.
 		}
-		return editingModels;
 	}
 
 }

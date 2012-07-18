@@ -4,7 +4,6 @@
 package org.eclipse.emf.eef.runtime.ui.internal.resources;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
