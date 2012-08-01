@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.tests.ui.cases;
+package org.eclipse.emf.eef.runtime.tests.cases;
 
 import java.util.ArrayList;
 import java.util.Collection;

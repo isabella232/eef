@@ -12,7 +12,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
-import org.eclipse.emf.eef.runtime.tests.ui.cases.NonUIEditingTestCase;
+import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.junit.Test;
 

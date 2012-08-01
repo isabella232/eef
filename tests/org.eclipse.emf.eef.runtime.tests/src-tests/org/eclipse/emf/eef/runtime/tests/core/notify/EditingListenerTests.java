@@ -19,7 +19,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
-import org.eclipse.emf.eef.runtime.tests.ui.cases.NonUIEditingTestCase;
+import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView2;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class EditingListenerTests extends NonUIEditingTestCase {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.NonUIEditingTestCase#buildEditingModel()
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#buildEditingModel()
 	 */
 	protected PropertiesEditingModel buildEditingModel() {
 		return new EditingModelBuilder()
