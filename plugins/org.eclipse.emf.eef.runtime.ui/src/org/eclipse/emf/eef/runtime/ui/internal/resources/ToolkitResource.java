@@ -22,6 +22,8 @@ import org.osgi.framework.BundleException;
  */
 public class ToolkitResource extends ResourceImpl {
 
+	static final String TOOLKIT_RESOURCE_SCHEME = "eeftoolkit"; 
+	
 	/**
 	 * 
 	 */

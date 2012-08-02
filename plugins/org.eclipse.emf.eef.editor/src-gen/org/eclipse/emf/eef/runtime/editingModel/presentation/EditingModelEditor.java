@@ -157,6 +157,7 @@ import org.eclipse.emf.edit.ui.util.EditUIUtil;
 
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
+import org.eclipse.emf.eef.runtime.editingModel.presentation.util.EditingModelEditorResourceSet;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
 
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
@@ -732,7 +733,8 @@ public class EditingModelEditor
 
 		// Create the editing domain with a special command stack.
 		//
-		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
+		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new EditingModelEditorResourceSet());
+		editingDomain.setResourceToReadOnlyMap(new HashMap<Resource, Boolean>());
 	}
 
 	/**
