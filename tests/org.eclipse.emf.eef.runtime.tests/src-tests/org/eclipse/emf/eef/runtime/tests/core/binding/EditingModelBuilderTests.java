@@ -12,6 +12,7 @@ import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
+import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
@@ -57,9 +58,11 @@ public class EditingModelBuilderTests {
 		PropertiesEditingModel model = 
 				new EditingModelBuilder()
 					.bindClass(BindingmodelPackage.Literals.SAMPLE)
-						.bindProperty(BindingmodelPackage.Literals.ABSTRACT_SAMPLE__NAME, "title")
+						.bindProperty(BindingmodelPackage.Literals.ABSTRACT_SAMPLE__NAME)
+							.withEditor("title")
 					.withView(SampleView.class)
-						.bindProperty(BindingmodelPackage.Literals.SAMPLE__ACTIVE, "activity")
+						.bindProperty(BindingmodelPackage.Literals.SAMPLE__ACTIVE)
+							.withEditor("activity")
 					.build();
 		assertTrue(EcoreUtil.equals(model, expectedModel2));
 	}
@@ -95,11 +98,15 @@ public class EditingModelBuilderTests {
 		eClassBinding.getViews().add(sampleView);
 		PropertyBinding namePropertyBinding = EditingModelFactory.eINSTANCE.createPropertyBinding();
 		namePropertyBinding.setFeature(BindingmodelPackage.Literals.ABSTRACT_SAMPLE__NAME);
-		namePropertyBinding.setEditor("title");
+		JavaEditor titleEditor = EditingModelFactory.eINSTANCE.createJavaEditor();
+		titleEditor.setDefinition("title");
+		namePropertyBinding.setEditor(titleEditor);
 		eClassBinding.getPropertyBindings().add(namePropertyBinding);
 		PropertyBinding activePropertyBinding = EditingModelFactory.eINSTANCE.createPropertyBinding();
 		activePropertyBinding.setFeature(BindingmodelPackage.Literals.SAMPLE__ACTIVE);
-		activePropertyBinding.setEditor("activity");
+		JavaEditor activityEditor = EditingModelFactory.eINSTANCE.createJavaEditor();
+		activityEditor.setDefinition("activity");
+		activePropertyBinding.setEditor(activityEditor);
 		eClassBinding.getPropertyBindings().add(activePropertyBinding);
 		expectedModel2.getBindings().add(eClassBinding);
 	}

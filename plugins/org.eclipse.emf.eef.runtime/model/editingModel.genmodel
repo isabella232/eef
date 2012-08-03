@@ -43,15 +43,22 @@
     <genClasses image="false" ecoreClass="editingModel.ecore#//View">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//View/handler"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="editingModel.ecore#//Editor"/>
+    <genClasses ecoreClass="editingModel.ecore#//PropertyBinding">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference editingModel.ecore#//PropertyBinding/feature"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference editingModel.ecore#//PropertyBinding/editor"/>
+    </genClasses>
     <genClasses ecoreClass="editingModel.ecore#//JavaView">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//JavaView/definition"/>
     </genClasses>
-    <genClasses ecoreClass="editingModel.ecore#//PropertyBinding">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference editingModel.ecore#//PropertyBinding/feature"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//PropertyBinding/editor"/>
-    </genClasses>
     <genClasses ecoreClass="editingModel.ecore#//EObjectView">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference editingModel.ecore#//EObjectView/definition"/>
+    </genClasses>
+    <genClasses ecoreClass="editingModel.ecore#//JavaEditor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//JavaEditor/definition"/>
+    </genClasses>
+    <genClasses ecoreClass="editingModel.ecore#//EObjectEditor">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference editingModel.ecore#//EObjectEditor/definition"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

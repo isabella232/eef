@@ -92,10 +92,9 @@ public class EditingModelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case EditingModelPackage.JAVA_VIEW: {
-				JavaView javaView = (JavaView)theEObject;
-				T result = caseJavaView(javaView);
-				if (result == null) result = caseView(javaView);
+			case EditingModelPackage.EDITOR: {
+				Editor editor = (Editor)theEObject;
+				T result = caseEditor(editor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -105,10 +104,31 @@ public class EditingModelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case EditingModelPackage.JAVA_VIEW: {
+				JavaView javaView = (JavaView)theEObject;
+				T result = caseJavaView(javaView);
+				if (result == null) result = caseView(javaView);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case EditingModelPackage.EOBJECT_VIEW: {
 				EObjectView eObjectView = (EObjectView)theEObject;
 				T result = caseEObjectView(eObjectView);
 				if (result == null) result = caseView(eObjectView);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EditingModelPackage.JAVA_EDITOR: {
+				JavaEditor javaEditor = (JavaEditor)theEObject;
+				T result = caseJavaEditor(javaEditor);
+				if (result == null) result = caseEditor(javaEditor);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EditingModelPackage.EOBJECT_EDITOR: {
+				EObjectEditor eObjectEditor = (EObjectEditor)theEObject;
+				T result = caseEObjectEditor(eObjectEditor);
+				if (result == null) result = caseEditor(eObjectEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -162,6 +182,21 @@ public class EditingModelSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Editor</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Editor</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEditor(Editor object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Java View</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -203,6 +238,36 @@ public class EditingModelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseEObjectView(EObjectView object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Java Editor</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Java Editor</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseJavaEditor(JavaEditor object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>EObject Editor</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>EObject Editor</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEObjectEditor(EObjectEditor object) {
 		return null;
 	}
 

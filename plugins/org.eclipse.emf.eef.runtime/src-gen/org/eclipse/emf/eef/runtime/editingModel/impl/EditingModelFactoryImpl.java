@@ -67,9 +67,11 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 		switch (eClass.getClassifierID()) {
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL: return createPropertiesEditingModel();
 			case EditingModelPackage.ECLASS_BINDING: return createEClassBinding();
-			case EditingModelPackage.JAVA_VIEW: return createJavaView();
 			case EditingModelPackage.PROPERTY_BINDING: return createPropertyBinding();
+			case EditingModelPackage.JAVA_VIEW: return createJavaView();
 			case EditingModelPackage.EOBJECT_VIEW: return createEObjectView();
+			case EditingModelPackage.JAVA_EDITOR: return createJavaEditor();
+			case EditingModelPackage.EOBJECT_EDITOR: return createEObjectEditor();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -153,6 +155,26 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 	public EObjectView createEObjectView() {
 		EObjectViewImpl eObjectView = new EObjectViewImpl();
 		return eObjectView;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public JavaEditor createJavaEditor() {
+		JavaEditorImpl javaEditor = new JavaEditorImpl();
+		return javaEditor;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EObjectEditor createEObjectEditor() {
+		EObjectEditorImpl eObjectEditor = new EObjectEditorImpl();
+		return eObjectEditor;
 	}
 
 	/**

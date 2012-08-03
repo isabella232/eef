@@ -26,7 +26,8 @@ public class PropertyBindingTests extends UIEditingTestCase {
 	protected PropertiesEditingModel buildEditingModel() {
 		return new EditingModelBuilder().bindClass(BindingmodelPackage.Literals.SAMPLE)
 					.withView(SampleTitleView.class)
-					.bindProperty(BindingmodelPackage.Literals.ABSTRACT_SAMPLE__NAME, "title")
+					.bindProperty(BindingmodelPackage.Literals.ABSTRACT_SAMPLE__NAME)
+						.withEditor("title")
 				.build();
 	}
 

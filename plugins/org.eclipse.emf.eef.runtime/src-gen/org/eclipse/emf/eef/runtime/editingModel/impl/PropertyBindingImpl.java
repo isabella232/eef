@@ -7,12 +7,14 @@
 package org.eclipse.emf.eef.runtime.editingModel.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.Editor;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 
 /**
@@ -41,24 +43,14 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 	protected EStructuralFeature feature;
 
 	/**
-	 * The default value of the '{@link #getEditor() <em>Editor</em>}' attribute.
+	 * The cached value of the '{@link #getEditor() <em>Editor</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getEditor()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Object EDITOR_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getEditor() <em>Editor</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEditor()
-	 * @generated
-	 * @ordered
-	 */
-	protected Object editor = EDITOR_EDEFAULT;
+	protected Editor editor;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -122,7 +114,7 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getEditor() {
+	public Editor getEditor() {
 		return editor;
 	}
 
@@ -131,11 +123,47 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEditor(Object newEditor) {
-		Object oldEditor = editor;
+	public NotificationChain basicSetEditor(Editor newEditor, NotificationChain msgs) {
+		Editor oldEditor = editor;
 		editor = newEditor;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTY_BINDING__EDITOR, oldEditor, editor));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTY_BINDING__EDITOR, oldEditor, newEditor);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEditor(Editor newEditor) {
+		if (newEditor != editor) {
+			NotificationChain msgs = null;
+			if (editor != null)
+				msgs = ((InternalEObject)editor).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EditingModelPackage.PROPERTY_BINDING__EDITOR, null, msgs);
+			if (newEditor != null)
+				msgs = ((InternalEObject)newEditor).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - EditingModelPackage.PROPERTY_BINDING__EDITOR, null, msgs);
+			msgs = basicSetEditor(newEditor, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTY_BINDING__EDITOR, newEditor, newEditor));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case EditingModelPackage.PROPERTY_BINDING__EDITOR:
+				return basicSetEditor(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -167,7 +195,7 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 				setFeature((EStructuralFeature)newValue);
 				return;
 			case EditingModelPackage.PROPERTY_BINDING__EDITOR:
-				setEditor(newValue);
+				setEditor((Editor)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -185,7 +213,7 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 				setFeature((EStructuralFeature)null);
 				return;
 			case EditingModelPackage.PROPERTY_BINDING__EDITOR:
-				setEditor(EDITOR_EDEFAULT);
+				setEditor((Editor)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -202,25 +230,9 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 			case EditingModelPackage.PROPERTY_BINDING__FEATURE:
 				return feature != null;
 			case EditingModelPackage.PROPERTY_BINDING__EDITOR:
-				return EDITOR_EDEFAULT == null ? editor != null : !EDITOR_EDEFAULT.equals(editor);
+				return editor != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (editor: ");
-		result.append(editor);
-		result.append(')');
-		return result.toString();
 	}
 
 } //PropertyBindingImpl

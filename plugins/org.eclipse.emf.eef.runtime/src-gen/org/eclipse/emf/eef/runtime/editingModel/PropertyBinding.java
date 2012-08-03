@@ -54,29 +54,29 @@ public interface PropertyBinding extends EObject {
 	void setFeature(EStructuralFeature value);
 
 	/**
-	 * Returns the value of the '<em><b>Editor</b></em>' attribute.
+	 * Returns the value of the '<em><b>Editor</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Editor</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Editor</em>' attribute.
-	 * @see #setEditor(Object)
+	 * @return the value of the '<em>Editor</em>' containment reference.
+	 * @see #setEditor(Editor)
 	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertyBinding_Editor()
-	 * @model required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	Object getEditor();
+	Editor getEditor();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getEditor <em>Editor</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getEditor <em>Editor</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Editor</em>' attribute.
+	 * @param value the new value of the '<em>Editor</em>' containment reference.
 	 * @see #getEditor()
 	 * @generated
 	 */
-	void setEditor(Object value);
+	void setEditor(Editor value);
 
 } // PropertyBinding

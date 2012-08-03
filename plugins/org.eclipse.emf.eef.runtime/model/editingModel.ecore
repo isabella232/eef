@@ -47,17 +47,26 @@
       </eGenericType>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Editor" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyBinding">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="editor" lowerBound="1"
+        eType="#//Editor" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavaView" eSuperTypes="#//View">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PropertyBinding">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="editor" lowerBound="1"
+  <eClassifiers xsi:type="ecore:EClass" name="EObjectView" eSuperTypes="#//View">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definition" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaEditor" eSuperTypes="#//Editor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EObjectView" eSuperTypes="#//View">
+  <eClassifiers xsi:type="ecore:EClass" name="EObjectEditor" eSuperTypes="#//Editor">
     <eStructuralFeatures xsi:type="ecore:EReference" name="definition" lowerBound="1"
         eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
   </eClassifiers>

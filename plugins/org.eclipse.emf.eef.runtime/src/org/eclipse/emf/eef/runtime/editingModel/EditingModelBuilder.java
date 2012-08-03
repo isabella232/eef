@@ -98,8 +98,8 @@ public class EditingModelBuilder {
 		 * @param editor
 		 * @return
 		 */
-		public PropertyBindingBuilder bindProperty(EStructuralFeature feature, Object editor) {
-			PropertyBindingBuilder propertyBindingBuilder = new PropertyBindingBuilder(this, feature, editor);
+		public PropertyBindingBuilder bindProperty(EStructuralFeature feature) {
+			PropertyBindingBuilder propertyBindingBuilder = new PropertyBindingBuilder(this, feature);
 			propertyBuilders.add(propertyBindingBuilder);
 			return propertyBindingBuilder;
 		}
@@ -118,16 +118,24 @@ public class EditingModelBuilder {
 		
 		private EClassBindingBuilder parentBuilder;
 		private EStructuralFeature feature;
-		private Object editor;
+		private PropertyEditorBindingBuilder editorBuilder;
 		
 		/**
 		 * @param feature
 		 * @param editor
 		 */
-		private PropertyBindingBuilder(EClassBindingBuilder parentBuilder, EStructuralFeature feature, Object editor) {
+		private PropertyBindingBuilder(EClassBindingBuilder parentBuilder, EStructuralFeature feature) {
 			this.parentBuilder = parentBuilder;
 			this.feature = feature;
-			this.editor = editor;
+		}
+		
+		/**
+		 * @param editor
+		 * @return
+		 */
+		public PropertyEditorBindingBuilder withEditor(Object editor) {
+			editorBuilder = new PropertyEditorBindingBuilder(this, editor);
+			return editorBuilder;
 		}
 		
 		/**
@@ -143,8 +151,8 @@ public class EditingModelBuilder {
 		 * @param editor
 		 * @return
 		 */
-		public PropertyBindingBuilder bindProperty(EStructuralFeature feature, Object editor) {
-			return parentBuilder.bindProperty(feature, editor);
+		public PropertyBindingBuilder bindProperty(EStructuralFeature feature) {
+			return parentBuilder.bindProperty(feature);
 		}
 		
 		/**
@@ -153,7 +161,9 @@ public class EditingModelBuilder {
 		private PropertyBinding buildPropertyBinding() {
 			PropertyBinding propertyBinding = EditingModelFactory.eINSTANCE.createPropertyBinding();
 			propertyBinding.setFeature(feature);
-			propertyBinding.setEditor(editor);
+			if (editorBuilder != null) {
+				propertyBinding.setEditor(editorBuilder.buildEditor());
+			}// else should throw an exception
 			return propertyBinding;
 		}
 		
@@ -242,8 +252,65 @@ public class EditingModelBuilder {
 		 * @param editor
 		 * @return
 		 */
-		public PropertyBindingBuilder bindProperty(EStructuralFeature feature, Object editor) {
-			return parentBuilder.bindProperty(feature, editor);
+		public PropertyBindingBuilder bindProperty(EStructuralFeature feature) {
+			return parentBuilder.bindProperty(feature);
+		}
+
+	}
+	
+	public class PropertyEditorBindingBuilder {
+		
+		private PropertyBindingBuilder parentBuilder;
+		private Object editor;
+		
+		
+		public PropertyEditorBindingBuilder(PropertyBindingBuilder parentBuilder, Object editor) {
+			this.parentBuilder = parentBuilder;
+			this.editor = editor;
+		}
+		
+		private Editor buildEditor() {
+			Editor buildedEditor = null;
+			if (editor instanceof EObject) {
+				buildedEditor = EditingModelFactory.eINSTANCE.createEObjectEditor();
+				((EObjectEditor) buildedEditor).setDefinition((EObject) editor);
+			} else {
+				buildedEditor = EditingModelFactory.eINSTANCE.createJavaEditor();
+				((JavaEditor) buildedEditor).setDefinition(editor);
+			}
+			return buildedEditor;
+		}
+		
+		/**
+		 * @param view
+		 * @return
+		 */
+		public EClassViewBindingBuilder withView(Object view) {
+			return parentBuilder.withView(view);
+		}
+
+		/**
+		 * @param eClass
+		 * @return
+		 */
+		public EClassBindingBuilder bindClass(EClass eClass) {
+			return parentBuilder.bindClass(eClass);
+		}
+
+		/**
+		 * @param feature
+		 * @param editor
+		 * @return
+		 */
+		public PropertyBindingBuilder bindProperty(EStructuralFeature feature) {
+			return parentBuilder.bindProperty(feature);
+		}
+ 
+		/**
+		 * @return
+		 */
+		public PropertiesEditingModel build() {
+			return parentBuilder.build();
 		}
 
 	}

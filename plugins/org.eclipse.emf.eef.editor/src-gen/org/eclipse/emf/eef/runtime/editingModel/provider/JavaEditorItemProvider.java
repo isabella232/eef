@@ -13,8 +13,6 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
-import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -23,22 +21,19 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
-
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.JavaEditor} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class PropertyBindingItemProvider
-	extends ItemProviderAdapter
+public class JavaEditorItemProvider
+	extends EditorItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -51,7 +46,7 @@ public class PropertyBindingItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PropertyBindingItemProvider(AdapterFactory adapterFactory) {
+	public JavaEditorItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -66,65 +61,42 @@ public class PropertyBindingItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addFeaturePropertyDescriptor(object);
-			addEditorPropertyDescriptor(object);
+			addDefinitionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Feature feature.
+	 * This adds a property descriptor for the Definition feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addFeaturePropertyDescriptor(Object object) {
+	protected void addDefinitionPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_PropertyBinding_feature_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PropertyBinding_feature_feature", "_UI_PropertyBinding_type"),
-				 EditingModelPackage.Literals.PROPERTY_BINDING__FEATURE,
+				 getString("_UI_JavaEditor_definition_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_JavaEditor_definition_feature", "_UI_JavaEditor_type"),
+				 EditingModelPackage.Literals.JAVA_EDITOR__DEFINITION,
 				 true,
 				 false,
-				 true,
-				 null,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Editor feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addEditorPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_PropertyBinding_editor_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PropertyBinding_editor_feature", "_UI_PropertyBinding_type"),
-				 EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR,
-				 true,
-				 false,
-				 false,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This returns PropertyBinding.gif.
+	 * This returns JavaEditor.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/PropertyBinding"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/JavaEditor"));
 	}
 
 	/**
@@ -135,7 +107,11 @@ public class PropertyBindingItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_PropertyBinding_type");
+		Object labelValue = ((JavaEditor)object).getDefinition();
+		String label = labelValue == null ? null : labelValue.toString();
+		return label == null || label.length() == 0 ?
+			getString("_UI_JavaEditor_type") :
+			getString("_UI_JavaEditor_type") + " " + label;
 	}
 
 	/**
@@ -149,8 +125,8 @@ public class PropertyBindingItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(PropertyBinding.class)) {
-			case EditingModelPackage.PROPERTY_BINDING__EDITOR:
+		switch (notification.getFeatureID(JavaEditor.class)) {
+			case EditingModelPackage.JAVA_EDITOR__DEFINITION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
@@ -167,17 +143,6 @@ public class PropertyBindingItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return EditingModelEditPlugin.INSTANCE;
 	}
 
 }

@@ -59,7 +59,8 @@ public class EClassBindingResolverTests {
 		PropertiesEditingModel editingModel = new EditingModelBuilder()
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(SampleTitleView.class)
-				.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME, "title")
+				.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME)
+					.withEditor( "title")
 			.build();
 		assertEquals(EcorePackage.Literals.ENAMED_ELEMENT__NAME, editingModel.getBindings().get(0).feature("title", true));
 	}
@@ -74,7 +75,8 @@ public class EClassBindingResolverTests {
 		PropertiesEditingModel editingModel = new EditingModelBuilder()
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(SampleTitleView.class)
-				.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME, "title")
+				.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME)
+					.withEditor("title")
 			.build();
 		assertEquals("title", editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ENAMED_ELEMENT__NAME, true));
 	}
@@ -132,7 +134,8 @@ public class EClassBindingResolverTests {
 		PropertiesEditingModel editingModel = new EditingModelBuilder()
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(sampleView)
-			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT, instanciableEditor)
+			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT)
+				.withEditor(instanciableEditor)
 			.build();
 		assertEquals(EcorePackage.Literals.ECLASS__ABSTRACT, editingModel.getBindings().get(0).feature(instanciableEditor, true));
 	}
@@ -152,7 +155,8 @@ public class EClassBindingResolverTests {
 		PropertiesEditingModel editingModel = new EditingModelBuilder()
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(sampleView)
-			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT, instanciableEditor)
+			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT)
+				.withEditor(instanciableEditor)
 			.build();
 		assertEquals(instanciableEditor, editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ECLASS__ABSTRACT, true));
 	}

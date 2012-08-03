@@ -87,16 +87,28 @@ public class EditingModelAdapterFactory extends AdapterFactoryImpl {
 				return createViewAdapter();
 			}
 			@Override
-			public Adapter caseJavaView(JavaView object) {
-				return createJavaViewAdapter();
+			public Adapter caseEditor(Editor object) {
+				return createEditorAdapter();
 			}
 			@Override
 			public Adapter casePropertyBinding(PropertyBinding object) {
 				return createPropertyBindingAdapter();
 			}
 			@Override
+			public Adapter caseJavaView(JavaView object) {
+				return createJavaViewAdapter();
+			}
+			@Override
 			public Adapter caseEObjectView(EObjectView object) {
 				return createEObjectViewAdapter();
+			}
+			@Override
+			public Adapter caseJavaEditor(JavaEditor object) {
+				return createJavaEditorAdapter();
+			}
+			@Override
+			public Adapter caseEObjectEditor(EObjectEditor object) {
+				return createEObjectEditorAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -161,6 +173,20 @@ public class EditingModelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.Editor <em>Editor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.Editor
+	 * @generated
+	 */
+	public Adapter createEditorAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.JavaView <em>Java View</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -199,6 +225,34 @@ public class EditingModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEObjectViewAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.JavaEditor <em>Java Editor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.JavaEditor
+	 * @generated
+	 */
+	public Adapter createJavaEditorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.EObjectEditor <em>EObject Editor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EObjectEditor
+	 * @generated
+	 */
+	public Adapter createEObjectEditorAdapter() {
 		return null;
 	}
 

@@ -71,6 +71,24 @@ public interface EditingModelFactory extends EFactory {
 	EObjectView createEObjectView();
 
 	/**
+	 * Returns a new object of class '<em>Java Editor</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Java Editor</em>'.
+	 * @generated
+	 */
+	JavaEditor createJavaEditor();
+
+	/**
+	 * Returns a new object of class '<em>EObject Editor</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>EObject Editor</em>'.
+	 * @generated
+	 */
+	EObjectEditor createEObjectEditor();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

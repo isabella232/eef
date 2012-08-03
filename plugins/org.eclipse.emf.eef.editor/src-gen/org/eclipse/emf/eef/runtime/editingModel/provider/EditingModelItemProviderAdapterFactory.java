@@ -191,6 +191,52 @@ public class EditingModelItemProviderAdapterFactory extends EditingModelAdapterF
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.eef.runtime.editingModel.JavaEditor} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected JavaEditorItemProvider javaEditorItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.JavaEditor}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createJavaEditorAdapter() {
+		if (javaEditorItemProvider == null) {
+			javaEditorItemProvider = new JavaEditorItemProvider(this);
+		}
+
+		return javaEditorItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.eef.runtime.editingModel.EObjectEditor} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EObjectEditorItemProvider eObjectEditorItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EObjectEditor}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createEObjectEditorAdapter() {
+		if (eObjectEditorItemProvider == null) {
+			eObjectEditorItemProvider = new EObjectEditorItemProvider(this);
+		}
+
+		return eObjectEditorItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -291,9 +337,11 @@ public class EditingModelItemProviderAdapterFactory extends EditingModelAdapterF
 	public void dispose() {
 		if (propertiesEditingModelItemProvider != null) propertiesEditingModelItemProvider.dispose();
 		if (eClassBindingItemProvider != null) eClassBindingItemProvider.dispose();
-		if (javaViewItemProvider != null) javaViewItemProvider.dispose();
 		if (propertyBindingItemProvider != null) propertyBindingItemProvider.dispose();
+		if (javaViewItemProvider != null) javaViewItemProvider.dispose();
 		if (eObjectViewItemProvider != null) eObjectViewItemProvider.dispose();
+		if (javaEditorItemProvider != null) javaEditorItemProvider.dispose();
+		if (eObjectEditorItemProvider != null) eObjectEditorItemProvider.dispose();
 	}
 
 }

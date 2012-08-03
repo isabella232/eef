@@ -125,7 +125,8 @@ public class EEFTestStuffsBuilder {
 						.bindClass(EcorePackage.Literals.ECLASS)
 							.withView(views.get(0))
 							.withView(views.get(1))
-								.bindProperty(EcorePackage.Literals.ECLASSIFIER__DEFAULT_VALUE, views.get(1).getElements().get(0))
+								.bindProperty(EcorePackage.Literals.ECLASSIFIER__DEFAULT_VALUE)
+									.withEditor(views.get(1).getElements().get(0))
 						.build();
 		
 		// Creating model
