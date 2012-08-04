@@ -733,7 +733,18 @@ public class EditingModelEditor
 
 		// Create the editing domain with a special command stack.
 		//
-		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new EditingModelEditorResourceSet());
+		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new EditingModelEditorResourceSet() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.edit.domain.IEditingDomainProvider#getEditingDomain()
+			 */
+			@Override
+			public EditingDomain getEditingDomain() {
+				return editingDomain;
+			}
+			
+		});
 		editingDomain.setResourceToReadOnlyMap(new HashMap<Resource, Boolean>());
 	}
 
