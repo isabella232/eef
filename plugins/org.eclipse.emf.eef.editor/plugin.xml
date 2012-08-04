@@ -22,6 +22,18 @@
                org.eclipse.emf.edit.provider.IItemPropertySource"/>
    </extension>
 
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <factory
+            uri="http://www.eclipse.org/emf/eef/views/1.0.0"
+            class="org.eclipse.emf.eef.views.provider.ViewsItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+
    <extension point="org.eclipse.ui.newWizards">
       <category
             id="org.eclipse.emf.ecore.Wizard.category.ID"
@@ -33,15 +45,6 @@
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/EditingModelModelFile.gif">
          <description>%_UI_EditingModelModelWizard_description</description>
-         <selection class="org.eclipse.core.resources.IResource"/>
-      </wizard>
-      <wizard
-            id="org.eclipse.emf.eef.views.presentation.ViewsModelWizardID"
-            name="%_UI_ViewsModelWizard_label"
-            class="org.eclipse.emf.eef.views.presentation.ViewsModelWizard"
-            category="org.eclipse.emf.ecore.Wizard.category.ID"
-            icon="icons/full/obj16/ViewsModelFile.gif">
-         <description>%_UI_ViewsModelWizard_description</description>
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>
    </extension>
