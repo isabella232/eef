@@ -27,15 +27,15 @@ public interface PropertiesEditingComponent extends Adapter, PropertiesEditingLi
 	PropertiesEditingContext getEditingContext();
 	
 	/**
-	 * @return the {@link EClassBinding} describing the target {@link EObject} mapping.
-	 */
-	EClassBinding getBinding();
-	
-	/**
 	 * Sets the editing context for this component.
 	 * @param editingContext {@link PropertiesEditingContext} to set.
 	 */
 	void setEditingContext(PropertiesEditingContext editingContext);
+	
+	/**
+	 * @return the {@link EClassBinding} describing the target {@link EObject} mapping.
+	 */
+	EClassBinding getBinding();
 	
 	/**
 	 * Returns the {@link ViewHandler} able to manage the given view.

@@ -14,6 +14,7 @@ Export-Package: org.eclipse.emf.eef.runtime.binding,
  org.eclipse.emf.eef.runtime.editingModel.impl,
  org.eclipse.emf.eef.runtime.editingModel.util,
  org.eclipse.emf.eef.runtime.notify,
+ org.eclipse.emf.eef.runtime.util,
  org.eclipse.emf.eef.runtime.view.handler,
  org.eclipse.emf.eef.runtime.view.handler.exceptions
 Require-Bundle: org.eclipse.core.runtime,

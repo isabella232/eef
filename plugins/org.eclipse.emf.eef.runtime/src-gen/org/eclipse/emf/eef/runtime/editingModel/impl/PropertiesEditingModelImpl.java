@@ -18,13 +18,16 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
+import org.eclipse.emf.eef.runtime.util.EMFHelper;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
 /**
@@ -130,8 +133,13 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 * @generated NOT
 	 */
 	public EClassBinding binding(EObject eObject) {
+		PropertiesEditingComponent propertiesEditingComponent = (PropertiesEditingComponent) EcoreUtil.getExistingAdapter(eObject, PropertiesEditingComponent.class);
+		EMFHelper emfHelper = null;
+		if (propertiesEditingComponent != null) {
+			emfHelper = propertiesEditingComponent.getEditingContext().getEMFHelper();
+		}
 		for (EClassBinding binding : bindings) {
-			if (eObject.eClass().equals(binding.getEClass())) {
+			if ((emfHelper != null && emfHelper.equals(eObject.eClass(), binding.getEClass())) || eObject.eClass().equals(binding.getEClass())) {
 				return binding;
 			}
 		}

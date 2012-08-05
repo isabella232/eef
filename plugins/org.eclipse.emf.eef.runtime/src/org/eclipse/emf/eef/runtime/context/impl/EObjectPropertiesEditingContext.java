@@ -13,6 +13,8 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.SemanticDirectEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
+import org.eclipse.emf.eef.runtime.util.EMFHelper;
+import org.eclipse.emf.eef.runtime.util.Impl.EMFHelperImpl;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -91,6 +93,14 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public ContextOptions getOptions() {
 		return options;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEMFHelper()
+	 */
+	public EMFHelper getEMFHelper() {
+		return new EMFHelperImpl();
 	}
 
 	/**

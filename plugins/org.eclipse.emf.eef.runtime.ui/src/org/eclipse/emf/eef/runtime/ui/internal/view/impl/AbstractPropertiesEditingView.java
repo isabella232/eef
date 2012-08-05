@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -111,7 +112,9 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 		UnmodifiableIterator<ElementEditor> elementEditors = Iterators.filter(viewDescriptor.eAllContents(), ElementEditor.class);
 		while (elementEditors.hasNext()) {
 			ElementEditor elementEditor = elementEditors.next();
-			EStructuralFeature feature = editingComponent.getBinding().feature(elementEditor, editingComponent.getEditingContext().getOptions().autowire());
+			EStructuralFeature bindingFeature = editingComponent.getBinding().feature(elementEditor, editingComponent.getEditingContext().getOptions().autowire());
+			EObject editedObject = (EObject)editingComponent.getTarget();
+			EStructuralFeature feature = editingComponent.getEditingContext().getEMFHelper().mapFeature(editedObject, bindingFeature);
 			if (feature != null) {
 				PropertyEditor propertyEditor = propertyEditors.get(elementEditor);
 				propertyEditor.init(feature);

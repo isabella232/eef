@@ -7,6 +7,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
+import org.eclipse.emf.eef.runtime.util.EMFHelper;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -36,6 +37,11 @@ public interface PropertiesEditingContext {
 	 * @return the {@link ContextOptions} object of this context.
 	 */
 	ContextOptions getOptions();
+	
+	/**
+	 * @return the {@link EMFHelper} used by the context for EMF purpose.
+	 */
+	EMFHelper getEMFHelper();
 	
 	/**
 	 * Undo all the editing operations in this context.

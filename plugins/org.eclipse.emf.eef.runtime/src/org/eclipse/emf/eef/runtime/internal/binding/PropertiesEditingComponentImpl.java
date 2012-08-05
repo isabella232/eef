@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.internal.binding;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -60,10 +61,8 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	private ViewChangeNotifier viewChangeNotifier;
 	private List<PropertiesEditingListener> listeners;
 
-
-
 	/**
-	 * @param editingModel model defining the properties editing definition. 
+	 * @param editingProvider {@link PropertiesEditingProvider} providing this component.
 	 */
 	public PropertiesEditingComponentImpl(PropertiesEditingProvider editingProvider) {
 		this.editingProvider = editingProvider;
@@ -365,7 +364,8 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 		if (getTarget() != null) {
 			getTarget().eAdapters().remove(this);
 		}
-		for (ViewHandler<?> handler : viewHandlers) {
+		List<ViewHandler<?>> handlers = new ArrayList<ViewHandler<?>>(viewHandlers);
+		for (ViewHandler<?> handler : handlers) {
 			handler.dispose();
 		}
 	}
