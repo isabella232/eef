@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eef-model:PropertiesEditingModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eef-model="http://www.eclipse.org/emf/eef/editingmodel/1.0.0" name="Conference">
+  <bindings>
+    <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Person"/>
+    <views xsi:type="eef-model:EObjectView">
+      <definition href="platform:/resource/demo/conference.views#//@views.0"/>
+    </views>
+    <views xsi:type="eef-model:EObjectView">
+      <definition href="platform:/resource/demo/conference.views#//@views.1"/>
+    </views>
+    <propertyBindings>
+      <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Person/firstname"/>
+      <editor xsi:type="eef-model:EObjectEditor">
+        <definition href="platform:/resource/demo/conference.views#//@views.0/@elements.0"/>
+      </editor>
+    </propertyBindings>
+    <propertyBindings>
+      <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Person/lastname"/>
+      <editor xsi:type="eef-model:EObjectEditor">
+        <definition href="platform:/resource/demo/conference.views#//@views.0/@elements.1"/>
+      </editor>
+    </propertyBindings>
+    <propertyBindings>
+      <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Person/isRegistered"/>
+      <editor xsi:type="eef-model:EObjectEditor">
+        <definition href="platform:/resource/demo/conference.views#//@views.0/@elements.2"/>
+      </editor>
+    </propertyBindings>
+    <propertyBindings>
+      <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Person/assists"/>
+      <editor xsi:type="eef-model:EObjectEditor">
+        <definition href="platform:/resource/demo/conference.views#//@views.1/@elements.0"/>
+      </editor>
+    </propertyBindings>
+  </bindings>
+</eef-model:PropertiesEditingModel>

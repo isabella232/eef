@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eef-views:ViewsRepository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:eef-views="http://www.eclipse.org/emf/eef/views/1.0.0" name="Conference">
+  <views name="Identity">
+    <elements xsi:type="eef-views:ElementEditor" name="firstname">
+      <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+    </elements>
+    <elements xsi:type="eef-views:ElementEditor" name="lastname">
+      <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+    </elements>
+    <elements xsi:type="eef-views:ElementEditor" name="isRegistered">
+      <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+    </elements>
+  </views>
+  <views name="Conference">
+    <elements xsi:type="eef-views:ElementEditor" name="assists">
+      <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.0"/>
+    </elements>
+  </views>
+</eef-views:ViewsRepository>

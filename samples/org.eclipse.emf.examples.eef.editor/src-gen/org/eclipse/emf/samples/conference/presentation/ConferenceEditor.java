@@ -16,7 +16,6 @@ import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -67,12 +66,8 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.ui.notify.OpenWizardOnDoubleClick;
-import org.eclipse.emf.eef.views.View;
-import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.samples.conference.provider.ConferenceItemProviderAdapterFactory;
-import org.eclipse.emf.samples.conferences.providers.ConferencePropertiesEditingProvider;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -1014,27 +1009,7 @@ public class ConferenceEditor extends MultiPageEditorPart
 				createContextMenuFor(selectionViewer);
 				int pageIndex = addPage(viewerPane.getControl());
 				setPageText(pageIndex, getString("_UI_SelectionPage_label"));
-				selectionViewer.addDoubleClickListener(new OpenWizardOnDoubleClick(editingDomain, adapterFactory) {
-
-					/**
-					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.ui.notify.OpenWizardOnDoubleClick#buildEditingModel(java.util.List)
-					 */
-					protected PropertiesEditingModel buildEditingModel(List<View> views) {
-						return ConferencePropertiesEditingProvider.generateModel(views);
-					}
-
-					/**
-					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.ui.notify.OpenWizardOnDoubleClick#buildViews(java.util.List)
-					 */
-					protected List<View> buildViews(List<Toolkit> toolkits) {
-						return ConferencePropertiesEditingProvider.buildViews(toolkits);
-					}
-
-
-
-				});
+				selectionViewer.addDoubleClickListener(new OpenWizardOnDoubleClick(editingDomain, adapterFactory));
 			}
 
 			// Create a page for the parent tree view.
