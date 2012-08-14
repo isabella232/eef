@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.eef.runtime.editor;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: org.eclipse.emf.eef.editor;singleton:=true
+Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.eef.editor.EditingModelEditPlugin$Implementation
 Bundle-Vendor: %providerName

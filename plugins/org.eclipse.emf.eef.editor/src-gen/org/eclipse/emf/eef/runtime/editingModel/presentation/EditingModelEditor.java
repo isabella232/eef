@@ -739,7 +739,6 @@ public class EditingModelEditor
 			 * {@inheritDoc}
 			 * @see org.eclipse.emf.edit.domain.IEditingDomainProvider#getEditingDomain()
 			 */
-			@Override
 			public EditingDomain getEditingDomain() {
 				return editingDomain;
 			}

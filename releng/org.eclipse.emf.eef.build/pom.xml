@@ -20,6 +20,8 @@
 		<module>../../plugins/org.eclipse.emf.eef.runtime.tabbed</module>		
 		<module>../../plugins/org.eclipse.emf.eef.doc</module>
 		<module>../../features/org.eclipse.emf.eef.runtime.feature</module>				
+		<module>../../plugins/org.eclipse.emf.eef.editor</module>
+		<module>../../features/org.eclipse.emf.eef.edt.feature</module>				
 		<module>../org.eclipse.emf.eef.repository</module>				
 	</modules>
 	

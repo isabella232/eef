@@ -3,9 +3,17 @@
    <feature url="features/org.eclipse.emf.eef.runtime.feature_2.0.0.qualifier.jar" id="org.eclipse.emf.eef.runtime.feature" version="2.0.0.qualifier">
       <category name="org.eclipse.emf.eef.runtime.category"/>
    </feature>
+   <feature url="features/org.eclipse.emf.eef.edt.feature_2.0.0.qualifier.jar" id="org.eclipse.emf.eef.edt.feature" version="2.0.0.qualifier">
+      <category name="org.eclipse.emf.eef.edt.category"/>
+   </feature>
    <category-def name="org.eclipse.emf.eef.runtime.category" label="EEF Runtime">
       <description>
          EEF Runtime related features
+      </description>
+   </category-def>
+   <category-def name="org.eclipse.emf.eef.edt.category" label="EEF Development Tooling">
+      <description>
+         EEF Development Tooling feature
       </description>
    </category-def>
 </site>
