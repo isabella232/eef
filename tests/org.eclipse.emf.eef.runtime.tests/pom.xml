@@ -43,8 +43,8 @@
 			        <testClass>org.eclipse.emf.eef.runtime.tests.suite.AllTests</testClass>
 					<useUIHarness>true</useUIHarness>
 					<useUIThread>true</useUIThread>
-					<argLine>-Xmx1024m</argLine>
-					<argLine>-XX:MaxPermSize=256m</argLine>
+					<!--argLine>-Xmx1024m</argLine>
+					<argLine>-XX:MaxPermSize=256m</argLine-->
 				</configuration>
 			</plugin>
 		</plugins>

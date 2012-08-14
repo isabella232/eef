@@ -38,6 +38,9 @@
     </license>
   </licenses>
 
+	<properties>
+	  <tycho-version>0.14.1</tycho-version>
+	</properties>
 
 
   <repositories>
@@ -159,7 +162,6 @@
 			<activeByDefault>true</activeByDefault>
 		</activation>
 		<properties>
-		  <tycho-version>0.14.1</tycho-version>
 		  <platform-version-name>indigo</platform-version-name>
 		  <eclipse-site>http://download.eclipse.org/releases/${platform-version-name}</eclipse-site>
 		  <wikitext-site>http://download.eclipse.org/tools/mylyn/update/weekly</wikitext-site>
@@ -172,7 +174,6 @@
 			<activeByDefault>false</activeByDefault>
 		</activation>
 		<properties>
-		  <tycho-version>0.14.1</tycho-version>
 		  <platform-version-name>indigo</platform-version-name>
 		  <eclipse-site>http://mirror.update.eclipse.obeo.fr/release-indigo-3.7/</eclipse-site>
 		  <wikitext-site>http://download.eclipse.org/tools/mylyn/update/weekly</wikitext-site>
@@ -181,58 +182,39 @@
 	</profile>  		
   		
 	<profile>
-		<id>checkstyle</id>
+		<!-- This profile should be enabled for sonar analysis-->
+		<id>quality</id>
 		<activation>
-			<activeByDefault>false</activeByDefault>
+			<activeByDefault>true</activeByDefault>
 		</activation>
+		<properties>
+			<!-- Sonar properties -->
+			<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+			<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+			<!-- Points to the target folder of the global parent project -->
+			<sonar.jacoco.reportPath>../../releng/org.eclipse.emf.eef.parent/target/jacoco.exec</sonar.jacoco.reportPath>
+		</properties>
 		<build>
 			<plugins>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-checkstyle-plugin</artifactId>
-					<version>2.6</version>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.5.6.201201232323</version>
 					<executions>
 						<execution>
-							<id>check my sources</id>
 							<goals>
-								<goal>checkstyle</goal>
+								<goal>prepare-agent</goal>
 							</goals>
-							<phase>verify</phase>
 							<configuration>
-								<failOnErrors>false</failOnErrors>
-								<consoleOutput>true</consoleOutput>
+								<append>true</append>
+								<destFile>${sonar.jacoco.reportPath}</destFile>
 							</configuration>
 						</execution>
 					</executions>
 				</plugin>
 			</plugins>
 		</build>
-	</profile>
-    
-    <profile>
-      <id>coverage</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <modules>
-          <module>org.eclemma.runtime.equinox</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>static-checks</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>findbugs-maven-plugin</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-pmd-plugin</artifactId>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
+	</profile>    
   </profiles>
   
 </project>
