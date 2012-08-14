@@ -33,6 +33,12 @@
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
+				  <dependencies>
+      				<dependency>
+        				<type>p2-installable-unit</type>
+        				<artifactId>org.eclipse.equinox.ds</artifactId>
+      				</dependency>
+    				</dependencies>
 			        <testSuite>org.eclipse.emf.eef.runtime.tests</testSuite>
 			        <testClass>org.eclipse.emf.eef.runtime.tests.suite.AllTests</testClass>
 					<useUIHarness>true</useUIHarness>
