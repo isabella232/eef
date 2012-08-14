@@ -8,7 +8,12 @@ import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.eef.runtime.services.EPackageRegistryTracker;
+import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -23,6 +28,7 @@ public class EEFRuntime extends EMFPlugin {
 	 * Keep track of the singleton.
 	 */
 	private static Plugin plugin;
+	
 
 	/**
 	 * Create the instance.
@@ -56,6 +62,40 @@ public class EEFRuntime extends EMFPlugin {
 	public static class Plugin extends EclipsePlugin {
 
 		private Diagnostician diagnostician;
+		private EPackageRegistryTracker<EMFServiceProvider> tracker;
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.core.runtime.Plugin#start(org.osgi.framework.BundleContext)
+		 */
+		public void start(BundleContext context) throws Exception {
+			super.start(context);
+			tracker = new EPackageRegistryTracker<EMFServiceProvider>(context, EMFServiceProvider.class);
+			tracker.open();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
+		 */
+		public void stop(BundleContext context) throws Exception {
+			super.stop(context);
+			tracker.close();
+		}
+		
+		/**
+		 * Returns the EMFService associated to the given {@link EPackage}.
+		 * @param ePackage filtering {@link EPackage}.
+		 * @return the {@link EMFService} associated to this package.
+		 */
+		public EMFService getEMFService(EPackage ePackage) {
+			EMFServiceProvider service = tracker.getService();
+			if (service != null) {
+				return service.getEMFServiceForPackage(ePackage);
+			} else {
+				return null;
+			}
+		}
 
 		/**
 		 * Creates an instance.

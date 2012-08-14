@@ -13,8 +13,10 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
+import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
 import com.google.common.base.Function;
@@ -66,7 +68,11 @@ public class PropertiesEditingProvider extends AdapterFactoryImpl implements Ada
 						 * @see com.google.common.base.Predicate#apply(java.lang.Object)
 						 */
 						public boolean apply(EPackage input) {
-							return type == input;
+							if (type instanceof EPackage) {
+								EMFService emfService = EEFRuntime.getPlugin().getEMFService((EPackage) type);
+								return ((emfService != null && emfService.equals((EPackage)type, input)) || type == input);
+							}
+							return false;
 						}
 
 					}, 

@@ -8,13 +8,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.SemanticDirectEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
-import org.eclipse.emf.eef.runtime.util.EMFHelper;
-import org.eclipse.emf.eef.runtime.util.Impl.EMFHelperImpl;
+import org.eclipse.emf.eef.runtime.util.EMFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -97,10 +97,13 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEMFHelper()
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEMFService()
 	 */
-	public EMFHelper getEMFHelper() {
-		return new EMFHelperImpl();
+	public EMFService getEMFService() {
+		if (getEditingComponent() != null && getEditingComponent().getTarget() instanceof EObject) {
+			return EEFRuntime.getPlugin().getEMFService(((EObject) getEditingComponent().getTarget()).eClass().getEPackage());
+		}
+		return null;
 	}
 
 	/**

@@ -27,7 +27,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
-import org.eclipse.emf.eef.runtime.util.EMFHelper;
+import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
 /**
@@ -134,12 +134,12 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 */
 	public EClassBinding binding(EObject eObject) {
 		PropertiesEditingComponent propertiesEditingComponent = (PropertiesEditingComponent) EcoreUtil.getExistingAdapter(eObject, PropertiesEditingComponent.class);
-		EMFHelper emfHelper = null;
+		EMFService emfService = null;
 		if (propertiesEditingComponent != null) {
-			emfHelper = propertiesEditingComponent.getEditingContext().getEMFHelper();
+			emfService = propertiesEditingComponent.getEditingContext().getEMFService();
 		}
 		for (EClassBinding binding : bindings) {
-			if ((emfHelper != null && emfHelper.equals(eObject.eClass(), binding.getEClass())) || eObject.eClass().equals(binding.getEClass())) {
+			if ((emfService != null && emfService.equals(eObject.eClass(), binding.getEClass())) || eObject.eClass().equals(binding.getEClass())) {
 				return binding;
 			}
 		}

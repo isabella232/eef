@@ -8,7 +8,7 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
-import org.eclipse.emf.eef.runtime.util.EMFHelper;
+import org.eclipse.emf.eef.runtime.util.EMFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -60,10 +60,10 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 
 	/**
 	 * @return
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEMFHelper()
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEMFService()
 	 */
-	public EMFHelper getEMFHelper() {
-		return delegatingContext.getEMFHelper();
+	public EMFService getEMFService() {
+		return delegatingContext.getEMFService();
 	}
 
 	/**

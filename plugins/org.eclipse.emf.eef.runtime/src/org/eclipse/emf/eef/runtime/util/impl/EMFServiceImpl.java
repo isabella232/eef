@@ -1,24 +1,32 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.util.Impl;
+package org.eclipse.emf.eef.runtime.util.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.util.EMFHelper;
+import org.eclipse.emf.eef.runtime.util.EMFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EMFHelperImpl implements EMFHelper {
+public class EMFServiceImpl implements EMFService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFHelper#equals(org.eclipse.emf.ecore.EClass, org.eclipse.emf.ecore.EClass)
+	 * @see org.eclipse.emf.eef.runtime.services.EPackageService#serviceForPackage()
+	 */
+	public EPackage serviceForPackage() {
+		return EMFServiceRegistry.defaultPackage;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EClass, org.eclipse.emf.ecore.EClass)
 	 */
 	public boolean equals(EClass eClass1, EClass eClass2) {
 		if (eClass1.equals(eClass2)) {
@@ -47,7 +55,28 @@ public class EMFHelperImpl implements EMFHelper {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFHelper#mapFeature(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EPackage, org.eclipse.emf.ecore.EPackage)
+	 */
+	public boolean equals(EPackage ePack1, EPackage ePack2) {
+		if (ePack1 == ePack2) {
+			return true;
+		} else if (ePack1.eResource().getURI().isPlatform() && !ePack2.eResource().getURI().isPlatform()) {
+			EPackage ePackage1 = EPackage.Registry.INSTANCE.getEPackage(ePack1.getNsURI());
+			if (ePackage1.equals(ePack2)) {
+				return true;
+			}
+		} else if (!ePack1.eResource().getURI().isPlatform() && ePack2.eResource().getURI().isPlatform()) {
+			EPackage ePackage2 = EPackage.Registry.INSTANCE.getEPackage(ePack2.getNsURI());
+			if (ePackage2.equals(ePack1)) {
+				return true;
+			}			
+		} 
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#mapFeature(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public EStructuralFeature mapFeature(EObject editedObject, EStructuralFeature feature) {
 		if (feature != null) {
@@ -67,6 +96,7 @@ public class EMFHelperImpl implements EMFHelper {
 			}
 		}
 		return null;
-	}
+	}	
+	
 
 }
