@@ -14,6 +14,8 @@ import org.eclipse.emf.eef.runtime.tests.handlers.CustomSWTViewHandler;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.views.SampleCustomView;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
  * @author glefur

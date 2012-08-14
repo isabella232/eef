@@ -22,7 +22,8 @@ Export-Package: org.eclipse.emf.eef.runtime,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,
- com.google.guava
+ com.google.guava,
+ org.eclipse.equinox.ds
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.eef.runtime.EEFRuntime$Plugin
 Service-Component: OSGI-INF/EMFServiceRegistry.xml, OSGI-INF/EMFServiceImpl.xml
