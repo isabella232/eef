@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.emf.eef.runtime.feature_2.0.0.qualifier.jar" id="org.eclipse.emf.eef.runtime.feature" version="2.0.0.qualifier">
+      <category name="org.eclipse.emf.eef.runtime.category"/>
+   </feature>
+   <category-def name="org.eclipse.emf.eef.runtime.category" label="EEF Runtime">
+      <description>
+         EEF Runtime related features
+      </description>
+   </category-def>
+</site>

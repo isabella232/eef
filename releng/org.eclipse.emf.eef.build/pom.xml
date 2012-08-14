@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+
+	<groupId>org.eclipse</groupId>
+	<artifactId>org.eclipse.emf.eef.build</artifactId>
+	<version>2.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Extended Editing Framework Build</name>
+
+	<modules>
+		<module>../../plugins/org.eclipse.emf.eef.runtime</module>		
+		<module>../../plugins/org.eclipse.emf.eef.runtime.ui</module>		
+		<module>../../plugins/org.eclipse.emf.eef.runtime.tabbed</module>		
+		<module>../../plugins/org.eclipse.emf.eef.doc</module>
+		<module>../../features/org.eclipse.emf.eef.runtime.feature</module>				
+		<module>../org.eclipse.emf.eef.repository</module>				
+	</modules>
+	
+</project>
