@@ -11,12 +11,13 @@ import org.eclipse.emf.eef.runtime.tests.core.binding.PlatformResourceRegistryRe
 import org.eclipse.emf.eef.runtime.tests.core.binding.PropertyBindingTests;
 import org.eclipse.emf.eef.runtime.tests.core.binding.SampleMultiViewsEditingTests;
 import org.eclipse.emf.eef.runtime.tests.core.binding.ViewsComponentsLinkingTests;
+import org.eclipse.emf.eef.runtime.tests.core.compatibility.EMFEditCompatibilityTests;
+import org.eclipse.emf.eef.runtime.tests.core.editingmodes.EditingModesTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.EditingListenerTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.ViewNotificationTests;
 import org.eclipse.emf.eef.runtime.tests.core.service.EMFServiceProvidingTests;
 import org.eclipse.emf.eef.runtime.tests.ui.EEFViewerTests;
 import org.eclipse.emf.eef.runtime.tests.ui.PropertiesEditingViewTests;
-import org.eclipse.emf.eef.runtime.tests.ui.editingmodes.EditingModesTests;
 import org.eclipse.emf.eef.runtime.tests.ui.notify.ModelNotificationInBeanViewTests;
 import org.eclipse.emf.eef.runtime.tests.ui.notify.ModelNotificationInPropertiesEditingViewTests;
 import org.junit.runner.RunWith;
@@ -43,7 +44,8 @@ import org.junit.runners.Suite;
 	PropertiesEditingViewTests.class,
 	ModelNotificationInBeanViewTests.class,
 	ModelNotificationInPropertiesEditingViewTests.class,
-	EditingModesTests.class
+	EditingModesTests.class,
+	EMFEditCompatibilityTests.class
 })
 public class AllTests {
 

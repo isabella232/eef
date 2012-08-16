@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.tests.ui.editingmodes;
+package org.eclipse.emf.eef.runtime.tests.core.editingmodes;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
