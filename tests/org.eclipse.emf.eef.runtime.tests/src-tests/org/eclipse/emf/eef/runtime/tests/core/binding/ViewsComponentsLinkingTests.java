@@ -25,7 +25,7 @@ public class ViewsComponentsLinkingTests extends NonUIEditingTestCase {
 	@Test
 	public void testViewRegistering() {
 		
-		PropertiesEditingComponent editingComponent = context.getEditingComponent();
+		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
 		List<ViewHandler<?>> handlers = getHandlers(editingComponent);
 		assertNotNull("Unable to get the ViewHandlers of the component", handlers);
 		assertEquals("The ViewHandler hasn't been correctly registered", 1, handlers.size());

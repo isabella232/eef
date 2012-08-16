@@ -30,21 +30,20 @@ import org.junit.Before;
  */
 public class NonUIEditingTestCase {
 
-	protected PropertiesEditingContext context;
+	protected PropertiesEditingContext editingContext;
 	protected List<Object> views;
 	protected EObject editedObject;
 	private Collection<ViewHandler<?>> viewHandlers;
+	protected ComposedAdapterFactory adapterFactory;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		final EEFTestStuffsBuilder testBuilder = new EEFTestStuffsBuilder();
-		EPackage ecoreModel = testBuilder.buildEcoreSampleModel();
-		editedObject = ecoreModel.getEClassifiers().get(0);
+		editedObject = createEditedObject();
 		final PropertiesEditingModel editingModel = buildEditingModel();
-		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		adapterFactory.addAdapterFactory(new PropertiesEditingProvider() {
 
 			/**
@@ -62,20 +61,28 @@ public class NonUIEditingTestCase {
 			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initViewHandlerProvider()
 			 */
 			protected ViewHandlerProvider initViewHandlerProvider() {
-				return testBuilder.buildViewHandlerProvider();
+				return new EEFTestStuffsBuilder().buildViewHandlerProvider();
 			}
 			
 		});
-		context = 
-				new EObjectPropertiesEditingContext(adapterFactory, editedObject);
-		viewHandlers = context.getEditingComponent().createViewHandlers();
+		editingContext =  createEditingContext();
+		viewHandlers = editingContext.getEditingComponent().createViewHandlers();
 		views = new ArrayList<Object>();
 		for (ViewHandler<?> viewHandler : viewHandlers) {
-			PropertiesEditingComponent editingComponent = context.getEditingComponent();
+			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
 			Object view = viewHandler.createView(editingComponent);
 			viewHandler.initView(editingComponent);
 			views.add(view);
 		}
+	}
+
+	protected EObject createEditedObject() {
+		EPackage ecoreModel = new EEFTestStuffsBuilder().buildEcoreSampleModel();
+		return ecoreModel.getEClassifiers().get(0);
+	}
+
+	protected EObjectPropertiesEditingContext createEditingContext() {
+		return new EObjectPropertiesEditingContext(adapterFactory, editedObject);
 	}
 
 	/**
@@ -96,7 +103,7 @@ public class NonUIEditingTestCase {
 		for (ViewHandler<?> handler : viewHandlers) {
 			handler.dispose();
 		}
-		context.dispose();
+		editingContext.dispose();
 	}
 
 

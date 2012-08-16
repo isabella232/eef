@@ -61,7 +61,7 @@ public class EditingListenerTests extends NonUIEditingTestCase {
 	public void testValidationNotifications() {
 		EClassMockView view1 = (EClassMockView) views.get(0);
 		ValidationEditingListener validationListener = new ValidationEditingListener();
-		context.getEditingComponent().addEditingListener(validationListener);
+		editingContext.getEditingComponent().addEditingListener(validationListener);
 		view1.getSupport().firePropertyChange(new PropertyChangeEvent(view1, "name", null, "new EClass Name"));
 		assertEquals("Validation Event not propagated.", 1, validationListener.getEvents().size());
 		assertTrue("Bad validation diagnostic.", validationListener.getEvents().get(0).getDiagnostic().getSeverity() != Diagnostic.OK);

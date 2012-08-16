@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.tests.views;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
 
 /**
@@ -19,9 +20,9 @@ public class EClassListeningView {
 	private boolean abstract_;
 
 	/**
-	 * @param support
+	 * @param editingComponent
 	 */
-	public EClassListeningView() {
+	public EClassListeningView(PropertiesEditingComponent editingComponent) {
 		this.support = new PropertyChangeSupport(this);
 	}
 
