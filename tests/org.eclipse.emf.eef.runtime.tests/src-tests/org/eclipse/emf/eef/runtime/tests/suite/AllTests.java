@@ -16,6 +16,7 @@ import org.eclipse.emf.eef.runtime.tests.core.notify.ViewNotificationTests;
 import org.eclipse.emf.eef.runtime.tests.core.service.EMFServiceProvidingTests;
 import org.eclipse.emf.eef.runtime.tests.ui.EEFViewerTests;
 import org.eclipse.emf.eef.runtime.tests.ui.PropertiesEditingViewTests;
+import org.eclipse.emf.eef.runtime.tests.ui.editingmodes.EditingModesTests;
 import org.eclipse.emf.eef.runtime.tests.ui.notify.ModelNotificationInBeanViewTests;
 import org.eclipse.emf.eef.runtime.tests.ui.notify.ModelNotificationInPropertiesEditingViewTests;
 import org.junit.runner.RunWith;
@@ -41,7 +42,8 @@ import org.junit.runners.Suite;
 	EEFViewerTests.class,
 	PropertiesEditingViewTests.class,
 	ModelNotificationInBeanViewTests.class,
-	ModelNotificationInPropertiesEditingViewTests.class
+	ModelNotificationInPropertiesEditingViewTests.class,
+	EditingModesTests.class
 })
 public class AllTests {
 
