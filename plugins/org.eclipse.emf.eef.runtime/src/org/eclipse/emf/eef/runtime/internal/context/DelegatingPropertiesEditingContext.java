@@ -67,6 +67,22 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	}
 
 	/**
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#stopEditing()
+	 */
+	public void stopEditing() {
+		delegatingContext.stopEditing();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#cancelEditing()
+	 */
+	public void cancelEditing() {
+		delegatingContext.cancelEditing();
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#undoEditing()
 	 */

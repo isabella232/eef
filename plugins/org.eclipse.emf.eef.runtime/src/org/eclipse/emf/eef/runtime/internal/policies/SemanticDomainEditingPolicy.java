@@ -21,19 +21,26 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  * 
  */
-public class SemanticDomainEditingPolicy extends SemanticEditingPolicy {
+public abstract class SemanticDomainEditingPolicy extends SemanticEditingPolicy {
 
-	private EditingDomain editingDomain;
+	protected EditingDomain editingDomain;
 
 	/**
+	 * @param editingDomain
 	 * @param editingComponent
 	 * @param editingEvent
 	 */
-	public SemanticDomainEditingPolicy(EditingDomain editingDomain, PropertiesEditingComponent editingComponent,	PropertiesEditingEvent editingEvent) {
+	public SemanticDomainEditingPolicy(EditingDomain editingDomain, PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		super(editingComponent, editingEvent);
 		this.editingDomain = editingDomain;
 	}
 
+	/**
+	 * Process the given {@link Command} to execute the current policy.
+	 * @param command command to process.
+	 */
+	protected abstract void processCommand(Command command);
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -41,7 +48,7 @@ public class SemanticDomainEditingPolicy extends SemanticEditingPolicy {
 	 *      org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	public void performSet(EObject eObject, EStructuralFeature feature, Object value) {
-		editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, eObject, feature, value));
+		processCommand(SetCommand.create(editingDomain, eObject, feature, value));
 	}
 
 	/**
@@ -55,7 +62,7 @@ public class SemanticDomainEditingPolicy extends SemanticEditingPolicy {
 		} else {
 			setCommand = SetCommand.create(editingDomain, eObject, feature, null);
 		}
-		editingDomain.getCommandStack().execute(setCommand);
+		processCommand(setCommand);
 	}
 
 	/**
@@ -63,7 +70,7 @@ public class SemanticDomainEditingPolicy extends SemanticEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performAdd(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	protected void performAdd(EObject eObject, EStructuralFeature feature, Object newValue) {
-		editingDomain.getCommandStack().execute(AddCommand.create(editingDomain, eObject, feature, newValue));
+		processCommand(AddCommand.create(editingDomain, eObject, feature, newValue));
 	}
 
 	/**
@@ -71,7 +78,7 @@ public class SemanticDomainEditingPolicy extends SemanticEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performAddMany(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
 	 */
 	protected void performAddMany(EObject eObject, EStructuralFeature feature, Collection<?> newValues) {
-		editingDomain.getCommandStack().execute(AddCommand.create(editingDomain, eObject, feature, newValues));
+		processCommand(AddCommand.create(editingDomain, eObject, feature, newValues));
 	}
 
 	/**
@@ -79,7 +86,7 @@ public class SemanticDomainEditingPolicy extends SemanticEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performRemove(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	protected void performRemove(EObject eObject, EStructuralFeature feature, Object oldValue) {
-		editingDomain.getCommandStack().execute(RemoveCommand.create(editingDomain, eObject, feature, oldValue));
+		processCommand(RemoveCommand.create(editingDomain, eObject, feature, oldValue));
 	}
 
 	/**
@@ -87,7 +94,7 @@ public class SemanticDomainEditingPolicy extends SemanticEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performRemoveMany(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
 	 */
 	protected void performRemoveMany(EObject eObject, EStructuralFeature feature, Collection<?> oldValues) {
-		editingDomain.getCommandStack().execute(RemoveCommand.create(editingDomain, eObject, feature, oldValues));
+		processCommand(RemoveCommand.create(editingDomain, eObject, feature, oldValues));
 	}
 
 	/**
@@ -96,7 +103,7 @@ public class SemanticDomainEditingPolicy extends SemanticEditingPolicy {
 	 * TODO: Check this. Can we pass the current index or must we pass the EObject to move.
 	 */
 	protected void performMove(EObject eObject, EStructuralFeature feature, Integer oldIndex, Integer newIndex) {
-		editingDomain.getCommandStack().execute(MoveCommand.create(editingDomain, eObject, feature, oldIndex, newIndex));
+		processCommand(MoveCommand.create(editingDomain, eObject, feature, oldIndex, newIndex));
 	}
 
 }

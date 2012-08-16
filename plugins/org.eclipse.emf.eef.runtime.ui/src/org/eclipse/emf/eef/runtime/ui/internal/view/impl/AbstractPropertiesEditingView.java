@@ -125,6 +125,14 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#dispose()
+	 */
+	public void dispose() {
+		editingComponent.removeEditingListener(this);
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public void firePropertiesChanged(PropertiesEditingEvent event) {

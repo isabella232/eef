@@ -45,6 +45,7 @@ public class EEFEditingWizard extends Wizard {
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
 	public boolean performFinish() {
+		context.stopEditing();
 		return true;
 	}
 	
@@ -53,7 +54,7 @@ public class EEFEditingWizard extends Wizard {
 	 * @see org.eclipse.jface.wizard.Wizard#performCancel()
 	 */
 	public boolean performCancel() {
-		context.undoEditing();
+		context.cancelEditing();
 		return true;
 	}
 
@@ -92,6 +93,16 @@ public class EEFEditingWizard extends Wizard {
 			viewer.setContentProvider(new EEFContentProvider());
 			viewer.setInput(context);
 			this.setControl(control);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.jface.dialogs.DialogPage#dispose()
+		 */
+		@Override
+		public void dispose() {
+			super.dispose();
+			viewer.clear();
 		}
 
 	}	

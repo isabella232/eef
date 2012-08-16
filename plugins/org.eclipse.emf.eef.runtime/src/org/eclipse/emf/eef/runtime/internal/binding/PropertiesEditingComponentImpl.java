@@ -38,7 +38,6 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 /**
@@ -306,13 +305,11 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	public Collection<ViewHandler<?>> createViewHandlers() {
 		PropertiesEditingModel editingModel = getEditingModel();
 		if (editingModel != null) {
-			return Lists.transform(editingModel.views((EObject) getTarget()), new Function<Object, ViewHandler<?>>() {
-
-				public ViewHandler<?> apply(Object input) {
-					return createViewHandler(input);
-				}
-				
-			});
+			List<ViewHandler<?>> result = Lists.newArrayList();
+			for (Object view : editingModel.views((EObject) getTarget())) {
+				result.add(createViewHandler(view));
+			}
+			return result;
 		}
 		return Collections.emptyList();
 	}

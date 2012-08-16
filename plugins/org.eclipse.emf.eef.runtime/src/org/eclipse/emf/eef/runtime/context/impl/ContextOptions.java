@@ -15,9 +15,10 @@ public class ContextOptions {
 
 	private final static String AUTOWIRING_OPTION = "AUTOWIRING OPTION";
 	private final static String VALIDATION_OPTION = "VALIDATION OPTION";
-	private final static String DELAYEDFIREPROPERTIESCHANGED_DELAY = "DELAYED FIREPROPERTIESCHANGED DELAY";	
+	private final static String DELAYEDFIREPROPERTIESCHANGED_DELAY = "DELAYED FIREPROPERTIESCHANGED DELAY";
+	private final static String BATCH_MODE = "BATCH MODE";
 	
-	private Map<String, Object> options;
+	private final Map<String, Object> options;
 
 	/**
 	 * 
@@ -31,14 +32,15 @@ public class ContextOptions {
 		setOption(AUTOWIRING_OPTION, true);
 		setOption(VALIDATION_OPTION, true);
 		setOption(DELAYEDFIREPROPERTIESCHANGED_DELAY, 500L);
+		setOption(BATCH_MODE, false);
 	}
 
 	/**
-	 * Put an option value in the context.
+	 * Puts an option value in the context.
 	 * @param key name of the option.
 	 * @param value value of the option.
 	 */
-	public void setOption(String key, Object value) {
+	public void setOption(final String key, final Object value) {
 		options.put(key, value);
 	}
 	
@@ -47,7 +49,7 @@ public class ContextOptions {
 	 * @return the value of the key.
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T getOption(String key) {
+	public <T> T getOption(final String key) {
 		return (T)options.get(key);
 	}
 
@@ -64,10 +66,10 @@ public class ContextOptions {
 	}
 
 	/**
-	 * Set the autowiring state of the context.
+	 * Sets the autowiring state of the context.
 	 * @param autowiring the new state.
 	 */
-	public void setAutowiring(boolean autowiring) {
+	public void setAutowiring(final boolean autowiring) {
 		options.put(AUTOWIRING_OPTION, Boolean.valueOf(autowiring));
 	}
 	
@@ -84,10 +86,10 @@ public class ContextOptions {
 	}
 	
 	/**
-	 * Set the state if the validation on editing state.
+	 * Sets the state if the validation on editing state.
 	 * @param validateEditing the new state.
 	 */
-	public void setValidateEditing(boolean validateEditing) {
+	public void setValidateEditing(final boolean validateEditing) {
 		options.put(VALIDATION_OPTION, Boolean.valueOf(validateEditing));
 	}
 	
@@ -104,11 +106,33 @@ public class ContextOptions {
 	}
 	
 	/**
-	 * Set the delay to wait before processing an editing event.
+	 * Sets the delay to wait before processing an editing event.
 	 * @param delay the new delay.
 	 */
-	public void setDelayedFirePropertiesChangedDelay(long delay) {
+	public void setDelayedFirePropertiesChangedDelay(final long delay) {
 		options.put(DELAYEDFIREPROPERTIESCHANGED_DELAY, delay);
+	}
+	
+	/**
+	 * @return <code>true</code> if the editing mode of current context is "batch"
+	 */
+	public boolean batchMode() {
+		return getOption(BATCH_MODE);
+	}
+	
+	/**
+	 * @return <code>true</code> if the editing mode of current context is "live"
+	 */
+	public boolean liveMode() {
+		return !batchMode();
+	}
+	
+	/**
+	 * Sets the editing mode of this context.
+	 * @param mode batch mode if <code>true</code> live otherwise.
+	 */
+	public void setBatchMode(final boolean mode) {
+		options.put(BATCH_MODE, mode);
 	}
 	
 }

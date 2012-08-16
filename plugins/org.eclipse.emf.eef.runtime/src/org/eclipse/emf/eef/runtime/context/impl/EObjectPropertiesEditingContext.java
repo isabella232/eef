@@ -5,12 +5,11 @@ package org.eclipse.emf.eef.runtime.context.impl;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.change.ChangeDescription;
-import org.eclipse.emf.ecore.change.util.ChangeRecorder;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.context.EditingRecorder;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.EditingRecorderImpl;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.SemanticDirectEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
@@ -24,10 +23,9 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	protected EObject eObject;
 	protected AdapterFactory adapterFactory;
-	protected ChangeRecorder changeRecorder;
-
 	protected ContextOptions options;
-
+	
+	private EditingRecorder editingRecorder;
 
 	/**
 	 * @param eObject {@link EObject} to edit.
@@ -36,7 +34,8 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 		this.adapterFactory = adapterFactory;
 		this.eObject = eObject;
 		this.options = initOptions();
-		initChangeRecorder(eObject);
+		this.editingRecorder = new EditingRecorderImpl();
+		editingRecorder.initRecording(eObject);
 	}
 
 	/**
@@ -45,22 +44,6 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	protected ContextOptions initOptions() {
 		return new ContextOptions();
-	}
-
-	/**
-	 * @param context the {@link PropertiesEditingContext}.
-	 */
-	protected void initChangeRecorder(EObject eObject) {
-		Resource resource = eObject.eResource();
-		if (resource != null) {
-			if (resource.getResourceSet() != null) {
-				this.changeRecorder = new ChangeRecorder(resource.getResourceSet());
-			} else {
-				this.changeRecorder = new ChangeRecorder(resource);
-			}
-		} else {
-			this.changeRecorder = new ChangeRecorder(eObject);
-		}
 	}
 
 	/**
@@ -108,14 +91,6 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getChangeRecorder()
-	 */
-	public ChangeRecorder getChangeRecorder() {
-		return changeRecorder;
-	}
-
-	/**
-	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
@@ -128,11 +103,26 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#stopEditing()
+	 */
+	public void stopEditing() {
+		editingRecorder.stopEditing();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#cancelEditing()
+	 */
+	public void cancelEditing() {
+		editingRecorder.cancelEditing();
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#undoEditing()
 	 */
 	public void undoEditing() {
-		ChangeDescription endRecording = getChangeRecorder().endRecording();
-		endRecording.applyAndReverse();
+		editingRecorder.undoEditing();
 	}
 
 	/**
@@ -140,7 +130,14 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#dispose()
 	 */
 	public void dispose() {
-		changeRecorder.dispose();
+		editingRecorder.dispose();
+	}
+
+	/**
+	 * @return the editingRecorder
+	 */
+	protected EditingRecorder getEditingRecorder() {
+		return editingRecorder;
 	}
 
 }

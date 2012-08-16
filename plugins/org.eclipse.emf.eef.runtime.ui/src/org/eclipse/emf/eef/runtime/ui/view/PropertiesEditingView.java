@@ -40,6 +40,11 @@ public interface PropertiesEditingView extends PropertiesEditingListener {
 	 * Initialize the view.
 	 */
 	void init();
+	
+	/**
+	 * Dispose the view.
+	 */
+	void dispose();
 
 	/**
 	 * Sets the PropertyEditor Provider.

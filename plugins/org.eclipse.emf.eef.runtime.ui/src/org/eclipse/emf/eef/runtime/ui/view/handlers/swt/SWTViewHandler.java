@@ -21,6 +21,20 @@ public class SWTViewHandler extends ReflectViewHandler<Composite> {
 	 */
 	public SWTViewHandler(ViewHandlerProvider handlerProvider, PropertiesEditingComponent editingComponent, Class<? extends Composite> viewClass) {
 		super(handlerProvider, editingComponent, viewClass);
-	}	
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandler#dispose()
+	 */
+	@Override
+	public void dispose() {
+		if (view != null) {
+			view.dispose();
+		}
+		super.dispose();
+	}
+	
+	
 	
 }

@@ -44,10 +44,20 @@ public interface PropertiesEditingContext {
 	EMFService getEMFService();
 	
 	/**
+	 * stop the recording of editing operations in this context.
+	 */
+	void stopEditing();
+
+	/**
+	 * Cancel all the editing operations in this context.
+	 */
+	void cancelEditing();
+
+	/**
 	 * Undo all the editing operations in this context.
 	 */
 	void undoEditing();
-	
+
 	/**
 	 * Dispose the current context. 
 	 */
