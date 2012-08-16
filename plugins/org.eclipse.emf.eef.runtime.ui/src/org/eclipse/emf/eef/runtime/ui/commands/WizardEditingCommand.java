@@ -11,8 +11,6 @@
 package org.eclipse.emf.eef.runtime.ui.commands;
 
 
-import org.eclipse.emf.common.command.AbstractCommand;
-import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.ui.wizard.EEFEditingWizard;
 import org.eclipse.emf.eef.runtime.ui.wizard.EEFWizardDialog;
@@ -22,62 +20,24 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  */
-public class WizardEditingCommand extends AbstractCommand {
+public class WizardEditingCommand extends AbstractBatchEditingCommand {
 
-	protected PropertiesEditingContext editingContext;
-
-	protected ChangeDescription description;
-
-	/**
-	 * @param editionContext
-	 */
 	public WizardEditingCommand(PropertiesEditingContext editionContext) {
-		this.editingContext = editionContext;
+		super(editionContext);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.common.command.AbstractCommand#prepare()
+	 * @see org.eclipse.emf.eef.runtime.ui.commands.AbstractBatchEditingCommand#prepareBatchEditing()
 	 */
 	@Override
-	protected boolean prepare() {
+	protected boolean prepareBatchEditing() {
 		EEFEditingWizard wizard = new EEFEditingWizard(editingContext);
 		//TODO: use a UI helper for providing the shell 
 		EEFWizardDialog wDialog = new EEFWizardDialog(new Shell(), wizard);
 		int open = wDialog.open();
-		if (open == Window.OK) {
-			return true;
-		} else {
-			return false;
-		}
+		return (open == Window.OK);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.common.command.Command#execute()
-	 */
-	public void execute() {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.common.command.AbstractCommand#undo()
-	 */
-	@Override
-	public void undo() {
-		editingContext.undoEditing();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.common.command.Command#redo()
-	 */
-	public void redo() {
-		editingContext.undoEditing();
-	}
-
+	
 }
