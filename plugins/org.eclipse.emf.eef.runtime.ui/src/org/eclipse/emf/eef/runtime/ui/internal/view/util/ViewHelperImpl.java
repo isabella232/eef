@@ -11,15 +11,20 @@
 
 package org.eclipse.emf.eef.runtime.ui.internal.view.util;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
+import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
+import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.ui.view.ViewHelper;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -52,7 +57,7 @@ public class ViewHelperImpl implements ViewHelper {
 	private FormToolkit toolkit;
 	
 	/**
-	 * Create a semanticless helper.
+	 * Creates a semanticless helper.
 	 */
 	public ViewHelperImpl() { }
 
@@ -204,11 +209,35 @@ public class ViewHelperImpl implements ViewHelper {
 	}
 
 	/**
-	 * @param editor
-	 * @return
-	 * TODO: search a Documentation EAnnotation in the Ecore model
+	 * Returns documentation about the feature binded to the given editor. There is two strategies for getting this documentation:
+	 * 	- getting the property description of the {@link GenFeature} associated
+	 *  - getting the ecore documentation of the feature
+	 * The choice of strategy is defined by the {@link EditingOptions} of the {@link PropertiesEditingMessageManager}:
+	 * 	- if the options are null or the {@link FeatureDocumentationProvider#GENMODEL_PROPERTY_DESCRIPTION} value is set, the first strategy is chosen
+	 *  - if the {@link FeatureDocumentationProvider#ECORE_DOCUMENTATION} value is set, the second strategy is chosen
+	 * @param editor which to get the documentation.
+	 * @return the found documentation if exists, <code>null</code> otherwise.
 	 */
 	private String getHelpContent(Object editor) {
+		EStructuralFeature feature = editingComponent.getBinding().feature(editor, editingComponent.getEditingContext().getOptions().autowire());
+		if (feature != null) {
+			EditingOptions options = editingComponent.getBinding().getEditingModel().getOptions();
+			if (options == null || options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.GENMODEL_PROPERTY_DESCRIPTION) {
+				EditingModelEnvironment editingModelEnvironment = editingComponent.getEditingModelEnvironment();
+				GenFeature genFeature = editingModelEnvironment.genFeature(feature);
+				String documentation = genFeature.getPropertyDescription();
+				if (documentation != null && documentation.length() > 0) {
+					return documentation;
+				}
+			} else {
+				if (options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.ECORE_DOCUMENTATION) {
+					String documentation = EcoreUtil.getDocumentation(feature);
+					if (documentation != null && documentation.length() > 0) {
+						return documentation;
+					}
+				}
+			}
+		}
 		return null;
 	}
 

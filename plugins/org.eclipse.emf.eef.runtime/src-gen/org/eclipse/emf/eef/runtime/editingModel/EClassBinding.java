@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getEditingModel <em>Editing Model</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getEClass <em>EClass</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getViews <em>Views</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getPropertyBindings <em>Property Bindings</em>}</li>
@@ -30,6 +31,34 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @generated
  */
 public interface EClassBinding extends EObject {
+	/**
+	 * Returns the value of the '<em><b>Editing Model</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getBindings <em>Bindings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Editing Model</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Editing Model</em>' container reference.
+	 * @see #setEditingModel(PropertiesEditingModel)
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getEClassBinding_EditingModel()
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getBindings
+	 * @model opposite="bindings" required="true" transient="false"
+	 * @generated
+	 */
+	PropertiesEditingModel getEditingModel();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getEditingModel <em>Editing Model</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Editing Model</em>' container reference.
+	 * @see #getEditingModel()
+	 * @generated
+	 */
+	void setEditingModel(PropertiesEditingModel value);
+
 	/**
 	 * Returns the value of the '<em><b>EClass</b></em>' reference.
 	 * <!-- begin-user-doc -->

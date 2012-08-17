@@ -17,13 +17,16 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
@@ -39,6 +42,8 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getBindings <em>Bindings</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getInvolvedModels <em>Involved Models</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getOptions <em>Options</em>}</li>
  * </ul>
  * </p>
  *
@@ -74,6 +79,26 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 * @ordered
 	 */
 	protected EList<EClassBinding> bindings;
+
+	/**
+	 * The cached value of the '{@link #getInvolvedModels() <em>Involved Models</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInvolvedModels()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EObject> involvedModels;
+
+	/**
+	 * The cached value of the '{@link #getOptions() <em>Options</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOptions()
+	 * @generated
+	 * @ordered
+	 */
+	protected EditingOptions options;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -122,9 +147,64 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 */
 	public EList<EClassBinding> getBindings() {
 		if (bindings == null) {
-			bindings = new EObjectContainmentEList<EClassBinding>(EClassBinding.class, this, EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS);
+			bindings = new EObjectContainmentWithInverseEList<EClassBinding>(EClassBinding.class, this, EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS, EditingModelPackage.ECLASS_BINDING__EDITING_MODEL);
 		}
 		return bindings;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<EObject> getInvolvedModels() {
+		if (involvedModels == null) {
+			involvedModels = new EObjectResolvingEList<EObject>(EObject.class, this, EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS);
+		}
+		return involvedModels;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EditingOptions getOptions() {
+		return options;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetOptions(EditingOptions newOptions, NotificationChain msgs) {
+		EditingOptions oldOptions = options;
+		options = newOptions;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS, oldOptions, newOptions);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOptions(EditingOptions newOptions) {
+		if (newOptions != options) {
+			NotificationChain msgs = null;
+			if (options != null)
+				msgs = ((InternalEObject)options).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS, null, msgs);
+			if (newOptions != null)
+				msgs = ((InternalEObject)newOptions).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS, null, msgs);
+			msgs = basicSetOptions(newOptions, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS, newOptions, newOptions));
 	}
 
 	/**
@@ -191,11 +271,28 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getBindings()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
 				return ((InternalEList<?>)getBindings()).basicRemove(otherEnd, msgs);
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
+				return basicSetOptions(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -212,6 +309,10 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 				return getName();
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
 				return getBindings();
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS:
+				return getInvolvedModels();
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
+				return getOptions();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -232,6 +333,13 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 				getBindings().clear();
 				getBindings().addAll((Collection<? extends EClassBinding>)newValue);
 				return;
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS:
+				getInvolvedModels().clear();
+				getInvolvedModels().addAll((Collection<? extends EObject>)newValue);
+				return;
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
+				setOptions((EditingOptions)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -250,6 +358,12 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
 				getBindings().clear();
 				return;
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS:
+				getInvolvedModels().clear();
+				return;
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
+				setOptions((EditingOptions)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -266,6 +380,10 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
 				return bindings != null && !bindings.isEmpty();
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS:
+				return involvedModels != null && !involvedModels.isEmpty();
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
+				return options != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -25,7 +25,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.util.EMFService;
@@ -46,11 +46,11 @@ public class PlatformResourceRegistryResourceBinding {
 	public void setUp() {
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		platformEcoreResource = new ResourceSetImpl().getResource(URI.createPlatformPluginURI("org.eclipse.emf.ecore/model/Ecore.ecore", true), true);
-		adapterFactory.addAdapterFactory(new PropertiesEditingProvider() {
+		adapterFactory.addAdapterFactory(new AbstractPropertiesEditingProvider() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initSpecificEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initSpecificEditingModel()
 			 */
 			@Override
 			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
@@ -145,11 +145,11 @@ public class PlatformResourceRegistryResourceBinding {
 														.bindProperty(eClassToBind.getEStructuralFeature("name"))
 															.withEditor("name")
 					.build();
-		PropertiesEditingProvider provider = new PropertiesEditingProvider() {
+		AbstractPropertiesEditingProvider provider = new AbstractPropertiesEditingProvider() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initSpecificEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initSpecificEditingModel()
 			 */
 			@Override
 			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
@@ -160,7 +160,7 @@ public class PlatformResourceRegistryResourceBinding {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initViewHandlerProvider()
+			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initViewHandlerProvider()
 			 */
 			@Override
 			protected ViewHandlerProvider initViewHandlerProvider() {

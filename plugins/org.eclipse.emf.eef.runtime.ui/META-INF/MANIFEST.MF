@@ -15,7 +15,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.forms;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.emf.eef.runtime.ui,
+Export-Package: org.eclipse.emf.eef.runtime.editingModel,
+ org.eclipse.emf.eef.runtime.ui,
  org.eclipse.emf.eef.runtime.ui.adapters,
  org.eclipse.emf.eef.runtime.ui.commands,
  org.eclipse.emf.eef.runtime.ui.internal.resources;x-friends:="org.eclipse.emf.eef.runtime.editor",

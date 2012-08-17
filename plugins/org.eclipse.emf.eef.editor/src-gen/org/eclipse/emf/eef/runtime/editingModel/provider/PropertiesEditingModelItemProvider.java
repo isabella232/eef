@@ -70,6 +70,7 @@ public class PropertiesEditingModelItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
+			addInvolvedModelsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -97,6 +98,28 @@ public class PropertiesEditingModelItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Involved Models feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addInvolvedModelsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PropertiesEditingModel_involvedModels_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PropertiesEditingModel_involvedModels_feature", "_UI_PropertiesEditingModel_type"),
+				 EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -109,6 +132,7 @@ public class PropertiesEditingModelItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__BINDINGS);
+			childrenFeatures.add(EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__OPTIONS);
 		}
 		return childrenFeatures;
 	}
@@ -167,6 +191,7 @@ public class PropertiesEditingModelItemProvider
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -188,6 +213,11 @@ public class PropertiesEditingModelItemProvider
 			(createChildParameter
 				(EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__BINDINGS,
 				 EditingModelFactory.eINSTANCE.createEClassBinding()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__OPTIONS,
+				 EditingModelFactory.eINSTANCE.createEditingOptions()));
 	}
 
 	/**

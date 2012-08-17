@@ -9,7 +9,9 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
@@ -31,6 +33,12 @@ public interface PropertiesEditingComponent extends Adapter, PropertiesEditingLi
 	 * @param editingContext {@link PropertiesEditingContext} to set.
 	 */
 	void setEditingContext(PropertiesEditingContext editingContext);
+	
+	/**
+	 * @return the {@link EditingModelEnvironment} of the {@link AbstractPropertiesEditingProvider} that provided this component.
+	 * 
+	 */
+	EditingModelEnvironment getEditingModelEnvironment();
 	
 	/**
 	 * @return the {@link EClassBinding} describing the target {@link EObject} mapping.

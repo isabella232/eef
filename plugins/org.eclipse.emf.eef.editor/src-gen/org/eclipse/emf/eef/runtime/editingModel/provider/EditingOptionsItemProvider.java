@@ -15,7 +15,6 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -29,17 +28,17 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 
-import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
+import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EditingOptions} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class PropertyBindingItemProvider
+public class EditingOptionsItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -53,7 +52,7 @@ public class PropertyBindingItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PropertyBindingItemProvider(AdapterFactory adapterFactory) {
+	public EditingOptionsItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -68,65 +67,42 @@ public class PropertyBindingItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addFeaturePropertyDescriptor(object);
-			addEditorPropertyDescriptor(object);
+			addFeatureDocumentationProviderPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Feature feature.
+	 * This adds a property descriptor for the Feature Documentation Provider feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addFeaturePropertyDescriptor(Object object) {
+	protected void addFeatureDocumentationProviderPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_PropertyBinding_feature_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PropertyBinding_feature_feature", "_UI_PropertyBinding_type"),
-				 EditingModelPackage.Literals.PROPERTY_BINDING__FEATURE,
+				 getString("_UI_EditingOptions_featureDocumentationProvider_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_EditingOptions_featureDocumentationProvider_feature", "_UI_EditingOptions_type"),
+				 EditingModelPackage.Literals.EDITING_OPTIONS__FEATURE_DOCUMENTATION_PROVIDER,
 				 true,
 				 false,
-				 true,
-				 null,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Editor feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addEditorPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_PropertyBinding_editor_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PropertyBinding_editor_feature", "_UI_PropertyBinding_type"),
-				 EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR,
-				 true,
-				 false,
-				 false,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This returns PropertyBinding.gif.
+	 * This returns EditingOptions.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/PropertyBinding"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/EditingOptions"));
 	}
 
 	/**
@@ -137,7 +113,11 @@ public class PropertyBindingItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_PropertyBinding_type");
+		FeatureDocumentationProvider labelValue = ((EditingOptions)object).getFeatureDocumentationProvider();
+		String label = labelValue == null ? null : labelValue.toString();
+		return label == null || label.length() == 0 ?
+			getString("_UI_EditingOptions_type") :
+			getString("_UI_EditingOptions_type") + " " + label;
 	}
 
 	/**
@@ -151,8 +131,8 @@ public class PropertyBindingItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(PropertyBinding.class)) {
-			case EditingModelPackage.PROPERTY_BINDING__EDITOR:
+		switch (notification.getFeatureID(EditingOptions.class)) {
+			case EditingModelPackage.EDITING_OPTIONS__FEATURE_DOCUMENTATION_PROVIDER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

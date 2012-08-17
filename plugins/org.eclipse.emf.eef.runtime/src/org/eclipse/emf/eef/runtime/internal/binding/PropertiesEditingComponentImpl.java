@@ -26,8 +26,9 @@ import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
@@ -54,16 +55,16 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	protected FirePropertiesChangedJob firePropertiesChangedJob;
 
 	private PropertiesEditingContext editingContext;
-	private PropertiesEditingProvider editingProvider;
+	private AbstractPropertiesEditingProvider editingProvider;
 	private PropertiesEditingModel editingModel;
 	private List<ViewHandler<?>> viewHandlers;
 	private ViewChangeNotifier viewChangeNotifier;
 	private List<PropertiesEditingListener> listeners;
 
 	/**
-	 * @param editingProvider {@link PropertiesEditingProvider} providing this component.
+	 * @param editingProvider {@link AbstractPropertiesEditingProvider} providing this component.
 	 */
-	public PropertiesEditingComponentImpl(PropertiesEditingProvider editingProvider) {
+	public PropertiesEditingComponentImpl(AbstractPropertiesEditingProvider editingProvider) {
 		this.editingProvider = editingProvider;
 		this.listeners = Lists.newArrayList();
 		this.viewHandlers = Lists.newArrayList();
@@ -83,6 +84,14 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	public void setEditingContext(PropertiesEditingContext editingContext) {
 		this.editingContext = editingContext;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingModelEnvironment()
+	 */
+	public EditingModelEnvironment getEditingModelEnvironment() {
+		return editingProvider.getEditingModelEnvironment();
 	}
 
 	/**
@@ -426,9 +435,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 		}
 
 		protected IStatus run(IProgressMonitor monitor) {
-//			deactivate();
 			directApplyingPropertyChanged(fEvent);
-//			activate();
 			fEvent = null;
 			return Status.OK_STATUS;
 		}

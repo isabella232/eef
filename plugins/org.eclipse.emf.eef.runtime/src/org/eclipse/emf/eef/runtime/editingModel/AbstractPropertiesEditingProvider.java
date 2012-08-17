@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
+import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
@@ -29,23 +30,17 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingProvider extends AdapterFactoryImpl implements AdapterFactory {
+public abstract class AbstractPropertiesEditingProvider extends AdapterFactoryImpl implements AdapterFactory {
 
 	private List<PropertiesEditingModel> editingModels;
 	private ViewHandlerProvider viewHandlerProvider;
-
-	/**
-	 * Default constructor. Initialize default editing models.
-	 */
-	public PropertiesEditingProvider() {
-		initEditingModels();
-	}
+	private EditingModelEnvironment editingModelEnvironment;
 
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#createAdapter(org.eclipse.emf.common.notify.Notifier, java.lang.Object)
 	 */
-	protected Adapter createAdapter(Notifier target, Object type) {
+	protected final Adapter createAdapter(Notifier target, Object type) {
 		return new PropertiesEditingComponentImpl(this);
 	}
 
@@ -88,13 +83,23 @@ public class PropertiesEditingProvider extends AdapterFactoryImpl implements Ada
 			return filter.size() > 0;
 		}
 	}
+	
+	/**
+	 * @return the editingModelEnvironment of this provider.
+	 */
+	public EditingModelEnvironment getEditingModelEnvironment() {
+		if (editingModelEnvironment == null) {
+			editingModelEnvironment = new EditingModelEnvironmentImpl();
+		}
+		return editingModelEnvironment;
+	}
 
 	/**
 	 * Returns the EditingModel describing the editing forms to edit the given object.
 	 * @param eObject the {@link EObject} to edit.
 	 * @return the {@link PropertiesEditingModel} to use for edit the given EObject.
 	 */
-	public PropertiesEditingModel getEditingModel(EObject eObject) {
+	public final PropertiesEditingModel getEditingModel(EObject eObject) {
 		for (PropertiesEditingModel editingModel : getEditingModels()) {
 			if (editingModel.binding(eObject) != null) {
 				return editingModel;
@@ -104,9 +109,9 @@ public class PropertiesEditingProvider extends AdapterFactoryImpl implements Ada
 	}
 
 	/**
-	 * @return the {@link ViewHandlerProvider} to use from this {@link PropertiesEditingProvider}.
+	 * @return the {@link ViewHandlerProvider} to use from this {@link AbstractPropertiesEditingProvider}.
 	 */
-	public ViewHandlerProvider getViewHandlerProvider() {
+	public final ViewHandlerProvider getViewHandlerProvider() {
 		if (viewHandlerProvider == null) {
 			viewHandlerProvider = initViewHandlerProvider();
 		}
@@ -114,14 +119,14 @@ public class PropertiesEditingProvider extends AdapterFactoryImpl implements Ada
 	}
 
 	/**
-	 * @return the specific {@link PropertiesEditingModel}s to use from this {@link PropertiesEditingProvider}.
+	 * @return the specific {@link PropertiesEditingModel}s to use from this {@link AbstractPropertiesEditingProvider}.
 	 */
 	protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
 		return Collections.emptyList();
 	}
 	
 	/**
-	 * @return the {@link ViewHandlerProvider} of this {@link PropertiesEditingProvider}.
+	 * @return the {@link ViewHandlerProvider} of this {@link AbstractPropertiesEditingProvider}.
 	 */
 	protected ViewHandlerProvider initViewHandlerProvider() {
 		return null;
@@ -129,18 +134,14 @@ public class PropertiesEditingProvider extends AdapterFactoryImpl implements Ada
 
 	/**
 	 * Compute the list of available editingModel in this context.
-	 * @return a list of {@link PropertiesEditingModel} available from this {@link PropertiesEditingProvider}.
+	 * @return a list of {@link PropertiesEditingModel} available from this {@link AbstractPropertiesEditingProvider}.
 	 */
 	private List<PropertiesEditingModel> getEditingModels() {
-		return editingModels;
-	}
-
-	private void initEditingModels() {
 		if (editingModels == null) {
 			editingModels = Lists.newArrayList();
 			editingModels.addAll(initSpecificEditingModel());
-			// Init here the default editingModels from the registry.
 		}
+		return editingModels;
 	}
 
 }

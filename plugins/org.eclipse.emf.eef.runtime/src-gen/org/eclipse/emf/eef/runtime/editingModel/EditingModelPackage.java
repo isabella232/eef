@@ -9,6 +9,7 @@ package org.eclipse.emf.eef.runtime.editingModel;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -89,13 +90,31 @@ public interface EditingModelPackage extends EPackage {
 	int PROPERTIES_EDITING_MODEL__BINDINGS = 1;
 
 	/**
+	 * The feature id for the '<em><b>Involved Models</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTIES_EDITING_MODEL__INVOLVED_MODELS = 2;
+
+	/**
+	 * The feature id for the '<em><b>Options</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTIES_EDITING_MODEL__OPTIONS = 3;
+
+	/**
 	 * The number of structural features of the '<em>Properties Editing Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTIES_EDITING_MODEL_FEATURE_COUNT = 2;
+	int PROPERTIES_EDITING_MODEL_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl <em>EClass Binding</em>}' class.
@@ -108,13 +127,22 @@ public interface EditingModelPackage extends EPackage {
 	int ECLASS_BINDING = 1;
 
 	/**
+	 * The feature id for the '<em><b>Editing Model</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ECLASS_BINDING__EDITING_MODEL = 0;
+
+	/**
 	 * The feature id for the '<em><b>EClass</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ECLASS_BINDING__ECLASS = 0;
+	int ECLASS_BINDING__ECLASS = 1;
 
 	/**
 	 * The feature id for the '<em><b>Views</b></em>' containment reference list.
@@ -123,7 +151,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ECLASS_BINDING__VIEWS = 1;
+	int ECLASS_BINDING__VIEWS = 2;
 
 	/**
 	 * The feature id for the '<em><b>Property Bindings</b></em>' containment reference list.
@@ -132,7 +160,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ECLASS_BINDING__PROPERTY_BINDINGS = 2;
+	int ECLASS_BINDING__PROPERTY_BINDINGS = 3;
 
 	/**
 	 * The number of structural features of the '<em>EClass Binding</em>' class.
@@ -141,7 +169,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ECLASS_BINDING_FEATURE_COUNT = 3;
+	int ECLASS_BINDING_FEATURE_COUNT = 4;
 
 
 	/**
@@ -359,6 +387,44 @@ public interface EditingModelPackage extends EPackage {
 	int EOBJECT_EDITOR_FEATURE_COUNT = EDITOR_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EditingOptionsImpl <em>Editing Options</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingOptionsImpl
+	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEditingOptions()
+	 * @generated
+	 */
+	int EDITING_OPTIONS = 9;
+
+	/**
+	 * The feature id for the '<em><b>Feature Documentation Provider</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITING_OPTIONS__FEATURE_DOCUMENTATION_PROVIDER = 0;
+
+	/**
+	 * The number of structural features of the '<em>Editing Options</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITING_OPTIONS_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider <em>Feature Documentation Provider</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider
+	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getFeatureDocumentationProvider()
+	 * @generated
+	 */
+	int FEATURE_DOCUMENTATION_PROVIDER = 10;
+
+	/**
 	 * The meta object id for the '<em>View Handler</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -366,7 +432,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getViewHandler()
 	 * @generated
 	 */
-	int VIEW_HANDLER = 9;
+	int VIEW_HANDLER = 11;
 
 
 	/**
@@ -402,6 +468,28 @@ public interface EditingModelPackage extends EPackage {
 	EReference getPropertiesEditingModel_Bindings();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getInvolvedModels <em>Involved Models</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Involved Models</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getInvolvedModels()
+	 * @see #getPropertiesEditingModel()
+	 * @generated
+	 */
+	EReference getPropertiesEditingModel_InvolvedModels();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getOptions <em>Options</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Options</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getOptions()
+	 * @see #getPropertiesEditingModel()
+	 * @generated
+	 */
+	EReference getPropertiesEditingModel_Options();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding <em>EClass Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -410,6 +498,17 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getEClassBinding();
+
+	/**
+	 * Returns the meta object for the container reference '{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getEditingModel <em>Editing Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Editing Model</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getEditingModel()
+	 * @see #getEClassBinding()
+	 * @generated
+	 */
+	EReference getEClassBinding_EditingModel();
 
 	/**
 	 * Returns the meta object for the reference '{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getEClass <em>EClass</em>}'.
@@ -592,6 +691,37 @@ public interface EditingModelPackage extends EPackage {
 	EReference getEObjectEditor_Definition();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.EditingOptions <em>Editing Options</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Editing Options</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingOptions
+	 * @generated
+	 */
+	EClass getEditingOptions();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.eef.runtime.editingModel.EditingOptions#getFeatureDocumentationProvider <em>Feature Documentation Provider</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Feature Documentation Provider</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingOptions#getFeatureDocumentationProvider()
+	 * @see #getEditingOptions()
+	 * @generated
+	 */
+	EAttribute getEditingOptions_FeatureDocumentationProvider();
+
+	/**
+	 * Returns the meta object for enum '{@link org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider <em>Feature Documentation Provider</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Feature Documentation Provider</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider
+	 * @generated
+	 */
+	EEnum getFeatureDocumentationProvider();
+
+	/**
 	 * Returns the meta object for data type '{@link org.eclipse.emf.eef.runtime.view.handler.ViewHandler <em>View Handler</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -651,6 +781,22 @@ public interface EditingModelPackage extends EPackage {
 		EReference PROPERTIES_EDITING_MODEL__BINDINGS = eINSTANCE.getPropertiesEditingModel_Bindings();
 
 		/**
+		 * The meta object literal for the '<em><b>Involved Models</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROPERTIES_EDITING_MODEL__INVOLVED_MODELS = eINSTANCE.getPropertiesEditingModel_InvolvedModels();
+
+		/**
+		 * The meta object literal for the '<em><b>Options</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROPERTIES_EDITING_MODEL__OPTIONS = eINSTANCE.getPropertiesEditingModel_Options();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl <em>EClass Binding</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -659,6 +805,14 @@ public interface EditingModelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ECLASS_BINDING = eINSTANCE.getEClassBinding();
+
+		/**
+		 * The meta object literal for the '<em><b>Editing Model</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ECLASS_BINDING__EDITING_MODEL = eINSTANCE.getEClassBinding_EditingModel();
 
 		/**
 		 * The meta object literal for the '<em><b>EClass</b></em>' reference feature.
@@ -809,6 +963,34 @@ public interface EditingModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EOBJECT_EDITOR__DEFINITION = eINSTANCE.getEObjectEditor_Definition();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EditingOptionsImpl <em>Editing Options</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingOptionsImpl
+		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEditingOptions()
+		 * @generated
+		 */
+		EClass EDITING_OPTIONS = eINSTANCE.getEditingOptions();
+
+		/**
+		 * The meta object literal for the '<em><b>Feature Documentation Provider</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EDITING_OPTIONS__FEATURE_DOCUMENTATION_PROVIDER = eINSTANCE.getEditingOptions_FeatureDocumentationProvider();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider <em>Feature Documentation Provider</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider
+		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getFeatureDocumentationProvider()
+		 * @generated
+		 */
+		EEnum FEATURE_DOCUMENTATION_PROVIDER = eINSTANCE.getFeatureDocumentationProvider();
 
 		/**
 		 * The meta object literal for the '<em>View Handler</em>' data type.

@@ -33,4 +33,6 @@
       </editor>
     </propertyBindings>
   </bindings>
+  <involvedModels href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.genmodel#//conference"/>
+  <options featureDocumentationProvider="EcoreDocumentation"/>
 </eef-model:PropertiesEditingModel>

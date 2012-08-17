@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.view.handler;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
@@ -60,7 +61,7 @@ public class ComposedViewHandlerProvider implements ViewHandlerProvider {
 	 * Builder for {@link ComposedViewHandlerProvider}.
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
 	 */
-	public static class Builder {
+	public static final class Builder {
 		
 		private List<ViewHandlerProvider> handlers;
 
@@ -82,14 +83,40 @@ public class ComposedViewHandlerProvider implements ViewHandlerProvider {
 		}
 		
 		/**
+		 * Add a collection of {@link ViewHandlerProvider} to this builder.
+		 * This method use {@link Builder#addHandler(ViewHandlerProvider)}.
+		 * @param specificViewHandlerProviders a collection of {@link ViewHandlerProvider} to add to this builder. 
+		 * @return this builder.
+		 */
+		public Builder addAllHandlers(Collection<ViewHandlerProvider> specificViewHandlerProviders) {
+			for (ViewHandlerProvider viewHandlerProvider : specificViewHandlerProviders) {
+				addHandler(viewHandlerProvider);
+			}
+			return this;
+		}
+
+		/**
 		 * @param handler {@link ViewHandlerProvider} to remove.
 		 * @return this builder.
 		 */
 		public Builder removeHandler(ViewHandlerProvider handler) {
-			handlers.add(handler);
+			handlers.remove(handler);
 			return this;
 		}
 		
+		/**
+		 * Remove a collection of {@link ViewHandlerProvider} to this builder.
+		 * This method use {@link Builder#removeHandler(ViewHandlerProvider)}.
+		 * @param specificViewHandlerProviders a collection of {@link ViewHandlerProvider} to remove to this builder. 
+		 * @return this builder.
+		 */
+		public Builder removeAllHandlers(Collection<ViewHandlerProvider> specificViewHandlerProviders) {
+			for (ViewHandlerProvider viewHandlerProvider : specificViewHandlerProviders) {
+				removeHandler(viewHandlerProvider);
+			}
+			return this;
+		}
+
 		/**
 		 * @return the builded {@link ComposedViewHandlerProvider}.
 		 */

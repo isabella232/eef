@@ -89,6 +89,15 @@ public interface EditingModelFactory extends EFactory {
 	EObjectEditor createEObjectEditor();
 
 	/**
+	 * Returns a new object of class '<em>Editing Options</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Editing Options</em>'.
+	 * @generated
+	 */
+	EditingOptions createEditingOptions();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

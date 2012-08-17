@@ -26,7 +26,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
@@ -81,11 +81,11 @@ public class EEFTestStuffsBuilder {
 		sampleToEdit.setName(SAMPLE_NAME_INITIALIZATION_EDITING_VIEWS_CONTEXT);
 		sampleToEdit.setActive(SAMPLE_ACTIVATION_INITIALIZATION_EDITING_VIEWS_CONTEXT);
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		adapterFactory.addAdapterFactory(new PropertiesEditingProvider() {
+		adapterFactory.addAdapterFactory(new AbstractPropertiesEditingProvider() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initSpecificEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initSpecificEditingModel()
 			 */
 			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
 				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
@@ -95,7 +95,7 @@ public class EEFTestStuffsBuilder {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initViewHandlerProvider()
+			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initViewHandlerProvider()
 			 */
 			protected ViewHandlerProvider initViewHandlerProvider() {
 				return viewHandlerProvider;
@@ -132,11 +132,11 @@ public class EEFTestStuffsBuilder {
 		// Creating model
 		EPackage sampleModel = buildEcoreSampleModel();
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		adapterFactory.addAdapterFactory(new PropertiesEditingProvider() {
+		adapterFactory.addAdapterFactory(new AbstractPropertiesEditingProvider() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initSpecificEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initSpecificEditingModel()
 			 */
 			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
 				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
@@ -146,7 +146,7 @@ public class EEFTestStuffsBuilder {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#initViewHandlerProvider()
+			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initViewHandlerProvider()
 			 */
 			protected ViewHandlerProvider initViewHandlerProvider() {
 				return viewHandlerProvider;

@@ -19,11 +19,13 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.Editor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
@@ -36,6 +38,7 @@ import org.eclipse.emf.eef.runtime.editingModel.View;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getEditingModel <em>Editing Model</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getEClass <em>EClass</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getViews <em>Views</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getPropertyBindings <em>Property Bindings</em>}</li>
@@ -92,6 +95,47 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	@Override
 	protected EClass eStaticClass() {
 		return EditingModelPackage.Literals.ECLASS_BINDING;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PropertiesEditingModel getEditingModel() {
+		if (eContainerFeatureID() != EditingModelPackage.ECLASS_BINDING__EDITING_MODEL) return null;
+		return (PropertiesEditingModel)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetEditingModel(PropertiesEditingModel newEditingModel, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newEditingModel, EditingModelPackage.ECLASS_BINDING__EDITING_MODEL, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEditingModel(PropertiesEditingModel newEditingModel) {
+		if (newEditingModel != eInternalContainer() || (eContainerFeatureID() != EditingModelPackage.ECLASS_BINDING__EDITING_MODEL && newEditingModel != null)) {
+			if (EcoreUtil.isAncestor(this, newEditingModel))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newEditingModel != null)
+				msgs = ((InternalEObject)newEditingModel).eInverseAdd(this, EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS, PropertiesEditingModel.class, msgs);
+			msgs = basicSetEditingModel(newEditingModel, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.ECLASS_BINDING__EDITING_MODEL, newEditingModel, newEditingModel));
 	}
 
 	/**
@@ -237,8 +281,26 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case EditingModelPackage.ECLASS_BINDING__EDITING_MODEL:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetEditingModel((PropertiesEditingModel)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case EditingModelPackage.ECLASS_BINDING__EDITING_MODEL:
+				return basicSetEditingModel(null, msgs);
 			case EditingModelPackage.ECLASS_BINDING__VIEWS:
 				return ((InternalEList<?>)getViews()).basicRemove(otherEnd, msgs);
 			case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
@@ -253,8 +315,24 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case EditingModelPackage.ECLASS_BINDING__EDITING_MODEL:
+				return eInternalContainer().eInverseRemove(this, EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS, PropertiesEditingModel.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case EditingModelPackage.ECLASS_BINDING__EDITING_MODEL:
+				return getEditingModel();
 			case EditingModelPackage.ECLASS_BINDING__ECLASS:
 				if (resolve) return getEClass();
 				return basicGetEClass();
@@ -275,6 +353,9 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case EditingModelPackage.ECLASS_BINDING__EDITING_MODEL:
+				setEditingModel((PropertiesEditingModel)newValue);
+				return;
 			case EditingModelPackage.ECLASS_BINDING__ECLASS:
 				setEClass((EClass)newValue);
 				return;
@@ -298,6 +379,9 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case EditingModelPackage.ECLASS_BINDING__EDITING_MODEL:
+				setEditingModel((PropertiesEditingModel)null);
+				return;
 			case EditingModelPackage.ECLASS_BINDING__ECLASS:
 				setEClass((EClass)null);
 				return;
@@ -319,6 +403,8 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case EditingModelPackage.ECLASS_BINDING__EDITING_MODEL:
+				return getEditingModel() != null;
 			case EditingModelPackage.ECLASS_BINDING__ECLASS:
 				return eClass != null;
 			case EditingModelPackage.ECLASS_BINDING__VIEWS:

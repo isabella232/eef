@@ -20,6 +20,8 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getBindings <em>Bindings</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getInvolvedModels <em>Involved Models</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getOptions <em>Options</em>}</li>
  * </ul>
  * </p>
  *
@@ -57,6 +59,7 @@ public interface PropertiesEditingModel extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Bindings</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding}.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getEditingModel <em>Editing Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Bindings</em>' containment reference list isn't clear,
@@ -65,10 +68,53 @@ public interface PropertiesEditingModel extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Bindings</em>' containment reference list.
 	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertiesEditingModel_Bindings()
-	 * @model containment="true"
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getEditingModel
+	 * @model opposite="editingModel" containment="true"
 	 * @generated
 	 */
 	EList<EClassBinding> getBindings();
+
+	/**
+	 * Returns the value of the '<em><b>Involved Models</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Involved Models</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Involved Models</em>' reference list.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertiesEditingModel_InvolvedModels()
+	 * @model
+	 * @generated
+	 */
+	EList<EObject> getInvolvedModels();
+
+	/**
+	 * Returns the value of the '<em><b>Options</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Options</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Options</em>' containment reference.
+	 * @see #setOptions(EditingOptions)
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertiesEditingModel_Options()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EditingOptions getOptions();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getOptions <em>Options</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Options</em>' containment reference.
+	 * @see #getOptions()
+	 * @generated
+	 */
+	void setOptions(EditingOptions value);
 
 	/**
 	 * <!-- begin-user-doc -->

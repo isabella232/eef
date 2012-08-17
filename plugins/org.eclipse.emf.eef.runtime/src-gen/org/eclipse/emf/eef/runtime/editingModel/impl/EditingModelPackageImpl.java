@@ -9,6 +9,7 @@ package org.eclipse.emf.eef.runtime.editingModel.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
@@ -20,7 +21,9 @@ import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.Editor;
+import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
@@ -97,6 +100,20 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * @generated
 	 */
 	private EClass eObjectEditorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass editingOptionsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum featureDocumentationProviderEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -201,6 +218,24 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getPropertiesEditingModel_InvolvedModels() {
+		return (EReference)propertiesEditingModelEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPropertiesEditingModel_Options() {
+		return (EReference)propertiesEditingModelEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getEClassBinding() {
 		return eClassBindingEClass;
 	}
@@ -210,7 +245,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEClassBinding_EClass() {
+	public EReference getEClassBinding_EditingModel() {
 		return (EReference)eClassBindingEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -219,7 +254,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEClassBinding_Views() {
+	public EReference getEClassBinding_EClass() {
 		return (EReference)eClassBindingEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -228,8 +263,17 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEClassBinding_PropertyBindings() {
+	public EReference getEClassBinding_Views() {
 		return (EReference)eClassBindingEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getEClassBinding_PropertyBindings() {
+		return (EReference)eClassBindingEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -363,6 +407,33 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getEditingOptions() {
+		return editingOptionsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getEditingOptions_FeatureDocumentationProvider() {
+		return (EAttribute)editingOptionsEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getFeatureDocumentationProvider() {
+		return featureDocumentationProviderEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getViewHandler() {
 		return viewHandlerEDataType;
 	}
@@ -398,8 +469,11 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		propertiesEditingModelEClass = createEClass(PROPERTIES_EDITING_MODEL);
 		createEAttribute(propertiesEditingModelEClass, PROPERTIES_EDITING_MODEL__NAME);
 		createEReference(propertiesEditingModelEClass, PROPERTIES_EDITING_MODEL__BINDINGS);
+		createEReference(propertiesEditingModelEClass, PROPERTIES_EDITING_MODEL__INVOLVED_MODELS);
+		createEReference(propertiesEditingModelEClass, PROPERTIES_EDITING_MODEL__OPTIONS);
 
 		eClassBindingEClass = createEClass(ECLASS_BINDING);
+		createEReference(eClassBindingEClass, ECLASS_BINDING__EDITING_MODEL);
 		createEReference(eClassBindingEClass, ECLASS_BINDING__ECLASS);
 		createEReference(eClassBindingEClass, ECLASS_BINDING__VIEWS);
 		createEReference(eClassBindingEClass, ECLASS_BINDING__PROPERTY_BINDINGS);
@@ -424,6 +498,12 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 
 		eObjectEditorEClass = createEClass(EOBJECT_EDITOR);
 		createEReference(eObjectEditorEClass, EOBJECT_EDITOR__DEFINITION);
+
+		editingOptionsEClass = createEClass(EDITING_OPTIONS);
+		createEAttribute(editingOptionsEClass, EDITING_OPTIONS__FEATURE_DOCUMENTATION_PROVIDER);
+
+		// Create enums
+		featureDocumentationProviderEEnum = createEEnum(FEATURE_DOCUMENTATION_PROVIDER);
 
 		// Create data types
 		viewHandlerEDataType = createEDataType(VIEW_HANDLER);
@@ -469,7 +549,9 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		// Initialize classes and features; add operations and parameters
 		initEClass(propertiesEditingModelEClass, PropertiesEditingModel.class, "PropertiesEditingModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPropertiesEditingModel_Name(), ecorePackage.getEString(), "name", null, 0, 1, PropertiesEditingModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPropertiesEditingModel_Bindings(), this.getEClassBinding(), null, "bindings", null, 0, -1, PropertiesEditingModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPropertiesEditingModel_Bindings(), this.getEClassBinding(), this.getEClassBinding_EditingModel(), "bindings", null, 0, -1, PropertiesEditingModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPropertiesEditingModel_InvolvedModels(), theEcorePackage.getEObject(), null, "involvedModels", null, 0, -1, PropertiesEditingModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPropertiesEditingModel_Options(), this.getEditingOptions(), null, "options", null, 0, 1, PropertiesEditingModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(propertiesEditingModelEClass, this.getEClassBinding(), "binding", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theEcorePackage.getEObject(), "eObject", 1, 1, IS_UNIQUE, IS_ORDERED);
@@ -486,6 +568,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		initEOperation(op, g1);
 
 		initEClass(eClassBindingEClass, EClassBinding.class, "EClassBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getEClassBinding_EditingModel(), this.getPropertiesEditingModel(), this.getPropertiesEditingModel_Bindings(), "editingModel", null, 1, 1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEClassBinding_EClass(), theEcorePackage.getEClass(), null, "eClass", null, 1, 1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEClassBinding_Views(), this.getView(), null, "views", null, 0, -1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEClassBinding_PropertyBindings(), this.getPropertyBinding(), null, "propertyBindings", null, 0, -1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -521,6 +604,14 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 
 		initEClass(eObjectEditorEClass, EObjectEditor.class, "EObjectEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEObjectEditor_Definition(), theEcorePackage.getEObject(), null, "definition", null, 1, 1, EObjectEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(editingOptionsEClass, EditingOptions.class, "EditingOptions", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getEditingOptions_FeatureDocumentationProvider(), this.getFeatureDocumentationProvider(), "featureDocumentationProvider", null, 0, 1, EditingOptions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(featureDocumentationProviderEEnum, FeatureDocumentationProvider.class, "FeatureDocumentationProvider");
+		addEEnumLiteral(featureDocumentationProviderEEnum, FeatureDocumentationProvider.GENMODEL_PROPERTY_DESCRIPTION);
+		addEEnumLiteral(featureDocumentationProviderEEnum, FeatureDocumentationProvider.ECORE_DOCUMENTATION);
 
 		// Initialize data types
 		initEDataType(viewHandlerEDataType, ViewHandler.class, "ViewHandler", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

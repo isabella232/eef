@@ -72,6 +72,7 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 			case EditingModelPackage.EOBJECT_VIEW: return createEObjectView();
 			case EditingModelPackage.JAVA_EDITOR: return createJavaEditor();
 			case EditingModelPackage.EOBJECT_EDITOR: return createEObjectEditor();
+			case EditingModelPackage.EDITING_OPTIONS: return createEditingOptions();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -85,6 +86,8 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
+			case EditingModelPackage.FEATURE_DOCUMENTATION_PROVIDER:
+				return createFeatureDocumentationProviderFromString(eDataType, initialValue);
 			case EditingModelPackage.VIEW_HANDLER:
 				return createViewHandlerFromString(eDataType, initialValue);
 			default:
@@ -100,6 +103,8 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
+			case EditingModelPackage.FEATURE_DOCUMENTATION_PROVIDER:
+				return convertFeatureDocumentationProviderToString(eDataType, instanceValue);
 			case EditingModelPackage.VIEW_HANDLER:
 				return convertViewHandlerToString(eDataType, instanceValue);
 			default:
@@ -175,6 +180,36 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 	public EObjectEditor createEObjectEditor() {
 		EObjectEditorImpl eObjectEditor = new EObjectEditorImpl();
 		return eObjectEditor;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EditingOptions createEditingOptions() {
+		EditingOptionsImpl editingOptions = new EditingOptionsImpl();
+		return editingOptions;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FeatureDocumentationProvider createFeatureDocumentationProviderFromString(EDataType eDataType, String initialValue) {
+		FeatureDocumentationProvider result = FeatureDocumentationProvider.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertFeatureDocumentationProviderToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**
