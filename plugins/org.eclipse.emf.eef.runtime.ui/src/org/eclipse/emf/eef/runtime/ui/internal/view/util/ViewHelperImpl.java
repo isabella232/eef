@@ -225,9 +225,11 @@ public class ViewHelperImpl implements ViewHelper {
 			if (options == null || options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.GENMODEL_PROPERTY_DESCRIPTION) {
 				EditingModelEnvironment editingModelEnvironment = editingComponent.getEditingModelEnvironment();
 				GenFeature genFeature = editingModelEnvironment.genFeature(feature);
-				String documentation = genFeature.getPropertyDescription();
-				if (documentation != null && documentation.length() > 0) {
-					return documentation;
+				if (genFeature != null) {
+					String documentation = genFeature.getPropertyDescription();
+					if (documentation != null && documentation.length() > 0) {
+						return documentation;
+					}
 				}
 			} else {
 				if (options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.ECORE_DOCUMENTATION) {
