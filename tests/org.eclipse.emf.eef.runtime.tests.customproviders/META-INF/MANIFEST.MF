@@ -9,4 +9,4 @@ Import-Package: org.eclipse.emf.eef.runtime.services,
  org.eclipse.emf.eef.runtime.util,
  org.osgi.framework
 Require-Bundle: org.eclipse.emf.ecore
-Bundle-Activator: org.eclipse.emf.eef.runtime.custom.CustomProviderActivator
+Service-Component: OSGI-INF/EMFServiceCustom.xml
