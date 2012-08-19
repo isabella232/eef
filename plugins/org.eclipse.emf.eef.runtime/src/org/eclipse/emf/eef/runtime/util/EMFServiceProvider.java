@@ -18,6 +18,6 @@ public interface EMFServiceProvider {
 	 * @param ePackage filtering {@link EPackage}.
 	 * @return {@link EMFService}.
 	 */
-EMFService getEMFServiceForPackage(EPackage ePackage);
+	EMFService getEMFServiceForPackage(EPackage ePackage);
 
 }

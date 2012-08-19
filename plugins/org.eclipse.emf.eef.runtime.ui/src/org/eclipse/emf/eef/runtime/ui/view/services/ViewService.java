@@ -8,13 +8,20 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.eef.runtime.ui.view;
+package org.eclipse.emf.eef.runtime.ui.view.services;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
+import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.services.EEFService;
+import org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManager;
+import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -25,7 +32,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface ViewHelper {
+public interface ViewService extends EEFService<View> {
 	
 	/**
 	 * Defines the constant for an unknown EEF representation type.
@@ -43,7 +50,7 @@ public interface ViewHelper {
 	String EEF_WIDGET_TYPE_KEY = "org.eclipse.emf.eef.widgets.type";
 
 	/**
-	 * Set the toolkit to use for creating widgets
+	 * Sets the toolkit to use for creating widgets
 	 * @param toolkit widget factory.
 	 */
 	void setToolkit(FormToolkit toolkit);
@@ -52,6 +59,12 @@ public interface ViewHelper {
 	 * @return the {@link PropertiesEditingComponent} of this helper.
 	 */
 	PropertiesEditingComponent getEditingComponent();
+	
+	/**
+	 * Sets the {@link PropertiesEditingComponent} for this helper.
+	 * @param editingComponent {@link PropertiesEditingModel} of the helper.
+	 */
+	void setEditingComponent(PropertiesEditingComponent editingComponent);
 	
 	/**
 	 * Return the label text for a given editor.
@@ -80,6 +93,18 @@ public interface ViewHelper {
 	 */
 	Control createHelpButton(final Composite parent, Object editor);
 
+	/**
+	 * Returns documentation about the feature binded to the given editor. There is two strategies for getting this documentation:
+	 * 	- getting the property description of the {@link GenFeature} associated
+	 *  - getting the ecore documentation of the feature
+	 * The choice of strategy is defined by the {@link EditingOptions} of the {@link PropertiesEditingMessageManager}:
+	 * 	- if the options are null or the {@link FeatureDocumentationProvider#GENMODEL_PROPERTY_DESCRIPTION} value is set, the first strategy is chosen
+	 *  - if the {@link FeatureDocumentationProvider#ECORE_DOCUMENTATION} value is set, the second strategy is chosen
+	 * @param editor which to get the documentation.
+	 * @return the found documentation if exists, <code>null</code> otherwise.
+	 */
+	String getHelpContent(Object editor);
+	
 	/**
 	 * Return the ID of a widget
 	 * 

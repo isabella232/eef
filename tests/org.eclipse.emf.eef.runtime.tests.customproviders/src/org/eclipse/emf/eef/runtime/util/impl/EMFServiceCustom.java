@@ -19,10 +19,10 @@ public class EMFServiceCustom implements EMFService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EPackageService#serviceForPackage()
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public EPackage serviceForPackage() {
-		return EcorePackage.eINSTANCE;
+	public boolean serviceFor(EPackage element) {
+		return element == EcorePackage.eINSTANCE;
 	}
 
 	/**

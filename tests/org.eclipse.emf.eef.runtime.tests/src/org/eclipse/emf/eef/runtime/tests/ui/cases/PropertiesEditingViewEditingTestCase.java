@@ -110,6 +110,7 @@ public abstract class PropertiesEditingViewEditingTestCase extends TestCase {
 	 */
 	protected void initUI() {
 		context = buildEditingContext();
+		component = context.getEditingComponent();
 		shell = new Shell();
 		shell.setLayout (new FillLayout());
 		Composite composite = new Composite(shell, SWT.NONE);

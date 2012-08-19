@@ -63,13 +63,13 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 	 */
 	public void build(Composite parent) {
 		checkbox = new Button(parent, SWT.CHECK);
-		checkbox.setText(view.getViewHelper().getDescription(elementEditor, elementEditor.getName()));
+		checkbox.setText(view.getViewService().getDescription(elementEditor, elementEditor.getName()));
 		GridData checkboxData = new GridData(GridData.FILL_HORIZONTAL);
 		checkboxData.horizontalSpan = 2;
 		checkbox.setLayoutData(checkboxData);
-		view.getViewHelper().setID(checkbox, elementEditor.getQualifiedIdentifier());
-		view.getViewHelper().setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
-		view.getViewHelper().createHelpButton(parent, elementEditor);
+		view.getViewService().setID(checkbox, elementEditor.getQualifiedIdentifier());
+		view.getViewService().setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
+		view.getViewService().createHelpButton(parent, elementEditor);
 	}
 
 }

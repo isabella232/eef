@@ -62,13 +62,13 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(FormToolkit toolkit, Composite parent) {
-		checkbox = toolkit.createButton(parent, view.getViewHelper().getDescription(elementEditor, elementEditor.getName()), SWT.CHECK);
+		checkbox = toolkit.createButton(parent, view.getViewService().getDescription(elementEditor, elementEditor.getName()), SWT.CHECK);
 		GridData checkboxData = new GridData(GridData.FILL_HORIZONTAL);
 		checkboxData.horizontalSpan = 2;
 		checkbox.setLayoutData(checkboxData);
-		view.getViewHelper().setID(checkbox, elementEditor.getQualifiedIdentifier());
-		view.getViewHelper().setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
-		view.getViewHelper().createHelpButton(parent, elementEditor);
+		view.getViewService().setID(checkbox, elementEditor.getQualifiedIdentifier());
+		view.getViewService().setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
+		view.getViewService().createHelpButton(parent, elementEditor);
 	}
 
 }

@@ -33,9 +33,9 @@ public abstract class StandardSWTPropertyEditor<VIEWER extends Viewer> implement
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(Composite parent) {
-		view.getViewHelper().createLabel(parent, elementEditor, elementEditor.getName());
+		view.getViewService().createLabel(parent, elementEditor, elementEditor.getName());
 		createEditorContents(parent);
-		view.getViewHelper().createHelpButton(parent, elementEditor);
+		view.getViewService().createHelpButton(parent, elementEditor);
 	}
 
 	/**

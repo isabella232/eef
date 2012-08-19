@@ -35,8 +35,8 @@ public class TextSWTPropertyEditor extends StandardSWTControlPropertyEditor<Text
 		text = new Text(parent, SWT.BORDER);
 		GridData nameData = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(nameData);
-		view.getViewHelper().setID(text, elementEditor.getQualifiedIdentifier());
-		view.getViewHelper().setEEFtype(text, "eef::Text"); //$NON-NLS-1$
+		view.getViewService().setID(text, elementEditor.getQualifiedIdentifier());
+		view.getViewService().setEEFtype(text, "eef::Text"); //$NON-NLS-1$
 	}
 
 	/**

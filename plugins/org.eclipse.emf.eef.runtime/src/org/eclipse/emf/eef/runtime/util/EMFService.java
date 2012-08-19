@@ -7,13 +7,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.services.EPackageService;
+import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface EMFService extends EPackageService {
+public interface EMFService extends EEFService<EPackage> {
 	
 	/**
 	 * Compares two EClass by trying to use the EPackage.Registry.

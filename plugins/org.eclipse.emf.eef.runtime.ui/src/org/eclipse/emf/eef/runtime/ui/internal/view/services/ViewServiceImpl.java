@@ -9,7 +9,7 @@
  *     Obeo - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.emf.eef.runtime.ui.internal.view.util;
+package org.eclipse.emf.eef.runtime.ui.internal.view.services;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EObject;
@@ -25,7 +25,9 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
-import org.eclipse.emf.eef.runtime.ui.view.ViewHelper;
+import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
+import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
+import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -44,7 +46,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  * TODO: manage a Semanticless mode.
  */
-public class ViewHelperImpl implements ViewHelper {
+public class ViewServiceImpl implements ViewService, DefaultService {
 		
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
@@ -59,23 +61,32 @@ public class ViewHelperImpl implements ViewHelper {
 	/**
 	 * Creates a semanticless helper.
 	 */
-	public ViewHelperImpl() { }
+	public ViewServiceImpl() { }
 
 	/**
-	 * @param editingComponent
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public ViewHelperImpl(PropertiesEditingComponent editingComponent) {
-		this.editingComponent = editingComponent;
+	public boolean serviceFor(View element) {
+		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#getEditingComponent()
+	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#getEditingComponent()
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
 		return editingComponent;
 	}
  
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#setEditingComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 */
+	public void setEditingComponent(PropertiesEditingComponent editingComponent) {
+		this.editingComponent = editingComponent;
+	}
+
 	/**
 	 * @param toolkit the toolkit to set
 	 */
@@ -85,7 +96,7 @@ public class ViewHelperImpl implements ViewHelper {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.parts.ViewHelper#createLabel(org.eclipse.swt.widgets.Composite, java.lang.Object, java.lang.String)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService.ViewHelper#createLabel(org.eclipse.swt.widgets.Composite, java.lang.Object, java.lang.String)
 	 */
 	public Label createLabel(Composite parent, Object editor, String alternate) {
 		String text = getDescription(editor, alternate);
@@ -108,7 +119,7 @@ public class ViewHelperImpl implements ViewHelper {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.parts.ViewHelper#getDescription(java.lang.Object, java.lang.String)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService.ViewHelper#getDescription(java.lang.Object, java.lang.String)
 	 */
 	public String getDescription(Object editor, String alternate) {
 		String text = alternate;
@@ -127,7 +138,7 @@ public class ViewHelperImpl implements ViewHelper {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.parts.ViewHelper#createHelpButton(org.eclipse.swt.widgets.Composite, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService.ViewHelper#createHelpButton(org.eclipse.swt.widgets.Composite, java.lang.Object)
 	 */
 	@SuppressWarnings("unused")
 	public Control createHelpButton(Composite parent, Object editor ) {
@@ -161,7 +172,7 @@ public class ViewHelperImpl implements ViewHelper {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#setID(org.eclipse.swt.widgets.Control, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#setID(org.eclipse.swt.widgets.Control, java.lang.Object)
 	 */
 	public void setID(Control widget, Object value) {
 		if (widget != null)
@@ -170,7 +181,7 @@ public class ViewHelperImpl implements ViewHelper {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#getID(org.eclipse.swt.widgets.Control)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#getID(org.eclipse.swt.widgets.Control)
 	 */
 	public Object getID(Control widget) {
 		if (widget != null)
@@ -180,7 +191,7 @@ public class ViewHelperImpl implements ViewHelper {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#setEEFtype(org.eclipse.swt.widgets.Control, java.lang.String)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#setEEFtype(org.eclipse.swt.widgets.Control, java.lang.String)
 	 */
 	public void setEEFtype(Control widget, String value) {
 		if (widget != null)
@@ -189,7 +200,7 @@ public class ViewHelperImpl implements ViewHelper {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#getEEFType(org.eclipse.swt.widgets.Control)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#getEEFType(org.eclipse.swt.widgets.Control)
 	 */
 	public String getEEFType(Control widget) {
 		if (widget != null) {
@@ -209,16 +220,10 @@ public class ViewHelperImpl implements ViewHelper {
 	}
 
 	/**
-	 * Returns documentation about the feature binded to the given editor. There is two strategies for getting this documentation:
-	 * 	- getting the property description of the {@link GenFeature} associated
-	 *  - getting the ecore documentation of the feature
-	 * The choice of strategy is defined by the {@link EditingOptions} of the {@link PropertiesEditingMessageManager}:
-	 * 	- if the options are null or the {@link FeatureDocumentationProvider#GENMODEL_PROPERTY_DESCRIPTION} value is set, the first strategy is chosen
-	 *  - if the {@link FeatureDocumentationProvider#ECORE_DOCUMENTATION} value is set, the second strategy is chosen
-	 * @param editor which to get the documentation.
-	 * @return the found documentation if exists, <code>null</code> otherwise.
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#getHelpContent(java.lang.Object)
 	 */
-	private String getHelpContent(Object editor) {
+	public String getHelpContent(Object editor) {
 		EStructuralFeature feature = editingComponent.getBinding().feature(editor, editingComponent.getEditingContext().getOptions().autowire());
 		if (feature != null) {
 			EditingOptions options = editingComponent.getBinding().getEditingModel().getOptions();
@@ -245,7 +250,7 @@ public class ViewHelperImpl implements ViewHelper {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#getBestInput(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#getBestInput(java.lang.Object)
 	 */
 	public Object getBestInput(Object sourceInput) {
 		Resource resource = null;
@@ -270,7 +275,7 @@ public class ViewHelperImpl implements ViewHelper {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewHelper#getEditingDomain(org.eclipse.ui.IWorkbenchPart)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#getEditingDomain(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public EditingDomain getEditingDomain(IWorkbenchPart part) {
 		EditingDomain editingDomain = null;

@@ -10,7 +10,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Diagnostician;
-import org.eclipse.emf.eef.runtime.services.EPackageRegistryTracker;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistryTracker;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.osgi.framework.BundleContext;
@@ -62,7 +62,7 @@ public class EEFRuntime extends EMFPlugin {
 	public static class Plugin extends EclipsePlugin {
 
 		private Diagnostician diagnostician;
-		private EPackageRegistryTracker<EMFServiceProvider> tracker;
+		private EEFServiceRegistryTracker<EMFServiceProvider> tracker;
 
 		/**
 		 * {@inheritDoc}
@@ -70,7 +70,7 @@ public class EEFRuntime extends EMFPlugin {
 		 */
 		public void start(BundleContext context) throws Exception {
 			super.start(context);
-			tracker = new EPackageRegistryTracker<EMFServiceProvider>(context, EMFServiceProvider.class);
+			tracker = new EEFServiceRegistryTracker<EMFServiceProvider>(context, EMFServiceProvider.class);
 			tracker.open();
 		}
 

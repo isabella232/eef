@@ -7,7 +7,12 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistryTracker;
+import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
+import org.eclipse.emf.eef.runtime.ui.view.services.ViewServiceRegistry;
+import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.graphics.Image;
+import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -65,6 +70,7 @@ public class EEFRuntimeUI extends EMFPlugin {
 	public static class Plugin extends EclipsePlugin {
 
 		private AdapterFactory adapterFactory;
+		private EEFServiceRegistryTracker<ViewServiceRegistry> tracker;
 
 		/**
 		 * Creates an instance.
@@ -77,6 +83,36 @@ public class EEFRuntimeUI extends EMFPlugin {
 			plugin = this;
 		}
 		
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.core.runtime.Plugin#start(org.osgi.framework.BundleContext)
+		 */
+		@Override
+		public void start(BundleContext context) throws Exception {
+			super.start(context);
+			tracker = new EEFServiceRegistryTracker<ViewServiceRegistry>(context, ViewServiceRegistry.class);
+			tracker.open();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
+		 */
+		@Override
+		public void stop(BundleContext context) throws Exception {
+			super.stop(context);
+			tracker.close();
+		}
+		
+		/**
+		 * Return the {@link ViewService} associated to the given view.
+		 * @param view context {@link View}.
+		 * @return the {@link ViewService} to use.
+		 */
+		public ViewService getViewService(View view) {
+			return tracker.getService().getServiceForView(view);
+		}
+
 		/**
 		 * Log an error in the plugin.
 		 * @param message error message.

@@ -8,20 +8,21 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EMFServiceImpl implements EMFService {
+public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EPackageService#serviceForPackage()
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public EPackage serviceForPackage() {
-		return EMFServiceRegistry.defaultPackage;
+	public boolean serviceFor(EPackage element) {
+		return true;
 	}
 
 	/**

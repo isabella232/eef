@@ -11,15 +11,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewHelperImpl;
+import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewSettingsImpl;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.ViewHelper;
 import org.eclipse.emf.eef.runtime.ui.view.ViewSettings;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
@@ -39,7 +39,7 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	
 	protected Map<ElementEditor, PropertyEditor> propertyEditors;
 	protected Composite contentsComposite;
-	protected ViewHelperImpl helper;
+	protected ViewService service;
 	
 	/**
 	 * Non-parameterized constructor for {@link SectionPropertiesEditingView} purpose.
@@ -67,17 +67,16 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewHelper()
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewService()
 	 */
-	public ViewHelper getViewHelper() {
-		if (editingComponent != null) {
-			if (helper == null || editingComponent != helper.getEditingComponent()) {
-				helper = new ViewHelperImpl(editingComponent);
-			}
-			return helper;
-		} else {
-			return new ViewHelperImpl();
+	public ViewService getViewService() {
+		if (service == null) {
+			service = EEFRuntimeUI.getPlugin().getViewService(viewDescriptor);
 		}
+		if (editingComponent != null && editingComponent != service.getEditingComponent()) {
+			service.setEditingComponent(editingComponent);
+		}
+		return service;
 	}
 
 	/**

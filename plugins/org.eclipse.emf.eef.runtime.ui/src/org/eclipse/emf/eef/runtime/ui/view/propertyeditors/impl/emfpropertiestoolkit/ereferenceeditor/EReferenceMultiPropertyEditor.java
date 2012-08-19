@@ -192,7 +192,7 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 								(EObject) view.getEditingComponent().getTarget(), 
 								EReferenceMultiPropertyEditor.this.feature, 
 								view.getViewSettings().getSelectionMode()));
-				dialog.setInput(view.getViewHelper().getBestInput(view.getEditingComponent().getTarget()));
+				dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getTarget()));
 				if (dialog.open() == Window.OK) {
 					if (dialog.getSelection() != null) {
 						if (dialog.getSelection() instanceof Collection<?>) {

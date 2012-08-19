@@ -114,7 +114,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	 * @see org.eclipse.ui.views.properties.tabbed.ISection#setInput(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void setInput(IWorkbenchPart part, ISelection selection) {
-		this.editingDomain = getViewHelper().getEditingDomain(part);
+		this.editingDomain = getViewService().getEditingDomain(part);
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
 		}

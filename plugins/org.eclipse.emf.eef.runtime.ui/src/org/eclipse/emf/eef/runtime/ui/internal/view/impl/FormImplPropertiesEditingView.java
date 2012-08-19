@@ -8,9 +8,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.view.FormPropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.ViewHelper;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.layout.GridLayout;
@@ -64,12 +64,12 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 	}
 
 	/**
-	 * Initialize the {@link FormToolkit} of the {@link ViewHelper}
+	 * Initialize the {@link FormToolkit} of the {@link ViewService}
 	 */
 	protected void initToolkit() {
 		FormToolkit toolkit = getEditingComponent().getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
-			getViewHelper().setToolkit(toolkit);
+			getViewService().setToolkit(toolkit);
 		}
 	}
 	

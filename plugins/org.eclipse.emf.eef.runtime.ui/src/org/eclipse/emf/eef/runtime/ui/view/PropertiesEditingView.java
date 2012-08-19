@@ -8,6 +8,7 @@ import java.util.Collection;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -22,9 +23,9 @@ public interface PropertiesEditingView extends PropertiesEditingListener {
 	PropertiesEditingComponent getEditingComponent();
 	
 	/**
-	 * @return the {@link ViewHelper} for the view.
+	 * @return the {@link ViewService} for the view.
 	 */
-	ViewHelper getViewHelper();
+	ViewService getViewService();
 	
 	/**
 	 * @return the {@link ViewSettings} for the view.

@@ -38,8 +38,8 @@ public class TextFormPropertyEditor extends StandardFormControlPropertyEditor<Te
 		toolkit.paintBordersFor(parent);
 		GridData nameData = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(nameData);
-		view.getViewHelper().setID(text, elementEditor.getQualifiedIdentifier());
-		view.getViewHelper().setEEFtype(text, "eef::Text"); //$NON-NLS-1$
+		view.getViewService().setID(text, elementEditor.getQualifiedIdentifier());
+		view.getViewService().setEEFtype(text, "eef::Text"); //$NON-NLS-1$
 	}
 
 	/**
