@@ -25,8 +25,6 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
-import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
-import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider;
@@ -89,13 +87,10 @@ public class FeatureDocumentationTests {
 			@Override
 			protected PropertiesEditingModel getEditingModel() {
 				PropertiesEditingModel editingModel = new EditingModelBuilder()
+															.setDocumentationProvider(FeatureDocumentationProvider.ECORE_DOCUMENTATION)
 															.bindClass(sampleEClass)
 																.withView(eclassView)
-															.build();
-				EditingOptions editingOptions = EditingModelFactory.eINSTANCE.createEditingOptions();
-				editingOptions.setFeatureDocumentationProvider(FeatureDocumentationProvider.ECORE_DOCUMENTATION);
-				editingModel.setOptions(editingOptions);
-				
+															.build();				
 				return editingModel;
 			}
 			
@@ -160,10 +155,10 @@ public class FeatureDocumentationTests {
 				final Resource genmodelResource = rset.getResource(URI.createPlatformPluginURI(ECORE_GENMODEL_URI, true), true);
 				EClass sampleEClass = getEClassEClassFromResourceSet(rset);
 				PropertiesEditingModel editingModel = new EditingModelBuilder()
+															.addInvolvedModel(genmodelResource.getContents().get(0))
 															.bindClass(sampleEClass)
 																.withView(eclassView)
 															.build();
-				editingModel.getInvolvedModels().add(genmodelResource.getContents().get(0));
 				return editingModel;
 			}
 			

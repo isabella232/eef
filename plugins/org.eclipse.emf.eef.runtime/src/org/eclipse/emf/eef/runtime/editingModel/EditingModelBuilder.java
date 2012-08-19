@@ -3,7 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.editingModel;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -12,6 +11,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
+import com.google.common.collect.Lists;
+
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
@@ -19,9 +20,13 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 public class EditingModelBuilder {
 
 	private Collection<EClassBindingBuilder> bindingBuilders;
+	private FeatureDocumentationProvider documentationProvider;
+	private Collection<EObject> involvedModels;
 
 	public EditingModelBuilder() {
-		this.bindingBuilders = new ArrayList<EClassBindingBuilder>();
+		this.bindingBuilders = Lists.newArrayList();
+		this.documentationProvider = null;
+		this.involvedModels = Lists.newArrayList();
 	}
 
 	public PropertiesEditingModel build() {
@@ -32,6 +37,14 @@ public class EditingModelBuilder {
 				result.getBindings().add(binding);
 			}
 		}
+		if (documentationProvider != null && documentationProvider == FeatureDocumentationProvider.ECORE_DOCUMENTATION) {
+			EditingOptions options = EditingModelFactory.eINSTANCE.createEditingOptions();
+			options.setFeatureDocumentationProvider(documentationProvider);
+			result.setOptions(options);
+		}
+		for (EObject model : involvedModels) {
+			result.getInvolvedModels().add(model);
+		}
 		return result;
 	}
 
@@ -39,6 +52,16 @@ public class EditingModelBuilder {
 		EClassBindingBuilder builder = new EClassBindingBuilder(this, eClass);
 		bindingBuilders.add(builder);
 		return builder;
+	}
+	
+	public EditingModelBuilder setDocumentationProvider(FeatureDocumentationProvider provider) {
+		this.documentationProvider = provider;
+		return this;
+	}
+	
+	public EditingModelBuilder addInvolvedModel(EObject model) {
+		this.involvedModels.add(model);
+		return this;
 	}
 
 	public class EClassBindingBuilder {
@@ -50,8 +73,8 @@ public class EditingModelBuilder {
 
 		private EClassBindingBuilder(EditingModelBuilder parentBuilder, EClass eClass) {
 			this.parentBuilder = parentBuilder;
-			this.propertyBuilders = new ArrayList<EditingModelBuilder.PropertyBindingBuilder>();
-			this.viewBuilders = new ArrayList<EClassViewBindingBuilder>();
+			this.propertyBuilders = Lists.newArrayList();
+			this.viewBuilders = Lists.newArrayList();
 			this.eClass = eClass;
 		}
 
