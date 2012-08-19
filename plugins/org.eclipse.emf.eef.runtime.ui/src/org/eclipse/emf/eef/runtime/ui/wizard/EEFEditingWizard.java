@@ -3,10 +3,16 @@
  */
 package org.eclipse.emf.eef.runtime.ui.wizard;
 
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
+import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
+import org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -21,6 +27,8 @@ import org.eclipse.swt.widgets.Composite;
 public class EEFEditingWizard extends Wizard {
 
 	private PropertiesEditingContext context;
+	private PropertiesEditingWizardPage editingPage;
+	private PropertiesEditingMessageManager messageManager;
 
 	/**
 	 * @param context {@link PropertiesEditingContext} to use in this wizard.
@@ -28,6 +36,7 @@ public class EEFEditingWizard extends Wizard {
 	public EEFEditingWizard(PropertiesEditingContext context) {
 		this.context = context;
 		this.setWindowTitle(((EObject)context.getEditingComponent().getTarget()).eClass().getName());
+		initMessageManager();
 	}
 
 	/**
@@ -35,7 +44,7 @@ public class EEFEditingWizard extends Wizard {
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
 	public void addPages() {
-		PropertiesEditingWizardPage editingPage = new PropertiesEditingWizardPage();
+		editingPage = new PropertiesEditingWizardPage();
 		editingPage.setInput(context);
 		addPage(editingPage);
 	}
@@ -58,7 +67,45 @@ public class EEFEditingWizard extends Wizard {
 		return true;
 	}
 
+	private void initMessageManager() {
+		messageManager = new PropertiesEditingMessageManager() {
+			
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManager#updateStatus(java.lang.String)
+			 */
+			@Override
+			protected void updateStatus(String message) {
+				if (editingPage != null) {
+					editingPage.setMessage(message, IMessageProvider.NONE);
+				}
+			}
 
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManager#updateError(java.lang.String)
+			 */
+			@Override
+			protected void updateError(String message) {
+				if (editingPage != null) {
+					editingPage.setMessage(message, IMessageProvider.ERROR);
+				}
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManager#updateWarning(java.lang.String)
+			 */
+			@Override
+			protected void updateWarning(String message) {
+				if (editingPage != null) {
+					editingPage.setMessage(message, IMessageProvider.WARNING);
+				}
+			}
+			
+			
+		};
+	}
 
 	private class PropertiesEditingWizardPage extends WizardPage {
 
@@ -79,6 +126,15 @@ public class EEFEditingWizard extends Wizard {
 		public void setInput(PropertiesEditingContext context) {
 			this.context = context;
 			setTitle(((EObject)context.getEditingComponent().getTarget()).eClass().getName());
+			if (messageManager != null) {
+				messageManager.processMessage(new PropertiesValidationEditingEvent(null, Diagnostic.OK_INSTANCE));
+				context.getEditingComponent().addEditingListener(new PropertiesEditingListener() {
+
+					public void firePropertiesChanged(PropertiesEditingEvent event) {
+						messageManager.processMessage(event);
+					}
+				});
+			}
 		}
 
 		/**

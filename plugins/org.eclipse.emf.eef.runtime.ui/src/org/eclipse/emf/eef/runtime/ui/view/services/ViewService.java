@@ -20,7 +20,6 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.EEFService;
-import org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -97,7 +96,7 @@ public interface ViewService extends EEFService<View> {
 	 * Returns documentation about the feature binded to the given editor. There is two strategies for getting this documentation:
 	 * 	- getting the property description of the {@link GenFeature} associated
 	 *  - getting the ecore documentation of the feature
-	 * The choice of strategy is defined by the {@link EditingOptions} of the {@link PropertiesEditingMessageManager}:
+	 * The choice of strategy is defined by the {@link EditingOptions} of the {@link PropertiesEditingModel}:
 	 * 	- if the options are null or the {@link FeatureDocumentationProvider#GENMODEL_PROPERTY_DESCRIPTION} value is set, the first strategy is chosen
 	 *  - if the {@link FeatureDocumentationProvider#ECORE_DOCUMENTATION} value is set, the second strategy is chosen
 	 * @param editor which to get the documentation.
