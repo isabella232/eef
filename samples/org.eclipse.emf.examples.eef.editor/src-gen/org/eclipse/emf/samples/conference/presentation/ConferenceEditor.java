@@ -66,7 +66,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
-import org.eclipse.emf.eef.runtime.ui.notify.OpenWizardOnDoubleClick;
+import org.eclipse.emf.eef.runtime.ui.util.EEFDoubleClickFactoryUtil;
 import org.eclipse.emf.samples.conference.provider.ConferenceItemProviderAdapterFactory;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -130,8 +130,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * <!-- end-user-doc -->
  * @generated
  */
-public class ConferenceEditor extends MultiPageEditorPart
-			implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker, ITabbedPropertySheetPageContributor {
+public class ConferenceEditor extends MultiPageEditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker, ITabbedPropertySheetPageContributor {
 
 
 	/**
@@ -1009,7 +1008,7 @@ public class ConferenceEditor extends MultiPageEditorPart
 				createContextMenuFor(selectionViewer);
 				int pageIndex = addPage(viewerPane.getControl());
 				setPageText(pageIndex, getString("_UI_SelectionPage_label"));
-				selectionViewer.addDoubleClickListener(new OpenWizardOnDoubleClick(editingDomain, adapterFactory));
+				selectionViewer.addDoubleClickListener(EEFDoubleClickFactoryUtil.getEEFDoubleClickListener(ConferenceEditorPlugin.getPlugin().getBundle(), editingDomain, adapterFactory));
 			}
 
 			// Create a page for the parent tree view.

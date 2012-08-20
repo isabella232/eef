@@ -10,6 +10,8 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingProviderRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistryTracker;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
@@ -62,7 +64,8 @@ public class EEFRuntime extends EMFPlugin {
 	public static class Plugin extends EclipsePlugin {
 
 		private Diagnostician diagnostician;
-		private EEFServiceRegistryTracker<EMFServiceProvider> tracker;
+//		private EEFServiceRegistryTracker<EMFServiceProvider> emfServiceTracker;
+//		private EEFServiceRegistryTracker<PropertiesEditingProviderRegistry> propertiesEditingProviderRegistryTracker;
 
 		/**
 		 * {@inheritDoc}
@@ -70,8 +73,10 @@ public class EEFRuntime extends EMFPlugin {
 		 */
 		public void start(BundleContext context) throws Exception {
 			super.start(context);
-			tracker = new EEFServiceRegistryTracker<EMFServiceProvider>(context, EMFServiceProvider.class);
-			tracker.open();
+//			emfServiceTracker = new EEFServiceRegistryTracker<EMFServiceProvider>(context, EMFServiceProvider.class);
+//			emfServiceTracker.open();
+//			propertiesEditingProviderRegistryTracker = new EEFServiceRegistryTracker<PropertiesEditingProviderRegistry>(context, PropertiesEditingProviderRegistry.class);
+//			propertiesEditingProviderRegistryTracker.open();
 		}
 
 		/**
@@ -80,22 +85,37 @@ public class EEFRuntime extends EMFPlugin {
 		 */
 		public void stop(BundleContext context) throws Exception {
 			super.stop(context);
-			tracker.close();
+//			emfServiceTracker.close();
+//			propertiesEditingProviderRegistryTracker.close();
 		}
 		
 		/**
-		 * Returns the EMFService associated to the given {@link EPackage}.
+		 * Returns the {@link EMFService} associated to the given {@link EPackage}.
 		 * @param ePackage filtering {@link EPackage}.
 		 * @return the {@link EMFService} associated to this package.
 		 */
-		public EMFService getEMFService(EPackage ePackage) {
-			EMFServiceProvider service = tracker.getService();
-			if (service != null) {
-				return service.getEMFServiceForPackage(ePackage);
-			} else {
-				return null;
-			}
-		}
+//		public EMFService getEMFService(EPackage ePackage) {
+//			EMFServiceProvider service = emfServiceTracker.getService();
+//			if (service != null) {
+//				return service.getEMFServiceForPackage(ePackage);
+//			} else {
+//				return null;
+//			}
+//		}
+		
+		/**
+		 * Returns the {@link PropertiesEditingProvider} for the given {@link EPackage}.
+		 * @param ePackage {@link EPackage} to process.
+		 * @return {@link PropertiesEditingProvider} that handle this package.
+		 */
+//		public PropertiesEditingProvider getPropertiesEditingProvider(EPackage ePackage) {
+//			PropertiesEditingProviderRegistry service = propertiesEditingProviderRegistryTracker.getService();
+//			if (service != null) {
+//				return service.getServiceForElement(ePackage);
+//			} else {
+//				return null;
+//			}
+//		}
 
 		/**
 		 * Creates an instance.

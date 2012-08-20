@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.util.EMFService;
@@ -50,7 +50,7 @@ public class PlatformResourceRegistryResourceBinding {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initSpecificEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initSpecificEditingModel()
 			 */
 			@Override
 			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
@@ -149,7 +149,7 @@ public class PlatformResourceRegistryResourceBinding {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initSpecificEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initSpecificEditingModel()
 			 */
 			@Override
 			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
@@ -160,7 +160,7 @@ public class PlatformResourceRegistryResourceBinding {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initViewHandlerProvider()
+			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initViewHandlerProvider()
 			 */
 			@Override
 			protected ViewHandlerProvider initViewHandlerProvider() {

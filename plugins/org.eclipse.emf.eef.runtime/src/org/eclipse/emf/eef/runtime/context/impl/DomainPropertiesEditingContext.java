@@ -26,12 +26,12 @@ public class DomainPropertiesEditingContext extends EObjectPropertiesEditingCont
 	 * @param adapterFactory
 	 * @param eObject
 	 */
-	public DomainPropertiesEditingContext(EditingDomain editingDomain, AdapterFactory adapterFactory, EObject eObject) {
+	DomainPropertiesEditingContext(EditingDomain editingDomain, AdapterFactory adapterFactory, EObject eObject) {
 		super(adapterFactory, eObject);
 		this.editingDomain = editingDomain;
 	}
 
-	public DomainPropertiesEditingContext(AdapterFactoryEditingDomain editingDomain, EObject eObject) {
+	DomainPropertiesEditingContext(AdapterFactoryEditingDomain editingDomain, EObject eObject) {
 		super(editingDomain.getAdapterFactory(), eObject);
 		this.editingDomain = editingDomain;
 	}

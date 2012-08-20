@@ -11,12 +11,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.eef.runtime.EEFRuntime;
+import org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
@@ -35,6 +37,7 @@ public class NonUIEditingTestCase {
 	protected EObject editedObject;
 	private Collection<ViewHandler<?>> viewHandlers;
 	protected ComposedAdapterFactory adapterFactory;
+	private PropertiesEditingProvider editingProvider;
 
 	/**
 	 * @throws java.lang.Exception
@@ -44,11 +47,11 @@ public class NonUIEditingTestCase {
 		editedObject = createEditedObject();
 		final PropertiesEditingModel editingModel = buildEditingModel();
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		adapterFactory.addAdapterFactory(new AbstractPropertiesEditingProvider() {
+		editingProvider = new AbstractPropertiesEditingProvider() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initSpecificEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initSpecificEditingModel()
 			 */
 			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
 				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
@@ -58,13 +61,14 @@ public class NonUIEditingTestCase {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initViewHandlerProvider()
+			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initViewHandlerProvider()
 			 */
 			protected ViewHandlerProvider initViewHandlerProvider() {
 				return new EEFTestStuffsBuilder().buildViewHandlerProvider();
 			}
 			
-		});
+		};
+		EEFRuntime.getPlugin().getBundle().getBundleContext().registerService(PropertiesEditingProvider.class, editingProvider, null);
 		editingContext =  createEditingContext();
 		viewHandlers = editingContext.getEditingComponent().createViewHandlers();
 		views = new ArrayList<Object>();
@@ -104,6 +108,7 @@ public class NonUIEditingTestCase {
 			handler.dispose();
 		}
 		editingContext.dispose();
+		EEFRuntime.getPlugin().getBundle().getBundleContext().ungetService(PropertiesEditingProvider.class, editingProvider);
 	}
 
 

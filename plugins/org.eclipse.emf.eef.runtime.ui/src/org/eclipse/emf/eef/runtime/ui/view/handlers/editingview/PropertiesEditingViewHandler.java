@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
+import org.eclipse.emf.eef.runtime.ui.internal.view.impl.AbstractPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.SWTImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -57,6 +58,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 				FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
 				if (toolkit != null) {
 					view = new FormImplPropertiesEditingView(editingComponent, viewDescriptor);
+					((AbstractPropertiesEditingView)view).setViewServiceRegistry(handlerProvider.getViewServiceRegistry());
 					view.setPropertyEditorProvider(handlerProvider.getPropertyEditorProvider());
 					((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[1]);
 				} else {

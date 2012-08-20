@@ -12,11 +12,11 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
+import org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
@@ -78,7 +78,7 @@ public abstract class UIEditingTestCase {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initSpecificEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initSpecificEditingModel()
 			 */
 			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
 				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
@@ -88,7 +88,7 @@ public abstract class UIEditingTestCase {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initViewHandlerProvider()
+			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initViewHandlerProvider()
 			 */
 			protected ViewHandlerProvider initViewHandlerProvider() {
 				return new EEFTestStuffsBuilder().buildViewHandlerProvider();

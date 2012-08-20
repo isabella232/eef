@@ -7,7 +7,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.impl.DomainPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.ui.commands.WizardEditingCommand;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -21,7 +21,19 @@ public class OpenWizardOnDoubleClick implements IDoubleClickListener {
 
 	private EditingDomain domain;
 	private AdapterFactory adapterFactory;
+	private PropertiesEditingContextFactory editingContextFactory;
 	
+	
+	
+	/**
+	 * @param factory the factory to set
+	 */
+	public void setEditingContextFactory(PropertiesEditingContextFactory factory) {
+		this.editingContextFactory = factory;
+	}
+
+
+
 	/**
 	 * @param domain {@link EditingDomain} to use for editing actions.
 	 * @param adapterFactory {@link AdapterFactory} to use for element editing.
@@ -40,8 +52,8 @@ public class OpenWizardOnDoubleClick implements IDoubleClickListener {
 	public void doubleClick(DoubleClickEvent event) {
 		StructuredSelection selection = (StructuredSelection) event.getSelection();
 		PropertiesEditingContext context;
-		if (selection.getFirstElement() instanceof EObject) {			
-			context = new DomainPropertiesEditingContext(domain, adapterFactory, (EObject) selection.getFirstElement());
+		if (selection.getFirstElement() instanceof EObject) {
+			context = editingContextFactory.createPropertiesEditingContext(domain, adapterFactory, (EObject) selection.getFirstElement());
 			context.getOptions().setBatchMode(true);
 			WizardEditingCommand wizardEditingCommand = new WizardEditingCommand(context);
 			domain.getCommandStack().execute(wizardEditingCommand);

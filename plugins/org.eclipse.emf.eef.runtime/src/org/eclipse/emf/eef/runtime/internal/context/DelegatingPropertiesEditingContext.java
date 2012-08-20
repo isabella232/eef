@@ -5,10 +5,12 @@ package org.eclipse.emf.eef.runtime.internal.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -23,6 +25,22 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	 */
 	public DelegatingPropertiesEditingContext(PropertiesEditingContext delegatingContext) {
 		this.delegatingContext = delegatingContext;
+	}
+
+	/**
+	 * @param emfServiceProvider
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setEmfServiceProvider(org.eclipse.emf.eef.runtime.util.EMFServiceProvider)
+	 */
+	public void setEmfServiceProvider(EMFServiceProvider emfServiceProvider) {
+		delegatingContext.setEmfServiceProvider(emfServiceProvider);
+	}
+
+	/**
+	 * @param propertiesEditingProviderRegistry
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setPropertiesEditingProviderRegistry(org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry)
+	 */
+	public void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry) {
+		delegatingContext.setPropertiesEditingProviderRegistry(propertiesEditingProviderRegistry);
 	}
 
 	/**
@@ -97,4 +115,5 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	public void dispose() {
 		delegatingContext.dispose();
 	}
+
 }

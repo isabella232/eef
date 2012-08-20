@@ -22,14 +22,6 @@
                org.eclipse.emf.edit.provider.IItemPropertySource"/>
    </extension>
 
-  <!-- EEF extensions -->
-   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      <factory
-            uri="http://www.eclipse.org/emf/samples/eef/1.0.0"
-            class="org.eclipse.emf.samples.conferences.providers.ConferencePropertiesEditingProvider"
-            supportedTypes="org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent"/>
-   </extension>
-
   <!-- Tabbed properties views extension -->
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">

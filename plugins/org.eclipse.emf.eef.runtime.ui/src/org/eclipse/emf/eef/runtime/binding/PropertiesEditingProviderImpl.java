@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.editingModel;
+package org.eclipse.emf.eef.runtime.binding;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -10,6 +10,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
@@ -26,7 +28,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingProvider extends AbstractPropertiesEditingProvider {
+public class PropertiesEditingProviderImpl extends AbstractPropertiesEditingProvider {
 
 	/**
 	 * This method can be overridden by subclasses to provide their own EditingModel.
@@ -46,7 +48,7 @@ public class PropertiesEditingProvider extends AbstractPropertiesEditingProvider
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initSpecificEditingModel()
+	 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initSpecificEditingModel()
 	 */
 	@Override
 	protected final Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
@@ -73,7 +75,7 @@ public class PropertiesEditingProvider extends AbstractPropertiesEditingProvider
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initViewHandlerProvider()
+	 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initViewHandlerProvider()
 	 */
 	@Override
 	protected final ViewHandlerProvider initViewHandlerProvider() {

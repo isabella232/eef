@@ -3,7 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.checkbox;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
@@ -45,7 +44,7 @@ public class CheckboxPropertyEditor implements PropertyEditor, MonovaluedPropert
 	 */
 	public void init(EStructuralFeature feature) {
 		this.feature = feature;
-		Object value = ((EObject)view.getEditingComponent().getTarget()).eGet(feature);
+		Object value = view.getEditingComponent().getEObject().eGet(feature);
 		if (value instanceof Boolean) {
 			propertyEditorViewer.getViewer().getMainControl().setSelection((Boolean) value);
 		}

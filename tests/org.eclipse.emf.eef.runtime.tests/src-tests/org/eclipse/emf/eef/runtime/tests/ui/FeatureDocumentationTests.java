@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -78,11 +78,11 @@ public class FeatureDocumentationTests {
 		final EClass sampleEClass = (EClass) ecoreSample.getEClassifier(SAMPLE_ECLASS_NAME);
 		EObject editedEObject = EcoreUtil.create(sampleEClass);
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		PropertiesEditingProvider pep = new PropertiesEditingProvider() {
+		PropertiesEditingProviderImpl pep = new PropertiesEditingProviderImpl() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#getEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl#getEditingModel()
 			 */
 			@Override
 			protected PropertiesEditingModel getEditingModel() {
@@ -143,11 +143,11 @@ public class FeatureDocumentationTests {
 		eclassView = viewRepository.getViews().get(0);
 		nameEditor = (ElementEditor)eclassView.getElements().get(0);
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		PropertiesEditingProvider pep = new PropertiesEditingProvider() {
+		PropertiesEditingProviderImpl pep = new PropertiesEditingProviderImpl() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingProvider#getEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl#getEditingModel()
 			 */
 			@Override
 			protected PropertiesEditingModel getEditingModel() {

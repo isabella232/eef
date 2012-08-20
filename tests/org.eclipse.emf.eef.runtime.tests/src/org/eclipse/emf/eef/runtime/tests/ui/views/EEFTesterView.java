@@ -70,7 +70,7 @@ public class EEFTesterView extends ViewPart {
 			 * @see org.eclipse.jface.action.Action#run()
 			 */
 			public void run() {
-				EClass eClass = (EClass) context.getEditingComponent().getTarget();
+				EClass eClass = (EClass) context.getEditingComponent().getEObject();
 				eClass.getESuperTypes().move(0, eClass.getESuperTypes().get(1));
 			}
 			

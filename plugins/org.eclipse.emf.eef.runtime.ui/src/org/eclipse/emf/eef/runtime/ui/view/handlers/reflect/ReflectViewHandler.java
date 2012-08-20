@@ -65,7 +65,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void initView(PropertiesEditingComponent component) {
-		EObject eObject = (EObject) component.getTarget();
+		EObject eObject = component.getEObject();
 		for (EStructuralFeature feature : eObject.eClass().getEAllStructuralFeatures()) {
 			try {
 				setValue(feature.getName(), eObject.eGet(feature));

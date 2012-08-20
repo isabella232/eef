@@ -22,11 +22,11 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
 import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
+import org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
@@ -85,7 +85,7 @@ public class EEFTestStuffsBuilder {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initSpecificEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initSpecificEditingModel()
 			 */
 			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
 				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
@@ -95,7 +95,7 @@ public class EEFTestStuffsBuilder {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initViewHandlerProvider()
+			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initViewHandlerProvider()
 			 */
 			protected ViewHandlerProvider initViewHandlerProvider() {
 				return viewHandlerProvider;
@@ -136,7 +136,7 @@ public class EEFTestStuffsBuilder {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initSpecificEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initSpecificEditingModel()
 			 */
 			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
 				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
@@ -146,7 +146,7 @@ public class EEFTestStuffsBuilder {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider#initViewHandlerProvider()
+			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initViewHandlerProvider()
 			 */
 			protected ViewHandlerProvider initViewHandlerProvider() {
 				return viewHandlerProvider;

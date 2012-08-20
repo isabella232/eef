@@ -5,8 +5,8 @@ package org.eclipse.emf.eef.runtime.context.impl;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.context.EditingRecorder;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.EditingRecorderImpl;
@@ -14,6 +14,7 @@ import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingCon
 import org.eclipse.emf.eef.runtime.internal.policies.SemanticDirectEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -26,11 +27,13 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	protected ContextOptions options;
 	
 	private EditingRecorder editingRecorder;
+	private EMFServiceProvider emfServiceProvider;
+	private PropertiesEditingProviderRegistry propertiesEditingProviderRegistry;
 
 	/**
 	 * @param eObject {@link EObject} to edit.
 	 */
-	public EObjectPropertiesEditingContext(AdapterFactory adapterFactory, EObject eObject) {
+	EObjectPropertiesEditingContext(AdapterFactory adapterFactory, EObject eObject) {
 		this.adapterFactory = adapterFactory;
 		this.eObject = eObject;
 		this.options = initOptions();
@@ -44,6 +47,22 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	protected ContextOptions initOptions() {
 		return new ContextOptions();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setEmfServiceProvider(EMFServiceProvider)
+	 */
+	public void setEmfServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry)
+	 */
+	public void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry) {
+		this.propertiesEditingProviderRegistry = propertiesEditingProviderRegistry;
 	}
 
 	/**
@@ -65,7 +84,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingComponent()
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
-		PropertiesEditingComponent component = (PropertiesEditingComponent) adapterFactory.adapt(eObject, PropertiesEditingComponent.class);
+		PropertiesEditingComponent component = propertiesEditingProviderRegistry.getPropertiesEditingProvider(eObject.eClass().getEPackage()).createComponent(eObject);
 		component.setEditingContext(this);
 		return component;
 	}
@@ -83,8 +102,8 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEMFService()
 	 */
 	public EMFService getEMFService() {
-		if (getEditingComponent() != null && getEditingComponent().getTarget() instanceof EObject) {
-			return EEFRuntime.getPlugin().getEMFService(((EObject) getEditingComponent().getTarget()).eClass().getEPackage());
+		if (getEditingComponent() != null) {
+			return emfServiceProvider.getEMFServiceForPackage((getEditingComponent().getEObject()).eClass().getEPackage());
 		}
 		return null;
 	}

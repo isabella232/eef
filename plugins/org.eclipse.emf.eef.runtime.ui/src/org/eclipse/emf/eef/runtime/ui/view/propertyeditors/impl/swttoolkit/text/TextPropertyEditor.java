@@ -51,7 +51,7 @@ public class TextPropertyEditor implements PropertyEditor, MonovaluedPropertyEdi
 	 */
 	public void init(EStructuralFeature feature) {
 		this.feature = feature;
-		Object value = ((EObject)view.getEditingComponent().getTarget()).eGet(feature);
+		Object value = view.getEditingComponent().getEObject().eGet(feature);
 		if (value instanceof String) {
 			propertyEditorControl.getViewer().getMainControl().setText((String) value);
 		}

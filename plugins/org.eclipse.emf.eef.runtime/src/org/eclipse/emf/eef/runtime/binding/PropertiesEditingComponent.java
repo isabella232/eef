@@ -5,11 +5,9 @@ package org.eclipse.emf.eef.runtime.binding;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
@@ -20,8 +18,13 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface PropertiesEditingComponent extends Adapter, PropertiesEditingListener {
+public interface PropertiesEditingComponent extends PropertiesEditingListener {
 
+	/**
+	 * @return the handled {@link EObject}.
+	 */
+	EObject getEObject();
+	
     /**
 	 * Returns the editing context of the component.
 	 * @return the component's {@link PropertiesEditingContext}.

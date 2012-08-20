@@ -62,7 +62,7 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 		propertyEditorViewer.getViewer().setLabelProvider(new AdapterFactoryLabelProvider(currentAdapterFactory));
 		propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());
 		propertyEditorViewer.getViewer().setUpperBound(feature.getUpperBound());
-		propertyEditorViewer.getViewer().setInput(view.getEditingComponent().getTarget());
+		propertyEditorViewer.getViewer().setInput(view.getEditingComponent().getEObject());
 		initListener();
 	}
 
@@ -143,7 +143,7 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#moveUp(java.lang.Object)
 			 */
 			public void moveUp(Object movedElement) {
-				EObject editedElement = (EObject) view.getEditingComponent().getTarget();
+				EObject editedElement = view.getEditingComponent().getEObject();
 				Object currentValue = editedElement.eGet(feature);
 				if (currentValue instanceof List<?>) {
 					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
@@ -159,7 +159,7 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#moveDown(java.lang.Object)
 			 */
 			public void moveDown(Object movedElement) {
-				EObject editedElement = (EObject) view.getEditingComponent().getTarget();
+				EObject editedElement = view.getEditingComponent().getEObject();
 				Object currentValue = editedElement.eGet(feature);
 				if (currentValue instanceof List<?>) {
 					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
@@ -189,10 +189,10 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 				dialog.addFilter(
 						new ChoiceOfValuesFilter(
 								view.getEditingComponent().getEditingContext().getAdapterFactory(), 
-								(EObject) view.getEditingComponent().getTarget(), 
+								view.getEditingComponent().getEObject(), 
 								EReferenceMultiPropertyEditor.this.feature, 
 								view.getViewSettings().getSelectionMode()));
-				dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getTarget()));
+				dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
 				if (dialog.open() == Window.OK) {
 					if (dialog.getSelection() != null) {
 						if (dialog.getSelection() instanceof Collection<?>) {

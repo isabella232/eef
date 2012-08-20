@@ -14,11 +14,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.impl.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
+import org.eclipse.emf.eef.runtime.ui.EEFRuntimeTabbed;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditingView;
@@ -125,7 +125,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 				eObject = newEObject;
 				if (eObject != null) {
 					disposeComponentIfExist();
-					DomainPropertiesEditingContext editingContext = new DomainPropertiesEditingContext(editingDomain, adapterFactory, eObject);
+					PropertiesEditingContext editingContext = EEFRuntimeTabbed.getPlugin().getEditingContextFactory().createPropertiesEditingContext(editingDomain, adapterFactory, eObject);
 					editingContext.getOptions().setOption(UIConstants.FORM_TOOLKIT, tabbedPropertySheetPage.getWidgetFactory());
 					editingComponent = editingContext.getEditingComponent();
 					editingComponent.addEditingListener(this);

@@ -31,6 +31,7 @@ import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 
 /**
@@ -50,6 +51,7 @@ import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
  * @generated
  */
 public class PropertiesEditingModelImpl extends EObjectImpl implements PropertiesEditingModel {
+	
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -213,11 +215,7 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 * @generated NOT
 	 */
 	public EClassBinding binding(EObject eObject) {
-		PropertiesEditingComponent propertiesEditingComponent = (PropertiesEditingComponent) EcoreUtil.getExistingAdapter(eObject, PropertiesEditingComponent.class);
-		EMFService emfService = null;
-		if (propertiesEditingComponent != null) {
-			emfService = propertiesEditingComponent.getEditingContext().getEMFService();
-		}
+		EMFService emfService = emfServiceProvider.getEMFServiceForPackage(eObject.eClass().getEPackage());
 		for (EClassBinding binding : bindings) {
 			if ((emfService != null && emfService.equals(eObject.eClass(), binding.getEClass())) || eObject.eClass().equals(binding.getEClass())) {
 				return binding;
@@ -403,5 +401,25 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 		result.append(')');
 		return result.toString();
 	}
+	
+	private EMFServiceProvider emfServiceProvider;
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getEMFServiceProvider()
+	 */
+	public EMFServiceProvider getEMFServiceProvider() {
+		return emfServiceProvider;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#setEMFServiceProvider(org.eclipse.emf.eef.runtime.util.EMFServiceProvider)
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
+	
+	
 
 } //PropertiesEditingModelImpl

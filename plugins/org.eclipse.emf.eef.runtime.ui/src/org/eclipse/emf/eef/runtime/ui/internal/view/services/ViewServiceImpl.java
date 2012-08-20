@@ -125,9 +125,9 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 		String text = alternate;
 		EStructuralFeature associatedFeature = feature(editor);
 		if (associatedFeature != null) {
-			IItemPropertySource labelProvider = (IItemPropertySource) editingComponent.getEditingContext().getAdapterFactory().adapt(editingComponent.getTarget(), org.eclipse.emf.edit.provider.IItemPropertySource.class);
+			IItemPropertySource labelProvider = (IItemPropertySource) editingComponent.getEditingContext().getAdapterFactory().adapt(editingComponent.getEObject(), org.eclipse.emf.edit.provider.IItemPropertySource.class);
 			if (labelProvider != null) {
-				IItemPropertyDescriptor propertyDescriptor = labelProvider.getPropertyDescriptor(editingComponent.getTarget(), associatedFeature);
+				IItemPropertyDescriptor propertyDescriptor = labelProvider.getPropertyDescriptor(editingComponent.getEObject(), associatedFeature);
 				if (propertyDescriptor != null) {
 					text = propertyDescriptor.getDisplayName(editor);
 				}

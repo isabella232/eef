@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.services.ViewServiceRegistry;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.views.View;
@@ -17,6 +18,7 @@ import org.eclipse.emf.eef.views.View;
 public class PropertiesEditingViewHandlerProvider implements ViewHandlerProvider {
 
 	private PropertyEditorProvider propertyEditorProvider;
+	private ViewServiceRegistry viewServiceRegistry;
 	
 	/**
 	 * @param propertyEditorProvider {@link PropertyEditorProvider} to use in {@link PropertiesEditingView}s to build
@@ -47,6 +49,22 @@ public class PropertiesEditingViewHandlerProvider implements ViewHandlerProvider
 	 */
 	public ViewHandler<?> getHandler(PropertiesEditingComponent editingComponent, Object view) {
 		return new PropertiesEditingViewHandler(this, editingComponent, (View) view);
+	}
+
+	/**
+	 * Returns the {@link ViewServiceRegistry} to use in the views created via this provider.
+	 * @return the {@link ViewServiceRegistry} to use.
+	 */
+	public ViewServiceRegistry getViewServiceRegistry() {
+		return viewServiceRegistry;
+	}
+
+	/**
+	 * Defines the {@link ViewServiceRegistry} to use in the views created via this provider. 
+	 * @param viewServiceRegistry the viewServiceRegistry to set
+	 */
+	public void setViewServiceRegistry(ViewServiceRegistry viewServiceRegistry) {
+		this.viewServiceRegistry = viewServiceRegistry;
 	}
 
 }

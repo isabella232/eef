@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewSettingsImpl;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.ViewSettings;
@@ -20,6 +19,7 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEd
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
+import org.eclipse.emf.eef.runtime.ui.view.services.ViewServiceRegistry;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
@@ -39,6 +39,7 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	
 	protected Map<ElementEditor, PropertyEditor> propertyEditors;
 	protected Composite contentsComposite;
+	protected ViewServiceRegistry viewServiceRegistry; 
 	protected ViewService service;
 	
 	/**
@@ -58,6 +59,13 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	}
 
 	/**
+	 * @param viewServiceRegistry the viewServiceRegistry to set
+	 */
+	public void setViewServiceRegistry(ViewServiceRegistry viewServiceRegistry) {
+		this.viewServiceRegistry = viewServiceRegistry;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getEditingComponent()
 	 */
@@ -71,7 +79,7 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	 */
 	public ViewService getViewService() {
 		if (service == null) {
-			service = EEFRuntimeUI.getPlugin().getViewService(viewDescriptor);
+			service = viewServiceRegistry.getServiceForView(viewDescriptor);
 		}
 		if (editingComponent != null && editingComponent != service.getEditingComponent()) {
 			service.setEditingComponent(editingComponent);
@@ -112,7 +120,7 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 		while (elementEditors.hasNext()) {
 			ElementEditor elementEditor = elementEditors.next();
 			EStructuralFeature bindingFeature = editingComponent.getBinding().feature(elementEditor, editingComponent.getEditingContext().getOptions().autowire());
-			EObject editedObject = (EObject)editingComponent.getTarget();
+			EObject editedObject = editingComponent.getEObject();
 			EStructuralFeature feature = editingComponent.getEditingContext().getEMFService().mapFeature(editedObject, bindingFeature);
 			if (feature != null) {
 				PropertyEditor propertyEditor = propertyEditors.get(elementEditor);

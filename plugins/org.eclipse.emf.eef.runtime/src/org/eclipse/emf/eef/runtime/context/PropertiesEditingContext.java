@@ -5,9 +5,11 @@ package org.eclipse.emf.eef.runtime.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -15,6 +17,18 @@ import org.eclipse.emf.eef.runtime.util.EMFService;
  */
 public interface PropertiesEditingContext {
 	
+	/**
+	 * Defines the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingContext}.
+	 * @param emfServiceProvider the {@link EMFServiceProvider} to use.
+	 */
+	void setEmfServiceProvider(EMFServiceProvider emfServiceProvider);
+	
+	/**
+	 * Defines the {@link PropertiesEditingProviderRegistry} to use in the current {@link PropertiesEditingContext}.
+	 * @param propertiesEditingProviderRegistry the {@link PropertiesEditingProviderRegistry} to use.
+	 */
+	void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry);
+
 	/**
 	 * Returns a {@link PropertiesEditingComponent} binding the edited model element.
 	 * @return a {@link PropertiesEditingComponent} binded on the edited model element.
@@ -62,5 +76,6 @@ public interface PropertiesEditingContext {
 	 * Dispose the current context. 
 	 */
 	void dispose();
+
 
 }

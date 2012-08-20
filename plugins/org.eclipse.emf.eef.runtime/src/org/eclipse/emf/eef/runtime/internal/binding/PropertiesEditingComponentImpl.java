@@ -12,8 +12,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.WrappedException;
@@ -23,12 +21,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.EEFRuntime;
+import org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
@@ -37,7 +36,6 @@ import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 
 import com.google.common.collect.Lists;
 
@@ -45,7 +43,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingComponentImpl extends AdapterImpl implements PropertiesEditingComponent {
+public class PropertiesEditingComponentImpl implements PropertiesEditingComponent {
 
 	public static final Object FIRE_PROPERTIES_CHANGED_JOB_FAMILY = new Object();
 	
@@ -54,20 +52,32 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	protected FirePropertiesChangedJob firePropertiesChangedJob;
 
+	private PropertiesEditingProvider editingProvider;
+	private EObject source;
 	private PropertiesEditingContext editingContext;
-	private AbstractPropertiesEditingProvider editingProvider;
 	private PropertiesEditingModel editingModel;
 	private List<ViewHandler<?>> viewHandlers;
 	private ViewChangeNotifier viewChangeNotifier;
 	private List<PropertiesEditingListener> listeners;
 
+
 	/**
 	 * @param editingProvider {@link AbstractPropertiesEditingProvider} providing this component.
+	 * @param source
 	 */
-	public PropertiesEditingComponentImpl(AbstractPropertiesEditingProvider editingProvider) {
+	public PropertiesEditingComponentImpl(PropertiesEditingProvider editingProvider, EObject source) {
 		this.editingProvider = editingProvider;
+		this.source = source;
 		this.listeners = Lists.newArrayList();
 		this.viewHandlers = Lists.newArrayList();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEObject()
+	 */
+	public EObject getEObject() {
+		return source;
 	}
 
 	/**
@@ -99,7 +109,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	private PropertiesEditingModel getEditingModel() {
 		if (editingModel == null) {
-			editingModel = editingProvider.getEditingModel((EObject) getTarget());
+			editingModel = editingProvider.getEditingModel(source);
 		}
 		return editingModel;
 	}
@@ -111,7 +121,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	public EClassBinding getBinding() {
 		PropertiesEditingModel editingModel = getEditingModel();
 		if (editingModel != null) {
-			return editingModel.binding((EObject) getTarget());
+			return editingModel.binding(source);
 		} else {
 			return null;
 		}
@@ -146,71 +156,71 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
-	public void notifyChanged(Notification msg) {
-		PropertiesEditingModel editingModel = getEditingModel();
-		if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
-			EStructuralFeature structuralFeature = (EStructuralFeature)msg.getFeature();
-			EClassBinding binding = editingModel.binding((EObject) getTarget());
-			Object propertyEditor = binding.propertyEditor(structuralFeature, editingContext.getOptions().autowire());
-			for (ViewHandler<?> viewHandler : viewHandlers) {
-				switch (msg.getEventType()) {
-				case Notification.SET:
-					try {
-						viewHandler.setValue(propertyEditor, msg.getNewValue());						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				case Notification.UNSET:
-					try {
-						viewHandler.unsetValue(propertyEditor);						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				case Notification.ADD:
-					try {
-						viewHandler.addValue(propertyEditor, msg.getNewValue());						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				case Notification.ADD_MANY:
-					try {
-						viewHandler.addAllValues(propertyEditor, (Collection<?>) msg.getNewValue());						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				case Notification.REMOVE:
-					try {
-						viewHandler.removeValue(propertyEditor, msg.getOldValue());						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				case Notification.REMOVE_MANY:
-					try {
-						viewHandler.removeAllValues(propertyEditor, (Collection<?>) msg.getOldValue());						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				case Notification.MOVE:
-					try {
-						//TODO: find the good index
-						int newIndex = 0;
-						viewHandler.moveValue(propertyEditor, msg.getNewValue(), newIndex );						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				default:
-					break;
-				}
-			}
-		}			
-	}
+//	public void notifyChanged(Notification msg) {
+//		PropertiesEditingModel editingModel = getEditingModel();
+//		if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
+//			EStructuralFeature structuralFeature = (EStructuralFeature)msg.getFeature();
+//			EClassBinding binding = editingModel.binding((EObject) getTarget());
+//			Object propertyEditor = binding.propertyEditor(structuralFeature, editingContext.getOptions().autowire());
+//			for (ViewHandler<?> viewHandler : viewHandlers) {
+//				switch (msg.getEventType()) {
+//				case Notification.SET:
+//					try {
+//						viewHandler.setValue(propertyEditor, msg.getNewValue());						
+//					} catch (ViewHandlingException e) {
+//						//NOTE: Silent catch
+//					}
+//					break;
+//				case Notification.UNSET:
+//					try {
+//						viewHandler.unsetValue(propertyEditor);						
+//					} catch (ViewHandlingException e) {
+//						//NOTE: Silent catch
+//					}
+//					break;
+//				case Notification.ADD:
+//					try {
+//						viewHandler.addValue(propertyEditor, msg.getNewValue());						
+//					} catch (ViewHandlingException e) {
+//						//NOTE: Silent catch
+//					}
+//					break;
+//				case Notification.ADD_MANY:
+//					try {
+//						viewHandler.addAllValues(propertyEditor, (Collection<?>) msg.getNewValue());						
+//					} catch (ViewHandlingException e) {
+//						//NOTE: Silent catch
+//					}
+//					break;
+//				case Notification.REMOVE:
+//					try {
+//						viewHandler.removeValue(propertyEditor, msg.getOldValue());						
+//					} catch (ViewHandlingException e) {
+//						//NOTE: Silent catch
+//					}
+//					break;
+//				case Notification.REMOVE_MANY:
+//					try {
+//						viewHandler.removeAllValues(propertyEditor, (Collection<?>) msg.getOldValue());						
+//					} catch (ViewHandlingException e) {
+//						//NOTE: Silent catch
+//					}
+//					break;
+//				case Notification.MOVE:
+//					try {
+//						//TODO: find the good index
+//						int newIndex = 0;
+//						viewHandler.moveValue(propertyEditor, msg.getNewValue(), newIndex );						
+//					} catch (ViewHandlingException e) {
+//						//NOTE: Silent catch
+//					}
+//					break;
+//				default:
+//					break;
+//				}
+//			}
+//		}			
+//	}
 
 
 	/**
@@ -291,7 +301,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	public ViewHandler<?> createViewHandler(Object view) {
 		ViewHandlerProvider viewHandlerProvider = editingProvider.getViewHandlerProvider();
-		ViewHandler<?> specifiedHandler = getEditingModel().viewHandler((EObject) getTarget(), view);
+		ViewHandler<?> specifiedHandler = getEditingModel().viewHandler(source, view);
 		if (specifiedHandler != null) {
 			registerViewHandler(specifiedHandler);
 			return specifiedHandler;
@@ -315,7 +325,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 		PropertiesEditingModel editingModel = getEditingModel();
 		if (editingModel != null) {
 			List<ViewHandler<?>> result = Lists.newArrayList();
-			for (Object view : editingModel.views((EObject) getTarget())) {
+			for (Object view : editingModel.views(source)) {
 				result.add(createViewHandler(view));
 			}
 			return result;
@@ -358,7 +368,7 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 */
 	public Diagnostic validate() {
 		Diagnostic validate = Diagnostic.OK_INSTANCE;
-		validate = EEFRuntime.getPlugin().getEEFValidator().validate((EObject) getTarget());
+		validate = EEFRuntime.getPlugin().getEEFValidator().validate(source);
 		return validate;
 	}
 
@@ -367,9 +377,6 @@ public class PropertiesEditingComponentImpl extends AdapterImpl implements Prope
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#dispose()
 	 */
 	public void dispose() {
-		if (getTarget() != null) {
-			getTarget().eAdapters().remove(this);
-		}
 		List<ViewHandler<?>> handlers = new ArrayList<ViewHandler<?>>(viewHandlers);
 		for (ViewHandler<?> handler : handlers) {
 			handler.dispose();
