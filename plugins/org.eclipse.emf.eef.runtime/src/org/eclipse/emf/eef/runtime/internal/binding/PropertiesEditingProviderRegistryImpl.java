@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.internal.binding;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
@@ -35,17 +37,14 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceRegistry<EP
 			this.emfServiceProvider = null;
 		}
 	}
-	
-	
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceRegistry#addService(org.eclipse.emf.eef.runtime.services.EEFService)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceRegistry#addService(org.eclipse.emf.eef.runtime.services.EEFService, java.util.Map)
 	 */
-	@Override
-	public synchronized void addService(PropertiesEditingProvider service) {
+	public synchronized void addService(PropertiesEditingProvider service, Map<?, ?> properties) {
 		service.setEMFServiceProvider(emfServiceProvider);
-		super.addService(service);
+		super.addService(service, properties);
 	}
 
 	/**

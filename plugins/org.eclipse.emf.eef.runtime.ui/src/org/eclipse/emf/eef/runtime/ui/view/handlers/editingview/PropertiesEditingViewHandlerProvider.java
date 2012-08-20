@@ -6,6 +6,9 @@ package org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ComposedPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.services.ViewServiceRegistry;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
@@ -20,6 +23,10 @@ public class PropertiesEditingViewHandlerProvider implements ViewHandlerProvider
 	private PropertyEditorProvider propertyEditorProvider;
 	private ViewServiceRegistry viewServiceRegistry;
 	
+	public PropertiesEditingViewHandlerProvider() {
+		this.propertyEditorProvider = buildPropertyEditorProvider();
+	}
+
 	/**
 	 * @param propertyEditorProvider {@link PropertyEditorProvider} to use in {@link PropertiesEditingView}s to build
 	 * 								their contents.
@@ -37,9 +44,9 @@ public class PropertiesEditingViewHandlerProvider implements ViewHandlerProvider
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#canHandle(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public boolean canHandle(Object view) {
+	public boolean serviceFor(Object view) {
 		return view instanceof View;
 	}
 
@@ -67,4 +74,22 @@ public class PropertiesEditingViewHandlerProvider implements ViewHandlerProvider
 		this.viewServiceRegistry = viewServiceRegistry;
 	}
 
+	/**
+	 * Unsets the {@link ViewServiceRegistry} to use in the views created via this provider. 
+	 * @param viewServiceRegistry the viewServiceRegistry to unset
+	 */
+	public void unsetViewServiceRegistry(ViewServiceRegistry viewServiceRegistry) {
+		if (viewServiceRegistry == this.viewServiceRegistry) {
+			this.viewServiceRegistry = null;
+		}
+	}
+
+	// Build the EEF default PropertyEditorProviders (i.e. SWTToolkit and EMFPropertiesToolkit).
+	private PropertyEditorProvider buildPropertyEditorProvider() {
+		return new ComposedPropertyEditorProvider.Builder()
+						.addPropertyEditorProvider(new SWTToolkit())
+						.addPropertyEditorProvider(new EMFPropertiesToolkit())
+						.build();
+	}
+	
 }

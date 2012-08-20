@@ -97,6 +97,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	public SectionPropertiesEditingView() {
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		this.propertyEditors = new HashMap<ElementEditor, PropertyEditor>();
+		viewServiceRegistry = EEFRuntimeTabbed.getPlugin().getViewServiceRegistry();
 	}
 
 

@@ -17,7 +17,9 @@ import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironment
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.util.impl.EMFServiceRegistry;
+import org.eclipse.emf.eef.runtime.view.handler.ComposedViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -36,6 +38,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	private EditingModelEnvironment editingModelEnvironment;
 	
 	private EMFServiceProvider emfServiceProvider;
+	private ViewHandlerProviderRegistry viewHandlerProviderRegistry;
 	
 	/**
 	 * {@inheritDoc}
@@ -45,6 +48,34 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 		this.emfServiceProvider = emfServiceProvider;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#unsetEMFServiceProvider(org.eclipse.emf.eef.runtime.util.EMFServiceProvider)
+	 */
+	public void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		if (emfServiceProvider == this.emfServiceProvider) {
+			this.emfServiceProvider = null;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#setViewHandlerProviderRegistry(ViewHandlerProviderRegistry)
+	 */
+	public void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
+		this.viewHandlerProviderRegistry = viewHandlerProviderRegistry;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#unsetViewHandlerProviderRegistry(org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry)
+	 */
+	public void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
+		if (viewHandlerProviderRegistry == this.viewHandlerProviderRegistry) {
+			this.viewHandlerProviderRegistry = null;
+		}
+	}
+	
 	/**
 	 * Determines if the current provided is designed to provide
 	 * {@link PropertiesEditingComponent} for the given {@link EPackage}.
@@ -138,9 +169,24 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	 * @return the {@link ViewHandlerProvider} of this {@link AbstractPropertiesEditingProvider}.
 	 */
 	protected ViewHandlerProvider initViewHandlerProvider() {
-		return null;
+		ComposedViewHandlerProvider.Builder builder = new ComposedViewHandlerProvider.Builder();
+		if (getSpecificViewHandlerProviders() != null && !getSpecificViewHandlerProviders().isEmpty()) {
+			builder.addAllHandlers(getSpecificViewHandlerProviders());
+		}
+		return builder
+						.addAllHandlers(viewHandlerProviderRegistry.getViewHandlerProviders())
+							.build();
 	}
 
+	/**
+	 * This method returns specific {@link ViewHandlerProvider}s to use in the context of this provider.
+	 * This method can be overridden by subclasses to provide their own {@link ViewHandlerProvider}s.
+	 * @return a collection of {@link ViewHandlerProvider}s.
+	 */
+	protected Collection<ViewHandlerProvider> getSpecificViewHandlerProviders() {
+		return Collections.emptyList();
+	}
+	
 	/**
 	 * Compute the list of available editingModel in this context.
 	 * @return a list of {@link PropertiesEditingModel} available from this {@link AbstractPropertiesEditingProvider}.

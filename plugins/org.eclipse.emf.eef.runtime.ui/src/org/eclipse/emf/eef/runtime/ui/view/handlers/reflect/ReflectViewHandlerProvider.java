@@ -15,9 +15,9 @@ public class ReflectViewHandlerProvider implements ViewHandlerProvider {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#canHandle(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public boolean canHandle(Object view) {
+	public boolean serviceFor(Object view) {
 		if (view instanceof Class<?>) {
 			return true;
 		}

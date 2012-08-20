@@ -26,11 +26,11 @@ public class ComposedViewHandlerProvider implements ViewHandlerProvider {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#canHandle(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public boolean canHandle(Object view) {
+	public boolean serviceFor(Object view) {
 		for (ViewHandlerProvider provider : providers) {
-			if (provider.canHandle(view)) {
+			if (provider.serviceFor(view)) {
 				return true;
 			}
 		}
@@ -43,7 +43,7 @@ public class ComposedViewHandlerProvider implements ViewHandlerProvider {
 	 */
 	public ViewHandler<?> getHandler(PropertiesEditingComponent editingComponent, Object view) {
 		for (ViewHandlerProvider provider : providers) {
-			if (provider.canHandle(view)) {
+			if (provider.serviceFor(view)) {
 				return provider.getHandler(editingComponent, view);
 			}
 		}

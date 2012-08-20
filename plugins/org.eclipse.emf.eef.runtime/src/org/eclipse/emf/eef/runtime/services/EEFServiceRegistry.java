@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.services;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
@@ -19,9 +20,8 @@ import com.google.common.collect.Lists;
  */
 public class EEFServiceRegistry<ELEMENT, SERVICE extends EEFService<ELEMENT>> {
 
-
-	private final Collection<SERVICE> customServices; 
-	private SERVICE defaultService;
+	protected final Collection<SERVICE> customServices; 
+	protected SERVICE defaultService;
 	
 	/**
 	 * Default constructor. 
@@ -30,7 +30,7 @@ public class EEFServiceRegistry<ELEMENT, SERVICE extends EEFService<ELEMENT>> {
 		customServices = Lists.newArrayList();
 	}	
 
-	public synchronized void addService(final SERVICE service) {
+	public synchronized void addService(final SERVICE service, Map<?, ?> properties) {
 		if (service instanceof DefaultService) {
 			defaultService = service;
 		} else {

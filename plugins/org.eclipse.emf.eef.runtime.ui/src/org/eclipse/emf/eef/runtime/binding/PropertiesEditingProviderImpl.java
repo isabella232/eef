@@ -4,23 +4,16 @@
 package org.eclipse.emf.eef.runtime.binding;
 
 import java.util.Collection;
-import java.util.Collections;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ComposedPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit;
-import org.eclipse.emf.eef.runtime.view.handler.ComposedViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 
 import com.google.common.collect.Lists;
 
@@ -70,35 +63,6 @@ public class PropertiesEditingProviderImpl extends AbstractPropertiesEditingProv
 			return super.initSpecificEditingModel();
 		}
 	}
-
-
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initViewHandlerProvider()
-	 */
-	@Override
-	protected final ViewHandlerProvider initViewHandlerProvider() {
-		ComposedViewHandlerProvider.Builder builder = new ComposedViewHandlerProvider.Builder();
-		if (getSpecificViewHandlerProviders() != null && !getSpecificViewHandlerProviders().isEmpty()) {
-			builder.addAllHandlers(getSpecificViewHandlerProviders());
-		}
-		return builder
-						.addHandler(new PropertiesEditingViewHandlerProvider(buildPropertyEditorProvider()))
-						.addHandler(new SWTViewHandlerProvider())
-						.addHandler(new ReflectViewHandlerProvider())
-							.build();
-	}
-	
-	/**
-	 * This method returns specific {@link ViewHandlerProvider}s to use in the context of this provider.
-	 * This method can be overridden by subclasses to provide their own {@link ViewHandlerProvider}s.
-	 * @return a collection of {@link ViewHandlerProvider}s.
-	 */
-	protected Collection<ViewHandlerProvider> getSpecificViewHandlerProviders() {
-		return Collections.emptyList();
-	}
-	
 	
 	
 	// Search all instances of PropertiesEditingModel in the given resource.
@@ -111,16 +75,6 @@ public class PropertiesEditingProviderImpl extends AbstractPropertiesEditingProv
 			}
 		}
 		return result;
-	}
-	
-	
-	
-	// Build the EEF default PropertyEditorProviders (i.e. SWTToolkit and EMFPropertiesToolkit).
-	private PropertyEditorProvider buildPropertyEditorProvider() {
-		return new ComposedPropertyEditorProvider.Builder()
-						.addPropertyEditorProvider(new SWTToolkit())
-						.addPropertyEditorProvider(new EMFPropertiesToolkit())
-						.build();
 	}
 	
 }

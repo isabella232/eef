@@ -306,7 +306,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			registerViewHandler(specifiedHandler);
 			return specifiedHandler;
 		} else {
-			if (viewHandlerProvider.canHandle(view)) {
+			if (viewHandlerProvider.serviceFor(view)) {
 				ViewHandler<?> handler = viewHandlerProvider.getHandler(this, view);
 				if (handler != null) {
 					registerViewHandler(handler);

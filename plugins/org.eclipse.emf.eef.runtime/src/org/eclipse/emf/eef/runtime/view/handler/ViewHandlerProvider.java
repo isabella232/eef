@@ -4,20 +4,14 @@
 package org.eclipse.emf.eef.runtime.view.handler;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface ViewHandlerProvider {
+public interface ViewHandlerProvider extends EEFService<Object> {
 
-	/**
-	 * Defines if this provider can provide a handle for the given view. 
-	 * @param view view to handle.
-	 * @return <code>true</code> if current handler can handle the given view.
-	 */
-	boolean canHandle(Object view);
-	
 	/**
 	 * Provides a handler for the given view.
 	 * @param component {@link PropertiesEditingComponent} requests the {@link ViewHandler}. 

@@ -10,6 +10,7 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -44,8 +45,26 @@ public interface PropertiesEditingProvider extends EEFService<EPackage> {
 
 	/**
 	 * Defines the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingProvider}.
-	 * @param emfServiceProvider the emfServiceRegistry to set
+	 * @param emfServiceProvider the {@link EMFServiceProvider} to set
 	 */
 	void setEMFServiceProvider(EMFServiceProvider emfServiceProvider);
+
+	/**
+	 * Unsets the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingProvider}.
+	 * @param emfServiceProvider the {@link EMFServiceProvider} to unset.
+	 */
+	void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider);
+ 
+	/**
+	 * Defines the {@link ViewHandlerProviderRegistry} to use in the current {@link PropertiesEditingProvider}
+	 * @param viewHandlerProviderRegistry the {@link ViewHandlerProviderRegistry} to set.
+	 */
+	void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry);
+
+	/**
+	 * Unsets the {@link ViewHandlerProviderRegistry} to use in the current {@link PropertiesEditingProvider}
+	 * @param viewHandlerProviderRegistry the {@link ViewHandlerProviderRegistry} to unset.
+	 */
+	void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry);
 
 }
