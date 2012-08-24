@@ -6,10 +6,8 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 
 /**
@@ -29,11 +27,11 @@ public abstract class ToolkitPropertyEditorProvider implements ModelPropertyEdit
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider#canHandle(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider#serviceFor(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public boolean canHandle(PropertiesEditingView view, ElementEditor editor) {
+	public boolean serviceFor(PropertyEditorContext editorContext) {
 		for (WidgetPropertyEditorProvider provider : widgetProviders) {
-			if (provider.canHandle(view, editor)) {
+			if (provider.serviceFor(editorContext)) {
 				return true;
 			}
 		}
@@ -42,13 +40,13 @@ public abstract class ToolkitPropertyEditorProvider implements ModelPropertyEdit
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 * TODO: need cache
 	 */
-	public PropertyEditor getPropertyEditor(PropertiesEditingView view, ElementEditor editor) {
+	public PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
 		for (WidgetPropertyEditorProvider provider : widgetProviders) {
-			if (provider.canHandle(view, editor)) {
-				return provider.getPropertyEditor(view, editor);
+			if (provider.serviceFor(editorContext)) {
+				return provider.getPropertyEditor(editorContext);
 			}
 		}
 		return null;

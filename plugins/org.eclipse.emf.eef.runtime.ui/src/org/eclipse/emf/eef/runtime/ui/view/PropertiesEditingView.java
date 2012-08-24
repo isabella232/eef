@@ -7,7 +7,8 @@ import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.PropertyEditorProviderRegistry;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
 import org.eclipse.swt.widgets.Composite;
 
@@ -48,10 +49,10 @@ public interface PropertiesEditingView extends PropertiesEditingListener {
 	void dispose();
 
 	/**
-	 * Sets the PropertyEditor Provider.
-	 * @param propertyEditorProvider {@link PropertyEditorProvider} to use to build {@link PropertiesEditingView} contents.
+	 * Sets the {@link PropertyEditorProviderRegistry} to use for {@link PropertyEditor}s creation.
+	 * @param propertyEditorProviderRegistry {@link PropertyEditorProviderRegistry} to use to build {@link PropertiesEditingView} contents.
 	 */
-	void setPropertyEditorProvider(PropertyEditorProvider propertyEditorProvider);
+	void setPropertyEditorProviderRegistry(PropertyEditorProviderRegistry propertyEditorProviderRegistry);
 
 	/**
 	 * Sets the value to the given field.

@@ -10,6 +10,8 @@ import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
 import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
@@ -45,14 +47,16 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 	public void createContents(FormToolkit toolkit, Composite composite) {
 		contentsComposite = toolkit.createComposite(composite);
 		contentsComposite.setLayout(new GridLayout(3, false));
-		if (propertyEditorProvider != null) {
+		if (propertyEditorProviderRegistry != null) {
 			TreeIterator<EObject> eAllContents = viewDescriptor.eAllContents();
 			while (eAllContents.hasNext()) {
 				EObject next = eAllContents.next();
 				if (next instanceof ElementEditor) {
 					ElementEditor elementEditor = (ElementEditor) next;
-					if (propertyEditorProvider.canHandle(this, elementEditor)) {
-						PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(this, elementEditor);
+					PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
+					PropertyEditorProvider propertyEditorProvider = propertyEditorProviderRegistry.getPropertyEditorProvider(editorContext);
+					if (propertyEditorProvider != null) {
+						PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 						if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
 							((FormPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(toolkit, contentsComposite);
 							this.propertyEditors.put(elementEditor, propertyEditor);
