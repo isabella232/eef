@@ -19,5 +19,6 @@ public interface ViewHandlerProvider extends EEFService<Object> {
 	 * @return a {@link ViewHandler} managing the given view.
 	 */
 	ViewHandler<?> getHandler(PropertiesEditingComponent component, Object view);
+
 	
 }

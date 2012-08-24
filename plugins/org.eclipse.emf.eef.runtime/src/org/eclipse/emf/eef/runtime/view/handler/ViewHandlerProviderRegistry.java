@@ -3,7 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.view.handler;
 
-import java.util.List;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -11,6 +10,6 @@ import java.util.List;
  */
 public interface ViewHandlerProviderRegistry {
 
-	List<ViewHandlerProvider> getViewHandlerProviders();
+	ViewHandlerProvider getViewHandlerProvider(Object element);
 	
 }

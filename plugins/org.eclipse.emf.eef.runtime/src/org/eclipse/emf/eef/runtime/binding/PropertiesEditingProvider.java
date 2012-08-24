@@ -9,6 +9,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry;
 
@@ -39,9 +40,11 @@ public interface PropertiesEditingProvider extends EEFService<EPackage> {
 	PropertiesEditingModel getEditingModel(EObject eObject);
 
 	/**
-	 * @return the {@link ViewHandlerProvider} to use from this {@link AbstractPropertiesEditingProvider}.
+	 * @return a {@link ViewHandlerProvider} able to provide {@link ViewHandler} for the given view.
+	 * @param view view to process.
+	 * @return a applicable {@link ViewHandlerProvider} if exists, <code>null</code> otherwise.
 	 */
-	ViewHandlerProvider getViewHandlerProvider();
+	ViewHandlerProvider getViewHandlerProvider(Object view);
 
 	/**
 	 * Defines the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingProvider}.

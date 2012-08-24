@@ -17,7 +17,6 @@ import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironment
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.util.impl.EMFServiceRegistry;
-import org.eclipse.emf.eef.runtime.view.handler.ComposedViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry;
 
@@ -34,7 +33,6 @@ import com.google.common.collect.Lists;
 public abstract class AbstractPropertiesEditingProvider implements PropertiesEditingProvider {
 
 	private List<PropertiesEditingModel> editingModels;
-	private ViewHandlerProvider viewHandlerProvider;
 	private EditingModelEnvironment editingModelEnvironment;
 	
 	private EMFServiceProvider emfServiceProvider;
@@ -76,6 +74,14 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#getViewHandlerProvider(java.lang.Object)
+	 */
+	public ViewHandlerProvider getViewHandlerProvider(Object view) {
+		return viewHandlerProviderRegistry.getViewHandlerProvider(view);
+	}
+
 	/**
 	 * Determines if the current provided is designed to provide
 	 * {@link PropertiesEditingComponent} for the given {@link EPackage}.
@@ -148,42 +154,9 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#getViewHandlerProvider()
-	 */
-	public final ViewHandlerProvider getViewHandlerProvider() {
-		if (viewHandlerProvider == null) {
-			viewHandlerProvider = initViewHandlerProvider();
-		}
-		return viewHandlerProvider;
-	}
-
-	/**
 	 * @return the specific {@link PropertiesEditingModel}s to use from this {@link AbstractPropertiesEditingProvider}.
 	 */
 	protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
-		return Collections.emptyList();
-	}
-	
-	/**
-	 * @return the {@link ViewHandlerProvider} of this {@link AbstractPropertiesEditingProvider}.
-	 */
-	protected ViewHandlerProvider initViewHandlerProvider() {
-		ComposedViewHandlerProvider.Builder builder = new ComposedViewHandlerProvider.Builder();
-		if (getSpecificViewHandlerProviders() != null && !getSpecificViewHandlerProviders().isEmpty()) {
-			builder.addAllHandlers(getSpecificViewHandlerProviders());
-		}
-		return builder
-						.addAllHandlers(viewHandlerProviderRegistry.getViewHandlerProviders())
-							.build();
-	}
-
-	/**
-	 * This method returns specific {@link ViewHandlerProvider}s to use in the context of this provider.
-	 * This method can be overridden by subclasses to provide their own {@link ViewHandlerProvider}s.
-	 * @return a collection of {@link ViewHandlerProvider}s.
-	 */
-	protected Collection<ViewHandlerProvider> getSpecificViewHandlerProviders() {
 		return Collections.emptyList();
 	}
 	

@@ -4,4 +4,5 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider"/>
    </service>
+   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.ReflectViewHandlerProvider"/>
 </scr:component>

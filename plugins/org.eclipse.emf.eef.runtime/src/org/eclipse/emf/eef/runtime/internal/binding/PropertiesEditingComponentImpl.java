@@ -300,13 +300,13 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#createViewHandler(java.lang.Object)
 	 */
 	public ViewHandler<?> createViewHandler(Object view) {
-		ViewHandlerProvider viewHandlerProvider = editingProvider.getViewHandlerProvider();
 		ViewHandler<?> specifiedHandler = getEditingModel().viewHandler(source, view);
 		if (specifiedHandler != null) {
 			registerViewHandler(specifiedHandler);
 			return specifiedHandler;
 		} else {
-			if (viewHandlerProvider.serviceFor(view)) {
+			ViewHandlerProvider viewHandlerProvider = editingProvider.getViewHandlerProvider(view);
+			if (viewHandlerProvider != null) {
 				ViewHandler<?> handler = viewHandlerProvider.getHandler(this, view);
 				if (handler != null) {
 					registerViewHandler(handler);
