@@ -3,7 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.internal.view.handler;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +11,8 @@ import java.util.StringTokenizer;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry;
 
-import com.google.common.base.Function;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 /**
@@ -129,16 +125,5 @@ public final class ViewHandlerProviderRegistryImpl implements ViewHandlerProvide
 			}
 		}
 		return Collections.emptyList();
-	}
-
-	private final class ViewHandlerProviderExtractor implements Function<VHPMetadata, ViewHandlerProvider> {
-		/**
-		 * {@inheritDoc}
-		 * @see com.google.common.base.Function#apply(java.lang.Object)
-		 */
-		public ViewHandlerProvider apply(VHPMetadata input) {
-			return input.viewHandlerProvider();
-		}
-	}
-	
+	}	
 }

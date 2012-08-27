@@ -5,6 +5,8 @@ package org.eclipse.emf.eef.runtime.binding;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -14,11 +16,15 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
+import org.eclipse.emf.eef.runtime.internal.notify.ModelChangesNotifier;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.util.impl.EMFServiceRegistry;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry;
+import org.osgi.framework.BundleContext;
+import org.osgi.service.event.EventConstants;
+import org.osgi.service.event.EventHandler;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -37,6 +43,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	
 	private EMFServiceProvider emfServiceProvider;
 	private ViewHandlerProviderRegistry viewHandlerProviderRegistry;
+	private BundleContext bundleContext;
 	
 	/**
 	 * {@inheritDoc}
@@ -44,16 +51,6 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#unsetEMFServiceProvider(org.eclipse.emf.eef.runtime.util.EMFServiceProvider)
-	 */
-	public void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		if (emfServiceProvider == this.emfServiceProvider) {
-			this.emfServiceProvider = null;
-		}
 	}
 
 	/**
@@ -74,6 +71,14 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#setBundleContext(org.osgi.framework.BundleContext)
+	 */
+	public void setBundleContext(BundleContext bundleContext) {
+		this.bundleContext = bundleContext;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#getViewHandlerProvider(java.lang.Object)
@@ -123,7 +128,11 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#createComponent(org.eclipse.emf.ecore.EObject)
 	 */
 	public PropertiesEditingComponent createComponent(EObject target) {
-		return new PropertiesEditingComponentImpl(this, target);
+		PropertiesEditingComponentImpl component = new PropertiesEditingComponentImpl(this, target);
+		Dictionary<String, Object> properties = new Hashtable<String, Object>(); 
+		properties.put(EventConstants.EVENT_TOPIC, ModelChangesNotifier.EEF_EVENT_BASE_TOPIC + ModelChangesNotifier.EEF_ECLASS_NOTIFICATION_TOPIC + target.eClass().getEPackage().getName() + "_" + target.eClass().getName());		
+		bundleContext.registerService(EventHandler.class.getName(), component, properties);
+		return component;
 	}
 
 	/**

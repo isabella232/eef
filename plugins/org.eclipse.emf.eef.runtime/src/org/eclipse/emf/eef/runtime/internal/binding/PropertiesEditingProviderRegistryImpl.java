@@ -9,6 +9,8 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.util.impl.EMFServiceRegistry;
+import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry;
+import org.osgi.service.component.ComponentContext;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -17,6 +19,8 @@ import org.eclipse.emf.eef.runtime.util.impl.EMFServiceRegistry;
 public class PropertiesEditingProviderRegistryImpl extends EEFServiceRegistry<EPackage, PropertiesEditingProvider> implements PropertiesEditingProviderRegistry {
 
 	private EMFServiceProvider emfServiceProvider;
+	private ViewHandlerProviderRegistry viewHandlerProviderRegistry;
+	private ComponentContext context;
 
 	/**
 	 * {@inheritDoc}
@@ -35,13 +39,46 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceRegistry<EP
 			this.emfServiceProvider = null;
 		}
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#setViewHandlerProviderRegistry(ViewHandlerProviderRegistry)
+	 */
+	public void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
+		this.viewHandlerProviderRegistry = viewHandlerProviderRegistry;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#unsetViewHandlerProviderRegistry(org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry)
+	 */
+	public void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
+		if (viewHandlerProviderRegistry == this.viewHandlerProviderRegistry) {
+			this.viewHandlerProviderRegistry = null;
+		}
+	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#activate(org.osgi.service.component.ComponentContext)
+	 */
+	public void activate(ComponentContext context) {
+		this.context = context;
+		for (PropertiesEditingProvider provider : customServices) {
+			provider.setBundleContext(context.getBundleContext());
+		}
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceRegistry#addService(org.eclipse.emf.eef.runtime.services.EEFService)
 	 */
 	public synchronized void addService(PropertiesEditingProvider service) {
+		if (context != null) {
+			service.setBundleContext(context.getBundleContext());
+		}
 		service.setEMFServiceProvider(emfServiceProvider);
+		service.setViewHandlerProviderRegistry(viewHandlerProviderRegistry);
 		super.addService(service);
 	}
 

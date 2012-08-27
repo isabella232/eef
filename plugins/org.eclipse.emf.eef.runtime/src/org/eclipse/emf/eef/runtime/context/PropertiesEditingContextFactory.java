@@ -9,6 +9,7 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -51,7 +52,7 @@ public interface PropertiesEditingContextFactory {
 	 * Unsets the {@link EMFServiceProvider} to use in the {@link PropertiesEditingContext} created by this factory
 	 * @param emfServiceProvider {@link EMFServiceProvider} to use.
 	 */
-	void unsetEMFServiceRegistry(EMFServiceProvider emfServiceProvider);
+	void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider);
 
 	/**
 	 * Defines the {@link PropertiesEditingProviderRegistry} to use in the {@link PropertiesEditingContext} created by this factory
@@ -64,5 +65,16 @@ public interface PropertiesEditingContextFactory {
 	 * @param propertiesEditingProviderRegistry {@link PropertiesEditingProviderRegistry} to use.
 	 */
 	void unsetPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry);
+
+	/**
+	 * Defines the {@link EventAdmin} to use in the created {@link PropertiesEditingContext}s.
+	 * @param eventAdmin the eventAdmin to set
+	 */
+	void setEventAdmin(EventAdmin eventAdmin);
 	
+	/**
+	 * Unsets the {@link EventAdmin} used in the created {@link PropertiesEditingContext}s.
+	 * @param eventAdmin the eventAdmin to set
+	 */
+	void unsetEventAdmin(EventAdmin eventAdmin);
 }

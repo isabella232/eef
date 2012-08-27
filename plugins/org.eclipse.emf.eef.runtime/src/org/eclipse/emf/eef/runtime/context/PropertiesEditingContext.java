@@ -10,6 +10,7 @@ import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -29,6 +30,12 @@ public interface PropertiesEditingContext {
 	 */
 	void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry);
 
+	/**
+	 * Defines the {@link EventAdmin} to use in the current context.
+	 * @param eventAdmin the eventAdmin to set.
+	 */
+	void setEventAdmin(EventAdmin eventAdmin); 
+	
 	/**
 	 * Returns a {@link PropertiesEditingComponent} binding the edited model element.
 	 * @return a {@link PropertiesEditingComponent} binded on the edited model element.
@@ -76,6 +83,5 @@ public interface PropertiesEditingContext {
 	 * Dispose the current context. 
 	 */
 	void dispose();
-
 
 }

@@ -12,6 +12,7 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry;
+import org.osgi.framework.BundleContext;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -51,12 +52,6 @@ public interface PropertiesEditingProvider extends EEFService<EPackage> {
 	 * @param emfServiceProvider the {@link EMFServiceProvider} to set
 	 */
 	void setEMFServiceProvider(EMFServiceProvider emfServiceProvider);
-
-	/**
-	 * Unsets the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingProvider}.
-	 * @param emfServiceProvider the {@link EMFServiceProvider} to unset.
-	 */
-	void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider);
  
 	/**
 	 * Defines the {@link ViewHandlerProviderRegistry} to use in the current {@link PropertiesEditingProvider}
@@ -65,9 +60,8 @@ public interface PropertiesEditingProvider extends EEFService<EPackage> {
 	void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry);
 
 	/**
-	 * Unsets the {@link ViewHandlerProviderRegistry} to use in the current {@link PropertiesEditingProvider}
-	 * @param viewHandlerProviderRegistry the {@link ViewHandlerProviderRegistry} to unset.
+	 * Defines the {@link BundleContext} of this component.
+	 * @param bundleContext the {@link BundleContext} of this component.
 	 */
-	void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry);
-
+	void setBundleContext(BundleContext bundleContext);
 }

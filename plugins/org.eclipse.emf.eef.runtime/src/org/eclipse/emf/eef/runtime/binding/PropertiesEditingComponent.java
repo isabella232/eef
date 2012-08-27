@@ -13,12 +13,13 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
+import org.osgi.service.event.EventHandler;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface PropertiesEditingComponent extends PropertiesEditingListener {
+public interface PropertiesEditingComponent extends PropertiesEditingListener, EventHandler {
 
 	/**
 	 * @return the handled {@link EObject}.

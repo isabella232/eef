@@ -11,6 +11,7 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -20,6 +21,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 
 	private EMFServiceProvider emfServiceProvider;
 	private PropertiesEditingProviderRegistry propertiesEditingProviderRegistry;
+	private EventAdmin eventAdmin;
 
 	/**
 	 * {@inheritDoc}
@@ -33,7 +35,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetEMFServiceRegistry(org.eclipse.emf.eef.runtime.util.EMFServiceProvider)
 	 */
-	public void unsetEMFServiceRegistry(EMFServiceProvider emfServiceProvider) {
+	public void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		if (emfServiceProvider == this.emfServiceProvider) {
 			this.emfServiceProvider = null;
 		}
@@ -58,12 +60,29 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setEventAdmin(org.osgi.service.event.EventAdmin)
+	 */
+	public void setEventAdmin(EventAdmin eventAdmin) {
+		this.eventAdmin = eventAdmin;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetEventAdmin(org.osgi.service.event.EventAdmin)
+	 */
+	public void unsetEventAdmin(EventAdmin eventAdmin) {
+		if (eventAdmin == this.eventAdmin) {
+			this.eventAdmin = eventAdmin;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createPropertiesEditingContext(org.eclipse.emf.common.notify.AdapterFactory, org.eclipse.emf.ecore.EObject)
 	 */
 	public PropertiesEditingContext createPropertiesEditingContext(AdapterFactory adapterFactory, EObject eObject) {
 		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(adapterFactory, eObject);
-		context.setEmfServiceProvider(emfServiceProvider);
-		context.setPropertiesEditingProviderRegistry(propertiesEditingProviderRegistry);
+		configureEditingContext(context);
 		return context;
 	}
 
@@ -73,8 +92,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	 */
 	public PropertiesEditingContext createPropertiesEditingContext(AdapterFactoryEditingDomain domain, EObject eObject) {
 		DomainPropertiesEditingContext context = new DomainPropertiesEditingContext(domain, eObject);
-		context.setEmfServiceProvider(emfServiceProvider);
-		context.setPropertiesEditingProviderRegistry(propertiesEditingProviderRegistry);
+		configureEditingContext(context);
 		return context;
 	}
 
@@ -82,15 +100,16 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createPropertiesEditingContext(org.eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.common.notify.AdapterFactory, org.eclipse.emf.ecore.EObject)
 	 */
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createPropertiesEditingContext(org.eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.common.notify.AdapterFactory, org.eclipse.emf.ecore.EObject)
-	 */
 	public PropertiesEditingContext createPropertiesEditingContext(EditingDomain domain, AdapterFactory adapterFactory, EObject eObject) {
 		DomainPropertiesEditingContext context = new DomainPropertiesEditingContext(domain, adapterFactory, eObject);
+		configureEditingContext(context);
+		return context;
+	}
+
+	private void configureEditingContext(EObjectPropertiesEditingContext context) {
 		context.setEmfServiceProvider(emfServiceProvider);
 		context.setPropertiesEditingProviderRegistry(propertiesEditingProviderRegistry);
-		return context;
+		context.setEventAdmin(eventAdmin);
 	}
 
 }

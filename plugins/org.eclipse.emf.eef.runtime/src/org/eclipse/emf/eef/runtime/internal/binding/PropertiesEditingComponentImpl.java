@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.WrappedException;
@@ -36,6 +37,8 @@ import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
+import org.osgi.service.event.Event;
 
 import com.google.common.collect.Lists;
 
@@ -156,72 +159,82 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
-//	public void notifyChanged(Notification msg) {
-//		PropertiesEditingModel editingModel = getEditingModel();
-//		if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
-//			EStructuralFeature structuralFeature = (EStructuralFeature)msg.getFeature();
-//			EClassBinding binding = editingModel.binding((EObject) getTarget());
-//			Object propertyEditor = binding.propertyEditor(structuralFeature, editingContext.getOptions().autowire());
-//			for (ViewHandler<?> viewHandler : viewHandlers) {
-//				switch (msg.getEventType()) {
-//				case Notification.SET:
-//					try {
-//						viewHandler.setValue(propertyEditor, msg.getNewValue());						
-//					} catch (ViewHandlingException e) {
-//						//NOTE: Silent catch
-//					}
-//					break;
-//				case Notification.UNSET:
-//					try {
-//						viewHandler.unsetValue(propertyEditor);						
-//					} catch (ViewHandlingException e) {
-//						//NOTE: Silent catch
-//					}
-//					break;
-//				case Notification.ADD:
-//					try {
-//						viewHandler.addValue(propertyEditor, msg.getNewValue());						
-//					} catch (ViewHandlingException e) {
-//						//NOTE: Silent catch
-//					}
-//					break;
-//				case Notification.ADD_MANY:
-//					try {
-//						viewHandler.addAllValues(propertyEditor, (Collection<?>) msg.getNewValue());						
-//					} catch (ViewHandlingException e) {
-//						//NOTE: Silent catch
-//					}
-//					break;
-//				case Notification.REMOVE:
-//					try {
-//						viewHandler.removeValue(propertyEditor, msg.getOldValue());						
-//					} catch (ViewHandlingException e) {
-//						//NOTE: Silent catch
-//					}
-//					break;
-//				case Notification.REMOVE_MANY:
-//					try {
-//						viewHandler.removeAllValues(propertyEditor, (Collection<?>) msg.getOldValue());						
-//					} catch (ViewHandlingException e) {
-//						//NOTE: Silent catch
-//					}
-//					break;
-//				case Notification.MOVE:
-//					try {
-//						//TODO: find the good index
-//						int newIndex = 0;
-//						viewHandler.moveValue(propertyEditor, msg.getNewValue(), newIndex );						
-//					} catch (ViewHandlingException e) {
-//						//NOTE: Silent catch
-//					}
-//					break;
-//				default:
-//					break;
-//				}
-//			}
-//		}			
-//	}
+	public void notifyChanged(Notification msg) {
+		PropertiesEditingModel editingModel = getEditingModel();
+		if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
+			EStructuralFeature structuralFeature = (EStructuralFeature)msg.getFeature();
+			EClassBinding binding = editingModel.binding(source);
+			Object propertyEditor = binding.propertyEditor(structuralFeature, editingContext.getOptions().autowire());
+			for (ViewHandler<?> viewHandler : viewHandlers) {
+				switch (msg.getEventType()) {
+				case Notification.SET:
+					try {
+						viewHandler.setValue(propertyEditor, msg.getNewValue());						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				case Notification.UNSET:
+					try {
+						viewHandler.unsetValue(propertyEditor);						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				case Notification.ADD:
+					try {
+						viewHandler.addValue(propertyEditor, msg.getNewValue());						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				case Notification.ADD_MANY:
+					try {
+						viewHandler.addAllValues(propertyEditor, (Collection<?>) msg.getNewValue());						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				case Notification.REMOVE:
+					try {
+						viewHandler.removeValue(propertyEditor, msg.getOldValue());						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				case Notification.REMOVE_MANY:
+					try {
+						viewHandler.removeAllValues(propertyEditor, (Collection<?>) msg.getOldValue());						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				case Notification.MOVE:
+					try {
+						//TODO: find the good index
+						int newIndex = 0;
+						viewHandler.moveValue(propertyEditor, msg.getNewValue(), newIndex );						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}			
+	}
 
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.osgi.service.event.EventHandler#handleEvent(org.osgi.service.event.Event)
+	 */
+	public void handleEvent(Event event) {
+		if (event.getProperty("notification") instanceof Notification) {
+			this.notifyChanged((Notification) event.getProperty("notification"));
+		}
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -376,11 +389,20 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#dispose()
 	 */
-	public void dispose() {
+	public void dispose() {	
 		List<ViewHandler<?>> handlers = new ArrayList<ViewHandler<?>>(viewHandlers);
 		for (ViewHandler<?> handler : handlers) {
 			handler.dispose();
 		}
+		
+		// Making a blank component to be sure to not reuse it!
+		editingProvider = null;
+		source = null;
+		editingContext = null;
+		editingModel = null;
+		viewHandlers.clear();
+		viewChangeNotifier = null;
+		listeners.clear();
 	}
 
 	/**

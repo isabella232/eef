@@ -48,3 +48,4 @@ Export-Package: org.eclipse.emf.eef.runtime.binding,
  org.eclipse.emf.eef.views.util
 Bundle-Activator: org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI$Plugin
 Service-Component: OSGI-INF/ViewServiceImpl.xml, OSGI-INF/ViewServiceRegistry.xml, OSGI-INF/StandardDoubleClickFactory.xml, OSGI-INF/PropertiesEditingViewHandlerProvider.xml, OSGI-INF/ReflectViewHandlerProvider.xml, OSGI-INF/SWTViewHandlerProvider.xml, OSGI-INF/SWTToolkit.xml, OSGI-INF/EMFPropertiesToolkit.xml, OSGI-INF/StandardPropertyEditorProviderRegistry.xml
+Import-Package: org.osgi.service.event

@@ -11,6 +11,7 @@ import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -28,7 +29,7 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	}
 
 	/**
-	 * @param emfServiceProvider
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setEmfServiceProvider(org.eclipse.emf.eef.runtime.util.EMFServiceProvider)
 	 */
 	public void setEmfServiceProvider(EMFServiceProvider emfServiceProvider) {
@@ -36,11 +37,19 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	}
 
 	/**
-	 * @param propertiesEditingProviderRegistry
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setPropertiesEditingProviderRegistry(org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry)
 	 */
 	public void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry) {
 		delegatingContext.setPropertiesEditingProviderRegistry(propertiesEditingProviderRegistry);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setEventAdmin(org.osgi.service.event.EventAdmin)
+	 */
+	public void setEventAdmin(EventAdmin eventAdmin) {
+		delegatingContext.setEventAdmin(eventAdmin);
 	}
 
 	/**

@@ -17,6 +17,8 @@ import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionExcep
 import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
@@ -110,9 +112,13 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#setValue(java.lang.Object, java.lang.Object)
 	 */
-	public void setValue(Object field, Object value) throws ViewHandlingException {
+	public void setValue(final Object field, final Object value) throws ViewHandlingException {
 		if (view != null) {
-			view.setValue(field, value);
+			executeUIRunnable(new Runnable() {
+				public void run() {
+					view.setValue(field, value);
+				}
+			});
 		}
 	}
 
@@ -120,9 +126,13 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#unsetValue(java.lang.Object)
 	 */
-	public void unsetValue(Object field) throws ViewHandlingException {
+	public void unsetValue(final Object field) throws ViewHandlingException {
 		if (view != null) {
-			view.unsetValue(field);
+			executeUIRunnable(new Runnable() {
+				public void run() {
+					view.unsetValue(field);
+				}
+			});
 		}
 	}
 
@@ -130,9 +140,13 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#addValue(java.lang.Object, java.lang.Object)
 	 */
-	public void addValue(Object field, Object newValue) throws ViewHandlingException {
+	public void addValue(final Object field, final Object newValue) throws ViewHandlingException {
 		if (view != null) {
-			view.addValue(field, newValue);
+			executeUIRunnable(new Runnable() {
+				public void run() {
+					view.addValue(field, newValue);
+				}
+			});
 		}
 	}
 
@@ -140,9 +154,14 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#addAllValues(java.lang.Object, java.util.Collection)
 	 */
-	public void addAllValues(Object field, Collection<?> values) throws ViewHandlingException {
-		if (view != null) {
-			view.addAllValues(field, values);
+	public void addAllValues(final Object field, final Collection<?> values) throws ViewHandlingException {
+		if (view != null) {	
+			executeUIRunnable(new Runnable() {
+				public void run() {
+					view.addAllValues(field, values);
+				}
+			});
+
 		}
 	}
 
@@ -150,9 +169,13 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeValue(java.lang.Object, java.lang.Object)
 	 */
-	public void removeValue(Object field, Object value) throws ViewHandlingException {
+	public void removeValue(final Object field, final Object value) throws ViewHandlingException {
 		if (view != null) {
-			view.removeValue(field, value);
+			executeUIRunnable(new Runnable() {
+				public void run() {
+					view.removeValue(field, value);
+				}
+			});
 		}
 	}
 
@@ -160,9 +183,13 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeAllValues(java.lang.Object, java.util.Collection)
 	 */
-	public void removeAllValues(Object field, Collection<?> values) throws ViewHandlingException {
+	public void removeAllValues(final Object field, final Collection<?> values) throws ViewHandlingException {
 		if (view != null) {
-			view.removeAllValues(field, values);
+			executeUIRunnable(new Runnable() {
+				public void run() {
+					view.removeAllValues(field, values);
+				}
+			});
 		}
 	}
 
@@ -170,9 +197,13 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#moveValue(java.lang.Object, java.lang.Object, int)
 	 */
-	public void moveValue(Object field, Object value, int newIndex) throws ViewHandlingException {
+	public void moveValue(final Object field, final Object value, final int newIndex) throws ViewHandlingException {
 		if (view != null) {
-			view.moveValue(field, value, newIndex);
+			executeUIRunnable(new Runnable() {
+				public void run() {
+					view.moveValue(field, value, newIndex);
+				}
+			});
 		}
 	}
 
@@ -182,6 +213,14 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 */
 	public void dispose() {
 		this.editingComponent.unregisterViewHandler(this);
+	}
+	
+	private final void executeUIRunnable(Runnable updateRunnable) {
+		if (null == Display.getCurrent()) {
+			PlatformUI.getWorkbench().getDisplay().syncExec(updateRunnable);
+		} else {
+			updateRunnable.run();
+		}
 	}
 
 }

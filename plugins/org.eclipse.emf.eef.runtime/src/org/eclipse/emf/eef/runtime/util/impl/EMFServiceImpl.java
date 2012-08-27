@@ -3,11 +3,13 @@
  */
 package org.eclipse.emf.eef.runtime.util.impl;
 
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 
@@ -21,7 +23,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public boolean serviceFor(EPackage element) {
+	public boolean serviceFor(final EPackage element) {
 		return true;
 	}
 
@@ -29,7 +31,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EClass, org.eclipse.emf.ecore.EClass)
 	 */
-	public boolean equals(EClass eClass1, EClass eClass2) {
+	public boolean equals(final EClass eClass1, final EClass eClass2) {
 		if (eClass1.equals(eClass2)) {
 			return true;
 		}
@@ -58,7 +60,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EPackage, org.eclipse.emf.ecore.EPackage)
 	 */
-	public boolean equals(EPackage ePack1, EPackage ePack2) {
+	public boolean equals(final EPackage ePack1, final EPackage ePack2) {
 		if (ePack1 == ePack2) {
 			return true;
 		} else if (ePack1.eResource().getURI().isPlatform() && !ePack2.eResource().getURI().isPlatform()) {
@@ -79,7 +81,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.util.EMFService#mapFeature(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
-	public EStructuralFeature mapFeature(EObject editedObject, EStructuralFeature feature) {
+	public EStructuralFeature mapFeature(final EObject editedObject, final EStructuralFeature feature) {
 		if (feature != null) {
 			if (editedObject.eClass().getEAllStructuralFeatures().contains(feature)) {
 				// If the EObject contains the feature then we return this feature
@@ -97,7 +99,27 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#highestNotifier(org.eclipse.emf.ecore.EObject)
+	 */
+	public Notifier highestNotifier(final EObject src) {
+		if (src.eResource() != null) {
+			Resource resource = src.eResource();
+			if (resource.getResourceSet() != null) {
+				return resource.getResourceSet();
+			} else {
+				return resource;
+			}
+		} else {
+			EObject tmp = src;
+			while (tmp.eContainer() != null) {
+				tmp = tmp.eContainer();
+			}
+			return tmp;
+		}
 	}	
 	
-
 }

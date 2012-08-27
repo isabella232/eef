@@ -3,10 +3,13 @@
  */
 package org.eclipse.emf.eef.runtime.util;
 
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
@@ -38,5 +41,15 @@ public interface EMFService extends EEFService<EPackage> {
 	 * @return the corresponding feature if founded, <code>null</code> otherwise.
 	 */
 	EStructuralFeature mapFeature(EObject editedObject, EStructuralFeature feature);
+	
+	/**
+	 * Returns the highest notifier accessible from the given EObject. The result can be:
+	 * 	- The {@link ResourceSet} if the EObject is contained by an {@link ResourceSet};
+	 * 	- The containing {@link Resource} if exists;
+	 * 	- The root {@link EObject} of the cluster containing the given {@link EObject} otherwise.
+	 * @param src {@link EObject} to process.
+	 * @return the highest {@link Notifier}.
+	 */
+	Notifier highestNotifier(EObject src);
 	
 }
