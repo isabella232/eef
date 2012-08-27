@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -23,6 +24,7 @@ import org.eclipse.emf.eef.runtime.util.impl.EMFServiceRegistry;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 
@@ -31,6 +33,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -44,7 +47,15 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	private EMFServiceProvider emfServiceProvider;
 	private ViewHandlerProviderRegistry viewHandlerProviderRegistry;
 	private BundleContext bundleContext;
+	private Map<PropertiesEditingComponent,ServiceRegistration<?>> serviceRegistrations;
 	
+	/**
+	 * Default constructor.
+	 */
+	public AbstractPropertiesEditingProvider() {
+		serviceRegistrations = Maps.newHashMap();
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#setEMFServiceProvider(EMFServiceRegistry)
@@ -131,8 +142,20 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 		PropertiesEditingComponentImpl component = new PropertiesEditingComponentImpl(this, target);
 		Dictionary<String, Object> properties = new Hashtable<String, Object>(); 
 		properties.put(EventConstants.EVENT_TOPIC, ModelChangesNotifier.EEF_EVENT_BASE_TOPIC + ModelChangesNotifier.EEF_ECLASS_NOTIFICATION_TOPIC + target.eClass().getEPackage().getName() + "_" + target.eClass().getName());		
-		bundleContext.registerService(EventHandler.class.getName(), component, properties);
+		ServiceRegistration<?> registerService = bundleContext.registerService(EventHandler.class.getName(), component, properties);
+		serviceRegistrations.put(component, registerService);
 		return component;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 */
+	public void disposeComponent(PropertiesEditingComponent component) {
+		if (serviceRegistrations.get(component) != null) {
+			bundleContext.ungetService(serviceRegistrations.get(component).getReference());
+		}
+		
 	}
 
 	/**

@@ -33,9 +33,9 @@ public abstract class StandardFormPropertyEditor<VIEWER extends Viewer> implemen
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(FormToolkit toolkit, Composite parent) {
-		view.getViewService().createLabel(parent, elementEditor, elementEditor.getName());
+		view.getViewService().createLabel(toolkit, parent, elementEditor, elementEditor.getName());
 		createEditorContents(toolkit, parent);
-		view.getViewService().createHelpButton(parent, elementEditor);
+		view.getViewService().createHelpButton(toolkit, parent, elementEditor);
 	}
 
 	/**

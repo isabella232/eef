@@ -259,7 +259,6 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 			}
 
 		};
-		initToolkit();
 		viewDescriptor = searchViewFromDescriptor();
 		if (this.viewDescriptor != null) {
 			viewHandler = editingComponent.createViewHandler(viewDescriptor);

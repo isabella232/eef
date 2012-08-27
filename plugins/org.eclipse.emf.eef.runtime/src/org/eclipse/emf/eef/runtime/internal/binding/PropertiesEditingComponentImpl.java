@@ -389,12 +389,12 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#dispose()
 	 */
-	public void dispose() {	
+	public void dispose() {
 		List<ViewHandler<?>> handlers = new ArrayList<ViewHandler<?>>(viewHandlers);
 		for (ViewHandler<?> handler : handlers) {
 			handler.dispose();
 		}
-		
+		editingProvider.disposeComponent(this);
 		// Making a blank component to be sure to not reuse it!
 		editingProvider = null;
 		source = null;

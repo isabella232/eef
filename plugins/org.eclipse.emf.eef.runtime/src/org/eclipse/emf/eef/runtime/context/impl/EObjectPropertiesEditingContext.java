@@ -36,6 +36,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	private EMFServiceProvider emfServiceProvider;
 	private PropertiesEditingProviderRegistry propertiesEditingProviderRegistry;
 	private EventAdmin eventAdmin;
+	private PropertiesEditingComponent component;
 
 	/**
 	 * @param eObject {@link EObject} to edit.
@@ -99,9 +100,11 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingComponent()
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
-		initModelChangesNotifier(eObject);
-		PropertiesEditingComponent component = propertiesEditingProviderRegistry.getPropertiesEditingProvider(eObject.eClass().getEPackage()).createComponent(eObject);
-		component.setEditingContext(this);
+		if (component == null) {
+			initModelChangesNotifier(eObject);
+			component = propertiesEditingProviderRegistry.getPropertiesEditingProvider(eObject.eClass().getEPackage()).createComponent(eObject);
+			component.setEditingContext(this);
+		}
 		return component;
 	}
 

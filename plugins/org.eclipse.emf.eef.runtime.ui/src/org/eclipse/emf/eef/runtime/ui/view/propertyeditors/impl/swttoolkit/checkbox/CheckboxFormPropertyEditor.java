@@ -68,7 +68,7 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 		checkbox.setLayoutData(checkboxData);
 		view.getViewService().setID(checkbox, elementEditor.getQualifiedIdentifier());
 		view.getViewService().setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
-		view.getViewService().createHelpButton(parent, elementEditor);
+		view.getViewService().createHelpButton(toolkit, parent, elementEditor);
 	}
 
 }

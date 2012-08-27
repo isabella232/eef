@@ -27,6 +27,12 @@ public interface PropertiesEditingProvider extends EEFService<EPackage> {
 	 * @return the created {@link PropertiesEditingComponent}.
 	 */
 	PropertiesEditingComponent createComponent(EObject target);
+	
+	/**
+	 * Executes operations to be done to dispose the given {@link PropertiesEditingComponent}.
+	 * @param component {@link PropertiesEditingComponent} to dispose.
+	 */
+	void disposeComponent(PropertiesEditingComponent component);
 
 	/**
 	 * @return the editingModelEnvironment of this provider.

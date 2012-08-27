@@ -6,13 +6,11 @@ package org.eclipse.emf.eef.runtime.ui.internal.view.impl;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
-import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.layout.GridLayout;
@@ -37,7 +35,6 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 	 */
 	public FormImplPropertiesEditingView(PropertiesEditingComponent editingComponent, View viewDescriptor) {
 		super(editingComponent, viewDescriptor);
-		initToolkit();
 	}
 
 	/**
@@ -67,14 +64,4 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 		}
 	}
 
-	/**
-	 * Initialize the {@link FormToolkit} of the {@link ViewService}
-	 */
-	protected void initToolkit() {
-		FormToolkit toolkit = getEditingComponent().getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
-		if (toolkit != null) {
-			getViewService().setToolkit(toolkit);
-		}
-	}
-	
 }

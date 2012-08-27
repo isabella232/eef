@@ -49,12 +49,6 @@ public interface ViewService extends EEFService<View> {
 	String EEF_WIDGET_TYPE_KEY = "org.eclipse.emf.eef.widgets.type";
 
 	/**
-	 * Sets the toolkit to use for creating widgets
-	 * @param toolkit widget factory.
-	 */
-	void setToolkit(FormToolkit toolkit);
-	
-	/**
 	 * @return the {@link PropertiesEditingComponent} of this helper.
 	 */
 	PropertiesEditingComponent getEditingComponent();
@@ -75,22 +69,24 @@ public interface ViewService extends EEFService<View> {
 
 	/**
 	 * Instantiate a new label to display the given feature.
+	 * @param toolkit a {@link FormToolkit} to use in Eclipse Form Style. This parameter can be null.
 	 * @param parent label container.
 	 * @param editor feature to display.
 	 * @param alternate alternative text.
 	 * @return created label.
 	 */
-	Label createLabel(Composite parent, Object editor, String alternate);
+	Label createLabel(FormToolkit toolkit, Composite parent, Object editor, String alternate);
 	
 	/**
 	 * Instantiate a help button for the given feature.
+	 * @param toolkit a {@link FormToolkit} to use in Eclipse Form Style. This parameter can be null.
 	 * @param parent button container.
 	 * @param editor feature to process.
 	 * @param alternate alternative text.
 	 * @param helpID help ID
 	 * @return created control.
 	 */
-	Control createHelpButton(final Composite parent, Object editor);
+	Control createHelpButton(FormToolkit toolkit, final Composite parent, Object editor);
 
 	/**
 	 * Returns documentation about the feature binded to the given editor. There is two strategies for getting this documentation:

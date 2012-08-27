@@ -69,7 +69,7 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 		checkbox.setLayoutData(checkboxData);
 		view.getViewService().setID(checkbox, elementEditor.getQualifiedIdentifier());
 		view.getViewService().setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
-		view.getViewService().createHelpButton(parent, elementEditor);
+		view.getViewService().createHelpButton(null, parent, elementEditor);
 	}
 
 }

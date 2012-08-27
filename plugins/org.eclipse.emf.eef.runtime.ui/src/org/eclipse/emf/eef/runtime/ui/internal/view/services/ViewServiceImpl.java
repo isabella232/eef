@@ -56,7 +56,6 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 	public static final String DLG_IMG_HELP = "dialog_help_image"; //$NON-NLS-1$
 
 	private PropertiesEditingComponent editingComponent;
-	private FormToolkit toolkit;
 	
 	/**
 	 * Creates a semanticless helper.
@@ -88,17 +87,10 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 	}
 
 	/**
-	 * @param toolkit the toolkit to set
-	 */
-	public void setToolkit(FormToolkit toolkit) {
-		this.toolkit = toolkit;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService.ViewHelper#createLabel(org.eclipse.swt.widgets.Composite, java.lang.Object, java.lang.String)
 	 */
-	public Label createLabel(Composite parent, Object editor, String alternate) {
+	public Label createLabel(FormToolkit toolkit, Composite parent, Object editor, String alternate) {
 		String text = getDescription(editor, alternate);
 		if (!text.endsWith(": ") && !text.endsWith(":")) {
 			text += ": ";
@@ -140,8 +132,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService.ViewHelper#createHelpButton(org.eclipse.swt.widgets.Composite, java.lang.Object)
 	 */
-	@SuppressWarnings("unused")
-	public Control createHelpButton(Composite parent, Object editor ) {
+	public Control createHelpButton(FormToolkit toolkit, Composite parent, Object editor ) {
 		//To manage in future
 		String helpID = null;
 		String alternate = getHelpContent(editor);

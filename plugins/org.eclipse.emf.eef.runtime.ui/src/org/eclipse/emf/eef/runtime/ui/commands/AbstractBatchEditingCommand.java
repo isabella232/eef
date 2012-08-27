@@ -12,7 +12,6 @@ package org.eclipse.emf.eef.runtime.ui.commands;
 
 
 import org.eclipse.emf.common.command.AbstractCommand;
-import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 
 /**
@@ -21,8 +20,6 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 public abstract class AbstractBatchEditingCommand extends AbstractCommand {
 
 	protected PropertiesEditingContext editingContext;
-
-	protected ChangeDescription description;
 
 	/**
 	 * @param editionContext
