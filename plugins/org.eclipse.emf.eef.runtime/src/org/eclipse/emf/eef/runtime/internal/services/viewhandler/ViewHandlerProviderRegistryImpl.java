@@ -1,15 +1,15 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.view.handler;
+package org.eclipse.emf.eef.runtime.internal.services.viewhandler;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -60,7 +60,7 @@ public final class ViewHandlerProviderRegistryImpl implements ViewHandlerProvide
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry#getViewHandlerProvider(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry#getViewHandlerProvider(java.lang.Object)
 	 */
 	public ViewHandlerProvider getViewHandlerProvider(Object element) {
 		List<VHPMetadata> availableProviders = Lists.newArrayList();

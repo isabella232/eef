@@ -4,7 +4,7 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory"/>
    </service>
-   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static" unbind="unsetEMFServiceProvider"/>
+   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" policy="static" unbind="unsetEMFServiceProvider"/>
    <reference bind="setPropertiesEditingProviderRegistry" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry" name="PropertiesEditingProviderRegistry" policy="dynamic" unbind="unsetPropertiesEditingProviderRegistry"/>
    <reference bind="setEventAdmin" cardinality="1..1" interface="org.osgi.service.event.EventAdmin" name="EventAdmin" policy="dynamic" unbind="unsetEventAdmin"/>
 </scr:component>

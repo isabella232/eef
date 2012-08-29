@@ -1,10 +1,10 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.util;
+package org.eclipse.emf.eef.runtime.services.emf;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.eef.runtime.util.impl.EMFServiceImpl;
+import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.view.handler;
+package org.eclipse.emf.eef.runtime.services.viewhandler;
 
 
 /**

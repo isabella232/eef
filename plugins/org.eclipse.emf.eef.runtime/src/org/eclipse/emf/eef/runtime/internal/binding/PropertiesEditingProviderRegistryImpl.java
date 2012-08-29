@@ -7,9 +7,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.util.impl.EMFServiceRegistry;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 import org.osgi.service.component.ComponentContext;
 
 /**
@@ -32,7 +32,7 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceRegistry<EP
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry#unsetEMFServiceRegistry(org.eclipse.emf.eef.runtime.util.impl.EMFServiceRegistry)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry#unsetEMFServiceRegistry(org.eclipse.emf.eef.runtime.services.emf.EMFServiceRegistry)
 	 */
 	public void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		if (emfServiceProvider == this.emfServiceProvider) {
@@ -50,7 +50,7 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceRegistry<EP
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#unsetViewHandlerProviderRegistry(org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#unsetViewHandlerProviderRegistry(org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry)
 	 */
 	public void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
 		if (viewHandlerProviderRegistry == this.viewHandlerProviderRegistry) {

@@ -1,9 +1,9 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.view.handler;
+package org.eclipse.emf.eef.runtime.internal.services.viewhandler;
 
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

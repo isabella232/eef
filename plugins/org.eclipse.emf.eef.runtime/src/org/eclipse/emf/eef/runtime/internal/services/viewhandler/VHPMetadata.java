@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.view.handler;
+package org.eclipse.emf.eef.runtime.internal.services.viewhandler;
 
 import java.util.List;
 
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 
 import com.google.common.collect.Lists;
 

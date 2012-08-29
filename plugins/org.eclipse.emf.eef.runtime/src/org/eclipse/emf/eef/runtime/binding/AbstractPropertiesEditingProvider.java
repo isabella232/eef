@@ -18,11 +18,11 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
 import org.eclipse.emf.eef.runtime.internal.notify.ModelChangesNotifier;
-import org.eclipse.emf.eef.runtime.util.EMFService;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.util.impl.EMFServiceRegistry;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.event.EventConstants;
@@ -74,7 +74,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#unsetViewHandlerProviderRegistry(org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProviderRegistry)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#unsetViewHandlerProviderRegistry(org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry)
 	 */
 	public void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
 		if (viewHandlerProviderRegistry == this.viewHandlerProviderRegistry) {

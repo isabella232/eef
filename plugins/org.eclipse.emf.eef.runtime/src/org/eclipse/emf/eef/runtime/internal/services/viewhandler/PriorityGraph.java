@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.view.handler;
+package org.eclipse.emf.eef.runtime.internal.services.viewhandler;
 
 import java.util.Collection;
 import java.util.Collections;

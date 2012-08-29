@@ -26,7 +26,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.JavaView} object.

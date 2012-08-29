@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.view.handler.exceptions;
+package org.eclipse.emf.eef.runtime.services.viewhandler.exceptions;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

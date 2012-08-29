@@ -6,15 +6,15 @@ package org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;
 import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
+import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.AbstractPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.SWTImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -51,7 +51,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#createView(java.lang.Object[])
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#createView(java.lang.Object[])
 	 */
 	public PropertiesEditingView createView(Object... args) throws ViewConstructionException {
 		if (view == null) {
@@ -76,7 +76,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void initView(PropertiesEditingComponent component) {
 		if (view != null) {
@@ -86,7 +86,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#getView()
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getView()
 	 */
 	public PropertiesEditingView getView() { 
 		return view;
@@ -102,7 +102,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#getProvider()
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getProvider()
 	 */
 	public ViewHandlerProvider getProvider() {
 		return handlerProvider;
@@ -110,7 +110,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#setValue(java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#setValue(java.lang.Object, java.lang.Object)
 	 */
 	public void setValue(final Object field, final Object value) throws ViewHandlingException {
 		if (view != null) {
@@ -124,7 +124,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#unsetValue(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#unsetValue(java.lang.Object)
 	 */
 	public void unsetValue(final Object field) throws ViewHandlingException {
 		if (view != null) {
@@ -138,7 +138,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#addValue(java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#addValue(java.lang.Object, java.lang.Object)
 	 */
 	public void addValue(final Object field, final Object newValue) throws ViewHandlingException {
 		if (view != null) {
@@ -152,7 +152,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#addAllValues(java.lang.Object, java.util.Collection)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#addAllValues(java.lang.Object, java.util.Collection)
 	 */
 	public void addAllValues(final Object field, final Collection<?> values) throws ViewHandlingException {
 		if (view != null) {	
@@ -167,7 +167,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeValue(java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#removeValue(java.lang.Object, java.lang.Object)
 	 */
 	public void removeValue(final Object field, final Object value) throws ViewHandlingException {
 		if (view != null) {
@@ -181,7 +181,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeAllValues(java.lang.Object, java.util.Collection)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#removeAllValues(java.lang.Object, java.util.Collection)
 	 */
 	public void removeAllValues(final Object field, final Collection<?> values) throws ViewHandlingException {
 		if (view != null) {
@@ -195,7 +195,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#moveValue(java.lang.Object, java.lang.Object, int)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#moveValue(java.lang.Object, java.lang.Object, int)
 	 */
 	public void moveValue(final Object field, final Object value, final int newIndex) throws ViewHandlingException {
 		if (view != null) {
@@ -209,7 +209,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#dispose()
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#dispose()
 	 */
 	public void dispose() {
 		this.editingComponent.unregisterViewHandler(this);

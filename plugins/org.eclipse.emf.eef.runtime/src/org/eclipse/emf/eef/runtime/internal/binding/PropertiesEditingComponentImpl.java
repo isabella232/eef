@@ -35,9 +35,9 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.osgi.service.event.Event;
 
 import com.google.common.collect.Lists;
@@ -348,7 +348,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#registerViewHandler(org.eclipse.emf.eef.runtime.view.handler.ViewHandler)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#registerViewHandler(org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler)
 	 */
 	public void registerViewHandler(ViewHandler<?> handler) {
 		viewHandlers.add(handler);
@@ -356,7 +356,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#unregisterViewHandler(org.eclipse.emf.eef.runtime.view.handler.ViewHandler)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#unregisterViewHandler(org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler)
 	 */
 	public void unregisterViewHandler(ViewHandler<?> handler) {
 		viewHandlers.remove(handler);

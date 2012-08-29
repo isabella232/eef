@@ -14,17 +14,20 @@ Export-Package: org.eclipse.emf.eef.runtime,
  org.eclipse.emf.eef.runtime.editingModel,
  org.eclipse.emf.eef.runtime.editingModel.impl,
  org.eclipse.emf.eef.runtime.editingModel.util,
+ org.eclipse.emf.eef.runtime.internal.binding;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.internal.services;x-friends:="org.eclipse.emf.eef.runtime.ui",
+ org.eclipse.emf.eef.runtime.internal.services.emf;x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.internal.services.viewhandler;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.notify,
  org.eclipse.emf.eef.runtime.services,
- org.eclipse.emf.eef.runtime.util,
- org.eclipse.emf.eef.runtime.view.handler,
- org.eclipse.emf.eef.runtime.view.handler.exceptions
+ org.eclipse.emf.eef.runtime.services.emf,
+ org.eclipse.emf.eef.runtime.services.viewhandler,
+ org.eclipse.emf.eef.runtime.services.viewhandler.exceptions
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,
  com.google.guava,
- org.eclipse.emf.codegen.ecore;visibility:=reexport
+ org.eclipse.emf.codegen.ecore;resolution:=optional;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.eef.runtime.EEFRuntime$Plugin
 Service-Component: OSGI-INF/EMFServiceRegistry.xml, OSGI-INF/EMFServiceImpl.xml, OSGI-INF/StandardPropertiesEditingProviderRegistry.xml, OSGI-INF/StandardPropertiesEditingContextFactory.xml, OSGI-INF/StandardViewHandlerProviderRegistry.xml

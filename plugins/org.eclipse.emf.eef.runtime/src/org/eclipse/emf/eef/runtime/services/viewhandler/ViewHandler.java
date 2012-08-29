@@ -1,13 +1,13 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.view.handler;
+package org.eclipse.emf.eef.runtime.services.viewhandler;
 
 import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
+import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

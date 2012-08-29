@@ -9,7 +9,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 
 import com.google.common.collect.Lists;
 

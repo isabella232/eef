@@ -4,7 +4,8 @@
 package org.eclipse.emf.eef.runtime.binding;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 import org.osgi.service.component.ComponentContext;
 
 /**
@@ -32,9 +33,22 @@ public interface PropertiesEditingProviderRegistry {
 	void setEMFServiceProvider(EMFServiceProvider emfServiceProvider);
 
 	/**
+	 * Defines the {@link ViewHandlerProviderRegistry} to use in the current {@link PropertiesEditingProviderRegistry}.
+	 * @param viewHandlerProviderRegistry the {@link ViewHandlerProviderRegistry} to use.
+	 */
+	void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry);
+	
+	/**
+	 * Unsets the {@link ViewHandlerProviderRegistry} to use in the current {@link PropertiesEditingProviderRegistry}.
+	 * @param viewHandlerProviderRegistry the {@link ViewHandlerProviderRegistry} to unset.
+	 */
+	void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry);
+
+	/**
 	 * Unsets the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingProviderRegistry}.
 	 * @param emfServiceProvider the {@link EMFServiceProvider} to use.
 	 */
 	void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider);
+
 
 }

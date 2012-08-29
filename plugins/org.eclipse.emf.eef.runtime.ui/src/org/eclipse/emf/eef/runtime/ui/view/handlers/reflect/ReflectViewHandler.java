@@ -10,11 +10,11 @@ import java.util.Collection;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
+import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ReflectHelper;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -42,7 +42,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#createView(java.lang.Object[])
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#createView(java.lang.Object[])
 	 */
 	public T createView(Object... viewConstructArgs) throws ViewConstructionException {
 		if (view == null) {
@@ -62,7 +62,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void initView(PropertiesEditingComponent component) {
 		EObject eObject = component.getEObject();
@@ -86,7 +86,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#getView()
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getView()
 	 */
 	public T getView() {
 		return view;
@@ -94,7 +94,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#getProvider()
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getProvider()
 	 */
 	public ViewHandlerProvider getProvider() {
 		return handlerProvider;
@@ -103,7 +103,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	/**
 	 * {@inheritDoc}
 	 * @throws Exception 
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#setValue(java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#setValue(java.lang.Object, java.lang.Object)
 	 */
 	public void setValue(Object field, Object value) throws ViewHandlingException {
 		if (field instanceof String && value != null) {
@@ -120,7 +120,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#unsetValue(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#unsetValue(java.lang.Object)
 	 */
 	public void unsetValue(Object field) throws ViewHandlingException {
 		if (field instanceof String) {
@@ -137,7 +137,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#addValue(java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#addValue(java.lang.Object, java.lang.Object)
 	 */
 	public void addValue(Object field, Object newValue) throws ViewHandlingException {
 		if (field instanceof String) {
@@ -154,7 +154,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#addAllValues(java.lang.Object, java.util.Collection)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#addAllValues(java.lang.Object, java.util.Collection)
 	 */
 	public void addAllValues(Object field, Collection<?> values) throws ViewHandlingException {
 		for (Object value : values) {
@@ -164,7 +164,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeValue(java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#removeValue(java.lang.Object, java.lang.Object)
 	 */
 	public void removeValue(Object field, Object newValue) throws ViewHandlingException {
 		if (field instanceof String) {
@@ -181,7 +181,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#removeAllValues(java.lang.Object, java.util.Collection)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#removeAllValues(java.lang.Object, java.util.Collection)
 	 */
 	public void removeAllValues(Object field, Collection<?> values) throws ViewHandlingException {
 		for (Object value : values) {
@@ -191,7 +191,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#moveValue(java.lang.Object, java.lang.Object, int)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#moveValue(java.lang.Object, java.lang.Object, int)
 	 */
 	public void moveValue(Object field, Object value, int newIndex) throws ViewHandlingException {
 		// TODO not handle for the moment.
@@ -210,7 +210,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler#dispose()
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#dispose()
 	 */
 	public void dispose() {
 		editingComponent.unregisterViewHandler(this);

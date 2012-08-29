@@ -31,7 +31,7 @@ import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.View} object.

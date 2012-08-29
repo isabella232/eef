@@ -29,7 +29,7 @@ import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 
 /**
  * <!-- begin-user-doc -->

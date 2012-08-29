@@ -18,6 +18,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeTabbed;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
@@ -28,7 +29,6 @@ import org.eclipse.emf.eef.runtime.ui.internal.view.util.ValidationMessageInject
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.viewers.ISelection;

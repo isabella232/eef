@@ -4,13 +4,13 @@
 package org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.PropertyEditorProviderRegistry;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
 import org.eclipse.emf.eef.runtime.ui.view.services.ViewServiceRegistry;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.views.View;
 
 /**
@@ -41,7 +41,7 @@ public class PropertiesEditingViewHandlerProvider implements ViewHandlerProvider
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider#getHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
 	public ViewHandler<?> getHandler(PropertiesEditingComponent editingComponent, Object view) {
 		return new PropertiesEditingViewHandler(this, editingComponent, (View) view);

@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.osgi.service.event.EventAdmin;
 
 /**
@@ -57,6 +57,7 @@ public interface PropertiesEditingContextFactory {
 	/**
 	 * Defines the {@link PropertiesEditingProviderRegistry} to use in the {@link PropertiesEditingContext} created by this factory
 	 * @param propertiesEditingProviderRegistry {@link PropertiesEditingProviderRegistry} to use.
+	 * TODO: Useless injection, the PropertiesEditingContextFactory can inject this for me!
 	 */
 	void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry);
 	

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.util.impl;
+package org.eclipse.emf.eef.runtime.internal.services.emf;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
-import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -29,7 +29,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EClass, org.eclipse.emf.ecore.EClass)
+	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#equals(org.eclipse.emf.ecore.EClass, org.eclipse.emf.ecore.EClass)
 	 */
 	public boolean equals(final EClass eClass1, final EClass eClass2) {
 		if (eClass1.equals(eClass2)) {
@@ -58,7 +58,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EPackage, org.eclipse.emf.ecore.EPackage)
+	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#equals(org.eclipse.emf.ecore.EPackage, org.eclipse.emf.ecore.EPackage)
 	 */
 	public boolean equals(final EPackage ePack1, final EPackage ePack2) {
 		if (ePack1 == ePack2) {
@@ -79,7 +79,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#mapFeature(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
+	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#mapFeature(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public EStructuralFeature mapFeature(final EObject editedObject, final EStructuralFeature feature) {
 		if (feature != null) {
@@ -103,7 +103,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#highestNotifier(org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#highestNotifier(org.eclipse.emf.ecore.EObject)
 	 */
 	public Notifier highestNotifier(final EObject src) {
 		if (src.eResource() != null) {

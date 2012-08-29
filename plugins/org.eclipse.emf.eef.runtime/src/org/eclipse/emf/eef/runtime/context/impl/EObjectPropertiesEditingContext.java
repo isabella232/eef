@@ -18,8 +18,8 @@ import org.eclipse.emf.eef.runtime.internal.notify.ModelChangesNotifier;
 import org.eclipse.emf.eef.runtime.internal.policies.SemanticDirectEditingPolicy;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotifierImpl;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
-import org.eclipse.emf.eef.runtime.util.EMFService;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.osgi.service.event.EventAdmin;
 
 /**

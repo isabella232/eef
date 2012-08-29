@@ -10,7 +10,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.osgi.service.event.EventAdmin;
 
 /**
@@ -25,7 +25,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setEMFServiceProvider(org.eclipse.emf.eef.runtime.util.EMFServiceProvider)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setEMFServiceProvider(org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider)
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
@@ -33,7 +33,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetEMFServiceRegistry(org.eclipse.emf.eef.runtime.util.EMFServiceProvider)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetEMFServiceRegistry(org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider)
 	 */
 	public void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		if (emfServiceProvider == this.emfServiceProvider) {
