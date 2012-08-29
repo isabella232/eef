@@ -27,6 +27,8 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ComposedViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
@@ -37,8 +39,6 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ComposedProperty
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit;
-import org.eclipse.emf.eef.runtime.view.handler.ComposedViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewsFactory;
@@ -102,7 +102,7 @@ public class EEFTestStuffsBuilder {
 			}
 			
 		});
-		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(adapterFactory, sampleToEdit);
+		PropertiesEditingContext context = new EObjectPropertiesEditingContext(adapterFactory, sampleToEdit);
 		return context;
 	}
 	
@@ -153,7 +153,7 @@ public class EEFTestStuffsBuilder {
 			}
 			
 		});
-		EObjectPropertiesEditingContext context = 
+		PropertiesEditingContext context = 
 				new EObjectPropertiesEditingContext(adapterFactory, sampleModel.getEClassifiers().get(0));
 		return context;
 	}

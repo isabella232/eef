@@ -10,19 +10,24 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
 import org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.impl.PropertiesEditingContextFactoryImpl;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewConstructionException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -30,6 +35,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
 import org.junit.Before;
+import org.osgi.service.component.ComponentContext;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -73,6 +79,29 @@ public abstract class UIEditingTestCase {
 	 * @return {@link PropertiesEditingContext} for the test case.
 	 */
 	protected PropertiesEditingContext buildEditingContext() {
+		PropertiesEditingProviderRegistry registry = new PropertiesEditingProviderRegistry() {
+			
+			public void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public PropertiesEditingProvider getPropertiesEditingProvider(EPackage ePackage) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public void activate(ComponentContext context) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		adapterFactory.addAdapterFactory(new AbstractPropertiesEditingProvider() {
 
@@ -96,7 +125,7 @@ public abstract class UIEditingTestCase {
 			
 		});
 		PropertiesEditingContext context = 
-				new EObjectPropertiesEditingContext(adapterFactory, elementToEdit);
+				new PropertiesEditingContextFactoryImpl().createPropertiesEditingContext(adapterFactory, elementToEdit);
 		return context;
 	}
 	
@@ -179,6 +208,12 @@ public abstract class UIEditingTestCase {
 		}
 		shell.dispose();
 		views.clear();
+	}
+
+	public void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
+	}
+
+	public void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
 	}
 
 }

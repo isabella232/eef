@@ -4,12 +4,13 @@ package org.eclipse.emf.eef.runtime.util.impl;
  */
 
 
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -27,7 +28,7 @@ public class EMFServiceCustom implements EMFService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EClass, org.eclipse.emf.ecore.EClass)
+	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#equals(org.eclipse.emf.ecore.EClass, org.eclipse.emf.ecore.EClass)
 	 */
 	public boolean equals(EClass eClass1, EClass eClass2) {
 		return false;
@@ -35,7 +36,7 @@ public class EMFServiceCustom implements EMFService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EPackage, org.eclipse.emf.ecore.EPackage)
+	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#equals(org.eclipse.emf.ecore.EPackage, org.eclipse.emf.ecore.EPackage)
 	 */
 	public boolean equals(EPackage ePack1, EPackage ePack2) {
 		return false;
@@ -43,9 +44,17 @@ public class EMFServiceCustom implements EMFService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#mapFeature(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
+	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#mapFeature(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public EStructuralFeature mapFeature(EObject editedObject, EStructuralFeature feature) {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#highestNotifier(org.eclipse.emf.ecore.EObject)
+	 */
+	public Notifier highestNotifier(EObject src) {
 		return null;
 	}	
 	

@@ -16,13 +16,12 @@ import org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.impl.PropertiesEditingContextFactoryImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.junit.After;
 import org.junit.Before;
 
@@ -58,17 +57,9 @@ public class NonUIEditingTestCase {
 				result.add(editingModel);
 				return result;
 			}
-
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initViewHandlerProvider()
-			 */
-			protected ViewHandlerProvider initViewHandlerProvider() {
-				return new EEFTestStuffsBuilder().buildViewHandlerProvider();
-			}
 			
 		};
-		EEFRuntime.getPlugin().getBundle().getBundleContext().registerService(PropertiesEditingProvider.class, editingProvider, null);
+		EEFRuntime.getPlugin().getBundle().getBundleContext().registerService(PropertiesEditingProvider.class.getName(), editingProvider, null);
 		editingContext =  createEditingContext();
 		viewHandlers = editingContext.getEditingComponent().createViewHandlers();
 		views = new ArrayList<Object>();
@@ -85,8 +76,8 @@ public class NonUIEditingTestCase {
 		return ecoreModel.getEClassifiers().get(0);
 	}
 
-	protected EObjectPropertiesEditingContext createEditingContext() {
-		return new EObjectPropertiesEditingContext(adapterFactory, editedObject);
+	protected PropertiesEditingContext createEditingContext() {
+		return new PropertiesEditingContextFactoryImpl().createPropertiesEditingContext(adapterFactory, editedObject);
 	}
 
 	/**
@@ -108,7 +99,6 @@ public class NonUIEditingTestCase {
 			handler.dispose();
 		}
 		editingContext.dispose();
-		EEFRuntime.getPlugin().getBundle().getBundleContext().ungetService(PropertiesEditingProvider.class, editingProvider);
 	}
 
 

@@ -4,10 +4,10 @@
 package org.eclipse.emf.eef.runtime.tests.handlers;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.tests.views.SampleCustomView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.handler.exceptions.ViewHandlingException;
 import org.eclipse.swt.widgets.Composite;
 
 /**

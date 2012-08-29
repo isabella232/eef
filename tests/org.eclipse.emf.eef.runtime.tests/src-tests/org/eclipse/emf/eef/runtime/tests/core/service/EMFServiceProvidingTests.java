@@ -9,7 +9,7 @@ import static org.junit.Assert.fail;
 
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.EEFRuntime;
-import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.junit.Test;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;

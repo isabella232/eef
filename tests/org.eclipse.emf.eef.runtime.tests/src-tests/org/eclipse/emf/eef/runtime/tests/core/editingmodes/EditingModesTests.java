@@ -13,8 +13,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.DomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
@@ -76,7 +76,7 @@ public class EditingModesTests extends NonUIEditingTestCase {
 	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#createEditingContext()
 	 */
 	@Override
-	protected EObjectPropertiesEditingContext createEditingContext() {
+	protected PropertiesEditingContext createEditingContext() {
 		commandStack = new TrackingCommandStack();
 		AdapterFactoryEditingDomain domain = new AdapterFactoryEditingDomain(adapterFactory , commandStack);
 		return new DomainPropertiesEditingContext(domain, editedObject);

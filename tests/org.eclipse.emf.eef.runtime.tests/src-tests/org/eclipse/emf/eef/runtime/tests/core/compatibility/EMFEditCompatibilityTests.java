@@ -21,8 +21,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.DomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
@@ -76,7 +76,7 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#createEditingContext()
 	 */
 	@Override
-	protected EObjectPropertiesEditingContext createEditingContext() {
+	protected PropertiesEditingContext createEditingContext() {
 		return new DomainPropertiesEditingContext(new TestEditingDomain(adapterFactory, new BasicCommandStack()), editedObject);
 	}
 

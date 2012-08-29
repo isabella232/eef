@@ -26,10 +26,10 @@ import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
-import org.eclipse.emf.eef.runtime.util.EMFService;
-import org.eclipse.emf.eef.runtime.view.handler.ViewHandlerProvider;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -169,7 +169,7 @@ public class PlatformResourceRegistryResourceBinding {
 			
 		};
 		
-		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(provider, eClassToEdit);
+		PropertiesEditingContext context = new EObjectPropertiesEditingContext(provider, eClassToEdit);
 		return context;
 	}
 	
