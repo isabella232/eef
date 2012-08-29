@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -25,6 +26,7 @@ import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingProviderReg
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.viewhandler.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.internal.services.viewhandler.ViewHandlerProviderRegistryImpl;
+import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceRegistry;
@@ -43,6 +45,7 @@ public class EEFTestEnvironmentBuilder {
 	public static final String REFLECT_VIEW_HANDLER_PROVIDER_NAME = "ReflectViewHandlerProvider";
 	public static final String SWT_VIEW_HANDLER_PROVIDER_NAME = "SWTViewHandlerProvider";
 	public static final String PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME = "PropertiesEditingViewHandlerProvider";
+	
 	private ResourceSet resourceSet;
 
 	public ResourceSet getResourceSet() {
@@ -102,6 +105,7 @@ public class EEFTestEnvironmentBuilder {
 		PropertiesEditingContextFactory factory = new PropertiesEditingContextFactoryImpl();
 		factory.setPropertiesEditingProviderRegistry(createPropertiesEditingProviderRegistry(editingProvider, emfServiceProvider));
 		factory.setEMFServiceProvider(emfServiceProvider);
+		factory.setNotificationManager(createNotificationManager());
 		return factory;
 	}
 
@@ -110,6 +114,7 @@ public class EEFTestEnvironmentBuilder {
 		PropertiesEditingProviderRegistry registry = new PropertiesEditingProviderRegistryImpl();
 		registry.setEMFServiceProvider(emfServiceProvider);
 		registry.setViewHandlerProviderRegistry(createViewHandlerProviderRegistry());
+		registry.setModelChangesNotificationManager(createNotificationManager());
 		((EEFServiceRegistry<EPackage, PropertiesEditingProvider>)registry).addService(editingProvider);
 		return registry;
 	}
@@ -128,10 +133,27 @@ public class EEFTestEnvironmentBuilder {
 		return viewHandlerProviderRegistry;
 	}
 
-	public EMFServiceProvider buildEMFServiceProvider() {
+	public EMFServiceProvider createEMFServiceProvider() {
 		EMFServiceRegistry emfServiceRegistry = new EMFServiceRegistry();
 		emfServiceRegistry.addService(new EMFServiceImpl());
 		return emfServiceRegistry;
 	}
 	
+	public ModelChangesNotificationManager createNotificationManager() {
+		return new ModelChangesNotificationManager() {
+			
+			public void unregisterEditingComponent(PropertiesEditingComponent editingComponent) {
+				
+			}
+			
+			public void registerEditingComponentAsEventHandler(PropertiesEditingComponent editingComponent) {
+				
+			}
+			
+			public void initModelChangesNotifierIfNeeded(EObject source) {
+				
+			}
+		};
+	}
+
 }

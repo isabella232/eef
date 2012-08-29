@@ -13,11 +13,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.impl.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.services.viewhandler.PriorityCircularityException;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.EClassListeningView;
 import org.eclipse.emf.eef.runtime.ui.commands.AbstractBatchEditingCommand;
 import org.junit.Test;
@@ -71,15 +74,17 @@ public class EditingModesTests extends NonUIEditingTestCase {
 		return (EClassListeningView)views.get(0);
 	}
 	
+	
+	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#createEditingContext()
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#createEditingContext(org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider, org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider)
 	 */
 	@Override
-	protected PropertiesEditingContext createEditingContext() {
+	protected PropertiesEditingContext createEditingContext(PropertiesEditingProvider editingProvider, EMFServiceProvider emfServiceProvider) throws PriorityCircularityException {
 		commandStack = new TrackingCommandStack();
 		AdapterFactoryEditingDomain domain = new AdapterFactoryEditingDomain(adapterFactory , commandStack);
-		return new DomainPropertiesEditingContext(domain, editedObject);
+		return new EEFTestEnvironmentBuilder().createPropertiesEditingContextFactory(editingProvider, emfServiceProvider).createPropertiesEditingContext(domain, editedObject);
 	}
 
 

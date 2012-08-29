@@ -11,7 +11,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl;
@@ -29,7 +28,7 @@ import org.junit.Before;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class NewNonUITestCase {
+public class NonUIEditingTestCase {
 
 	protected AdapterFactory adapterFactory;
 
@@ -74,14 +73,12 @@ public class NewNonUITestCase {
 			
 			
 		};
-		//TODO: Ugly fix this after Model Changes Notification system redesign.
-		editingProvider.setBundleContext(EEFRuntime.getPlugin().getBundle().getBundleContext());
 		return editingProvider;
 	}
 
 
 	protected EMFServiceProvider createEMFServiceProvider() {
-		return new EEFTestEnvironmentBuilder().buildEMFServiceProvider();
+		return new EEFTestEnvironmentBuilder().createEMFServiceProvider();
 	}
 
 
