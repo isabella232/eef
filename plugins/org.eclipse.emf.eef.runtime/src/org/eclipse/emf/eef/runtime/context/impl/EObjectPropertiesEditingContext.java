@@ -3,24 +3,19 @@
  */
 package org.eclipse.emf.eef.runtime.context.impl;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.context.EditingRecorder;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.EditingRecorderImpl;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.notify.ModelChangesNotifier;
 import org.eclipse.emf.eef.runtime.internal.policies.SemanticDirectEditingPolicy;
-import org.eclipse.emf.eef.runtime.notify.ModelChangesNotifierImpl;
+import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.osgi.service.event.EventAdmin;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -32,10 +27,11 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	protected AdapterFactory adapterFactory;
 	protected ContextOptions options;
 	
+	private PropertiesEditingProviderRegistry propertiesEditingProviderRegistry;
 	private EditingRecorder editingRecorder;
 	private EMFServiceProvider emfServiceProvider;
-	private PropertiesEditingProviderRegistry propertiesEditingProviderRegistry;
-	private EventAdmin eventAdmin;
+	private ModelChangesNotificationManager notificationManager;
+
 	private PropertiesEditingComponent component;
 
 	/**
@@ -75,10 +71,10 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setEventAdmin(org.osgi.service.event.EventAdmin)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setNotificationManager(ModelChangesNotificationManager)
 	 */
-	public void setEventAdmin(EventAdmin eventAdmin) {
-		this.eventAdmin = eventAdmin;
+	public void setNotificationManager(ModelChangesNotificationManager notificationManager) {
+		this.notificationManager = notificationManager;
 	}
 
 	/**
@@ -101,7 +97,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
 		if (component == null) {
-			initModelChangesNotifier(eObject);
+			notificationManager.initModelChangesNotifierIfNeeded(eObject);
 			component = propertiesEditingProviderRegistry.getPropertiesEditingProvider(eObject.eClass().getEPackage()).createComponent(eObject);
 			component.setEditingContext(this);
 		}
@@ -176,15 +172,6 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	protected EditingRecorder getEditingRecorder() {
 		return editingRecorder;
-	}
-
-	private void initModelChangesNotifier(EObject source) {
-		EMFService emfService = emfServiceProvider.getEMFServiceForPackage(source.eClass().getEPackage());
-		Notifier highestNotifier = emfService.highestNotifier(source);
-		Adapter existingAdapter = EcoreUtil.getExistingAdapter(highestNotifier, ModelChangesNotifier.class);
-		if (existingAdapter == null) {
-			highestNotifier.eAdapters().add(new ModelChangesNotifierImpl(eventAdmin));
-		}
 	}
 
 }

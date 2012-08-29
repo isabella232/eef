@@ -7,10 +7,10 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
+import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.osgi.service.event.EventAdmin;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -31,11 +31,11 @@ public interface PropertiesEditingContext {
 	void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry);
 
 	/**
-	 * Defines the {@link EventAdmin} to use in the current context.
-	 * @param eventAdmin the eventAdmin to set.
+	 * Defines the {@link ModelChangesNotificationManager} to uses in the current {@link PropertiesEditingContext}
+	 * @param notificationManager the {@link ModelChangesNotificationManager} to set.
 	 */
-	void setEventAdmin(EventAdmin eventAdmin); 
-	
+	void setNotificationManager(ModelChangesNotificationManager notificationManager);
+
 	/**
 	 * Returns a {@link PropertiesEditingComponent} binding the edited model element.
 	 * @return a {@link PropertiesEditingComponent} binded on the edited model element.

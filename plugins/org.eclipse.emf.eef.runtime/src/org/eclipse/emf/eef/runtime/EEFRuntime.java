@@ -8,13 +8,7 @@ import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Diagnostician;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingProviderRegistryImpl;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistryTracker;
-import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.osgi.framework.BundleContext;
 
 /**

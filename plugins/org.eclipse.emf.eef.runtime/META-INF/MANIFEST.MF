@@ -30,6 +30,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.codegen.ecore;resolution:=optional;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.eef.runtime.EEFRuntime$Plugin
-Service-Component: OSGI-INF/EMFServiceRegistry.xml, OSGI-INF/EMFServiceImpl.xml, OSGI-INF/StandardPropertiesEditingProviderRegistry.xml, OSGI-INF/StandardPropertiesEditingContextFactory.xml, OSGI-INF/StandardViewHandlerProviderRegistry.xml
+Service-Component: OSGI-INF/EMFServiceRegistry.xml, OSGI-INF/EMFServiceImpl.xml, OSGI-INF/StandardPropertiesEditingProviderRegistry.xml, OSGI-INF/StandardPropertiesEditingContextFactory.xml, OSGI-INF/StandardViewHandlerProviderRegistry.xml, OSGI-INF/EventAdminBasedModelChangesNotificationManager.xml
 Import-Package: org.osgi.service.component,
  org.osgi.service.event

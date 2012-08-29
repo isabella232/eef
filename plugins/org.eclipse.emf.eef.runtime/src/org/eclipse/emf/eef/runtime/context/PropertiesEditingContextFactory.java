@@ -8,8 +8,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
+import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.osgi.service.event.EventAdmin;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -68,14 +68,15 @@ public interface PropertiesEditingContextFactory {
 	void unsetPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry);
 
 	/**
-	 * Defines the {@link EventAdmin} to use in the created {@link PropertiesEditingContext}s.
-	 * @param eventAdmin the eventAdmin to set
+	 * Defines the {@link ModelChangesNotificationManager} to uses in the current {@link PropertiesEditingContextFactory}.
+	 * @param notificationManager the {@link ModelChangesNotificationManager} to set.
 	 */
-	void setEventAdmin(EventAdmin eventAdmin);
-	
+	void setNotificationManager(ModelChangesNotificationManager notificationManager);
+
 	/**
-	 * Unsets the {@link EventAdmin} used in the created {@link PropertiesEditingContext}s.
-	 * @param eventAdmin the eventAdmin to set
+	 * Unsets the {@link ModelChangesNotificationManager} to uses in the current {@link PropertiesEditingContextFactory}.
+	 * @param notificationManager the {@link ModelChangesNotificationManager} to unset.
 	 */
-	void unsetEventAdmin(EventAdmin eventAdmin);
+	void unsetNotificationManager(ModelChangesNotificationManager notificationManager);
+
 }

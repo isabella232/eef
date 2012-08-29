@@ -10,8 +10,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
+import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.osgi.service.event.EventAdmin;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -21,7 +21,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 
 	private EMFServiceProvider emfServiceProvider;
 	private PropertiesEditingProviderRegistry propertiesEditingProviderRegistry;
-	private EventAdmin eventAdmin;
+	private ModelChangesNotificationManager notificationManager;
 
 	/**
 	 * {@inheritDoc}
@@ -42,7 +42,8 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	}
 
 	/**
-	 * @param propertiesEditingProviderRegistry the propertiesEditingProviderRegistry to set
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setPropertiesEditingProviderRegistry(org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry)
 	 */
 	public void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry) {
 		this.propertiesEditingProviderRegistry = propertiesEditingProviderRegistry;
@@ -60,19 +61,19 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setEventAdmin(org.osgi.service.event.EventAdmin)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setNotificationManager(org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager)
 	 */
-	public void setEventAdmin(EventAdmin eventAdmin) {
-		this.eventAdmin = eventAdmin;
+	public void setNotificationManager(ModelChangesNotificationManager notificationManager) {
+		this.notificationManager = notificationManager;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetEventAdmin(org.osgi.service.event.EventAdmin)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetNotificationManager(org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager)
 	 */
-	public void unsetEventAdmin(EventAdmin eventAdmin) {
-		if (eventAdmin == this.eventAdmin) {
-			this.eventAdmin = eventAdmin;
+	public void unsetNotificationManager(ModelChangesNotificationManager notificationManager) {
+		if (notificationManager == this.notificationManager) {
+			this.notificationManager = null;
 		}
 	}
 
@@ -81,7 +82,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createPropertiesEditingContext(org.eclipse.emf.common.notify.AdapterFactory, org.eclipse.emf.ecore.EObject)
 	 */
 	public PropertiesEditingContext createPropertiesEditingContext(AdapterFactory adapterFactory, EObject eObject) {
-		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(adapterFactory, eObject);
+		PropertiesEditingContext context = new EObjectPropertiesEditingContext(adapterFactory, eObject);
 		configureEditingContext(context);
 		return context;
 	}
@@ -106,10 +107,10 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 		return context;
 	}
 
-	private void configureEditingContext(EObjectPropertiesEditingContext context) {
+	private void configureEditingContext(PropertiesEditingContext context) {
 		context.setEmfServiceProvider(emfServiceProvider);
 		context.setPropertiesEditingProviderRegistry(propertiesEditingProviderRegistry);
-		context.setEventAdmin(eventAdmin);
+		context.setNotificationManager(notificationManager);
 	}
 
 }

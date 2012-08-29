@@ -4,9 +4,9 @@
 package org.eclipse.emf.eef.runtime.binding;
 
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
-import org.osgi.service.component.ComponentContext;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -21,17 +21,17 @@ public interface PropertiesEditingProviderRegistry {
 	PropertiesEditingProvider getPropertiesEditingProvider(EPackage ePackage);
 
 	/**
-	 * Component activation method.
-	 * @param context the Component context.
-	 */
-	void activate(ComponentContext context);
-	
-	/**
 	 * Defines the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingProviderRegistry}.
 	 * @param emfServiceProvider the {@link EMFServiceProvider} to use.
 	 */
 	void setEMFServiceProvider(EMFServiceProvider emfServiceProvider);
 
+	/**
+	 * Unsets the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingProviderRegistry}.
+	 * @param emfServiceProvider the {@link EMFServiceProvider} to use.
+	 */
+	void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider);
+	
 	/**
 	 * Defines the {@link ViewHandlerProviderRegistry} to use in the current {@link PropertiesEditingProviderRegistry}.
 	 * @param viewHandlerProviderRegistry the {@link ViewHandlerProviderRegistry} to use.
@@ -45,10 +45,15 @@ public interface PropertiesEditingProviderRegistry {
 	void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry);
 
 	/**
-	 * Unsets the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingProviderRegistry}.
-	 * @param emfServiceProvider the {@link EMFServiceProvider} to use.
+	 * Defines the {@link ModelChangesNotificationManager} to use in the current {@link PropertiesEditingProviderRegistry}.
+	 * @param notificationManager the {@link ModelChangesNotificationManager} to set.
 	 */
-	void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider);
+	void setModelChangesNotificationManager(ModelChangesNotificationManager notificationManager);
 
+	/**
+	 * Unsets the {@link ModelChangesNotificationManager} to use in the current {@link PropertiesEditingProviderRegistry}.
+	 * @param notificationManager the {@link ModelChangesNotificationManager} to unset.
+	 */
+	void unsetModelChangesNotificationManager(ModelChangesNotificationManager notificationManager);
 
 }
