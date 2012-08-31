@@ -6,14 +6,7 @@ package org.eclipse.emf.eef.runtime.tests.ui.cases;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
 import org.eclipse.swt.SWT;
@@ -23,70 +16,45 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
-import org.junit.After;
-import org.junit.Before;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class PropertiesEditingViewEditingTestCase extends TestCase {
-
-	protected PropertiesEditingContext context;
-	protected PropertiesEditingComponent component;
-
-	protected Shell shell;
+public class PropertiesEditingViewEditingTestCase extends UIEditingTestCase {
+	
 	protected EEFViewer viewer;
-	private List<Composite> views;
-
-
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		initUI();
-	}
-
-	/**
-	 * @return the {@link PropertiesEditingModel} for the test case.
-	 */
-	protected PropertiesEditingModel buildEditingModel() {
-		return new EEFTestStuffsBuilder().buildEditingModelWithSWTViews();
-	}
-
-	/**
-	 * @return {@link PropertiesEditingContext} for the test case.
-	 */
-	protected PropertiesEditingContext buildEditingContext() {
-		return new EEFTestStuffsBuilder().buildEditingContextWithPropertiesEditingViewsForEcore();
-	}
+	private List<Composite> compositeViews;
 	
 	/**
-	 * @return the element to edit.
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#initUI()
 	 */
-	@SuppressWarnings("unchecked")
-	public <T extends EObject> T getElementToEdit() {
-		if (context instanceof EObjectPropertiesEditingContext) {
-			return (T)((EObjectPropertiesEditingContext) context).getEObject();
-		}
-		return null;
+	protected void initUI() {
+		shell = new Shell();
+		shell.setLayout (new FillLayout());
+		Composite composite = new Composite(shell, SWT.NONE);
+		composite.setLayout(new GridLayout(1, false));
+		viewer = new EEFViewer(composite, SWT.NONE);
+		viewer.setContentProvider(new EEFContentProvider());
+		viewer.setInput(editingContext);
+		shell.pack();
+		shell.open();
 	}
 
 	/**
 	 * @return the viewer views.
 	 */
 	protected List<Composite> getViews() {
-		if (views == null) {
-			views = new ArrayList<Composite>();
+		if (compositeViews == null) {
+			compositeViews = new ArrayList<Composite>();
 			Composite viewerControl = (Composite)((Composite)viewer.getControl()).getChildren()[0];
 			CTabFolder folder = (CTabFolder)viewerControl.getChildren()[0];
 			for (CTabItem cTabItem : folder.getItems()) {
-				views.add((Composite)cTabItem.getControl());
+				compositeViews.add((Composite)cTabItem.getControl());
 			}
 		}
-		return views;
+		return compositeViews;
 	}
 	
 	/**
@@ -99,35 +67,19 @@ public abstract class PropertiesEditingViewEditingTestCase extends TestCase {
 	public <T> T getControl(Composite view, int index) {
 		return (T) view.getChildren()[index];
 	}
-	
-	@After
-	public void tearDown() {
-		disposeUI();
-	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#disposeUI()
 	 */
-	protected void initUI() {
-		context = buildEditingContext();
-		component = context.getEditingComponent();
-		shell = new Shell();
-		shell.setLayout (new FillLayout());
-		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setLayout(new GridLayout(1, false));
-		viewer = new EEFViewer(composite, SWT.NONE);
-		viewer.setContentProvider(new EEFContentProvider());
-		viewer.setInput(context);
-		shell.pack();
-		shell.open();
-	}
-
-	/**
-	 * 
-	 */
+	@Override
 	protected void disposeUI() {
+		for (ViewHandler<?> handler : viewHandlers) {
+			handler.dispose();
+		}
 		shell.dispose();
+		if (compositeViews != null)
+			compositeViews.clear();
 	}
-
 	
 }

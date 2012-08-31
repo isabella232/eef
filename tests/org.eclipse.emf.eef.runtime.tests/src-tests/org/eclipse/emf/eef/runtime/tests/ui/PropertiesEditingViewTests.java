@@ -3,9 +3,12 @@
  */
 package org.eclipse.emf.eef.runtime.tests.ui;
 
-import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import static org.junit.Assert.assertEquals;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.PropertiesEditingViewEditingTestCase;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.swt.widgets.Button;
@@ -19,18 +22,16 @@ import org.junit.Test;
  */
 public class PropertiesEditingViewTests extends PropertiesEditingViewEditingTestCase {
 
-	private static final boolean NEW_SAMPLE_ACTIVE_FOR_TEST = !EEFTestStuffsBuilder.SAMPLE_ACTIVATION_INITIALIZATION_EDITING_VIEWS_CONTEXT;
-	private static final String NEW_SAMPLE_NAME_FOR_TEST = "New Sample name for Test";
+	private static final boolean NEW_SAMPLE_ACTIVE_FOR_TEST = !EEFTestEnvironmentBuilder.FIRST_ECLASS_SAMPLE_ABSTRACTNESS;
+	private static final String NEW_SAMPLE_NAME_FOR_TEST = "NewEClass1";
 
-	
-	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.PropertiesEditingViewEditingTestCase#buildEditingContext()
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#buildEditingModel()
 	 */
 	@Override
-	protected PropertiesEditingContext buildEditingContext() {
-		return new EEFTestStuffsBuilder().buildEditingContextWithPropertiesEditingViews();
+	protected PropertiesEditingModel buildEditingModel() {
+		return new EEFTestEnvironmentBuilder().buildEditingModelWithPropertiesEditingViews();
 	}
 
 	/**
@@ -38,13 +39,13 @@ public class PropertiesEditingViewTests extends PropertiesEditingViewEditingTest
 	 */
 	@Test
 	public void testPropertiesEditingViewBuild() {
-		assertEquals("Bad count of views.", 1, getViews().size());
+		assertEquals("Bad count of views.", 2, getViews().size());
 		Composite view = getViews().get(0);
-		assertEquals("Bad view selection.", 5, view.getChildren().length);
+		assertEquals("Bad view selection.", 8, view.getChildren().length);
 		Text nameText = getControl(view, 1);
-		assertEquals("Bad view initialization", EEFTestStuffsBuilder.SAMPLE_NAME_INITIALIZATION_EDITING_VIEWS_CONTEXT, nameText.getText());
+		assertEquals("Bad view initialization", EEFTestEnvironmentBuilder.FIRST_ECLASS_SAMPLE_NAME, nameText.getText());
 		Button activeCheck = getControl(view, 3);
-		assertEquals("Bad view initialization", EEFTestStuffsBuilder.SAMPLE_ACTIVATION_INITIALIZATION_EDITING_VIEWS_CONTEXT, activeCheck.getSelection());
+		assertEquals("Bad view initialization", EEFTestEnvironmentBuilder.FIRST_ECLASS_SAMPLE_ABSTRACTNESS, activeCheck.getSelection());
 	}
 
 	/**
@@ -52,12 +53,12 @@ public class PropertiesEditingViewTests extends PropertiesEditingViewEditingTest
 	 */
 	@Test
 	public void testViewUpdate() {
-		Sample sample = getElementToEdit();
+		EClass sample = (EClass) editedObject;
 		sample.setName(NEW_SAMPLE_NAME_FOR_TEST);
 		Composite view = getViews().get(0);
 		Text nameText = getControl(view, 1);
 		assertEquals("bad view refresh", NEW_SAMPLE_NAME_FOR_TEST, nameText.getText());
-		sample.setActive(NEW_SAMPLE_ACTIVE_FOR_TEST);
+		sample.setAbstract(NEW_SAMPLE_ACTIVE_FOR_TEST);
 		Button activeCheck = getControl(view, 3);
 		assertEquals("bad view refresh", NEW_SAMPLE_ACTIVE_FOR_TEST, activeCheck.getSelection());
 	}

@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -109,7 +110,7 @@ public class PlatformResourceRegistryResourceBinding {
 	//		- On fait un binding model en faisant référence au registry et on tente d'éditer une EClass issue du registry
 	@Test
 	public void testRegistryBindingRegistryEClassEditing() throws PriorityCircularityException {
-		EClass eClassToBind = EcoreFactory.eINSTANCE.createEClass();
+		EClass eClassToBind = EcorePackage.Literals.ECLASS;
 		EClass eClassToEdit = EcoreFactory.eINSTANCE.createEClass();
 		PropertiesEditingContext prepareEditingContext = prepareEditingContext(eClassToBind, eClassToEdit);
 		assertNotNull("An EClass created from the Ecore metamodel registry cannot be edited by a binding model configured with an EClass from Ecore metamodel registry ", 
@@ -120,7 +121,7 @@ public class PlatformResourceRegistryResourceBinding {
 	//		- On fait un binding model en faisant référence au registry et on tente d'éditer une EClass créée dynamiquement par Ecore.ecore
 	@Test
 	public void testRegistryBindingEcoreFileEClassEditing() throws PriorityCircularityException {
-		EClass eClassToBind = EcoreFactory.eINSTANCE.createEClass();
+		EClass eClassToBind = EcorePackage.Literals.ECLASS;
 		EObject eClassToEdit = EcoreUtil.create(getEClassFromEcoreFile());
 		PropertiesEditingContext prepareEditingContext = prepareEditingContext(eClassToBind, eClassToEdit);
 		assertNotNull("An EClass created from the Ecore file cannot be edited by a binding model configured with an EClass from the Ecore file", 

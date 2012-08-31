@@ -26,7 +26,7 @@ import org.junit.Before;
  */
 public abstract class UIEditingTestCase extends NonUIEditingTestCase {
 
-	private Shell shell;
+	protected Shell shell;
 
 	/**
 	 * @throws java.lang.Exception

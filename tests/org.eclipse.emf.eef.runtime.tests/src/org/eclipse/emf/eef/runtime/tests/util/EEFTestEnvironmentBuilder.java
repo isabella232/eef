@@ -63,6 +63,8 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
  */
 public class EEFTestEnvironmentBuilder {
 
+	public static final boolean FIRST_ECLASS_SAMPLE_ABSTRACTNESS = false;
+	public static final String FIRST_ECLASS_SAMPLE_NAME = "EClass1";
 	public static final String COMPONENT_NAME_KEY = "component.name";
 	public static final String PRIORITY_OVER_KEY = "priority.over";
 	public static final String REFLECT_VIEW_HANDLER_PROVIDER_NAME = "ReflectViewHandlerProvider";
@@ -94,8 +96,8 @@ public class EEFTestEnvironmentBuilder {
 		ePackage.setNsPrefix("eef-sample");
 		ePackage.setNsURI("http://eef/sample");
 		EClass eClass = EcoreFactory.eINSTANCE.createEClass();
-		eClass.setName("EClass1");
-		eClass.setAbstract(false);
+		eClass.setName(FIRST_ECLASS_SAMPLE_NAME);
+		eClass.setAbstract(FIRST_ECLASS_SAMPLE_ABSTRACTNESS);
 		ePackage.getEClassifiers().add(eClass);
 		EClass eClass2 = EcoreFactory.eINSTANCE.createEClass();
 		eClass2.setName("EClass2");
