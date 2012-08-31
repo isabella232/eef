@@ -20,6 +20,7 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.services.viewhandler.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.junit.Before;
@@ -36,7 +37,9 @@ public class NonUIEditingTestCase {
 	protected EObject editedObject;
 
 	protected List<Object> views;
-	private Collection<ViewHandler<?>> viewHandlers;
+	protected Collection<ViewHandler<?>> viewHandlers;
+
+	private PropertiesEditingProvider editingProvider;
 	
 	/**
 	 * @throws java.lang.Exception
@@ -45,10 +48,18 @@ public class NonUIEditingTestCase {
 	public void setUp() throws Exception {
 		editedObject = createEditedObject();
 		adapterFactory = buildAdapterFactory();
-		PropertiesEditingProvider editingProvider = createEditingProvider(buildEditingModel());
+		editingProvider = createEditingProvider(buildEditingModel());
+		initEditingContext();
+		offScreenViewsInitialization();
+	}
+
+	protected void initEditingContext() throws PriorityCircularityException {
 		EMFServiceProvider emfServiceProvider = createEMFServiceProvider();
 		editingContext =  createEditingContext(editingProvider, emfServiceProvider);
 		viewHandlers = editingContext.getEditingComponent().createViewHandlers();
+	}
+
+	protected void offScreenViewsInitialization() throws ViewConstructionException {
 		views = new ArrayList<Object>();
 		for (ViewHandler<?> viewHandler : viewHandlers) {
 			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
@@ -57,7 +68,6 @@ public class NonUIEditingTestCase {
 			views.add(view);
 		}
 	}
-
 
 	protected PropertiesEditingProvider createEditingProvider(final PropertiesEditingModel editingModel) {
 		PropertiesEditingProvider editingProvider = new PropertiesEditingProviderImpl() {

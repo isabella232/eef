@@ -5,8 +5,8 @@ package org.eclipse.emf.eef.runtime.tests.core.binding;
 
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
-import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
@@ -21,19 +21,20 @@ public class PropertyBindingTests extends UIEditingTestCase {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#buildEditingModel()
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#buildEditingModel()
 	 */
+	@Override
 	protected PropertiesEditingModel buildEditingModel() {
-		return new EditingModelBuilder().bindClass(BindingmodelPackage.Literals.SAMPLE)
+		return new EditingModelBuilder().bindClass(EcorePackage.Literals.ECLASS)
 					.withView(SampleTitleView.class)
-					.bindProperty(BindingmodelPackage.Literals.ABSTRACT_SAMPLE__NAME)
+					.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME)
 						.withEditor("title")
 				.build();
 	}
 
 	@Test
 	public void testPropertyBindingEditing() {
-		Sample sample = (Sample) elementToEdit;
+		EClass sample = (EClass) editedObject;
 		sample.setName("New name");
 		SampleTitleView sampleView = (SampleTitleView)views.get(0);
 		assertEquals("Bad view refresh", sample.getName(), sampleView.getTitle());

@@ -31,10 +31,10 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ComposedViewHandlerProvi
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
+import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ComposedPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
@@ -55,17 +55,6 @@ public class EEFTestStuffsBuilder {
 	public static final boolean SAMPLE_ACTIVATION_INITIALIZATION_EDITING_VIEWS_CONTEXT = true;
 	private ResourceSet resourceSet;
 
-	/**
-	 * Build a {@link PropertiesEditingModel} with simple SWT views for the EEF tests.
-	 * @return a sample {@link PropertiesEditingModel}.
-	 */
-	public PropertiesEditingModel buildEditingModelWithSWTViews() {
-		return new EditingModelBuilder()
-						.bindClass(BindingmodelPackage.Literals.SAMPLE).withView(SampleView.class)
-						.bindClass(BindingmodelPackage.Literals.ROOT).withView(RootView.class)
-						.build();
-	}
-	
 	/**
 	 * Build a full sample of {@link PropertiesEditingContext} for the EEF tests.
 	 * @return a sample {@link PropertiesEditingContext}.

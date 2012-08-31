@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.List;
  */
 public class RootView extends Composite {
 
-	private List samplesList;
+	private List eClassifiersList;
 
 	/**
 	 * @param parent the composite owner
@@ -27,37 +27,37 @@ public class RootView extends Composite {
 		this.setLayout(new GridLayout(3, false));
 		Label samplesLabel = new Label(this, SWT.None);
 		samplesLabel.setText("Samples :");
-		samplesList = new List(this, SWT.NONE);
+		eClassifiersList = new List(this, SWT.NONE);
 	}
 
 	/**
 	 * @param samples
 	 */
-	public void setSamples(Collection<Object> samples) {
+	public void setEClassifiers(Collection<Object> samples) {
 		for (Object object : samples) {
-			samplesList.add(object.toString());
+			eClassifiersList.add(object.toString());
 		}
 	}
 	
 	/**
 	 * @param sample
 	 */
-	public void addSamples(Object sample) {
-		samplesList.add(sample.toString());
+	public void addEClassifiers(Object sample) {
+		eClassifiersList.add(sample.toString());
 	}
 	
 	/**
 	 * @param sample
 	 */
-	public void removeSamples(Object sample) {
-		samplesList.remove(sample.toString());
+	public void removeEClassifiers(Object sample) {
+		eClassifiersList.remove(sample.toString());
 	}
 	
 	/**
 	 * @return
 	 */
-	public int samplesSize() {
-		return samplesList.getItemCount();
+	public int eClassifiersSize() {
+		return eClassifiersList.getItemCount();
 	}
 	
 }

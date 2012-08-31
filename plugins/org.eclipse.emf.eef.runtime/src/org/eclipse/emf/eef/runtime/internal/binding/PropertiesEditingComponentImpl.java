@@ -157,7 +157,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#notifyChanged(Notification)
 	 */
 	public void notifyChanged(Notification msg) {
 		PropertiesEditingModel editingModel = getEditingModel();

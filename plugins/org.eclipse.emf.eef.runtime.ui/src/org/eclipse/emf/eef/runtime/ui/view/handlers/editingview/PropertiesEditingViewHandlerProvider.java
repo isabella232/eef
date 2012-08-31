@@ -6,11 +6,11 @@ package org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.PropertyEditorProviderRegistry;
+import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
+import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProviderRegistry;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
-import org.eclipse.emf.eef.runtime.ui.view.services.ViewServiceRegistry;
 import org.eclipse.emf.eef.views.View;
 
 /**

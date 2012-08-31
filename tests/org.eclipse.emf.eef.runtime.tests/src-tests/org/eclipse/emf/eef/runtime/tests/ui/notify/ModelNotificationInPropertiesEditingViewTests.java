@@ -10,9 +10,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -29,19 +29,22 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 
 	private static final String NEW_ECLASS_NAME = "New EClass name";
 
+	
+	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#buildEditingContext()
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#buildEditingModel()
 	 */
-	protected PropertiesEditingContext buildEditingContext() {
-		return new EEFTestStuffsBuilder().buildEditingContextWithPropertiesEditingViewsForEcore();
+	@Override
+	protected PropertiesEditingModel buildEditingModel() {
+		return new EEFTestEnvironmentBuilder().buildEditingModelWithPropertiesEditingViews();
 	}
 
 	@Test
 	public void testSetRefresh() {
 		disposeUI();
 		initUI();
-		EClass editedElement = (EClass) context.getEditingComponent().getTarget();
+		EClass editedElement = (EClass) editingContext.getEditingComponent().getEObject();
 		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
 		editedElement.setName(NEW_ECLASS_NAME);
 		Text nameText = getText(view);
@@ -56,7 +59,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 	public void testAddRefresh() {
 		disposeUI();
 		initUI();
-		EClass editedElement = (EClass) context.getEditingComponent().getTarget();
+		EClass editedElement = (EClass) editingContext.getEditingComponent().getEObject();
 		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
 		EClassifier eClassifier = editedElement.getEPackage().getEClassifiers().get(3);
 		editedElement.getESuperTypes().add((EClass) eClassifier);
@@ -68,7 +71,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 	public void testAddAllRefresh() {
 		disposeUI();
 		initUI();
-		EClass editedElement = (EClass) context.getEditingComponent().getTarget();
+		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
 		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
 		EClassifier eClassifier1 = editedElement.getEPackage().getEClassifiers().get(1);
 		EClassifier eClassifier2 = editedElement.getEPackage().getEClassifiers().get(2);
@@ -87,7 +90,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 	public void testRemoveRefresh() {
 		disposeUI();
 		initUI();
-		EClass editedElement = (EClass) context.getEditingComponent().getTarget();
+		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
 		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
 		editedElement.getESuperTypes().remove(editedElement.getESuperTypes().get(0));
 		Tree tree = getReferenceEditorTree(view.getContents());
@@ -98,7 +101,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 	public void testRemoveAllRefresh() {
 		disposeUI();
 		initUI();
-		EClass editedElement = (EClass) context.getEditingComponent().getTarget();
+		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
 		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
 		editedElement.getESuperTypes().clear();
 		Tree tree = getReferenceEditorTree(view.getContents());
@@ -109,7 +112,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 	public void testMoveRefresh() {
 		disposeUI();
 		initUI();
-		EClass editedElement = (EClass) context.getEditingComponent().getTarget();
+		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
 		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
 		Tree tree = getReferenceEditorTree(view.getContents());
 		Object eSuperType1 = tree.getItem(1).getData();

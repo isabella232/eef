@@ -7,9 +7,9 @@ import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
-import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.PropertyEditorProviderRegistry;
+import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProviderRegistry;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
 import org.eclipse.swt.widgets.Composite;
 
 /**

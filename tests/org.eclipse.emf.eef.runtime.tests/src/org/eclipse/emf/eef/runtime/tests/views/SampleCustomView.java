@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Text;
 public class SampleCustomView extends Composite {
 
 	private Text nameText;
-	private Button activeCheckbox;
+	private Button abstractCheckbox;
 	
 	private boolean notify = true;
 	private PropertyChangeSupport propertyChangeSupport;
@@ -52,12 +52,12 @@ public class SampleCustomView extends Composite {
 				}
 			}
 		});
-		activeCheckbox = new Button(this, SWT.CHECK);
-		activeCheckbox.setText("Active");
+		abstractCheckbox = new Button(this, SWT.CHECK);
+		abstractCheckbox.setText("Active");
 		GridData activeData = new GridData(GridData.FILL_HORIZONTAL);
 		activeData.horizontalSpan = 3;
-		activeCheckbox.setLayoutData(activeData);
-		activeCheckbox.addSelectionListener(new SelectionAdapter() {
+		abstractCheckbox.setLayoutData(activeData);
+		abstractCheckbox.addSelectionListener(new SelectionAdapter() {
 
 			/**
 			 * {@inheritDoc}
@@ -65,7 +65,7 @@ public class SampleCustomView extends Composite {
 			 */
 			public void widgetSelected(SelectionEvent e) {
 				if (notify) {
-					propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "active", null, activeCheckbox.getSelection()));
+					propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "active", null, abstractCheckbox.getSelection()));
 				}
 			}
 			
@@ -111,16 +111,16 @@ public class SampleCustomView extends Composite {
 	/**
 	 * @return the active property.
 	 */
-	public boolean isActive() {
-		return activeCheckbox.getSelection();
+	public boolean isAbstract() {
+		return abstractCheckbox.getSelection();
 	}
 	
 	/**
-	 * @param active the selection state to set to the active checkbox.
+	 * @param abstract_ the selection state to set to the active checkbox.
 	 */
-	public void setActiveState(Boolean active) {
+	public void setAbstractState(Boolean abstract_) {
 		notify = false;
-		this.activeCheckbox.setSelection(active);
+		this.abstractCheckbox.setSelection(abstract_);
 		notify = true;
 	}
 }

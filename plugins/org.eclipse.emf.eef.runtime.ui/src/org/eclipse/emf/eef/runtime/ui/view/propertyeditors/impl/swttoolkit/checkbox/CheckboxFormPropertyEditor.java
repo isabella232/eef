@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.checkbox;
 
-import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.util.EEFControlWrapperViewer;
+import org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -44,7 +44,7 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
+				 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
 				 */
 				@Override
 				public Button getMainControl() {

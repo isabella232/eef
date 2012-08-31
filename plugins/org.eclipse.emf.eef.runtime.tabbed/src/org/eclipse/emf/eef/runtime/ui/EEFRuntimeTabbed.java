@@ -8,7 +8,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
-import org.eclipse.emf.eef.runtime.ui.view.services.ViewServiceRegistry;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;

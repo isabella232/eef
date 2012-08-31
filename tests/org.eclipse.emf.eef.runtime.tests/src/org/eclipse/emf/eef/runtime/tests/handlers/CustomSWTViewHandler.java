@@ -31,8 +31,8 @@ public class CustomSWTViewHandler extends SWTViewHandler {
 	 */
 	public void setValue(Object field, Object value) throws ViewHandlingException {
 		if (view != null && value instanceof Boolean) {
-			if (field instanceof String && "active".equals(field)) {
-				((SampleCustomView)view).setActiveState((Boolean) value);
+			if (field instanceof String && "abstract".equals(field)) {
+				((SampleCustomView)view).setAbstractState((Boolean) value);
 			}
 		}
 		super.setValue(field, value);

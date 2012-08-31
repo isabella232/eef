@@ -3,11 +3,19 @@
  */
 package org.eclipse.emf.eef.runtime.tests.suite;
 
+import org.eclipse.emf.eef.runtime.tests.core.CustomViewHandlerTests;
+import org.eclipse.emf.eef.runtime.tests.core.SampleEditingTests;
+import org.eclipse.emf.eef.runtime.tests.core.binding.EClassBindingResolverTests;
+import org.eclipse.emf.eef.runtime.tests.core.binding.EditingModelBuilderTests;
+import org.eclipse.emf.eef.runtime.tests.core.binding.PlatformResourceRegistryResourceBinding;
+import org.eclipse.emf.eef.runtime.tests.core.binding.PropertyBindingTests;
+import org.eclipse.emf.eef.runtime.tests.core.binding.SampleMultiViewsEditingTests;
 import org.eclipse.emf.eef.runtime.tests.core.binding.ViewsComponentsLinkingTests;
 import org.eclipse.emf.eef.runtime.tests.core.compatibility.EMFEditCompatibilityTests;
 import org.eclipse.emf.eef.runtime.tests.core.editingmodes.EditingModesTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.EditingListenerTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.ViewNotificationTests;
+import org.eclipse.emf.eef.runtime.tests.ui.notify.ModelNotificationInBeanViewTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -17,20 +25,20 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-//	CustomViewHandlerTests.class,
-//	SampleEditingTests.class,
-//	EClassBindingResolverTests.class,
-//	EditingModelBuilderTests.class,
-//	PlatformResourceRegistryResourceBinding.class,
-//	PropertyBindingTests.class,
-//	SampleMultiViewsEditingTests.class,
+	CustomViewHandlerTests.class,
+	SampleEditingTests.class,
+	EClassBindingResolverTests.class,
+	EditingModelBuilderTests.class,
+	PlatformResourceRegistryResourceBinding.class,
+	PropertyBindingTests.class,
+	SampleMultiViewsEditingTests.class,
 	ViewsComponentsLinkingTests.class,
 	EditingListenerTests.class,
 	ViewNotificationTests.class,
 //	EMFServiceProvidingTests.class,
 //	EEFViewerTests.class,
 //	PropertiesEditingViewTests.class,
-//	ModelNotificationInBeanViewTests.class,
+	ModelNotificationInBeanViewTests.class,
 //	ModelNotificationInPropertiesEditingViewTests.class,
 	EditingModesTests.class,
 	EMFEditCompatibilityTests.class,

@@ -19,9 +19,9 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class SampleActiveView extends Composite {
+public class SampleAbstractView extends Composite {
 
-	private Button activeCheckbox;
+	private Button abstractCheckbox;
 	
 	private boolean notify = true;
 	private PropertyChangeSupport propertyChangeSupport;
@@ -29,15 +29,15 @@ public class SampleActiveView extends Composite {
 	/**
 	 * @param parent
 	 */
-	public SampleActiveView(Composite parent) {
+	public SampleAbstractView(Composite parent) {
 		super(parent, SWT.NONE);
 		this.setLayout(new GridLayout(3,false));
-		activeCheckbox = new Button(this, SWT.CHECK);
-		activeCheckbox.setText("Active");
+		abstractCheckbox = new Button(this, SWT.CHECK);
+		abstractCheckbox.setText("Active");
 		GridData activeData = new GridData(GridData.FILL_HORIZONTAL);
 		activeData.horizontalSpan = 3;
-		activeCheckbox.setLayoutData(activeData);
-		activeCheckbox.addSelectionListener(new SelectionAdapter() {
+		abstractCheckbox.setLayoutData(activeData);
+		abstractCheckbox.addSelectionListener(new SelectionAdapter() {
 
 			/**
 			 * {@inheritDoc}
@@ -45,7 +45,7 @@ public class SampleActiveView extends Composite {
 			 */
 			public void widgetSelected(SelectionEvent e) {
 				if (notify) {
-					propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "active", null, activeCheckbox.getSelection()));
+					propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "active", null, abstractCheckbox.getSelection()));
 				}
 			}
 			
@@ -73,16 +73,16 @@ public class SampleActiveView extends Composite {
 	/**
 	 * @return the active property.
 	 */
-	public boolean isActive() {
-		return activeCheckbox.getSelection();
+	public boolean isAbstract() {
+		return abstractCheckbox.getSelection();
 	}
 	
 	/**
-	 * @param active the selection state to set to the active checkbox.
+	 * @param abstract_ the selection state to set to the active checkbox.
 	 */
-	public void setActive(Boolean active) {
+	public void setAbstract(Boolean abstract_) {
 		notify = false;
-		this.activeCheckbox.setSelection(active);
+		this.abstractCheckbox.setSelection(abstract_);
 		notify = true;
 	}
 }

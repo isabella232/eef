@@ -6,10 +6,6 @@ package org.eclipse.emf.eef.runtime.tests.core.binding;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -18,17 +14,16 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.services.viewhandler.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,32 +38,38 @@ public class PlatformResourceRegistryResourceBinding {
 	private Resource platformEcoreResource;
 	
 	@Before
-	public void setUp() {
-		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+	public void setUp() throws PriorityCircularityException {
 		platformEcoreResource = new ResourceSetImpl().getResource(URI.createPlatformPluginURI("org.eclipse.emf.ecore/model/Ecore.ecore", true), true);
-		adapterFactory.addAdapterFactory(new AbstractPropertiesEditingProvider() {
+		PropertiesEditingModel pem = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
+		pem.setName("Test");
+		EClassBinding binding = EditingModelFactory.eINSTANCE.createEClassBinding();
+		binding.setEClass(getEClassFromEcoreFile());
+		pem.getBindings().add(binding);
+		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
+		editingContext = builder.buildEditingContext(builder.buildAdapterFactory(), 
+														 createEditingProvider(pem), 
+														 builder.createEMFServiceProvider(), 
+														 EcoreFactory.eINSTANCE.createEClass());
+	}
+
+	protected PropertiesEditingProvider createEditingProvider(final PropertiesEditingModel editingModel) {
+		PropertiesEditingProvider editingProvider = new PropertiesEditingProviderImpl() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initSpecificEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl#getEditingModel()
 			 */
 			@Override
-			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
-				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
-				PropertiesEditingModel pem = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
-				pem.setName("Test");
-				EClassBinding binding = EditingModelFactory.eINSTANCE.createEClassBinding();
-				binding.setEClass(getEClassFromEcoreFile());
-				pem.getBindings().add(binding);
-				result.add(pem);
-				return result;
+			protected PropertiesEditingModel getEditingModel() {
+				return editingModel;
 			}
 			
 			
-		});
-		editingContext = new EObjectPropertiesEditingContext(adapterFactory, EcoreFactory.eINSTANCE.createEClass());
+		};
+		return editingProvider;
 	}
 
+	
 	/**
 	 * This test checks that the default {@link EMFService} is able to make the correspondence of
 	 * a EPackage loaded via Ecore file and the EPackage in the registry. 
@@ -77,7 +78,7 @@ public class PlatformResourceRegistryResourceBinding {
 	public void testPlatformRegistryMapper() {
 		EMFService emfService = editingContext.getEMFService();
 		EClass eClassifier = getEClassFromEcoreFile();
-		EClass eClass = ((EObject)editingContext.getEditingComponent().getTarget()).eClass();
+		EClass eClass = ((EObject)editingContext.getEditingComponent().getEObject()).eClass();
 		boolean equals = emfService.equals(eClassifier, eClass);
 		assertTrue("Platform <> Registry equivalence doesn't work properly", equals);
 	}
@@ -85,7 +86,7 @@ public class PlatformResourceRegistryResourceBinding {
 	// 4 Tests à faire
 	//		- On fait un binding model en faisant référence au Ecore.ecore et on tente d'éditer une EClass issue du registry
 	@Test
-	public void testEcoreFileBindingRegistryEClassEditing() {
+	public void testEcoreFileBindingRegistryEClassEditing() throws PriorityCircularityException {
 		EClass eClassToBind = getEClassFromEcoreFile();
 		EClass eClassToEdit = EcoreFactory.eINSTANCE.createEClass();
 		PropertiesEditingContext prepareEditingContext = prepareEditingContext(eClassToBind, eClassToEdit);
@@ -96,7 +97,7 @@ public class PlatformResourceRegistryResourceBinding {
 
 	//		- On fait un binding model en faisant référence au Ecore.ecore et on tente d'éditer une EClass créée dynamiquement par Ecore.ecore
 	@Test
-	public void testEcoreFileBindingEcoreFileEClassEditing() {
+	public void testEcoreFileBindingEcoreFileEClassEditing() throws PriorityCircularityException {
 		EClass eClassToBind = getEClassFromEcoreFile();
 		EObject eClassToEdit = EcoreUtil.create(getEClassFromEcoreFile());
 		PropertiesEditingContext prepareEditingContext = prepareEditingContext(eClassToBind, eClassToEdit);
@@ -107,7 +108,7 @@ public class PlatformResourceRegistryResourceBinding {
 
 	//		- On fait un binding model en faisant référence au registry et on tente d'éditer une EClass issue du registry
 	@Test
-	public void testRegistryBindingRegistryEClassEditing() {
+	public void testRegistryBindingRegistryEClassEditing() throws PriorityCircularityException {
 		EClass eClassToBind = EcoreFactory.eINSTANCE.createEClass();
 		EClass eClassToEdit = EcoreFactory.eINSTANCE.createEClass();
 		PropertiesEditingContext prepareEditingContext = prepareEditingContext(eClassToBind, eClassToEdit);
@@ -118,7 +119,7 @@ public class PlatformResourceRegistryResourceBinding {
 	
 	//		- On fait un binding model en faisant référence au registry et on tente d'éditer une EClass créée dynamiquement par Ecore.ecore
 	@Test
-	public void testRegistryBindingEcoreFileEClassEditing() {
+	public void testRegistryBindingEcoreFileEClassEditing() throws PriorityCircularityException {
 		EClass eClassToBind = EcoreFactory.eINSTANCE.createEClass();
 		EObject eClassToEdit = EcoreUtil.create(getEClassFromEcoreFile());
 		PropertiesEditingContext prepareEditingContext = prepareEditingContext(eClassToBind, eClassToEdit);
@@ -138,39 +139,19 @@ public class PlatformResourceRegistryResourceBinding {
 	 * @param eClassToBind EClass to use in the {@link PropertiesEditingModel}
 	 * @param eClassToEdit EClass to edit with the {@link PropertiesEditingContext}
 	 * @return the {@link PropertiesEditingContext}
+	 * @throws PriorityCircularityException 
 	 */
-	private PropertiesEditingContext prepareEditingContext(EClass eClassToBind, EObject eClassToEdit) {
+	private PropertiesEditingContext prepareEditingContext(EClass eClassToBind, EObject eClassToEdit) throws PriorityCircularityException {
 		final PropertiesEditingModel editingModel = new EditingModelBuilder().bindClass(eClassToBind)
 												.withView(SampleView.class)
 														.bindProperty(eClassToBind.getEStructuralFeature("name"))
 															.withEditor("name")
 					.build();
-		AbstractPropertiesEditingProvider provider = new AbstractPropertiesEditingProvider() {
-
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initSpecificEditingModel()
-			 */
-			@Override
-			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
-				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
-				result.add(editingModel);
-				return result;
-			}
-
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initViewHandlerProvider()
-			 */
-			@Override
-			protected ViewHandlerProvider initViewHandlerProvider() {
-				return new EEFTestStuffsBuilder().buildViewHandlerProvider();
-			}
-			
-		};
-		
-		PropertiesEditingContext context = new EObjectPropertiesEditingContext(provider, eClassToEdit);
-		return context;
+		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
+		return builder.buildEditingContext(builder.buildAdapterFactory(), 
+				 createEditingProvider(editingModel), 
+				 builder.createEMFServiceProvider(), 
+				 EcoreFactory.eINSTANCE.createEClass());
 	}
 	
 }

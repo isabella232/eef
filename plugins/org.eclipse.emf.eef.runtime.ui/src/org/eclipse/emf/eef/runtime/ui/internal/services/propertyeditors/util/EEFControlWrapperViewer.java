@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.util;
+package org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util;
 
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.jface.viewers.ContentViewer;

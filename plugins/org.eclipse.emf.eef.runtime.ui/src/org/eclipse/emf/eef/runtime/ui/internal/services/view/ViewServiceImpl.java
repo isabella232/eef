@@ -9,7 +9,7 @@
  *     Obeo - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.emf.eef.runtime.ui.internal.view.services;
+package org.eclipse.emf.eef.runtime.ui.internal.services.view;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EObject;
@@ -26,7 +26,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
-import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -72,7 +72,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#getEditingComponent()
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#getEditingComponent()
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
 		return editingComponent;
@@ -80,7 +80,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
  
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#setEditingComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#setEditingComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void setEditingComponent(PropertiesEditingComponent editingComponent) {
 		this.editingComponent = editingComponent;
@@ -88,7 +88,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService.ViewHelper#createLabel(org.eclipse.swt.widgets.Composite, java.lang.Object, java.lang.String)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService.ViewHelper#createLabel(org.eclipse.swt.widgets.Composite, java.lang.Object, java.lang.String)
 	 */
 	public Label createLabel(FormToolkit toolkit, Composite parent, Object editor, String alternate) {
 		String text = getDescription(editor, alternate);
@@ -111,7 +111,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService.ViewHelper#getDescription(java.lang.Object, java.lang.String)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService.ViewHelper#getDescription(java.lang.Object, java.lang.String)
 	 */
 	public String getDescription(Object editor, String alternate) {
 		String text = alternate;
@@ -130,7 +130,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService.ViewHelper#createHelpButton(org.eclipse.swt.widgets.Composite, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService.ViewHelper#createHelpButton(org.eclipse.swt.widgets.Composite, java.lang.Object)
 	 */
 	public Control createHelpButton(FormToolkit toolkit, Composite parent, Object editor ) {
 		//To manage in future
@@ -163,7 +163,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#setID(org.eclipse.swt.widgets.Control, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#setID(org.eclipse.swt.widgets.Control, java.lang.Object)
 	 */
 	public void setID(Control widget, Object value) {
 		if (widget != null)
@@ -172,7 +172,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#getID(org.eclipse.swt.widgets.Control)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#getID(org.eclipse.swt.widgets.Control)
 	 */
 	public Object getID(Control widget) {
 		if (widget != null)
@@ -182,7 +182,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#setEEFtype(org.eclipse.swt.widgets.Control, java.lang.String)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#setEEFtype(org.eclipse.swt.widgets.Control, java.lang.String)
 	 */
 	public void setEEFtype(Control widget, String value) {
 		if (widget != null)
@@ -191,7 +191,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#getEEFType(org.eclipse.swt.widgets.Control)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#getEEFType(org.eclipse.swt.widgets.Control)
 	 */
 	public String getEEFType(Control widget) {
 		if (widget != null) {
@@ -212,7 +212,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#getHelpContent(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#getHelpContent(java.lang.Object)
 	 */
 	public String getHelpContent(Object editor) {
 		EStructuralFeature feature = editingComponent.getBinding().feature(editor, editingComponent.getEditingContext().getOptions().autowire());
@@ -241,7 +241,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#getBestInput(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#getBestInput(java.lang.Object)
 	 */
 	public Object getBestInput(Object sourceInput) {
 		Resource resource = null;
@@ -266,7 +266,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewService#getEditingDomain(org.eclipse.ui.IWorkbenchPart)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#getEditingDomain(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public EditingDomain getEditingDomain(IWorkbenchPart part) {
 		EditingDomain editingDomain = null;

@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.internal.view.services;
+package org.eclipse.emf.eef.runtime.ui.internal.services.view;
 
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
-import org.eclipse.emf.eef.runtime.ui.view.services.ViewServiceRegistry;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.views.View;
 
 /**
@@ -16,7 +16,7 @@ public class ViewServiceRegistryImpl extends EEFServiceRegistry<View, ViewServic
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.services.ViewServiceRegistry#getServiceForView(org.eclipse.emf.eef.views.View)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry#getServiceForView(org.eclipse.emf.eef.views.View)
 	 */
 	public ViewService getServiceForView(View view) {
 		return getServiceForElement(view);

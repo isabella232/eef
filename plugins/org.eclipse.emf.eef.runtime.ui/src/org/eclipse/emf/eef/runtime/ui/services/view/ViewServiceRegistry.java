@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.services;
+package org.eclipse.emf.eef.runtime.ui.services.view;
 
 import org.eclipse.emf.eef.views.View;
 

@@ -11,15 +11,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.PropertyEditorProviderRegistry;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewSettingsImpl;
+import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProviderRegistry;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.ViewSettings;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.services.ViewService;
-import org.eclipse.emf.eef.runtime.ui.view.services.ViewServiceRegistry;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
@@ -97,7 +97,7 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setPropertyEditorProviderRegistry(org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.PropertyEditorProviderRegistry)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setPropertyEditorProviderRegistry(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProviderRegistry)
 	 */
 	public void setPropertyEditorProviderRegistry(PropertyEditorProviderRegistry propertyEditorProviderRegistry) {
 		this.propertyEditorProviderRegistry = propertyEditorProviderRegistry;

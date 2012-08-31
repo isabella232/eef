@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.binding;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -78,25 +79,32 @@ public interface PropertiesEditingComponent extends PropertiesEditingListener, E
 	ViewChangeNotifier getViewChangeNotifier();
 	
 	/**
-	 * Add a listener to this component.
+	 * Adds a listener to this component.
 	 * @param listener the {@link PropertiesEditingListener} to add.
 	 */
 	void addEditingListener(PropertiesEditingListener listener);
 	
 	/**
-	 * Remove a listener to this component.
+	 * Removes a listener to this component.
 	 * @param listener the {@link PropertiesEditingListener} to remove.
 	 */
 	void removeEditingListener(PropertiesEditingListener listener);
 	
 	/**
-	 * Validate the element edited by the current component.
+	 * Notifies this composant of a model change.
+	 * @param msg {@link Notification} describing the model change.
+	 */
+	void notifyChanged(Notification msg);
+
+	/**
+	 * Validates the element edited by the current component.
 	 * @return a result {@link Diagnostic} for this validation. 
 	 */
 	Diagnostic validate();
 	
 	/**
-	 * Dispose this component. Main topic is to remove this adapter from its host.
+	 * Disposes this component. Main topic is to remove this adapter from its host.
 	 */
 	void dispose();
+
 }

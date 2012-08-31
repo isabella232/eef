@@ -1,10 +1,9 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors;
+package org.eclipse.emf.eef.runtime.ui.services.propertyeditors;
 
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
+import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

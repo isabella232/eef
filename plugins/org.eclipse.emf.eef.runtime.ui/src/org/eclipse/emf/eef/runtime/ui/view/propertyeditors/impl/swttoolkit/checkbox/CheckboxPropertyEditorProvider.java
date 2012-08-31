@@ -32,7 +32,7 @@ public class CheckboxPropertyEditorProvider implements WidgetPropertyEditorProvi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider#serviceFor(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#serviceFor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
 	public boolean serviceFor(PropertyEditorContext editorContext) {
 		return getModel() == editorContext.elementEditor.getRepresentation();

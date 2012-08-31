@@ -5,12 +5,13 @@ package org.eclipse.emf.eef.runtime.tests.ui.notify;
 
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
-import org.eclipse.emf.eef.eeftests.bindingmodel.Root;
-import org.eclipse.emf.eef.eeftests.bindingmodel.Sample;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.services.viewhandler.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.junit.Test;
@@ -26,37 +27,39 @@ public class ModelNotificationInBeanViewTests extends UIEditingTestCase {
 	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#buildEditingModel()
 	 */
 	protected PropertiesEditingModel buildEditingModel() {
-		return new EEFTestStuffsBuilder().buildEditingModelWithSWTViews();
+		return new EEFTestEnvironmentBuilder().buildEditingModelWithSWTViews();
 	}
 
 	@Test
-	public void testSetRefresh() {
+	public void testSetRefresh() throws PriorityCircularityException {
 		disposeUI();
-		elementToEdit = elementToEdit();
+		editedObject = createEditedObject();
+		initEditingContext();
 		initUI();
-		Sample sample = (Sample) elementToEdit;
+		EClass sample = (EClass) editedObject;
 		SampleView sampleView = (SampleView)views.get(0);
 
 		sample.setName("New name");
 		assertEquals("Bad view refresh", sample.getName(), sampleView.getName());
 
-		sample.setActive(true);
-		assertEquals("Bad view refresh", sample.isActive(), sampleView.isActive());		
+		sample.setAbstract(true);
+		assertEquals("Bad view refresh", sample.isAbstract(), sampleView.isAbstract());		
 	}
 	
 	@Test
-	public void testAddRemoveRefreshs() {
+	public void testAddRemoveRefreshs() throws PriorityCircularityException {
 		disposeUI();
-		elementToEdit = BindingmodelFactory.eINSTANCE.createRoot();
+		editedObject = EcoreFactory.eINSTANCE.createEPackage();
+		initEditingContext();
 		initUI();
 		
-		Root root = (Root) elementToEdit;
+		EPackage root = (EPackage) editedObject;
 		RootView rootView = (RootView)views.get(0);
 
-		root.getSamples().add(BindingmodelFactory.eINSTANCE.createSample());
-		assertEquals("Bad view refresh", 1, rootView.samplesSize());
+		root.getEClassifiers().add(EcoreFactory.eINSTANCE.createEClass());
+		assertEquals("Bad view refresh", 1, rootView.eClassifiersSize());
 
-		root.getSamples().remove(0);
-		assertEquals("Bad view refresh", 0, rootView.samplesSize());
+		root.getEClassifiers().remove(0);
+		assertEquals("Bad view refresh", 0, rootView.eClassifiersSize());
 	}
 }

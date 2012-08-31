@@ -123,7 +123,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#createComponent(org.eclipse.emf.ecore.EObject)
 	 */
 	public PropertiesEditingComponent createComponent(EObject target) {
-		PropertiesEditingComponentImpl component = new PropertiesEditingComponentImpl(this, target);
+		PropertiesEditingComponent component = new PropertiesEditingComponentImpl(this, target);
 		notificationManager.registerEditingComponentAsEventHandler(component);
 		return component;
 	}

@@ -6,26 +6,10 @@ package org.eclipse.emf.eef.runtime.tests.ui.cases;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelFactory;
-import org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.impl.PropertiesEditingContextFactoryImpl;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestStuffsBuilder;
+import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
 import org.eclipse.swt.SWT;
@@ -35,109 +19,22 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
 import org.junit.Before;
-import org.osgi.service.component.ComponentContext;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class UIEditingTestCase {
+public abstract class UIEditingTestCase extends NonUIEditingTestCase {
 
-
-	protected EObject elementToEdit;
-	protected PropertiesEditingContext context;
-	protected PropertiesEditingComponent component;
-	protected List<Object> views;
-
-	protected Shell shell;
-	private Collection<ViewHandler<?>> viewHandlers;
+	private Shell shell;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		elementToEdit = elementToEdit();
+		super.setUp();
 		initUI();
-	}
-
-	/**
-	 * @return
-	 */
-	protected EObject elementToEdit() {
-		return BindingmodelFactory.eINSTANCE.createSample();
-	}
-
-	/**
-	 * @return the {@link PropertiesEditingModel} for the test case.
-	 */
-	protected PropertiesEditingModel buildEditingModel() {
-		return new EEFTestStuffsBuilder().buildEditingModelWithSWTViews();
-	}
-
-	/**
-	 * @return {@link PropertiesEditingContext} for the test case.
-	 */
-	protected PropertiesEditingContext buildEditingContext() {
-		PropertiesEditingProviderRegistry registry = new PropertiesEditingProviderRegistry() {
-			
-			public void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			public PropertiesEditingProvider getPropertiesEditingProvider(EPackage ePackage) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			public void activate(ComponentContext context) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		
-		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		adapterFactory.addAdapterFactory(new AbstractPropertiesEditingProvider() {
-
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initSpecificEditingModel()
-			 */
-			protected Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
-				List<PropertiesEditingModel> result = new ArrayList<PropertiesEditingModel>();
-				result.add(buildEditingModel());
-				return result;
-			}
-
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initViewHandlerProvider()
-			 */
-			protected ViewHandlerProvider initViewHandlerProvider() {
-				return new EEFTestStuffsBuilder().buildViewHandlerProvider();
-			}
-			
-		});
-		PropertiesEditingContext context = 
-				new PropertiesEditingContextFactoryImpl().createPropertiesEditingContext(adapterFactory, elementToEdit);
-		return context;
-	}
-	
-	/**
-	 * @return the element to edit.
-	 */
-	@SuppressWarnings("unchecked")
-	public <T extends EObject> T getElementToEdit() {
-		if (context instanceof EObjectPropertiesEditingContext) {
-			return (T)((EObjectPropertiesEditingContext) context).getEObject();
-		}
-		return null;
 	}
 
 	@After
@@ -146,18 +43,24 @@ public abstract class UIEditingTestCase {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#offScreenViewsInitialization()
+	 */
+	@Override
+	protected void offScreenViewsInitialization() throws ViewConstructionException {
+		//Note: we prevent off screen initialization
+	}
+
+	/**
 	 * 
 	 */
 	protected void initUI() {
-		context = buildEditingContext();
 		shell = new Shell();
 		shell.setLayout (new FillLayout());
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayout(new FillLayout());
-		component = context.getEditingComponent();
-		viewHandlers = component.createViewHandlers();
-		views = new ArrayList<Object>();
 		int i = 0;
+		views = new ArrayList<Object>();
 		for (ViewHandler<?> viewHandler : viewHandlers) {
 			views.add(buildView(composite, viewHandler, i++));
 		}
@@ -182,14 +85,14 @@ public abstract class UIEditingTestCase {
 		if (handler instanceof SWTViewHandler) {
 			try {
 				view = ((SWTViewHandler)handler).createView(container);
-				handler.initView(component);
+				handler.initView(editingContext.getEditingComponent());
 			} catch (ViewConstructionException e) {
 				fail("An error occured during view creation");
 			}
 		} else if (handler instanceof PropertiesEditingViewHandler) {
 			try {
-				view = ((PropertiesEditingViewHandler)handler).createView(component, container);
-				handler.initView(component);
+				view = ((PropertiesEditingViewHandler)handler).createView(editingContext.getEditingComponent(), container);
+				handler.initView(editingContext.getEditingComponent());
 			} catch (ViewConstructionException e) {
 				fail("An error occured during view creation");
 			}
@@ -208,12 +111,6 @@ public abstract class UIEditingTestCase {
 		}
 		shell.dispose();
 		views.clear();
-	}
-
-	public void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
-	}
-
-	public void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
 	}
 
 }
