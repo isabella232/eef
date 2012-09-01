@@ -88,7 +88,8 @@ public class NonUIEditingTestCase {
 
 
 	protected EMFServiceProvider createEMFServiceProvider() {
-		return new EEFTestEnvironmentBuilder().createEMFServiceProvider();
+		EEFTestEnvironmentBuilder eefTestEnvironmentBuilder = new EEFTestEnvironmentBuilder();
+		return eefTestEnvironmentBuilder.createEMFServiceProvider(eefTestEnvironmentBuilder.createEMFServices());
 	}
 
 

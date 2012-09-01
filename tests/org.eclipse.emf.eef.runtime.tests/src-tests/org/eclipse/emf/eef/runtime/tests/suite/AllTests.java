@@ -15,7 +15,9 @@ import org.eclipse.emf.eef.runtime.tests.core.compatibility.EMFEditCompatibility
 import org.eclipse.emf.eef.runtime.tests.core.editingmodes.EditingModesTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.EditingListenerTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.ViewNotificationTests;
+import org.eclipse.emf.eef.runtime.tests.core.service.EEFServiceRegistriesTests;
 import org.eclipse.emf.eef.runtime.tests.ui.EEFViewerTests;
+import org.eclipse.emf.eef.runtime.tests.ui.FeatureDocumentationTests;
 import org.eclipse.emf.eef.runtime.tests.ui.PropertiesEditingViewTests;
 import org.eclipse.emf.eef.runtime.tests.ui.notify.ModelNotificationInBeanViewTests;
 import org.junit.runner.RunWith;
@@ -37,14 +39,14 @@ import org.junit.runners.Suite;
 	ViewsComponentsLinkingTests.class,
 	EditingListenerTests.class,
 	ViewNotificationTests.class,
-//	EMFServiceProvidingTests.class,
+	EEFServiceRegistriesTests.class,
 	EEFViewerTests.class,
 	PropertiesEditingViewTests.class,
 	ModelNotificationInBeanViewTests.class,
 //	ModelNotificationInPropertiesEditingViewTests.class,
 	EditingModesTests.class,
 	EMFEditCompatibilityTests.class,
-//	FeatureDocumentationTests.class
+	FeatureDocumentationTests.class
 })
 public class AllTests {
 

@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.tests.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +38,10 @@ import org.eclipse.emf.eef.runtime.internal.services.viewhandler.PriorityCircula
 import org.eclipse.emf.eef.runtime.internal.services.viewhandler.ViewHandlerProviderRegistryImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.impl.PropertyEditorProviderRegistryImpl;
@@ -65,6 +68,7 @@ public class EEFTestEnvironmentBuilder {
 
 	public static final boolean FIRST_ECLASS_SAMPLE_ABSTRACTNESS = false;
 	public static final String FIRST_ECLASS_SAMPLE_NAME = "EClass1";
+	
 	public static final String COMPONENT_NAME_KEY = "component.name";
 	public static final String PRIORITY_OVER_KEY = "priority.over";
 	public static final String REFLECT_VIEW_HANDLER_PROVIDER_NAME = "ReflectViewHandlerProvider";
@@ -208,7 +212,7 @@ public class EEFTestEnvironmentBuilder {
 		return registry;
 	}
 
-	public ViewHandlerProviderRegistryImpl createViewHandlerProviderRegistry() throws PriorityCircularityException {
+	public ViewHandlerProviderRegistry createViewHandlerProviderRegistry() throws PriorityCircularityException {
 		ViewHandlerProviderRegistryImpl viewHandlerProviderRegistry = new ViewHandlerProviderRegistryImpl();
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put(COMPONENT_NAME_KEY, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
@@ -225,24 +229,33 @@ public class EEFTestEnvironmentBuilder {
 		return viewHandlerProviderRegistry;
 	}
 
-	protected ViewServiceRegistry createViewServiceRegistry() {
+	public ViewServiceRegistry createViewServiceRegistry() {
 		ViewServiceRegistry viewServiceRegistry = new ViewServiceRegistryImpl();
 		((ViewServiceRegistryImpl) viewServiceRegistry).addService(new ViewServiceImpl());
 		return viewServiceRegistry;
 	}
 
-	protected PropertyEditorProviderRegistry createEditorProviderRegistry() {
+	public PropertyEditorProviderRegistry createEditorProviderRegistry() {
 		PropertyEditorProviderRegistry editorProviderRegistry = new PropertyEditorProviderRegistryImpl();
 		((PropertyEditorProviderRegistryImpl) editorProviderRegistry).addService(new SWTToolkit());
 		((PropertyEditorProviderRegistryImpl) editorProviderRegistry).addService(new EMFPropertiesToolkit());
 		return editorProviderRegistry;
 	}
 
-	public EMFServiceProvider createEMFServiceProvider() {
+	public EMFServiceProvider createEMFServiceProvider(Collection<EMFService> emfServices) {
 		EMFServiceRegistry emfServiceRegistry = new EMFServiceRegistry();
-		emfServiceRegistry.addService(new EMFServiceImpl());
+		for (EMFService emfService : emfServices) {
+			emfServiceRegistry.addService(emfService);			
+		}
 		return emfServiceRegistry;
 	}
+	
+	public Collection<EMFService> createEMFServices() {
+		Collection<EMFService> services = new ArrayList<EMFService>();
+		services.add(new EMFServiceImpl());
+		return services;
+	}
+	
 	
 	public ModelChangesNotificationManager createNotificationManager() {
 		return new ModelChangesNotificationManagerTest();

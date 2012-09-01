@@ -49,7 +49,7 @@ public class PlatformResourceRegistryResourceBinding {
 		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
 		editingContext = builder.buildEditingContext(builder.buildAdapterFactory(), 
 														 createEditingProvider(pem), 
-														 builder.createEMFServiceProvider(), 
+														 builder.createEMFServiceProvider(builder.createEMFServices()), 
 														 EcoreFactory.eINSTANCE.createEClass());
 	}
 
@@ -151,7 +151,7 @@ public class PlatformResourceRegistryResourceBinding {
 		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
 		return builder.buildEditingContext(builder.buildAdapterFactory(), 
 				 createEditingProvider(editingModel), 
-				 builder.createEMFServiceProvider(), 
+				 builder.createEMFServiceProvider(builder.createEMFServices()), 
 				 EcoreFactory.eINSTANCE.createEClass());
 	}
 	

@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.tests.ui;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.common.util.URI;
@@ -19,17 +20,18 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.impl.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
+import org.eclipse.emf.eef.runtime.internal.services.viewhandler.PriorityCircularityException;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewsFactory;
@@ -62,7 +64,9 @@ public class FeatureDocumentationTests {
 	public void testEcoreDocumentation() {
 		PropertiesEditingContext editingContext = buildEcoreSampleEditingContext();
 		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
-		ViewService viewService = EEFRuntimeUI.getPlugin().getViewService(eclassView);
+		// TODO: use the registry in the stateful environment
+		ViewServiceRegistry viewServiceRegistry = new EEFTestEnvironmentBuilder().createViewServiceRegistry();
+		ViewService viewService = viewServiceRegistry.getServiceForView(eclassView);
 		viewService.setEditingComponent(editingComponent);
 		assertSame("Invalid documentation", ECORE_DOCUMENTATION, viewService.getHelpContent(nameEditor));
 	}
@@ -77,8 +81,8 @@ public class FeatureDocumentationTests {
 		nameEditor = (ElementEditor)eclassView.getElements().get(0);
 		final EClass sampleEClass = (EClass) ecoreSample.getEClassifier(SAMPLE_ECLASS_NAME);
 		EObject editedEObject = EcoreUtil.create(sampleEClass);
-		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		PropertiesEditingProviderImpl pep = new PropertiesEditingProviderImpl() {
+		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
+		PropertiesEditingProvider editingProvider = new PropertiesEditingProviderImpl() {
 
 			/**
 			 * {@inheritDoc}
@@ -86,18 +90,25 @@ public class FeatureDocumentationTests {
 			 */
 			@Override
 			protected PropertiesEditingModel getEditingModel() {
-				PropertiesEditingModel editingModel = new EditingModelBuilder()
+				return new EditingModelBuilder()
 															.setDocumentationProvider(FeatureDocumentationProvider.ECORE_DOCUMENTATION)
 															.bindClass(sampleEClass)
 																.withView(eclassView)
-															.build();				
-				return editingModel;
+															.build();
 			}
 			
+			
 		};
-		adapterFactory.addAdapterFactory(pep);
-		
-		return new EObjectPropertiesEditingContext(adapterFactory, editedEObject);
+
+		try {
+			return builder.buildEditingContext(builder.buildAdapterFactory(), 
+								editingProvider, 
+								builder.createEMFServiceProvider(builder.createEMFServices()), 
+								editedEObject);
+		} catch (PriorityCircularityException e) {
+			fail("error");
+		}
+		return null;
 	}
 
 	private EPackage generateEcoreSample() {
@@ -125,7 +136,9 @@ public class FeatureDocumentationTests {
 	public void testGenmodelDocumentation() {
 		PropertiesEditingContext editingContext = buildGenmodelEditingContext();
 		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
-		ViewService viewService = EEFRuntimeUI.getPlugin().getViewService(eclassView);
+		// TODO: use the registry in the stateful environment
+		ViewServiceRegistry viewServiceRegistry = new EEFTestEnvironmentBuilder().createViewServiceRegistry();
+		ViewService viewService = viewServiceRegistry.getServiceForView(eclassView);
 		viewService.setEditingComponent(editingComponent);
 		String helpContent = viewService.getHelpContent(nameEditor);
 		EditingModelEnvironment env = editingComponent.getEditingModelEnvironment();
@@ -142,8 +155,8 @@ public class FeatureDocumentationTests {
 		ViewsRepository viewRepository = generateViewsRepository();
 		eclassView = viewRepository.getViews().get(0);
 		nameEditor = (ElementEditor)eclassView.getElements().get(0);
-		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		PropertiesEditingProviderImpl pep = new PropertiesEditingProviderImpl() {
+		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
+		PropertiesEditingProvider editingProvider = new PropertiesEditingProviderImpl() {
 
 			/**
 			 * {@inheritDoc}
@@ -162,12 +175,18 @@ public class FeatureDocumentationTests {
 				return editingModel;
 			}
 			
+			
 		};
-		adapterFactory.addAdapterFactory(pep);
-		ResourceSet resourceSet = pep.getEditingModelEnvironment().getResourceSet();
-		EClass sampleEClass = getEClassEClassFromResourceSet(resourceSet);
-		EObject editedEObject = EcoreUtil.create(sampleEClass);
-		return new EObjectPropertiesEditingContext(adapterFactory, editedEObject);
+
+		try {
+			return builder.buildEditingContext(builder.buildAdapterFactory(), 
+								editingProvider, 
+								builder.createEMFServiceProvider(builder.createEMFServices()), 
+								EcoreFactory.eINSTANCE.createEClass());
+		} catch (PriorityCircularityException e) {
+			fail("error");
+		}
+		return null;
 	}
 
 	private EClass getEClassEClassFromResourceSet(ResourceSet rset) {
