@@ -56,10 +56,10 @@ public class NonUIEditingTestCase {
 	protected void initEditingContext() throws PriorityCircularityException {
 		EMFServiceProvider emfServiceProvider = createEMFServiceProvider();
 		editingContext =  createEditingContext(editingProvider, emfServiceProvider);
-		viewHandlers = editingContext.getEditingComponent().createViewHandlers();
 	}
 
 	protected void offScreenViewsInitialization() throws ViewConstructionException {
+		viewHandlers = editingContext.getEditingComponent().createViewHandlers();
 		views = new ArrayList<Object>();
 		for (ViewHandler<?> viewHandler : viewHandlers) {
 			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();

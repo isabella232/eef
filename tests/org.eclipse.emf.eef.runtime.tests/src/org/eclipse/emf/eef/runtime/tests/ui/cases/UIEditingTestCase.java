@@ -59,8 +59,11 @@ public abstract class UIEditingTestCase extends NonUIEditingTestCase {
 		shell.setLayout (new FillLayout());
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayout(new FillLayout());
-		int i = 0;
+		
+		viewHandlers = editingContext.getEditingComponent().createViewHandlers();
 		views = new ArrayList<Object>();
+		
+		int i = 0;
 		for (ViewHandler<?> viewHandler : viewHandlers) {
 			views.add(buildView(composite, viewHandler, i++));
 		}
