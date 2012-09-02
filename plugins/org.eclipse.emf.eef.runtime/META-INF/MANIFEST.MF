@@ -26,10 +26,10 @@ Export-Package: org.eclipse.emf.eef.runtime,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,
- com.google.guava,
- org.eclipse.emf.codegen.ecore;resolution:=optional;visibility:=reexport
+ com.google.guava
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.eef.runtime.EEFRuntime$Plugin
 Service-Component: OSGI-INF/EMFServiceRegistry.xml, OSGI-INF/EMFServiceImpl.xml, OSGI-INF/StandardPropertiesEditingProviderRegistry.xml, OSGI-INF/StandardPropertiesEditingContextFactory.xml, OSGI-INF/StandardViewHandlerProviderRegistry.xml, OSGI-INF/EventAdminBasedModelChangesNotificationManager.xml
-Import-Package: org.osgi.service.component,
+Import-Package: org.eclipse.emf.codegen.ecore.genmodel;resolution:=optional,
+ org.osgi.service.component,
  org.osgi.service.event
