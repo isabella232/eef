@@ -17,8 +17,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.eef.runtime,
  org.eclipse.ui,
  org.eclipse.emf.eef.runtime.ui,
- org.eclipse.emf.ecore.xmi,
- org.eclipse.emf.eef.runtime.tests.customproviders
+ org.eclipse.emf.ecore.xmi
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.emf.codegen.ecore.genmodel,
  org.osgi.service.component,

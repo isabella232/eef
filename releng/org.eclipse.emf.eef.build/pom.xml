@@ -23,7 +23,6 @@
 		<module>../../plugins/org.eclipse.emf.eef.editor</module>
 		<module>../../features/org.eclipse.emf.eef.edt.feature</module>				
 		<module>../org.eclipse.emf.eef.repository</module>				
-		<module>../../tests/org.eclipse.emf.eef.runtime.tests.customproviders</module>				
 		<module>../../tests/org.eclipse.emf.eef.runtime.tests</module>				
 	</modules>
 	
