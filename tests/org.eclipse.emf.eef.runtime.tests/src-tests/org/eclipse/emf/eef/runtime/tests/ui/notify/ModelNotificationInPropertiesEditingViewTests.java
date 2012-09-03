@@ -5,7 +5,11 @@ package org.eclipse.emf.eef.runtime.tests.ui.notify;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
@@ -51,70 +55,70 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		assertEquals(editedElement.isAbstract(), abstractButton.getSelection());
 	}
 	
-//	@Test
-//	public void testAddRefresh() {
-//		disposeUI();
-//		initUI();
-//		EClass editedElement = (EClass) editingContext.getEditingComponent().getEObject();
-//		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
-//		EClassifier eClassifier = editedElement.getEPackage().getEClassifiers().get(3);
-//		editedElement.getESuperTypes().add((EClass) eClassifier);
-//		Tree tree = getReferenceEditorTree(view.getContents());
-//		assertEquals(editedElement.getESuperTypes().size(), tree.getItemCount());
-//	}
-//	
-//	@Test
-//	public void testAddAllRefresh() {
-//		disposeUI();
-//		initUI();
-//		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
-//		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
-//		EClassifier eClassifier1 = editedElement.getEPackage().getEClassifiers().get(1);
-//		EClassifier eClassifier2 = editedElement.getEPackage().getEClassifiers().get(2);
-//		editedElement.getESuperTypes().clear();
-//		List<EClass> newESuperClasses = new ArrayList<EClass>();
-//		newESuperClasses.add((EClass) eClassifier1);
-//		newESuperClasses.add((EClass) eClassifier2);
-//		editedElement.getESuperTypes()
-//			.addAll(newESuperClasses);
-//		//NOTE: This doesn't throw a ADD_MANY notification
-//		Tree tree = getReferenceEditorTree(view.getContents());
-//		assertEquals(editedElement.getESuperTypes().size(), tree.getItemCount());
-//	}
-//
-//	@Test
-//	public void testRemoveRefresh() {
-//		disposeUI();
-//		initUI();
-//		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
-//		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
-//		editedElement.getESuperTypes().remove(editedElement.getESuperTypes().get(0));
-//		Tree tree = getReferenceEditorTree(view.getContents());
-//		assertEquals(editedElement.getESuperTypes().size(), tree.getItemCount());
-//	}
-//
-//	@Test
-//	public void testRemoveAllRefresh() {
-//		disposeUI();
-//		initUI();
-//		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
-//		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
-//		editedElement.getESuperTypes().clear();
-//		Tree tree = getReferenceEditorTree(view.getContents());
-//		assertEquals(editedElement.getESuperTypes().size(), tree.getItemCount());
-//	}
-//
-//	@Test
-//	public void testMoveRefresh() {
-//		disposeUI();
-//		initUI();
-//		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
-//		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
-//		Tree tree = getReferenceEditorTree(view.getContents());
-//		Object eSuperType1 = tree.getItem(1).getData();
-//		editedElement.getESuperTypes().move(0, editedElement.getESuperTypes().get(1));
-//		assertEquals(eSuperType1, tree.getItem(0).getData());
-//	}
+	@Test
+	public void testAddRefresh() {
+		disposeUI();
+		initUI();
+		EClass editedElement = (EClass) editingContext.getEditingComponent().getEObject();
+		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
+		EClassifier eClassifier = editedElement.getEPackage().getEClassifiers().get(3);
+		editedElement.getESuperTypes().add((EClass) eClassifier);
+		Tree tree = getReferenceEditorTree(view.getContents());
+		assertEquals(editedElement.getESuperTypes().size(), tree.getItemCount());
+	}
+	
+	@Test
+	public void testAddAllRefresh() {
+		disposeUI();
+		initUI();
+		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
+		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
+		EClassifier eClassifier1 = editedElement.getEPackage().getEClassifiers().get(1);
+		EClassifier eClassifier2 = editedElement.getEPackage().getEClassifiers().get(2);
+		editedElement.getESuperTypes().clear();
+		List<EClass> newESuperClasses = new ArrayList<EClass>();
+		newESuperClasses.add((EClass) eClassifier1);
+		newESuperClasses.add((EClass) eClassifier2);
+		editedElement.getESuperTypes()
+			.addAll(newESuperClasses);
+		//NOTE: This doesn't throw a ADD_MANY notification
+		Tree tree = getReferenceEditorTree(view.getContents());
+		assertEquals(editedElement.getESuperTypes().size(), tree.getItemCount());
+	}
+
+	@Test
+	public void testRemoveRefresh() {
+		disposeUI();
+		initUI();
+		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
+		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
+		editedElement.getESuperTypes().remove(editedElement.getESuperTypes().get(0));
+		Tree tree = getReferenceEditorTree(view.getContents());
+		assertEquals(editedElement.getESuperTypes().size(), tree.getItemCount());
+	}
+
+	@Test
+	public void testRemoveAllRefresh() {
+		disposeUI();
+		initUI();
+		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
+		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
+		editedElement.getESuperTypes().clear();
+		Tree tree = getReferenceEditorTree(view.getContents());
+		assertEquals(editedElement.getESuperTypes().size(), tree.getItemCount());
+	}
+
+	@Test
+	public void testMoveRefresh() {
+		disposeUI();
+		initUI();
+		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
+		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
+		Tree tree = getReferenceEditorTree(view.getContents());
+		Object eSuperType1 = tree.getItem(1).getData();
+		editedElement.getESuperTypes().move(0, editedElement.getESuperTypes().get(1));
+		assertEquals(eSuperType1, tree.getItem(0).getData());
+	}
 
 	private Tree getReferenceEditorTree(Composite view) {
 		Control[] children = view.getChildren();

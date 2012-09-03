@@ -33,6 +33,7 @@ public class ViewsComponentsLinkingTests extends NonUIEditingTestCase {
 		assertEquals("The ViewHandler hasn't been correctly unregistered", 0, handlers.size());		
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<ViewHandler<?>> getHandlers(PropertiesEditingComponent editingComponent) {
 		try {
 			Field field = editingComponent.getClass().getDeclaredField(VIEW_HANDLERS_FIELD_NAME);

@@ -104,6 +104,7 @@ public class JavaViewItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public String getText(Object object) {
 		ViewHandler labelValue = ((JavaView)object).getHandler();

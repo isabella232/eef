@@ -30,7 +30,6 @@ import org.eclipse.emf.samples.conference.Topic;
  * @see org.eclipse.emf.samples.conference.ConferencePackage
  * @generated
  */
-@SuppressWarnings("unused")
 public class ConferenceSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
