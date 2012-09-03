@@ -213,7 +213,8 @@ public class EEFTestEnvironmentBuilder {
 	}
 
 	public ViewHandlerProviderRegistry createViewHandlerProviderRegistry() throws PriorityCircularityException {
-		ViewHandlerProviderRegistryImpl viewHandlerProviderRegistry = new ViewHandlerProviderRegistryImpl();
+		ViewHandlerProviderRegistry registry = createEmptyViewHandlerProviderRegistry();
+		ViewHandlerProviderRegistryImpl viewHandlerProviderRegistry = (ViewHandlerProviderRegistryImpl) registry; 
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put(COMPONENT_NAME_KEY, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
 		viewHandlerProviderRegistry.addService(new ReflectViewHandlerProvider(), properties);
@@ -228,6 +229,11 @@ public class EEFTestEnvironmentBuilder {
 		viewHandlerProviderRegistry.addService(handler, properties);
 		return viewHandlerProviderRegistry;
 	}
+	
+	public ViewHandlerProviderRegistry createEmptyViewHandlerProviderRegistry() {
+		return new ViewHandlerProviderRegistryImpl();
+	}
+
 
 	public ViewServiceRegistry createViewServiceRegistry() {
 		ViewServiceRegistry viewServiceRegistry = new ViewServiceRegistryImpl();
