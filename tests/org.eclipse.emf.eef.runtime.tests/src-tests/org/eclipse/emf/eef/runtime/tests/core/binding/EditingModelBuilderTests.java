@@ -7,8 +7,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.eef.eeftests.bindingmodel.BindingmodelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
@@ -38,7 +38,7 @@ public class EditingModelBuilderTests {
 
 	@Test
 	public void testNoBindingForEClassWithoutView() {
-		PropertiesEditingModel model = new EditingModelBuilder().bindClass(BindingmodelPackage.Literals.SAMPLE).build();
+		PropertiesEditingModel model = new EditingModelBuilder().bindClass(EcorePackage.Literals.ECLASS).build();
 		assertNotNull(model);
 		assertEquals("A EClassBinding shouldn't be created without a view.", 0, model.getBindings().size());
 	}
@@ -47,8 +47,8 @@ public class EditingModelBuilderTests {
 	public void testBuilderSyntax1() {
 		PropertiesEditingModel model = 
 				new EditingModelBuilder()
-					.bindClass(BindingmodelPackage.Literals.SAMPLE).withView(SampleView.class)
-					.bindClass(BindingmodelPackage.Literals.ROOT).withView(RootView.class)
+					.bindClass(EcorePackage.Literals.ECLASS).withView(SampleView.class)
+					.bindClass(EcorePackage.Literals.EPACKAGE).withView(RootView.class)
 					.build();
 		assertTrue(EcoreUtil.equals(model, expectedModel1));
 	}
@@ -57,12 +57,12 @@ public class EditingModelBuilderTests {
 	public void testBuilderSyntax2() {
 		PropertiesEditingModel model = 
 				new EditingModelBuilder()
-					.bindClass(BindingmodelPackage.Literals.SAMPLE)
-						.bindProperty(BindingmodelPackage.Literals.ABSTRACT_SAMPLE__NAME)
+					.bindClass(EcorePackage.Literals.ECLASS)
+						.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME)
 							.withEditor("title")
 					.withView(SampleView.class)
-						.bindProperty(BindingmodelPackage.Literals.SAMPLE__ACTIVE)
-							.withEditor("activity")
+						.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT)
+							.withEditor("abstract")
 					.build();
 		assertTrue(EcoreUtil.equals(model, expectedModel2));
 	}
@@ -73,13 +73,13 @@ public class EditingModelBuilderTests {
 	private void buildExpectedModel1() {
 		expectedModel1 = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
 		EClassBinding eClassBinding = EditingModelFactory.eINSTANCE.createEClassBinding();
-		eClassBinding.setEClass(BindingmodelPackage.Literals.SAMPLE);
+		eClassBinding.setEClass(EcorePackage.Literals.ECLASS);
 		JavaView sampleView = EditingModelFactory.eINSTANCE.createJavaView();
 		sampleView.setDefinition(SampleView.class);
 		eClassBinding.getViews().add(sampleView);
 		expectedModel1.getBindings().add(eClassBinding);
 		eClassBinding = EditingModelFactory.eINSTANCE.createEClassBinding();
-		eClassBinding.setEClass(BindingmodelPackage.Literals.ROOT);
+		eClassBinding.setEClass(EcorePackage.Literals.EPACKAGE);
 		JavaView rootView = EditingModelFactory.eINSTANCE.createJavaView();
 		rootView.setDefinition(RootView.class);
 		eClassBinding.getViews().add(rootView);
@@ -92,20 +92,20 @@ public class EditingModelBuilderTests {
 	private void buildExpectedModel2() {
 		expectedModel2 = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
 		EClassBinding eClassBinding = EditingModelFactory.eINSTANCE.createEClassBinding();
-		eClassBinding.setEClass(BindingmodelPackage.Literals.SAMPLE);
+		eClassBinding.setEClass(EcorePackage.Literals.ECLASS);
 		JavaView sampleView = EditingModelFactory.eINSTANCE.createJavaView();
 		sampleView.setDefinition(SampleView.class);
 		eClassBinding.getViews().add(sampleView);
 		PropertyBinding namePropertyBinding = EditingModelFactory.eINSTANCE.createPropertyBinding();
-		namePropertyBinding.setFeature(BindingmodelPackage.Literals.ABSTRACT_SAMPLE__NAME);
+		namePropertyBinding.setFeature(EcorePackage.Literals.ENAMED_ELEMENT__NAME);
 		JavaEditor titleEditor = EditingModelFactory.eINSTANCE.createJavaEditor();
 		titleEditor.setDefinition("title");
 		namePropertyBinding.setEditor(titleEditor);
 		eClassBinding.getPropertyBindings().add(namePropertyBinding);
 		PropertyBinding activePropertyBinding = EditingModelFactory.eINSTANCE.createPropertyBinding();
-		activePropertyBinding.setFeature(BindingmodelPackage.Literals.SAMPLE__ACTIVE);
+		activePropertyBinding.setFeature(EcorePackage.Literals.ECLASS__ABSTRACT);
 		JavaEditor activityEditor = EditingModelFactory.eINSTANCE.createJavaEditor();
-		activityEditor.setDefinition("activity");
+		activityEditor.setDefinition("abstract");
 		activePropertyBinding.setEditor(activityEditor);
 		eClassBinding.getPropertyBindings().add(activePropertyBinding);
 		expectedModel2.getBindings().add(eClassBinding);
