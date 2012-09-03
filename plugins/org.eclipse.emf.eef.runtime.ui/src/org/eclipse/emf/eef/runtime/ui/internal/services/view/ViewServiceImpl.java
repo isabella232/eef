@@ -31,13 +31,9 @@ import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -134,19 +130,19 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 	 */
 	public Control createHelpButton(FormToolkit toolkit, Composite parent, Object editor ) {
 		//To manage in future
-		String helpID = null;
+//		String helpID = null;
 		String alternate = getHelpContent(editor);
 		Image image = JFaceResources.getImage(DLG_IMG_HELP);
-		if (helpID != null && !EMPTY_STRING.equals(helpID)) { //$NON-NLS-1$
-			ToolBar result = new ToolBar(parent, SWT.FLAT | SWT.NO_FOCUS);
-			((GridLayout)parent.getLayout()).numColumns++;
-			result.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
-			ToolItem item = new ToolItem(result, SWT.NONE);
-			item.setImage(image);
-			if (alternate != null && !EMPTY_STRING.equals(alternate)) //$NON-NLS-1$
-				item.setToolTipText(alternate);
-			return result;
-		} else {
+//		if (helpID != null && !EMPTY_STRING.equals(helpID)) { //$NON-NLS-1$
+//			ToolBar result = new ToolBar(parent, SWT.FLAT | SWT.NO_FOCUS);
+//			((GridLayout)parent.getLayout()).numColumns++;
+//			result.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
+//			ToolItem item = new ToolItem(result, SWT.NONE);
+//			item.setImage(image);
+//			if (alternate != null && !EMPTY_STRING.equals(alternate)) //$NON-NLS-1$
+//				item.setToolTipText(alternate);
+//			return result;
+//		} else {
 			Label result = null; 
 			if (toolkit != null) {
 				result = toolkit.createLabel(parent, EMPTY_STRING); //$NON-NLS-1$
@@ -158,7 +154,7 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 				result.setToolTipText(alternate);
 			}
 			return result;
-		}
+//		}
 	}
 	
 	/**
