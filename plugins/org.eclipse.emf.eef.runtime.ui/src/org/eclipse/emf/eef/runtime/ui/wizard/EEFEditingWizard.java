@@ -4,7 +4,6 @@
 package org.eclipse.emf.eef.runtime.ui.wizard;
 
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;

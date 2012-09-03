@@ -5,11 +5,7 @@ package org.eclipse.emf.eef.runtime.tests.ui.notify;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
