@@ -26,7 +26,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.internal.services.viewhandler.PriorityCircularityException;
+import org.eclipse.emf.eef.runtime.services.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;

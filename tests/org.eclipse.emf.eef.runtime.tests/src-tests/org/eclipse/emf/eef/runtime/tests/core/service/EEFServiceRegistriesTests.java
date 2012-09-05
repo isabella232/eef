@@ -18,9 +18,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.internal.services.viewhandler.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.internal.services.viewhandler.ViewHandlerProviderRegistryImpl;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceSimpleRegistry;
+import org.eclipse.emf.eef.runtime.services.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
@@ -48,9 +48,9 @@ public class EEFServiceRegistriesTests {
 	public void testCustomizedEMFService() {
 		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
 		EMFServiceProvider emfServiceProvider = builder.createEMFServiceProvider(builder.createEMFServices());
-		assertTrue("Bad type of EMFServiceRegistry.", emfServiceProvider instanceof EEFServiceRegistry);
+		assertTrue("Bad type of EMFServiceRegistry.", emfServiceProvider instanceof EEFServiceSimpleRegistry);
 		EMFService defaultEMFService = emfServiceProvider.getEMFServiceForPackage(EcorePackage.eINSTANCE);
-		((EEFServiceRegistry<EPackage, EMFService>)emfServiceProvider).addService(new CustomEMFService());
+		((EEFServiceSimpleRegistry<EPackage, EMFService>)emfServiceProvider).addService(new CustomEMFService());
 		EMFService customEMFService = emfServiceProvider.getEMFServiceForPackage(EcorePackage.eINSTANCE);
 		assertNotSame("Bad type of EMFService returned.", defaultEMFService, customEMFService);
 	}

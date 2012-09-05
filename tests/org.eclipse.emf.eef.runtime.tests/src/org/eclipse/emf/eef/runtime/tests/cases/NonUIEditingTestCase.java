@@ -17,7 +17,7 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.internal.services.viewhandler.PriorityCircularityException;
+import org.eclipse.emf.eef.runtime.services.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;

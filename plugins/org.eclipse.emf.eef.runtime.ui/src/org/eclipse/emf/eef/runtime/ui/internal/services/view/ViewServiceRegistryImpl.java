@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.internal.services.view;
 
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceSimpleRegistry;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.views.View;
@@ -12,7 +12,7 @@ import org.eclipse.emf.eef.views.View;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ViewServiceRegistryImpl extends EEFServiceRegistry<View, ViewService> implements ViewServiceRegistry {
+public class ViewServiceRegistryImpl extends EEFServiceSimpleRegistry<View, ViewService> implements ViewServiceRegistry {
 
 	/**
 	 * {@inheritDoc}

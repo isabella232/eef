@@ -34,10 +34,10 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingProviderRegistryImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
-import org.eclipse.emf.eef.runtime.internal.services.viewhandler.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.internal.services.viewhandler.ViewHandlerProviderRegistryImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceSimpleRegistry;
+import org.eclipse.emf.eef.runtime.services.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceRegistry;
@@ -208,7 +208,7 @@ public class EEFTestEnvironmentBuilder {
 		registry.setEMFServiceProvider(emfServiceProvider);
 		registry.setViewHandlerProviderRegistry(createViewHandlerProviderRegistry());
 		registry.setModelChangesNotificationManager(getModelChangesNotificationManager());
-		((EEFServiceRegistry<EPackage, PropertiesEditingProvider>)registry).addService(editingProvider);
+		((EEFServiceSimpleRegistry<EPackage, PropertiesEditingProvider>)registry).addService(editingProvider);
 		return registry;
 	}
 

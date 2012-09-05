@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceSimpleRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
@@ -16,7 +16,7 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegis
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingProviderRegistryImpl extends EEFServiceRegistry<EPackage, PropertiesEditingProvider> implements PropertiesEditingProviderRegistry {
+public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegistry<EPackage, PropertiesEditingProvider> implements PropertiesEditingProviderRegistry {
 
 	private EMFServiceProvider emfServiceProvider;
 	private ViewHandlerProviderRegistry viewHandlerProviderRegistry;
@@ -78,7 +78,7 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceRegistry<EP
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceRegistry#addService(org.eclipse.emf.eef.runtime.services.EEFService)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceSimpleRegistry#addService(org.eclipse.emf.eef.runtime.services.EEFService)
 	 */
 	public synchronized void addService(PropertiesEditingProvider service) {
 		service.setEMFServiceProvider(emfServiceProvider);

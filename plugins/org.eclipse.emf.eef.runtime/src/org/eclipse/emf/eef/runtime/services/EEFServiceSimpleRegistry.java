@@ -17,7 +17,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EEFServiceRegistry<ELEMENT, SERVICE extends EEFService<ELEMENT>> {
+public class EEFServiceSimpleRegistry<ELEMENT, SERVICE extends EEFService<ELEMENT>> {
 
 	protected final Collection<SERVICE> customServices; 
 	protected SERVICE defaultService;
@@ -25,7 +25,7 @@ public class EEFServiceRegistry<ELEMENT, SERVICE extends EEFService<ELEMENT>> {
 	/**
 	 * Default constructor. 
 	 */
-	public EEFServiceRegistry() {
+	public EEFServiceSimpleRegistry() {
 		customServices = Lists.newArrayList();
 	}	
 
