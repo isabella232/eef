@@ -8,9 +8,9 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.handlers.CustomSWTViewHandler;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleCustomView;
 import org.junit.Test;
 
@@ -20,16 +20,16 @@ import org.junit.Test;
  */
 public class CustomViewHandlerTests extends UIEditingTestCase {
 
-
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#buildEditingModel()
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#initEnvironmentBuilder()
 	 */
-	protected PropertiesEditingModel buildEditingModel() {
-		return new EditingModelBuilder()
-				.bindClass(EcorePackage.Literals.ECLASS)
-					.withView(SampleCustomView.class).handler(new CustomSWTViewHandler(null, null, SampleCustomView.class))
-				.build();
+	@Override
+	protected Builder initEnvironmentBuilder() {
+		return super.initEnvironmentBuilder().setEditingModel(new EditingModelBuilder()
+																		.bindClass(EcorePackage.Literals.ECLASS)
+																		.withView(SampleCustomView.class).handler(new CustomSWTViewHandler(null, null, SampleCustomView.class))
+																	.build());
 	}
 	
 	@Test

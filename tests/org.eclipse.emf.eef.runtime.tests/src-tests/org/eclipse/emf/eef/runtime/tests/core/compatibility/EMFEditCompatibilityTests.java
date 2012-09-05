@@ -25,11 +25,8 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.views.EClassListeningView;
 import org.eclipse.emf.eef.runtime.ui.commands.AbstractBatchEditingCommand;
 import org.junit.Test;
@@ -46,26 +43,32 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#buildEditingModel()
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#initEnvironmentBuilder()
 	 */
 	@Override
-	protected PropertiesEditingModel buildEditingModel() {
+	protected Builder initEnvironmentBuilder() {
+		Builder initEnvironmentBuilder = super.initEnvironmentBuilder();
+		return initEnvironmentBuilder
+						.setEditingModel(createEditingModel())
+						.setEditedObject(createEditedObject())
+						.setEditingContext(createEditingContext(initEnvironmentBuilder));
+	}
+
+	private PropertiesEditingModel createEditingModel() {
 		return new EditingModelBuilder()
 						.bindClass(EcorePackage.Literals.ECLASS)
 							.withView(EClassListeningView.class).build();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#createEditedObject()
-	 */
-	@Override
-	protected EObject createEditedObject() {
+	private EObject createEditedObject() {
 		EClass editedEClass = EcoreFactory.eINSTANCE.createEClass();
 		editedEClass.setName(ORIGINAL_ECLASS_NAME);
 		return editedEClass;
 	}
 
+	private PropertiesEditingContext createEditingContext(Builder builder) {
+		return builder.createPropertiesEditingContextFactory().createPropertiesEditingContext(new TestEditingDomain(builder.getAdapterFactory(), new BasicCommandStack()), builder.getEditedObject());
+	}
 
 	private EClass editedEClass() {
 		return (EClass)editedObject;
@@ -76,16 +79,6 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	}
 	
 	
-	
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#createEditingContext(org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider, org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider)
-	 */
-	@Override
-	protected PropertiesEditingContext createEditingContext(PropertiesEditingProvider editingProvider, EMFServiceProvider emfServiceProvider) throws PriorityCircularityException {
-		return new EEFTestEnvironmentBuilder().createPropertiesEditingContextFactory(editingProvider, emfServiceProvider).createPropertiesEditingContext(new TestEditingDomain(adapterFactory, new BasicCommandStack()), editedObject);
-	}
-
 	/**
 	 * This test checks the live mode : The context use the 'custom command' editing domain. When we change the EClass name
 	 * the new value must be {@link EMFEditCompatibilityTests#MARKER}. 

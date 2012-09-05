@@ -20,11 +20,9 @@ import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,30 +44,12 @@ public class PlatformResourceRegistryResourceBinding {
 		EClassBinding binding = EditingModelFactory.eINSTANCE.createEClassBinding();
 		binding.setEClass(getEClassFromEcoreFile());
 		pem.getBindings().add(binding);
-		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
-		editingContext = builder.buildEditingContext(builder.buildAdapterFactory(), 
-														 createEditingProvider(pem), 
-														 builder.createEMFServiceProvider(builder.createEMFServices()), 
-														 EcoreFactory.eINSTANCE.createEClass());
+		EEFTestEnvironment env = new EEFTestEnvironment.Builder()
+																.setEditingModel(pem)
+																.setEditedObject(EcoreFactory.eINSTANCE.createEClass())
+															.build();
+		editingContext = env.getEditingContext();
 	}
-
-	protected PropertiesEditingProvider createEditingProvider(final PropertiesEditingModel editingModel) {
-		PropertiesEditingProvider editingProvider = new PropertiesEditingProviderImpl() {
-
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl#getEditingModel()
-			 */
-			@Override
-			protected PropertiesEditingModel getEditingModel() {
-				return editingModel;
-			}
-			
-			
-		};
-		return editingProvider;
-	}
-
 	
 	/**
 	 * This test checks that the default {@link EMFService} is able to make the correspondence of
@@ -148,11 +128,11 @@ public class PlatformResourceRegistryResourceBinding {
 														.bindProperty(eClassToBind.getEStructuralFeature("name"))
 															.withEditor("name")
 					.build();
-		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
-		return builder.buildEditingContext(builder.buildAdapterFactory(), 
-				 createEditingProvider(editingModel), 
-				 builder.createEMFServiceProvider(builder.createEMFServices()), 
-				 EcoreFactory.eINSTANCE.createEClass());
+		EEFTestEnvironment env = new EEFTestEnvironment.Builder()
+																.setEditingModel(editingModel)
+																.setEditedObject(EcoreFactory.eINSTANCE.createEClass())
+															.build();
+		return env.getEditingContext();
 	}
 	
 }

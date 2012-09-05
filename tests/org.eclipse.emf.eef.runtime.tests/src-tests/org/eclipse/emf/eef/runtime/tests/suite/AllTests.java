@@ -30,23 +30,30 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	CustomViewHandlerTests.class,
-	SampleEditingTests.class,
-	EClassBindingResolverTests.class,
-	EditingModelBuilderTests.class,
-	PlatformResourceRegistryResourceBinding.class,
-	PropertyBindingTests.class,
-	SampleMultiViewsEditingTests.class,
-	ViewsComponentsLinkingTests.class,
+	
+	// NonUIEditingTests
 	EditingListenerTests.class,
-	ViewNotificationTests.class,
-	EEFServiceRegistriesTests.class,
-	EEFViewerTests.class,
-	PropertiesEditingViewTests.class,
-	ModelNotificationInBeanViewTests.class,
-	ModelNotificationInPropertiesEditingViewTests.class,
 	EditingModesTests.class,
 	EMFEditCompatibilityTests.class,
+	ViewNotificationTests.class,
+	ViewsComponentsLinkingTests.class,
+	
+	// UIEditingTests
+	CustomViewHandlerTests.class,
+	ModelNotificationInBeanViewTests.class,
+	ModelNotificationInPropertiesEditingViewTests.class,
+	PropertyBindingTests.class,
+	SampleEditingTests.class,
+	SampleMultiViewsEditingTests.class,
+	
+	//PropertiesEditingViewEditingTestCase
+	EEFViewerTests.class,
+	PropertiesEditingViewTests.class,
+	
+	EditingModelBuilderTests.class,
+	EClassBindingResolverTests.class,
+	PlatformResourceRegistryResourceBinding.class,
+	EEFServiceRegistriesTests.class,
 	FeatureDocumentationTests.class
 })
 public class AllTests {

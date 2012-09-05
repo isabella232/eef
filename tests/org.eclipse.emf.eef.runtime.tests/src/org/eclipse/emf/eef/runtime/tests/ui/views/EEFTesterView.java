@@ -3,8 +3,7 @@ package org.eclipse.emf.eef.runtime.tests.ui.views;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
 import org.eclipse.jface.action.Action;
@@ -44,17 +43,10 @@ public class EEFTesterView extends ViewPart {
 	 * to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
-		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
-		try {
-			context = builder.buildEditingContext(
-						builder.buildAdapterFactory(), 
-						null, 
-						builder.createEMFServiceProvider(builder.createEMFServices()), 
-						EcoreFactory.eINSTANCE.createEClass());
-		} catch (PriorityCircularityException e) {
-			e.printStackTrace();
-		}
-
+		EEFTestEnvironment env = new EEFTestEnvironment.Builder()
+																.setEditedObject(EcoreFactory.eINSTANCE.createEClass())
+															.build();
+		context = env.getEditingContext();
 		EEFViewer viewer = new EEFViewer(parent, SWT.NONE);
 		viewer.setLayoutData(new GridData(GridData.FILL_BOTH));
 		viewer.setContentProvider(new EEFContentProvider());

@@ -16,11 +16,9 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.views.EClassListeningView;
 import org.eclipse.emf.eef.runtime.ui.commands.AbstractBatchEditingCommand;
 import org.junit.Test;
@@ -37,56 +35,48 @@ public class EditingModesTests extends NonUIEditingTestCase {
 	private static final boolean NEW_ECLASS_ABSTRACTION = false;
 
 	private TrackingCommandStack commandStack;
-
+	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#buildEditingModel()
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#initEnvironmentBuilder()
 	 */
 	@Override
-	protected PropertiesEditingModel buildEditingModel() {
+	protected Builder initEnvironmentBuilder() {
+		Builder initEnvironmentBuilder = super.initEnvironmentBuilder();
+		return initEnvironmentBuilder
+					.setEditingModel(createEditingModel())
+					.setEditedObject(createEditedObject())
+					.setEditingContext(createEditingContext(initEnvironmentBuilder));
+	}
+
+	private PropertiesEditingModel createEditingModel() {
 		return new EditingModelBuilder()
 						.bindClass(EcorePackage.Literals.ECLASS)
 							.withView(EClassListeningView.class).build();
 	}
-	
-	
-	
 
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#createEditedObject()
-	 */
-	@Override
 	protected EObject createEditedObject() {
 		EClass editedEClass = EcoreFactory.eINSTANCE.createEClass();
 		editedEClass.setName(ORIGINAL_ECLASS_NAME);
 		editedEClass.setAbstract(ORIGINAL_ECLASS_ABSTRACTION);
 		return editedEClass;
 	}
+	
+	protected PropertiesEditingContext createEditingContext(EEFTestEnvironment.Builder builder) {
+		commandStack = new TrackingCommandStack();
+		AdapterFactoryEditingDomain domain = new AdapterFactoryEditingDomain(builder.getAdapterFactory() , commandStack);
+		return builder.createPropertiesEditingContextFactory().createPropertiesEditingContext(domain, builder.getEditedObject());
+	}
+
 
 
 	private EClass editedEClass() {
 		return (EClass)editedObject;
 	}
 	
-	protected EClassListeningView view() {
+	private EClassListeningView view() {
 		return (EClassListeningView)views.get(0);
 	}
-	
-	
-	
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#createEditingContext(org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider, org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider)
-	 */
-	@Override
-	protected PropertiesEditingContext createEditingContext(PropertiesEditingProvider editingProvider, EMFServiceProvider emfServiceProvider) throws PriorityCircularityException {
-		commandStack = new TrackingCommandStack();
-		AdapterFactoryEditingDomain domain = new AdapterFactoryEditingDomain(adapterFactory , commandStack);
-		return new EEFTestEnvironmentBuilder().createPropertiesEditingContextFactory(editingProvider, emfServiceProvider).createPropertiesEditingContext(domain, editedObject);
-	}
-
 
 	/**
 	 * This test checks the live mode : two changes are made, two commands are sent to the commandstack and when we undo the last command,

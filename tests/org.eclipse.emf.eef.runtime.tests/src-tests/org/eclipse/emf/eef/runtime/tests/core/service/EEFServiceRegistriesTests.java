@@ -28,7 +28,7 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.junit.Test;
 
 /**
@@ -46,8 +46,8 @@ public class EEFServiceRegistriesTests {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testCustomizedEMFService() {
-		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
-		EMFServiceProvider emfServiceProvider = builder.createEMFServiceProvider(builder.createEMFServices());
+		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
+		EMFServiceProvider emfServiceProvider = env.getEMFServiceProvider();
 		assertTrue("Bad type of EMFServiceRegistry.", emfServiceProvider instanceof EEFServiceSimpleRegistry);
 		EMFService defaultEMFService = emfServiceProvider.getEMFServiceForPackage(EcorePackage.eINSTANCE);
 		((EEFServiceSimpleRegistry<EPackage, EMFService>)emfServiceProvider).addService(new CustomEMFService());
@@ -57,9 +57,8 @@ public class EEFServiceRegistriesTests {
 	
 	@Test
 	public void testOrderedEEFServiceRegistrySelection() {
-		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
-		ViewHandlerProviderRegistry registry = null;
-		registry = builder.createEmptyViewHandlerProviderRegistry();
+		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
+		ViewHandlerProviderRegistry registry = env.getViewHandlerProviderRegistry();
 		assertTrue("Bad type of ViewHandlerProviderRegistry.", registry instanceof ViewHandlerProviderRegistryImpl);
 		ViewHandlerProviderRegistryImpl vhpRegistry = (ViewHandlerProviderRegistryImpl) registry;
 		String component1 = "component1";
@@ -90,9 +89,8 @@ public class EEFServiceRegistriesTests {
 
 	@Test
 	public void testOrderedEEFServiceRegistryNonCircularity() {
-		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
-		ViewHandlerProviderRegistry registry = null;
-		registry = builder.createEmptyViewHandlerProviderRegistry();
+		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
+		ViewHandlerProviderRegistry registry = env.getViewHandlerProviderRegistry();
 		assertTrue("Bad type of ViewHandlerProviderRegistry.", registry instanceof ViewHandlerProviderRegistryImpl);
 		ViewHandlerProviderRegistryImpl vhpRegistry = (ViewHandlerProviderRegistryImpl) registry;
 		String component1 = "component1";
@@ -110,7 +108,7 @@ public class EEFServiceRegistriesTests {
 
 	protected ViewHandlerProvider addToRegistry(ViewHandlerProviderRegistryImpl registry, String componentName, final Object obj, final String... priorityOver) {
 		Map<String, String> properties = new HashMap<String, String>();
-		properties.put(EEFTestEnvironmentBuilder.COMPONENT_NAME_KEY, componentName);
+		properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, componentName);
 		if (priorityOver != null && priorityOver.length > 0) {
 			StringBuilder builder = new StringBuilder();
 			for (int i = 0; i < priorityOver.length; i++) {
@@ -119,7 +117,7 @@ public class EEFServiceRegistriesTests {
 					builder.append(",");
 				}
 			}
-			properties.put(EEFTestEnvironmentBuilder.PRIORITY_OVER_KEY, builder.toString());
+			properties.put(EEFTestEnvironment.PRIORITY_OVER_KEY, builder.toString());
 		}
 		final ViewHandler<Object> viewHandler = new ViewHandler<Object>() {
 			

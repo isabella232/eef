@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
 import org.eclipse.swt.SWT;
@@ -25,7 +26,17 @@ public class PropertiesEditingViewEditingTestCase extends UIEditingTestCase {
 	
 	protected EEFViewer viewer;
 	private List<Composite> compositeViews;
-	
+		
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#initEnvironmentBuilder()
+	 */
+	@Override
+	protected Builder initEnvironmentBuilder() {
+		Builder builder = super.initEnvironmentBuilder();
+		return builder.setEditingModel(builder.createEditingModelWithPropertiesEditingViews());
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#initUI()

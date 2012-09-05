@@ -8,10 +8,8 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.junit.Test;
@@ -21,19 +19,12 @@ import org.junit.Test;
  * NOTE: I don't know how to cause the 'Unset Event'
  */
 public class ModelNotificationInBeanViewTests extends UIEditingTestCase {
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#buildEditingModel()
-	 */
-	protected PropertiesEditingModel buildEditingModel() {
-		return new EEFTestEnvironmentBuilder().buildEditingModelWithSWTViews();
-	}
-
+	
 	@Test
 	public void testSetRefresh() throws PriorityCircularityException {
 		disposeUI();
-		editedObject = createEditedObject();
+		environmentBuilder.setEditedObject(environmentBuilder.createEditedObject());
+		environmentBuilder.setEditingContext(null);
 		initEditingContext();
 		initUI();
 		EClass sample = (EClass) editedObject;
@@ -49,7 +40,8 @@ public class ModelNotificationInBeanViewTests extends UIEditingTestCase {
 	@Test
 	public void testAddRemoveRefreshs() throws PriorityCircularityException {
 		disposeUI();
-		editedObject = EcoreFactory.eINSTANCE.createEPackage();
+		environmentBuilder.setEditedObject(EcoreFactory.eINSTANCE.createEPackage());
+		environmentBuilder.setEditingContext(null);
 		initEditingContext();
 		initUI();
 		

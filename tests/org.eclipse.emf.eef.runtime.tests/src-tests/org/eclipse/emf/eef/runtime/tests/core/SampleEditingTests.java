@@ -8,10 +8,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
 import org.junit.Test;
@@ -22,14 +20,6 @@ import org.junit.Test;
  */
 public class SampleEditingTests extends UIEditingTestCase {
 	
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#buildEditingModel()
-	 */
-	protected PropertiesEditingModel buildEditingModel() {
-		return new EEFTestEnvironmentBuilder().buildEditingModelWithSWTViews();
-	}
-
 	@Test
 	public void testViewHandling() {
 		Collection<ViewHandler<?>> viewHandlers = editingContext.getEditingComponent().createViewHandlers();

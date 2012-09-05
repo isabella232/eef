@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
 import org.eclipse.swt.SWT;
@@ -40,6 +41,16 @@ public abstract class UIEditingTestCase extends NonUIEditingTestCase {
 	@After
 	public void tearDown() {
 		disposeUI();
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#initEnvironmentBuilder()
+	 */
+	@Override
+	protected Builder initEnvironmentBuilder() {
+		Builder builder = super.initEnvironmentBuilder();
+		return builder.setEditingModel(builder.createEditingModelWithSWTViews());
 	}
 
 	/**

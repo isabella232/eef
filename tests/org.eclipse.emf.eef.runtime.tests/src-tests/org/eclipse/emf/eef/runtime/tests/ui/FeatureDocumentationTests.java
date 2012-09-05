@@ -5,7 +5,9 @@ package org.eclipse.emf.eef.runtime.tests.ui;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.common.util.URI;
@@ -21,15 +23,14 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
-import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -51,7 +52,7 @@ public class FeatureDocumentationTests {
 	private static final String ECORE_ECORE_URI = "org.eclipse.emf.ecore/model/Ecore.ecore";
 	private static final String SAMPLE_ECLASS_NAME = "Sample";
 	private static final String ECORE_DOCUMENTATION = "Ecore Documentation test";
-	
+
 	private View eclassView;
 	private ElementEditor nameEditor;
 
@@ -62,53 +63,29 @@ public class FeatureDocumentationTests {
 	 */
 	@Test
 	public void testEcoreDocumentation() {
-		PropertiesEditingContext editingContext = buildEcoreSampleEditingContext();
-		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
-		// TODO: use the registry in the stateful environment
-		ViewServiceRegistry viewServiceRegistry = new EEFTestEnvironmentBuilder().createViewServiceRegistry();
+		EEFTestEnvironment env = buildEcoreSampleEditingContext();
+		PropertiesEditingComponent editingComponent = env.getEditingContext().getEditingComponent();
+		ViewServiceRegistry viewServiceRegistry = env.getViewServiceRegistry();
 		ViewService viewService = viewServiceRegistry.getServiceForView(eclassView);
 		viewService.setEditingComponent(editingComponent);
 		assertSame("Invalid documentation", ECORE_DOCUMENTATION, viewService.getHelpContent(nameEditor));
 	}
-	
-	/**
-	 * @return
-	 */
-	protected PropertiesEditingContext buildEcoreSampleEditingContext() {
+
+	protected EEFTestEnvironment buildEcoreSampleEditingContext() {
+		Builder builder = new EEFTestEnvironment.Builder();
 		EPackage ecoreSample = generateEcoreSample();
 		ViewsRepository viewRepository = generateViewsRepository();
 		eclassView = viewRepository.getViews().get(0);
 		nameEditor = (ElementEditor)eclassView.getElements().get(0);
 		final EClass sampleEClass = (EClass) ecoreSample.getEClassifier(SAMPLE_ECLASS_NAME);
 		EObject editedEObject = EcoreUtil.create(sampleEClass);
-		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
-		PropertiesEditingProvider editingProvider = new PropertiesEditingProviderImpl() {
-
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl#getEditingModel()
-			 */
-			@Override
-			protected PropertiesEditingModel getEditingModel() {
-				return new EditingModelBuilder()
-															.setDocumentationProvider(FeatureDocumentationProvider.ECORE_DOCUMENTATION)
-															.bindClass(sampleEClass)
-																.withView(eclassView)
-															.build();
-			}
-			
-			
-		};
-
-		try {
-			return builder.buildEditingContext(builder.buildAdapterFactory(), 
-								editingProvider, 
-								builder.createEMFServiceProvider(builder.createEMFServices()), 
-								editedEObject);
-		} catch (PriorityCircularityException e) {
-			fail("error");
-		}
-		return null;
+		builder.setEditingModel(new EditingModelBuilder()
+		.setDocumentationProvider(FeatureDocumentationProvider.ECORE_DOCUMENTATION)
+		.bindClass(sampleEClass)
+		.withView(eclassView)
+		.build())
+		.setEditedObject(editedEObject);		
+		return builder.build();
 	}
 
 	private EPackage generateEcoreSample() {
@@ -123,9 +100,9 @@ public class FeatureDocumentationTests {
 		sampleClass.getEStructuralFeatures().add(attr);
 		root.getEClassifiers().add(sampleClass);
 		return root;
-		
+
 	}
-	
+
 
 	/**
 	 * In this test, we generate a ViewRepository and we bind it to the ecore.ecore file. We involve the
@@ -134,10 +111,9 @@ public class FeatureDocumentationTests {
 	 */
 	@Test
 	public void testGenmodelDocumentation() {
-		PropertiesEditingContext editingContext = buildGenmodelEditingContext();
-		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
-		// TODO: use the registry in the stateful environment
-		ViewServiceRegistry viewServiceRegistry = new EEFTestEnvironmentBuilder().createViewServiceRegistry();
+		EEFTestEnvironment testenv = buildGenmodelEditingContext();
+		PropertiesEditingComponent editingComponent = testenv.getEditingContext().getEditingComponent();
+		ViewServiceRegistry viewServiceRegistry = testenv.getViewServiceRegistry();
 		ViewService viewService = viewServiceRegistry.getServiceForView(eclassView);
 		viewService.setEditingComponent(editingComponent);
 		String helpContent = viewService.getHelpContent(nameEditor);
@@ -151,11 +127,10 @@ public class FeatureDocumentationTests {
 	/**
 	 * @return
 	 */
-	protected PropertiesEditingContext buildGenmodelEditingContext() {
+	protected EEFTestEnvironment buildGenmodelEditingContext() {
 		ViewsRepository viewRepository = generateViewsRepository();
 		eclassView = viewRepository.getViews().get(0);
 		nameEditor = (ElementEditor)eclassView.getElements().get(0);
-		EEFTestEnvironmentBuilder builder = new EEFTestEnvironmentBuilder();
 		PropertiesEditingProvider editingProvider = new PropertiesEditingProviderImpl() {
 
 			/**
@@ -168,25 +143,21 @@ public class FeatureDocumentationTests {
 				final Resource genmodelResource = rset.getResource(URI.createPlatformPluginURI(ECORE_GENMODEL_URI, true), true);
 				EClass sampleEClass = getEClassEClassFromResourceSet(rset);
 				PropertiesEditingModel editingModel = new EditingModelBuilder()
-															.addInvolvedModel(genmodelResource.getContents().get(0))
-															.bindClass(sampleEClass)
-																.withView(eclassView)
-															.build();
+				.addInvolvedModel(genmodelResource.getContents().get(0))
+				.bindClass(sampleEClass)
+				.withView(eclassView)
+				.build();
 				return editingModel;
 			}
-			
-			
-		};
 
-		try {
-			return builder.buildEditingContext(builder.buildAdapterFactory(), 
-								editingProvider, 
-								builder.createEMFServiceProvider(builder.createEMFServices()), 
-								EcoreFactory.eINSTANCE.createEClass());
-		} catch (PriorityCircularityException e) {
-			fail("error");
-		}
-		return null;
+
+		};
+		Collection<PropertiesEditingProvider> providers = new ArrayList<PropertiesEditingProvider>();
+		providers.add(editingProvider);
+		Builder builder = new EEFTestEnvironment.Builder()
+													.setEditingProviders(providers)
+													.setEditedObject(EcoreFactory.eINSTANCE.createEClass());
+		return builder.build();
 	}
 
 	private EClass getEClassEClassFromResourceSet(ResourceSet rset) {
@@ -195,7 +166,7 @@ public class FeatureDocumentationTests {
 		EClass sampleEClass = (EClass) ecorePackage.getEClassifier("EClass");
 		return sampleEClass;
 	}
-	
+
 
 	private ViewsRepository generateViewsRepository() {
 		ViewsRepository repo = ViewsFactory.eINSTANCE.createViewsRepository();

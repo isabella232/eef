@@ -10,9 +10,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -29,15 +28,14 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 
 	private static final String NEW_ECLASS_NAME = "New EClass name";
 
-	
-	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#buildEditingModel()
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#initEnvironmentBuilder()
 	 */
 	@Override
-	protected PropertiesEditingModel buildEditingModel() {
-		return new EEFTestEnvironmentBuilder().buildEditingModelWithPropertiesEditingViews();
+	protected Builder initEnvironmentBuilder() {
+		Builder builder = super.initEnvironmentBuilder();
+		return builder.setEditingModel(builder.createEditingModelWithPropertiesEditingViews());
 	}
 
 	@Test

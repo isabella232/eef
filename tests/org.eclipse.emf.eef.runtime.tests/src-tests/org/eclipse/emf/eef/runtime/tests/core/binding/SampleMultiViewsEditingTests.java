@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleAbstractView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleNameView;
 import org.junit.Test;
@@ -21,13 +22,17 @@ import org.junit.Test;
 public class SampleMultiViewsEditingTests extends UIEditingTestCase {
 
 	private static final String NEW_NAME = "New Name";
-
+	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase#buildEditingModel()
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#initEnvironmentBuilder()
 	 */
 	@Override
-	protected PropertiesEditingModel buildEditingModel() {
+	protected Builder initEnvironmentBuilder() {
+		return super.initEnvironmentBuilder().setEditingModel(createEditingModel());
+	}
+
+	protected PropertiesEditingModel createEditingModel() {
 		return new EditingModelBuilder()
 					.bindClass(EcorePackage.Literals.ECLASS)
 						.withView(SampleNameView.class)

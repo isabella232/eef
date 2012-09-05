@@ -8,8 +8,8 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleTitleView;
 import org.junit.Test;
 
@@ -21,15 +21,16 @@ public class PropertyBindingTests extends UIEditingTestCase {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#buildEditingModel()
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#initEnvironmentBuilder()
 	 */
 	@Override
-	protected PropertiesEditingModel buildEditingModel() {
-		return new EditingModelBuilder().bindClass(EcorePackage.Literals.ECLASS)
-					.withView(SampleTitleView.class)
-					.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME)
-						.withEditor("title")
-				.build();
+	protected Builder initEnvironmentBuilder() {
+		return super.initEnvironmentBuilder()
+						.setEditingModel(new EditingModelBuilder().bindClass(EcorePackage.Literals.ECLASS)
+								.withView(SampleTitleView.class)
+								.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME)
+									.withEditor("title")
+							.build());
 	}
 
 	@Test

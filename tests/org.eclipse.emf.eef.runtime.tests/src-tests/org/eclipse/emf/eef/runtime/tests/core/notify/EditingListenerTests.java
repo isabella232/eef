@@ -14,12 +14,12 @@ import java.util.List;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView2;
 import org.junit.Test;
@@ -32,14 +32,15 @@ public class EditingListenerTests extends NonUIEditingTestCase {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#buildEditingModel()
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#initEnvironmentBuilder()
 	 */
-	protected PropertiesEditingModel buildEditingModel() {
-		return new EditingModelBuilder()
-		.bindClass(EcorePackage.Literals.ECLASS)
-			.withView(EClassMockView.class)
-			.withView(EClassMockView2.class)
-		.build();
+	@Override
+	protected Builder initEnvironmentBuilder() {
+		return super.initEnvironmentBuilder().setEditingModel(new EditingModelBuilder()
+																		.bindClass(EcorePackage.Literals.ECLASS)
+																		.withView(EClassMockView.class)
+																		.withView(EClassMockView2.class)
+																		.build());
 	}
 
 	@Test
@@ -56,7 +57,7 @@ public class EditingListenerTests extends NonUIEditingTestCase {
 		}
 		assertTrue("Bad view communication.", allEvents.size() > 0);
 	}
-	
+
 	@Test
 	public void testValidationNotifications() {
 		EClassMockView view1 = (EClassMockView) views.get(0);
@@ -66,11 +67,11 @@ public class EditingListenerTests extends NonUIEditingTestCase {
 		assertEquals("Validation Event not propagated.", 1, validationListener.getEvents().size());
 		assertTrue("Bad validation diagnostic.", validationListener.getEvents().get(0).getDiagnostic().getSeverity() != Diagnostic.OK);
 	}
-	
+
 	private final class ValidationEditingListener implements PropertiesEditingListener {
-		
+
 		private List<PropertiesValidationEditingEvent> events;
-		
+
 		/**
 		 * 
 		 */
