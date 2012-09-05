@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.services;
+package org.eclipse.emf.eef.runtime.services.impl;
 
 
 /**

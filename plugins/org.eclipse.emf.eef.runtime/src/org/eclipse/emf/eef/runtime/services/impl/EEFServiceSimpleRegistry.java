@@ -1,12 +1,13 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.services;
+package org.eclipse.emf.eef.runtime.services.impl;
 
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.EEFService;
 
 import com.google.common.collect.Lists;
 

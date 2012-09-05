@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.impl;
 
-import org.eclipse.emf.eef.runtime.services.EEFServiceSimpleRegistry;
+import org.eclipse.emf.eef.runtime.services.impl.EEFServiceSimpleRegistry;
 import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
 import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProviderRegistry;

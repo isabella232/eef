@@ -3,7 +3,7 @@ package org.eclipse.emf.eef.runtime.tests.ui.views;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.services.PriorityCircularityException;
+import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;

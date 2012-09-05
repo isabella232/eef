@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.internal.services.viewhandler;
 
-import org.eclipse.emf.eef.runtime.services.EEFServiceOrderedRegistry;
+import org.eclipse.emf.eef.runtime.services.impl.EEFServiceOrderedRegistry;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 

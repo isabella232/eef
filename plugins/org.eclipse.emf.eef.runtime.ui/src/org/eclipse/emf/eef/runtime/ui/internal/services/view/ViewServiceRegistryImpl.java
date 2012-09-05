@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.internal.services.view;
 
-import org.eclipse.emf.eef.runtime.services.EEFServiceSimpleRegistry;
+import org.eclipse.emf.eef.runtime.services.impl.EEFServiceSimpleRegistry;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.views.View;
