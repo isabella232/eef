@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.StandardPropertiesEditingProviderRegistry">
-   <implementation class="org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingProviderRegistryImpl"/>
+   <implementation class="org.eclipse.emf.eef.runtime.internal.services.editingProvider.PropertiesEditingProviderRegistryImpl"/>
    <service>
-      <provide interface="org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry"/>
+      <provide interface="org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry"/>
    </service>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="dynamic" unbind="unsetEMFServiceProvider"/>
    <reference bind="setViewHandlerProviderRegistry" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry" name="ViewHandlerProviderRegistry" policy="dynamic" unbind="unsetViewHandlerProviderRegistry"/>
    <reference bind="setModelChangesNotificationManager" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager" name="ModelChangesNotificationManager" policy="dynamic" unbind="unsetModelChangesNotificationManager"/>
-   <reference bind="addService" cardinality="1..n" interface="org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider" name="PropertiesEditingProvider" policy="dynamic" unbind="removeService"/>
+   <reference bind="addService" cardinality="1..n" interface="org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider" name="PropertiesEditingProvider" policy="dynamic" unbind="removeService"/>
 </scr:component>

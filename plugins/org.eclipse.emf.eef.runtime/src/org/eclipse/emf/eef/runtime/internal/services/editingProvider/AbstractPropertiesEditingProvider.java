@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.binding;
+package org.eclipse.emf.eef.runtime.internal.services.editingProvider;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -9,15 +9,17 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
+import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceRegistry;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 
@@ -42,7 +44,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#setEMFServiceProvider(EMFServiceRegistry)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#setEMFServiceProvider(EMFServiceRegistry)
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
@@ -50,7 +52,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#setNotificationManager(ModelChangesNotificationManager)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#setNotificationManager(ModelChangesNotificationManager)
 	 */
 	public void setNotificationManager(ModelChangesNotificationManager notificationManager) {
 		this.notificationManager = notificationManager;
@@ -58,7 +60,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#setViewHandlerProviderRegistry(ViewHandlerProviderRegistry)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#setViewHandlerProviderRegistry(ViewHandlerProviderRegistry)
 	 */
 	public void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
 		this.viewHandlerProviderRegistry = viewHandlerProviderRegistry;
@@ -66,7 +68,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#unsetViewHandlerProviderRegistry(org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#unsetViewHandlerProviderRegistry(org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry)
 	 */
 	public void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
 		if (viewHandlerProviderRegistry == this.viewHandlerProviderRegistry) {
@@ -76,7 +78,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#getViewHandlerProvider(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#getViewHandlerProvider(java.lang.Object)
 	 */
 	public ViewHandlerProvider getViewHandlerProvider(Object view) {
 		return viewHandlerProviderRegistry.getViewHandlerProvider(view);
@@ -120,7 +122,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#createComponent(org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#createComponent(org.eclipse.emf.ecore.EObject)
 	 */
 	public PropertiesEditingComponent createComponent(EObject target) {
 		PropertiesEditingComponent component = new PropertiesEditingComponentImpl(this, target);
@@ -130,7 +132,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void disposeComponent(PropertiesEditingComponent component) {
 		notificationManager.unregisterEditingComponent(component);
@@ -138,7 +140,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#getEditingModelEnvironment()
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#getEditingModelEnvironment()
 	 */
 	public EditingModelEnvironment getEditingModelEnvironment() {
 		if (editingModelEnvironment == null) {
@@ -149,7 +151,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#getEditingModel(org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#getEditingModel(org.eclipse.emf.ecore.EObject)
 	 */
 	public final PropertiesEditingModel getEditingModel(EObject eObject) {
 		for (PropertiesEditingModel editingModel : getEditingModels()) {

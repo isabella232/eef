@@ -1,15 +1,15 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.binding;
+package org.eclipse.emf.eef.runtime.internal.services.editingProvider;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
+import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceRegistry;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFServiceSimpleRegistry;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 
 /**
@@ -24,7 +24,7 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegis
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry#setEMFServiceProvider(EMFServiceRegistry)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#setEMFServiceProvider(EMFServiceRegistry)
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
@@ -32,7 +32,7 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegis
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry#unsetEMFServiceRegistry(org.eclipse.emf.eef.runtime.services.emf.EMFServiceRegistry)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#unsetEMFServiceRegistry(org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceRegistry)
 	 */
 	public void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		if (emfServiceProvider == this.emfServiceProvider) {
@@ -42,7 +42,7 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegis
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#setViewHandlerProviderRegistry(ViewHandlerProviderRegistry)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#setViewHandlerProviderRegistry(ViewHandlerProviderRegistry)
 	 */
 	public void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
 		this.viewHandlerProviderRegistry = viewHandlerProviderRegistry;
@@ -50,7 +50,7 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegis
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider#unsetViewHandlerProviderRegistry(org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#unsetViewHandlerProviderRegistry(org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry)
 	 */
 	public void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
 		if (viewHandlerProviderRegistry == this.viewHandlerProviderRegistry) {
@@ -60,7 +60,7 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegis
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry#setModelChangesNotificationManager(org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#setModelChangesNotificationManager(org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager)
 	 */
 	public void setModelChangesNotificationManager(ModelChangesNotificationManager notificationManager) {
 		this.notificationManager = notificationManager;
@@ -68,7 +68,7 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegis
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry#unsetModelChangesNotificationManager(org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#unsetModelChangesNotificationManager(org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager)
 	 */
 	public void unsetModelChangesNotificationManager(ModelChangesNotificationManager notificationManager) {
 		if (notificationManager == this.notificationManager) {
@@ -89,7 +89,7 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegis
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry#getPropertiesEditingProvider(org.eclipse.emf.ecore.EPackage)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#getPropertiesEditingProvider(org.eclipse.emf.ecore.EPackage)
 	 */
 	public PropertiesEditingProvider getPropertiesEditingProvider(EPackage ePackage) {
 		return getServiceForElement(ePackage);

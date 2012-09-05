@@ -7,10 +7,10 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 
 /**
@@ -43,7 +43,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setPropertiesEditingProviderRegistry(org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setPropertiesEditingProviderRegistry(org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry)
 	 */
 	public void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry) {
 		this.propertiesEditingProviderRegistry = propertiesEditingProviderRegistry;
@@ -51,7 +51,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetPropertiesEditingProviderRegistry(org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetPropertiesEditingProviderRegistry(org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry)
 	 */
 	public void unsetPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry) {
 		if (propertiesEditingProviderRegistry == this.propertiesEditingProviderRegistry) {

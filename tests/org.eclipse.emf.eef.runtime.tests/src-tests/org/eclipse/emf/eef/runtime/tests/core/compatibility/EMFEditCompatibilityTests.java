@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.PriorityCircularityException;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
@@ -79,7 +79,7 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#createEditingContext(org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider, org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider)
+	 * @see org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase#createEditingContext(org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider, org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider)
 	 */
 	@Override
 	protected PropertiesEditingContext createEditingContext(PropertiesEditingProvider editingProvider, EMFServiceProvider emfServiceProvider) throws PriorityCircularityException {

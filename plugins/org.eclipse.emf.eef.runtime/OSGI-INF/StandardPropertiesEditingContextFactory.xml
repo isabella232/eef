@@ -5,6 +5,6 @@
       <provide interface="org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory"/>
    </service>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" policy="static" unbind="unsetEMFServiceProvider"/>
-   <reference bind="setPropertiesEditingProviderRegistry" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry" name="PropertiesEditingProviderRegistry" policy="dynamic" unbind="unsetPropertiesEditingProviderRegistry"/>
+   <reference bind="setPropertiesEditingProviderRegistry" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry" name="PropertiesEditingProviderRegistry" policy="dynamic" unbind="unsetPropertiesEditingProviderRegistry"/>
    <reference bind="setNotificationManager" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager" name="ModelChangesNotificationManager" policy="dynamic" unbind="unsetNotificationManager"/>
 </scr:component>

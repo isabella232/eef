@@ -21,14 +21,14 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.PriorityCircularityException;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironmentBuilder;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
@@ -86,7 +86,7 @@ public class FeatureDocumentationTests {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl#getEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl#getEditingModel()
 			 */
 			@Override
 			protected PropertiesEditingModel getEditingModel() {
@@ -160,7 +160,7 @@ public class FeatureDocumentationTests {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl#getEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl#getEditingModel()
 			 */
 			@Override
 			protected PropertiesEditingModel getEditingModel() {

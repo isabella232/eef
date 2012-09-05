@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
+import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;

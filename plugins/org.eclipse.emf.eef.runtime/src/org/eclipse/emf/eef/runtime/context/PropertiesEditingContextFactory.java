@@ -7,8 +7,8 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 
 /**

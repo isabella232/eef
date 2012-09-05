@@ -12,12 +12,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.PriorityCircularityException;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
@@ -74,7 +74,7 @@ public class NonUIEditingTestCase {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderImpl#getEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl#getEditingModel()
 			 */
 			@Override
 			protected PropertiesEditingModel getEditingModel() {

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.binding;
+package org.eclipse.emf.eef.runtime.services.editingProviding;
 
 import java.util.Collection;
 
@@ -10,6 +10,7 @@ import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider;
 
 import com.google.common.collect.Lists;
 
@@ -37,7 +38,7 @@ public class PropertiesEditingProviderImpl extends AbstractPropertiesEditingProv
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.AbstractPropertiesEditingProvider#initSpecificEditingModel()
+	 * @see org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider#initSpecificEditingModel()
 	 */
 	@Override
 	protected final Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {

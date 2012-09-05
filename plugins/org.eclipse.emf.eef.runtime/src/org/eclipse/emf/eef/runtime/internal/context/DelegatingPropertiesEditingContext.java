@@ -5,11 +5,11 @@ package org.eclipse.emf.eef.runtime.internal.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 
@@ -38,7 +38,7 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setPropertiesEditingProviderRegistry(org.eclipse.emf.eef.runtime.binding.PropertiesEditingProviderRegistry)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setPropertiesEditingProviderRegistry(org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry)
 	 */
 	public void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry) {
 		delegatingContext.setPropertiesEditingProviderRegistry(propertiesEditingProviderRegistry);
