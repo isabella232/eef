@@ -14,6 +14,7 @@ import org.eclipse.emf.eef.runtime.tests.core.binding.ViewsComponentsLinkingTest
 import org.eclipse.emf.eef.runtime.tests.core.compatibility.EMFEditCompatibilityTests;
 import org.eclipse.emf.eef.runtime.tests.core.editingmodes.EditingModesTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.EditingListenerTests;
+import org.eclipse.emf.eef.runtime.tests.core.notify.EventsProcessingTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.ViewNotificationTests;
 import org.eclipse.emf.eef.runtime.tests.core.service.EEFServiceRegistriesTests;
 import org.eclipse.emf.eef.runtime.tests.ui.EEFViewerTests;
@@ -33,6 +34,7 @@ import org.junit.runners.Suite;
 	
 	// NonUIEditingTests
 	EditingListenerTests.class,
+	EventsProcessingTests.class,
 	EditingModesTests.class,
 	EMFEditCompatibilityTests.class,
 	ViewNotificationTests.class,

@@ -67,7 +67,7 @@ public class EditingListenerTests extends NonUIEditingTestCase {
 		assertEquals("Validation Event not propagated.", 1, validationListener.getEvents().size());
 		assertTrue("Bad validation diagnostic.", validationListener.getEvents().get(0).getDiagnostic().getSeverity() != Diagnostic.OK);
 	}
-
+	
 	private final class ValidationEditingListener implements PropertiesEditingListener {
 
 		private List<PropertiesValidationEditingEvent> events;
