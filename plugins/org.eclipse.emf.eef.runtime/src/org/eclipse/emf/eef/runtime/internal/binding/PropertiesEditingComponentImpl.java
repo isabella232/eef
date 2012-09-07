@@ -150,14 +150,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#isAdapterForType(java.lang.Object)
-	 */
-	public boolean isAdapterForType(Object type) {
-		return type == PropertiesEditingComponent.class;
-	}
-
-	/**
-	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#notifyChanged(Notification)
 	 */
 	public void notifyChanged(Notification msg) {
