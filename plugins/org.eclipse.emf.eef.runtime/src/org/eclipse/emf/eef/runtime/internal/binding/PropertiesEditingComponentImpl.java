@@ -3,7 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.internal.binding;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -147,7 +146,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	public void removeEditingListener(PropertiesEditingListener listener) {
 		listeners.remove(listener);		
 	}
-
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#notifyChanged(Notification)
@@ -410,7 +408,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#dispose()
 	 */
 	public void dispose() {
-		List<ViewHandler<?>> handlers = new ArrayList<ViewHandler<?>>(viewHandlers);
+		List<ViewHandler<?>> handlers = Lists.newArrayList(viewHandlers);
 		for (ViewHandler<?> handler : handlers) {
 			handler.dispose();
 		}
