@@ -7,7 +7,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.beans.PropertyChangeEvent;
-import java.io.IOException;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.ecore.EClass;
