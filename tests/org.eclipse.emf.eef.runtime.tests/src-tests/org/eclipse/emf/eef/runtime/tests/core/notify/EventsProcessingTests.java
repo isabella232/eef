@@ -23,7 +23,7 @@ import org.eclipse.emf.eef.runtime.tests.views.EClassMockView2;
 import org.junit.Test;
 
 /**
- * This class tests the bevahior of the EEF component for the events received from the view.
+ * This class tests the EEF components bevahior for the events received from the view.
  * It ensure that commands are performed only if needed.
  * 
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -55,7 +55,7 @@ public class EventsProcessingTests extends NonUIEditingTestCase {
 	}
 
 	/**
-	 * This tests check that if a event ask for the edited object update, the new value must be different from the old one. 
+	 * This test checks that if a event ask for the edited object update, the new value must be different from the old one. 
 	 * Otherwise the EEF shouldn't execute commands.
 	 */
 	@Test

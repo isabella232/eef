@@ -119,4 +119,11 @@ public class PropertiesEditingEventImpl implements PropertiesEditingEvent {
 		return delayed;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent#setDelayed(boolean)
+	 */
+	public void setDelayed(boolean delayed) {
+		this.delayed = delayed;
+	}
 }

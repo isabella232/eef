@@ -15,11 +15,8 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEdi
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.views.ElementEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -96,37 +93,12 @@ public class TextPropertyEditor implements PropertyEditor, MonovaluedPropertyEdi
 	}
 
 	private void initListeners() {
-		propertyEditorControl.getViewer().getMainControl().addFocusListener(new FocusAdapter() {
-
-			/**
-			 * {@inheritDoc}
-			 * 
-			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.FocusEvent)
-			 * TODO: Prevent sending event when value hasn't changed. 
-			 */
-			public void focusLost(FocusEvent e) {
+		propertyEditorControl.getViewer().getMainControl().addModifyListener(new ModifyListener() {
+			
+			public void modifyText(ModifyEvent e) {
 				if (view.getEditingComponent() != null)
-					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer().getMainControl().getText()));
+					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer().getMainControl().getText(),true));
 			}
-
-		});
-		propertyEditorControl.getViewer().getMainControl().addKeyListener(new KeyAdapter() {
-
-			/**
-			 * {@inheritDoc}
-			 * 
-			 * @see org.eclipse.swt.events.KeyAdapter#keyPressed(org.eclipse.swt.events.KeyEvent)
-			 * TODO: Prevent sending event when value hasn't changed. 
-			 * 
-			 */
-			@SuppressWarnings("synthetic-access")
-			public void keyPressed(KeyEvent e) {
-				if (e.character == SWT.CR) {
-					if (view.getEditingComponent() != null)
-						view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer().getMainControl().getText()));
-				}
-			}
-
 		});
 	}		
 

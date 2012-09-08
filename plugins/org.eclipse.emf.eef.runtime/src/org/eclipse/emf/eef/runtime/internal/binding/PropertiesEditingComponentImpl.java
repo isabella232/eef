@@ -7,10 +7,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -48,13 +44,9 @@ import com.google.common.collect.Lists;
  */
 public class PropertiesEditingComponentImpl implements PropertiesEditingComponent {
 
-	public static final Object FIRE_PROPERTIES_CHANGED_JOB_FAMILY = new Object();
-	
 	/**
 	 * the job that will fire the property changed event
 	 */
-	protected FirePropertiesChangedJob firePropertiesChangedJob;
-
 	private PropertiesEditingProvider editingProvider;
 	private EObject source;
 	private PropertiesEditingContext editingContext;
@@ -62,8 +54,8 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	private List<ViewHandler<?>> viewHandlers;
 	private ViewChangeNotifier viewChangeNotifier;
 	private List<PropertiesEditingListener> listeners;
-
-
+	private EventTimer eventTimer;
+	
 	/**
 	 * @param editingProvider {@link AbstractPropertiesEditingProvider} providing this component.
 	 * @param source
@@ -128,6 +120,16 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		} else {
 			return null;
 		}
+	}
+	
+	/**
+	 * @return the {@link EventTimer} used to delay properties event.
+	 */
+	private EventTimer getEventTimer() {
+		if (eventTimer == null) {
+			eventTimer = new EventTimer(this);
+		}
+		return eventTimer;
 	}
 
 
@@ -305,25 +307,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#delayedApplyingPropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public void delayedApplyingPropertiesChanged(PropertiesEditingEvent event) {
-		if (getFirePropertiesChangedJob().cancel()) {
-			getFirePropertiesChangedJob().setEvent(event);
-			getFirePropertiesChangedJob().schedule(editingContext.getOptions().delayedFirePropertiesChangedDelay());
-		} else {
-			try {
-				getFirePropertiesChangedJob().join();
-				getFirePropertiesChangedJob().setEvent(event);
-				getFirePropertiesChangedJob().schedule();
-			} catch (InterruptedException e) {
-				getFirePropertiesChangedJob().setEvent(null);
-			}
-		}
-	}
-
-	protected FirePropertiesChangedJob getFirePropertiesChangedJob() {
-		if (firePropertiesChangedJob == null) {
-			firePropertiesChangedJob = new FirePropertiesChangedJob("Fire properties changed...");
-		}
-		return firePropertiesChangedJob;
+		getEventTimer().schedule(event);
 	}
 
 	/**
@@ -447,45 +431,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		}
 		return ret;
 	}
-
-	protected class FirePropertiesChangedJob extends Job {
-
-		private PropertiesEditingEvent fEvent;
-
-		public FirePropertiesChangedJob(String name) {
-			super(name);
-		}
-
-		@Override
-		public boolean belongsTo(Object family) {
-			return family == FIRE_PROPERTIES_CHANGED_JOB_FAMILY;
-		}
-
-		@Override
-		public boolean shouldSchedule() {
-			return fEvent != null;
-		}
-
-		@Override
-		public boolean shouldRun() {
-			return fEvent != null;
-		}
-
-		@Override
-		protected void canceling() {
-			super.canceling();
-			fEvent = null;
-		}
-
-		public void setEvent(PropertiesEditingEvent event) {
-			fEvent = event;
-		}
-
-		protected IStatus run(IProgressMonitor monitor) {
-			directApplyingPropertyChanged(fEvent);
-			fEvent = null;
-			return Status.OK_STATUS;
-		}
-	}
-
+	
+	
 }

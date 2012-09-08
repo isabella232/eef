@@ -105,4 +105,9 @@ public interface PropertiesEditingEvent {
 	 * @return  <code>true</code> is the model change(s) must be applied after a delay. 
 	 */
 	boolean delayedChanges();
+
+	/**
+	 * @param delayed the delayed state to set
+	 */
+	void setDelayed(boolean delayed);
 }

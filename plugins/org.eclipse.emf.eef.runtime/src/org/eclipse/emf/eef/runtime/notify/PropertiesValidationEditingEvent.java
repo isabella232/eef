@@ -98,4 +98,12 @@ public class PropertiesValidationEditingEvent implements PropertiesEditingEvent 
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent#setDelayed(boolean)
+	 */
+	public void setDelayed(boolean delayed) {
+		// Do nothing
+	}
+
 }
