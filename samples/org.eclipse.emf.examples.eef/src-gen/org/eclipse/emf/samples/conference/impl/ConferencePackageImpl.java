@@ -11,9 +11,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.samples.conference.Conference;
 import org.eclipse.emf.samples.conference.ConferenceFactory;
 import org.eclipse.emf.samples.conference.ConferencePackage;
@@ -640,7 +638,7 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * @generated
 	 */
 	protected void createGenConstraintAnnotations() {
-		String source = "genConstraint";		
+		String source = "genConstraint";			
 		addAnnotation
 		  (getTalk_Presenter(), 
 		   source, 

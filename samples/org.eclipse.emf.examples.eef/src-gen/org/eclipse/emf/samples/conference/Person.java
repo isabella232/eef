@@ -7,7 +7,6 @@
 package org.eclipse.emf.samples.conference;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -41,6 +40,9 @@ public interface Person extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * This is the firstname of the person
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Firstname</em>' attribute.
 	 * @see #setFirstname(String)
 	 * @see org.eclipse.emf.samples.conference.ConferencePackage#getPerson_Firstname()

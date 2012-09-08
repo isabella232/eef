@@ -69,8 +69,8 @@ public class EEFRuntimeTabbed extends EMFPlugin {
 	public static class Plugin extends EclipsePlugin {
 
 		private AdapterFactory adapterFactory;
-		private ServiceTracker<PropertiesEditingContextFactory, PropertiesEditingContextFactory> editingContextFactorytracker;
-		private ServiceTracker<ViewServiceRegistry, ViewServiceRegistry> viewServiceRegistrytracker;
+		private ServiceTracker editingContextFactorytracker;
+		private ServiceTracker viewServiceRegistrytracker;
 
 		/**
 		 * Creates an instance.
@@ -89,9 +89,9 @@ public class EEFRuntimeTabbed extends EMFPlugin {
 		 */
 		public void start(BundleContext context) throws Exception {
 			super.start(context);
-			editingContextFactorytracker = new ServiceTracker<PropertiesEditingContextFactory, PropertiesEditingContextFactory>(context, PropertiesEditingContextFactory.class, null);
+			editingContextFactorytracker = new ServiceTracker(context, PropertiesEditingContextFactory.class.getName(), null);
 			editingContextFactorytracker.open();
-			viewServiceRegistrytracker = new ServiceTracker<ViewServiceRegistry, ViewServiceRegistry>(context, ViewServiceRegistry.class, null);
+			viewServiceRegistrytracker = new ServiceTracker(context, ViewServiceRegistry.class.getName(), null);
 			viewServiceRegistrytracker.open();
 		}
 
@@ -110,14 +110,14 @@ public class EEFRuntimeTabbed extends EMFPlugin {
 		 * @return
 		 */
 		public PropertiesEditingContextFactory getEditingContextFactory() {
-			return editingContextFactorytracker.getService();
+			return (PropertiesEditingContextFactory) editingContextFactorytracker.getService();
 		}
 		
 		/**
 		 * @return
 		 */
 		public ViewServiceRegistry getViewServiceRegistry() {
-			return viewServiceRegistrytracker.getService();
+			return (ViewServiceRegistry) viewServiceRegistrytracker.getService();
 		}
  
 		/**

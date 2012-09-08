@@ -8,11 +8,11 @@ Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.junit4,
  org.eclipse.emf.eef.runtime,
  org.eclipse.ui,
  org.eclipse.emf.eef.runtime.ui,
- org.eclipse.emf.ecore.xmi
+ org.eclipse.emf.ecore.xmi,
+ org.junit;bundle-version="4.8.1"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.emf.codegen.ecore.genmodel,
  org.osgi.service.component,

@@ -35,7 +35,7 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 	private EventAdmin eventAdmin;
 	private EMFServiceProvider emfServiceProvider;
 	
-	private Map<PropertiesEditingComponent,ServiceRegistration<?>> serviceRegistrations;
+	private Map<PropertiesEditingComponent,ServiceRegistration> serviceRegistrations;
 	
 	/**
 	 * Default constructor.
@@ -82,7 +82,7 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 	public void registerEditingComponentAsEventHandler(PropertiesEditingComponent editingComponent) {
 		Dictionary<String, Object> properties = new Hashtable<String, Object>(); 
 		properties.put(EventConstants.EVENT_TOPIC, ModelChangesNotifier.EEF_EVENT_BASE_TOPIC + ModelChangesNotifier.EEF_ECLASS_NOTIFICATION_TOPIC + editingComponent.getEObject().eClass().getEPackage().getName() + "_" + editingComponent.getEObject().eClass().getName());		
-		ServiceRegistration<?> registerService = bundleContext.registerService(EventHandler.class.getName(), editingComponent, properties);
+		ServiceRegistration registerService = bundleContext.registerService(EventHandler.class.getName(), editingComponent, properties);
 		serviceRegistrations.put(editingComponent, registerService);
 	}
 	

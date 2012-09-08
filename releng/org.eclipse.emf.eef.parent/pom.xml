@@ -71,7 +71,34 @@
         <version>${tycho-version}</version>
         <configuration>
           <resolver>p2</resolver>
-        </configuration>
+          <environments>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment>
+          </environments>
+       </configuration>	
       </plugin>
     </plugins>
     <pluginManagement>
@@ -157,23 +184,11 @@
 			<activeByDefault>true</activeByDefault>
 		</activation>
 		<properties>
-		  <platform-version-name>indigo</platform-version-name>
+		  <platform-version-name>helios</platform-version-name>
 		  <eclipse-site>http://download.eclipse.org/releases/${platform-version-name}</eclipse-site>
 		  <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/</orbit-site>
 		</properties>
-	</profile>  		
-  	<profile>
-  		<id>local-sites</id>
-		<activation>
-			<activeByDefault>false</activeByDefault>
-		</activation>
-		<properties>
-		  <platform-version-name>indigo</platform-version-name>
-		  <eclipse-site>http://mirror.update.eclipse.obeo.fr/release-indigo-3.7/</eclipse-site>
-		  <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/</orbit-site>
-		</properties>
-	</profile>  		
-  		
+	</profile>  		  		
 	<profile>
 		<!-- This profile should be enabled for sonar analysis-->
 		<id>quality</id>

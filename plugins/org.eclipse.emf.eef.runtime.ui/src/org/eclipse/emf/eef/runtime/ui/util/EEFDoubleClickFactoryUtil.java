@@ -22,10 +22,9 @@ public class EEFDoubleClickFactoryUtil {
 	 * @param adapterFactory
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public final static IDoubleClickListener getEEFDoubleClickListener(final Bundle bundle, EditingDomain editingDomain, AdapterFactory adapterFactory) {
-		ServiceReference<EEFDoubleClickFactory> serviceReference = (ServiceReference<EEFDoubleClickFactory>) bundle.getBundleContext().getServiceReference(EEFDoubleClickFactory.class.getName());
-		EEFDoubleClickFactory service = bundle.getBundleContext().getService(serviceReference);
+		ServiceReference serviceReference = (ServiceReference) bundle.getBundleContext().getServiceReference(EEFDoubleClickFactory.class.getName());
+		EEFDoubleClickFactory service = (EEFDoubleClickFactory) bundle.getBundleContext().getService(serviceReference);
 		IDoubleClickListener listener = service.createListener(editingDomain, adapterFactory);
 		bundle.getBundleContext().ungetService(serviceReference);
 		return listener;
