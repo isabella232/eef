@@ -195,5 +195,5 @@ Import-Package: com.google.common.base;version="10.0.1",
  org.eclipse.ui.forms.widgets,
  org.eclipse.ui.views.properties,
  org.osgi.framework;version="1.5.0",
- org.osgi.service.event
+ org.osgi.service.event;version="1.2.0"
 Require-Bundle: org.eclipse.ui;bundle-version="3.6.2"
