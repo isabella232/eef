@@ -7,7 +7,6 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Require-Bundle: org.eclipse.emf.eef.runtime.ui
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.eef.runtime.tabbed.view.section
 Bundle-Activator: org.eclipse.emf.eef.runtime.tabbed.EEFRuntimeTabbed$Plugin
@@ -26,6 +25,15 @@ Import-Package: org.eclipse.core.commands.common,
  org.eclipse.emf.eef.runtime.editingModel,
  org.eclipse.emf.eef.runtime.notify,
  org.eclipse.emf.eef.runtime.services.viewhandler,
+ org.eclipse.emf.eef.runtime.ui,
+ org.eclipse.emf.eef.runtime.ui.adapters,
+ org.eclipse.emf.eef.runtime.ui.internal.view.impl,
+ org.eclipse.emf.eef.runtime.ui.internal.view.util,
+ org.eclipse.emf.eef.runtime.ui.services.view,
+ org.eclipse.emf.eef.runtime.ui.view,
+ org.eclipse.emf.eef.runtime.ui.view.handlers.editingview,
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors,
+ org.eclipse.emf.eef.views,
  org.eclipse.jface.viewers,
  org.eclipse.swt,
  org.eclipse.swt.custom,
