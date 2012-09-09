@@ -21,7 +21,7 @@ public abstract class StandardFormPropertyEditor<VIEWER extends Viewer> implemen
 
 	/**
 	 * @param view {@link PropertiesEditingView} where the PropertyEditor is built.
-	 * @param elementEditor {@link ElementEditor} specifying the Property Editor.
+	 * @param viewElement {@link ElementEditor} specifying the Property Editor.
 	 */
 	public StandardFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		this.view = view;

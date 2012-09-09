@@ -26,7 +26,7 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 
 	/**
 	 * @param view
-	 * @param elementEditor
+	 * @param viewElement
 	 */
 	public CheckboxSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		this.view = view;

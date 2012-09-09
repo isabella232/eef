@@ -19,7 +19,7 @@ public abstract class StandardFormControlPropertyEditor<CONTROL extends Control>
 
 	/**
 	 * @param view
-	 * @param elementEditor
+	 * @param viewElement
 	 */
 	public StandardFormControlPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		super(view, elementEditor);

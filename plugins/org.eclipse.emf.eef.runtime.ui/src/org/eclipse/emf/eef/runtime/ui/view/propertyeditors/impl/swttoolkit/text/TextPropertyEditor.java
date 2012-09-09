@@ -33,7 +33,7 @@ public class TextPropertyEditor implements PropertyEditor, MonovaluedPropertyEdi
 
 	/**
 	 * @param view
-	 * @param elementEditor
+	 * @param viewElement
 	 * @param propertyEditorViewer
 	 */
 	public TextPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<EEFControlWrapperViewer<Text>> propertyEditorViewer) {

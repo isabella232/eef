@@ -11,19 +11,19 @@
     <propertyBindings>
       <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Person/firstname"/>
       <editor xsi:type="eef-model:EObjectEditor">
-        <definition href="platform:/plugin/org.eclipse.emf.examples.eef.edit/models/conference.views#//@views.0/@elements.0"/>
+        <definition href="platform:/plugin/org.eclipse.emf.examples.eef.edit/models/conference.views#//@views.0/@elements.0/@elements.0"/>
       </editor>
     </propertyBindings>
     <propertyBindings>
       <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Person/lastname"/>
       <editor xsi:type="eef-model:EObjectEditor">
-        <definition href="platform:/plugin/org.eclipse.emf.examples.eef.edit/models/conference.views#//@views.0/@elements.1"/>
+        <definition href="platform:/plugin/org.eclipse.emf.examples.eef.edit/models/conference.views#//@views.0/@elements.0/@elements.1"/>
       </editor>
     </propertyBindings>
     <propertyBindings>
       <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Person/isRegistered"/>
       <editor xsi:type="eef-model:EObjectEditor">
-        <definition href="platform:/plugin/org.eclipse.emf.examples.eef.edit/models/conference.views#//@views.0/@elements.2"/>
+        <definition href="platform:/plugin/org.eclipse.emf.examples.eef.edit/models/conference.views#//@views.0/@elements.1/@elements.0"/>
       </editor>
     </propertyBindings>
     <propertyBindings>

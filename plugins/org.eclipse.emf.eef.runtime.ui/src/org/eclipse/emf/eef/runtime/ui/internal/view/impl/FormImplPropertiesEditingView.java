@@ -3,7 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.ui.internal.view.impl;
 
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider;
@@ -11,6 +10,7 @@ import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorPro
 import org.eclipse.emf.eef.runtime.ui.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.layout.GridLayout;
@@ -45,23 +45,39 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 		contentsComposite = toolkit.createComposite(composite);
 		contentsComposite.setLayout(new GridLayout(3, false));
 		if (propertyEditorProviderRegistry != null) {
-			TreeIterator<EObject> eAllContents = viewDescriptor.eAllContents();
-			while (eAllContents.hasNext()) {
-				EObject next = eAllContents.next();
-				if (next instanceof ElementEditor) {
-					ElementEditor elementEditor = (ElementEditor) next;
-					PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
-					PropertyEditorProvider propertyEditorProvider = propertyEditorProviderRegistry.getPropertyEditorProvider(editorContext);
-					if (propertyEditorProvider != null) {
-						PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
-						if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
-							((FormPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(toolkit, contentsComposite);
-							this.propertyEditors.put(elementEditor, propertyEditor);
-						}
+			for (EObject content : viewDescriptor.eContents()) {
+				buildElement(toolkit, contentsComposite, content);
+			}
+		}
+	}
+
+	private void buildElement(FormToolkit toolkit, Composite currentContainer, EObject content) {
+		if (content instanceof ElementEditor) {
+			ElementEditor elementEditor = (ElementEditor) content;
+			PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
+			PropertyEditorProvider propertyEditorProvider = propertyEditorProviderRegistry.getPropertyEditorProvider(editorContext);
+			if (propertyEditorProvider != null) {
+				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
+				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
+					((FormPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(toolkit, currentContainer);
+					this.propertyEditors.put(elementEditor, propertyEditor);
+				}
+			}
+		} else if (content instanceof Container) {
+			Container container = (Container) content;
+			PropertyEditorContext editorContext = new PropertyEditorContext(this, container);
+			PropertyEditorProvider propertyEditorProvider = propertyEditorProviderRegistry.getPropertyEditorProvider(editorContext);
+			if (propertyEditorProvider != null) {
+				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
+				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
+					((FormPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(toolkit, currentContainer);
+					this.propertyEditors.put(container, propertyEditor);
+					for (EObject subContent : content.eContents()) {
+						buildElement(toolkit, (Composite) propertyEditor.getPropertyEditorViewer().getViewer().getControl(), subContent);
 					}
 				}
 			}
 		}
 	}
-
+	
 }

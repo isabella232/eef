@@ -8,6 +8,7 @@ import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorPro
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
+import org.eclipse.emf.eef.views.ViewElement;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -32,15 +33,15 @@ public interface PropertyEditorProvider extends EEFService<PropertyEditorContext
 	public final class PropertyEditorContext {
 		
 		public PropertiesEditingView view;
-		public ElementEditor elementEditor;
+		public ViewElement viewElement;
 		
 		/**
 		 * @param view
-		 * @param elementEditor
+		 * @param viewElement
 		 */
-		public PropertyEditorContext(PropertiesEditingView view, ElementEditor elementEditor) {
+		public PropertyEditorContext(PropertiesEditingView view, ViewElement viewElement) {
 			this.view = view;
-			this.elementEditor = elementEditor;
+			this.viewElement = viewElement;
 		}
 		
 		

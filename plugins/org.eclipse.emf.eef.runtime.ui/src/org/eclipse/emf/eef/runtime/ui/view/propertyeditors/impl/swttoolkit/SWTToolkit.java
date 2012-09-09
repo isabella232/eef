@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit;
 
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.checkbox.CheckboxPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.group.GroupContainerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
@@ -30,7 +31,8 @@ public class SWTToolkit extends ToolkitPropertyEditorProvider {
 	 */
 	public SWTToolkit() {
 		addPropertyEditorProvider(new TextPropertyEditorProvider())
-		.addPropertyEditorProvider(new CheckboxPropertyEditorProvider());
+		.addPropertyEditorProvider(new CheckboxPropertyEditorProvider())
+		.addPropertyEditorProvider(new GroupContainerProvider());
 	}
 
 	/**

@@ -30,7 +30,7 @@ public class CheckboxPropertyEditor implements PropertyEditor, MonovaluedPropert
  
 	/**
 	 * @param view {@link PropertiesEditingView} where the PropertyEditor is built.
-	 * @param elementEditor {@link ElementEditor} specifying the Property Editor.
+	 * @param viewElement {@link ElementEditor} specifying the Property Editor.
 	 */
 	public CheckboxPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer) {
 		this.view = view;

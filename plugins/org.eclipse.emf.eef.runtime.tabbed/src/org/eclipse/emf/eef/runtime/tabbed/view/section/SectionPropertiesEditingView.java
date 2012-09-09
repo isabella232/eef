@@ -3,7 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.tabbed.view.section;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
@@ -28,8 +27,6 @@ import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditi
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -40,6 +37,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+
+import com.google.common.collect.Maps;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -96,7 +95,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	 */
 	public SectionPropertiesEditingView() {
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		this.propertyEditors = new HashMap<ElementEditor, PropertyEditor>();
+		this.propertyEditors = Maps.newHashMap();
 		viewServiceRegistry = EEFRuntimeTabbed.getPlugin().getViewServiceRegistry();
 	}
 

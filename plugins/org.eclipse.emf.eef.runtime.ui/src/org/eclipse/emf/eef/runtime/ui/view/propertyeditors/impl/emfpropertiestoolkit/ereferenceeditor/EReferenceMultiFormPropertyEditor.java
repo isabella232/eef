@@ -22,7 +22,7 @@ public class EReferenceMultiFormPropertyEditor extends StandardFormPropertyEdito
 
 	/**
 	 * @param view
-	 * @param elementEditor
+	 * @param viewElement
 	 */
 	public EReferenceMultiFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		super(view, elementEditor);

@@ -21,7 +21,7 @@ public abstract class StandardSWTPropertyEditor<VIEWER extends Viewer> implement
 	
 	/**
 	 * @param view {@link PropertiesEditingView} where the PropertyEditor is built.
-	 * @param elementEditor {@link ElementEditor} specifying the Property Editor.
+	 * @param viewElement {@link ElementEditor} specifying the Property Editor.
 	 */
 	public StandardSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		this.view = view;

@@ -22,7 +22,7 @@ public class TextFormPropertyEditor extends StandardFormControlPropertyEditor<Te
 	
 	/**
 	 * @param view
-	 * @param elementEditor
+	 * @param viewElement
 	 */
 	public TextFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		super(view, elementEditor);

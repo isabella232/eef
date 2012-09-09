@@ -40,7 +40,7 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 
 	/**
 	 * @param view
-	 * @param elementEditor
+	 * @param viewElement
 	 */
 	public EReferenceMultiPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<EReferenceEditor> propertyEditorViewer) {
 		this.view = view;

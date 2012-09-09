@@ -4,7 +4,6 @@
 package org.eclipse.emf.eef.runtime.ui.internal.view.impl;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
@@ -22,9 +21,11 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEd
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
+import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.swt.widgets.Composite;
 
 import com.google.common.collect.Iterators;
+import com.google.common.collect.Maps;
 import com.google.common.collect.UnmodifiableIterator;
 
 /**
@@ -37,7 +38,7 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	protected View viewDescriptor;
 	protected PropertyEditorProviderRegistry propertyEditorProviderRegistry;
 	
-	protected Map<ElementEditor, PropertyEditor> propertyEditors;
+	protected Map<ViewElement, PropertyEditor> propertyEditors;
 	protected Composite contentsComposite;
 	protected ViewServiceRegistry viewServiceRegistry; 
 	protected ViewService service;
@@ -54,7 +55,7 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	public AbstractPropertiesEditingView(PropertiesEditingComponent editingComponent, View viewDescriptor) {
 		this.viewDescriptor = viewDescriptor;
 		this.editingComponent = editingComponent;
-		this.propertyEditors = new HashMap<ElementEditor, PropertyEditor>();
+		this.propertyEditors = Maps.newHashMap();
 		editingComponent.addEditingListener(this);
 	}
 

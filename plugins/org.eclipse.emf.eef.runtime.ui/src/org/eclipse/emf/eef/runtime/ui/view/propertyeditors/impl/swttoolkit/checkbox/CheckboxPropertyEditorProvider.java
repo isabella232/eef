@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.chec
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProvider;
+import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -35,7 +36,7 @@ public class CheckboxPropertyEditorProvider implements WidgetPropertyEditorProvi
 	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#serviceFor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
 	public boolean serviceFor(PropertyEditorContext editorContext) {
-		return getModel() == editorContext.elementEditor.getRepresentation();
+		return getModel() == editorContext.viewElement.getRepresentation();
 	}
 
 	/**
@@ -45,9 +46,9 @@ public class CheckboxPropertyEditorProvider implements WidgetPropertyEditorProvi
 	public PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
 		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
-			return new CheckboxPropertyEditor(editorContext.view, editorContext.elementEditor, new CheckboxFormPropertyEditor(editorContext.view, editorContext.elementEditor));			 
+			return new CheckboxPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new CheckboxFormPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));			 
 		} else {
-			return new CheckboxPropertyEditor(editorContext.view, editorContext.elementEditor, new CheckboxSWTPropertyEditor(editorContext.view, editorContext.elementEditor));
+			return new CheckboxPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new CheckboxSWTPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));
 		}
 	}
 

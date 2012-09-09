@@ -21,7 +21,7 @@ public class EReferenceMultiSWTPropertyEditor extends StandardSWTPropertyEditor<
 
 	/**
 	 * @param view
-	 * @param elementEditor
+	 * @param viewElement
 	 */
 	public EReferenceMultiSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		super(view, elementEditor);

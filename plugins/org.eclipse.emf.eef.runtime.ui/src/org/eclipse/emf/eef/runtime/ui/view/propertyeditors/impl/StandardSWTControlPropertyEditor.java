@@ -19,7 +19,7 @@ public abstract class StandardSWTControlPropertyEditor<CONTROL extends Control> 
 
 	/**
 	 * @param view
-	 * @param elementEditor
+	 * @param viewElement
 	 */
 	public StandardSWTControlPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		super(view, elementEditor);

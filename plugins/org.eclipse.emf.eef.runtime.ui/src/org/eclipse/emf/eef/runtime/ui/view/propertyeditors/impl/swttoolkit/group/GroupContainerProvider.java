@@ -1,12 +1,12 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.text;
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.group;
 
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProvider;
-import org.eclipse.emf.eef.views.ElementEditor;
+import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -15,12 +15,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class TextPropertyEditorProvider implements WidgetPropertyEditorProvider {
+public class GroupContainerProvider implements WidgetPropertyEditorProvider {
 
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
 
 	static {
-		widget.setName("Text");		
+		widget.setName("Group");		
 	}
 	
 	/**
@@ -33,12 +33,12 @@ public class TextPropertyEditorProvider implements WidgetPropertyEditorProvider 
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#serviceFor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public boolean serviceFor(PropertyEditorContext editorContext) {
-		return getModel() == editorContext.viewElement.getRepresentation();
+	public boolean serviceFor(PropertyEditorContext element) {
+		return getModel() == element.viewElement.getRepresentation();
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
@@ -46,9 +46,9 @@ public class TextPropertyEditorProvider implements WidgetPropertyEditorProvider 
 	public PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
 		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
-			return new TextPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new TextFormPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));			
+			return new GroupPropertyEditor(new GroupFormPropertyEditor((Container) editorContext.viewElement));			 
 		} else {
-			return new TextPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new TextSWTPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));
+			return new GroupPropertyEditor(new GroupSWTPropertyEditor((Container) editorContext.viewElement));			 
 		}
 	}
 

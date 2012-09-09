@@ -26,7 +26,7 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 
 	/**
 	 * @param view
-	 * @param elementEditor
+	 * @param viewElement
 	 */
 	public CheckboxFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		this.view = view;
