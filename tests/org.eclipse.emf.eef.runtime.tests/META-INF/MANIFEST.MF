@@ -15,5 +15,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.junit;bundle-version="4.8.1"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.emf.codegen.ecore.genmodel,
+ org.eclipse.emf.edit.command,
+ org.eclipse.emf.edit.domain,
+ org.eclipse.emf.edit.provider,
  org.osgi.service.component,
  org.osgi.service.event

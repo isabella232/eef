@@ -15,4 +15,13 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.eef.runtime.ui.view.section
 Bundle-Activator: org.eclipse.emf.eef.runtime.ui.EEFRuntimeTabbed$Plugin
-Import-Package: org.osgi.service.event
+Import-Package: org.eclipse.emf.edit.domain,
+ org.eclipse.emf.edit.provider,
+ org.eclipse.emf.edit.ui.provider,
+ org.eclipse.emf.eef.runtime.binding,
+ org.eclipse.emf.eef.runtime.context,
+ org.eclipse.emf.eef.runtime.context.impl,
+ org.eclipse.emf.eef.runtime.editingModel,
+ org.eclipse.emf.eef.runtime.notify,
+ org.eclipse.emf.eef.runtime.services.viewhandler,
+ org.osgi.service.event;version="1.2.0"
