@@ -1,12 +1,12 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.section;
+package org.eclipse.emf.eef.runtime.tabbed.view.section;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeTabbed;
+import org.eclipse.emf.eef.runtime.tabbed.EEFRuntimeTabbed;
 import org.eclipse.jface.viewers.DecoratingLabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.graphics.Image;

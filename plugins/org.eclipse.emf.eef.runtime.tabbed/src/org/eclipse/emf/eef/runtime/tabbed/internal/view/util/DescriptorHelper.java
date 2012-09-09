@@ -1,14 +1,14 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.internal.view.util;
+package org.eclipse.emf.eef.runtime.tabbed.internal.view.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeTabbed;
+import org.eclipse.emf.eef.runtime.tabbed.EEFRuntimeTabbed;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 

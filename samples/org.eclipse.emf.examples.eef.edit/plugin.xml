@@ -27,7 +27,7 @@
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
       <propertyContributor
             contributorId="org.eclipse.emf.samples.conference.properties"
-            labelProvider="org.eclipse.emf.eef.runtime.ui.view.section.EEFLabelProvider">
+            labelProvider="org.eclipse.emf.eef.runtime.tabbed.view.section.EEFLabelProvider">
          <propertyCategory
                category="eef">
          </propertyCategory>
@@ -55,7 +55,7 @@
       <propertySections
             contributorId="org.eclipse.emf.samples.conference.properties">
          <propertySection
-               class="org.eclipse.emf.eef.runtime.ui.view.section.SectionPropertiesEditingView"
+               class="org.eclipse.emf.eef.runtime.tabbed.view.section.SectionPropertiesEditingView"
                id="org.eclipse.emf.samples.conference.section.PersonIdentity"
                tab="Identity">
             <input
@@ -63,7 +63,7 @@
             </input>
          </propertySection>
          <propertySection
-               class="org.eclipse.emf.eef.runtime.ui.view.section.SectionPropertiesEditingView"
+               class="org.eclipse.emf.eef.runtime.tabbed.view.section.SectionPropertiesEditingView"
                id="org.eclipse.emf.samples.conference.section.PersonConference"
                tab="Conference">
             <input

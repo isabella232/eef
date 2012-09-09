@@ -13,8 +13,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.eef.runtime.ui;visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.emf.eef.runtime.ui.view.section
-Bundle-Activator: org.eclipse.emf.eef.runtime.ui.EEFRuntimeTabbed$Plugin
+Export-Package: org.eclipse.emf.eef.runtime.tabbed.view.section
+Bundle-Activator: org.eclipse.emf.eef.runtime.tabbed.EEFRuntimeTabbed$Plugin
 Import-Package: org.eclipse.emf.edit.domain,
  org.eclipse.emf.edit.provider,
  org.eclipse.emf.edit.ui.provider,

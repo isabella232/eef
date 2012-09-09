@@ -1,4 +1,4 @@
-package org.eclipse.emf.eef.runtime.ui.internal.view.util;
+package org.eclipse.emf.eef.runtime.tabbed.internal.view.util;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;

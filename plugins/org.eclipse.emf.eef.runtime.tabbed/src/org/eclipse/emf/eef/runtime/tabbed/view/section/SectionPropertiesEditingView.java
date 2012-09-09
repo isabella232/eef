@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.section;
+package org.eclipse.emf.eef.runtime.tabbed.view.section;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,13 +19,13 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeTabbed;
+import org.eclipse.emf.eef.runtime.tabbed.EEFRuntimeTabbed;
+import org.eclipse.emf.eef.runtime.tabbed.internal.view.util.DescriptorHelper;
+import org.eclipse.emf.eef.runtime.tabbed.internal.view.util.ValidationMessageInjector;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.internal.view.util.DescriptorHelper;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManager;
-import org.eclipse.emf.eef.runtime.ui.internal.view.util.ValidationMessageInjector;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
