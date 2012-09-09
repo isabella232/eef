@@ -7,12 +7,12 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Require-Bundle: org.eclipse.ui;visibility:=reexport,
- org.eclipse.emf.eef.runtime.ui;visibility:=reexport
+Require-Bundle: org.eclipse.emf.eef.runtime.ui;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.eef.runtime.tabbed.view.section
 Bundle-Activator: org.eclipse.emf.eef.runtime.tabbed.EEFRuntimeTabbed$Plugin
-Import-Package: org.eclipse.core.runtime;version="3.4.0",
+Import-Package: org.eclipse.core.commands.common,
+ org.eclipse.core.runtime;version="3.4.0",
  org.eclipse.emf.common,
  org.eclipse.emf.common.notify,
  org.eclipse.emf.common.util,
@@ -26,6 +26,13 @@ Import-Package: org.eclipse.core.runtime;version="3.4.0",
  org.eclipse.emf.eef.runtime.editingModel,
  org.eclipse.emf.eef.runtime.notify,
  org.eclipse.emf.eef.runtime.services.viewhandler,
+ org.eclipse.jface.viewers,
+ org.eclipse.swt,
+ org.eclipse.swt.custom,
+ org.eclipse.swt.graphics,
+ org.eclipse.swt.layout,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui,
  org.eclipse.ui.forms,
  org.eclipse.ui.forms.widgets,
  org.eclipse.ui.internal.views.properties.tabbed.view,
