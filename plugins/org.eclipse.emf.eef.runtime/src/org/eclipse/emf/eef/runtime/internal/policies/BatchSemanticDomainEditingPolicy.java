@@ -63,6 +63,7 @@ public class BatchSemanticDomainEditingPolicy extends SemanticDomainEditingPolic
 	 * Handles an exception thrown during command execution by logging it with the plugin.
 	 */
 	protected void handleError(Exception exception) {
+		//TODO: remove dependency to CommonPlugin
 		CommonPlugin.INSTANCE.log(new WrappedException(CommonPlugin.INSTANCE.getString("_UI_IgnoreException_exception"), exception).fillInStackTrace());
 	}
 
