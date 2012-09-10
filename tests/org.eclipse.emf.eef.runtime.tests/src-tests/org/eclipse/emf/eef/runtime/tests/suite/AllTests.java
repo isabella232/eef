@@ -18,6 +18,7 @@ import org.eclipse.emf.eef.runtime.tests.core.notify.EventsProcessingTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.PropertiesChangeDelayingTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.ViewNotificationTests;
 import org.eclipse.emf.eef.runtime.tests.core.service.EEFServiceRegistriesTests;
+import org.eclipse.emf.eef.runtime.tests.ui.ContainerTests;
 import org.eclipse.emf.eef.runtime.tests.ui.EEFViewerTests;
 import org.eclipse.emf.eef.runtime.tests.ui.FeatureDocumentationTests;
 import org.eclipse.emf.eef.runtime.tests.ui.PropertiesEditingViewTests;
@@ -53,6 +54,7 @@ import org.junit.runners.Suite;
 	//PropertiesEditingViewEditingTestCase
 	EEFViewerTests.class,
 	PropertiesEditingViewTests.class,
+	ContainerTests.class,
 	
 	EditingModelBuilderTests.class,
 	EClassBindingResolverTests.class,

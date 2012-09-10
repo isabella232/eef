@@ -57,6 +57,7 @@ import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerPr
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit;
+import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewsFactory;
@@ -583,12 +584,53 @@ public class EEFTestEnvironment {
 			toolkits.add((Toolkit) resource.getContents().get(0));
 			List<View> views = createEcoreViews(toolkits);
 			return new EditingModelBuilder()
-			.bindClass(EcorePackage.Literals.ECLASS)
-			.withView(views.get(0))
-			.withView(views.get(1))
-			.bindProperty(EcorePackage.Literals.ECLASSIFIER__DEFAULT_VALUE)
-			.withEditor(views.get(1).getElements().get(0))
-			.build();
+							.bindClass(EcorePackage.Literals.ECLASS)
+								.withView(views.get(0))
+								.withView(views.get(1))
+									.bindProperty(EcorePackage.Literals.ECLASSIFIER__DEFAULT_VALUE)
+										.withEditor(views.get(1).getElements().get(0))
+							.build();
+		}
+
+		public PropertiesEditingModel createEditingModelWithContainersPropertiesEditingViews() {
+			List<Toolkit> toolkits = new ArrayList<Toolkit>();
+			ResourceSet rset = new ResourceSetImpl();
+			Resource resource = rset.getResource(URI.createURI("eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit"), true);
+			toolkits.add((Toolkit) resource.getContents().get(0));
+			List<View> views = createEcoreViewsWithContainers(toolkits);
+			return new EditingModelBuilder()
+								.bindClass(EcorePackage.Literals.ECLASS)
+									.withView(views.get(0))
+							.build();
+		}
+
+		public List<View> createEcoreViewsWithContainers(List<Toolkit> toolkits) {
+			List<View> result = new ArrayList<View>();
+			View eClassView = ViewsFactory.eINSTANCE.createView();
+			eClassView.setName("EClass");
+			Container container1 = ViewsFactory.eINSTANCE.createContainer();
+			container1.setName("Container1");
+			Widget groupWidget = searchWidget(toolkits.get(0), "Group");
+			container1.setRepresentation(groupWidget);
+			Container subContainer = ViewsFactory.eINSTANCE.createContainer();
+			subContainer.setName("SubContainer");
+			subContainer.setRepresentation(groupWidget);
+			container1.getElements().add(subContainer);
+			ElementEditor nameEditor = ViewsFactory.eINSTANCE.createElementEditor();
+			nameEditor.setName("name");
+			nameEditor.setRepresentation(searchWidget(toolkits.get(0), "Text"));
+			subContainer.getElements().add(nameEditor);
+			eClassView.getElements().add(container1);
+			Container container2 = ViewsFactory.eINSTANCE.createContainer();
+			container2.setName("Container2");
+			container2.setRepresentation(groupWidget);			
+			ElementEditor abstractEditor = ViewsFactory.eINSTANCE.createElementEditor();
+			abstractEditor.setName("abstract");
+			abstractEditor.setRepresentation(searchWidget(toolkits.get(0), "Checkbox"));
+			container2.getElements().add(abstractEditor);
+			eClassView.getElements().add(container2);
+			result.add(eClassView);
+			return result;
 		}
 
 		public List<View> createEcoreViews(List<Toolkit> toolkits) {
