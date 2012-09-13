@@ -14,6 +14,8 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier;
+import org.eclipse.emf.eef.runtime.services.viewhandler.notify.impl.NullNotifier;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ReflectHelper;
 
 /**
@@ -82,6 +84,23 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 			}
 		}
 		
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#canHandle(java.lang.Object)
+	 */
+	public boolean canHandle(Object editor) {
+		// Case not handle
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getNotifier()
+	 */
+	public EEFNotifier getNotifier() {
+		return new NullNotifier();
 	}
 
 	/**

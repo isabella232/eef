@@ -98,12 +98,4 @@ public class PropertiesEditingViewHandlerProvider implements ViewHandlerProvider
 		}
 	}
 
-	// Build the EEF default PropertyEditorProviders (i.e. SWTToolkit and EMFPropertiesToolkit).
-//	private PropertyEditorProvider buildPropertyEditorProvider() {
-//		return new ComposedPropertyEditorProvider.Builder()
-//						.addPropertyEditorProvider(new SWTToolkit())
-//						.addPropertyEditorProvider(new EMFPropertiesToolkit())
-//						.build();
-//	}
-
 }

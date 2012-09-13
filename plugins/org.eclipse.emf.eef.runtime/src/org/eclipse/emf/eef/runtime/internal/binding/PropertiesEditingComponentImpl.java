@@ -34,6 +34,7 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.services.viewhandler.notify.impl.ValidationBasedPropertyNotification;
 import org.osgi.service.event.Event;
 
 import com.google.common.collect.Lists;
@@ -286,6 +287,12 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	private void directApplyingPropertyChanged(PropertiesEditingEvent editingEvent) {
 		if (editingContext.getOptions().validateEditing()) {
 			Diagnostic valueDiagnostic = validateValue(editingEvent);
+			if ("Test".equals(editingEvent.getNewValue())) {
+				BasicDiagnostic valueDiagnostic2 = new BasicDiagnostic(Diagnostic.ERROR, "EObject", 1, "Cannot be Test", null);
+				highlightNotificationResult(editingEvent, valueDiagnostic2);				
+			} else {
+				highlightNotificationResult(editingEvent, valueDiagnostic);
+			}
 			if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
 				propagateEvent(new PropertiesValidationEditingEvent(editingEvent, valueDiagnostic));
 				return;
@@ -299,6 +306,25 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		if (editingContext.getOptions().validateEditing()) {		
 			Diagnostic validate = validate();
 			propagateEvent(new PropertiesValidationEditingEvent(editingEvent, validate));
+		}
+	}
+
+	protected final void highlightNotificationResult(PropertiesEditingEvent editingEvent, Diagnostic valueDiagnostic) {
+		List<ViewHandler<?>> revelantHandlers = Lists.newArrayList();
+		for (ViewHandler<?> viewHandler : viewHandlers) {
+			if (viewHandler.canHandle(editingEvent.getAffectedEditor())) {
+				revelantHandlers.add(viewHandler);
+			}
+		}
+		if (valueDiagnostic.getSeverity() != Diagnostic.OK) {
+			ValidationBasedPropertyNotification notification = new ValidationBasedPropertyNotification(editingEvent.getAffectedEditor(), valueDiagnostic);
+			for (ViewHandler<?> viewHandler : revelantHandlers) {
+				viewHandler.getNotifier().notify(notification);									
+			}
+		} else {
+			for (ViewHandler<?> viewHandler : revelantHandlers) {
+				viewHandler.getNotifier().clearEditorNotification(editingEvent.getAffectedEditor());									
+			}			
 		}
 	}
 

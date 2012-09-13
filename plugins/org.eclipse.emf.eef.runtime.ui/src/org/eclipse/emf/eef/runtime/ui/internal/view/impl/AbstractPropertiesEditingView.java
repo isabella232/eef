@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -72,6 +73,14 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
 		return editingComponent;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getPropertyEditor(java.lang.Object)
+	 */
+	public PropertyEditor getPropertyEditor(Object editor) {
+		return propertyEditors.get(editor);
 	}
 
 	/**

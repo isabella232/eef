@@ -8,6 +8,7 @@ import java.util.Collection;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -29,16 +30,28 @@ public interface ViewHandler<T> {
 	T getView();
 	
 	/**
+	 * Defines if the view(s) handle by this handler can manage this given editor.
+	 * @param editor editor to check.
+	 * @return <code>true</code> if the current handler can handle the given editor.
+	 */
+	boolean canHandle(Object editor);
+	
+	/**
+	 * @return the {@link EEFNotifier} managing the view.
+	 */
+	EEFNotifier getNotifier();
+ 
+	/**
 	 * @return the {@link ViewHandlerProvider} that created the current {@link ViewHandlerProvider};
 	 */
 	ViewHandlerProvider getProvider();
 	
 	/**
-	 * Initialize a view with the current EObject properties.
+	 * Initializes a view with the current EObject properties.
 	 * @param component {@link PropertiesEditingComponent} to use for initialization.
 	 */
 	void initView(PropertiesEditingComponent component);
-
+	
 	/**
 	 * Sets a value to the given field. 
 	 * @param field feature to process.

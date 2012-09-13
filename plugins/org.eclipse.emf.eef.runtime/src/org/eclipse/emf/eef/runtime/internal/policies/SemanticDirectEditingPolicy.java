@@ -6,8 +6,10 @@ package org.eclipse.emf.eef.runtime.internal.policies;
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 
@@ -30,7 +32,11 @@ public class SemanticDirectEditingPolicy extends SemanticEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performSet(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	protected void performSet(EObject eObject, EStructuralFeature feature, Object value) {
-		eObject.eSet(feature, value);
+		if (value instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+			eObject.eSet(feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)value));
+		} else {
+			eObject.eSet(feature, value);
+		}
 	}
 
 	/**
@@ -48,7 +54,11 @@ public class SemanticDirectEditingPolicy extends SemanticEditingPolicy {
 	@SuppressWarnings("unchecked")
 	protected void performAdd(EObject eObject, EStructuralFeature feature, Object newValue) {
 		if (feature.isMany()) {
-			((Collection<Object>)eObject.eGet(feature)).add(newValue);
+			if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+				((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
+			} else {
+				((Collection<Object>)eObject.eGet(feature)).add(newValue);
+			}
 		} else {
 			throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
 		}
@@ -61,7 +71,13 @@ public class SemanticDirectEditingPolicy extends SemanticEditingPolicy {
 	@SuppressWarnings("unchecked")
 	protected void performAddMany(EObject eObject, EStructuralFeature feature, Collection<?> newValues) {
 		if (feature.isMany()) {
-			((Collection<Object>)eObject.eGet(feature)).addAll(newValues);
+			for (Object newValue : newValues) {
+				if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+					((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
+				} else {
+					((Collection<Object>)eObject.eGet(feature)).add(newValue);
+				}				
+			}
 		} else {
 			throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
 		}

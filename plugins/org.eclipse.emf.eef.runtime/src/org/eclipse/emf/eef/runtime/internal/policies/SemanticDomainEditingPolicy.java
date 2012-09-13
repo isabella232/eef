@@ -7,8 +7,10 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.MoveCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
@@ -48,7 +50,11 @@ public abstract class SemanticDomainEditingPolicy extends SemanticEditingPolicy 
 	 *      org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	public void performSet(EObject eObject, EStructuralFeature feature, Object value) {
-		processCommand(SetCommand.create(editingDomain, eObject, feature, value));
+		if (value instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+			processCommand(SetCommand.create(editingDomain, eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)value)));
+		} else {
+			processCommand(SetCommand.create(editingDomain, eObject, feature, value));
+		}
 	}
 
 	/**
@@ -70,7 +76,11 @@ public abstract class SemanticDomainEditingPolicy extends SemanticEditingPolicy 
 	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performAdd(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	protected void performAdd(EObject eObject, EStructuralFeature feature, Object newValue) {
-		processCommand(AddCommand.create(editingDomain, eObject, feature, newValue));
+		if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+			processCommand(AddCommand.create(editingDomain, eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue)));
+		} else {
+			processCommand(AddCommand.create(editingDomain, eObject, feature, newValue));
+		}
 	}
 
 	/**
@@ -78,7 +88,13 @@ public abstract class SemanticDomainEditingPolicy extends SemanticEditingPolicy 
 	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performAddMany(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
 	 */
 	protected void performAddMany(EObject eObject, EStructuralFeature feature, Collection<?> newValues) {
-		processCommand(AddCommand.create(editingDomain, eObject, feature, newValues));
+		for (Object newValue : newValues) {
+			if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+				processCommand(AddCommand.create(editingDomain, eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue)));
+			} else {
+				processCommand(AddCommand.create(editingDomain, eObject, feature, newValue));
+			}
+		}
 	}
 
 	/**

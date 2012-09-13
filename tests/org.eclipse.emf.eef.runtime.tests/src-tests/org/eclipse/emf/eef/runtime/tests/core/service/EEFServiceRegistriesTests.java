@@ -28,6 +28,8 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier;
+import org.eclipse.emf.eef.runtime.services.viewhandler.notify.impl.NullNotifier;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.junit.Test;
 
@@ -127,8 +129,12 @@ public class EEFServiceRegistriesTests {
 
 			public ViewHandlerProvider getProvider() { return null;	}
 
+			public boolean canHandle(Object editor) { return false;	}
+
 			public void initView(PropertiesEditingComponent component) { }
  
+			public EEFNotifier getNotifier() { return new NullNotifier(); }
+
 			public void setValue(Object field, Object value) throws ViewHandlingException { }
 
 			public void unsetValue(Object field) throws ViewHandlingException { }

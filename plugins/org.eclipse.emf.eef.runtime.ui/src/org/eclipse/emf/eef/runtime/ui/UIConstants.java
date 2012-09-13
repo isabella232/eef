@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.ui;
 
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 /**
@@ -35,5 +37,15 @@ public interface UIConstants {
 	 * Defines a constant for the FormToolkit option's key.
 	 */
 	final String FORM_TOOLKIT = "FORM_TOOLKIT";
+
+	/**
+	 * Defines the default image to use as error decorator.
+	 */
+	final Image ERROR_DECORATOR = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR).getImage();
+
+	/**
+	 * Defines the default image to use as error decorator.
+	 */
+	final Image WARNING_DECORATOR = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_WARNING).getImage();
 
 }

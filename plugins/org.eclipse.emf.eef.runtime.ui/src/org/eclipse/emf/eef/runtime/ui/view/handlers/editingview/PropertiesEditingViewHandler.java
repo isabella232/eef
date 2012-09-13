@@ -5,16 +5,21 @@ package org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier;
+import org.eclipse.emf.eef.runtime.services.viewhandler.notify.impl.NullNotifier;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.AbstractPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.SWTImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
+import org.eclipse.emf.eef.runtime.ui.view.decoration.EditingViewNotifier;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -31,6 +36,8 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	protected PropertiesEditingViewHandlerProvider handlerProvider;
 	protected PropertiesEditingComponent editingComponent;
 	protected PropertiesEditingView view;
+	
+	private EEFNotifier notifier;
 	
 	/**
 	 * @param handlerProvider 
@@ -84,6 +91,35 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#canHandle(java.lang.Object)
+	 */
+	public boolean canHandle(Object editor) {
+		for (TreeIterator<EObject> iterator = viewDescriptor.eAllContents(); iterator.hasNext();) {
+			EObject next = iterator.next();
+			if (next == editor) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getNotifier()
+	 */
+	public EEFNotifier getNotifier() {
+		if (view == null) {
+			return new NullNotifier();
+		} else {
+			if (notifier == null) {
+				this.notifier = new EditingViewNotifier(view); 
+			}
+			return this.notifier; 
+		}
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getView()

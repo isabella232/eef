@@ -22,6 +22,7 @@ import org.eclipse.emf.eef.runtime.tests.ui.ContainerTests;
 import org.eclipse.emf.eef.runtime.tests.ui.EEFViewerTests;
 import org.eclipse.emf.eef.runtime.tests.ui.FeatureDocumentationTests;
 import org.eclipse.emf.eef.runtime.tests.ui.PropertiesEditingViewTests;
+import org.eclipse.emf.eef.runtime.tests.ui.notifier.EEFNotifierTests;
 import org.eclipse.emf.eef.runtime.tests.ui.notify.ModelNotificationInBeanViewTests;
 import org.eclipse.emf.eef.runtime.tests.ui.notify.ModelNotificationInPropertiesEditingViewTests;
 import org.junit.runner.RunWith;
@@ -50,6 +51,7 @@ import org.junit.runners.Suite;
 	PropertyBindingTests.class,
 	SampleEditingTests.class,
 	SampleMultiViewsEditingTests.class,
+	EEFNotifierTests.class,
 	
 	//PropertiesEditingViewEditingTestCase
 	EEFViewerTests.class,

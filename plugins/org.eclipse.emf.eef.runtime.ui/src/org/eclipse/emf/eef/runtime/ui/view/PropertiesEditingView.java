@@ -24,6 +24,13 @@ public interface PropertiesEditingView extends PropertiesEditingListener {
 	PropertiesEditingComponent getEditingComponent();
 	
 	/**
+	 * Returns the {@link PropertyEditor} managing the given editor element.
+	 * @param editor element to process.
+	 * @return the {@link PropertyEditor} managing the given editor element if exists, <code>null</code> otherwise.
+	 */
+	PropertyEditor getPropertyEditor(Object editor);
+	
+	/**
 	 * @return the {@link ViewService} for the view.
 	 */
 	ViewService getViewService();
@@ -39,10 +46,10 @@ public interface PropertiesEditingView extends PropertiesEditingListener {
 	Composite getContents();
 	
 	/**
-	 * Initialize the view.
+	 * Initializes the view.
 	 */
 	void init();
-	
+		
 	/**
 	 * Dispose the view.
 	 */
@@ -102,4 +109,5 @@ public interface PropertiesEditingView extends PropertiesEditingListener {
 	 * @param newIndex new value index.
 	 */
 	void moveValue(Object field, Object value, int newIndex);
+
 }
