@@ -5,6 +5,8 @@ package org.eclipse.emf.eef.runtime.context.impl;
 
 import java.util.Map;
 
+import org.eclipse.emf.eef.runtime.services.viewhandler.notify.PropertiesEditingMessageManager;
+
 import com.google.common.collect.Maps;
 
 /**
@@ -13,10 +15,11 @@ import com.google.common.collect.Maps;
  */
 public class ContextOptions {
 
-	private final static String AUTOWIRING_OPTION = "AUTOWIRING OPTION";
-	private final static String VALIDATION_OPTION = "VALIDATION OPTION";
-	private final static String DELAYEDFIREPROPERTIESCHANGED_DELAY = "DELAYED FIREPROPERTIESCHANGED DELAY";
-	private final static String BATCH_MODE = "BATCH MODE";
+	private final static String AUTOWIRING_OPTION = "Autowiring Option";
+	private final static String VALIDATION_OPTION = "Validation Option";
+	private final static String DELAYEDFIREPROPERTIESCHANGED_DELAY = "Delayed FirePropertiesChange Delay";
+	private final static String BATCH_MODE = "Batch Mode";
+	private final static String MESSAGE_MANAGER_FOR_VIEW_NOTIFICATION = "Message Manager for view notification";
 	
 	private final Map<String, Object> options;
 
@@ -135,4 +138,25 @@ public class ContextOptions {
 		options.put(BATCH_MODE, mode);
 	}
 	
+	/**
+	 * @return <code>true</code> if a {@link PropertiesEditingMessageManager} is defined for the EEF UI Notification. 
+	 */
+	public boolean specificMessageManagerDesigned() {
+		return getMessageManager() != null;
+	}
+	
+	/**
+	 * @return the message manager to use in the EEF UI Notification system if defined, <code>null</code> otherwise.
+	 */
+	public PropertiesEditingMessageManager getMessageManager() {
+		return (PropertiesEditingMessageManager) options.get(MESSAGE_MANAGER_FOR_VIEW_NOTIFICATION);
+	}
+	
+	/**
+	 * Defines a {@link PropertiesEditingMessageManager} to use in the EEF UI Notification system 
+	 * @param messageManager the {@link PropertiesEditingMessageManager} to use in the EEF UI Notification system.
+	 */
+	public void setMessageManager(PropertiesEditingMessageManager messageManager) {
+		options.put(MESSAGE_MANAGER_FOR_VIEW_NOTIFICATION, messageManager);
+	}
 }

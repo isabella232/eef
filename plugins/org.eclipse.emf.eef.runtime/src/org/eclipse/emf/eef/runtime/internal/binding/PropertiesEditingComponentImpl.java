@@ -34,6 +34,7 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.services.viewhandler.notify.impl.ValidationBasedNotification;
 import org.eclipse.emf.eef.runtime.services.viewhandler.notify.impl.ValidationBasedPropertyNotification;
 import org.osgi.service.event.Event;
 
@@ -289,9 +290,9 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			Diagnostic valueDiagnostic = validateValue(editingEvent);
 			if ("Test".equals(editingEvent.getNewValue())) {
 				BasicDiagnostic valueDiagnostic2 = new BasicDiagnostic(Diagnostic.ERROR, "EObject", 1, "Cannot be Test", null);
-				highlightNotificationResult(editingEvent, valueDiagnostic2);				
+				highlightNotificationResult(editingEvent, valueDiagnostic2, true);				
 			} else {
-				highlightNotificationResult(editingEvent, valueDiagnostic);
+				highlightNotificationResult(editingEvent, valueDiagnostic, true);
 			}
 			if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
 				propagateEvent(new PropertiesValidationEditingEvent(editingEvent, valueDiagnostic));
@@ -305,11 +306,12 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		propagateEvent(editingEvent);
 		if (editingContext.getOptions().validateEditing()) {		
 			Diagnostic validate = validate();
+			highlightNotificationResult(editingEvent, validate, false);
 			propagateEvent(new PropertiesValidationEditingEvent(editingEvent, validate));
 		}
 	}
 
-	protected final void highlightNotificationResult(PropertiesEditingEvent editingEvent, Diagnostic valueDiagnostic) {
+	protected final void highlightNotificationResult(PropertiesEditingEvent editingEvent, Diagnostic valueDiagnostic, boolean notifyEditor) {
 		List<ViewHandler<?>> revelantHandlers = Lists.newArrayList();
 		for (ViewHandler<?> viewHandler : viewHandlers) {
 			if (viewHandler.canHandle(editingEvent.getAffectedEditor())) {
@@ -317,14 +319,25 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			}
 		}
 		if (valueDiagnostic.getSeverity() != Diagnostic.OK) {
-			ValidationBasedPropertyNotification notification = new ValidationBasedPropertyNotification(editingEvent.getAffectedEditor(), valueDiagnostic);
+			ValidationBasedNotification notification = null;
+			if (notifyEditor) {
+				notification = new ValidationBasedPropertyNotification(editingEvent.getAffectedEditor(), valueDiagnostic);
+			} else {
+				notification = new ValidationBasedNotification(valueDiagnostic);
+			}
 			for (ViewHandler<?> viewHandler : revelantHandlers) {
 				viewHandler.getNotifier().notify(notification);									
 			}
 		} else {
-			for (ViewHandler<?> viewHandler : revelantHandlers) {
-				viewHandler.getNotifier().clearEditorNotification(editingEvent.getAffectedEditor());									
-			}			
+			if (notifyEditor) {
+				for (ViewHandler<?> viewHandler : revelantHandlers) {
+					viewHandler.getNotifier().clearEditorNotification(editingEvent.getAffectedEditor());									
+				}
+			} else {
+				for (ViewHandler<?> viewHandler : revelantHandlers) {
+					viewHandler.getNotifier().clearViewNotification();									
+				}
+			}
 		}
 	}
 

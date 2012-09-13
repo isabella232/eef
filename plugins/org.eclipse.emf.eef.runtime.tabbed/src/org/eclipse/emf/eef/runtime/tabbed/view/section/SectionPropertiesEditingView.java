@@ -8,23 +8,20 @@ import java.util.List;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
-import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
-import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.notify.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.runtime.tabbed.EEFRuntimeTabbed;
 import org.eclipse.emf.eef.runtime.tabbed.internal.view.util.DescriptorHelper;
 import org.eclipse.emf.eef.runtime.tabbed.internal.view.util.ValidationMessageInjector;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManager;
+import org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
 import org.eclipse.emf.eef.views.View;
@@ -34,7 +31,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
@@ -64,7 +60,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	/**
 	 * Validation message manager for the {@link Section}.
 	 */
-	private PropertiesEditingMessageManager messageManager;
+//	private PropertiesEditingMessageManager messageManager;
 
 	/**
 	 * The current selected object or the first object in the selection when multiple objects are selected.
@@ -127,6 +123,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 					disposeComponentIfExist();
 					PropertiesEditingContext editingContext = EEFRuntimeTabbed.getPlugin().getEditingContextFactory().createPropertiesEditingContext(editingDomain, adapterFactory, eObject);
 					editingContext.getOptions().setOption(UIConstants.FORM_TOOLKIT, tabbedPropertySheetPage.getWidgetFactory());
+					editingContext.getOptions().setMessageManager(initMessageManager());
 					editingComponent = editingContext.getEditingComponent();
 					editingComponent.addEditingListener(this);
 					refreshComponent();					
@@ -234,7 +231,29 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 
 	private void refreshComponent() {
 		injector = new ValidationMessageInjector(tabbedPropertySheetPage);
-		messageManager = new PropertiesEditingMessageManager() {
+		viewDescriptor = searchViewFromDescriptor();
+		if (this.viewDescriptor != null) {
+			viewHandler = editingComponent.createViewHandler(viewDescriptor);
+			if (viewHandler instanceof PropertiesEditingViewHandler) {
+				((PropertiesEditingViewHandler)viewHandler).setView(this);
+				if (parentComposite != null) {
+					for (Control control : parentComposite.getChildren()) {
+						control.dispose();
+					}
+				}
+				setPropertyEditorProviderRegistry(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getPropertyEditorProviderRegistry());
+				createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
+				parentComposite.layout();
+//				if (messageManager != null) {
+//					messageManager.processMessage(new PropertiesValidationEditingEvent(null, Diagnostic.OK_INSTANCE));
+//				}
+			}
+		}
+	}
+
+
+	protected PropertiesEditingMessageManager initMessageManager() {
+		PropertiesEditingMessageManager messageManager = new PropertiesEditingMessageManagerImpl() {
 
 			@Override
 			protected void updateStatus(String message) {
@@ -258,31 +277,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 			}
 
 		};
-		viewDescriptor = searchViewFromDescriptor();
-		if (this.viewDescriptor != null) {
-			viewHandler = editingComponent.createViewHandler(viewDescriptor);
-			if (viewHandler instanceof PropertiesEditingViewHandler) {
-				((PropertiesEditingViewHandler)viewHandler).setView(this);
-				if (parentComposite != null) {
-					for (Control control : parentComposite.getChildren()) {
-						control.dispose();
-					}
-				}
-				setPropertyEditorProviderRegistry(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getPropertyEditorProviderRegistry());
-				createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
-				parentComposite.layout();
-				if (messageManager != null) {
-					messageManager.processMessage(new PropertiesValidationEditingEvent(null, Diagnostic.OK_INSTANCE));
-					// I think I can create many dead EditingListener like this.
-					editingComponent.addEditingListener(new PropertiesEditingListener() {
-
-						public void firePropertiesChanged(PropertiesEditingEvent event) {
-							messageManager.processMessage(event);
-						}
-					});
-				}
-			}
-		}
+		return messageManager;
 	}
 
 	private View searchViewFromDescriptor() {

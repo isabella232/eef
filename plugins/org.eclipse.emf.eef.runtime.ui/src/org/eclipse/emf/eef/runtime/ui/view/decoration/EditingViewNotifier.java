@@ -5,9 +5,11 @@ package org.eclipse.emf.eef.runtime.ui.view.decoration;
 
 import java.util.Map;
 
+import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFPropertyNotification;
+import org.eclipse.emf.eef.runtime.services.viewhandler.notify.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.jface.fieldassist.ControlDecoration;
@@ -26,7 +28,8 @@ public final class EditingViewNotifier implements EEFNotifier {
 
 	private PropertiesEditingView view;
 	private Map<Object, ControlDecoration> decorations;
-	
+	private ControlDecoration viewDecoration;
+
 	/**
 	 * @param view
 	 */
@@ -41,7 +44,9 @@ public final class EditingViewNotifier implements EEFNotifier {
 	 */
 	public void notify(final EEFNotification notification) {
 		if (notification instanceof EEFPropertyNotification) {
-			executeUIRunnable(new AddDecorationRunnable(view, decorations, (EEFPropertyNotification) notification));
+			executeUIRunnable(new AddDecorationOnEditor((EEFPropertyNotification) notification));
+		} else {
+			executeUIRunnable(new AddDecorationOnView(notification));
 		}
 	}
 
@@ -50,8 +55,7 @@ public final class EditingViewNotifier implements EEFNotifier {
 	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier#clearViewNotification()
 	 */
 	public void clearViewNotification() {
-		// TODO Auto-generated method stub
-
+		executeUIRunnable(new RemoveDecorationOnView());
 	}
 
 	/**
@@ -59,26 +63,43 @@ public final class EditingViewNotifier implements EEFNotifier {
 	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier#clearEditorNotification(java.lang.Object)
 	 */
 	public void clearEditorNotification(Object editor) {
-		executeUIRunnable(new RemoveDecorationRunnable(view, decorations, editor));
+		executeUIRunnable(new RemoveDecorationOnEditor(editor));
 	}
 
 	private final void executeUIRunnable(Runnable updateRunnable) {
 		if (null == Display.getCurrent()) {
-			PlatformUI.getWorkbench().getDisplay().syncExec(updateRunnable);
+			PlatformUI.getWorkbench().getDisplay().asyncExec(updateRunnable);
 		} else {
 			updateRunnable.run();
 		}
 	}
 
-	private static final class AddDecorationRunnable implements Runnable {
+	private class AbstractAddDecoration {
 
-		private PropertiesEditingView view;
-		private Map<Object, ControlDecoration> decorations;
+		protected ControlDecoration decorateControl(final Control control, final EEFNotification notification) {
+			ControlDecoration decoration = null;
+			Image image = null;
+			if (notification.getKind() == EEFNotification.ERROR) {
+				image = view.getViewSettings().getErrorDecorationImage();
+			} else if (notification.getKind() == EEFNotification.WARNING) {
+				image = view.getViewSettings().getWarningDecorationImage();	
+			}
+			if (image != null) {
+				final int position = view.getViewSettings().getDecoratorPositioning();
+				decoration = new ControlDecoration(control, position);
+				decoration.setDescriptionText(notification.getMessage());
+				decoration.setImage(image);
+			}
+			return decoration;
+		}
+
+	}
+
+	private final class AddDecorationOnEditor extends AbstractAddDecoration implements Runnable {
+
 		private EEFPropertyNotification notification;
-		
-		public AddDecorationRunnable(PropertiesEditingView view, Map<Object, ControlDecoration> decorations, EEFPropertyNotification notification) {
-			this.view = view;
-			this.decorations = decorations;
+
+		public AddDecorationOnEditor(EEFPropertyNotification notification) {
 			this.notification = notification;
 		}
 
@@ -89,33 +110,44 @@ public final class EditingViewNotifier implements EEFNotifier {
 		public void run() {
 			Object editor = ((EEFPropertyNotification) notification).getEditor();
 			PropertyEditor propertyEditor = view.getPropertyEditor(editor);
-			Image image = null;
-			if (notification.getKind() == EEFNotification.ERROR) {
-				image = view.getViewSettings().getErrorDecorationImage();
-			} else if (notification.getKind() == EEFNotification.WARNING) {
-				image = view.getViewSettings().getWarningDecorationImage();	
-			}
-			if (image != null) {
-				final Control control = propertyEditor.getPropertyEditorViewer().getViewer().getControl();
-				final int position = view.getViewSettings().getDecoratorPositioning();
-				ControlDecoration decoration = new ControlDecoration(control, position);
-				decoration.setDescriptionText(notification.getMessage());
-				decoration.setImage(image);
-				this.decorations.put(editor, decoration);			
+			final Control control = propertyEditor.getPropertyEditorViewer().getViewer().getControl();
+			ControlDecoration decoration = decorateControl(control, notification);
+			if (decoration != null) {
+				decorations.put(editor, decoration);
 			}
 		}
-		
-	}
-	
-	private static final class RemoveDecorationRunnable implements Runnable {
 
-		private PropertiesEditingView view;
-		private Map<Object, ControlDecoration> decorations;
+	}
+
+	private final class AddDecorationOnView extends AbstractAddDecoration implements Runnable {
+
+		private EEFNotification notification;
+
+		public AddDecorationOnView(EEFNotification notification) {
+			this.notification = notification;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see java.lang.Runnable#run()
+		 */
+		public void run() {
+			ContextOptions options = view.getEditingComponent().getEditingContext().getOptions();
+			if (options.specificMessageManagerDesigned()) {
+				PropertiesEditingMessageManager messageManager = options.getMessageManager();
+				messageManager.processMessage(notification);
+			} else {
+				viewDecoration = decorateControl(view.getContents(), notification);
+			}
+		}
+
+	}
+
+	private final class RemoveDecorationOnEditor implements Runnable {
+
 		private Object editor;
-		
-		public RemoveDecorationRunnable(PropertiesEditingView view, Map<Object, ControlDecoration> decorations, Object editor) {
-			this.view = view;
-			this.decorations = decorations;
+
+		public RemoveDecorationOnEditor(Object editor) {
 			this.editor = editor;
 		}
 
@@ -128,6 +160,26 @@ public final class EditingViewNotifier implements EEFNotifier {
 				decorations.get(editor).dispose();
 				decorations.remove(editor);
 				view.getPropertyEditor(editor).getPropertyEditorViewer().getViewer().getControl().getParent().redraw();
+			}
+		}
+	}
+
+	private final class RemoveDecorationOnView implements Runnable {
+
+		/**
+		 * {@inheritDoc}
+		 * @see java.lang.Runnable#run()
+		 */
+		public void run() {
+			ContextOptions options = view.getEditingComponent().getEditingContext().getOptions();
+			if (options.specificMessageManagerDesigned()) {
+				PropertiesEditingMessageManager messageManager = options.getMessageManager();
+				messageManager.clearMessage();
+			} else {
+				if (viewDecoration != null) {
+					viewDecoration.dispose();
+					view.getContents().getParent().redraw();
+				}
 			}
 		}
 	}

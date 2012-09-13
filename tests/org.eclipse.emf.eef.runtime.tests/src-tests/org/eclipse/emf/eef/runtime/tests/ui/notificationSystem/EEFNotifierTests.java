@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.tests.ui.notifier;
+package org.eclipse.emf.eef.runtime.tests.ui.notificationSystem;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -94,8 +94,9 @@ public class EEFNotifierTests extends UIEditingTestCase {
 										.withView(SampleView.class)
 										.bindProperty(EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND)
 											.withEditor("name")
+									.bindClass(EcorePackage.Literals.ECLASS)
+										.withView(SampleView.class)
 									.build());
-		builder.setEditedObject(EcoreFactory.eINSTANCE.createEReference());
 		return builder;
 	}
 
@@ -105,11 +106,26 @@ public class EEFNotifierTests extends UIEditingTestCase {
 	 */
 	@Test
 	public void testEditorNotifying() {
+		environmentBuilder.setEditedObject(EcoreFactory.eINSTANCE.createEReference());
+		environmentBuilder.setEditingContext(null);
+		initEditingContext();
 		SampleView view = (SampleView) views.get(0);
-		view.notifiedSetName("Invalid EClass name ##%%");
+		view.notifiedSetName("Invalid int value ##%%");
 		assertTrue("Bad notification broadcast.", testNotifier.isEditorNotified("name"));
 		view.notifiedSetName("1");
 		assertFalse("Bad notification broadcast.", testNotifier.isEditorNotified("name"));
+	}
+	
+	@Test
+	public void testViewNotifying() {
+		environmentBuilder.setEditedObject(EcoreFactory.eINSTANCE.createEClass());
+		environmentBuilder.setEditingContext(null);
+		initEditingContext();
+		SampleView view = (SampleView) views.get(0);
+		view.notifiedSetName("Invalid EClass name ##%%");
+		assertTrue("Bad notification broadcast.", testNotifier.isViewNotified());
+		view.notifiedSetName("ValidEClassNames");
+		assertFalse("Bad notification broadcast.", testNotifier.isViewNotified());
 	}
 	
 	

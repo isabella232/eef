@@ -253,7 +253,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	
 	private final void executeUIRunnable(Runnable updateRunnable) {
 		if (null == Display.getCurrent()) {
-			PlatformUI.getWorkbench().getDisplay().syncExec(updateRunnable);
+			PlatformUI.getWorkbench().getDisplay().asyncExec(updateRunnable);
 		} else {
 			updateRunnable.run();
 		}
