@@ -109,6 +109,8 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		environmentBuilder.setEditedObject(EcoreFactory.eINSTANCE.createEReference());
 		environmentBuilder.setEditingContext(null);
 		initEditingContext();
+		disposeUI();
+		initUI();
 		SampleView view = (SampleView) views.get(0);
 		view.notifiedSetName("Invalid int value ##%%");
 		assertTrue("Bad notification broadcast.", testNotifier.isEditorNotified("name"));
@@ -121,6 +123,8 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		environmentBuilder.setEditedObject(EcoreFactory.eINSTANCE.createEClass());
 		environmentBuilder.setEditingContext(null);
 		initEditingContext();
+		disposeUI();
+		initUI();
 		SampleView view = (SampleView) views.get(0);
 		view.notifiedSetName("Invalid EClass name ##%%");
 		assertTrue("Bad notification broadcast.", testNotifier.isViewNotified());
