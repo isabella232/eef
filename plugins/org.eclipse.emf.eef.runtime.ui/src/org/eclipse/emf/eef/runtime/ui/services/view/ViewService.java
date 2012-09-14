@@ -60,15 +60,15 @@ public interface ViewService extends EEFService<View> {
 	void setEditingComponent(PropertiesEditingComponent editingComponent);
 	
 	/**
-	 * Return the label text for a given editor.
+	 * Returns the label text for a given editor.
 	 * @param editor key of editor to process
-	 * @param alternate altenative text
+	 * @param alternate alternative text
 	 * @return the text
 	 */
 	String getDescription(Object editor, String alternate);
 
 	/**
-	 * Instantiate a new label to display the given feature.
+	 * Instantiates a new label to display the given feature.
 	 * @param toolkit a {@link FormToolkit} to use in Eclipse Form Style. This parameter can be null.
 	 * @param parent label container.
 	 * @param editor feature to display.
@@ -78,7 +78,7 @@ public interface ViewService extends EEFService<View> {
 	Label createLabel(FormToolkit toolkit, Composite parent, Object editor, String alternate);
 	
 	/**
-	 * Instantiate a help button for the given feature.
+	 * Instantiates a help button for the given feature.
 	 * @param toolkit a {@link FormToolkit} to use in Eclipse Form Style. This parameter can be null.
 	 * @param parent button container.
 	 * @param editor feature to process.
@@ -101,45 +101,39 @@ public interface ViewService extends EEFService<View> {
 	String getHelpContent(Object editor);
 	
 	/**
-	 * Return the ID of a widget
+	 * Returns the type of a widget
 	 * 
-	 * @param widget
-	 *            the widget to inspect
-	 * @return the ID of the widget
+	 * @param widget the widget to inspect
+	 * @return the EEF type of the widget
 	 */
 	String getEEFType(Control widget);
 
 	/**
-	 * Set the EEF type of widget.
+	 * Sets the EEF type of widget.
 	 * 
-	 * @param widget
-	 *            the widget where put the ID
-	 * @param value
-	 *            the type of the widget
+	 * @param widget the widget where put the ID
+	 * @param value the type of the widget
 	 */
 	void setEEFtype(Control widget, String value);
 
 	/**
-	 * Return the ID of a widget?
+	 * Returns the ID of a widget
 	 * 
-	 * @param widget
-	 *            the widget to inspect
+	 * @param widget the widget to inspect
 	 * @return the ID of the widget
 	 */
 	Object getID(Control widget);
 
 	/**
-	 * Set an id to a given widget.
+	 * Sets an id to a given widget.
 	 * 
-	 * @param widget
-	 *            the widget where put the ID
-	 * @param value
-	 *            the ID to put
+	 * @param widget the widget where put the ID
+	 * @param value the ID to put
 	 */
 	void setID(Control widget, Object value);
 	
 	/**
-	 * Compute the 'best' input from the given source. Searching the {@link Resource} or
+	 * Computes the 'best' input from the given source. Searching the {@link Resource} or
 	 * the {@link ResourceSet} if it's an {@link EObject}.
 	 * @param sourceInput source.
 	 * @return the best input.
@@ -147,10 +141,16 @@ public interface ViewService extends EEFService<View> {
 	Object getBestInput(Object sourceInput);
 
 	/**
-	 *	Search the editingDomain for the given WorkbenchPart.
+	 * Searches the editingDomain for the given WorkbenchPart.
 	 * @param part {@link IWorkbenchPart} editing the EObject.
 	 * @return {@link EditingDomain} to use to edit the current {@link EObject}.
 	 */
 	EditingDomain getEditingDomain(IWorkbenchPart part);
+	
+	/**
+	 * Executes the given job in the best Thread UI.
+	 * @param job the Job to execute.
+	 */
+	void executeUIRunnable(Runnable job);
 
 }

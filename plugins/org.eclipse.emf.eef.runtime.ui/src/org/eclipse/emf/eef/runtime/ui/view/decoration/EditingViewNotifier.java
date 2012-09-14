@@ -15,8 +15,6 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
 
 import com.google.common.collect.Maps;
 
@@ -44,9 +42,9 @@ public final class EditingViewNotifier implements EEFNotifier {
 	 */
 	public void notify(final EEFNotification notification) {
 		if (notification instanceof EEFPropertyNotification) {
-			executeUIRunnable(new AddDecorationOnEditor((EEFPropertyNotification) notification));
+			view.getViewService().executeUIRunnable(new AddDecorationOnEditor((EEFPropertyNotification) notification));
 		} else {
-			executeUIRunnable(new AddDecorationOnView(notification));
+			view.getViewService().executeUIRunnable(new AddDecorationOnView(notification));
 		}
 	}
 
@@ -55,7 +53,7 @@ public final class EditingViewNotifier implements EEFNotifier {
 	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier#clearViewNotification()
 	 */
 	public void clearViewNotification() {
-		executeUIRunnable(new RemoveDecorationOnView());
+		view.getViewService().executeUIRunnable(new RemoveDecorationOnView());
 	}
 
 	/**
@@ -63,15 +61,7 @@ public final class EditingViewNotifier implements EEFNotifier {
 	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier#clearEditorNotification(java.lang.Object)
 	 */
 	public void clearEditorNotification(Object editor) {
-		executeUIRunnable(new RemoveDecorationOnEditor(editor));
-	}
-
-	private final void executeUIRunnable(Runnable updateRunnable) {
-		if (null == Display.getCurrent()) {
-			PlatformUI.getWorkbench().getDisplay().asyncExec(updateRunnable);
-		} else {
-			updateRunnable.run();
-		}
+		view.getViewService().executeUIRunnable(new RemoveDecorationOnEditor(editor));
 	}
 
 	private class AbstractAddDecoration {

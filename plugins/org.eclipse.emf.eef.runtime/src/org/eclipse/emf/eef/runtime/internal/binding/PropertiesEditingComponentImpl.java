@@ -288,12 +288,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	private void directApplyingPropertyChanged(PropertiesEditingEvent editingEvent) {
 		if (editingContext.getOptions().validateEditing()) {
 			Diagnostic valueDiagnostic = validateValue(editingEvent);
-			if ("Test".equals(editingEvent.getNewValue())) {
-				BasicDiagnostic valueDiagnostic2 = new BasicDiagnostic(Diagnostic.ERROR, "EObject", 1, "Cannot be Test", null);
-				highlightNotificationResult(editingEvent, valueDiagnostic2, true);				
-			} else {
-				highlightNotificationResult(editingEvent, valueDiagnostic, true);
-			}
+			highlightNotificationResult(editingEvent, valueDiagnostic, true);
 			if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
 				propagateEvent(new PropertiesValidationEditingEvent(editingEvent, valueDiagnostic));
 				return;

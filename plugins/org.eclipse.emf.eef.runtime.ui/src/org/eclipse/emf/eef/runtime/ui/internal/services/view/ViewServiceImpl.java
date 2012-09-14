@@ -33,9 +33,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
@@ -276,6 +278,18 @@ public class ViewServiceImpl implements ViewService, DefaultService {
 			}
 		}
 		return editingDomain;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#executeUIRunnable(java.lang.Runnable)
+	 */
+	public void executeUIRunnable(Runnable job) {
+		if (null == Display.getCurrent()) {
+			PlatformUI.getWorkbench().getDisplay().asyncExec(job);
+		} else {
+			job.run();
+		}
 	}
 
 }
