@@ -79,7 +79,7 @@ public class FeatureDocumentationTests {
 		nameEditor = (ElementEditor)eclassView.getElements().get(0);
 		final EClass sampleEClass = (EClass) ecoreSample.getEClassifier(SAMPLE_ECLASS_NAME);
 		EObject editedEObject = EcoreUtil.create(sampleEClass);
-		builder.setEditingModel(new EditingModelBuilder()
+		builder.setEditingModel(new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 		.setDocumentationProvider(FeatureDocumentationProvider.ECORE_DOCUMENTATION)
 		.bindClass(sampleEClass)
 		.withView(eclassView)
@@ -142,7 +142,7 @@ public class FeatureDocumentationTests {
 				ResourceSet rset = getEditingModelEnvironment().getResourceSet();
 				final Resource genmodelResource = rset.getResource(URI.createPlatformPluginURI(ECORE_GENMODEL_URI, true), true);
 				EClass sampleEClass = getEClassEClassFromResourceSet(rset);
-				PropertiesEditingModel editingModel = new EditingModelBuilder()
+				PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 				.addInvolvedModel(genmodelResource.getContents().get(0))
 				.bindClass(sampleEClass)
 				.withView(eclassView)

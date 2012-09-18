@@ -17,6 +17,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.UIPropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView2;
@@ -41,7 +42,7 @@ public class EventsProcessingTests extends NonUIEditingTestCase {
 	@Override
 	protected Builder initEnvironmentBuilder() {
 		Builder builder = super.initEnvironmentBuilder();
-		return builder.setEditingModel(new EditingModelBuilder()
+		return builder.setEditingModel(new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 																		.bindClass(EcorePackage.Literals.ECLASS)
 																		.withView(EClassMockView.class)
 																		.withView(EClassMockView2.class)

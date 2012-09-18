@@ -23,6 +23,7 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getBindings <em>Bindings</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getInvolvedModels <em>Involved Models</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getOptions <em>Options</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getId <em>Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -116,6 +117,32 @@ public interface PropertiesEditingModel extends EObject {
 	 * @generated
 	 */
 	void setOptions(EditingOptions value);
+
+	/**
+	 * Returns the value of the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Id</em>' attribute.
+	 * @see #setId(String)
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertiesEditingModel_Id()
+	 * @model id="true" required="true"
+	 * @generated
+	 */
+	String getId();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getId <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Id</em>' attribute.
+	 * @see #getId()
+	 * @generated
+	 */
+	void setId(String value);
 
 	/**
 	 * <!-- begin-user-doc -->

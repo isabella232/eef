@@ -16,6 +16,7 @@ import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.junit.Before;
@@ -38,7 +39,7 @@ public class EditingModelBuilderTests {
 
 	@Test
 	public void testNoBindingForEClassWithoutView() {
-		PropertiesEditingModel model = new EditingModelBuilder().bindClass(EcorePackage.Literals.ECLASS).build();
+		PropertiesEditingModel model = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID).bindClass(EcorePackage.Literals.ECLASS).build();
 		assertNotNull(model);
 		assertEquals("A EClassBinding shouldn't be created without a view.", 0, model.getBindings().size());
 	}
@@ -46,7 +47,7 @@ public class EditingModelBuilderTests {
 	@Test
 	public void testBuilderSyntax1() {
 		PropertiesEditingModel model = 
-				new EditingModelBuilder()
+				new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 					.bindClass(EcorePackage.Literals.ECLASS).withView(SampleView.class)
 					.bindClass(EcorePackage.Literals.EPACKAGE).withView(RootView.class)
 					.build();
@@ -56,7 +57,7 @@ public class EditingModelBuilderTests {
 	@Test
 	public void testBuilderSyntax2() {
 		PropertiesEditingModel model = 
-				new EditingModelBuilder()
+				new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 					.bindClass(EcorePackage.Literals.ECLASS)
 						.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME)
 							.withEditor("title")
@@ -72,6 +73,7 @@ public class EditingModelBuilderTests {
 	 */
 	private void buildExpectedModel1() {
 		expectedModel1 = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
+		expectedModel1.setId(EEFTestEnvironment.TESTS_EDITING_MODEL_ID);
 		EClassBinding eClassBinding = EditingModelFactory.eINSTANCE.createEClassBinding();
 		eClassBinding.setEClass(EcorePackage.Literals.ECLASS);
 		JavaView sampleView = EditingModelFactory.eINSTANCE.createJavaView();
@@ -91,6 +93,7 @@ public class EditingModelBuilderTests {
 	 */
 	private void buildExpectedModel2() {
 		expectedModel2 = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
+		expectedModel2.setId(EEFTestEnvironment.TESTS_EDITING_MODEL_ID);
 		EClassBinding eClassBinding = EditingModelFactory.eINSTANCE.createEClassBinding();
 		eClassBinding.setEClass(EcorePackage.Literals.ECLASS);
 		JavaView sampleView = EditingModelFactory.eINSTANCE.createJavaView();

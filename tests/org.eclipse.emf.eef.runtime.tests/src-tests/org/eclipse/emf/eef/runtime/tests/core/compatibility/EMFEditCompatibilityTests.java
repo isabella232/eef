@@ -26,6 +26,7 @@ import org.eclipse.emf.eef.runtime.context.impl.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.views.EClassListeningView;
 import org.eclipse.emf.eef.runtime.ui.commands.AbstractBatchEditingCommand;
@@ -55,7 +56,7 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	}
 
 	private PropertiesEditingModel createEditingModel() {
-		return new EditingModelBuilder()
+		return new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 						.bindClass(EcorePackage.Literals.ECLASS)
 							.withView(EClassListeningView.class).build();
 	}

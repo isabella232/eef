@@ -108,13 +108,22 @@ public interface EditingModelPackage extends EPackage {
 	int PROPERTIES_EDITING_MODEL__OPTIONS = 3;
 
 	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTIES_EDITING_MODEL__ID = 4;
+
+	/**
 	 * The number of structural features of the '<em>Properties Editing Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTIES_EDITING_MODEL_FEATURE_COUNT = 4;
+	int PROPERTIES_EDITING_MODEL_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl <em>EClass Binding</em>}' class.
@@ -428,7 +437,7 @@ public interface EditingModelPackage extends EPackage {
 	 * The meta object id for the '<em>View Handler</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getViewHandler()
 	 * @generated
 	 */
@@ -488,6 +497,17 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getPropertiesEditingModel_Options();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getId <em>Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getId()
+	 * @see #getPropertiesEditingModel()
+	 * @generated
+	 */
+	EAttribute getPropertiesEditingModel_Id();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding <em>EClass Binding</em>}'.
@@ -722,12 +742,12 @@ public interface EditingModelPackage extends EPackage {
 	EEnum getFeatureDocumentationProvider();
 
 	/**
-	 * Returns the meta object for data type '{@link org.eclipse.emf.eef.runtime.view.handler.ViewHandler <em>View Handler</em>}'.
+	 * Returns the meta object for data type '{@link org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler <em>View Handler</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>View Handler</em>'.
-	 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler
-	 * @model instanceClass="org.eclipse.emf.eef.runtime.view.handler.ViewHandler" typeParameters="T"
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler
+	 * @model instanceClass="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler" typeParameters="T"
 	 * @generated
 	 */
 	EDataType getViewHandler();
@@ -795,6 +815,14 @@ public interface EditingModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PROPERTIES_EDITING_MODEL__OPTIONS = eINSTANCE.getPropertiesEditingModel_Options();
+
+		/**
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTIES_EDITING_MODEL__ID = eINSTANCE.getPropertiesEditingModel_Id();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl <em>EClass Binding</em>}' class.
@@ -996,7 +1024,7 @@ public interface EditingModelPackage extends EPackage {
 		 * The meta object literal for the '<em>View Handler</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.eef.runtime.view.handler.ViewHandler
+		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler
 		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getViewHandler()
 		 * @generated
 		 */

@@ -19,11 +19,13 @@ import com.google.common.collect.Lists;
  */
 public class EditingModelBuilder {
 
+	private String id;
 	private Collection<EClassBindingBuilder> bindingBuilders;
 	private FeatureDocumentationProvider documentationProvider;
 	private Collection<EObject> involvedModels;
 
-	public EditingModelBuilder() {
+	public EditingModelBuilder(String id) {
+		this.id = id;
 		this.bindingBuilders = Lists.newArrayList();
 		this.documentationProvider = null;
 		this.involvedModels = Lists.newArrayList();
@@ -31,6 +33,7 @@ public class EditingModelBuilder {
 
 	public PropertiesEditingModel build() {
 		PropertiesEditingModel result = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
+		result.setId(id);
 		for (EClassBindingBuilder bindingBuilder : bindingBuilders) {
 			EClassBinding binding = bindingBuilder.buildBinding();
 			if (binding != null) {

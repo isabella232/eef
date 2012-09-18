@@ -123,7 +123,7 @@ public class PlatformResourceRegistryResourceBinding {
 	 * @throws PriorityCircularityException 
 	 */
 	private PropertiesEditingContext prepareEditingContext(EClass eClassToBind, EObject eClassToEdit) throws PriorityCircularityException {
-		final PropertiesEditingModel editingModel = new EditingModelBuilder().bindClass(eClassToBind)
+		final PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID).bindClass(eClassToBind)
 												.withView(SampleView.class)
 														.bindProperty(eClassToBind.getEStructuralFeature("name"))
 															.withEditor("name")

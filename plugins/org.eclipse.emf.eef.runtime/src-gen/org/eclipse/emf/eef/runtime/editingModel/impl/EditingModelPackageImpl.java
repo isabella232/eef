@@ -236,6 +236,15 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getPropertiesEditingModel_Id() {
+		return (EAttribute)propertiesEditingModelEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getEClassBinding() {
 		return eClassBindingEClass;
 	}
@@ -471,6 +480,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		createEReference(propertiesEditingModelEClass, PROPERTIES_EDITING_MODEL__BINDINGS);
 		createEReference(propertiesEditingModelEClass, PROPERTIES_EDITING_MODEL__INVOLVED_MODELS);
 		createEReference(propertiesEditingModelEClass, PROPERTIES_EDITING_MODEL__OPTIONS);
+		createEAttribute(propertiesEditingModelEClass, PROPERTIES_EDITING_MODEL__ID);
 
 		eClassBindingEClass = createEClass(ECLASS_BINDING);
 		createEReference(eClassBindingEClass, ECLASS_BINDING__EDITING_MODEL);
@@ -552,6 +562,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		initEReference(getPropertiesEditingModel_Bindings(), this.getEClassBinding(), this.getEClassBinding_EditingModel(), "bindings", null, 0, -1, PropertiesEditingModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertiesEditingModel_InvolvedModels(), theEcorePackage.getEObject(), null, "involvedModels", null, 0, -1, PropertiesEditingModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertiesEditingModel_Options(), this.getEditingOptions(), null, "options", null, 0, 1, PropertiesEditingModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPropertiesEditingModel_Id(), ecorePackage.getEString(), "id", null, 1, 1, PropertiesEditingModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(propertiesEditingModelEClass, this.getEClassBinding(), "binding", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theEcorePackage.getEObject(), "eObject", 1, 1, IS_UNIQUE, IS_ORDERED);

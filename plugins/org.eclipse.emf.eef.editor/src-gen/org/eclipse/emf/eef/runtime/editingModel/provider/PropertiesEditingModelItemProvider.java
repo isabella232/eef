@@ -66,6 +66,7 @@ public class PropertiesEditingModelItemProvider
 
 			addNamePropertyDescriptor(object);
 			addInvolvedModelsPropertyDescriptor(object);
+			addIdPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -110,6 +111,28 @@ public class PropertiesEditingModelItemProvider
 				 false,
 				 true,
 				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Id feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addIdPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PropertiesEditingModel_id_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PropertiesEditingModel_id_feature", "_UI_PropertiesEditingModel_type"),
+				 EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__ID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -183,6 +206,7 @@ public class PropertiesEditingModelItemProvider
 
 		switch (notification.getFeatureID(PropertiesEditingModel.class)) {
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL__NAME:
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:

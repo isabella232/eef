@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.views.SampleTitleView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -28,7 +29,7 @@ public class EClassBindingResolverTests {
 	 */
 	@Test
 	public void testFeatureSearchOnCompositeViewBindingWithoutPropertyBinding() {
-		PropertiesEditingModel editingModel = new EditingModelBuilder()
+		PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(SampleView.class)
 			.build();
@@ -42,7 +43,7 @@ public class EClassBindingResolverTests {
 	 */
 	@Test
 	public void testEditorSearchOnCompositeViewBindingWithoutPropertyBinding() {
-		PropertiesEditingModel editingModel = new EditingModelBuilder()
+		PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 		.bindClass(EcorePackage.Literals.ECLASS)
 			.withView(SampleView.class)
 		.build();
@@ -56,7 +57,7 @@ public class EClassBindingResolverTests {
 	 */
 	@Test
 	public void testFeatureSearchOnCompositeViewBindingWithPropertyBinding() {
-		PropertiesEditingModel editingModel = new EditingModelBuilder()
+		PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(SampleTitleView.class)
 				.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME)
@@ -72,7 +73,7 @@ public class EClassBindingResolverTests {
 	 */
 	@Test
 	public void testEditorSearchOnCompositeViewBindingWithPropertyBinding() {
-		PropertiesEditingModel editingModel = new EditingModelBuilder()
+		PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(SampleTitleView.class)
 				.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME)
@@ -93,7 +94,7 @@ public class EClassBindingResolverTests {
 		ElementEditor abstractEditor = ViewsFactory.eINSTANCE.createElementEditor();
 		abstractEditor.setName("abstract");
 		sampleView.getElements().add(abstractEditor);
-		PropertiesEditingModel editingModel = new EditingModelBuilder()
+		PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(sampleView)
 			.build();
@@ -112,7 +113,7 @@ public class EClassBindingResolverTests {
 		ElementEditor abstractEditor = ViewsFactory.eINSTANCE.createElementEditor();
 		abstractEditor.setName("abstract");
 		sampleView.getElements().add(abstractEditor);
-		PropertiesEditingModel editingModel = new EditingModelBuilder()
+		PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(sampleView)
 			.build();
@@ -131,7 +132,7 @@ public class EClassBindingResolverTests {
 		ElementEditor instanciableEditor = ViewsFactory.eINSTANCE.createElementEditor();
 		instanciableEditor.setName("instanciable");
 		sampleView.getElements().add(instanciableEditor);
-		PropertiesEditingModel editingModel = new EditingModelBuilder()
+		PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(sampleView)
 			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT)
@@ -152,7 +153,7 @@ public class EClassBindingResolverTests {
 		ElementEditor instanciableEditor = ViewsFactory.eINSTANCE.createElementEditor();
 		instanciableEditor.setName("instanciable");
 		sampleView.getElements().add(instanciableEditor);
-		PropertiesEditingModel editingModel = new EditingModelBuilder()
+		PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(sampleView)
 			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT)

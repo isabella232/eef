@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleAbstractView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleNameView;
@@ -33,7 +34,7 @@ public class SampleMultiViewsEditingTests extends UIEditingTestCase {
 	}
 
 	protected PropertiesEditingModel createEditingModel() {
-		return new EditingModelBuilder()
+		return new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 					.bindClass(EcorePackage.Literals.ECLASS)
 						.withView(SampleNameView.class)
 						.withView(SampleAbstractView.class)

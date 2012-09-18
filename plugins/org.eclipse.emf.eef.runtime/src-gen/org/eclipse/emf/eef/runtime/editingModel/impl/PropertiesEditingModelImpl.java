@@ -42,6 +42,7 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getBindings <em>Bindings</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getInvolvedModels <em>Involved Models</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getOptions <em>Options</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getId <em>Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -98,6 +99,26 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 * @ordered
 	 */
 	protected EditingOptions options;
+
+	/**
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected String id = ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -209,6 +230,27 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setId(String newId) {
+		String oldId = id;
+		id = newId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTIES_EDITING_MODEL__ID, oldId, id));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public EClassBinding binding(EObject eObject) {
@@ -308,6 +350,8 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 				return getInvolvedModels();
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
 				return getOptions();
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
+				return getId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -335,6 +379,9 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
 				setOptions((EditingOptions)newValue);
 				return;
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
+				setId((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -359,6 +406,9 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
 				setOptions((EditingOptions)null);
 				return;
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
+				setId(ID_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -379,6 +429,8 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 				return involvedModels != null && !involvedModels.isEmpty();
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
 				return options != null;
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
+				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -395,6 +447,8 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", id: ");
+		result.append(id);
 		result.append(')');
 		return result.toString();
 	}

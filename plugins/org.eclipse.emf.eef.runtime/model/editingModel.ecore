@@ -24,6 +24,8 @@
         eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="options" eType="#//EditingOptions"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EClassBinding">
     <eOperations name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature">
@@ -43,7 +45,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="propertyBindings" upperBound="-1"
         eType="#//PropertyBinding" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="ViewHandler" instanceClassName="org.eclipse.emf.eef.runtime.view.handler.ViewHandler">
+  <eClassifiers xsi:type="ecore:EDataType" name="ViewHandler" instanceClassName="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler">
     <eTypeParameters name="T"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="View" abstract="true">

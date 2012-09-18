@@ -89,7 +89,7 @@ public class EEFNotifierTests extends UIEditingTestCase {
 			fail("Exception during viewhandler definition : " + e.getMessage());
 		}
 		builder.setViewHandlerProviderRegistry(registry);
-		builder.setEditingModel(new EditingModelBuilder()
+		builder.setEditingModel(new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 									.bindClass(EcorePackage.Literals.EREFERENCE)
 										.withView(SampleView.class)
 										.bindProperty(EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND)

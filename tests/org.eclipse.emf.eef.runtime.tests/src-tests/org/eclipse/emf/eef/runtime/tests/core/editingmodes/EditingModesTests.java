@@ -50,7 +50,7 @@ public class EditingModesTests extends NonUIEditingTestCase {
 	}
 
 	private PropertiesEditingModel createEditingModel() {
-		return new EditingModelBuilder()
+		return new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 						.bindClass(EcorePackage.Literals.ECLASS)
 							.withView(EClassListeningView.class).build();
 	}
