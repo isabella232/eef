@@ -19,15 +19,15 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.internal.services.viewhandler.ViewHandlerProviderRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotification;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFPropertyNotification;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
+import org.eclipse.emf.eef.runtime.view.notify.EEFPropertyNotification;
 import org.eclipse.swt.widgets.Composite;
 import org.junit.Test;
 
@@ -161,7 +161,7 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		 * This test assumes that the decoration are correctly added and removed.
 		 * 
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier#notify(org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotification)
+		 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#notify(org.eclipse.emf.eef.runtime.view.notify.EEFNotification)
 		 */
 		public void notify(EEFNotification notification) {
 			if (notification instanceof EEFPropertyNotification) {
@@ -173,7 +173,7 @@ public class EEFNotifierTests extends UIEditingTestCase {
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier#clearViewNotification()
+		 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearViewNotification()
 		 */
 		public void clearViewNotification() {
 			viewNotified = false;
@@ -181,7 +181,7 @@ public class EEFNotifierTests extends UIEditingTestCase {
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier#clearEditorNotification(java.lang.Object)
+		 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearEditorNotification(java.lang.Object)
 		 */
 		public void clearEditorNotification(Object editor) {
 			editorsNotified.remove(editor);

@@ -1,17 +1,17 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.decoration;
+package org.eclipse.emf.eef.runtime.ui.view.notify;
 
 import java.util.Map;
 
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotification;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFPropertyNotification;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
+import org.eclipse.emf.eef.runtime.view.notify.EEFPropertyNotification;
+import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
@@ -38,7 +38,7 @@ public final class EditingViewNotifier implements EEFNotifier {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier#notify(org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotification)
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#notify(org.eclipse.emf.eef.runtime.view.notify.EEFNotification)
 	 */
 	public void notify(final EEFNotification notification) {
 		if (notification instanceof EEFPropertyNotification) {
@@ -50,7 +50,7 @@ public final class EditingViewNotifier implements EEFNotifier {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier#clearViewNotification()
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearViewNotification()
 	 */
 	public void clearViewNotification() {
 		view.getViewService().executeUIRunnable(new RemoveDecorationOnView());
@@ -58,7 +58,7 @@ public final class EditingViewNotifier implements EEFNotifier {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier#clearEditorNotification(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearEditorNotification(java.lang.Object)
 	 */
 	public void clearEditorNotification(Object editor) {
 		view.getViewService().executeUIRunnable(new RemoveDecorationOnEditor(editor));

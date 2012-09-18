@@ -8,7 +8,7 @@ import java.util.Collection;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.services.viewhandler.notify;
+package org.eclipse.emf.eef.runtime.view.notify;
 
 import org.eclipse.emf.common.util.Diagnostic;
 

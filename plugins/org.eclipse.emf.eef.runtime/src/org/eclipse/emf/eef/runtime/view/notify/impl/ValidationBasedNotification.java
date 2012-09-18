@@ -1,10 +1,10 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.services.viewhandler.notify.impl;
+package org.eclipse.emf.eef.runtime.view.notify.impl;
 
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotification;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 
 /**
  * An {@link EEFNotification} send from a EMF Validation diagnostic.
@@ -26,7 +26,7 @@ public class ValidationBasedNotification implements EEFNotification {
 	 * and the {@link Diagnostic#ERROR}, {@link Diagnostic#WARNING}.     
 	 * 
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotification#getKind()
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotification#getKind()
 	 */
 	public final int getKind() {
 		return sourceDiagnostic.getSeverity();
@@ -34,7 +34,7 @@ public class ValidationBasedNotification implements EEFNotification {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotification#getMessage()
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotification#getMessage()
 	 */
 	public final String getMessage() {
 		return sourceDiagnostic.getMessage();

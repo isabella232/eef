@@ -5,7 +5,7 @@ package org.eclipse.emf.eef.runtime.context.impl;
 
 import java.util.Map;
 
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.PropertiesEditingMessageManager;
+import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
 
 import com.google.common.collect.Maps;
 

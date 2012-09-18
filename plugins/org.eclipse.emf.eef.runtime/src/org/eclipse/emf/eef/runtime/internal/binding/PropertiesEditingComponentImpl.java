@@ -34,8 +34,8 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.impl.ValidationBasedNotification;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.impl.ValidationBasedPropertyNotification;
+import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedNotification;
+import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedPropertyNotification;
 import org.osgi.service.event.Event;
 
 import com.google.common.collect.Lists;

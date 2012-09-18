@@ -14,7 +14,6 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.runtime.tabbed.EEFRuntimeTabbed;
 import org.eclipse.emf.eef.runtime.tabbed.internal.view.util.DescriptorHelper;
 import org.eclipse.emf.eef.runtime.tabbed.internal.view.util.ValidationMessageInjector;
@@ -24,6 +23,7 @@ import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditi
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;

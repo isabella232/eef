@@ -28,9 +28,9 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotifier;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.impl.NullNotifier;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
+import org.eclipse.emf.eef.runtime.view.notify.impl.NullNotifier;
 import org.junit.Test;
 
 /**

@@ -24,8 +24,10 @@ Export-Package: org.eclipse.emf.eef.runtime.binding,
  org.eclipse.emf.eef.runtime.services.impl,
  org.eclipse.emf.eef.runtime.services.viewhandler,
  org.eclipse.emf.eef.runtime.services.viewhandler.exceptions,
- org.eclipse.emf.eef.runtime.services.viewhandler.notify,
- org.eclipse.emf.eef.runtime.services.viewhandler.notify.impl
+ org.eclipse.emf.eef.runtime.view.lock,
+ org.eclipse.emf.eef.runtime.view.lock.impl,
+ org.eclipse.emf.eef.runtime.view.notify,
+ org.eclipse.emf.eef.runtime.view.notify.impl
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.eef.runtime.EEFRuntime$Plugin
 Service-Component: OSGI-INF/EMFServiceRegistry.xml, OSGI-INF/EMFServiceImpl.xml, OSGI-INF/StandardPropertiesEditingProviderRegistry.xml, OSGI-INF/StandardPropertiesEditingContextFactory.xml, OSGI-INF/StandardViewHandlerProviderRegistry.xml, OSGI-INF/EventAdminBasedModelChangesNotificationManager.xml

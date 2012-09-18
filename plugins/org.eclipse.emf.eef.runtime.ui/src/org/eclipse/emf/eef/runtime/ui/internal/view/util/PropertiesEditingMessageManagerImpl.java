@@ -1,7 +1,7 @@
 package org.eclipse.emf.eef.runtime.ui.internal.view.util;
 
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotification;
-import org.eclipse.emf.eef.runtime.services.viewhandler.notify.PropertiesEditingMessageManager;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
+import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -12,7 +12,7 @@ public abstract class PropertiesEditingMessageManagerImpl implements PropertiesE
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.PropertiesEditingMessageManager#processMessage(org.eclipse.emf.eef.runtime.services.viewhandler.notify.EEFNotification)
+	 * @see org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager#processMessage(org.eclipse.emf.eef.runtime.view.notify.EEFNotification)
 	 */
 	public void processMessage(final EEFNotification notification) {
 		Display.getDefault().asyncExec(new Runnable() {
@@ -30,7 +30,7 @@ public abstract class PropertiesEditingMessageManagerImpl implements PropertiesE
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.notify.PropertiesEditingMessageManager#clearMessage()
+	 * @see org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager#clearMessage()
 	 */
 	public void clearMessage() {
 		updateStatus("");
