@@ -10,7 +10,7 @@ package org.eclipse.emf.eef.runtime.view.notify;
 public interface EEFPropertyNotification extends EEFNotification {
 	
 	/**
-	 * @return the target editor for this notifcation.
+	 * @return the target editor for this notification.
 	 */
 	Object getEditor();
 

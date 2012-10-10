@@ -77,9 +77,9 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getPropertyEditor(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getPropertyEditor(org.eclipse.emf.eef.views.ViewElement)
 	 */
-	public PropertyEditor getPropertyEditor(Object editor) {
+	public PropertyEditor getPropertyEditor(ViewElement editor) {
 		return propertyEditors.get(editor);
 	}
 

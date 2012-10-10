@@ -12,6 +12,7 @@ import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.EEFPropertyNotification;
 import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
+import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
@@ -61,7 +62,9 @@ public final class EditingViewNotifier implements EEFNotifier {
 	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearEditorNotification(java.lang.Object)
 	 */
 	public void clearEditorNotification(Object editor) {
-		view.getViewService().executeUIRunnable(new RemoveDecorationOnEditor(editor));
+		if (editor instanceof ViewElement) {
+			view.getViewService().executeUIRunnable(new RemoveDecorationOnEditor((ViewElement) editor));
+		}
 	}
 
 	private class AbstractAddDecoration {
@@ -99,11 +102,14 @@ public final class EditingViewNotifier implements EEFNotifier {
 		 */
 		public void run() {
 			Object editor = ((EEFPropertyNotification) notification).getEditor();
-			PropertyEditor propertyEditor = view.getPropertyEditor(editor);
-			final Control control = propertyEditor.getPropertyEditorViewer().getViewer().getControl();
-			ControlDecoration decoration = decorateControl(control, notification);
-			if (decoration != null) {
-				decorations.put(editor, decoration);
+			if (editor instanceof ViewElement) {
+				PropertyEditor propertyEditor = view.getPropertyEditor((ViewElement) editor);
+				final Control control = propertyEditor.getPropertyEditorViewer().getViewer().getControl();
+				ControlDecoration decoration = decorateControl(control, notification);
+				if (decoration != null) {
+					decorations.put(editor, decoration);
+				}
+				control.setEnabled(false);
 			}
 		}
 
@@ -135,9 +141,9 @@ public final class EditingViewNotifier implements EEFNotifier {
 
 	private final class RemoveDecorationOnEditor implements Runnable {
 
-		private Object editor;
+		private ViewElement editor;
 
-		public RemoveDecorationOnEditor(Object editor) {
+		public RemoveDecorationOnEditor(ViewElement editor) {
 			this.editor = editor;
 		}
 

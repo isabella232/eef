@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.view.lock;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
+
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
@@ -10,8 +12,8 @@ package org.eclipse.emf.eef.runtime.view.lock;
 public interface EEFPropertyLock extends EEFLock {
 
 	/**
-	 * @return the locked editor.
+	 * @return the locked feature.
 	 */
-	Object getEditor();
+	EStructuralFeature getLockedFeature();
 	
 }

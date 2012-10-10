@@ -17,6 +17,8 @@ import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.osgi.service.event.EventHandler;
 
+import com.google.common.base.Function;
+
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
@@ -73,7 +75,13 @@ public interface PropertiesEditingComponent extends PropertiesEditingListener, E
 	 * @param handler unregister a handler in the component.
 	 */
 	void unregisterViewHandler(ViewHandler<?> handler);
-
+	
+	/**
+	 * Executes a {@link Function} on all the created {@link ViewHandler} by the current {@link PropertiesEditingComponent}.
+	 * @param function the {@link Function} to execute. 
+	 */
+	void executeOnViewHandlers(Function<ViewHandler<?>, Void> function);
+	
 	/**
 	 * @return the {@link ViewChangeNotifier} component.
 	 */

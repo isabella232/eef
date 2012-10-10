@@ -12,6 +12,7 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -61,12 +62,17 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	}
 
 	/**
-	 * @param context
-	 * @return
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context) {
 		return delegatingContext.getEditingPolicy(context);
+	}
+
+	/**
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getLockPolicyRegistry()
+	 */
+	public EEFLockPolicyRegistry getLockPolicyRegistry() {
+		return delegatingContext.getLockPolicyRegistry();
 	}
 
 	/**

@@ -10,6 +10,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProviderRegistry;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -28,7 +29,7 @@ public interface PropertiesEditingView extends PropertiesEditingListener {
 	 * @param editor element to process.
 	 * @return the {@link PropertyEditor} managing the given editor element if exists, <code>null</code> otherwise.
 	 */
-	PropertyEditor getPropertyEditor(Object editor);
+	PropertyEditor getPropertyEditor(ViewElement editor);
 	
 	/**
 	 * @return the {@link ViewService} for the view.

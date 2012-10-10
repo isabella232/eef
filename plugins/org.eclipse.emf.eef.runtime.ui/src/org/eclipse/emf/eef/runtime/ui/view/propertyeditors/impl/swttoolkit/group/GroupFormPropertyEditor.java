@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.grou
 
 import org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor;
+import org.eclipse.emf.eef.runtime.view.lock.EEFPropertyLock;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -69,6 +70,22 @@ public class GroupFormPropertyEditor implements FormPropertyEditor<EEFControlWra
 		groupLayout.numColumns = 3;
 		group.setLayout(groupLayout);
 		section.setClient(group);		
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock(org.eclipse.emf.eef.runtime.view.lock.EEFPropertyLock)
+	 */
+	public void lock(EEFPropertyLock lock) {
+		// Do nothing
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
+	 */
+	public void unlock() {
+		// Do nothing
 	}
 	
 }

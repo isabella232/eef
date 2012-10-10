@@ -26,6 +26,8 @@ Export-Package: org.eclipse.emf.eef.runtime.binding,
  org.eclipse.emf.eef.runtime.services.viewhandler.exceptions,
  org.eclipse.emf.eef.runtime.view.lock,
  org.eclipse.emf.eef.runtime.view.lock.impl,
+ org.eclipse.emf.eef.runtime.view.lock.policies,
+ org.eclipse.emf.eef.runtime.view.lock.policies.impl,
  org.eclipse.emf.eef.runtime.view.notify,
  org.eclipse.emf.eef.runtime.view.notify.impl
 Bundle-ActivationPolicy: lazy
@@ -50,6 +52,7 @@ Import-Package: com.google.common.base;version="10.0.1",
  org.eclipse.emf.ecore.util,
  org.eclipse.emf.edit.command,
  org.eclipse.emf.edit.domain,
+ org.eclipse.emf.edit.provider,
  org.osgi.framework;version="1.5.0",
  org.osgi.service.component;version="1.1.0",
  org.osgi.service.event;version="1.2.0"

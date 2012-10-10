@@ -8,6 +8,7 @@ import java.util.Collection;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 
 /**
@@ -41,6 +42,11 @@ public interface ViewHandler<T> {
 	 */
 	EEFNotifier getNotifier();
  
+	/**
+	 * @return the {@link EEFLockManager} managing the view.
+	 */
+	EEFLockManager getLockManager();
+
 	/**
 	 * @return the {@link ViewHandlerProvider} that created the current {@link ViewHandlerProvider};
 	 */

@@ -38,6 +38,7 @@ import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedNotification;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedPropertyNotification;
 import org.osgi.service.event.Event;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 /**
@@ -396,6 +397,16 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 */
 	public void unregisterViewHandler(ViewHandler<?> handler) {
 		viewHandlers.remove(handler);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#executeOnViewHandlers(com.google.common.base.Function)
+	 */
+	public void executeOnViewHandlers(Function<ViewHandler<?>, Void> function) {
+		for (ViewHandler<?> handler : viewHandlers) {
+			function.apply(handler);
+		}
 	}
 
 	/**
