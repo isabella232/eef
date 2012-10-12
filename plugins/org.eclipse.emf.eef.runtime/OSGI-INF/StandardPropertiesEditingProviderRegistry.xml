@@ -4,7 +4,7 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry"/>
    </service>
-   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="dynamic" unbind="unsetEMFServiceProvider"/>
+   <reference bind="setComponentRegistry" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.EEFComponentRegistry" name="EEFComponentRegistry" policy="dynamic" unbind="unsetComponentRegistry"/>
    <reference bind="setViewHandlerProviderRegistry" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry" name="ViewHandlerProviderRegistry" policy="dynamic" unbind="unsetViewHandlerProviderRegistry"/>
    <reference bind="setModelChangesNotificationManager" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager" name="ModelChangesNotificationManager" policy="dynamic" unbind="unsetModelChangesNotificationManager"/>
    <reference bind="addService" cardinality="1..n" interface="org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider" name="PropertiesEditingProvider" policy="dynamic" unbind="removeService"/>

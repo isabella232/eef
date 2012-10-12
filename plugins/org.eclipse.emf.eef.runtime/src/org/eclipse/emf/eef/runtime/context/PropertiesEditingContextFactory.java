@@ -8,8 +8,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -43,17 +44,17 @@ public interface PropertiesEditingContextFactory {
 	PropertiesEditingContext createPropertiesEditingContext(EditingDomain domain, AdapterFactory adapterFactory, EObject eObject);
 
 	/**
-	 * Defines the {@link EMFServiceProvider} to use in the {@link PropertiesEditingContext} created by this factory
-	 * @param emfServiceProvider {@link EMFServiceProvider} to use.
+	 * Defines the {@link EEFComponentRegistryImpl} to use in the current ContextFactory.
+	 * @param componentRegistry the {@link EEFComponentRegistryImpl} to use.
 	 */
-	void setEMFServiceProvider(EMFServiceProvider emfServiceProvider);
-
+	void setComponentRegistry(EEFComponentRegistry componentRegistry);
+	
 	/**
-	 * Unsets the {@link EMFServiceProvider} to use in the {@link PropertiesEditingContext} created by this factory
-	 * @param emfServiceProvider {@link EMFServiceProvider} to use.
+	 * Unsets the {@link EEFComponentRegistryImpl} used in the current ContextFactory.
+	 * @param componentRegistry the {@link EEFComponentRegistryImpl} to use.
 	 */
-	void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider);
-
+	void unsetComponentRegistry(EEFComponentRegistry componentRegistry);
+	
 	/**
 	 * Defines the {@link PropertiesEditingProviderRegistry} to use in the {@link PropertiesEditingContext} created by this factory
 	 * @param propertiesEditingProviderRegistry {@link PropertiesEditingProviderRegistry} to use.

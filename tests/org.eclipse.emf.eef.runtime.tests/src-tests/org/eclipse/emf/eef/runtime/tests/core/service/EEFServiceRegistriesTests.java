@@ -19,9 +19,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.internal.services.viewhandler.ViewHandlerProviderRegistryImpl;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.impl.EEFServiceSimpleRegistry;
+import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
@@ -47,15 +47,18 @@ public class EEFServiceRegistriesTests {
 	 * added to the registry and a new service is get. The test checks that the two services are 
 	 * different.
 	 */
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testCustomizedEMFService() {
 		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
-		EMFServiceProvider emfServiceProvider = env.getEMFServiceProvider();
-		assertTrue("Bad type of EMFServiceRegistry.", emfServiceProvider instanceof EEFServiceSimpleRegistry);
-		EMFService defaultEMFService = emfServiceProvider.getEMFServiceForPackage(EcorePackage.eINSTANCE);
-		((EEFServiceSimpleRegistry<EPackage, EMFService>)emfServiceProvider).addService(new CustomEMFService());
-		EMFService customEMFService = emfServiceProvider.getEMFServiceForPackage(EcorePackage.eINSTANCE);
+		EEFComponentRegistry componentRegistry = env.getComponentRegistry();
+		assertTrue("Bad type of EEFComponentRegistry.", componentRegistry instanceof EEFComponentRegistryImpl);
+		EMFService defaultEMFService = (EMFService) componentRegistry.getHighestProvider(EMFService.class, EcorePackage.eINSTANCE);
+		try {
+			componentRegistry.addComponent(new CustomEMFService(), null);
+		} catch (PriorityCircularityException e) {
+			//Can't happen
+		}
+		EMFService customEMFService = (EMFService) componentRegistry.getHighestProvider(EMFService.class, EcorePackage.eINSTANCE);
 		assertNotSame("Bad type of EMFService returned.", defaultEMFService, customEMFService);
 	}
 	
@@ -185,6 +188,15 @@ public class EEFServiceRegistriesTests {
 	}
 
 	private final class CustomEMFService implements EMFService {
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#providedServices()
+		 */
+		public Collection<Class<?>> providedServices() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 		public boolean serviceFor(EPackage element) {
 			return element == EcorePackage.eINSTANCE;
 		}

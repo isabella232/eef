@@ -15,11 +15,10 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
-import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceRegistry;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 
@@ -38,16 +37,16 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	private List<PropertiesEditingModel> editingModels;
 	private EditingModelEnvironment editingModelEnvironment;
 	
-	private EMFServiceProvider emfServiceProvider;
+	private EEFComponentRegistry componentRegistry;
 	private ViewHandlerProviderRegistry viewHandlerProviderRegistry;
 	private ModelChangesNotificationManager notificationManager;
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#setEMFServiceProvider(EMFServiceRegistry)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
 	 */
-	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
+	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+		this.componentRegistry = componentRegistry;
 	}
 
 	/**
@@ -103,7 +102,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 					 * @see com.google.common.base.Predicate#apply(java.lang.Object)
 					 */
 					public boolean apply(EPackage input) {
-						EMFService emfService = emfServiceProvider.getEMFServiceForPackage(element);
+						EMFService emfService = (EMFService) componentRegistry.getHighestProvider(EMFService.class, element);
 						return ((emfService != null && emfService.equals(element, input)) || element == input);
 					}
 
@@ -155,8 +154,8 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	 */
 	public final PropertiesEditingModel getEditingModel(EObject eObject) {
 		for (PropertiesEditingModel editingModel : getEditingModels()) {
-			if (editingModel.getEMFServiceProvider() == null) {
-				editingModel.setEMFServiceProvider(emfServiceProvider);
+			if (editingModel.getComponentRegistry() == null) {
+				editingModel.setComponentRegistry(componentRegistry);
 			}
 			if (editingModel.binding(eObject) != null) {
 				return editingModel;

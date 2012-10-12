@@ -14,9 +14,9 @@ import org.eclipse.emf.eef.runtime.internal.policies.SemanticDirectEditingPolicy
 import org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EMFEditAwareLockPolicy;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry;
 import org.eclipse.emf.eef.runtime.view.lock.policies.impl.EEFLockPolicyRegistryImpl;
 
@@ -33,7 +33,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	
 	private PropertiesEditingProviderRegistry propertiesEditingProviderRegistry;
 	private EditingRecorder editingRecorder;
-	private EMFServiceProvider emfServiceProvider;
+	private EEFComponentRegistry emfServiceProvider;
 	private ModelChangesNotificationManager notificationManager;
 
 	private PropertiesEditingComponent component;
@@ -61,9 +61,9 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setEmfServiceProvider(EMFServiceProvider)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setEEFComponentRegistry(EMFServiceProvider)
 	 */
-	public void setEmfServiceProvider(EMFServiceProvider emfServiceProvider) {
+	public void setEEFComponentRegistry(EEFComponentRegistry emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
 	}
 
@@ -124,7 +124,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public EMFService getEMFService() {
 		if (getEditingComponent() != null) {
-			return emfServiceProvider.getEMFServiceForPackage((getEditingComponent().getEObject()).eClass().getEPackage());
+			return (EMFService) emfServiceProvider.getHighestProvider(EMFService.class, getEditingComponent().getEObject().eClass().getEPackage());
 		}
 		return null;
 	}

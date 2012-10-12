@@ -32,7 +32,7 @@ Export-Package: org.eclipse.emf.eef.runtime.binding,
  org.eclipse.emf.eef.runtime.view.notify.impl
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.eef.runtime.EEFRuntime$Plugin
-Service-Component: OSGI-INF/EMFServiceRegistry.xml, OSGI-INF/EMFServiceImpl.xml, OSGI-INF/StandardPropertiesEditingProviderRegistry.xml, OSGI-INF/StandardPropertiesEditingContextFactory.xml, OSGI-INF/StandardViewHandlerProviderRegistry.xml, OSGI-INF/EventAdminBasedModelChangesNotificationManager.xml
+Service-Component: OSGI-INF/EMFServiceImpl.xml, OSGI-INF/StandardPropertiesEditingProviderRegistry.xml, OSGI-INF/StandardPropertiesEditingContextFactory.xml, OSGI-INF/StandardViewHandlerProviderRegistry.xml, OSGI-INF/EventAdminBasedModelChangesNotificationManager.xml, OSGI-INF/EEFComponentRegistry.xml
 Import-Package: com.google.common.base;version="10.0.1",
  com.google.common.collect;version="10.0.1",
  org.eclipse.core.runtime;version="3.4.0",

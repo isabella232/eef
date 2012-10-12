@@ -9,8 +9,9 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.EEFService;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
@@ -55,11 +56,11 @@ public interface PropertiesEditingProvider extends EEFService<EPackage> {
 	ViewHandlerProvider getViewHandlerProvider(Object view);
 
 	/**
-	 * Defines the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingProvider}.
-	 * @param emfServiceProvider the {@link EMFServiceProvider} to set
+	 * Defines the {@link EEFComponentRegistryImpl} to use in the current {@link PropertiesEditingProvider}.
+	 * @param componentRegistry the {@link EEFComponentRegistryImpl} to use.
 	 */
-	void setEMFServiceProvider(EMFServiceProvider emfServiceProvider);
- 
+	void setComponentRegistry(EEFComponentRegistry componentRegistry);
+	
 	/**
 	 * Defines the {@link ViewHandlerProviderRegistry} to use in the current {@link PropertiesEditingProvider}
 	 * @param viewHandlerProviderRegistry the {@link ViewHandlerProviderRegistry} to set.

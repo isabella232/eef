@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.EEFComponent;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
 import com.google.common.base.Predicate;
@@ -25,16 +26,20 @@ import com.google.common.collect.Maps;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EEFComponentRegistry implements Cloneable {
+public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry {
 	
 	private Map<Class<?>, EEFServiceStorage<?>> storages;
 	private BiMap<String, Node> services;
 	
-	public EEFComponentRegistry() {
+	public EEFComponentRegistryImpl() {
 		services = HashBiMap.create();
 		storages = Maps.newHashMap();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.EEFComponentRegistry#getHighestProvider(java.lang.Class, java.lang.Object)
+	 */
 	@SuppressWarnings("unchecked")
 	public final EEFService<?> getHighestProvider(Class<?> type, Object element) {
 		List<EEFService<?>> availableProviders = Lists.newArrayList();
@@ -56,16 +61,14 @@ public class EEFComponentRegistry implements Cloneable {
 	}
 
 	/**
-	 * Adds a component in the current registry.
-	 * @param component the {@link EEFComponent} to add.
-	 * @param properties properties of the component.
-	 * @throws PriorityCircularityException if we add this component, a circularity is introduced in the priority tree.
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.EEFComponentRegistry#addComponent(org.eclipse.emf.eef.runtime.services.EEFComponent, java.util.Map)
 	 */
 	@SuppressWarnings({ "rawtypes" })
 	public final synchronized void addComponent(EEFComponent component, Map<String, ?> properties) throws PriorityCircularityException {
 		try {
 			if (component instanceof EEFService<?>) {
-				EEFComponentRegistry clone = (EEFComponentRegistry) this.clone();
+				EEFComponentRegistryImpl clone = (EEFComponentRegistryImpl) this.clone();
 				Node addedNode = clone.addNode((String) properties.get("component.name"), (EEFService<?>) component);
 				List<String> prioritiesOver = extractPriorities(properties.get("priority.over"));
 				for (String hasPriorityOver : prioritiesOver) {
@@ -97,8 +100,8 @@ public class EEFComponentRegistry implements Cloneable {
 	}
 	
 	/**
-	 * Removes a component from the current registry.
-	 * @param component the component to remove.
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.EEFComponentRegistry#removeComponent(org.eclipse.emf.eef.runtime.services.EEFComponent)
 	 */
 	public final synchronized void removeComponent(final EEFComponent component) {
 		services.inverse().remove(component);
@@ -115,7 +118,7 @@ public class EEFComponentRegistry implements Cloneable {
 	 */
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
-		EEFComponentRegistry result = new EEFComponentRegistry();
+		EEFComponentRegistryImpl result = new EEFComponentRegistryImpl();
 		Map<Node, Node> mapping = Maps.newHashMap();
 		for (Entry<String, Node> node : services.entrySet()) {
 			Node addedNode = result.addNode(node.getKey(), node.getValue().getTarget());
@@ -177,7 +180,7 @@ public class EEFComponentRegistry implements Cloneable {
 	
 	private boolean isAcyclic() {
 		try {
-			EEFComponentRegistry clone = (EEFComponentRegistry) clone();
+			EEFComponentRegistryImpl clone = (EEFComponentRegistryImpl) clone();
 			while (clone.getNodes().size() > 0) {
 				if (clone.leafNodes().size() > 0) {
 					List<Node> nodesToRemove = Lists.newArrayList(clone.leafNodes());

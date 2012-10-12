@@ -10,8 +10,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -19,25 +19,25 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
  */
 public class PropertiesEditingContextFactoryImpl implements PropertiesEditingContextFactory {
 
-	private EMFServiceProvider emfServiceProvider;
+	private EEFComponentRegistry componentRegistry;
 	private PropertiesEditingProviderRegistry propertiesEditingProviderRegistry;
 	private ModelChangesNotificationManager notificationManager;
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setEMFServiceProvider(org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
 	 */
-	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
+	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+		this.componentRegistry = componentRegistry;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetEMFServiceRegistry(org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
 	 */
-	public void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		if (emfServiceProvider == this.emfServiceProvider) {
-			this.emfServiceProvider = null;
+	public void unsetComponentRegistry(EEFComponentRegistry componentRegistry) {
+		if (componentRegistry == this.componentRegistry) {
+			this.componentRegistry = null;
 		}
 	}
 
@@ -108,7 +108,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	}
 
 	private void configureEditingContext(PropertiesEditingContext context) {
-		context.setEmfServiceProvider(emfServiceProvider);
+		context.setEEFComponentRegistry(componentRegistry);
 		context.setPropertiesEditingProviderRegistry(propertiesEditingProviderRegistry);
 		context.setNotificationManager(notificationManager);
 	}

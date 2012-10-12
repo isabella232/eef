@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.EMFServiceRegistry">
-   <implementation class="org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceRegistry"/>
-   <reference bind="addComponent" cardinality="1..n" interface="org.eclipse.emf.eef.runtime.services.EEFComponent" name="EEFComponent" policy="dynamic" unbind="removeComponent"/>
-   <service>
-      <provide interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider"/>
-   </service>
-</scr:component>

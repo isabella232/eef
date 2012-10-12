@@ -6,6 +6,8 @@ package org.eclipse.emf.eef.runtime.notify;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.internal.notify.ModelChangesNotifier;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.event.EventHandler;
 
@@ -15,6 +17,18 @@ import org.osgi.service.event.EventHandler;
  */
 public interface ModelChangesNotificationManager {
 
+	/**
+	 * Defines the {@link EEFComponentRegistryImpl} to use in the current NotificationManager.
+	 * @param componentRegistry the {@link EEFComponentRegistryImpl} to use.
+	 */
+	void setComponentRegistry(EEFComponentRegistry componentRegistry);
+	
+	/**
+	 * Unsets the {@link EEFComponentRegistryImpl} used in the current NotificationManager.
+	 * @param componentRegistry the {@link EEFComponentRegistryImpl} to unset.
+	 */
+	void unsetComponentRegistry(EEFComponentRegistry componentRegistry);
+	
 	/**
 	 * Registers the given {@link PropertiesEditingComponent} in the {@link BundleContext} as an {@link EventHandler}.
 	 * @param editingComponent the {@link PropertiesEditingComponent} to register.

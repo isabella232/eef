@@ -8,9 +8,10 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry;
 
 /**
@@ -20,10 +21,10 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry;
 public interface PropertiesEditingContext {
 	
 	/**
-	 * Defines the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingContext}.
-	 * @param emfServiceProvider the {@link EMFServiceProvider} to use.
+	 * Defines the {@link EEFComponentRegistryImpl} of the current {@link PropertiesEditingContext}.
+	 * @param componentRegistry the {@link EEFComponentRegistryImpl}.
 	 */
-	void setEmfServiceProvider(EMFServiceProvider emfServiceProvider);
+	void setEEFComponentRegistry(EEFComponentRegistry componentRegistry);
 	
 	/**
 	 * Defines the {@link PropertiesEditingProviderRegistry} to use in the current {@link PropertiesEditingContext}.

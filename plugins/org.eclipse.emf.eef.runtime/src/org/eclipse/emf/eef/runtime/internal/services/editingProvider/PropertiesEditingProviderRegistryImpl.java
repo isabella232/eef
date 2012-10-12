@@ -4,11 +4,10 @@
 package org.eclipse.emf.eef.runtime.internal.services.editingProvider;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceRegistry;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.EEFServiceSimpleRegistry;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 
@@ -18,28 +17,28 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegis
  */
 public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegistry<EPackage, PropertiesEditingProvider> implements PropertiesEditingProviderRegistry {
 
-	private EMFServiceProvider emfServiceProvider;
+	private EEFComponentRegistry componentRegistry;
 	private ViewHandlerProviderRegistry viewHandlerProviderRegistry;
 	private ModelChangesNotificationManager notificationManager;
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#setEMFServiceProvider(EMFServiceRegistry)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
 	 */
-	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
+	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+		this.componentRegistry = componentRegistry;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#unsetEMFServiceRegistry(org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceRegistry)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
 	 */
-	public void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		if (emfServiceProvider == this.emfServiceProvider) {
-			this.emfServiceProvider = null;
+	public void unsetComponentRegistry(EEFComponentRegistry componentRegistry) {
+		if (componentRegistry == this.componentRegistry) {
+			componentRegistry = null;
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#setViewHandlerProviderRegistry(ViewHandlerProviderRegistry)
@@ -81,7 +80,7 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegis
 	 * @see org.eclipse.emf.eef.runtime.services.impl.EEFServiceSimpleRegistry#addService(org.eclipse.emf.eef.runtime.services.EEFService)
 	 */
 	public synchronized void addService(PropertiesEditingProvider service) {
-		service.setEMFServiceProvider(emfServiceProvider);
+		service.setComponentRegistry(componentRegistry);
 		service.setViewHandlerProviderRegistry(viewHandlerProviderRegistry);
 		service.setNotificationManager(notificationManager);
 		super.addService(service);

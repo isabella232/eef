@@ -5,7 +5,8 @@ package org.eclipse.emf.eef.runtime.services.editingProviding;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 
 /**
@@ -19,18 +20,18 @@ public interface PropertiesEditingProviderRegistry {
 	 * @return
 	 */
 	PropertiesEditingProvider getPropertiesEditingProvider(EPackage ePackage);
-
+	
 	/**
-	 * Defines the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingProviderRegistry}.
-	 * @param emfServiceProvider the {@link EMFServiceProvider} to use.
+	 * Defines the {@link EEFComponentRegistryImpl} to use in the current {@link EEFComponentRegistryImpl}.
+	 * @param componentRegistry {@link EEFComponentRegistryImpl} to use.
 	 */
-	void setEMFServiceProvider(EMFServiceProvider emfServiceProvider);
-
+	void setComponentRegistry(EEFComponentRegistry componentRegistry);
+	
 	/**
-	 * Unsets the {@link EMFServiceProvider} to use in the current {@link PropertiesEditingProviderRegistry}.
-	 * @param emfServiceProvider the {@link EMFServiceProvider} to use.
+	 * Unsets the {@link EEFComponentRegistryImpl} used in the current {@link EEFComponentRegistryImpl}.
+	 * @param componentRegistry {@link EEFComponentRegistryImpl} to unset.
 	 */
-	void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider);
+	void unsetComponentRegistry(EEFComponentRegistry componentRegistry);
 	
 	/**
 	 * Defines the {@link ViewHandlerProviderRegistry} to use in the current {@link PropertiesEditingProviderRegistry}.

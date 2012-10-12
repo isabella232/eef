@@ -14,8 +14,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotifierImpl;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
@@ -33,7 +33,7 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 
 	private BundleContext bundleContext;
 	private EventAdmin eventAdmin;
-	private EMFServiceProvider emfServiceProvider;
+	private EEFComponentRegistry componentRegistry;
 	
 	private Map<PropertiesEditingComponent,ServiceRegistration> serviceRegistrations;
 	
@@ -60,18 +60,20 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 	}
 
 	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
 	 */
-	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
+	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+		this.componentRegistry = componentRegistry;
 	}
 
 	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
 	 */
-	public void unsetEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		if (emfServiceProvider == this.emfServiceProvider) {
-			this.emfServiceProvider = null;
+	public void unsetComponentRegistry(EEFComponentRegistry componentRegistry) {
+		if (componentRegistry == this.componentRegistry) {
+			this.componentRegistry = null;
 		}
 	}
 
@@ -101,7 +103,7 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#initModelChangesNotifierIfNeeded(EObject)
 	 */
 	public void initModelChangesNotifierIfNeeded(EObject source) {
-		EMFService emfService = emfServiceProvider.getEMFServiceForPackage(source.eClass().getEPackage());
+		EMFService emfService = (EMFService) componentRegistry.getHighestProvider(EMFService.class, source.eClass().getEPackage());
 		Notifier highestNotifier = emfService.highestNotifier(source);
 		Adapter existingAdapter = EcoreUtil.getExistingAdapter(highestNotifier, ModelChangesNotifier.class);
 		if (existingAdapter == null) {

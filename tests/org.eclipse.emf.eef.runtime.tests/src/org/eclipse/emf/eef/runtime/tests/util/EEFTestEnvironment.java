@@ -32,14 +32,14 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.services.editingProvider.PropertiesEditingProviderRegistryImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
-import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceRegistry;
 import org.eclipse.emf.eef.runtime.internal.services.viewhandler.ViewHandlerProviderRegistryImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
@@ -139,8 +139,8 @@ public class EEFTestEnvironment {
 	 * @return
 	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getEMFServiceProvider()
 	 */
-	public EMFServiceProvider getEMFServiceProvider() {
-		return builder.getEMFServiceProvider();
+	public EEFComponentRegistry getComponentRegistry() {
+		return builder.getComponentRegistry();
 	}
 
 	/**
@@ -225,7 +225,7 @@ public class EEFTestEnvironment {
 
 		private AdapterFactory adapterFactory;
 		private Collection<EMFService> emfServices;
-		private EMFServiceProvider emfServiceProvider;
+		private EEFComponentRegistry componentRegistry;
 		private Collection<PropertiesEditingProvider> editingProviders;
 		private PropertiesEditingProviderRegistry editingProviderRegistry;
 		private ModelChangesNotificationManager notificationManager;
@@ -245,7 +245,7 @@ public class EEFTestEnvironment {
 			editingModel = null;
 			adapterFactory = null;
 			emfServices = null;
-			emfServiceProvider = null;
+			componentRegistry = null;
 			editingProviders = null;
 			editingProviderRegistry = null;
 			notificationManager = null;
@@ -307,11 +307,11 @@ public class EEFTestEnvironment {
 			return emfServices;
 		}
 
-		public EMFServiceProvider getEMFServiceProvider() {
-			if (emfServiceProvider == null) {
-				emfServiceProvider = createEMFServiceProvider();
+		public EEFComponentRegistry getComponentRegistry() {
+			if (componentRegistry == null) {
+				componentRegistry = createComponentRegistry();
 			}
-			return emfServiceProvider;
+			return componentRegistry;
 		}
 
 		public PropertiesEditingProviderRegistry getEditingProviderRegistry() {
@@ -419,11 +419,13 @@ public class EEFTestEnvironment {
 			this.emfServices = emfServices;
 			return this;
 		}
+
 		/**
-		 * @param emfServiceProvider the emfServiceProvider to set
+		 * @param componentRegistry
+		 * @return
 		 */
-		public Builder setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-			this.emfServiceProvider = emfServiceProvider;
+		public Builder setComponentRegistry(EEFComponentRegistry componentRegistry) {
+			this.componentRegistry= componentRegistry;
 			return this;
 		}
 		/**
@@ -686,17 +688,23 @@ public class EEFTestEnvironment {
 			return services;
 		}
 
-		public EMFServiceProvider createEMFServiceProvider() {
-			EMFServiceRegistry emfServiceRegistry = new EMFServiceRegistry();
+		public EEFComponentRegistry createComponentRegistry() {
+			EEFComponentRegistry componentRegistry = new EEFComponentRegistryImpl();
 			for (EMFService emfService : getEMFServices()) {
-				emfServiceRegistry.addService(emfService);			
+				try {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, "emfService");
+					componentRegistry.addComponent(emfService, properties);
+				} catch (PriorityCircularityException e) {
+					//TODO: can't happen!
+				}
 			}
-			return emfServiceRegistry;
+			return componentRegistry;
 		}
 
 		public PropertiesEditingProviderRegistry createPropertiesEditingProviderRegistry() {
 			PropertiesEditingProviderRegistryImpl registry = new PropertiesEditingProviderRegistryImpl();
-			registry.setEMFServiceProvider(getEMFServiceProvider());
+			registry.setComponentRegistry(getComponentRegistry());
 			registry.setViewHandlerProviderRegistry(getViewHandlerProviderRegistry());
 			registry.setModelChangesNotificationManager(getModelChangesNotificationManager());
 			for (PropertiesEditingProvider provider : getEditingProviders()) {			
@@ -762,7 +770,7 @@ public class EEFTestEnvironment {
 		public PropertiesEditingContextFactory createPropertiesEditingContextFactory() {
 			PropertiesEditingContextFactory factory = new PropertiesEditingContextFactoryImpl();
 			factory.setPropertiesEditingProviderRegistry(getEditingProviderRegistry());
-			factory.setEMFServiceProvider(getEMFServiceProvider());
+			factory.setComponentRegistry(getComponentRegistry());
 			factory.setNotificationManager(getModelChangesNotificationManager());
 			return factory;
 		}
@@ -790,6 +798,22 @@ public class EEFTestEnvironment {
 
 		public ModelChangesNotificationManagerTest() {
 			components = new ArrayList<PropertiesEditingComponent>();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
+		 */
+		public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+			
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
+		 */
+		public void unsetComponentRegistry(EEFComponentRegistry componentRegistry) {
+			
 		}
 
 		public void unregisterEditingComponent(PropertiesEditingComponent editingComponent) {

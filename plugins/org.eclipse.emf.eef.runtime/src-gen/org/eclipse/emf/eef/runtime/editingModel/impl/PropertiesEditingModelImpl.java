@@ -27,8 +27,8 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 
 /**
@@ -254,7 +254,7 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 * @generated NOT
 	 */
 	public EClassBinding binding(EObject eObject) {
-		EMFService emfService = emfServiceProvider.getEMFServiceForPackage(eObject.eClass().getEPackage());
+		EMFService emfService = (EMFService) componentRegistry.getHighestProvider(EMFService.class, eObject.eClass().getEPackage());
 		for (EClassBinding binding : bindings) {
 			if ((emfService != null && emfService.equals(eObject.eClass(), binding.getEClass())) || eObject.eClass().equals(binding.getEClass())) {
 				return binding;
@@ -452,25 +452,24 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 		result.append(')');
 		return result.toString();
 	}
-	
-	private EMFServiceProvider emfServiceProvider;
 
+	private EEFComponentRegistry componentRegistry;
+	
+	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getEMFServiceProvider()
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getComponentRegistry()
 	 */
-	public EMFServiceProvider getEMFServiceProvider() {
-		return emfServiceProvider;
+	public EEFComponentRegistry getComponentRegistry() {
+		return componentRegistry;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#setEMFServiceProvider(org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider)
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
 	 */
-	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
+	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+		this.componentRegistry = componentRegistry;
 	}
 	
-	
-
 } //PropertiesEditingModelImpl
