@@ -7,8 +7,10 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notifier;
@@ -54,7 +56,9 @@ public class EEFServiceRegistriesTests {
 		assertTrue("Bad type of EEFComponentRegistry.", componentRegistry instanceof EEFComponentRegistryImpl);
 		EMFService defaultEMFService = (EMFService) componentRegistry.getHighestProvider(EMFService.class, EcorePackage.eINSTANCE);
 		try {
-			componentRegistry.addComponent(new CustomEMFService(), null);
+			Map<String, String> properties = new HashMap<String, String>();
+			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, "customService");
+			componentRegistry.addComponent(new CustomEMFService(), properties);
 		} catch (PriorityCircularityException e) {
 			//Can't happen
 		}
@@ -193,8 +197,9 @@ public class EEFServiceRegistriesTests {
 		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#providedServices()
 		 */
 		public Collection<Class<?>> providedServices() {
-			// TODO Auto-generated method stub
-			return null;
+			List<Class<?>> result = new ArrayList<Class<?>>();
+			result.add(EMFService.class);
+			return result;
 		}
 
 		public boolean serviceFor(EPackage element) {

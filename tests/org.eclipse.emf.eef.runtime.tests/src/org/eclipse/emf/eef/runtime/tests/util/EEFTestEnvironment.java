@@ -75,6 +75,7 @@ public class EEFTestEnvironment {
 	public static final String FIRST_ECLASS_SAMPLE_NAME = "EClass1";
 
 	public static final String COMPONENT_NAME_KEY = "component.name";
+	public static final String OBJECTCLASS_KEY = "objectClass";
 	public static final String PRIORITY_OVER_KEY = "priority.over";
 
 	public static final String REFLECT_VIEW_HANDLER_PROVIDER_NAME = "ReflectViewHandlerProvider";
@@ -684,7 +685,20 @@ public class EEFTestEnvironment {
 
 		public Collection<EMFService> createEMFServices() {
 			Collection<EMFService> services = new ArrayList<EMFService>();
-			services.add(new EMFServiceImpl());
+			services.add(new EMFServiceImpl() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 */
+				@Override
+				public Collection<Class<?>> providedServices() {
+					List<Class<?>> result = new ArrayList<Class<?>>();
+					result.add(EMFService.class);
+					return result;
+				}
+				
+			});
 			return services;
 		}
 
