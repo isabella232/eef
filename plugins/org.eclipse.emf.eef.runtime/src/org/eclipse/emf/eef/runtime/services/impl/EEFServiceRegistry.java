@@ -11,9 +11,9 @@ import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.EEFComponent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.Collections2;
@@ -27,28 +27,21 @@ import com.google.common.collect.Maps;
  */
 public class EEFServiceRegistry implements Cloneable {
 	
+	private Map<Class<?>, EEFServiceStorage<?>> storages;
 	private BiMap<String, Node> services;
 	
 	public EEFServiceRegistry() {
 		services = HashBiMap.create();
+		storages = Maps.newHashMap();
 	}
 
-	public final EEFService<?> getHighestProvider(Object element) {
+	@SuppressWarnings("unchecked")
+	public final EEFService<?> getHighestProvider(Class<?> type, Object element) {
 		List<EEFService<?>> availableProviders = Lists.newArrayList();
-		for (EEFService<?> provider : Collections2.transform(services.values(), new Function<Node, EEFService<?>>() {
-
-			/**
-			 * {@inheritDoc}
-			 * @see com.google.common.base.Function#apply(java.lang.Object)
-			 */
-			public EEFService<?> apply(Node input) {
-				return input.getTarget();
-			}
-			
-		})) {
-			if (provider.serviceFor(element)) {
-				availableProviders.add(provider);
-			}
+		@SuppressWarnings("rawtypes")
+		EEFServiceStorage storage = storages.get(type);
+		if (storage != null) {
+			availableProviders = storage.getServicesFor(element);
 		}
 		if (availableProviders.size() == 0) {			
 			// If no registered provider can handle the view, we return null 
@@ -63,42 +56,57 @@ public class EEFServiceRegistry implements Cloneable {
 	}
 
 	/**
-	 * Adds a service in the registry.
-	 * @param provider the service to add.
-	 * @param properties properties of the service.
-	 * @throws PriorityCircularityException if we add this service, a circularity is introduced in the priority tree.
+	 * Adds a component in the current registry.
+	 * @param component the {@link EEFComponent} to add.
+	 * @param properties properties of the component.
+	 * @throws PriorityCircularityException if we add this component, a circularity is introduced in the priority tree.
 	 */
-	public final synchronized void addService(EEFService<?> provider, Map<String, ?> properties) throws PriorityCircularityException {
+	@SuppressWarnings({ "rawtypes" })
+	public final synchronized void addComponent(EEFComponent component, Map<String, ?> properties) throws PriorityCircularityException {
 		try {
-			@SuppressWarnings("unchecked")
-			EEFServiceRegistry clone = (EEFServiceRegistry) this.clone();
-			Node addedNode = clone.addNode((String) properties.get("component.name"), provider);
-			List<String> prioritiesOver = extractPriorities(properties.get("priority.over"));
-			for (String hasPriorityOver : prioritiesOver) {
-				clone.addEdge(addedNode, clone.getOrCreateNode(hasPriorityOver));
-				
-			}
-			if (clone.isAcyclic()) {
-				Node newNode = addNode((String) properties.get("component.name"), provider);				
+			if (component instanceof EEFService<?>) {
+				EEFServiceRegistry clone = (EEFServiceRegistry) this.clone();
+				Node addedNode = clone.addNode((String) properties.get("component.name"), (EEFService<?>) component);
+				List<String> prioritiesOver = extractPriorities(properties.get("priority.over"));
 				for (String hasPriorityOver : prioritiesOver) {
-					addEdge(newNode, getOrCreateNode(hasPriorityOver));
-					
+					clone.addEdge(addedNode, clone.getOrCreateNode(hasPriorityOver));
+
 				}
-			} else {
-				throw new PriorityCircularityException(provider);
+				if (clone.isAcyclic()) {
+					Node newNode = addNode((String) properties.get("component.name"), (EEFService<?>) component);				
+					for (String hasPriorityOver : prioritiesOver) {
+						addEdge(newNode, getOrCreateNode(hasPriorityOver));
+
+					}
+					for (Class<?> serviceType : component.providedServices()) {
+						EEFServiceStorage storage = storages.get(serviceType);
+						if (storage == null) {
+							storage = new EEFServiceStorage();
+							storages.put(serviceType, storage);
+						}
+						storage.addService(component);
+					}
+				} else {
+					throw new PriorityCircularityException(component);
+				}
 			}
 		} catch (CloneNotSupportedException e) {
-			// Can't append, I'm cloneable!
-		}
+			// Can't happen, I'm cloneable!
+		}	
 		
 	}
 	
 	/**
-	 * Removes a service from the registry.
-	 * @param service the service to remove.
+	 * Removes a component from the current registry.
+	 * @param component the component to remove.
 	 */
-	public final synchronized void removeService(final EEFService<?> service) {
-		services.inverse().remove(service);
+	public final synchronized void removeComponent(final EEFComponent component) {
+		services.inverse().remove(component);
+		for (Class<?> serviceType : component.providedServices()) {
+			@SuppressWarnings("rawtypes")
+			EEFServiceStorage storage = storages.get(serviceType);
+			storage.removeService(component);
+		}
 	}
 	
 	/**
@@ -169,7 +177,6 @@ public class EEFServiceRegistry implements Cloneable {
 	
 	private boolean isAcyclic() {
 		try {
-			@SuppressWarnings("unchecked")
 			EEFServiceRegistry clone = (EEFServiceRegistry) clone();
 			while (clone.getNodes().size() > 0) {
 				if (clone.leafNodes().size() > 0) {
@@ -309,32 +316,58 @@ public class EEFServiceRegistry implements Cloneable {
 		}
 	}
 	
-	private static class EEFServiceStorage {
+	private static class EEFServiceStorage<T> {
 		
-		private Class<?> serviceType;
-		private List<EEFService<?>> services;
+		private List<EEFComponent> services;
 		private DefaultService defaultService;
 		
 		/**
-		 * @param serviceType a {@link Class} defining the type of the stored services.
+		 * 
 		 */
-		public EEFServiceStorage(Class<?> serviceType) {
-			this.serviceType = serviceType;
+		public EEFServiceStorage() {
 			this.services = Lists.newArrayList();
 			this.defaultService = null;
 		}
 		
 		/**
-		 * Adds a {@link EEFService} in the current storage. If this service implements
-		 * {@link DefaultService}, it's stored in a separate way.
+		 * Adds a {@link EEFService} in the current storage. If this service implements {@link DefaultService}, it's stored in a separate way.
 		 * @param service the {@link EEFService} to store.
 		 */
-		public void addService(EEFService<?> service) {
+		public void addService(EEFComponent service) {
 			if (service instanceof DefaultService) {
 				defaultService = (DefaultService) service;
 			} else {
 				services.add(service);
 			}
+		}
+		
+		/**
+		 * Removes a {@link EEFService} in the current storage. 
+		 * @param service the {@link EEFService} to store.
+		 */
+		public void removeService(EEFComponent service) {
+			services.remove(service);
+			if (defaultService == service) {
+				defaultService = null;
+			}
+		}
+		
+		/**
+		 * @param element
+		 * @return
+		 */
+		@SuppressWarnings("unchecked")
+		public List<EEFService<T>> getServicesFor(T element) {
+			List<EEFService<T>> result = Lists.newArrayList();
+			for (EEFComponent service : services) {
+				if (((EEFService<T>)service).serviceFor(element)) {
+					result.add((EEFService<T>) service);
+				}
+			}
+			if (result.size() == 0 && defaultService != null) {
+				result.add((EEFService<T>) defaultService);
+			}
+			return result;
 		}
 		
 	}

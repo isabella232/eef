@@ -10,13 +10,14 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.eef.runtime.services.EEFComponent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface EMFService extends EEFService<EPackage> {
+public interface EMFService extends EEFService<EPackage>, EEFComponent {
 	
 	/**
 	 * Compares two EClass by trying to use the EPackage.Registry.

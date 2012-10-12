@@ -3,10 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.internal.services.emf;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Dictionary;
-
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -16,20 +12,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.osgi.service.component.ComponentContext;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EMFServiceImpl implements EMFService, DefaultService {
-	
-	private Collection<Class<?>> providedServices;
-
-	public void activate(ComponentContext context) {
-		Dictionary properties = context.getProperties();
-		System.out.println("Activated");
-	}
+public class EMFServiceImpl extends AbstractEEFComponent implements EMFService, DefaultService {
 	
 	/**
 	 * {@inheritDoc}
@@ -37,18 +26,6 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 	 */
 	public boolean serviceFor(final EPackage element) {
 		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EEFService#providedServices()
-	 */
-	public Collection<Class<?>> providedServices() {
-		if (providedServices == null) {
-			return Collections.emptyList();
-		} else {
-			return providedServices;
-		}
 	}
 
 	/**
