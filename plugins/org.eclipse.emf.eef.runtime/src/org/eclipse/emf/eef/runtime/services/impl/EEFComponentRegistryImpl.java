@@ -38,10 +38,10 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EEFComponentRegistry#getHighestProvider(java.lang.Class, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFComponentRegistry#getService(java.lang.Class, java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
-	public final EEFService<?> getHighestProvider(Class<?> type, Object element) {
+	public final EEFService<?> getService(Class<?> type, Object element) {
 		List<EEFService<?>> availableProviders = Lists.newArrayList();
 		@SuppressWarnings("rawtypes")
 		EEFServiceStorage storage = storages.get(type);

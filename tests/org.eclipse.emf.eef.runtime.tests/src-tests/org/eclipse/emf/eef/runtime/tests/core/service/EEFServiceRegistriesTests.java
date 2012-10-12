@@ -54,7 +54,7 @@ public class EEFServiceRegistriesTests {
 		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
 		EEFComponentRegistry componentRegistry = env.getComponentRegistry();
 		assertTrue("Bad type of EEFComponentRegistry.", componentRegistry instanceof EEFComponentRegistryImpl);
-		EMFService defaultEMFService = (EMFService) componentRegistry.getHighestProvider(EMFService.class, EcorePackage.eINSTANCE);
+		EMFService defaultEMFService = (EMFService) componentRegistry.getService(EMFService.class, EcorePackage.eINSTANCE);
 		try {
 			Map<String, String> properties = new HashMap<String, String>();
 			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, "customService");
@@ -62,7 +62,7 @@ public class EEFServiceRegistriesTests {
 		} catch (PriorityCircularityException e) {
 			//Can't happen
 		}
-		EMFService customEMFService = (EMFService) componentRegistry.getHighestProvider(EMFService.class, EcorePackage.eINSTANCE);
+		EMFService customEMFService = (EMFService) componentRegistry.getService(EMFService.class, EcorePackage.eINSTANCE);
 		assertNotSame("Bad type of EMFService returned.", defaultEMFService, customEMFService);
 	}
 	

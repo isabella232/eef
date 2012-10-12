@@ -6,7 +6,20 @@ import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 
 public interface EEFComponentRegistry {
 
-	EEFService<?> getHighestProvider(Class<?> type, Object element);
+	/**
+	 * Returns the asked {@link EEFService} for the given element. The registry select the returned one follow these choices:
+	 * <ul>
+	 * 		<li>If only one service is registered for this kind of element, it is returned</li>
+	 * 		<li>If several services are registered : the one prior on other services is returned</li>
+	 * 		<li>If there is more than one choice of service, one is randomly selected</li>
+	 * 		<li>If no service is registered for this kind of element, but a DefaultService is registered, this one is return</li>
+	 * 		<li><code>null</code> otherwise</li>
+	 * </ul>
+	 * @param type kind of expected services.
+	 * @param element the element to process by the service.
+	 * @return the best {@link EEFService} for this element.
+	 */
+	EEFService<?> getService(Class<?> type, Object element);
 
 	/**
 	 * Adds a component in the current registry.

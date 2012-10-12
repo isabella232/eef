@@ -124,7 +124,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public EMFService getEMFService() {
 		if (getEditingComponent() != null) {
-			return (EMFService) emfServiceProvider.getHighestProvider(EMFService.class, getEditingComponent().getEObject().eClass().getEPackage());
+			return (EMFService) emfServiceProvider.getService(EMFService.class, getEditingComponent().getEObject().eClass().getEPackage());
 		}
 		return null;
 	}

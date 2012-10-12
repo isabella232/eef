@@ -26,6 +26,7 @@ public abstract class AbstractEEFComponent implements EEFComponent {
 
 
 	public void activate(ComponentContext context) {
+		@SuppressWarnings("rawtypes")
 		Dictionary properties = context.getProperties();
 		Object object = properties.get("objectClass");
 		if (object != null && object instanceof String[]) {

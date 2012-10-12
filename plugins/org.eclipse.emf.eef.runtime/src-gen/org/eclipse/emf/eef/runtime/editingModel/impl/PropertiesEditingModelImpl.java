@@ -254,7 +254,7 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 * @generated NOT
 	 */
 	public EClassBinding binding(EObject eObject) {
-		EMFService emfService = (EMFService) componentRegistry.getHighestProvider(EMFService.class, eObject.eClass().getEPackage());
+		EMFService emfService = (EMFService) componentRegistry.getService(EMFService.class, eObject.eClass().getEPackage());
 		for (EClassBinding binding : bindings) {
 			if ((emfService != null && emfService.equals(eObject.eClass(), binding.getEClass())) || eObject.eClass().equals(binding.getEClass())) {
 				return binding;

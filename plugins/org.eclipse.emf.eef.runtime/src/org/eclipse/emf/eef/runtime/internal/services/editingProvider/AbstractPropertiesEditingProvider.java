@@ -102,7 +102,7 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 					 * @see com.google.common.base.Predicate#apply(java.lang.Object)
 					 */
 					public boolean apply(EPackage input) {
-						EMFService emfService = (EMFService) componentRegistry.getHighestProvider(EMFService.class, element);
+						EMFService emfService = (EMFService) componentRegistry.getService(EMFService.class, element);
 						return ((emfService != null && emfService.equals(element, input)) || element == input);
 					}
 
