@@ -6,13 +6,13 @@ package org.eclipse.emf.eef.runtime.internal.services.emf;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistry;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public final class EMFServiceRegistry extends EEFServiceRegistry implements EMFServiceProvider {
+public final class EMFServiceRegistry extends EEFComponentRegistry implements EMFServiceProvider {
 
 	/**
 	 * {@inheritDoc}

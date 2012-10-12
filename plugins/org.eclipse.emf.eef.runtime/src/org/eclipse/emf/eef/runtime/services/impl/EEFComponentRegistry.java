@@ -25,12 +25,12 @@ import com.google.common.collect.Maps;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EEFServiceRegistry implements Cloneable {
+public class EEFComponentRegistry implements Cloneable {
 	
 	private Map<Class<?>, EEFServiceStorage<?>> storages;
 	private BiMap<String, Node> services;
 	
-	public EEFServiceRegistry() {
+	public EEFComponentRegistry() {
 		services = HashBiMap.create();
 		storages = Maps.newHashMap();
 	}
@@ -65,7 +65,7 @@ public class EEFServiceRegistry implements Cloneable {
 	public final synchronized void addComponent(EEFComponent component, Map<String, ?> properties) throws PriorityCircularityException {
 		try {
 			if (component instanceof EEFService<?>) {
-				EEFServiceRegistry clone = (EEFServiceRegistry) this.clone();
+				EEFComponentRegistry clone = (EEFComponentRegistry) this.clone();
 				Node addedNode = clone.addNode((String) properties.get("component.name"), (EEFService<?>) component);
 				List<String> prioritiesOver = extractPriorities(properties.get("priority.over"));
 				for (String hasPriorityOver : prioritiesOver) {
@@ -115,7 +115,7 @@ public class EEFServiceRegistry implements Cloneable {
 	 */
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
-		EEFServiceRegistry result = new EEFServiceRegistry();
+		EEFComponentRegistry result = new EEFComponentRegistry();
 		Map<Node, Node> mapping = Maps.newHashMap();
 		for (Entry<String, Node> node : services.entrySet()) {
 			Node addedNode = result.addNode(node.getKey(), node.getValue().getTarget());
@@ -177,7 +177,7 @@ public class EEFServiceRegistry implements Cloneable {
 	
 	private boolean isAcyclic() {
 		try {
-			EEFServiceRegistry clone = (EEFServiceRegistry) clone();
+			EEFComponentRegistry clone = (EEFComponentRegistry) clone();
 			while (clone.getNodes().size() > 0) {
 				if (clone.leafNodes().size() > 0) {
 					List<Node> nodesToRemove = Lists.newArrayList(clone.leafNodes());
