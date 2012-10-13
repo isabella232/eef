@@ -20,7 +20,7 @@ import com.google.common.collect.Lists;
 public abstract class AbstractEEFComponent implements EEFComponent {
 
 	private Collection<String> providedServices;
-	private EEFComponentRegistry componentRegistry;
+	protected EEFComponentRegistry componentRegistry;
 	
 	public AbstractEEFComponent() {
 		providedServices = Lists.newArrayList();

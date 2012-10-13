@@ -149,7 +149,7 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.emf.eef.views,
    org.eclipse.emf.common.notify"
 Bundle-Activator: org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI$Plugin
-Service-Component: OSGI-INF/ViewServiceImpl.xml, OSGI-INF/StandardDoubleClickFactory.xml, OSGI-INF/PropertiesEditingViewHandlerProvider.xml, OSGI-INF/ReflectViewHandlerProvider.xml, OSGI-INF/SWTViewHandlerProvider.xml, OSGI-INF/SWTToolkit.xml, OSGI-INF/EMFPropertiesToolkit.xml
+Service-Component: OSGI-INF/ViewServiceImpl.xml, OSGI-INF/StandardDoubleClickFactory.xml, OSGI-INF/PropertiesEditingViewHandlerProvider.xml, OSGI-INF/ReflectViewHandlerProvider.xml, OSGI-INF/SWTViewHandlerProvider.xml, OSGI-INF/SWTToolkit.xml, OSGI-INF/EMFPropertiesToolkit.xml, OSGI-INF/EditingViewNotifier.xml
 Import-Package: com.google.common.base;version="10.0.1",
  com.google.common.collect;version="10.0.1",
  org.eclipse.core.commands.common,

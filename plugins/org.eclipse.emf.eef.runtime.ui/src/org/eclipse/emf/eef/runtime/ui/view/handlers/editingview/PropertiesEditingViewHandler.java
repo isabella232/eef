@@ -17,11 +17,8 @@ import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditi
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.SWTImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.lock.EditingViewLockManager;
-import org.eclipse.emf.eef.runtime.ui.view.notify.EditingViewNotifier;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager;
-import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
-import org.eclipse.emf.eef.runtime.view.notify.impl.NullNotifier;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -37,7 +34,6 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	protected PropertiesEditingComponent editingComponent;
 	protected PropertiesEditingView view;
 	
-	private EEFNotifier notifier;
 	private EEFLockManager lockManager;
 	
 	/**
@@ -102,21 +98,6 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 			}
 		}
 		return false;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getNotifier()
-	 */
-	public EEFNotifier getNotifier() {
-		if (view == null) {
-			return new NullNotifier();
-		} else {
-			if (notifier == null) {
-				this.notifier = new EditingViewNotifier(); 
-			}
-			return notifier; 
-		}
 	}
 	
 	/**

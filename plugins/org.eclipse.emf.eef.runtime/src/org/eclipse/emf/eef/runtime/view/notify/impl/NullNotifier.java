@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.view.notify.impl;
 
+import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 
@@ -11,7 +13,15 @@ import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
  * 
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  */
-public class NullNotifier implements EEFNotifier {
+public class NullNotifier extends AbstractEEFComponent implements EEFNotifier, DefaultService {
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
+	 */
+	public boolean serviceFor(Object element) {
+		return true;
+	}
 
 	/**
 	 * {@inheritDoc}

@@ -9,7 +9,6 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
-import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -37,11 +36,6 @@ public interface ViewHandler<T> {
 	 */
 	boolean canHandle(Object editor);
 	
-	/**
-	 * @return the {@link EEFNotifier} managing the view.
-	 */
-	EEFNotifier getNotifier();
- 
 	/**
 	 * @return the {@link EEFLockManager} managing the view.
 	 */

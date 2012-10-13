@@ -16,7 +16,6 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
@@ -37,17 +36,8 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFCompo
 	private List<PropertiesEditingModel> editingModels;
 	private EditingModelEnvironment editingModelEnvironment;
 	
-	private EEFComponentRegistry componentRegistry;
 	private ModelChangesNotificationManager notificationManager;
 	
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
-	 */
-	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
-		this.componentRegistry = componentRegistry;
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#setNotificationManager(ModelChangesNotificationManager)

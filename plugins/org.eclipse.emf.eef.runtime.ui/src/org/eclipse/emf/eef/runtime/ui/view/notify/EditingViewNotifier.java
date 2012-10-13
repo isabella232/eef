@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.view.notify;
 import java.util.Map;
 
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
@@ -23,12 +24,20 @@ import com.google.common.collect.Maps;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public final class EditingViewNotifier implements EEFNotifier {
+public final class EditingViewNotifier extends AbstractEEFComponent implements EEFNotifier {
 
 	private Map<PropertiesEditingView, DecorationSettings> decorationSettings;
 	
 	public EditingViewNotifier() {
 		decorationSettings = Maps.newHashMap();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
+	 */
+	public boolean serviceFor(Object element) {
+		return element instanceof PropertiesEditingView;
 	}
 
 	/**

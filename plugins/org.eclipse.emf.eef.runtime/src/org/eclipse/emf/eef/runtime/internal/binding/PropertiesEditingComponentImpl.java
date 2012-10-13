@@ -34,6 +34,7 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedNotification;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedPropertyNotification;
 import org.osgi.service.event.Event;
@@ -325,16 +326,25 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 				notification = new ValidationBasedNotification(valueDiagnostic);
 			}
 			for (ViewHandler<?> viewHandler : revelantHandlers) {
-				viewHandler.getNotifier().notify(viewHandler.getView(), notification);									
+				EEFNotifier notifier = (EEFNotifier) editingProvider.getComponentRegistry().getService(EEFNotifier.class, viewHandler.getView());
+				if (notifier != null) {
+					notifier.notify(viewHandler.getView(), notification);
+				}
 			}
 		} else {
 			if (notifyEditor) {
 				for (ViewHandler<?> viewHandler : revelantHandlers) {
-					viewHandler.getNotifier().clearEditorNotification(viewHandler.getView(), editingEvent.getAffectedEditor());									
+					EEFNotifier notifier = (EEFNotifier) editingProvider.getComponentRegistry().getService(EEFNotifier.class, viewHandler.getView());
+					if (notifier != null) {
+						notifier.clearEditorNotification(viewHandler.getView(), editingEvent.getAffectedEditor());
+					}
 				}
 			} else {
 				for (ViewHandler<?> viewHandler : revelantHandlers) {
-					viewHandler.getNotifier().clearViewNotification(viewHandler.getView());
+					EEFNotifier notifier = (EEFNotifier) editingProvider.getComponentRegistry().getService(EEFNotifier.class, viewHandler.getView());
+					if (notifier != null) {
+						notifier.clearViewNotification(viewHandler.getView());
+					}
 				}
 			}
 		}
