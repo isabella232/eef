@@ -25,11 +25,10 @@ import com.google.common.collect.Maps;
  */
 public final class EditingViewNotifier implements EEFNotifier {
 
-	private Map<Object, ControlDecoration> decorations;
-	private ControlDecoration viewDecoration;
-
+	private Map<PropertiesEditingView, DecorationSettings> decorationSettings;
+	
 	public EditingViewNotifier() {
-		decorations = Maps.newHashMap();
+		decorationSettings = Maps.newHashMap();
 	}
 
 	/**
@@ -71,6 +70,18 @@ public final class EditingViewNotifier implements EEFNotifier {
 		}
 	}
 
+	private static class DecorationSettings {
+		
+		private Map<Object, ControlDecoration> decorations;
+		private ControlDecoration viewDecoration;
+		
+		public DecorationSettings() {
+			this.decorations = Maps.newHashMap();
+			this.viewDecoration = null;
+		}
+		
+	}
+	
 	private class AbstractAddDecoration {
 		
 		protected PropertiesEditingView view;
@@ -118,9 +129,13 @@ public final class EditingViewNotifier implements EEFNotifier {
 				final Control control = propertyEditor.getPropertyEditorViewer().getViewer().getControl();
 				ControlDecoration decoration = decorateControl(control, notification);
 				if (decoration != null) {
-					decorations.put(editor, decoration);
+					DecorationSettings settings = decorationSettings.get(view);
+					if (settings == null) {
+						settings = new DecorationSettings();
+						decorationSettings.put(view, settings);
+					}
+					settings.decorations.put(editor, decoration);
 				}
-				control.setEnabled(false);
 			}
 		}
 
@@ -145,7 +160,12 @@ public final class EditingViewNotifier implements EEFNotifier {
 				PropertiesEditingMessageManager messageManager = options.getMessageManager();
 				messageManager.processMessage(notification);
 			} else {
-				viewDecoration = decorateControl(view.getContents(), notification);
+				DecorationSettings settings = decorationSettings.get(view);
+				if (settings == null) {
+					settings = new DecorationSettings();
+					decorationSettings.put(view, settings);
+				}
+				settings.viewDecoration = decorateControl(view.getContents(), notification);
 			}
 		}
 
@@ -166,9 +186,10 @@ public final class EditingViewNotifier implements EEFNotifier {
 		 * @see java.lang.Runnable#run()
 		 */
 		public void run() {
-			if (decorations.get(editor) != null) {
-				decorations.get(editor).dispose();
-				decorations.remove(editor);
+			DecorationSettings settings = decorationSettings.get(view);
+			if (settings != null && settings.decorations.get(editor) != null) {
+				settings.decorations.get(editor).dispose();
+				settings.decorations.remove(editor);
 				view.getPropertyEditor(editor).getPropertyEditorViewer().getViewer().getControl().getParent().redraw();
 			}
 		}
@@ -192,8 +213,9 @@ public final class EditingViewNotifier implements EEFNotifier {
 				PropertiesEditingMessageManager messageManager = options.getMessageManager();
 				messageManager.clearMessage();
 			} else {
-				if (viewDecoration != null) {
-					viewDecoration.dispose();
+				DecorationSettings settings = decorationSettings.get(view);
+				if (settings != null && settings.viewDecoration != null) {
+					settings.viewDecoration.dispose();
 					view.getContents().getParent().redraw();
 				}
 			}

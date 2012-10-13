@@ -137,6 +137,7 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	 */
 	public void dispose() {
 		editingComponent.removeEditingListener(this);
+		//TODO: dispose View from Notify Service
 	}
 
 	/**
