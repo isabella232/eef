@@ -45,10 +45,8 @@ import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl;
-import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceRegistryImpl;
 import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
-import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
@@ -168,14 +166,6 @@ public class EEFTestEnvironment {
 
 	/**
 	 * @return
-	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getViewServiceRegistry()
-	 */
-	public ViewServiceRegistry getViewServiceRegistry() {
-		return builder.getViewServiceRegistry();
-	}
-
-	/**
-	 * @return
 	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getModelChangesNotificationManager()
 	 */
 	public ModelChangesNotificationManager getModelChangesNotificationManager() {
@@ -215,7 +205,6 @@ public class EEFTestEnvironment {
 
 		private Collection<ToolkitPropertyEditorProvider> editorProviders;
 		private Collection<ViewService> viewServices;
-		private ViewServiceRegistry viewServiceRegistry;
 
 		private PropertiesEditingContextFactory editingContextFactory;
 		private PropertiesEditingContext editingContext;
@@ -232,7 +221,6 @@ public class EEFTestEnvironment {
 			notificationManager = null;
 			editorProviders = null;
 			viewServices = null;
-			viewServiceRegistry = null;
 			editingContextFactory = null;
 			editingContext = null;
 		}
@@ -312,13 +300,6 @@ public class EEFTestEnvironment {
 				viewServices = createViewServices();
 			}
 			return viewServices;
-		}
-
-		public ViewServiceRegistry getViewServiceRegistry() {
-			if (viewServiceRegistry == null) {
-				viewServiceRegistry = createViewServiceRegistry();
-			}
-			return viewServiceRegistry;
 		}
 
 		public ModelChangesNotificationManager getModelChangesNotificationManager() {
@@ -422,13 +403,6 @@ public class EEFTestEnvironment {
 		 */
 		public Builder setViewServices(Collection<ViewService> viewServices) {
 			this.viewServices = viewServices;
-			return this;
-		}
-		/**
-		 * @param viewServiceRegistry the viewServiceRegistry to set
-		 */
-		public Builder setViewServiceRegistry(ViewServiceRegistry viewServiceRegistry) {
-			this.viewServiceRegistry = viewServiceRegistry;
 			return this;
 		}
 
@@ -657,6 +631,11 @@ public class EEFTestEnvironment {
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, emfService.getClass().getName());
 					componentRegistry.addComponent(emfService, properties);
 				}
+				for (ViewService service : getViewServices()) {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, service.getClass().getName());
+					componentRegistry.addComponent(service, properties);			
+				}
 				for (ToolkitPropertyEditorProvider provider : getEditorProviders()) {
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
@@ -710,7 +689,6 @@ public class EEFTestEnvironment {
 					}
 					
 				};
-				handler.setViewServiceRegistry(getViewServiceRegistry());
 				componentRegistry.addComponent(handler, properties);
 			} catch (PriorityCircularityException e) {
 				//TODO: can't happen!
@@ -763,16 +741,21 @@ public class EEFTestEnvironment {
 
 		public Collection<ViewService> createViewServices() {
 			List<ViewService> result = new ArrayList<ViewService>();
-			result.add(new ViewServiceImpl());
-			return result;
-		}
+			result.add(new ViewServiceImpl() {
 
-		public ViewServiceRegistry createViewServiceRegistry() {
-			ViewServiceRegistryImpl viewServiceRegistry = new ViewServiceRegistryImpl();
-			for (ViewService service : getViewServices()) {
-				viewServiceRegistry.addService(service);			
-			}
-			return viewServiceRegistry;
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(ViewService.class.getName());
+					return result;
+				}
+				
+			});
+			return result;
 		}
 
 		public ModelChangesNotificationManager createNotificationManager() {

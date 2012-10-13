@@ -18,5 +18,6 @@ Import-Package: org.eclipse.emf.codegen.ecore.genmodel,
  org.eclipse.emf.edit.command,
  org.eclipse.emf.edit.domain,
  org.eclipse.emf.edit.provider,
+ org.eclipse.ui.forms,
  org.osgi.service.component,
  org.osgi.service.event

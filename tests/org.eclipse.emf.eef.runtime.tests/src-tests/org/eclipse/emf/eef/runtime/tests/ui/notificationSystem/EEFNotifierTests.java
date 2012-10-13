@@ -26,6 +26,7 @@ import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
@@ -72,6 +73,11 @@ public class EEFNotifierTests extends UIEditingTestCase {
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, emfService.getClass().getName());
 				componentRegistry.addComponent(emfService, properties);
+			}
+			for (ViewService service : builder.getViewServices()) {
+				Map<String, String> properties = new HashMap<String, String>();
+				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, service.getClass().getName());
+				componentRegistry.addComponent(service, properties);			
 			}
 			for (ToolkitPropertyEditorProvider provider : builder.getEditorProviders()) {
 				Map<String, String> properties = new HashMap<String, String>();
@@ -157,7 +163,6 @@ public class EEFNotifierTests extends UIEditingTestCase {
 				}
 				
 			};
-			handler.setViewServiceRegistry(builder.getViewServiceRegistry());
 			componentRegistry.addComponent(handler, properties);
 		} catch (PriorityCircularityException e) {
 			//TODO: can't happen!

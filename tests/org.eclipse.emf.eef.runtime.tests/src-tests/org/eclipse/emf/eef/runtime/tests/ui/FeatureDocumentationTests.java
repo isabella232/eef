@@ -32,7 +32,6 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
-import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewsFactory;
@@ -65,8 +64,7 @@ public class FeatureDocumentationTests {
 	public void testEcoreDocumentation() {
 		EEFTestEnvironment env = buildEcoreSampleEditingContext();
 		PropertiesEditingComponent editingComponent = env.getEditingContext().getEditingComponent();
-		ViewServiceRegistry viewServiceRegistry = env.getViewServiceRegistry();
-		ViewService viewService = viewServiceRegistry.getServiceForView(eclassView);
+		ViewService viewService = (ViewService) env.getComponentRegistry().getService(ViewService.class, eclassView);
 		viewService.setEditingComponent(editingComponent);
 		assertSame("Invalid documentation", ECORE_DOCUMENTATION, viewService.getHelpContent(nameEditor));
 	}
@@ -113,8 +111,7 @@ public class FeatureDocumentationTests {
 	public void testGenmodelDocumentation() {
 		EEFTestEnvironment testenv = buildGenmodelEditingContext();
 		PropertiesEditingComponent editingComponent = testenv.getEditingContext().getEditingComponent();
-		ViewServiceRegistry viewServiceRegistry = testenv.getViewServiceRegistry();
-		ViewService viewService = viewServiceRegistry.getServiceForView(eclassView);
+		ViewService viewService = (ViewService) testenv.getComponentRegistry().getService(ViewService.class, eclassView);
 		viewService.setEditingComponent(editingComponent);
 		String helpContent = viewService.getHelpContent(nameEditor);
 		EditingModelEnvironment env = editingComponent.getEditingModelEnvironment();
