@@ -113,7 +113,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 			return new NullNotifier();
 		} else {
 			if (notifier == null) {
-				this.notifier = new EditingViewNotifier(view); 
+				this.notifier = new EditingViewNotifier(); 
 			}
 			return notifier; 
 		}

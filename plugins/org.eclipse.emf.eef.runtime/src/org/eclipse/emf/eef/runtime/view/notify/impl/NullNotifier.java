@@ -15,26 +15,28 @@ public class NullNotifier implements EEFNotifier {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#notify(org.eclipse.emf.eef.runtime.view.notify.EEFNotification)
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#notify(java.lang.Object, org.eclipse.emf.eef.runtime.view.notify.EEFNotification)
 	 */
-	public void notify(EEFNotification notification) {
+	public void notify(Object view, EEFNotification notification) {
 		// Do nothing
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearViewNotification()
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearViewNotification(java.lang.Object)
 	 */
-	public void clearViewNotification() {
-		// Do nothing
+	public void clearViewNotification(Object view) {
+		// Do nothing		
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearEditorNotification(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearEditorNotification(java.lang.Object, java.lang.Object)
 	 */
-	public void clearEditorNotification(Object editor) {
+	public void clearEditorNotification(Object view, Object editor) {
 		// Do nothing
 	}
 
+
+	
 }

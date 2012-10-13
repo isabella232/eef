@@ -322,16 +322,16 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 				notification = new ValidationBasedNotification(valueDiagnostic);
 			}
 			for (ViewHandler<?> viewHandler : revelantHandlers) {
-				viewHandler.getNotifier().notify(notification);									
+				viewHandler.getNotifier().notify(viewHandler.getView(), notification);									
 			}
 		} else {
 			if (notifyEditor) {
 				for (ViewHandler<?> viewHandler : revelantHandlers) {
-					viewHandler.getNotifier().clearEditorNotification(editingEvent.getAffectedEditor());									
+					viewHandler.getNotifier().clearEditorNotification(viewHandler.getView(), editingEvent.getAffectedEditor());									
 				}
 			} else {
 				for (ViewHandler<?> viewHandler : revelantHandlers) {
-					viewHandler.getNotifier().clearViewNotification();									
+					viewHandler.getNotifier().clearViewNotification(viewHandler.getView());
 				}
 			}
 		}

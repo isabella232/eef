@@ -25,49 +25,59 @@ import com.google.common.collect.Maps;
  */
 public final class EditingViewNotifier implements EEFNotifier {
 
-	private PropertiesEditingView view;
 	private Map<Object, ControlDecoration> decorations;
 	private ControlDecoration viewDecoration;
 
-	/**
-	 * @param view
-	 */
-	public EditingViewNotifier(PropertiesEditingView view) {
-		this.view = view;
+	public EditingViewNotifier() {
 		decorations = Maps.newHashMap();
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#notify(org.eclipse.emf.eef.runtime.view.notify.EEFNotification)
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#notify(java.lang.Object, org.eclipse.emf.eef.runtime.view.notify.EEFNotification)
 	 */
-	public void notify(final EEFNotification notification) {
-		if (notification instanceof EEFPropertyNotification) {
-			view.getViewService().executeUIRunnable(new AddDecorationOnEditor((EEFPropertyNotification) notification));
-		} else {
-			view.getViewService().executeUIRunnable(new AddDecorationOnView(notification));
+	public void notify(Object view, final EEFNotification notification) {
+		if (view instanceof PropertiesEditingView) {
+			PropertiesEditingView editingView = (PropertiesEditingView) view;
+			if (notification instanceof EEFPropertyNotification) {
+				editingView.getViewService().executeUIRunnable(new AddDecorationOnEditor(editingView, (EEFPropertyNotification) notification));
+			} else {
+				editingView.getViewService().executeUIRunnable(new AddDecorationOnView(editingView, notification));
+			}
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearViewNotification()
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearViewNotification(java.lang.Object)
 	 */
-	public void clearViewNotification() {
-		view.getViewService().executeUIRunnable(new RemoveDecorationOnView());
+	public void clearViewNotification(Object view) {
+		if (view instanceof PropertiesEditingView) {
+			PropertiesEditingView editingView = (PropertiesEditingView) view;
+			editingView.getViewService().executeUIRunnable(new RemoveDecorationOnView(editingView));
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearEditorNotification(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearEditorNotification(java.lang.Object, java.lang.Object)
 	 */
-	public void clearEditorNotification(Object editor) {
-		if (editor instanceof ViewElement) {
-			view.getViewService().executeUIRunnable(new RemoveDecorationOnEditor((ViewElement) editor));
+	public void clearEditorNotification(Object view, Object editor) {
+		if (view instanceof PropertiesEditingView) {
+			PropertiesEditingView editingView = (PropertiesEditingView) view;
+			if (editor instanceof ViewElement) {
+				editingView.getViewService().executeUIRunnable(new RemoveDecorationOnEditor(editingView, (ViewElement) editor));
+			}
 		}
 	}
 
 	private class AbstractAddDecoration {
+		
+		protected PropertiesEditingView view;
+		
+		public AbstractAddDecoration(PropertiesEditingView view) {
+			this.view = view;
+		}
 
 		protected ControlDecoration decorateControl(final Control control, final EEFNotification notification) {
 			ControlDecoration decoration = null;
@@ -92,7 +102,8 @@ public final class EditingViewNotifier implements EEFNotifier {
 
 		private EEFPropertyNotification notification;
 
-		public AddDecorationOnEditor(EEFPropertyNotification notification) {
+		public AddDecorationOnEditor(PropertiesEditingView editingView, EEFPropertyNotification notification) {
+			super(editingView);
 			this.notification = notification;
 		}
 
@@ -119,7 +130,8 @@ public final class EditingViewNotifier implements EEFNotifier {
 
 		private EEFNotification notification;
 
-		public AddDecorationOnView(EEFNotification notification) {
+		public AddDecorationOnView(PropertiesEditingView editingView, EEFNotification notification) {
+			super(editingView);
 			this.notification = notification;
 		}
 
@@ -140,10 +152,12 @@ public final class EditingViewNotifier implements EEFNotifier {
 	}
 
 	private final class RemoveDecorationOnEditor implements Runnable {
-
+		
+		private PropertiesEditingView view;
 		private ViewElement editor;
 
-		public RemoveDecorationOnEditor(ViewElement editor) {
+		public RemoveDecorationOnEditor(PropertiesEditingView editingView, ViewElement editor) {
+			this.view = editingView;
 			this.editor = editor;
 		}
 
@@ -161,6 +175,12 @@ public final class EditingViewNotifier implements EEFNotifier {
 	}
 
 	private final class RemoveDecorationOnView implements Runnable {
+
+		private PropertiesEditingView view;
+		
+		public RemoveDecorationOnView(PropertiesEditingView editingView) {
+			this.view = editingView;
+		}
 
 		/**
 		 * {@inheritDoc}
