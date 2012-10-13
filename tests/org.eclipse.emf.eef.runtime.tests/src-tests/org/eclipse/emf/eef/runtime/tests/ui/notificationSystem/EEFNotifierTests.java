@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
@@ -80,6 +81,11 @@ public class EEFNotifierTests extends UIEditingTestCase {
 				componentRegistry.addComponent(service, properties);			
 			}
 			for (ToolkitPropertyEditorProvider provider : builder.getEditorProviders()) {
+				Map<String, String> properties = new HashMap<String, String>();
+				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
+				componentRegistry.addComponent(provider, properties);
+			}
+			for (PropertiesEditingProvider provider : builder.getEditingProviders()) {			
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
 				componentRegistry.addComponent(provider, properties);

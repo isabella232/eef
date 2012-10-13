@@ -9,7 +9,6 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 
 /**
@@ -55,19 +54,6 @@ public interface PropertiesEditingContextFactory {
 	 */
 	void unsetComponentRegistry(EEFComponentRegistry componentRegistry);
 	
-	/**
-	 * Defines the {@link PropertiesEditingProviderRegistry} to use in the {@link PropertiesEditingContext} created by this factory
-	 * @param propertiesEditingProviderRegistry {@link PropertiesEditingProviderRegistry} to use.
-	 * TODO: Useless injection, the PropertiesEditingContextFactory can inject this for me!
-	 */
-	void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry);
-	
-	/**
-	 * Unsets the {@link PropertiesEditingProviderRegistry} to use in the {@link PropertiesEditingContext} created by this factory
-	 * @param propertiesEditingProviderRegistry {@link PropertiesEditingProviderRegistry} to use.
-	 */
-	void unsetPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry);
-
 	/**
 	 * Defines the {@link ModelChangesNotificationManager} to uses in the current {@link PropertiesEditingContextFactory}.
 	 * @param notificationManager the {@link ModelChangesNotificationManager} to set.

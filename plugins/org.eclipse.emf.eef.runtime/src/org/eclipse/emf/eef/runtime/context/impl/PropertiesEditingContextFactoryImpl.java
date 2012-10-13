@@ -11,7 +11,6 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -20,7 +19,6 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 public class PropertiesEditingContextFactoryImpl implements PropertiesEditingContextFactory {
 
 	private EEFComponentRegistry componentRegistry;
-	private PropertiesEditingProviderRegistry propertiesEditingProviderRegistry;
 	private ModelChangesNotificationManager notificationManager;
 
 	/**
@@ -41,24 +39,6 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setPropertiesEditingProviderRegistry(org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry)
-	 */
-	public void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry) {
-		this.propertiesEditingProviderRegistry = propertiesEditingProviderRegistry;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetPropertiesEditingProviderRegistry(org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry)
-	 */
-	public void unsetPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry) {
-		if (propertiesEditingProviderRegistry == this.propertiesEditingProviderRegistry) {
-			this.propertiesEditingProviderRegistry = null;
-		}
-	}
-	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setNotificationManager(org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager)
@@ -109,7 +89,6 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 
 	private void configureEditingContext(PropertiesEditingContext context) {
 		context.setEEFComponentRegistry(componentRegistry);
-		context.setPropertiesEditingProviderRegistry(propertiesEditingProviderRegistry);
 		context.setNotificationManager(notificationManager);
 	}
 

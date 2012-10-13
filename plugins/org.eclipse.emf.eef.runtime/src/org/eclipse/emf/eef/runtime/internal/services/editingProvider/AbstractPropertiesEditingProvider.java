@@ -19,6 +19,7 @@ import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 
 import com.google.common.base.Function;
@@ -31,7 +32,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class AbstractPropertiesEditingProvider implements PropertiesEditingProvider {
+public abstract class AbstractPropertiesEditingProvider extends AbstractEEFComponent implements PropertiesEditingProvider {
 
 	private List<PropertiesEditingModel> editingModels;
 	private EditingModelEnvironment editingModelEnvironment;
@@ -61,6 +62,19 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	 */
 	public ViewHandlerProvider getViewHandlerProvider(Object view) {
 		return (ViewHandlerProvider) componentRegistry.getService(ViewHandlerProvider.class, view);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+	 */
+	public Collection<String> providedServices() {
+		Collection<String> providedServices = super.providedServices();
+		if (providedServices == null || providedServices.isEmpty()) {
+			return Lists.newArrayList(PropertiesEditingProvider.class.getName());
+		} else {
+			return providedServices;
+		}
 	}
 
 	/**

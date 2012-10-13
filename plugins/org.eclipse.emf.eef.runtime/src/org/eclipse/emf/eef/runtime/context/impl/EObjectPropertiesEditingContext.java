@@ -15,7 +15,7 @@ import org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EMFEditAware
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
+import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry;
 import org.eclipse.emf.eef.runtime.view.lock.policies.impl.EEFLockPolicyRegistryImpl;
@@ -31,9 +31,8 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	protected ContextOptions options;
 	private EEFLockPolicyRegistry lockPolicyRegistry;
 	
-	private PropertiesEditingProviderRegistry propertiesEditingProviderRegistry;
 	private EditingRecorder editingRecorder;
-	private EEFComponentRegistry emfServiceProvider;
+	private EEFComponentRegistry componentRegistry;
 	private ModelChangesNotificationManager notificationManager;
 
 	private PropertiesEditingComponent component;
@@ -64,17 +63,9 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setEEFComponentRegistry(EMFServiceProvider)
 	 */
 	public void setEEFComponentRegistry(EEFComponentRegistry emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
+		this.componentRegistry = emfServiceProvider;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry)
-	 */
-	public void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry) {
-		this.propertiesEditingProviderRegistry = propertiesEditingProviderRegistry;
-	}
-	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setNotificationManager(ModelChangesNotificationManager)
@@ -104,7 +95,9 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	public PropertiesEditingComponent getEditingComponent() {
 		if (component == null) {
 			notificationManager.initModelChangesNotifierIfNeeded(eObject);
-			component = propertiesEditingProviderRegistry.getPropertiesEditingProvider(eObject.eClass().getEPackage()).createComponent(eObject);
+			PropertiesEditingProvider provider = (PropertiesEditingProvider) componentRegistry.getService(PropertiesEditingProvider.class, eObject.eClass().getEPackage());
+			provider.setNotificationManager(notificationManager);
+			component = provider.createComponent(eObject);
 			component.setEditingContext(this);
 		}
 		return component;
@@ -124,7 +117,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public EMFService getEMFService() {
 		if (getEditingComponent() != null) {
-			return (EMFService) emfServiceProvider.getService(EMFService.class, getEditingComponent().getEObject().eClass().getEPackage());
+			return (EMFService) componentRegistry.getService(EMFService.class, getEditingComponent().getEObject().eClass().getEPackage());
 		}
 		return null;
 	}

@@ -5,7 +5,6 @@ package org.eclipse.emf.eef.runtime.services.impl;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Dictionary;
 
 import org.eclipse.emf.eef.runtime.services.EEFComponent;

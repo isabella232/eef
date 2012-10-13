@@ -30,13 +30,11 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.impl.PropertiesEditingContextFactoryImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.internal.services.editingProvider.PropertiesEditingProviderRegistryImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
@@ -142,14 +140,6 @@ public class EEFTestEnvironment {
 
 	/**
 	 * @return
-	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getEditingProviderRegistry()
-	 */
-	public PropertiesEditingProviderRegistry getEditingProviderRegistry() {
-		return builder.getEditingProviderRegistry();
-	}
-
-	/**
-	 * @return
 	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getEditorProviders()
 	 */
 	public Collection<ToolkitPropertyEditorProvider> getEditorProviders() {
@@ -200,7 +190,6 @@ public class EEFTestEnvironment {
 		private Collection<EMFService> emfServices;
 		private EEFComponentRegistry componentRegistry;
 		private Collection<PropertiesEditingProvider> editingProviders;
-		private PropertiesEditingProviderRegistry editingProviderRegistry;
 		private ModelChangesNotificationManager notificationManager;
 
 		private Collection<ToolkitPropertyEditorProvider> editorProviders;
@@ -217,7 +206,6 @@ public class EEFTestEnvironment {
 			emfServices = null;
 			componentRegistry = null;
 			editingProviders = null;
-			editingProviderRegistry = null;
 			notificationManager = null;
 			editorProviders = null;
 			viewServices = null;
@@ -279,13 +267,6 @@ public class EEFTestEnvironment {
 				componentRegistry = createComponentRegistry();
 			}
 			return componentRegistry;
-		}
-
-		public PropertiesEditingProviderRegistry getEditingProviderRegistry() {
-			if (editingProviderRegistry == null) {
-				editingProviderRegistry = createPropertiesEditingProviderRegistry();  
-			}
-			return editingProviderRegistry;
 		}
 
 		public Collection<ToolkitPropertyEditorProvider> getEditorProviders() {
@@ -376,13 +357,7 @@ public class EEFTestEnvironment {
 			this.editingProviders = editingProviders;
 			return this;
 		}
-		/**
-		 * @param editingProviderRegistry the editingProviderRegistry to set
-		 */
-		public Builder setEditingProviderRegistry(PropertiesEditingProviderRegistry editingProviderRegistry) {
-			this.editingProviderRegistry = editingProviderRegistry;
-			return this;
-		}
+
 		/**
 		 * @param notificationManager the notificationManager to set
 		 */
@@ -598,6 +573,17 @@ public class EEFTestEnvironment {
 					return Builder.this.getEditingModel();
 				}
 
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(PropertiesEditingProvider.class.getName());
+					return result;
+				}
+
 
 			};
 			result.add(editingProvider);
@@ -637,6 +623,11 @@ public class EEFTestEnvironment {
 					componentRegistry.addComponent(service, properties);			
 				}
 				for (ToolkitPropertyEditorProvider provider : getEditorProviders()) {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
+					componentRegistry.addComponent(provider, properties);
+				}
+				for (PropertiesEditingProvider provider : getEditingProviders()) {			
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
 					componentRegistry.addComponent(provider, properties);
@@ -694,16 +685,6 @@ public class EEFTestEnvironment {
 				//TODO: can't happen!
 			}
 			return componentRegistry;
-		}
-
-		public PropertiesEditingProviderRegistry createPropertiesEditingProviderRegistry() {
-			PropertiesEditingProviderRegistryImpl registry = new PropertiesEditingProviderRegistryImpl();
-			registry.setComponentRegistry(getComponentRegistry());
-			registry.setModelChangesNotificationManager(getModelChangesNotificationManager());
-			for (PropertiesEditingProvider provider : getEditingProviders()) {			
-				registry.addService(provider);
-			}
-			return registry;
 		}
 
 		public Collection<ToolkitPropertyEditorProvider> createEditorProviders() {
@@ -764,7 +745,6 @@ public class EEFTestEnvironment {
 
 		public PropertiesEditingContextFactory createPropertiesEditingContextFactory() {
 			PropertiesEditingContextFactory factory = new PropertiesEditingContextFactoryImpl();
-			factory.setPropertiesEditingProviderRegistry(getEditingProviderRegistry());
 			factory.setComponentRegistry(getComponentRegistry());
 			factory.setNotificationManager(getModelChangesNotificationManager());
 			return factory;

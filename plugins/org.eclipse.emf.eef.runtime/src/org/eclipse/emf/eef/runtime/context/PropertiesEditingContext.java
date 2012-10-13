@@ -9,7 +9,6 @@ import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry;
@@ -26,12 +25,6 @@ public interface PropertiesEditingContext {
 	 */
 	void setEEFComponentRegistry(EEFComponentRegistry componentRegistry);
 	
-	/**
-	 * Defines the {@link PropertiesEditingProviderRegistry} to use in the current {@link PropertiesEditingContext}.
-	 * @param propertiesEditingProviderRegistry the {@link PropertiesEditingProviderRegistry} to use.
-	 */
-	void setPropertiesEditingProviderRegistry(PropertiesEditingProviderRegistry propertiesEditingProviderRegistry);
-
 	/**
 	 * Defines the {@link ModelChangesNotificationManager} to uses in the current {@link PropertiesEditingContext}
 	 * @param notificationManager the {@link ModelChangesNotificationManager} to set.
