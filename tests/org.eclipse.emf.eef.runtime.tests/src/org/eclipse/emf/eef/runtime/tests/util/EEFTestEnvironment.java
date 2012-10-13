@@ -40,11 +40,13 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl;
 import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceRegistryImpl;
+import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
@@ -662,13 +664,52 @@ public class EEFTestEnvironment {
 				}
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(COMPONENT_NAME_KEY, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
-				componentRegistry.addComponent(new ReflectViewHandlerProvider(), properties);
+				componentRegistry.addComponent(new ReflectViewHandlerProvider() {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+					 */
+					@Override
+					public Collection<String> providedServices() {
+						List<String> result = new ArrayList<String>();
+						result.add(ViewHandlerProvider.class.getName());
+						return result;
+					}
+					
+				}, properties);
 				properties.put(COMPONENT_NAME_KEY, SWT_VIEW_HANDLER_PROVIDER_NAME);
 				properties.put(PRIORITY_OVER_KEY, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
-				componentRegistry.addComponent(new SWTViewHandlerProvider(), properties);
+				componentRegistry.addComponent(new SWTViewHandlerProvider() {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+					 */
+					@Override
+					public Collection<String> providedServices() {
+						List<String> result = new ArrayList<String>();
+						result.add(ViewHandlerProvider.class.getName());
+						return result;
+					}
+					
+				}, properties);
 				properties.put(COMPONENT_NAME_KEY, PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME);
 				properties.put(PRIORITY_OVER_KEY, SWT_VIEW_HANDLER_PROVIDER_NAME);
-				PropertiesEditingViewHandlerProvider handler = new PropertiesEditingViewHandlerProvider();
+				PropertiesEditingViewHandlerProvider handler = new PropertiesEditingViewHandlerProvider() {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+					 */
+					@Override
+					public Collection<String> providedServices() {
+						List<String> result = new ArrayList<String>();
+						result.add(ViewHandlerProvider.class.getName());
+						return result;
+					}
+					
+				};
 				handler.setViewServiceRegistry(getViewServiceRegistry());
 				componentRegistry.addComponent(handler, properties);
 			} catch (PriorityCircularityException e) {
@@ -689,8 +730,34 @@ public class EEFTestEnvironment {
 
 		public Collection<ToolkitPropertyEditorProvider> createEditorProviders() {
 			List<ToolkitPropertyEditorProvider> result = new ArrayList<ToolkitPropertyEditorProvider>();
-			result.add(new SWTToolkit());
-			result.add(new EMFPropertiesToolkit());		
+			result.add(new SWTToolkit() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(PropertyEditorProvider.class.getName());
+					return result;
+				}
+				
+			});
+			result.add(new EMFPropertiesToolkit() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(PropertyEditorProvider.class.getName());
+					return result;
+				}
+				
+			});		
 			return result;
 		}
 

@@ -20,14 +20,12 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.internal.services.viewhandler.ViewHandlerProviderRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
@@ -69,9 +67,7 @@ public class EEFServiceRegistriesTests {
 	@Test
 	public void testOrderedEEFServiceRegistrySelection() {
 		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
-		ViewHandlerProviderRegistry registry = env.getViewHandlerProviderRegistry();
-		assertTrue("Bad type of ViewHandlerProviderRegistry.", registry instanceof ViewHandlerProviderRegistryImpl);
-		ViewHandlerProviderRegistryImpl vhpRegistry = (ViewHandlerProviderRegistryImpl) registry;
+		EEFComponentRegistry vhpRegistry = env.getComponentRegistry();
 		String component1 = "component1";
 		String component2 = "component2";
 		String component3 = "component3";
@@ -93,7 +89,7 @@ public class EEFServiceRegistriesTests {
 		addToRegistry(vhpRegistry, component8, obj2, component4);		
 		
 		addToRegistry(vhpRegistry, component5, obj1);
-		ViewHandlerProvider viewHandlerProvider = vhpRegistry.getViewHandlerProvider(obj1);
+		ViewHandlerProvider viewHandlerProvider = (ViewHandlerProvider) vhpRegistry.getService(ViewHandlerProvider.class, obj1);
 		assertTrue("Bad comparison algorithm.", viewHandlerProvider == result1 || viewHandlerProvider == result2);
 		
 	}
@@ -101,9 +97,7 @@ public class EEFServiceRegistriesTests {
 	@Test
 	public void testOrderedEEFServiceRegistryNonCircularity() {
 		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
-		ViewHandlerProviderRegistry registry = env.getViewHandlerProviderRegistry();
-		assertTrue("Bad type of ViewHandlerProviderRegistry.", registry instanceof ViewHandlerProviderRegistryImpl);
-		ViewHandlerProviderRegistryImpl vhpRegistry = (ViewHandlerProviderRegistryImpl) registry;
+		EEFComponentRegistry vhpRegistry = env.getComponentRegistry();
 		String component1 = "component1";
 		String component2 = "component2";
 		String component3 = "component3";
@@ -117,7 +111,7 @@ public class EEFServiceRegistriesTests {
 		assertNull("Bad circularity check", result3);		
 	}
 
-	protected ViewHandlerProvider addToRegistry(ViewHandlerProviderRegistryImpl registry, String componentName, final Object obj, final String... priorityOver) {
+	protected ViewHandlerProvider addToRegistry(EEFComponentRegistry registry, String componentName, final Object obj, final String... priorityOver) {
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, componentName);
 		if (priorityOver != null && priorityOver.length > 0) {
@@ -166,7 +160,7 @@ public class EEFServiceRegistriesTests {
 		ViewHandlerProvider handler = new VHPTest(viewHandler, obj);
 		
 		try {
-			registry.addService(handler, properties);
+			registry.addComponent(handler, properties);
 		} catch (PriorityCircularityException e) {
 			return null;
 		}
@@ -174,6 +168,33 @@ public class EEFServiceRegistriesTests {
 	}
 
 	private final class VHPTest implements ViewHandlerProvider {
+		
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
+		 */
+		public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+			
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#getComponentRegistry()
+		 */
+		public EEFComponentRegistry getComponentRegistry() {
+			return null;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#providedServices()
+		 */
+		public Collection<String> providedServices() {
+			List<String> result = new ArrayList<String>();
+			result.add(ViewHandlerProvider.class.getName());
+			return result;
+		}
+
 		private final ViewHandler<Object> viewHandler;
 		private final Object obj;
 
@@ -192,13 +213,30 @@ public class EEFServiceRegistriesTests {
 	}
 
 	private final class CustomEMFService implements EMFService {
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
+		 */
+		public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+			
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#getComponentRegistry()
+		 */
+		public EEFComponentRegistry getComponentRegistry() {
+			return null;
+		}
+
 		/**
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#providedServices()
 		 */
-		public Collection<Class<?>> providedServices() {
-			List<Class<?>> result = new ArrayList<Class<?>>();
-			result.add(EMFService.class);
+		public Collection<String> providedServices() {
+			List<String> result = new ArrayList<String>();
+			result.add(EMFService.class.getName());
 			return result;
 		}
 

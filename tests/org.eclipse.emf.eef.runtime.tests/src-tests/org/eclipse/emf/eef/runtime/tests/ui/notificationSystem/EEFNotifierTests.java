@@ -5,26 +5,32 @@ package org.eclipse.emf.eef.runtime.tests.ui.notificationSystem;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
-import org.eclipse.emf.eef.runtime.internal.services.viewhandler.ViewHandlerProviderRegistryImpl;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
+import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.EEFPropertyNotification;
@@ -47,11 +53,61 @@ public class EEFNotifierTests extends UIEditingTestCase {
 	@Override
 	protected Builder initEnvironmentBuilder() {
 		Builder builder = super.initEnvironmentBuilder();
-		ViewHandlerProviderRegistryImpl registry = (ViewHandlerProviderRegistryImpl) builder.createEmptyViewHandlerProviderRegistry();
-		Map<String, String> properties = new HashMap<String, String>();
-		properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, EEFTestEnvironment.SWT_VIEW_HANDLER_PROVIDER_NAME);
+		builder.setComponentRegistry(createComponentRegistry(builder));
+		builder.setEditingModel(new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
+									.bindClass(EcorePackage.Literals.EREFERENCE)
+										.withView(SampleView.class)
+										.bindProperty(EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND)
+											.withEditor("name")
+									.bindClass(EcorePackage.Literals.ECLASS)
+										.withView(SampleView.class)
+									.build());
+		return builder;
+	}
+
+	public EEFComponentRegistry createComponentRegistry(EEFTestEnvironment.Builder builder) {
+		EEFComponentRegistry componentRegistry = new EEFComponentRegistryImpl();
 		try {
-			registry.addService(new SWTViewHandlerProvider() {
+			for (EMFService emfService : builder.getEMFServices()) {
+				Map<String, String> properties = new HashMap<String, String>();
+				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, emfService.getClass().getName());
+				componentRegistry.addComponent(emfService, properties);
+			}
+			for (ToolkitPropertyEditorProvider provider : builder.getEditorProviders()) {
+				Map<String, String> properties = new HashMap<String, String>();
+				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
+				componentRegistry.addComponent(provider, properties);
+			}
+			Map<String, String> properties = new HashMap<String, String>();
+			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, EEFTestEnvironment.REFLECT_VIEW_HANDLER_PROVIDER_NAME);
+			componentRegistry.addComponent(new ReflectViewHandlerProvider() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(ViewHandlerProvider.class.getName());
+					return result;
+				}
+				
+			}, properties);
+			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, EEFTestEnvironment.SWT_VIEW_HANDLER_PROVIDER_NAME);
+			properties.put(EEFTestEnvironment.PRIORITY_OVER_KEY, EEFTestEnvironment.REFLECT_VIEW_HANDLER_PROVIDER_NAME);
+			componentRegistry.addComponent(new SWTViewHandlerProvider() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(ViewHandlerProvider.class.getName());
+					return result;
+				}
 
 				/**
 				 * {@inheritDoc}
@@ -85,21 +141,31 @@ public class EEFNotifierTests extends UIEditingTestCase {
 				}
 				
 			}, properties);
+			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, EEFTestEnvironment.PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME);
+			properties.put(EEFTestEnvironment.PRIORITY_OVER_KEY, EEFTestEnvironment.SWT_VIEW_HANDLER_PROVIDER_NAME);
+			PropertiesEditingViewHandlerProvider handler = new PropertiesEditingViewHandlerProvider() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(ViewHandlerProvider.class.getName());
+					return result;
+				}
+				
+			};
+			handler.setViewServiceRegistry(builder.getViewServiceRegistry());
+			componentRegistry.addComponent(handler, properties);
 		} catch (PriorityCircularityException e) {
-			fail("Exception during viewhandler definition : " + e.getMessage());
+			//TODO: can't happen!
 		}
-		builder.setViewHandlerProviderRegistry(registry);
-		builder.setEditingModel(new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
-									.bindClass(EcorePackage.Literals.EREFERENCE)
-										.withView(SampleView.class)
-										.bindProperty(EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND)
-											.withEditor("name")
-									.bindClass(EcorePackage.Literals.ECLASS)
-										.withView(SampleView.class)
-									.build());
-		return builder;
+		return componentRegistry;
 	}
 
+	
 	/**
 	 * This test sets a inconvertible string in int value for the lower editor and checks that the {@link TestNotifier} has notified the editor.
 	 * Then, it sets a valid value and check that the editor hasn't notification anymore.
