@@ -44,10 +44,8 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 	public void createContents(FormToolkit toolkit, Composite composite) {
 		contentsComposite = toolkit.createComposite(composite);
 		contentsComposite.setLayout(new GridLayout(3, false));
-		if (propertyEditorProviderRegistry != null) {
-			for (EObject content : viewDescriptor.eContents()) {
-				buildElement(toolkit, contentsComposite, content);
-			}
+		for (EObject content : viewDescriptor.eContents()) {
+			buildElement(toolkit, contentsComposite, content);
 		}
 	}
 
@@ -55,7 +53,7 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;
 			PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
-			PropertyEditorProvider propertyEditorProvider = propertyEditorProviderRegistry.getPropertyEditorProvider(editorContext);
+			PropertyEditorProvider propertyEditorProvider = (PropertyEditorProvider) componentRegistry.getService(PropertyEditorProvider.class, editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
@@ -66,7 +64,7 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
 			PropertyEditorContext editorContext = new PropertyEditorContext(this, container);
-			PropertyEditorProvider propertyEditorProvider = propertyEditorProviderRegistry.getPropertyEditorProvider(editorContext);
+			PropertyEditorProvider propertyEditorProvider = (PropertyEditorProvider) componentRegistry.getService(PropertyEditorProvider.class, editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {

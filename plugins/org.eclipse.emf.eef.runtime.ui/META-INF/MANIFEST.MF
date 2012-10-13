@@ -16,7 +16,6 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
  org.eclipse.emf.eef.runtime.ui.adapters;uses:="org.eclipse.emf.ecore",
  org.eclipse.emf.eef.runtime.ui.commands;uses:="org.eclipse.emf.eef.runtime.context,org.eclipse.emf.common.command",
  org.eclipse.emf.eef.runtime.ui.internal.resources;x-friends:="org.eclipse.emf.eef.runtime.editor",
- org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.impl;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.internal.services.view;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.internal.view.impl;x-friends:="org.eclipse.emf.eef.runtime.tabbed,org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.internal.view.util;x-friends:="org.eclipse.emf.eef.runtime.tabbed",
@@ -150,7 +149,7 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.emf.eef.views,
    org.eclipse.emf.common.notify"
 Bundle-Activator: org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI$Plugin
-Service-Component: OSGI-INF/ViewServiceImpl.xml, OSGI-INF/ViewServiceRegistry.xml, OSGI-INF/StandardDoubleClickFactory.xml, OSGI-INF/PropertiesEditingViewHandlerProvider.xml, OSGI-INF/ReflectViewHandlerProvider.xml, OSGI-INF/SWTViewHandlerProvider.xml, OSGI-INF/SWTToolkit.xml, OSGI-INF/EMFPropertiesToolkit.xml, OSGI-INF/StandardPropertyEditorProviderRegistry.xml
+Service-Component: OSGI-INF/ViewServiceImpl.xml, OSGI-INF/ViewServiceRegistry.xml, OSGI-INF/StandardDoubleClickFactory.xml, OSGI-INF/PropertiesEditingViewHandlerProvider.xml, OSGI-INF/ReflectViewHandlerProvider.xml, OSGI-INF/SWTViewHandlerProvider.xml, OSGI-INF/SWTToolkit.xml, OSGI-INF/EMFPropertiesToolkit.xml
 Import-Package: com.google.common.base;version="10.0.1",
  com.google.common.collect;version="10.0.1",
  org.eclipse.core.commands.common,

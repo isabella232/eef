@@ -39,10 +39,8 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView 
 	public void createContents(Composite composite) {
 		contentsComposite = new Composite(composite, SWT.NONE);
 		contentsComposite.setLayout(new GridLayout(3, false));
-		if (propertyEditorProviderRegistry != null) {
-			for (EObject content : viewDescriptor.eContents()) {
-				buildElement(contentsComposite, content);
-			}
+		for (EObject content : viewDescriptor.eContents()) {
+			buildElement(contentsComposite, content);
 		}
 	}
 
@@ -50,7 +48,7 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView 
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;
 			PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
-			PropertyEditorProvider propertyEditorProvider = propertyEditorProviderRegistry.getPropertyEditorProvider(editorContext);
+			PropertyEditorProvider propertyEditorProvider = (PropertyEditorProvider) componentRegistry.getService(PropertyEditorProvider.class, editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof SWTPropertyEditor) {
@@ -61,7 +59,7 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView 
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
 			PropertyEditorContext editorContext = new PropertyEditorContext(this, container);
-			PropertyEditorProvider propertyEditorProvider = propertyEditorProviderRegistry.getPropertyEditorProvider(editorContext);
+			PropertyEditorProvider propertyEditorProvider = (PropertyEditorProvider) componentRegistry.getService(PropertyEditorProvider.class, editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof SWTPropertyEditor) {

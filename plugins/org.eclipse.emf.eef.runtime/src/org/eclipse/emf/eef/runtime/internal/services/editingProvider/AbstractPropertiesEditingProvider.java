@@ -20,7 +20,6 @@ import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -38,7 +37,6 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	private EditingModelEnvironment editingModelEnvironment;
 	
 	private EEFComponentRegistry componentRegistry;
-	private ViewHandlerProviderRegistry viewHandlerProviderRegistry;
 	private ModelChangesNotificationManager notificationManager;
 	
 	/**
@@ -56,31 +54,13 @@ public abstract class AbstractPropertiesEditingProvider implements PropertiesEdi
 	public void setNotificationManager(ModelChangesNotificationManager notificationManager) {
 		this.notificationManager = notificationManager;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#setViewHandlerProviderRegistry(ViewHandlerProviderRegistry)
-	 */
-	public void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
-		this.viewHandlerProviderRegistry = viewHandlerProviderRegistry;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#unsetViewHandlerProviderRegistry(org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry)
-	 */
-	public void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
-		if (viewHandlerProviderRegistry == this.viewHandlerProviderRegistry) {
-			this.viewHandlerProviderRegistry = null;
-		}
-	}
 	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#getViewHandlerProvider(java.lang.Object)
 	 */
 	public ViewHandlerProvider getViewHandlerProvider(Object view) {
-		return viewHandlerProviderRegistry.getViewHandlerProvider(view);
+		return (ViewHandlerProvider) componentRegistry.getService(ViewHandlerProvider.class, view);
 	}
 
 	/**

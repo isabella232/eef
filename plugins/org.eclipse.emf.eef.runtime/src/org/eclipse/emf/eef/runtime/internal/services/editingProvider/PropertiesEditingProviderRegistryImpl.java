@@ -9,7 +9,6 @@ import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 import org.eclipse.emf.eef.runtime.services.impl.EEFServiceSimpleRegistry;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -18,7 +17,6 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegis
 public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegistry<EPackage, PropertiesEditingProvider> implements PropertiesEditingProviderRegistry {
 
 	private EEFComponentRegistry componentRegistry;
-	private ViewHandlerProviderRegistry viewHandlerProviderRegistry;
 	private ModelChangesNotificationManager notificationManager;
 
 	/**
@@ -36,24 +34,6 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegis
 	public void unsetComponentRegistry(EEFComponentRegistry componentRegistry) {
 		if (componentRegistry == this.componentRegistry) {
 			componentRegistry = null;
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#setViewHandlerProviderRegistry(ViewHandlerProviderRegistry)
-	 */
-	public void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
-		this.viewHandlerProviderRegistry = viewHandlerProviderRegistry;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#unsetViewHandlerProviderRegistry(org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry)
-	 */
-	public void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
-		if (viewHandlerProviderRegistry == this.viewHandlerProviderRegistry) {
-			this.viewHandlerProviderRegistry = null;
 		}
 	}
 
@@ -81,7 +61,6 @@ public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegis
 	 */
 	public synchronized void addService(PropertiesEditingProvider service) {
 		service.setComponentRegistry(componentRegistry);
-		service.setViewHandlerProviderRegistry(viewHandlerProviderRegistry);
 		service.setNotificationManager(notificationManager);
 		super.addService(service);
 	}

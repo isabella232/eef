@@ -28,7 +28,7 @@ import com.google.common.collect.Maps;
  */
 public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry {
 	
-	private Map<Class<?>, EEFServiceStorage<?>> storages;
+	private Map<String, EEFServiceStorage<?>> storages;
 	private BiMap<String, Node> services;
 	
 	public EEFComponentRegistryImpl() {
@@ -44,7 +44,7 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 	public final EEFService<?> getService(Class<?> type, Object element) {
 		List<EEFService<?>> availableProviders = Lists.newArrayList();
 		@SuppressWarnings("rawtypes")
-		EEFServiceStorage storage = storages.get(type);
+		EEFServiceStorage storage = storages.get(type.getName());
 		if (storage != null) {
 			availableProviders = storage.getServicesFor(element);
 		}
@@ -81,13 +81,15 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 						addEdge(newNode, getOrCreateNode(hasPriorityOver));
 
 					}
-					for (Class<?> serviceType : component.providedServices()) {
+					for (String serviceType : component.providedServices()) {
 						EEFServiceStorage storage = storages.get(serviceType);
 						if (storage == null) {
 							storage = new EEFServiceStorage();
 							storages.put(serviceType, storage);
 						}
 						storage.addService(component);
+						component.setComponentRegistry(this);
+						
 					}
 				} else {
 					throw new PriorityCircularityException(component);
@@ -105,7 +107,7 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 	 */
 	public final synchronized void removeComponent(final EEFComponent component) {
 		services.inverse().remove(component);
-		for (Class<?> serviceType : component.providedServices()) {
+		for (String serviceType : component.providedServices()) {
 			@SuppressWarnings("rawtypes")
 			EEFServiceStorage storage = storages.get(serviceType);
 			storage.removeService(component);

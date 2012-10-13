@@ -3,5 +3,6 @@
    <implementation class="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider"/>
+      <provide interface="org.eclipse.emf.eef.runtime.services.EEFComponent"/>
    </service>
 </scr:component>

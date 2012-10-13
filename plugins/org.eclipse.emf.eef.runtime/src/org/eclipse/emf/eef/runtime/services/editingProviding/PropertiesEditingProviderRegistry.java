@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -33,18 +32,6 @@ public interface PropertiesEditingProviderRegistry {
 	 */
 	void unsetComponentRegistry(EEFComponentRegistry componentRegistry);
 	
-	/**
-	 * Defines the {@link ViewHandlerProviderRegistry} to use in the current {@link PropertiesEditingProviderRegistry}.
-	 * @param viewHandlerProviderRegistry the {@link ViewHandlerProviderRegistry} to use.
-	 */
-	void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry);
-	
-	/**
-	 * Unsets the {@link ViewHandlerProviderRegistry} to use in the current {@link PropertiesEditingProviderRegistry}.
-	 * @param viewHandlerProviderRegistry the {@link ViewHandlerProviderRegistry} to unset.
-	 */
-	void unsetViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry);
-
 	/**
 	 * Defines the {@link ModelChangesNotificationManager} to use in the current {@link PropertiesEditingProviderRegistry}.
 	 * @param notificationManager the {@link ModelChangesNotificationManager} to set.

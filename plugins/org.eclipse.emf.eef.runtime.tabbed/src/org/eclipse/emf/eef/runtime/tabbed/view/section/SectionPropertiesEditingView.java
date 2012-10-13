@@ -241,7 +241,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 						control.dispose();
 					}
 				}
-				setPropertyEditorProviderRegistry(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getPropertyEditorProviderRegistry());
+				setComponentRegistry(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getComponentRegistry());
 				createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
 				parentComposite.layout();
 //				if (messageManager != null) {

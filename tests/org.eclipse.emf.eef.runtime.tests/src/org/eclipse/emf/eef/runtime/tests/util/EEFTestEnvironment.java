@@ -32,7 +32,6 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.services.editingProvider.PropertiesEditingProviderRegistryImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
-import org.eclipse.emf.eef.runtime.internal.services.viewhandler.ViewHandlerProviderRegistryImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
@@ -41,20 +40,17 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
-import org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.impl.PropertyEditorProviderRegistryImpl;
 import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl;
 import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceRegistryImpl;
-import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProviderRegistry;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 import org.eclipse.emf.eef.views.Container;
@@ -156,16 +152,8 @@ public class EEFTestEnvironment {
 	 * @return
 	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getEditorProviders()
 	 */
-	public Collection<PropertyEditorProvider> getEditorProviders() {
+	public Collection<ToolkitPropertyEditorProvider> getEditorProviders() {
 		return builder.getEditorProviders();
-	}
-
-	/**
-	 * @return
-	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getEditorProviderRegistry()
-	 */
-	public PropertyEditorProviderRegistry getEditorProviderRegistry() {
-		return builder.getEditorProviderRegistry();
 	}
 
 	/**
@@ -182,14 +170,6 @@ public class EEFTestEnvironment {
 	 */
 	public ViewServiceRegistry getViewServiceRegistry() {
 		return builder.getViewServiceRegistry();
-	}
-
-	/**
-	 * @return
-	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getViewHandlerProviderRegistry()
-	 */
-	public ViewHandlerProviderRegistry getViewHandlerProviderRegistry() {
-		return builder.getViewHandlerProviderRegistry();
 	}
 
 	/**
@@ -231,11 +211,9 @@ public class EEFTestEnvironment {
 		private PropertiesEditingProviderRegistry editingProviderRegistry;
 		private ModelChangesNotificationManager notificationManager;
 
-		private Collection<PropertyEditorProvider> editorProviders;
-		private PropertyEditorProviderRegistry editorProviderRegistry;
+		private Collection<ToolkitPropertyEditorProvider> editorProviders;
 		private Collection<ViewService> viewServices;
 		private ViewServiceRegistry viewServiceRegistry;
-		private ViewHandlerProviderRegistry viewHandlerProviderRegistry;
 
 		private PropertiesEditingContextFactory editingContextFactory;
 		private PropertiesEditingContext editingContext;
@@ -251,10 +229,8 @@ public class EEFTestEnvironment {
 			editingProviderRegistry = null;
 			notificationManager = null;
 			editorProviders = null;
-			editorProviderRegistry = null;
 			viewServices = null;
 			viewServiceRegistry = null;
-			viewHandlerProviderRegistry = null;
 			editingContextFactory = null;
 			editingContext = null;
 		}
@@ -322,18 +298,11 @@ public class EEFTestEnvironment {
 			return editingProviderRegistry;
 		}
 
-		public Collection<PropertyEditorProvider> getEditorProviders() {
+		public Collection<ToolkitPropertyEditorProvider> getEditorProviders() {
 			if (editorProviders == null) {
 				editorProviders = createEditorProviders();
 			}
 			return editorProviders;
-		}
-
-		public PropertyEditorProviderRegistry getEditorProviderRegistry() {
-			if (editorProviderRegistry == null) {
-				editorProviderRegistry = createEditorProviderRegistry();
-			}
-			return editorProviderRegistry;
 		}
 
 		public Collection<ViewService> getViewServices() {
@@ -348,18 +317,6 @@ public class EEFTestEnvironment {
 				viewServiceRegistry = createViewServiceRegistry();
 			}
 			return viewServiceRegistry;
-		}
-
-		public ViewHandlerProviderRegistry getViewHandlerProviderRegistry() {
-			try {
-				if (viewHandlerProviderRegistry == null) {
-					viewHandlerProviderRegistry = createViewHandlerProviderRegistry();
-				}
-				return viewHandlerProviderRegistry;
-			} catch (PriorityCircularityException e) {
-				// Note: Should not happen...
-				return null;
-			}
 		}
 
 		public ModelChangesNotificationManager getModelChangesNotificationManager() {
@@ -453,17 +410,11 @@ public class EEFTestEnvironment {
 		/**
 		 * @param editorProviders the editorProviders to set
 		 */
-		public Builder setEditorProviders(Collection<PropertyEditorProvider> editorProviders) {
+		public Builder setEditorProviders(Collection<ToolkitPropertyEditorProvider> editorProviders) {
 			this.editorProviders = editorProviders;
 			return this;
 		}
-		/**
-		 * @param editorProviderRegistry the editorProviderRegistry to set
-		 */
-		public Builder setEditorProviderRegistry(PropertyEditorProviderRegistry editorProviderRegistry) {
-			this.editorProviderRegistry = editorProviderRegistry;
-			return this;
-		}
+
 		/**
 		 * @param viewServices the viewServices to set
 		 */
@@ -478,13 +429,7 @@ public class EEFTestEnvironment {
 			this.viewServiceRegistry = viewServiceRegistry;
 			return this;
 		}
-		/**
-		 * @param viewHandlerProviderRegistry the viewHandlerProviderRegistry to set
-		 */
-		public Builder setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry) {
-			this.viewHandlerProviderRegistry = viewHandlerProviderRegistry;
-			return this;
-		}
+
 		/**
 		 * @param editingContextFactory the editingContextFactory to set
 		 */
@@ -692,9 +637,9 @@ public class EEFTestEnvironment {
 				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
 				 */
 				@Override
-				public Collection<Class<?>> providedServices() {
-					List<Class<?>> result = new ArrayList<Class<?>>();
-					result.add(EMFService.class);
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(EMFService.class.getName());
 					return result;
 				}
 				
@@ -704,14 +649,30 @@ public class EEFTestEnvironment {
 
 		public EEFComponentRegistry createComponentRegistry() {
 			EEFComponentRegistry componentRegistry = new EEFComponentRegistryImpl();
-			for (EMFService emfService : getEMFServices()) {
-				try {
+			try {
+				for (EMFService emfService : getEMFServices()) {
 					Map<String, String> properties = new HashMap<String, String>();
-					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, "emfService");
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, emfService.getClass().getName());
 					componentRegistry.addComponent(emfService, properties);
-				} catch (PriorityCircularityException e) {
-					//TODO: can't happen!
 				}
+				for (ToolkitPropertyEditorProvider provider : getEditorProviders()) {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
+					componentRegistry.addComponent(provider, properties);
+				}
+				Map<String, String> properties = new HashMap<String, String>();
+				properties.put(COMPONENT_NAME_KEY, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
+				componentRegistry.addComponent(new ReflectViewHandlerProvider(), properties);
+				properties.put(COMPONENT_NAME_KEY, SWT_VIEW_HANDLER_PROVIDER_NAME);
+				properties.put(PRIORITY_OVER_KEY, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
+				componentRegistry.addComponent(new SWTViewHandlerProvider(), properties);
+				properties.put(COMPONENT_NAME_KEY, PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME);
+				properties.put(PRIORITY_OVER_KEY, SWT_VIEW_HANDLER_PROVIDER_NAME);
+				PropertiesEditingViewHandlerProvider handler = new PropertiesEditingViewHandlerProvider();
+				handler.setViewServiceRegistry(getViewServiceRegistry());
+				componentRegistry.addComponent(handler, properties);
+			} catch (PriorityCircularityException e) {
+				//TODO: can't happen!
 			}
 			return componentRegistry;
 		}
@@ -719,7 +680,6 @@ public class EEFTestEnvironment {
 		public PropertiesEditingProviderRegistry createPropertiesEditingProviderRegistry() {
 			PropertiesEditingProviderRegistryImpl registry = new PropertiesEditingProviderRegistryImpl();
 			registry.setComponentRegistry(getComponentRegistry());
-			registry.setViewHandlerProviderRegistry(getViewHandlerProviderRegistry());
 			registry.setModelChangesNotificationManager(getModelChangesNotificationManager());
 			for (PropertiesEditingProvider provider : getEditingProviders()) {			
 				registry.addService(provider);
@@ -727,20 +687,12 @@ public class EEFTestEnvironment {
 			return registry;
 		}
 
-		public Collection<PropertyEditorProvider> createEditorProviders() {
-			List<PropertyEditorProvider> result = new ArrayList<PropertyEditorProvider>();
+		public Collection<ToolkitPropertyEditorProvider> createEditorProviders() {
+			List<ToolkitPropertyEditorProvider> result = new ArrayList<ToolkitPropertyEditorProvider>();
 			result.add(new SWTToolkit());
 			result.add(new EMFPropertiesToolkit());		
 			return result;
 		}
-
-		public PropertyEditorProviderRegistry createEditorProviderRegistry() {
-			PropertyEditorProviderRegistryImpl editorProviderRegistry = new PropertyEditorProviderRegistryImpl();
-			for (PropertyEditorProvider provider : getEditorProviders()) {
-				editorProviderRegistry.addService(provider);
-			}
-			return editorProviderRegistry;
-		}	
 
 		public Collection<ViewService> createViewServices() {
 			List<ViewService> result = new ArrayList<ViewService>();
@@ -754,27 +706,6 @@ public class EEFTestEnvironment {
 				viewServiceRegistry.addService(service);			
 			}
 			return viewServiceRegistry;
-		}
-
-		public ViewHandlerProviderRegistry createEmptyViewHandlerProviderRegistry() {
-			return new ViewHandlerProviderRegistryImpl();
-		}
-
-		public ViewHandlerProviderRegistry createViewHandlerProviderRegistry() throws PriorityCircularityException {
-			ViewHandlerProviderRegistryImpl viewHandlerProviderRegistry = (ViewHandlerProviderRegistryImpl) createEmptyViewHandlerProviderRegistry(); 
-			Map<String, String> properties = new HashMap<String, String>();
-			properties.put(COMPONENT_NAME_KEY, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
-			viewHandlerProviderRegistry.addService(new ReflectViewHandlerProvider(), properties);
-			properties.put(COMPONENT_NAME_KEY, SWT_VIEW_HANDLER_PROVIDER_NAME);
-			properties.put(PRIORITY_OVER_KEY, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
-			viewHandlerProviderRegistry.addService(new SWTViewHandlerProvider(), properties);
-			properties.put(COMPONENT_NAME_KEY, PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME);
-			properties.put(PRIORITY_OVER_KEY, SWT_VIEW_HANDLER_PROVIDER_NAME);
-			PropertiesEditingViewHandlerProvider handler = new PropertiesEditingViewHandlerProvider();
-			handler.setEditorProviderRegistry(getEditorProviderRegistry());
-			handler.setViewServiceRegistry(getViewServiceRegistry());
-			viewHandlerProviderRegistry.addService(handler, properties);
-			return viewHandlerProviderRegistry;
 		}
 
 		public ModelChangesNotificationManager createNotificationManager() {

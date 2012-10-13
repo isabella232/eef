@@ -7,7 +7,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
-import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProviderRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.ViewElement;
@@ -19,6 +19,12 @@ import org.eclipse.swt.widgets.Composite;
  */
 public interface PropertiesEditingView extends PropertiesEditingListener {
 
+	/**
+	 * Defines the {@link EEFComponentRegistry} to use in the current view.
+	 * @param componentRegistry the {@link EEFComponentRegistry} to use.
+	 */
+	void setComponentRegistry(EEFComponentRegistry componentRegistry);
+	
 	/**
 	 * @return the {@link PropertiesEditingComponent} managing the view.
 	 */
@@ -55,12 +61,6 @@ public interface PropertiesEditingView extends PropertiesEditingListener {
 	 * Dispose the view.
 	 */
 	void dispose();
-
-	/**
-	 * Sets the {@link PropertyEditorProviderRegistry} to use for {@link PropertyEditor}s creation.
-	 * @param propertyEditorProviderRegistry {@link PropertyEditorProviderRegistry} to use to build {@link PropertiesEditingView} contents.
-	 */
-	void setPropertyEditorProviderRegistry(PropertyEditorProviderRegistry propertyEditorProviderRegistry);
 
 	/**
 	 * Sets the value to the given field.

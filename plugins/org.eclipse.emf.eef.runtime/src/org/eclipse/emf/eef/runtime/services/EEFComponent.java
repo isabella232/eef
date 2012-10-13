@@ -10,9 +10,13 @@ import java.util.Collection;
  */
 public interface EEFComponent {
 	
+	void setComponentRegistry(EEFComponentRegistry componentRegistry);
+	
+	EEFComponentRegistry getComponentRegistry();
+	
 	/**
 	 * @return a collection of {@link Class} describing all the services provided by this component.  
 	 */
-	Collection<Class<?>> providedServices();
-	
+	Collection<String> providedServices();
+
 }

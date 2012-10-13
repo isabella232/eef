@@ -4,33 +4,20 @@
 package org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
-import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProviderRegistry;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.View;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingViewHandlerProvider implements ViewHandlerProvider {
+public class PropertiesEditingViewHandlerProvider extends AbstractEEFComponent implements ViewHandlerProvider {
 
 	private ViewServiceRegistry viewServiceRegistry;
-	private PropertyEditorProviderRegistry editorProviderRegistry;
 	
-	/**
-	 * Returns the {@link PropertyEditorProvider} able to process the given {@link PropertyEditorContext}.
-	 * @param editorContext the {@link PropertyEditorContext} to process
-	 * @return {@link PropertyEditorProvider} able to process the given {@link PropertyEditorContext}
-	 */
-	public PropertyEditorProvider getPropertyEditorProvider(PropertyEditorContext editorContext) {
-		return editorProviderRegistry.getPropertyEditorProvider(editorContext);
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
@@ -70,31 +57,6 @@ public class PropertiesEditingViewHandlerProvider implements ViewHandlerProvider
 	public void unsetViewServiceRegistry(ViewServiceRegistry viewServiceRegistry) {
 		if (viewServiceRegistry == this.viewServiceRegistry) {
 			this.viewServiceRegistry = null;
-		}
-	}
-
-	/**
-	 * @return the {@link PropertyEditorProviderRegistry} to use for {@link PropertyEditor} creation.
-	 */
-	public PropertyEditorProviderRegistry getPropertyEditorProviderRegistry() {
-		return editorProviderRegistry;
-	}
-	
-	/**
- 	 * Defines the {@link PropertyEditorProviderRegistry} to use in this provider.
-	 * @param editorProviderRegistry the editorProviderRegistry to set
-	 */
-	public void setEditorProviderRegistry(PropertyEditorProviderRegistry editorProviderRegistry) {
-		this.editorProviderRegistry = editorProviderRegistry;
-	}
-
- 	/**
- 	 * Unsets the {@link PropertyEditorProviderRegistry} used in this provider.
-	 * @param editorProviderRegistry the editorProviderRegistry to unset
-	 */
-	public void unsetEditorProviderRegistry(PropertyEditorProviderRegistry editorProviderRegistry) {
-		if (editorProviderRegistry == this.editorProviderRegistry) {
-			this.editorProviderRegistry = null;
 		}
 	}
 

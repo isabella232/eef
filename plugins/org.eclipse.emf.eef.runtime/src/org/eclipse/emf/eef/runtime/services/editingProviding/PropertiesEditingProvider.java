@@ -14,7 +14,6 @@ import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProviderRegistry;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -61,12 +60,6 @@ public interface PropertiesEditingProvider extends EEFService<EPackage> {
 	 */
 	void setComponentRegistry(EEFComponentRegistry componentRegistry);
 	
-	/**
-	 * Defines the {@link ViewHandlerProviderRegistry} to use in the current {@link PropertiesEditingProvider}
-	 * @param viewHandlerProviderRegistry the {@link ViewHandlerProviderRegistry} to set.
-	 */
-	void setViewHandlerProviderRegistry(ViewHandlerProviderRegistry viewHandlerProviderRegistry);
-
 	/**
 	 * Defines the {@link ModelChangesNotificationManager} to use in the current {@link PropertiesEditingProviderRegistry}
 	 * @param notificationManager {@link ModelChangesNotificationManager} to set.

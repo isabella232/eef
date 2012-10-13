@@ -11,8 +11,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewSettingsImpl;
-import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProviderRegistry;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -34,10 +34,10 @@ import com.google.common.collect.UnmodifiableIterator;
  *
  */
 public abstract class AbstractPropertiesEditingView implements PropertiesEditingView {
-
+	
+	protected EEFComponentRegistry componentRegistry;
 	protected PropertiesEditingComponent editingComponent;
 	protected View viewDescriptor;
-	protected PropertyEditorProviderRegistry propertyEditorProviderRegistry;
 	
 	protected Map<ViewElement, PropertyEditor> propertyEditors;
 	protected Composite contentsComposite;
@@ -58,6 +58,14 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 		this.editingComponent = editingComponent;
 		this.propertyEditors = Maps.newHashMap();
 		editingComponent.addEditingListener(this);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
+	 */
+	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+		this.componentRegistry = componentRegistry;
 	}
 
 	/**
@@ -103,14 +111,6 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	 */
 	public ViewSettings getViewSettings() {
 		return new ViewSettingsImpl();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setPropertyEditorProviderRegistry(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProviderRegistry)
-	 */
-	public void setPropertyEditorProviderRegistry(PropertyEditorProviderRegistry propertyEditorProviderRegistry) {
-		this.propertyEditorProviderRegistry = propertyEditorProviderRegistry;
 	}
 
 	/**
