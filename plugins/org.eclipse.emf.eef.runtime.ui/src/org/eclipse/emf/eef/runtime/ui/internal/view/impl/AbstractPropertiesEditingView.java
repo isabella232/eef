@@ -14,7 +14,6 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewSettingsImpl;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
-import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.ViewSettings;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
@@ -41,7 +40,6 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	
 	protected Map<ViewElement, PropertyEditor> propertyEditors;
 	protected Composite contentsComposite;
-	protected ViewServiceRegistry viewServiceRegistry; 
 	protected ViewService service;
 	
 	/**
@@ -69,13 +67,6 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	}
 
 	/**
-	 * @param viewServiceRegistry the viewServiceRegistry to set
-	 */
-	public void setViewServiceRegistry(ViewServiceRegistry viewServiceRegistry) {
-		this.viewServiceRegistry = viewServiceRegistry;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getEditingComponent()
 	 */
@@ -97,7 +88,7 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	 */
 	public ViewService getViewService() {
 		if (service == null) {
-			service = viewServiceRegistry.getServiceForView(viewDescriptor);
+			service = (ViewService) componentRegistry.getService(ViewService.class, viewDescriptor);
 		}
 		if (editingComponent != null && editingComponent != service.getEditingComponent()) {
 			service.setEditingComponent(editingComponent);

@@ -58,11 +58,6 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	private ValidationMessageInjector injector;
 
 	/**
-	 * Validation message manager for the {@link Section}.
-	 */
-//	private PropertiesEditingMessageManager messageManager;
-
-	/**
 	 * The current selected object or the first object in the selection when multiple objects are selected.
 	 */
 	protected EObject eObject;
@@ -92,7 +87,6 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	public SectionPropertiesEditingView() {
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		this.propertyEditors = Maps.newHashMap();
-		viewServiceRegistry = EEFRuntimeTabbed.getPlugin().getViewServiceRegistry();
 	}
 
 

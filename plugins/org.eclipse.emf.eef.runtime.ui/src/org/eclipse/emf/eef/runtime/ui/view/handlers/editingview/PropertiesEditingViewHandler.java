@@ -13,7 +13,6 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
-import org.eclipse.emf.eef.runtime.ui.internal.view.impl.AbstractPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.SWTImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -70,12 +69,10 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 				if (toolkit != null) {
 					view = new FormImplPropertiesEditingView(editingComponent, viewDescriptor);
 					view.setComponentRegistry(handlerProvider.getComponentRegistry());
-					((AbstractPropertiesEditingView)view).setViewServiceRegistry(handlerProvider.getViewServiceRegistry());
 					((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[1]);
 				} else {
 					view = new SWTImplPropertiesEditingView(editingComponent, viewDescriptor);					
 					view.setComponentRegistry(handlerProvider.getComponentRegistry());
-					((AbstractPropertiesEditingView)view).setViewServiceRegistry(handlerProvider.getViewServiceRegistry());
 					((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);
 				}
 			}
