@@ -48,6 +48,7 @@ import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.ui.view.notify.EditingViewNotifier;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit;
@@ -633,6 +634,8 @@ public class EEFTestEnvironment {
 					componentRegistry.addComponent(provider, properties);
 				}
 				Map<String, String> properties = new HashMap<String, String>();
+				properties.put(COMPONENT_NAME_KEY, EditingViewNotifier.class.getName());
+				componentRegistry.addComponent(new EditingViewNotifier(), properties);
 				properties.put(COMPONENT_NAME_KEY, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
 				componentRegistry.addComponent(new ReflectViewHandlerProvider() {
 
