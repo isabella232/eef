@@ -95,7 +95,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	public PropertiesEditingComponent getEditingComponent() {
 		if (component == null) {
 			notificationManager.initModelChangesNotifierIfNeeded(eObject);
-			PropertiesEditingProvider provider = (PropertiesEditingProvider) componentRegistry.getService(PropertiesEditingProvider.class, eObject.eClass().getEPackage());
+			PropertiesEditingProvider provider = componentRegistry.getService(PropertiesEditingProvider.class, eObject.eClass().getEPackage());
 			provider.setNotificationManager(notificationManager);
 			component = provider.createComponent(eObject);
 			component.setEditingContext(this);
@@ -117,7 +117,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public EMFService getEMFService() {
 		if (getEditingComponent() != null) {
-			return (EMFService) componentRegistry.getService(EMFService.class, getEditingComponent().getEObject().eClass().getEPackage());
+			return componentRegistry.getService(EMFService.class, getEditingComponent().getEObject().eClass().getEPackage());
 		}
 		return null;
 	}

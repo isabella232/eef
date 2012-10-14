@@ -51,7 +51,7 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFCompo
 	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#getViewHandlerProvider(java.lang.Object)
 	 */
 	public ViewHandlerProvider getViewHandlerProvider(Object view) {
-		return (ViewHandlerProvider) componentRegistry.getService(ViewHandlerProvider.class, view);
+		return componentRegistry.getService(ViewHandlerProvider.class, view);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFCompo
 					 * @see com.google.common.base.Predicate#apply(java.lang.Object)
 					 */
 					public boolean apply(EPackage input) {
-						EMFService emfService = (EMFService) componentRegistry.getService(EMFService.class, element);
+						EMFService emfService = componentRegistry.getService(EMFService.class, element);
 						return ((emfService != null && emfService.equals(element, input)) || element == input);
 					}
 

@@ -48,7 +48,7 @@ public class EEFServiceRegistriesTests {
 		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
 		EEFComponentRegistry componentRegistry = env.getComponentRegistry();
 		assertTrue("Bad type of EEFComponentRegistry.", componentRegistry instanceof EEFComponentRegistryImpl);
-		EMFService defaultEMFService = (EMFService) componentRegistry.getService(EMFService.class, EcorePackage.eINSTANCE);
+		EMFService defaultEMFService = componentRegistry.getService(EMFService.class, EcorePackage.eINSTANCE);
 		try {
 			Map<String, String> properties = new HashMap<String, String>();
 			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, "customService");
@@ -85,7 +85,7 @@ public class EEFServiceRegistriesTests {
 		addToRegistry(vhpRegistry, component8, obj2, component4);		
 		
 		addToRegistry(vhpRegistry, component5, obj1);
-		ViewHandlerProvider viewHandlerProvider = (ViewHandlerProvider) vhpRegistry.getService(ViewHandlerProvider.class, obj1);
+		ViewHandlerProvider viewHandlerProvider = vhpRegistry.getService(ViewHandlerProvider.class, obj1);
 		assertTrue("Bad comparison algorithm.", viewHandlerProvider == result1 || viewHandlerProvider == result2);
 		
 	}

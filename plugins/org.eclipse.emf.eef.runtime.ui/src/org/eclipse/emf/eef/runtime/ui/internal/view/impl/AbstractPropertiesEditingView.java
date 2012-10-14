@@ -96,7 +96,7 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	 */
 	public ViewService getViewService() {
 		if (service == null) {
-			service = (ViewService) componentRegistry.getService(ViewService.class, viewDescriptor);
+			service = componentRegistry.getService(ViewService.class, viewDescriptor);
 		}
 		if (editingComponent != null && editingComponent != service.getEditingComponent()) {
 			service.setEditingComponent(editingComponent);

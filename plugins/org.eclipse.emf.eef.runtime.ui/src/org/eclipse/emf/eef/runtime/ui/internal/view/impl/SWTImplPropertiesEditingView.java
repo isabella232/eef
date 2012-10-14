@@ -48,7 +48,7 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView 
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;
 			PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
-			PropertyEditorProvider propertyEditorProvider = (PropertyEditorProvider) componentRegistry.getService(PropertyEditorProvider.class, editorContext);
+			PropertyEditorProvider propertyEditorProvider = componentRegistry.getService(PropertyEditorProvider.class, editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof SWTPropertyEditor) {

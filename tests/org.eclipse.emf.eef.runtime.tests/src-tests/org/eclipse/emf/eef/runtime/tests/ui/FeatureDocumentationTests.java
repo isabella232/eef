@@ -64,7 +64,7 @@ public class FeatureDocumentationTests {
 	public void testEcoreDocumentation() {
 		EEFTestEnvironment env = buildEcoreSampleEditingContext();
 		PropertiesEditingComponent editingComponent = env.getEditingContext().getEditingComponent();
-		ViewService viewService = (ViewService) env.getComponentRegistry().getService(ViewService.class, eclassView);
+		ViewService viewService = env.getComponentRegistry().getService(ViewService.class, eclassView);
 		viewService.setEditingComponent(editingComponent);
 		assertSame("Invalid documentation", ECORE_DOCUMENTATION, viewService.getHelpContent(nameEditor));
 	}
@@ -111,7 +111,7 @@ public class FeatureDocumentationTests {
 	public void testGenmodelDocumentation() {
 		EEFTestEnvironment testenv = buildGenmodelEditingContext();
 		PropertiesEditingComponent editingComponent = testenv.getEditingContext().getEditingComponent();
-		ViewService viewService = (ViewService) testenv.getComponentRegistry().getService(ViewService.class, eclassView);
+		ViewService viewService = testenv.getComponentRegistry().getService(ViewService.class, eclassView);
 		viewService.setEditingComponent(editingComponent);
 		String helpContent = viewService.getHelpContent(nameEditor);
 		EditingModelEnvironment env = editingComponent.getEditingModelEnvironment();

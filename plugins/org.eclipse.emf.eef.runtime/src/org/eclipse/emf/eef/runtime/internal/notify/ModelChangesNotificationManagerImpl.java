@@ -103,7 +103,7 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#initModelChangesNotifierIfNeeded(EObject)
 	 */
 	public void initModelChangesNotifierIfNeeded(EObject source) {
-		EMFService emfService = (EMFService) componentRegistry.getService(EMFService.class, source.eClass().getEPackage());
+		EMFService emfService = componentRegistry.getService(EMFService.class, source.eClass().getEPackage());
 		Notifier highestNotifier = emfService.highestNotifier(source);
 		Adapter existingAdapter = EcoreUtil.getExistingAdapter(highestNotifier, ModelChangesNotifier.class);
 		if (existingAdapter == null) {

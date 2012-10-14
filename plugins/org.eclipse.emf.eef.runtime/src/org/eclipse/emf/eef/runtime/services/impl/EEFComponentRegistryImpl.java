@@ -41,8 +41,8 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 	 * @see org.eclipse.emf.eef.runtime.services.EEFComponentRegistry#getService(java.lang.Class, java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
-	public final EEFService<?> getService(Class<?> type, Object element) {
-		List<EEFService<?>> availableProviders = Lists.newArrayList();
+	public final <SERVICETYPE, ANY_SUBTYPE_OF_SERVICETYPE extends SERVICETYPE, ANY_SUBTYPE_OF_SERVICE extends EEFService<SERVICETYPE>> ANY_SUBTYPE_OF_SERVICE getService(Class<? extends ANY_SUBTYPE_OF_SERVICE> type, ANY_SUBTYPE_OF_SERVICETYPE element) {
+		List<EEFService<Object>> availableProviders = Lists.newArrayList();
 		@SuppressWarnings("rawtypes")
 		EEFServiceStorage storage = storages.get(type.getName());
 		if (storage != null) {
@@ -53,10 +53,10 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 			return null;
 		} else if (availableProviders.size() == 1) {
 			// If only one provider can handle the view, we return it
-			return availableProviders.get(0);
+			return (ANY_SUBTYPE_OF_SERVICE) availableProviders.get(0);
 		} else {
 			// otherwise we return one of those which have the highest priority
-			return greatest(availableProviders).iterator().next();
+			return (ANY_SUBTYPE_OF_SERVICE) greatest(availableProviders).iterator().next();
 		}
 	}
 
@@ -238,12 +238,12 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 	 * @param input list of {@link VHPMetadata} to process.
 	 * @return the {@link VHPMetadata}s with the highest priority.
 	 */
-	private Collection<EEFService<?>> greatest(Collection<EEFService<?>> input) {
+	private Collection<EEFService<Object>> greatest(Collection<EEFService<Object>> input) {
 		if (input.size() == 0 || input.size() == 1) {
 			return input;
 		}
-		List<EEFService<?>> result = Lists.newArrayList(input);
-		for (EEFService<?> vhpMetadata : input) {
+		List<EEFService<Object>> result = Lists.newArrayList(input);
+		for (EEFService<Object> vhpMetadata : input) {
 			result.removeAll(connexity(vhpMetadata));
 		}
 		return result;

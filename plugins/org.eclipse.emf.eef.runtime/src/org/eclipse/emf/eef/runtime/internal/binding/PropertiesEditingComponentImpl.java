@@ -326,7 +326,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 				notification = new ValidationBasedNotification(valueDiagnostic);
 			}
 			for (ViewHandler<?> viewHandler : revelantHandlers) {
-				EEFNotifier notifier = (EEFNotifier) editingProvider.getComponentRegistry().getService(EEFNotifier.class, viewHandler.getView());
+				EEFNotifier notifier = editingProvider.getComponentRegistry().getService(EEFNotifier.class, (Object)viewHandler.getView());
 				if (notifier != null) {
 					notifier.notify(viewHandler.getView(), notification);
 				}
@@ -334,14 +334,14 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		} else {
 			if (notifyEditor) {
 				for (ViewHandler<?> viewHandler : revelantHandlers) {
-					EEFNotifier notifier = (EEFNotifier) editingProvider.getComponentRegistry().getService(EEFNotifier.class, viewHandler.getView());
+					EEFNotifier notifier = (EEFNotifier) editingProvider.getComponentRegistry().getService(EEFNotifier.class, (Object)viewHandler.getView());
 					if (notifier != null) {
 						notifier.clearEditorNotification(viewHandler.getView(), editingEvent.getAffectedEditor());
 					}
 				}
 			} else {
 				for (ViewHandler<?> viewHandler : revelantHandlers) {
-					EEFNotifier notifier = (EEFNotifier) editingProvider.getComponentRegistry().getService(EEFNotifier.class, viewHandler.getView());
+					EEFNotifier notifier = (EEFNotifier) editingProvider.getComponentRegistry().getService(EEFNotifier.class, (Object)viewHandler.getView());
 					if (notifier != null) {
 						notifier.clearViewNotification(viewHandler.getView());
 					}

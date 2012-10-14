@@ -79,7 +79,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public void initView(PropertiesEditingComponent component) {
 		if (view != null) {
 			view.init();
-			EEFLockManager lockManager = (EEFLockManager) handlerProvider.getComponentRegistry().getService(EEFLockManager.class, view);
+			EEFLockManager lockManager = handlerProvider.getComponentRegistry().getService(EEFLockManager.class, (Object)view);
 			lockManager.initView(view);
 		}
 	}

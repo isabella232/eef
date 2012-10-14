@@ -19,7 +19,7 @@ public interface EEFComponentRegistry {
 	 * @param element the element to process by the service.
 	 * @return the best {@link EEFService} for this element.
 	 */
-	EEFService<?> getService(Class<?> type, Object element);
+	<SERVICETYPE, ANY_SUBTYPE_OF_SERVICETYPE extends SERVICETYPE, ANY_SUBTYPE_OF_SERVICE extends EEFService<SERVICETYPE>> ANY_SUBTYPE_OF_SERVICE getService(Class<? extends ANY_SUBTYPE_OF_SERVICE> type, ANY_SUBTYPE_OF_SERVICETYPE element);
 
 	/**
 	 * Adds a component in the current registry.
