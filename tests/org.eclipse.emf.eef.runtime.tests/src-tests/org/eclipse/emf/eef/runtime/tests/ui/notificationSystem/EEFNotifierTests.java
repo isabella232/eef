@@ -85,12 +85,15 @@ public class EEFNotifierTests extends UIEditingTestCase {
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
 				componentRegistry.addComponent(provider, properties);
 			}
-			for (PropertiesEditingProvider provider : builder.getEditingProviders()) {			
+			for (PropertiesEditingProvider provider : builder.getEditingProviders()) {
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
 				componentRegistry.addComponent(provider, properties);
 			}
 			Map<String, String> properties = new HashMap<String, String>();
+			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, TestNotifier.class.getName());
+			testNotifier = new TestNotifier();
+			componentRegistry.addComponent(testNotifier, properties);
 			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, EEFTestEnvironment.REFLECT_VIEW_HANDLER_PROVIDER_NAME);
 			componentRegistry.addComponent(new ReflectViewHandlerProvider() {
 
@@ -139,16 +142,6 @@ public class EEFNotifierTests extends UIEditingTestCase {
 							return "name".equals(editor);
 						}
 
-						/**
-						 * {@inheritDoc}
-						 * @see org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandler#getNotifier()
-						 */
-						@Override
-						public EEFNotifier getNotifier() {
-							testNotifier = new TestNotifier();
-							return testNotifier;
-						}
-						
 					};
 				}
 				
@@ -235,12 +228,46 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		}
 
 		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#getComponentRegistry()
+		 */
+		public EEFComponentRegistry getComponentRegistry() {
+			return null;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#providedServices()
+		 */
+		public Collection<String> providedServices() {
+			List<String> result = new ArrayList<String>();
+			result.add(EEFNotifier.class.getName());
+			return result;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
+		 */
+		public boolean serviceFor(Object element) {
+			return true;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
+		 */
+		public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+			
+		}
+
+		/**
 		 * This test assumes that the decoration are correctly added and removed.
 		 * 
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#notify(org.eclipse.emf.eef.runtime.view.notify.EEFNotification)
 		 */
-		public void notify(EEFNotification notification) {
+		public void notify(Object view, EEFNotification notification) {
 			if (notification instanceof EEFPropertyNotification) {
 				editorsNotified.add(((EEFPropertyNotification) notification).getEditor());
 			} else {
@@ -252,7 +279,7 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearViewNotification()
 		 */
-		public void clearViewNotification() {
+		public void clearViewNotification(Object view) {
 			viewNotified = false;
 		}
 
@@ -260,7 +287,7 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearEditorNotification(java.lang.Object)
 		 */
-		public void clearEditorNotification(Object editor) {
+		public void clearEditorNotification(Object view, Object editor) {
 			editorsNotified.remove(editor);
 		}
 		
