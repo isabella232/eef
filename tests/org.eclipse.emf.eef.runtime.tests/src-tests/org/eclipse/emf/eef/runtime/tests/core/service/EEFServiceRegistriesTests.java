@@ -29,10 +29,6 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
-import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
-import org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager;
-import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
-import org.eclipse.emf.eef.runtime.view.notify.impl.NullNotifier;
 import org.junit.Test;
 
 /**
@@ -136,10 +132,6 @@ public class EEFServiceRegistriesTests {
 
 			public void initView(PropertiesEditingComponent component) { }
  
-			public EEFNotifier getNotifier() { return new NullNotifier(); }
-
-			public EEFLockManager getLockManager() { return new NullLockManager(); }
-
 			public void setValue(Object field, Object value) throws ViewHandlingException { }
 
 			public void unsetValue(Object field) throws ViewHandlingException { }

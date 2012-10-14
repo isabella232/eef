@@ -3,7 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.view.lock.policies;
 
-import org.eclipse.emf.eef.runtime.view.lock.EEFLock;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -24,7 +23,7 @@ public class EEFLockEvent {
 	/**
 	 * The processed {@link EEFLock}.
 	 */
-	public EEFLock lock;
+//	public EEFLock lock;
 	
 	
 	public enum State {

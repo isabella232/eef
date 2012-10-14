@@ -5,7 +5,6 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl;
 
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor;
-import org.eclipse.emf.eef.runtime.view.lock.EEFPropertyLock;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
@@ -47,11 +46,10 @@ public abstract class StandardSWTPropertyEditor<VIEWER extends Viewer> implement
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock(org.eclipse.emf.eef.runtime.view.lock.EEFPropertyLock)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
-	public void lock(EEFPropertyLock lock) {
+	public void lock() {
 		getViewer().getControl().setEnabled(false);
-		//TODO: Invoke the EEF UI Notification System when redesigned as EEFService.
 	}
 
 	/**
@@ -60,7 +58,6 @@ public abstract class StandardSWTPropertyEditor<VIEWER extends Viewer> implement
 	 */
 	public void unlock() {
 		getViewer().getControl().setEnabled(false);		
-		//TODO: Invoke the EEF UI Notification System when redesigned as EEFService.
 	}
 	
 }

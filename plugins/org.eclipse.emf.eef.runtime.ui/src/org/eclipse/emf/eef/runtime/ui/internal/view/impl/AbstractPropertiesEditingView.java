@@ -60,6 +60,14 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewModel()
+	 */
+	public View getViewModel() {
+		return viewDescriptor;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
 	 */
 	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
@@ -128,6 +136,26 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 				propertyEditor.init(feature);
 			}
 			
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#lock()
+	 */
+	public void lock() {
+		for (PropertyEditor editor : propertyEditors.values()) {
+			editor.getPropertyEditorViewer().lock();
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#unlock()
+	 */
+	public void unlock() {
+		for (PropertyEditor editor : propertyEditors.values()) {
+			editor.getPropertyEditorViewer().unlock();
 		}
 	}
 

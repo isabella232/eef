@@ -13,6 +13,7 @@ public interface EEFNotification {
 	
 	public static final int ERROR = Diagnostic.ERROR;
 	public static final int WARNING = Diagnostic.WARNING;
+	public static final int LOCK = 0x32;
 
 	/**
 	 * @return the kind of the current decoration.

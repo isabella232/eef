@@ -3,17 +3,13 @@
  */
 package org.eclipse.emf.eef.runtime.view.lock.policies.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.lock.EEFPropertyLock;
-import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
-import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent.State;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 /**
@@ -31,6 +27,14 @@ public class EEFLockPolicyRegistryImpl implements EEFLockPolicyRegistry {
 	public EEFLockPolicyRegistryImpl(PropertiesEditingContext editingContext) {
 		this.editingContext = editingContext;
 		this.policies = Lists.newArrayList();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry#getPolicies()
+	 */
+	public Collection<EEFLockPolicy> getPolicies() {
+		return policies;
 	}
 
 	/**
@@ -53,30 +57,32 @@ public class EEFLockPolicyRegistryImpl implements EEFLockPolicyRegistry {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry#fireLockEvent(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
 	 */
-	public void fireLockEvent(final EEFLockEvent event) {
-		editingContext.getEditingComponent().executeOnViewHandlers(new Function<ViewHandler<?>, Void>() {
-
-			public Void apply(ViewHandler<?> handler) {
-				if (event.lock instanceof EEFPropertyLock) {
-					Object propertyEditor = editingContext.getEditingComponent().getBinding().propertyEditor(((EEFPropertyLock) event.lock).getLockedFeature(), editingContext.getOptions().autowire());
-					if (handler.canHandle(propertyEditor)) {
-						if (event.state == State.DISABLE) {
-							handler.getLockManager().clearEditorLock(propertyEditor);
-						} else {
-							handler.getLockManager().lock(event.lock);
-						}
-					}
-				} else {
-					if (event.state == State.DISABLE) {
-						handler.getLockManager().clearViewLock();
-					} else {
-						handler.getLockManager().lock(event.lock);
-					}
-				}
-				return null;
-			}
-		});
-	}
+//	public void fireLockEvent(final EEFLockEvent event) {
+//		editingContext.getEditingComponent().executeOnViewHandlers(new Function<ViewHandler<?>, Void>() {
+//
+//			public Void apply(ViewHandler<?> handler) {
+//				EEFComponentRegistry componentRegistry = handler.getProvider().getComponentRegistry();
+//				EEFLockManager lockManager = (EEFLockManager) componentRegistry.getService(EEFLockManager.class, handler.getView());
+//				if (event.lock instanceof EEFPropertyLock) {
+//					Object propertyEditor = editingContext.getEditingComponent().getBinding().propertyEditor(((EEFPropertyLock) event.lock).getLockedFeature(), editingContext.getOptions().autowire());
+//					if (handler.canHandle(propertyEditor)) {
+//						if (event.state == State.DISABLE) {
+//							lockManager.clearEditorLock(handler.getView(), propertyEditor);
+//						} else {
+//							lockManager.lock(handler.getView(), event.lock);
+//						}
+//					}
+//				} else {
+//					if (event.state == State.DISABLE) {
+//						lockManager.clearViewLock(handler.getView());
+//					} else {
+//						lockManager.lock(handler.getView(), event.lock);
+//					}
+//				}
+//				return null;
+//			}
+//		});
+//	}
 
 	/**
 	 * {@inheritDoc}

@@ -16,9 +16,7 @@ import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.SWTImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.lock.EditingViewLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
-import org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -33,8 +31,6 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	protected PropertiesEditingViewHandlerProvider handlerProvider;
 	protected PropertiesEditingComponent editingComponent;
 	protected PropertiesEditingView view;
-	
-	private EEFLockManager lockManager;
 	
 	/**
 	 * @param handlerProvider 
@@ -83,6 +79,8 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public void initView(PropertiesEditingComponent component) {
 		if (view != null) {
 			view.init();
+			EEFLockManager lockManager = (EEFLockManager) handlerProvider.getComponentRegistry().getService(EEFLockManager.class, view);
+			lockManager.initView(view);
 		}
 	}
 
@@ -100,21 +98,6 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 		return false;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getLockManager()
-	 */
-	public EEFLockManager getLockManager() {
-		if (view == null) {
-			return new NullLockManager();
-		} else {
-			if (lockManager == null) {
-				this.lockManager = new EditingViewLockManager(view);
-			}
-		}
-		return lockManager;
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getView()

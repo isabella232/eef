@@ -106,6 +106,8 @@ public final class EditingViewNotifier extends AbstractEEFComponent implements E
 				image = view.getViewSettings().getErrorDecorationImage();
 			} else if (notification.getKind() == EEFNotification.WARNING) {
 				image = view.getViewSettings().getWarningDecorationImage();	
+			} else if (notification.getKind() == EEFNotification.LOCK) {
+				image = view.getViewSettings().getLockDecorationImage();	
 			}
 			if (image != null) {
 				final int position = view.getViewSettings().getDecoratorPositioning();

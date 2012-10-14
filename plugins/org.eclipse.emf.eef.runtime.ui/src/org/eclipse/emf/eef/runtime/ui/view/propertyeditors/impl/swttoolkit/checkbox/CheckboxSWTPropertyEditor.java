@@ -6,7 +6,6 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.chec
 import org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor;
-import org.eclipse.emf.eef.runtime.view.lock.EEFPropertyLock;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -75,11 +74,10 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock(org.eclipse.emf.eef.runtime.view.lock.EEFPropertyLock)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
-	public void lock(EEFPropertyLock lock) {
+	public void lock() {
 		checkbox.setEnabled(false);
-		//TODO: Invoke the EEF UI Notification System when redesigned as EEFService.
 	}
 
 	/**
@@ -88,7 +86,6 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 	 */
 	public void unlock() {
 		checkbox.setEnabled(true);
-		//TODO: Invoke the EEF UI Notification System when redesigned as EEFService.
 	}
 
 }

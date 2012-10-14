@@ -10,6 +10,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.swt.widgets.Composite;
 
@@ -24,6 +25,11 @@ public interface PropertiesEditingView extends PropertiesEditingListener {
 	 * @param componentRegistry the {@link EEFComponentRegistry} to use.
 	 */
 	void setComponentRegistry(EEFComponentRegistry componentRegistry);
+	
+	/**
+	 * @return a {@link View} describing the current view.
+	 */
+	View getViewModel();
 	
 	/**
 	 * @return the {@link PropertiesEditingComponent} managing the view.
@@ -56,6 +62,16 @@ public interface PropertiesEditingView extends PropertiesEditingListener {
 	 * Initializes the view.
 	 */
 	void init();
+	
+	/**
+	 * Locks all the editors of the view.
+	 */
+	void lock();
+	
+	/**
+	 * Unlocks all the editors of the view.
+	 */
+	void unlock();
 		
 	/**
 	 * Dispose the view.

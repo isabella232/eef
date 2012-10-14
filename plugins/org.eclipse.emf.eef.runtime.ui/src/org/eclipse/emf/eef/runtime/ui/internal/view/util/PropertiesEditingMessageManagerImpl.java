@@ -21,6 +21,8 @@ public abstract class PropertiesEditingMessageManagerImpl implements PropertiesE
 					updateError(notification.getMessage());
 				} else if (notification.getKind() == EEFNotification.WARNING) {
 					updateWarning(notification.getMessage());
+				} else if (notification.getKind() == EEFNotification.LOCK) {
+					updateLock(notification.getMessage());
 				} else {
 					updateStatus(notification.getMessage());
 				}
@@ -43,6 +45,10 @@ public abstract class PropertiesEditingMessageManagerImpl implements PropertiesE
 	}
 
 	protected void updateWarning(final String message) {
+		updateStatus(message);
+	}
+
+	protected void updateLock(final String message) {
 		updateStatus(message);
 	}
 }

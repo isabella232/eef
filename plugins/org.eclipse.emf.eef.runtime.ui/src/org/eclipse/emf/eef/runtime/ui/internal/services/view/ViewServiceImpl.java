@@ -289,7 +289,7 @@ public class ViewServiceImpl extends AbstractEEFComponent implements ViewService
 		if (null == Display.getCurrent()) {
 			PlatformUI.getWorkbench().getDisplay().asyncExec(job);
 		} else {
-			job.run();
+			Display.getCurrent().asyncExec(job);
 		}
 	}
 

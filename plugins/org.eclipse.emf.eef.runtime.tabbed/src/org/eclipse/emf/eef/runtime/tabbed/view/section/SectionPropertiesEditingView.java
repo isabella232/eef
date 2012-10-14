@@ -23,6 +23,7 @@ import org.eclipse.emf.eef.runtime.ui.internal.view.impl.FormImplPropertiesEditi
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.viewers.ISelection;
@@ -239,9 +240,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 				setComponentRegistry(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getComponentRegistry());
 				createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
 				parentComposite.layout();
-//				if (messageManager != null) {
-//					messageManager.processMessage(new PropertiesValidationEditingEvent(null, Diagnostic.OK_INSTANCE));
-//				}
+				viewHandler.initView(editingComponent);
 			}
 		}
 	}
@@ -268,6 +267,17 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 			protected void updateWarning(String message) {
 				if (injector != null) {
 					injector.setMessage(message, IStatus.WARNING);
+				}
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManagerImpl#updateLock(java.lang.String)
+			 */
+			@Override
+			protected void updateLock(String message) {
+				if (injector != null) {
+					injector.setMessage(message, EEFNotification.LOCK);
 				}
 			}
 

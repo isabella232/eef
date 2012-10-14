@@ -16,7 +16,6 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstruct
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ReflectHelper;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
-import org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.impl.NullNotifier;
 
@@ -85,7 +84,8 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 				//NOTE: Silent catch
 			}
 		}
-		
+		EEFLockManager lockManager = (EEFLockManager) handlerProvider.getComponentRegistry().getService(EEFLockManager.class, view);
+		lockManager.initView(view);
 	}
 
 	/**
@@ -103,14 +103,6 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	 */
 	public EEFNotifier getNotifier() {
 		return new NullNotifier();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getLockManager()
-	 */
-	public EEFLockManager getLockManager() {
-		return new NullLockManager();
 	}
 
 	/**

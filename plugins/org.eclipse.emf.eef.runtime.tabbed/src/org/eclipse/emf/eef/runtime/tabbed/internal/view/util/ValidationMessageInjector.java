@@ -1,7 +1,8 @@
 package org.eclipse.emf.eef.runtime.tabbed.internal.view.util;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
+import org.eclipse.emf.eef.runtime.ui.UIConstants;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Color;
@@ -43,18 +44,25 @@ public class ValidationMessageInjector {
 	}
 
 	public void setMessage(String message, int severity) {
-		if (isValide()) {
+		//TODO: The viewService should be used to provide Images (and why not colors ?)
+		if (isValid()) {
 			if (severity == IStatus.ERROR) {
 				CLabel messageControl = getMessage();
 				messageControl.setText("Errors");
 				messageControl.setForeground(propertyComposite.getDisplay().getSystemColor(SWT.COLOR_RED));
-				messageControl.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ValidationErrors.gif"));
+				messageControl.setImage(UIConstants.ERROR_DECORATOR);
 				messageControl.setToolTipText(message);
 			} else if (severity == IStatus.WARNING) {
 				CLabel messageControl = getMessage();
 				messageControl.setText("Warnings");
 				messageControl.setForeground(propertyComposite.getDisplay().getSystemColor(SWT.COLOR_DARK_YELLOW));
-				messageControl.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ValidationWarnings.gif"));
+				messageControl.setImage(UIConstants.WARNING_DECORATOR);
+				messageControl.setToolTipText(message);
+			} else if (severity == EEFNotification.LOCK) {
+				CLabel messageControl = getMessage();
+				messageControl.setText("Lock");
+				messageControl.setForeground(propertyComposite.getDisplay().getSystemColor(SWT.COLOR_DARK_GREEN));
+				messageControl.setImage(UIConstants.LOCK_DECORATOR);
 				messageControl.setToolTipText(message);
 			} else {
 				dispose();
@@ -63,7 +71,7 @@ public class ValidationMessageInjector {
 	}
 
 	public final void dispose() {
-		if (isValide()) {
+		if (isValid()) {
 			CLabel message = getMessage();
 			if (message != null && !message.isDisposed()) {
 				FormData data = (FormData)message.getLayoutData();
@@ -87,7 +95,7 @@ public class ValidationMessageInjector {
 	/**
 	 * @return <code>true</code> if the injector has been correctly initialized.
 	 */
-	public final boolean isValide() {
+	public final boolean isValid() {
 		return propertyComposite != null && !propertyComposite.isDisposed() && propertyTitleLabel != null;
 	}
 

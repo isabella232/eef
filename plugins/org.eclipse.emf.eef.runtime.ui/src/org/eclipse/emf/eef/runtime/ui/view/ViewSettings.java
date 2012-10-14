@@ -47,4 +47,9 @@ public interface ViewSettings {
 	 */
 	Image getWarningDecorationImage();
 
+	/**
+	 * @return the {@link Image} to display as warning decorator.
+	 */
+	Image getLockDecorationImage();
+
 }

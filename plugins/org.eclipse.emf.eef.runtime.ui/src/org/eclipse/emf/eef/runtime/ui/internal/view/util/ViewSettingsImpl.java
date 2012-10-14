@@ -71,4 +71,12 @@ public class ViewSettingsImpl implements ViewSettings {
 		return UIConstants.WARNING_DECORATOR;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.ViewSettings#getLockDecorationImage()
+	 */
+	public Image getLockDecorationImage() {
+		return UIConstants.LOCK_DECORATOR;
+	}
+
 }

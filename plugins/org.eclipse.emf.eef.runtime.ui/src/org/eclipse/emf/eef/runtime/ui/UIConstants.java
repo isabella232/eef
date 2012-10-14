@@ -48,4 +48,9 @@ public interface UIConstants {
 	 */
 	final Image WARNING_DECORATOR = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_WARNING).getImage();
 
+	/**
+	 * Defines the default image to use as error decorator.
+	 */
+	final Image LOCK_DECORATOR = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_CONTENT_PROPOSAL).getImage();
+
 }

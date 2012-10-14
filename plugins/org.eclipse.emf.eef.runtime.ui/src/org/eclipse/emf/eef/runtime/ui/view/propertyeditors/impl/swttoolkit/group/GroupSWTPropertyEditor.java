@@ -5,7 +5,6 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.grou
 
 import org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor;
-import org.eclipse.emf.eef.runtime.view.lock.EEFPropertyLock;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -72,9 +71,9 @@ public class GroupSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrapp
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock(org.eclipse.emf.eef.runtime.view.lock.EEFPropertyLock)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
-	public void lock(EEFPropertyLock lock) {
+	public void lock() {
 		// Do nothing
 	}
 

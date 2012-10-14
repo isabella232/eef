@@ -25,8 +25,6 @@ public class EMFEditAwareLockPolicy implements EEFLockPolicy {
 		this.editingContext = editingContext;
 	}
 
-	
-
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy#isLocked(org.eclipse.emf.ecore.EObject)
@@ -34,8 +32,6 @@ public class EMFEditAwareLockPolicy implements EEFLockPolicy {
 	public boolean isLocked(EObject object) {
 		return false;
 	}
-
-
 
 	/**
 	 * {@inheritDoc}
@@ -45,7 +41,7 @@ public class EMFEditAwareLockPolicy implements EEFLockPolicy {
 		if (feature != null) {
 			IItemPropertySource propertySource = (IItemPropertySource) editingContext.getAdapterFactory().adapt(object, IItemPropertySource.class);
 			if (propertySource != null) {
-				return propertySource.getPropertyDescriptor(object, feature).canSetProperty(object);
+				return !propertySource.getPropertyDescriptor(object, feature).canSetProperty(object);
 			}
 		}
 		return false;
