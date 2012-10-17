@@ -10,9 +10,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFComponent;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.EEFService;
-import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 
@@ -55,12 +53,6 @@ public interface PropertiesEditingProvider extends EEFService<EPackage>, EEFComp
 	 */
 	ViewHandlerProvider getViewHandlerProvider(Object view);
 
-	/**
-	 * Defines the {@link EEFComponentRegistryImpl} to use in the current {@link PropertiesEditingProvider}.
-	 * @param componentRegistry the {@link EEFComponentRegistryImpl} to use.
-	 */
-	void setComponentRegistry(EEFComponentRegistry componentRegistry);
-	
 	/**
 	 * Defines the {@link ModelChangesNotificationManager} to use in the current {@link PropertiesEditingProviderRegistry}
 	 * @param notificationManager {@link ModelChangesNotificationManager} to set.

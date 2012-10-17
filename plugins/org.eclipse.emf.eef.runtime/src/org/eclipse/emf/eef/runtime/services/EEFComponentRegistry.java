@@ -1,5 +1,7 @@
 package org.eclipse.emf.eef.runtime.services;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
@@ -20,6 +22,12 @@ public interface EEFComponentRegistry {
 	 * @return the best {@link EEFService} for this element.
 	 */
 	<SERVICETYPE, ANY_SUBTYPE_OF_SERVICETYPE extends SERVICETYPE, ANY_SUBTYPE_OF_SERVICE extends EEFService<SERVICETYPE>> ANY_SUBTYPE_OF_SERVICE getService(Class<? extends ANY_SUBTYPE_OF_SERVICE> type, ANY_SUBTYPE_OF_SERVICETYPE element);
+
+	/**
+	 * Returns the all the available {@link EEFService} of the  given type for the element.
+	 * TODO: in a better world, this method should return a {@link List} with the ordered services.
+	 */
+	<SERVICETYPE, ANY_SUBTYPE_OF_SERVICETYPE extends SERVICETYPE, ANY_SUBTYPE_OF_SERVICE extends EEFService<SERVICETYPE>> Collection<ANY_SUBTYPE_OF_SERVICE> getAllServices(Class<? extends ANY_SUBTYPE_OF_SERVICE> type, ANY_SUBTYPE_OF_SERVICETYPE element);
 
 	/**
 	 * Adds a component in the current registry.

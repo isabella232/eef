@@ -62,6 +62,21 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.EEFComponentRegistry#getAllServices(java.lang.Class, java.lang.Object)
+	 */
+	@SuppressWarnings("unchecked")
+	public <SERVICETYPE, ANY_SUBTYPE_OF_SERVICETYPE extends SERVICETYPE, ANY_SUBTYPE_OF_SERVICE extends EEFService<SERVICETYPE>> Collection<ANY_SUBTYPE_OF_SERVICE> getAllServices(Class<? extends ANY_SUBTYPE_OF_SERVICE> type, ANY_SUBTYPE_OF_SERVICETYPE element) {
+		List<ANY_SUBTYPE_OF_SERVICE> availableProviders = Lists.newArrayList();
+		@SuppressWarnings("rawtypes")
+		EEFServiceStorage storage = storages.get(type.getName());
+		if (storage != null) {
+			availableProviders = (List<ANY_SUBTYPE_OF_SERVICE>)storage.getServicesFor(element);
+		}
+		return availableProviders;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFComponentRegistry#addComponent(org.eclipse.emf.eef.runtime.services.EEFComponent, java.util.Map)
 	 */
 	@SuppressWarnings({ "rawtypes" })

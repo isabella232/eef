@@ -44,7 +44,7 @@ public class EditingViewLockManager extends AbstractEEFComponent implements EEFL
 			PropertiesEditingView editingView = (PropertiesEditingView) view;
 			PropertiesEditingComponent editingComponent = editingView.getEditingComponent();
 			EObject editedEObject = editingComponent.getEObject();
-			Collection<EEFLockPolicy> policies = editingComponent.getEditingContext().getLockPolicyRegistry().getPolicies();
+			Collection<EEFLockPolicy> policies = editingComponent.getLockPolicies();
 			boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
 			EMFService emfService = componentRegistry.getService(EMFService.class, editedEObject.eClass().getEPackage());
 
@@ -55,7 +55,7 @@ public class EditingViewLockManager extends AbstractEEFComponent implements EEFL
 
 	private void checkViewLockingTowardsPolicies(PropertiesEditingView editingView, EObject editedEObject, Collection<EEFLockPolicy> policies) {
 		for (EEFLockPolicy lockPolicy : policies) {
-			if (lockPolicy.isLocked(editedEObject)) {
+			if (lockPolicy.isLocked(editingView.getEditingComponent().getEditingContext(), editedEObject)) {
 				lockView(editingView);
 			}
 		}
@@ -69,7 +69,7 @@ public class EditingViewLockManager extends AbstractEEFComponent implements EEFL
 			EStructuralFeature feature = emfService.mapFeature(editedEObject, editingComponent.getBinding().feature(next, autowire));
 			if (next instanceof ElementEditor) {
 				for (EEFLockPolicy lockPolicy : policies) {
-					if (lockPolicy.isLocked(editedEObject, feature)) {
+					if (lockPolicy.isLocked(editingView.getEditingComponent().getEditingContext(), editedEObject, feature)) {
 						lockEditor(editingView, next);
 					}
 				}

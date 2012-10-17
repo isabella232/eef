@@ -15,6 +15,7 @@ import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPro
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import org.osgi.service.event.EventHandler;
 
 import com.google.common.base.Function;
@@ -100,7 +101,13 @@ public interface PropertiesEditingComponent extends PropertiesEditingListener, E
 	void removeEditingListener(PropertiesEditingListener listener);
 	
 	/**
-	 * Notifies this composant of a model change.
+	 * Returns all the {@link EEFLockPolicy} available in the context of the current component.
+	 * @return a collection of applicable policies.
+	 */
+	Collection<EEFLockPolicy> getLockPolicies();
+	
+	/**
+	 * Notifies this component of a model change.
 	 * @param msg {@link Notification} describing the model change.
 	 */
 	void notifyChanged(Notification msg);

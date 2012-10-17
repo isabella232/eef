@@ -10,17 +10,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-
 import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
-
+import org.eclipse.emf.samples.conferences.policies.LockingByAdapterPolicy.LockAdapter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -32,14 +32,13 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.SubContributionItem;
-
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
-
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 
@@ -111,6 +110,31 @@ public class ConferenceActionBarContributor
 				}
 			}
 		};
+
+	protected IAction lockingObjectAction = new Action("Locking") {
+		
+		@Override
+		public boolean isEnabled() {
+			return activeEditorPart instanceof ISelectionProvider;
+		}
+
+		@Override
+		public void run() {
+			if (activeEditorPart instanceof ISelectionProvider) {
+				ISelection iSelection = ((ISelectionProvider)activeEditorPart).getSelection();
+				if (iSelection instanceof StructuredSelection) {
+					Object selection = ((StructuredSelection) iSelection).getFirstElement();
+					if (selection instanceof EObject) {
+						EObject eObject = (EObject)selection;
+						LockAdapter lockAdapter = (LockAdapter) EcoreUtil.getExistingAdapter(eObject, LockAdapter.class);
+						if (lockAdapter != null) {
+							lockAdapter.setLocked(!lockAdapter.isLocked());
+						}
+					}
+				}
+			}
+		}
+	};
 
 	/**
 	 * This will contain one {@link org.eclipse.emf.edit.ui.action.CreateChildAction} corresponding to each descriptor
@@ -400,7 +424,7 @@ public class ConferenceActionBarContributor
 	 * This inserts global actions before the "additions-end" separator.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void addGlobalActions(IMenuManager menuManager) {
@@ -409,7 +433,9 @@ public class ConferenceActionBarContributor
 
 		refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());		
 		menuManager.insertAfter("ui-actions", refreshViewerAction);
-
+		
+		menuManager.insertAfter("ui-actions", lockingObjectAction);
+		
 		super.addGlobalActions(menuManager);
 	}
 

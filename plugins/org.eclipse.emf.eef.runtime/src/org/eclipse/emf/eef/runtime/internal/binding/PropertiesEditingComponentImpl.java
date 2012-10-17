@@ -34,6 +34,7 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedNotification;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedPropertyNotification;
@@ -152,6 +153,17 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	public void removeEditingListener(PropertiesEditingListener listener) {
 		listeners.remove(listener);		
 	}
+	
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getLockPolicies()
+	 * TODO: a filter should be provided via the {@link PropertiesEditingProvider} in order to keep control of this registry.
+	 */
+	public Collection<EEFLockPolicy> getLockPolicies() {
+		return editingProvider.getComponentRegistry().getAllServices(EEFLockPolicy.class, source);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#notifyChanged(Notification)

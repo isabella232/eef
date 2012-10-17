@@ -58,7 +58,7 @@ public abstract class StandardFormPropertyEditor<VIEWER extends Viewer> implemen
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		getViewer().getControl().setEnabled(false);		
+		getViewer().getControl().setEnabled(true);		
 	}
 	
 }

@@ -11,7 +11,6 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
-import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -44,11 +43,6 @@ public interface PropertiesEditingContext {
 	 */
 	PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context);
 	
-	/**
-	 * @return the {@link EEFLockPolicyRegistry} of the current {@link PropertiesEditingContext}.
-	 */
-	EEFLockPolicyRegistry getLockPolicyRegistry();
-
 	/**
 	 * @return the {@link AdapterFactory} of the context.
 	 */

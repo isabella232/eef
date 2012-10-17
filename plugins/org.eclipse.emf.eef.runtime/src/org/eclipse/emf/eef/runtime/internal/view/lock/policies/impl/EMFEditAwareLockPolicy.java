@@ -7,37 +7,36 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
-import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EMFEditAwareLockPolicy implements EEFLockPolicy {
-	
-	private PropertiesEditingContext editingContext;
+public class EMFEditAwareLockPolicy extends AbstractEEFComponent implements EEFLockPolicy {
 	
 	/**
-	 * @param editingContext the {@link PropertiesEditingContext} owning this policy.
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public EMFEditAwareLockPolicy(PropertiesEditingContext editingContext) {
-		this.editingContext = editingContext;
+	public boolean serviceFor(EObject element) {
+		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy#isLocked(org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy#isLocked(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject)
 	 */
-	public boolean isLocked(EObject object) {
+	public boolean isLocked(PropertiesEditingContext editingContext, EObject object) {
 		return false;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy#isLocked(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
+	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy#isLocked(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
-	public boolean isLocked(EObject object, EStructuralFeature feature) {
+	public boolean isLocked(PropertiesEditingContext editingContext, EObject object, EStructuralFeature feature) {
 		if (feature != null) {
 			IItemPropertySource propertySource = (IItemPropertySource) editingContext.getAdapterFactory().adapt(object, IItemPropertySource.class);
 			if (propertySource != null) {
@@ -45,14 +44,6 @@ public class EMFEditAwareLockPolicy implements EEFLockPolicy {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy#setRegistry(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry)
-	 */
-	public void setRegistry(EEFLockPolicyRegistry registry) {
-		// Nothing to do: this policy doesn't send lock event.
 	}
 
 	/**

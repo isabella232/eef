@@ -57,7 +57,7 @@ public abstract class StandardSWTPropertyEditor<VIEWER extends Viewer> implement
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		getViewer().getControl().setEnabled(false);		
+		getViewer().getControl().setEnabled(true);		
 	}
 	
 }

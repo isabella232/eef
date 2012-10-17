@@ -11,7 +11,6 @@ import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyRegistry;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -37,10 +36,6 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setPropertiesEditingProviderRegistry(org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry)
-	 */
-	/**
 	 * @param notificationManager
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setNotificationManager(org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager)
 	 */
@@ -61,13 +56,6 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	 */
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context) {
 		return delegatingContext.getEditingPolicy(context);
-	}
-
-	/**
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getLockPolicyRegistry()
-	 */
-	public EEFLockPolicyRegistry getLockPolicyRegistry() {
-		return delegatingContext.getLockPolicyRegistry();
 	}
 
 	/**
