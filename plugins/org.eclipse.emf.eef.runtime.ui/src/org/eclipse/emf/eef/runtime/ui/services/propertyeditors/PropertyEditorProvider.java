@@ -3,8 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.ui.services.propertyeditors;
 
-import org.eclipse.emf.eef.runtime.services.EEFService;
-import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -14,7 +12,7 @@ import org.eclipse.emf.eef.views.ViewElement;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface PropertyEditorProvider extends EEFService<PropertyEditorContext> {
+public interface PropertyEditorProvider {
 	
 	/**
 	 * Return the PropertyEditor for this ElementEditor

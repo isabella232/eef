@@ -2,7 +2,7 @@
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.SWTToolkit">
    <implementation class="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit"/>
    <service>
-      <provide interface="org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider"/>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFComponent"/>
+      <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider"/>
    </service>
 </scr:component>

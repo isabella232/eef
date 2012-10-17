@@ -11,6 +11,12 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
  *
  */
 public interface WidgetPropertyEditorProvider extends ModelPropertyEditorProvider<Widget> {
-		
+
+	/**
+	 * Defines if the current provider is able to handle the given {@link PropertyEditorContext}.
+	 * @param editorContext context to process.
+	 * @return <code>true</code> if the current provider can handle this context.
+	 */
+	boolean serviceFor(PropertyEditorContext editorContext);
 
 }
