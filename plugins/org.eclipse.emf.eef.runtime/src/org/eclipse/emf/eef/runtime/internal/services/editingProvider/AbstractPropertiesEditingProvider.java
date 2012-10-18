@@ -20,6 +20,7 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -165,6 +166,14 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 			editingModels.addAll(initSpecificEditingModel());
 		}
 		return editingModels;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#validateLockPolicy(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy)
+	 */
+	public boolean validateLockPolicy(EEFLockPolicy lockPolicy) {
+		return true;
 	}
 
 }

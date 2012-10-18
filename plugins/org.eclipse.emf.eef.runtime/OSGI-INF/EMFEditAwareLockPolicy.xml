@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.EMFEditAwareLockPolicy">
-   <implementation class="org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EMFEditAwareLockPolicy"/>
-   <service>
-      <provide interface="org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy"/>
-      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
-   </service>
-</scr:component>

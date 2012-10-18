@@ -10,11 +10,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
-import org.eclipse.emf.samples.conference.ConferencePackage;
 
 import com.google.common.base.Function;
 
@@ -22,15 +20,7 @@ import com.google.common.base.Function;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class LockingByAdapterPolicy extends AbstractEEFService<EObject> implements EEFLockPolicy {
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
-	 */
-	public boolean serviceFor(EObject element) {
-		return ConferencePackage.eNS_URI.equals(element.eClass().getEPackage().getNsURI());
-	}
+public class LockingByAdapterPolicy implements EEFLockPolicy {
 
 	/**
 	 * {@inheritDoc}

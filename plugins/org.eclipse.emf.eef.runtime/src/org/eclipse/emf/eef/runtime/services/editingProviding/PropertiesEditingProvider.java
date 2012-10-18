@@ -12,6 +12,7 @@ import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -57,5 +58,12 @@ public interface PropertiesEditingProvider extends EEFService<EPackage> {
 	 * @param notificationManager {@link ModelChangesNotificationManager} to set.
 	 */
 	void setNotificationManager(ModelChangesNotificationManager notificationManager);
+
+	/**
+	 * Method allowing users to filter the {@link EEFLockPolicy}s applied on a {@link PropertiesEditingComponent}. 
+	 * @param lockPolicy {@link EEFLockPolicy} to process.
+	 * @return <code>true</code> if the given policy must be applied on the edited elements.
+	 */
+	boolean validateLockPolicy(EEFLockPolicy lockPolicy);
 
 }

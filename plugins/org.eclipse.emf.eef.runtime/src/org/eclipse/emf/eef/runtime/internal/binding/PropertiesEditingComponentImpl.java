@@ -35,6 +35,7 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedNotification;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedPropertyNotification;
@@ -57,6 +58,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	private PropertiesEditingContext editingContext;
 	private PropertiesEditingModel editingModel;
 	private List<ViewHandler<?>> viewHandlers;
+	private List<EEFLockPolicy> lockPolicies;
 	private ViewChangeNotifier viewChangeNotifier;
 	private List<PropertiesEditingListener> listeners;
 	private EventTimer eventTimer;
@@ -70,6 +72,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		this.source = source;
 		this.listeners = Lists.newArrayList();
 		this.viewHandlers = Lists.newArrayList();
+		this.lockPolicies = initLockPolicies();
 	}
 
 	/**
@@ -158,10 +161,9 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getLockPolicies()
-	 * TODO: a filter should be provided via the {@link PropertiesEditingProvider} in order to keep control of this registry.
 	 */
 	public Collection<EEFLockPolicy> getLockPolicies() {
-		return editingProvider.getComponentRegistry().getAllServices(EEFLockPolicy.class, source);
+		return lockPolicies;
 	}
 
 	/**
@@ -475,6 +477,19 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		viewHandlers.clear();
 		viewChangeNotifier = null;
 		listeners.clear();
+	}
+
+	private List<EEFLockPolicy> initLockPolicies() {
+		List<EEFLockPolicy> result = Lists.newArrayList();
+		Collection<EEFLockPolicyFactory> factories = editingProvider.getComponentRegistry().getAllServices(EEFLockPolicyFactory.class, source);
+		for (EEFLockPolicyFactory factory : factories) {
+			//TODO: can be optimized
+			EEFLockPolicy lockPolicy = factory.createLockPolicy();
+			if (editingProvider.validateLockPolicy(lockPolicy)) {
+				result.add(lockPolicy);
+			}
+		}
+		return result;
 	}
 
 	/**
