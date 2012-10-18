@@ -3,14 +3,13 @@
  */
 package org.eclipse.emf.eef.runtime.view.notify;
 
-import org.eclipse.emf.eef.runtime.services.EEFComponent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface EEFNotifier extends EEFService<Object>, EEFComponent {
+public interface EEFNotifier extends EEFService<Object> {
 
 	/**
 	 * Notifies a view with a {@link EEFNotification}.

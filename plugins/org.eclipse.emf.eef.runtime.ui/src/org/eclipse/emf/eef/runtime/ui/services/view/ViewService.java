@@ -19,7 +19,6 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.services.EEFComponent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
@@ -32,7 +31,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface ViewService extends EEFService<View>, EEFComponent {
+public interface ViewService extends EEFService<View> {
 	
 	/**
 	 * Defines the constant for an unknown EEF representation type.

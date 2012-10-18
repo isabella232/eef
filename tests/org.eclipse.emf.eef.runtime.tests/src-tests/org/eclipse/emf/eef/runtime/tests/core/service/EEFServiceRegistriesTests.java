@@ -20,9 +20,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
+import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
@@ -46,13 +46,13 @@ public class EEFServiceRegistriesTests {
 	@Test
 	public void testCustomizedEMFService() {
 		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
-		EEFComponentRegistry componentRegistry = env.getComponentRegistry();
-		assertTrue("Bad type of EEFComponentRegistry.", componentRegistry instanceof EEFComponentRegistryImpl);
+		EEFServiceRegistry componentRegistry = env.getComponentRegistry();
+		assertTrue("Bad type of EEFServiceRegistry.", componentRegistry instanceof EEFServiceRegistryImpl);
 		EMFService defaultEMFService = componentRegistry.getService(EMFService.class, EcorePackage.eINSTANCE);
 		try {
 			Map<String, String> properties = new HashMap<String, String>();
 			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, "customService");
-			componentRegistry.addComponent(new CustomEMFService(), properties);
+			componentRegistry.addService(new CustomEMFService(), properties);
 		} catch (PriorityCircularityException e) {
 			//Can't happen
 		}
@@ -63,7 +63,7 @@ public class EEFServiceRegistriesTests {
 	@Test
 	public void testOrderedEEFServiceRegistrySelection() {
 		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
-		EEFComponentRegistry vhpRegistry = env.getComponentRegistry();
+		EEFServiceRegistry vhpRegistry = env.getComponentRegistry();
 		String component1 = "component1";
 		String component2 = "component2";
 		String component3 = "component3";
@@ -93,7 +93,7 @@ public class EEFServiceRegistriesTests {
 	@Test
 	public void testOrderedEEFServiceRegistryNonCircularity() {
 		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
-		EEFComponentRegistry vhpRegistry = env.getComponentRegistry();
+		EEFServiceRegistry vhpRegistry = env.getComponentRegistry();
 		String component1 = "component1";
 		String component2 = "component2";
 		String component3 = "component3";
@@ -107,7 +107,7 @@ public class EEFServiceRegistriesTests {
 		assertNull("Bad circularity check", result3);		
 	}
 
-	protected ViewHandlerProvider addToRegistry(EEFComponentRegistry registry, String componentName, final Object obj, final String... priorityOver) {
+	protected ViewHandlerProvider addToRegistry(EEFServiceRegistry registry, String componentName, final Object obj, final String... priorityOver) {
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, componentName);
 		if (priorityOver != null && priorityOver.length > 0) {
@@ -152,7 +152,7 @@ public class EEFServiceRegistriesTests {
 		ViewHandlerProvider handler = new VHPTest(viewHandler, obj);
 		
 		try {
-			registry.addComponent(handler, properties);
+			registry.addService(handler, properties);
 		} catch (PriorityCircularityException e) {
 			return null;
 		}
@@ -163,9 +163,9 @@ public class EEFServiceRegistriesTests {
 		
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 		 */
-		public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+		public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
 			
 		}
 
@@ -173,7 +173,7 @@ public class EEFServiceRegistriesTests {
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#getComponentRegistry()
 		 */
-		public EEFComponentRegistry getComponentRegistry() {
+		public EEFServiceRegistry getComponentRegistry() {
 			return null;
 		}
 
@@ -208,9 +208,9 @@ public class EEFServiceRegistriesTests {
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 		 */
-		public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+		public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
 			
 		}
 
@@ -218,7 +218,7 @@ public class EEFServiceRegistriesTests {
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#getComponentRegistry()
 		 */
-		public EEFComponentRegistry getComponentRegistry() {
+		public EEFServiceRegistry getComponentRegistry() {
 			return null;
 		}
 

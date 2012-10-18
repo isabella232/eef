@@ -6,14 +6,13 @@ package org.eclipse.emf.eef.runtime.view.lock.policies;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.services.EEFComponent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface EEFLockPolicy extends EEFService<EObject>, EEFComponent {
+public interface EEFLockPolicy extends EEFService<EObject> {
 	
 	/**
 	 * Defines if an {@link EObject} is locked.

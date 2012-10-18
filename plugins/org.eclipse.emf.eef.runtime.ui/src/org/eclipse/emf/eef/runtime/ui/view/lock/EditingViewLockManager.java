@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
@@ -25,7 +25,7 @@ import org.eclipse.emf.eef.views.ViewElement;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EditingViewLockManager extends AbstractEEFComponent implements EEFLockManager {
+public class EditingViewLockManager extends AbstractEEFService<Object> implements EEFLockManager {
 
 	/**
 	 * {@inheritDoc}

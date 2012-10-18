@@ -13,7 +13,7 @@ import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingCon
 import org.eclipse.emf.eef.runtime.internal.policies.SemanticDirectEditingPolicy;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 
@@ -28,7 +28,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	protected ContextOptions options;
 	
 	private EditingRecorder editingRecorder;
-	private EEFComponentRegistry componentRegistry;
+	private EEFServiceRegistry componentRegistry;
 	private ModelChangesNotificationManager notificationManager;
 
 	private PropertiesEditingComponent component;
@@ -56,7 +56,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setEEFComponentRegistry(EMFServiceProvider)
 	 */
-	public void setEEFComponentRegistry(EEFComponentRegistry emfServiceProvider) {
+	public void setEEFComponentRegistry(EEFServiceRegistry emfServiceProvider) {
 		this.componentRegistry = emfServiceProvider;
 	}
 

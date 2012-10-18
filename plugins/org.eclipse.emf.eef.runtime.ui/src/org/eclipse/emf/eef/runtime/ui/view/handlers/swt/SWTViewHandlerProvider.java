@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.view.handlers.swt;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.swt.widgets.Composite;
@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class SWTViewHandlerProvider extends AbstractEEFComponent implements ViewHandlerProvider {
+public class SWTViewHandlerProvider extends AbstractEEFService<Object> implements ViewHandlerProvider {
 	
 	/**
 	 * {@inheritDoc}

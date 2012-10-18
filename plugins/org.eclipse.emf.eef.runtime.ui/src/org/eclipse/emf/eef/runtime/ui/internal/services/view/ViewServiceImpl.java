@@ -26,7 +26,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.resource.JFaceResources;
@@ -43,9 +43,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- * TODO: manage a Semanticless mode.
  */
-public class ViewServiceImpl extends AbstractEEFComponent implements ViewService, DefaultService {
+public class ViewServiceImpl extends AbstractEEFService<View> implements ViewService, DefaultService {
 		
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 

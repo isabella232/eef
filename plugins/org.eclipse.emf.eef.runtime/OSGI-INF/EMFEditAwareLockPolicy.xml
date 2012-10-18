@@ -3,6 +3,6 @@
    <implementation class="org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EMFEditAwareLockPolicy"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy"/>
-      <provide interface="org.eclipse.emf.eef.runtime.services.EEFComponent"/>
+      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
    </service>
 </scr:component>

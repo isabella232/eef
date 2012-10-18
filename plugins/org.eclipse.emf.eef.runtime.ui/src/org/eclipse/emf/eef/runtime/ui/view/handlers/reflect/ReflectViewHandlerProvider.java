@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.view.handlers.reflect;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 
@@ -12,7 +12,7 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ReflectViewHandlerProvider extends AbstractEEFComponent implements ViewHandlerProvider {
+public class ReflectViewHandlerProvider extends AbstractEEFService<Object> implements ViewHandlerProvider {
 	
 	/**
 	 * {@inheritDoc}

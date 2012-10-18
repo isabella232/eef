@@ -4,14 +4,13 @@
 package org.eclipse.emf.eef.runtime.services.viewhandler;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.services.EEFComponent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface ViewHandlerProvider extends EEFService<Object>, EEFComponent {
+public interface ViewHandlerProvider extends EEFService<Object> {
 
 	/**
 	 * Provides a handler for the given view.

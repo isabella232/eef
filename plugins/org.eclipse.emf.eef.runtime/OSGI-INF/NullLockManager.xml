@@ -2,7 +2,7 @@
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.NullLockManager">
    <implementation class="org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager"/>
    <service>
-      <provide interface="org.eclipse.emf.eef.runtime.services.EEFComponent"/>
+      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
       <provide interface="org.eclipse.emf.eef.runtime.view.lock.EEFLockManager"/>
    </service>
 </scr:component>

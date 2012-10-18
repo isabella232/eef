@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.eef.runtime.services.EEFService;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
@@ -17,7 +17,7 @@ import org.eclipse.emf.eef.views.toolkits.Toolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class ToolkitPropertyEditorProvider extends AbstractEEFComponent implements ModelPropertyEditorProvider<Toolkit>, EEFService<PropertyEditorContext> {
+public abstract class ToolkitPropertyEditorProvider extends AbstractEEFService<PropertyEditorContext> implements ModelPropertyEditorProvider<Toolkit>, EEFService<PropertyEditorContext> {
 
 	private List<WidgetPropertyEditorProvider> widgetProviders;
 	

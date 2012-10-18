@@ -8,7 +8,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
@@ -91,7 +91,7 @@ public class EEFRuntimeTabbed extends EMFPlugin {
 			super.start(context);
 			editingContextFactorytracker = new ServiceTracker(context, PropertiesEditingContextFactory.class.getName(), null);
 			editingContextFactorytracker.open();
-			componentRegistrytracker = new ServiceTracker(context, EEFComponentRegistry.class.getName(), null);
+			componentRegistrytracker = new ServiceTracker(context, EEFServiceRegistry.class.getName(), null);
 			componentRegistrytracker.open();
 		}
 
@@ -116,8 +116,8 @@ public class EEFRuntimeTabbed extends EMFPlugin {
 		/**
 		 * @return
 		 */
-		public EEFComponentRegistry getEEFComponentRegistry() {
-			return (EEFComponentRegistry) componentRegistrytracker.getService();
+		public EEFServiceRegistry getEEFComponentRegistry() {
+			return (EEFServiceRegistry) componentRegistrytracker.getService();
 		}
  
 		/**

@@ -3,14 +3,13 @@
  */
 package org.eclipse.emf.eef.runtime.view.lock;
 
-import org.eclipse.emf.eef.runtime.services.EEFComponent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface EEFLockManager extends EEFService<Object>, EEFComponent {
+public interface EEFLockManager extends EEFService<Object> {
 
 	/**
 	 * Initialize the view locks.

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 
-public interface EEFComponentRegistry {
+public interface EEFServiceRegistry {
 
 	/**
 	 * Returns the asked {@link EEFService} for the given element. The registry select the returned one follow these choices:
@@ -30,17 +30,17 @@ public interface EEFComponentRegistry {
 	<SERVICETYPE, ANY_SUBTYPE_OF_SERVICETYPE extends SERVICETYPE, ANY_SUBTYPE_OF_SERVICE extends EEFService<SERVICETYPE>> Collection<ANY_SUBTYPE_OF_SERVICE> getAllServices(Class<? extends ANY_SUBTYPE_OF_SERVICE> type, ANY_SUBTYPE_OF_SERVICETYPE element);
 
 	/**
-	 * Adds a component in the current registry.
-	 * @param component the {@link EEFComponent} to add.
-	 * @param properties properties of the component.
+	 * Adds a service in the current registry.
+	 * @param service the {@link EEFService} to add.
+	 * @param properties properties of the service.
 	 * @throws PriorityCircularityException if we add this component, a circularity is introduced in the priority tree.
 	 */
-	void addComponent(EEFComponent component, Map<String, ?> properties) throws PriorityCircularityException;
+	void addService(EEFService<?> service, Map<String, ?> properties) throws PriorityCircularityException;
 
 	/**
-	 * Removes a component from the current registry.
-	 * @param component the component to remove.
+	 * Removes a service from the current registry.
+	 * @param service the service to remove.
 	 */
-	void removeComponent(final EEFComponent component);
+	void removeService(final EEFService<?> service);
 
 }

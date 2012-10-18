@@ -7,7 +7,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.View;
@@ -21,10 +21,10 @@ import org.eclipse.swt.widgets.Composite;
 public interface PropertiesEditingView extends PropertiesEditingListener {
 
 	/**
-	 * Defines the {@link EEFComponentRegistry} to use in the current view.
-	 * @param componentRegistry the {@link EEFComponentRegistry} to use.
+	 * Defines the {@link EEFServiceRegistry} to use in the current view.
+	 * @param componentRegistry the {@link EEFServiceRegistry} to use.
 	 */
-	void setComponentRegistry(EEFComponentRegistry componentRegistry);
+	void setComponentRegistry(EEFServiceRegistry componentRegistry);
 	
 	/**
 	 * @return a {@link View} describing the current view.

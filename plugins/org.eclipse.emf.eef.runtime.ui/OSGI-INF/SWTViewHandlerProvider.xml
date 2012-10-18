@@ -3,7 +3,7 @@
    <implementation class="org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider"/>
-      <provide interface="org.eclipse.emf.eef.runtime.services.EEFComponent"/>
+      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
    </service>
    <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.ReflectViewHandlerProvider"/>
 </scr:component>

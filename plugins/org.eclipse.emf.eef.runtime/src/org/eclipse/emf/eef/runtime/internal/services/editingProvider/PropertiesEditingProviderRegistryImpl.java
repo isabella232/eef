@@ -5,7 +5,7 @@
 //
 //import org.eclipse.emf.ecore.EPackage;
 //import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-//import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+//import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 //import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 //import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry;
 //import org.eclipse.emf.eef.runtime.services.impl.EEFServiceSimpleRegistry;
@@ -16,22 +16,22 @@
 // */
 //public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegistry<EPackage, PropertiesEditingProvider> implements PropertiesEditingProviderRegistry {
 //
-//	private EEFComponentRegistry componentRegistry;
+//	private EEFServiceRegistry componentRegistry;
 //	private ModelChangesNotificationManager notificationManager;
 //
 //	/**
 //	 * {@inheritDoc}
-//	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
+//	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 //	 */
-//	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+//	public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
 //		this.componentRegistry = componentRegistry;
 //	}
 //
 //	/**
 //	 * {@inheritDoc}
-//	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
+//	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 //	 */
-//	public void unsetComponentRegistry(EEFComponentRegistry componentRegistry) {
+//	public void unsetComponentRegistry(EEFServiceRegistry componentRegistry) {
 //		if (componentRegistry == this.componentRegistry) {
 //			componentRegistry = null;
 //		}

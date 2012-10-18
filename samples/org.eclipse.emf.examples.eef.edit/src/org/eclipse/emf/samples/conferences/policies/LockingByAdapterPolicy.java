@@ -9,8 +9,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
@@ -22,7 +22,7 @@ import com.google.common.base.Function;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class LockingByAdapterPolicy extends AbstractEEFComponent implements EEFLockPolicy {
+public class LockingByAdapterPolicy extends AbstractEEFService<EObject> implements EEFLockPolicy {
 
 	/**
 	 * {@inheritDoc}
@@ -102,7 +102,7 @@ public class LockingByAdapterPolicy extends AbstractEEFComponent implements EEFL
 				this.getTarget().eAdapters().remove(this);
 			} else {
 				this.locked = locked;
-				final EEFComponentRegistry componentRegistry = editingComponent.getEditingContext().getEMFService().getComponentRegistry();
+				final EEFServiceRegistry componentRegistry = editingComponent.getEditingContext().getEMFService().getComponentRegistry();
 				editingComponent.executeOnViewHandlers(new Function<ViewHandler<?>, Void>() {
 
 					/**

@@ -12,13 +12,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EMFServiceImpl extends AbstractEEFComponent implements EMFService, DefaultService {
+public class EMFServiceImpl extends AbstractEEFService<EPackage> implements EMFService, DefaultService {
 	
 	/**
 	 * {@inheritDoc}

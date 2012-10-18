@@ -18,7 +18,7 @@ import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironment
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 
 import com.google.common.base.Function;
@@ -31,7 +31,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class AbstractPropertiesEditingProvider extends AbstractEEFComponent implements PropertiesEditingProvider {
+public abstract class AbstractPropertiesEditingProvider extends AbstractEEFService<EPackage> implements PropertiesEditingProvider {
 
 	private List<PropertiesEditingModel> editingModels;
 	private EditingModelEnvironment editingModelEnvironment;
@@ -56,7 +56,7 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFCompo
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+	 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
 	 */
 	public Collection<String> providedServices() {
 		Collection<String> providedServices = super.providedServices();

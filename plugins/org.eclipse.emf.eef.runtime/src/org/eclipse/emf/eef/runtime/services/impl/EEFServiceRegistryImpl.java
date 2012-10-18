@@ -11,9 +11,8 @@ import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
-import org.eclipse.emf.eef.runtime.services.EEFComponent;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
 import org.eclipse.emf.eef.runtime.services.EEFService;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.BiMap;
@@ -26,19 +25,19 @@ import com.google.common.collect.Maps;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry {
+public class EEFServiceRegistryImpl implements Cloneable, EEFServiceRegistry {
 	
 	private Map<String, EEFServiceStorage<?>> storages;
 	private BiMap<String, Node> services;
 	
-	public EEFComponentRegistryImpl() {
+	public EEFServiceRegistryImpl() {
 		services = HashBiMap.create();
 		storages = Maps.newHashMap();
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EEFComponentRegistry#getService(java.lang.Class, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceRegistry#getService(java.lang.Class, java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
 	public final <SERVICETYPE, ANY_SUBTYPE_OF_SERVICETYPE extends SERVICETYPE, ANY_SUBTYPE_OF_SERVICE extends EEFService<SERVICETYPE>> ANY_SUBTYPE_OF_SERVICE getService(Class<? extends ANY_SUBTYPE_OF_SERVICE> type, ANY_SUBTYPE_OF_SERVICETYPE element) {
@@ -62,7 +61,7 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EEFComponentRegistry#getAllServices(java.lang.Class, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceRegistry#getAllServices(java.lang.Class, java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
 	public <SERVICETYPE, ANY_SUBTYPE_OF_SERVICETYPE extends SERVICETYPE, ANY_SUBTYPE_OF_SERVICE extends EEFService<SERVICETYPE>> Collection<ANY_SUBTYPE_OF_SERVICE> getAllServices(Class<? extends ANY_SUBTYPE_OF_SERVICE> type, ANY_SUBTYPE_OF_SERVICETYPE element) {
@@ -77,37 +76,35 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EEFComponentRegistry#addComponent(org.eclipse.emf.eef.runtime.services.EEFComponent, java.util.Map)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceRegistry#addService(org.eclipse.emf.eef.runtime.services.EEFService, java.util.Map)
 	 */
-	@SuppressWarnings({ "rawtypes" })
-	public final synchronized void addComponent(EEFComponent component, Map<String, ?> properties) throws PriorityCircularityException {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public final synchronized void addService(EEFService<?> service, Map<String, ?> properties) throws PriorityCircularityException {
 		try {
-			if (component instanceof EEFService<?>) {
-				EEFComponentRegistryImpl clone = (EEFComponentRegistryImpl) this.clone();
-				Node addedNode = clone.addNode((String) properties.get("component.name"), (EEFService<?>) component);
-				List<String> prioritiesOver = extractPriorities(properties.get("priority.over"));
+			EEFServiceRegistryImpl clone = (EEFServiceRegistryImpl) this.clone();
+			Node addedNode = clone.addNode((String) properties.get("component.name"), (EEFService<?>) service);
+			List<String> prioritiesOver = extractPriorities(properties.get("priority.over"));
+			for (String hasPriorityOver : prioritiesOver) {
+				clone.addEdge(addedNode, clone.getOrCreateNode(hasPriorityOver));
+
+			}
+			if (clone.isAcyclic()) {
+				Node newNode = addNode((String) properties.get("component.name"), (EEFService<?>) service);				
 				for (String hasPriorityOver : prioritiesOver) {
-					clone.addEdge(addedNode, clone.getOrCreateNode(hasPriorityOver));
+					addEdge(newNode, getOrCreateNode(hasPriorityOver));
 
 				}
-				if (clone.isAcyclic()) {
-					Node newNode = addNode((String) properties.get("component.name"), (EEFService<?>) component);				
-					for (String hasPriorityOver : prioritiesOver) {
-						addEdge(newNode, getOrCreateNode(hasPriorityOver));
-
+				for (String serviceType : service.providedServices()) {
+					EEFServiceStorage storage = storages.get(serviceType);
+					if (storage == null) {
+						storage = new EEFServiceStorage();
+						storages.put(serviceType, storage);
 					}
-					for (String serviceType : component.providedServices()) {
-						EEFServiceStorage storage = storages.get(serviceType);
-						if (storage == null) {
-							storage = new EEFServiceStorage();
-							storages.put(serviceType, storage);
-						}
-						storage.addService(component);
-					}
-					component.setComponentRegistry(this);
-				} else {
-					throw new PriorityCircularityException(component);
+					storage.addService(service);
 				}
+				service.setComponentRegistry(this);
+			} else {
+				throw new PriorityCircularityException(service);
 			}
 		} catch (CloneNotSupportedException e) {
 			// Can't happen, I'm cloneable!
@@ -117,14 +114,15 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EEFComponentRegistry#removeComponent(org.eclipse.emf.eef.runtime.services.EEFComponent)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceRegistry#removeService(org.eclipse.emf.eef.runtime.services.EEFService)
 	 */
-	public final synchronized void removeComponent(final EEFComponent component) {
-		services.inverse().remove(component);
-		for (String serviceType : component.providedServices()) {
+	@SuppressWarnings("unchecked")
+	public final synchronized void removeService(final EEFService<?> service) {
+		services.inverse().remove(service);
+		for (String serviceType : service.providedServices()) {
 			@SuppressWarnings("rawtypes")
 			EEFServiceStorage storage = storages.get(serviceType);
-			storage.removeService(component);
+			storage.removeService(service);
 		}
 	}
 	
@@ -134,7 +132,7 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 	 */
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
-		EEFComponentRegistryImpl result = new EEFComponentRegistryImpl();
+		EEFServiceRegistryImpl result = new EEFServiceRegistryImpl();
 		Map<Node, Node> mapping = Maps.newHashMap();
 		for (Entry<String, Node> node : services.entrySet()) {
 			Node addedNode = result.addNode(node.getKey(), node.getValue().getTarget());
@@ -196,7 +194,7 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 	
 	private boolean isAcyclic() {
 		try {
-			EEFComponentRegistryImpl clone = (EEFComponentRegistryImpl) clone();
+			EEFServiceRegistryImpl clone = (EEFServiceRegistryImpl) clone();
 			while (clone.getNodes().size() > 0) {
 				if (clone.leafNodes().size() > 0) {
 					List<Node> nodesToRemove = Lists.newArrayList(clone.leafNodes());
@@ -337,7 +335,7 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 	
 	private static class EEFServiceStorage<T> {
 		
-		private List<EEFComponent> services;
+		private List<EEFService<?>> services;
 		private DefaultService defaultService;
 		
 		/**
@@ -352,7 +350,7 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 		 * Adds a {@link EEFService} in the current storage. If this service implements {@link DefaultService}, it's stored in a separate way.
 		 * @param service the {@link EEFService} to store.
 		 */
-		public void addService(EEFComponent service) {
+		public void addService(EEFService<?> service) {
 			if (service instanceof DefaultService) {
 				defaultService = (DefaultService) service;
 			} else {
@@ -364,7 +362,7 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 		 * Removes a {@link EEFService} in the current storage. 
 		 * @param service the {@link EEFService} to store.
 		 */
-		public void removeService(EEFComponent service) {
+		public void removeService(EEFService<?> service) {
 			services.remove(service);
 			if (defaultService == service) {
 				defaultService = null;
@@ -378,7 +376,7 @@ public class EEFComponentRegistryImpl implements Cloneable, EEFComponentRegistry
 		@SuppressWarnings("unchecked")
 		public List<EEFService<T>> getServicesFor(T element) {
 			List<EEFService<T>> result = Lists.newArrayList();
-			for (EEFComponent service : services) {
+			for (EEFService<?> service : services) {
 				if (((EEFService<T>)service).serviceFor(element)) {
 					result.add((EEFService<T>) service);
 				}

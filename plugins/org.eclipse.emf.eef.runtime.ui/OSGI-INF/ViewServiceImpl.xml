@@ -3,6 +3,6 @@
    <implementation class="org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.ui.services.view.ViewService"/>
-      <provide interface="org.eclipse.emf.eef.runtime.services.EEFComponent"/>
+      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
    </service>
 </scr:component>

@@ -32,11 +32,11 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
+import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
@@ -135,7 +135,7 @@ public class EEFTestEnvironment {
 	 * @return
 	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getEMFServiceProvider()
 	 */
-	public EEFComponentRegistry getComponentRegistry() {
+	public EEFServiceRegistry getComponentRegistry() {
 		return builder.getComponentRegistry();
 	}
 
@@ -189,7 +189,7 @@ public class EEFTestEnvironment {
 
 		private AdapterFactory adapterFactory;
 		private Collection<EMFService> emfServices;
-		private EEFComponentRegistry componentRegistry;
+		private EEFServiceRegistry componentRegistry;
 		private Collection<PropertiesEditingProvider> editingProviders;
 		private ModelChangesNotificationManager notificationManager;
 
@@ -263,7 +263,7 @@ public class EEFTestEnvironment {
 			return emfServices;
 		}
 
-		public EEFComponentRegistry getComponentRegistry() {
+		public EEFServiceRegistry getComponentRegistry() {
 			if (componentRegistry == null) {
 				componentRegistry = createComponentRegistry();
 			}
@@ -347,7 +347,7 @@ public class EEFTestEnvironment {
 		 * @param componentRegistry
 		 * @return
 		 */
-		public Builder setComponentRegistry(EEFComponentRegistry componentRegistry) {
+		public Builder setComponentRegistry(EEFServiceRegistry componentRegistry) {
 			this.componentRegistry= componentRegistry;
 			return this;
 		}
@@ -576,7 +576,7 @@ public class EEFTestEnvironment {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
 				 */
 				@Override
 				public Collection<String> providedServices() {
@@ -597,7 +597,7 @@ public class EEFTestEnvironment {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
 				 */
 				@Override
 				public Collection<String> providedServices() {
@@ -610,38 +610,38 @@ public class EEFTestEnvironment {
 			return services;
 		}
 
-		public EEFComponentRegistry createComponentRegistry() {
-			EEFComponentRegistry componentRegistry = new EEFComponentRegistryImpl();
+		public EEFServiceRegistry createComponentRegistry() {
+			EEFServiceRegistry componentRegistry = new EEFServiceRegistryImpl();
 			try {
 				for (EMFService emfService : getEMFServices()) {
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, emfService.getClass().getName());
-					componentRegistry.addComponent(emfService, properties);
+					componentRegistry.addService(emfService, properties);
 				}
 				for (ViewService service : getViewServices()) {
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, service.getClass().getName());
-					componentRegistry.addComponent(service, properties);			
+					componentRegistry.addService(service, properties);			
 				}
 				for (ToolkitPropertyEditorProvider provider : getEditorProviders()) {
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
-					componentRegistry.addComponent(provider, properties);
+					componentRegistry.addService(provider, properties);
 				}
 				for (PropertiesEditingProvider provider : getEditingProviders()) {			
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
-					componentRegistry.addComponent(provider, properties);
+					componentRegistry.addService(provider, properties);
 				}
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(COMPONENT_NAME_KEY, EditingViewNotifier.class.getName());
-				componentRegistry.addComponent(new EditingViewNotifier(), properties);
+				componentRegistry.addService(new EditingViewNotifier(), properties);
 				properties.put(COMPONENT_NAME_KEY, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
-				componentRegistry.addComponent(new ReflectViewHandlerProvider() {
+				componentRegistry.addService(new ReflectViewHandlerProvider() {
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+					 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
 					 */
 					@Override
 					public Collection<String> providedServices() {
@@ -653,11 +653,11 @@ public class EEFTestEnvironment {
 				}, properties);
 				properties.put(COMPONENT_NAME_KEY, SWT_VIEW_HANDLER_PROVIDER_NAME);
 				properties.put(PRIORITY_OVER_KEY, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
-				componentRegistry.addComponent(new SWTViewHandlerProvider() {
+				componentRegistry.addService(new SWTViewHandlerProvider() {
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+					 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
 					 */
 					@Override
 					public Collection<String> providedServices() {
@@ -673,7 +673,7 @@ public class EEFTestEnvironment {
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+					 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
 					 */
 					@Override
 					public Collection<String> providedServices() {
@@ -683,7 +683,7 @@ public class EEFTestEnvironment {
 					}
 					
 				};
-				componentRegistry.addComponent(handler, properties);
+				componentRegistry.addService(handler, properties);
 			} catch (PriorityCircularityException e) {
 				//TODO: can't happen!
 			}
@@ -696,7 +696,7 @@ public class EEFTestEnvironment {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
 				 */
 				@Override
 				public Collection<String> providedServices() {
@@ -710,7 +710,7 @@ public class EEFTestEnvironment {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
 				 */
 				@Override
 				public Collection<String> providedServices() {
@@ -729,7 +729,7 @@ public class EEFTestEnvironment {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
 				 */
 				@Override
 				public Collection<String> providedServices() {
@@ -780,17 +780,17 @@ public class EEFTestEnvironment {
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
+		 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 		 */
-		public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+		public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
 			
 		}
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
+		 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 		 */
-		public void unsetComponentRegistry(EEFComponentRegistry componentRegistry) {
+		public void unsetComponentRegistry(EEFServiceRegistry componentRegistry) {
 			
 		}
 

@@ -27,7 +27,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 
@@ -453,22 +453,22 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 		return result.toString();
 	}
 
-	private EEFComponentRegistry componentRegistry;
+	private EEFServiceRegistry componentRegistry;
 	
 	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getComponentRegistry()
 	 */
-	public EEFComponentRegistry getComponentRegistry() {
+	public EEFServiceRegistry getComponentRegistry() {
 		return componentRegistry;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */
-	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+	public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
 		this.componentRegistry = componentRegistry;
 	}
 	

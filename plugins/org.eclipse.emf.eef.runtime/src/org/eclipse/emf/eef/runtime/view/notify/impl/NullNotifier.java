@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.view.notify.impl;
 
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 
@@ -13,7 +13,7 @@ import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
  * 
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  */
-public class NullNotifier extends AbstractEEFComponent implements EEFNotifier, DefaultService {
+public class NullNotifier extends AbstractEEFService<Object> implements EEFNotifier, DefaultService {
 
 	/**
 	 * {@inheritDoc}

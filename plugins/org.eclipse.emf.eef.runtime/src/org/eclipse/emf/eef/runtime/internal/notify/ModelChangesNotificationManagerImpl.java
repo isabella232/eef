@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotifierImpl;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -33,7 +33,7 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 
 	private BundleContext bundleContext;
 	private EventAdmin eventAdmin;
-	private EEFComponentRegistry componentRegistry;
+	private EEFServiceRegistry componentRegistry;
 	
 	private Map<PropertiesEditingComponent,ServiceRegistration> serviceRegistrations;
 	
@@ -61,17 +61,17 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
+	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */
-	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+	public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
 		this.componentRegistry = componentRegistry;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
+	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */
-	public void unsetComponentRegistry(EEFComponentRegistry componentRegistry) {
+	public void unsetComponentRegistry(EEFServiceRegistry componentRegistry) {
 		if (componentRegistry == this.componentRegistry) {
 			this.componentRegistry = null;
 		}

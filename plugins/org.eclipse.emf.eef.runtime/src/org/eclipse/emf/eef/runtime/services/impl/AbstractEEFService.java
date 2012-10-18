@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Dictionary;
 
-import org.eclipse.emf.eef.runtime.services.EEFComponent;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFService;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.osgi.service.component.ComponentContext;
 
 import com.google.common.collect.Lists;
@@ -17,26 +17,26 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class AbstractEEFComponent implements EEFComponent {
+public abstract class AbstractEEFService<T> implements EEFService<T> {
 
 	private Collection<String> providedServices;
-	protected EEFComponentRegistry componentRegistry;
+	protected EEFServiceRegistry componentRegistry;
 	
-	public AbstractEEFComponent() {
+	public AbstractEEFService() {
 		providedServices = Lists.newArrayList();
 	}
 
 	/**
 	 * @return the componentRegistry
 	 */
-	public EEFComponentRegistry getComponentRegistry() {
+	public EEFServiceRegistry getComponentRegistry() {
 		return componentRegistry;
 	}
 
 	/**
 	 * @param componentRegistry the componentRegistry to set
 	 */
-	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+	public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
 		this.componentRegistry = componentRegistry;
 	}
 

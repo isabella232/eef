@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.view.lock.impl;
 
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 
 /**
@@ -12,7 +12,7 @@ import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
  * 
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  */
-public class NullLockManager extends AbstractEEFComponent implements EEFLockManager, DefaultService {
+public class NullLockManager extends AbstractEEFService<Object> implements EEFLockManager, DefaultService {
 
 	/**
 	 * {@inheritDoc}

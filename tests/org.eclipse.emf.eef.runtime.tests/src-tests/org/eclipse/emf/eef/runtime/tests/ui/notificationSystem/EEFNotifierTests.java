@@ -16,10 +16,10 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl;
+import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
@@ -67,39 +67,39 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		return builder;
 	}
 
-	public EEFComponentRegistry createComponentRegistry(EEFTestEnvironment.Builder builder) {
-		EEFComponentRegistry componentRegistry = new EEFComponentRegistryImpl();
+	public EEFServiceRegistry createComponentRegistry(EEFTestEnvironment.Builder builder) {
+		EEFServiceRegistry componentRegistry = new EEFServiceRegistryImpl();
 		try {
 			for (EMFService emfService : builder.getEMFServices()) {
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, emfService.getClass().getName());
-				componentRegistry.addComponent(emfService, properties);
+				componentRegistry.addService(emfService, properties);
 			}
 			for (ViewService service : builder.getViewServices()) {
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, service.getClass().getName());
-				componentRegistry.addComponent(service, properties);			
+				componentRegistry.addService(service, properties);			
 			}
 			for (ToolkitPropertyEditorProvider provider : builder.getEditorProviders()) {
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
-				componentRegistry.addComponent(provider, properties);
+				componentRegistry.addService(provider, properties);
 			}
 			for (PropertiesEditingProvider provider : builder.getEditingProviders()) {
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
-				componentRegistry.addComponent(provider, properties);
+				componentRegistry.addService(provider, properties);
 			}
 			Map<String, String> properties = new HashMap<String, String>();
 			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, TestNotifier.class.getName());
 			testNotifier = new TestNotifier();
-			componentRegistry.addComponent(testNotifier, properties);
+			componentRegistry.addService(testNotifier, properties);
 			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, EEFTestEnvironment.REFLECT_VIEW_HANDLER_PROVIDER_NAME);
-			componentRegistry.addComponent(new ReflectViewHandlerProvider() {
+			componentRegistry.addService(new ReflectViewHandlerProvider() {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
 				 */
 				@Override
 				public Collection<String> providedServices() {
@@ -111,11 +111,11 @@ public class EEFNotifierTests extends UIEditingTestCase {
 			}, properties);
 			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, EEFTestEnvironment.SWT_VIEW_HANDLER_PROVIDER_NAME);
 			properties.put(EEFTestEnvironment.PRIORITY_OVER_KEY, EEFTestEnvironment.REFLECT_VIEW_HANDLER_PROVIDER_NAME);
-			componentRegistry.addComponent(new SWTViewHandlerProvider() {
+			componentRegistry.addService(new SWTViewHandlerProvider() {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
 				 */
 				@Override
 				public Collection<String> providedServices() {
@@ -152,7 +152,7 @@ public class EEFNotifierTests extends UIEditingTestCase {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent#providedServices()
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
 				 */
 				@Override
 				public Collection<String> providedServices() {
@@ -162,7 +162,7 @@ public class EEFNotifierTests extends UIEditingTestCase {
 				}
 				
 			};
-			componentRegistry.addComponent(handler, properties);
+			componentRegistry.addService(handler, properties);
 		} catch (PriorityCircularityException e) {
 			//TODO: can't happen!
 		}
@@ -231,7 +231,7 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#getComponentRegistry()
 		 */
-		public EEFComponentRegistry getComponentRegistry() {
+		public EEFServiceRegistry getComponentRegistry() {
 			return null;
 		}
 
@@ -255,9 +255,9 @@ public class EEFNotifierTests extends UIEditingTestCase {
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 		 */
-		public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+		public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
 			
 		}
 

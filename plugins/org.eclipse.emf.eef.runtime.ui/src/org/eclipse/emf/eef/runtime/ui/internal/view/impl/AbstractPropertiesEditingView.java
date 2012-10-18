@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewSettingsImpl;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -34,7 +34,7 @@ import com.google.common.collect.UnmodifiableIterator;
  */
 public abstract class AbstractPropertiesEditingView implements PropertiesEditingView {
 	
-	protected EEFComponentRegistry componentRegistry;
+	protected EEFServiceRegistry componentRegistry;
 	protected PropertiesEditingComponent editingComponent;
 	protected View viewDescriptor;
 	
@@ -68,9 +68,9 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFComponentRegistry)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 	 */
-	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+	public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
 		this.componentRegistry = componentRegistry;
 	}
 

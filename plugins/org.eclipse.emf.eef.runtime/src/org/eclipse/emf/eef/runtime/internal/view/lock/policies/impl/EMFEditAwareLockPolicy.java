@@ -7,14 +7,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFComponent;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EMFEditAwareLockPolicy extends AbstractEEFComponent implements EEFLockPolicy {
+public class EMFEditAwareLockPolicy extends AbstractEEFService<EObject> implements EEFLockPolicy {
 	
 	/**
 	 * {@inheritDoc}

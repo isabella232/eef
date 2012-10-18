@@ -10,7 +10,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -18,22 +18,22 @@ import org.eclipse.emf.eef.runtime.services.EEFComponentRegistry;
  */
 public class PropertiesEditingContextFactoryImpl implements PropertiesEditingContextFactory {
 
-	private EEFComponentRegistry componentRegistry;
+	private EEFServiceRegistry componentRegistry;
 	private ModelChangesNotificationManager notificationManager;
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */
-	public void setComponentRegistry(EEFComponentRegistry componentRegistry) {
+	public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
 		this.componentRegistry = componentRegistry;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFComponentRegistryImpl)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */
-	public void unsetComponentRegistry(EEFComponentRegistry componentRegistry) {
+	public void unsetComponentRegistry(EEFServiceRegistry componentRegistry) {
 		if (componentRegistry == this.componentRegistry) {
 			this.componentRegistry = null;
 		}
