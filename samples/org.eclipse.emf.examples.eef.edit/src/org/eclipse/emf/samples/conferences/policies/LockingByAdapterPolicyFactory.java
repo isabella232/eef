@@ -15,10 +15,6 @@ import org.eclipse.emf.samples.conference.ConferencePackage;
  */
 public class LockingByAdapterPolicyFactory extends AbstractEEFService<EObject> implements EEFLockPolicyFactory {
 	
-	public LockingByAdapterPolicyFactory() {
-		System.out.println();
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
