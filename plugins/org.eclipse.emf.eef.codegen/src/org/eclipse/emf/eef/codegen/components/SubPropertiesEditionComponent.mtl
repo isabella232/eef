@@ -191,7 +191,6 @@ public class [pec.subPECClass(view)/] extends [include(pec.pecQualifiedComponent
 			[/if]
 		}
 	}
-
 [if (not pec.properties.oclAsType(PropertiesEditionElement).views->includesAll(view.eAllContents(ElementEditor)))]
 	/**
 	 * {@inheritDoc}
@@ -199,7 +198,7 @@ public class [pec.subPECClass(view)/] extends [include(pec.pecQualifiedComponent
 	 */
 	public boolean mustBeComposed(Object key, int kind) {
 	[let containers : OrderedSet(views::Container) = view.eAllContents(ElementEditor)->reject(e : ElementEditor | not pec.properties.views->includes(e)).ancestors()->select(e | e.oclIsTypeOf(views::Container))->asOrderedSet()]
-		return [for (pee : PropertiesEditionElement | pec.properties.oclAsType(PropertiesEditionElement)->select(pee : PropertiesEditionElement | view.eAllContents(ElementEditor)->includes(pee.views->first()))) separator (' || ')]key == [pee.views->first().editorID()/][/for][if (containers->notEmpty())] || [for (cont : views::Container | containers) separator (' || ')]key == [cont.editorID()/].class[/for][/if];
+		return [if (pec.properties.oclAsType(PropertiesEditionElement)->select(pee : PropertiesEditionElement | view.eAllContents(ElementEditor)->includes(pee.views->first()))->size() = 0)]true[else][for (pee : PropertiesEditionElement | pec.properties.oclAsType(PropertiesEditionElement)->select(pee : PropertiesEditionElement | view.eAllContents(ElementEditor)->includes(pee.views->first()))) separator (' || ')]key == [pee.views->first().editorID()/][/for][if (containers->notEmpty())] || [for (cont : views::Container | containers) separator (' || ')]key == [cont.editorID()/].class[/for][/if][/if];
 	[/let]
 	}
 [/if][if (pec.properties.oclAsType(PropertiesEditionElement)->select(localPee : PropertiesEditionElement | localPee.model.required)->notEmpty())]

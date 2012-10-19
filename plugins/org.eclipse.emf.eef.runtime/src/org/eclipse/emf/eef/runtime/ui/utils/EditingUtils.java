@@ -31,14 +31,14 @@ public class EditingUtils {
 	 */
 	public static EditingDomain getResourceSetFromEditor(IWorkbenchPart part) {
 		EditingDomain editingDomain = null;
-		if (part instanceof IEditingDomainProvider)
+		if (part instanceof IEditingDomainProvider) {
 			editingDomain = ((IEditingDomainProvider)part).getEditingDomain();
-		if (part instanceof IEditorPart) {
-			if ((((IEditorPart)part).getAdapter(IEditingDomainProvider.class)) != null)
-				editingDomain = ((IEditingDomainProvider)((IEditorPart)part)
+		} else {
+			if (part.getAdapter(IEditingDomainProvider.class) != null)
+				editingDomain = ((IEditingDomainProvider)part
 						.getAdapter(IEditingDomainProvider.class)).getEditingDomain();
-			else if ((((IEditorPart)part).getAdapter(EditingDomain.class)) != null)
-				editingDomain = (EditingDomain)((IEditorPart)part).getAdapter(EditingDomain.class);
+			else if (part.getAdapter(EditingDomain.class) != null)
+				editingDomain = (EditingDomain)part.getAdapter(EditingDomain.class);
 		}
 		return editingDomain;
 	}
