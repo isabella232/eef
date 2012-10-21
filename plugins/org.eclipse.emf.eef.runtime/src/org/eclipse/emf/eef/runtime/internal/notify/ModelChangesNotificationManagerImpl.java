@@ -33,7 +33,7 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 
 	private BundleContext bundleContext;
 	private EventAdmin eventAdmin;
-	private EEFServiceRegistry componentRegistry;
+	private EEFServiceRegistry serviceRegistry;
 	
 	private Map<PropertiesEditingComponent,ServiceRegistration> serviceRegistrations;
 	
@@ -61,19 +61,19 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
+	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#setServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */
-	public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
-		this.componentRegistry = componentRegistry;
+	public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
+	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unsetServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */
-	public void unsetComponentRegistry(EEFServiceRegistry componentRegistry) {
-		if (componentRegistry == this.componentRegistry) {
-			this.componentRegistry = null;
+	public void unsetServiceRegistry(EEFServiceRegistry serviceRegistry) {
+		if (serviceRegistry == this.serviceRegistry) {
+			this.serviceRegistry = null;
 		}
 	}
 
@@ -103,7 +103,7 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#initModelChangesNotifierIfNeeded(EObject)
 	 */
 	public void initModelChangesNotifierIfNeeded(EObject source) {
-		EMFService emfService = componentRegistry.getService(EMFService.class, source.eClass().getEPackage());
+		EMFService emfService = serviceRegistry.getService(EMFService.class, source.eClass().getEPackage());
 		Notifier highestNotifier = emfService.highestNotifier(source);
 		Adapter existingAdapter = EcoreUtil.getExistingAdapter(highestNotifier, ModelChangesNotifier.class);
 		if (existingAdapter == null) {

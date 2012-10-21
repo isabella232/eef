@@ -780,17 +780,17 @@ public class EEFTestEnvironment {
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
+		 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 		 */
-		public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
+		public void setServiceRegistry(EEFServiceRegistry componentRegistry) {
 			
 		}
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
+		 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unsetServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 		 */
-		public void unsetComponentRegistry(EEFServiceRegistry componentRegistry) {
+		public void unsetServiceRegistry(EEFServiceRegistry componentRegistry) {
 			
 		}
 

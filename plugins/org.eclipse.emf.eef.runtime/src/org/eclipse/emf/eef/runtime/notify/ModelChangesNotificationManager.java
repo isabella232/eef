@@ -21,13 +21,13 @@ public interface ModelChangesNotificationManager {
 	 * Defines the {@link EEFServiceRegistryImpl} to use in the current NotificationManager.
 	 * @param serviceRegistry the {@link EEFServiceRegistryImpl} to use.
 	 */
-	void setComponentRegistry(EEFServiceRegistry componentRegistry);
+	void setServiceRegistry(EEFServiceRegistry serviceRegistry);
 	
 	/**
 	 * Unsets the {@link EEFServiceRegistryImpl} used in the current NotificationManager.
 	 * @param serviceRegistry the {@link EEFServiceRegistryImpl} to unset.
 	 */
-	void unsetComponentRegistry(EEFServiceRegistry componentRegistry);
+	void unsetServiceRegistry(EEFServiceRegistry serviceRegistry);
 	
 	/**
 	 * Registers the given {@link PropertiesEditingComponent} in the {@link BundleContext} as an {@link EventHandler}.
