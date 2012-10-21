@@ -18,24 +18,24 @@ import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
  */
 public class PropertiesEditingContextFactoryImpl implements PropertiesEditingContextFactory {
 
-	private EEFServiceRegistry componentRegistry;
+	private EEFServiceRegistry serviceRegistry;
 	private ModelChangesNotificationManager notificationManager;
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */
-	public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
-		this.componentRegistry = componentRegistry;
+	public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */
-	public void unsetComponentRegistry(EEFServiceRegistry componentRegistry) {
-		if (componentRegistry == this.componentRegistry) {
-			this.componentRegistry = null;
+	public void unsetServiceRegistry(EEFServiceRegistry serviceRegistry) {
+		if (serviceRegistry == this.serviceRegistry) {
+			this.serviceRegistry = null;
 		}
 	}
 
@@ -88,7 +88,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	}
 
 	private void configureEditingContext(PropertiesEditingContext context) {
-		context.setServiceRegistry(componentRegistry);
+		context.setServiceRegistry(serviceRegistry);
 		context.setNotificationManager(notificationManager);
 	}
 

@@ -748,7 +748,7 @@ public class EEFTestEnvironment {
 
 		public PropertiesEditingContextFactory createPropertiesEditingContextFactory() {
 			PropertiesEditingContextFactory factory = new PropertiesEditingContextFactoryImpl();
-			factory.setComponentRegistry(getComponentRegistry());
+			factory.setServiceRegistry(getComponentRegistry());
 			factory.setNotificationManager(getModelChangesNotificationManager());
 			return factory;
 		}
