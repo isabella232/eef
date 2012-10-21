@@ -139,8 +139,8 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 	 */
 	public final PropertiesEditingModel getEditingModel(EObject eObject) {
 		for (PropertiesEditingModel editingModel : getEditingModels()) {
-			if (editingModel.getComponentRegistry() == null) {
-				editingModel.setComponentRegistry(serviceRegistry);
+			if (editingModel.getServiceRegistry() == null) {
+				editingModel.setServiceRegistry(serviceRegistry);
 			}
 			if (editingModel.binding(eObject) != null) {
 				return editingModel;

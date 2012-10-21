@@ -168,8 +168,8 @@ public interface PropertiesEditingModel extends EObject {
 	 */
 	ViewHandler<?> viewHandler(EObject eObject, Object view);
 	
-	EEFServiceRegistry getComponentRegistry();
+	EEFServiceRegistry getServiceRegistry();
 	
-	void setComponentRegistry(EEFServiceRegistry registry);
+	void setServiceRegistry(EEFServiceRegistry registry);
 
 } // PropertiesEditingModel

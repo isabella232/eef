@@ -458,17 +458,17 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getComponentRegistry()
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getServiceRegistry()
 	 */
-	public EEFServiceRegistry getComponentRegistry() {
+	public EEFServiceRegistry getServiceRegistry() {
 		return componentRegistry;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#setServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */
-	public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
+	public void setServiceRegistry(EEFServiceRegistry componentRegistry) {
 		this.componentRegistry = componentRegistry;
 	}
 	

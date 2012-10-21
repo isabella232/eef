@@ -255,7 +255,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#fireLockChanged(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
 	 */
 	public void fireLockChanged(final EEFLockEvent lockEvent) {
-		final EEFServiceRegistry componentRegistry = editingProvider.getServiceRegistry();
+		final EEFServiceRegistry serviceRegistry = editingProvider.getServiceRegistry();
 		executeOnViewHandlers(new Function<ViewHandler<?>, Void>() {
 
 			/**
@@ -264,7 +264,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			 */
 			public Void apply(ViewHandler<?> arg0) {
 				Object view = arg0.getView();
-				EEFLockManager lockManager = componentRegistry.getService(EEFLockManager.class, view);
+				EEFLockManager lockManager = serviceRegistry.getService(EEFLockManager.class, view);
 				lockManager.fireLockChange(PropertiesEditingComponentImpl.this, view, lockEvent);
 				return null;
 			}
