@@ -254,7 +254,7 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 * @generated NOT
 	 */
 	public EClassBinding binding(EObject eObject) {
-		EMFService emfService = componentRegistry.getService(EMFService.class, eObject.eClass().getEPackage());
+		EMFService emfService = serviceRegistry.getService(EMFService.class, eObject.eClass().getEPackage());
 		for (EClassBinding binding : bindings) {
 			if ((emfService != null && emfService.equals(eObject.eClass(), binding.getEClass())) || eObject.eClass().equals(binding.getEClass())) {
 				return binding;
@@ -453,7 +453,7 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 		return result.toString();
 	}
 
-	private EEFServiceRegistry componentRegistry;
+	private EEFServiceRegistry serviceRegistry;
 	
 	
 	/**
@@ -461,15 +461,15 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getServiceRegistry()
 	 */
 	public EEFServiceRegistry getServiceRegistry() {
-		return componentRegistry;
+		return serviceRegistry;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#setServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */
-	public void setServiceRegistry(EEFServiceRegistry componentRegistry) {
-		this.componentRegistry = componentRegistry;
+	public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
 	}
 	
 } //PropertiesEditingModelImpl
