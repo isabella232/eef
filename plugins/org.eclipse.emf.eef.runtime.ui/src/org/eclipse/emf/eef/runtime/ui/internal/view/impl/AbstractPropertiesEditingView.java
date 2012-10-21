@@ -34,7 +34,7 @@ import com.google.common.collect.UnmodifiableIterator;
  */
 public abstract class AbstractPropertiesEditingView implements PropertiesEditingView {
 	
-	protected EEFServiceRegistry componentRegistry;
+	protected EEFServiceRegistry serviceRegistry;
 	protected PropertiesEditingComponent editingComponent;
 	protected View viewDescriptor;
 	
@@ -68,10 +68,10 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 	 */
-	public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
-		this.componentRegistry = componentRegistry;
+	public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
 	}
 
 	/**
@@ -96,7 +96,7 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 	 */
 	public ViewService getViewService() {
 		if (service == null) {
-			service = componentRegistry.getService(ViewService.class, viewDescriptor);
+			service = serviceRegistry.getService(ViewService.class, viewDescriptor);
 		}
 		if (editingComponent != null && editingComponent != service.getEditingComponent()) {
 			service.setEditingComponent(editingComponent);

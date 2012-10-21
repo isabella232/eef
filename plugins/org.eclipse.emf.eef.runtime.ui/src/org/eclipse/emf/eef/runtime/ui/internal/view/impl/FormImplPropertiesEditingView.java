@@ -53,7 +53,7 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;
 			PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
-			ToolkitPropertyEditorProvider propertyEditorProvider = componentRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
+			ToolkitPropertyEditorProvider propertyEditorProvider = serviceRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
@@ -64,7 +64,7 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
 			PropertyEditorContext editorContext = new PropertyEditorContext(this, container);
-			ToolkitPropertyEditorProvider propertyEditorProvider = componentRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
+			ToolkitPropertyEditorProvider propertyEditorProvider = serviceRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {

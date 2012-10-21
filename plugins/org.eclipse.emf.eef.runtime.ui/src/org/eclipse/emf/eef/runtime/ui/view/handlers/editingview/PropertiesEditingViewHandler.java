@@ -60,11 +60,11 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 				FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
 				if (toolkit != null) {
 					view = new FormImplPropertiesEditingView(editingComponent, viewDescriptor);
-					view.setComponentRegistry(handlerProvider.getServiceRegistry());
+					view.setServiceRegistry(handlerProvider.getServiceRegistry());
 					((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[1]);
 				} else {
 					view = new SWTImplPropertiesEditingView(editingComponent, viewDescriptor);					
-					view.setComponentRegistry(handlerProvider.getServiceRegistry());
+					view.setServiceRegistry(handlerProvider.getServiceRegistry());
 					((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);
 				}
 			}
