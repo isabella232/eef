@@ -3,18 +3,19 @@
  */
 package org.eclipse.emf.samples.conferences.policies;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
-
-import com.google.common.base.Function;
+import org.eclipse.emf.eef.runtime.view.lock.policies.impl.EEFLockEventImpl;
+import org.eclipse.emf.eef.runtime.view.lock.policies.impl.EEFPropertyLockEventImpl;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -56,11 +57,13 @@ public class LockingByAdapterPolicy implements EEFLockPolicy {
 
 	public static final class LockAdapter extends AdapterImpl {
 
-		private boolean locked = false;
 		private PropertiesEditingComponent editingComponent;
+		private boolean locked = false;
+		private Collection<EStructuralFeature> lockedFeatures;
 		
 		public LockAdapter(PropertiesEditingComponent editingComponent) {
 			this.editingComponent = editingComponent;
+			lockedFeatures = new ArrayList<EStructuralFeature>();
 		}
 
 		/**
@@ -83,7 +86,19 @@ public class LockingByAdapterPolicy implements EEFLockPolicy {
 				return locked;
 			}
 		}
-
+		
+		/**
+		 * @return the locked
+		 */
+		public boolean isPropertyLocked(EStructuralFeature feature) {
+			if (editingComponent.getEditingContext() == null) {
+				this.getTarget().eAdapters().remove(this);
+				return false;
+			} else {
+				return lockedFeatures.contains(feature);
+			}
+		}
+		
 		/**
 		 * @param locked the locked to set
 		 */
@@ -92,26 +107,25 @@ public class LockingByAdapterPolicy implements EEFLockPolicy {
 				this.getTarget().eAdapters().remove(this);
 			} else {
 				this.locked = locked;
-				final EEFServiceRegistry componentRegistry = editingComponent.getEditingContext().getEMFService().getComponentRegistry();
-				editingComponent.executeOnViewHandlers(new Function<ViewHandler<?>, Void>() {
-
-					/**
-					 * {@inheritDoc}
-					 * @see com.google.common.base.Function#apply(java.lang.Object)
-					 */
-					@Override
-					public Void apply(ViewHandler<?> arg0) {
-						Object view = arg0.getView();
-						EEFLockManager lockManager = componentRegistry.getService(EEFLockManager.class, view);
-						if (LockAdapter.this.locked) {
-							lockManager.lockView(view);
-						} else {
-							lockManager.clearViewLock(view);
-						}
-						return null;
-					}
-
-				});
+				editingComponent.fireLockChanged(new EEFLockEventImpl((EObject) getTarget(), this.locked?EEFLockEvent.LockState.LOCKED:EEFLockEvent.LockState.UNLOCKED));
+			}
+		}
+		
+		/**
+		 * @param feature
+		 * @param locked
+		 */
+		public void setFeatureLocked(EStructuralFeature feature, boolean locked) {
+			if (editingComponent.getEditingContext() == null) {
+				this.getTarget().eAdapters().remove(this);
+			} else {
+				if (locked) {
+					lockedFeatures.add(feature);
+					editingComponent.fireLockChanged(new EEFPropertyLockEventImpl((EObject) getTarget(), feature, EEFLockEvent.LockState.LOCKED));
+				} else {
+					lockedFeatures.remove(feature);
+					editingComponent.fireLockChanged(new EEFPropertyLockEventImpl((EObject) getTarget(), feature, EEFLockEvent.LockState.UNLOCKED));					
+				}
 			}
 		}
 		

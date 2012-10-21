@@ -26,6 +26,7 @@ Export-Package: org.eclipse.emf.eef.runtime.binding,
  org.eclipse.emf.eef.runtime.view.lock,
  org.eclipse.emf.eef.runtime.view.lock.impl,
  org.eclipse.emf.eef.runtime.view.lock.policies,
+ org.eclipse.emf.eef.runtime.view.lock.policies.impl,
  org.eclipse.emf.eef.runtime.view.notify,
  org.eclipse.emf.eef.runtime.view.notify.impl
 Bundle-ActivationPolicy: lazy

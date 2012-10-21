@@ -15,6 +15,7 @@ import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPro
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import org.osgi.service.event.EventHandler;
 
@@ -107,10 +108,16 @@ public interface PropertiesEditingComponent extends PropertiesEditingListener, E
 	Collection<EEFLockPolicy> getLockPolicies();
 	
 	/**
-	 * Notifies this component of a model change.
+	 * Notifies the current component of a model change.
 	 * @param msg {@link Notification} describing the model change.
 	 */
 	void notifyChanged(Notification msg);
+	
+	/**
+	 * Notifies the current component of a lock change.
+	 * @param lockEvent {@link EEFLockEvent} describing the lock change.
+	 */
+	void fireLockChanged(EEFLockEvent lockEvent);
 
 	/**
 	 * Validates the element edited by the current component.

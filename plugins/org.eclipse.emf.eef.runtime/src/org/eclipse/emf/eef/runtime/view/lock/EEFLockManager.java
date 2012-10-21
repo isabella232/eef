@@ -3,7 +3,9 @@
  */
 package org.eclipse.emf.eef.runtime.view.lock;
 
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -42,5 +44,13 @@ public interface EEFLockManager extends EEFService<Object> {
 	 * @param editor the editor to unlock
 	 */
 	void clearEditorLock(Object view, Object editor);
+	
+	/**
+	 * Notifies the current manager of a lock change.
+	 * @param editingComponent the {@link PropertiesEditingComponent} receiving the event.
+	 * @param view the view to process.
+	 * @param lockEvent the {@link EEFLockEvent} describing the lock.
+	 */
+	void fireLockChange(PropertiesEditingComponent editingComponent, Object view, EEFLockEvent lockEvent);
 	
 }

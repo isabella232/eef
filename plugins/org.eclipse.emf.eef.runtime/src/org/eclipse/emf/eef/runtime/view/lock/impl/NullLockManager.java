@@ -3,9 +3,11 @@
  */
 package org.eclipse.emf.eef.runtime.view.lock.impl;
 
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 
 /**
  * A null implementation of the {@link EEFLockManager} interface.
@@ -62,5 +64,12 @@ public class NullLockManager extends AbstractEEFService<Object> implements EEFLo
 		// Do nothing
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#fireLockChange(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object, org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
+	 */
+	public void fireLockChange(PropertiesEditingComponent editingComponent, Object view, EEFLockEvent lockEvent) {
+		// Do nothing
+	}
 
 }

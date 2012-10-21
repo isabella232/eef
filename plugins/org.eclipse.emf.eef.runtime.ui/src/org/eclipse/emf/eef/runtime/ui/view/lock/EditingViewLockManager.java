@@ -14,7 +14,9 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFPropertyLockEvent;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.impl.LockNotification;
 import org.eclipse.emf.eef.runtime.view.notify.impl.PropertyLockNotification;
@@ -131,4 +133,24 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#fireLockChange(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object, org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
+	 */
+	public void fireLockChange(PropertiesEditingComponent editingComponent, Object view, EEFLockEvent lockEvent) {
+		if (lockEvent instanceof EEFPropertyLockEvent) {
+			Object editor = editingComponent.getBinding().propertyEditor(((EEFPropertyLockEvent) lockEvent).getLockedFeature(), editingComponent.getEditingContext().getOptions().autowire());
+			if (lockEvent.getState() == EEFLockEvent.LockState.LOCKED) {
+				lockEditor(view, editor);
+			} else {
+				clearEditorLock(view, editor);
+			}
+		} else {
+			if (lockEvent.getState() == EEFLockEvent.LockState.LOCKED) {
+				lockView(view);
+			} else {
+				clearViewLock(view);
+			}
+		}
+	}
 }

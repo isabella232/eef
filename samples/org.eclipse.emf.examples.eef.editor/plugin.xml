@@ -35,5 +35,26 @@
             contributorClass="org.eclipse.emf.samples.conference.presentation.ConferenceActionBarContributor">
       </editor>
    </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="org.eclipse.emf.examples.eef.editor.propertyContributor1">
+         <propertyCategory></propertyCategory>
+      </propertyContributor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.eclipse.emf.samples.conference.views"
+            name="Conference Category">
+      </category>
+      <view
+            category="org.eclipse.emf.samples.conference.views"
+            class="org.eclipse.emf.samples.conference.views.LockingView"
+            icon="icons/sample.gif"
+            id="org.eclipse.emf.samples.conference.views.LockingView"
+            name="Conference Lock View">
+      </view>
+   </extension>
 
 </plugin>
