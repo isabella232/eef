@@ -88,7 +88,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	}
 
 	private void configureEditingContext(PropertiesEditingContext context) {
-		context.setEEFComponentRegistry(componentRegistry);
+		context.setServiceRegistry(componentRegistry);
 		context.setNotificationManager(notificationManager);
 	}
 

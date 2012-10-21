@@ -22,7 +22,7 @@ public interface PropertiesEditingContext {
 	 * Defines the {@link EEFServiceRegistryImpl} of the current {@link PropertiesEditingContext}.
 	 * @param serviceRegistry the {@link EEFServiceRegistryImpl}.
 	 */
-	void setEEFComponentRegistry(EEFServiceRegistry componentRegistry);
+	void setServiceRegistry(EEFServiceRegistry serviceRegistry);
 	
 	/**
 	 * Defines the {@link ModelChangesNotificationManager} to uses in the current {@link PropertiesEditingContext}

@@ -28,7 +28,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	protected ContextOptions options;
 	
 	private EditingRecorder editingRecorder;
-	private EEFServiceRegistry componentRegistry;
+	private EEFServiceRegistry serviceRegistry;
 	private ModelChangesNotificationManager notificationManager;
 
 	private PropertiesEditingComponent component;
@@ -54,10 +54,10 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setEEFComponentRegistry(EMFServiceProvider)
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setServiceRegistry(EMFServiceProvider)
 	 */
-	public void setEEFComponentRegistry(EEFServiceRegistry emfServiceProvider) {
-		this.componentRegistry = emfServiceProvider;
+	public void setServiceRegistry(EEFServiceRegistry emfServiceProvider) {
+		this.serviceRegistry = emfServiceProvider;
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	public PropertiesEditingComponent getEditingComponent() {
 		if (component == null) {
 			notificationManager.initModelChangesNotifierIfNeeded(eObject);
-			PropertiesEditingProvider provider = componentRegistry.getService(PropertiesEditingProvider.class, eObject.eClass().getEPackage());
+			PropertiesEditingProvider provider = serviceRegistry.getService(PropertiesEditingProvider.class, eObject.eClass().getEPackage());
 			provider.setNotificationManager(notificationManager);
 			component = provider.createComponent(eObject);
 			component.setEditingContext(this);
@@ -111,7 +111,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public EMFService getEMFService() {
 		if (getEditingComponent() != null) {
-			return componentRegistry.getService(EMFService.class, getEditingComponent().getEObject().eClass().getEPackage());
+			return serviceRegistry.getService(EMFService.class, getEditingComponent().getEObject().eClass().getEPackage());
 		}
 		return null;
 	}
