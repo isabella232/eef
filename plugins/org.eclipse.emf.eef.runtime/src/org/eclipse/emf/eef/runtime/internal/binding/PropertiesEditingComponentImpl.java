@@ -255,7 +255,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#fireLockChanged(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
 	 */
 	public void fireLockChanged(final EEFLockEvent lockEvent) {
-		final EEFServiceRegistry componentRegistry = editingProvider.getComponentRegistry();
+		final EEFServiceRegistry componentRegistry = editingProvider.getServiceRegistry();
 		executeOnViewHandlers(new Function<ViewHandler<?>, Void>() {
 
 			/**
@@ -365,7 +365,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 				notification = new ValidationBasedNotification(valueDiagnostic);
 			}
 			for (ViewHandler<?> viewHandler : revelantHandlers) {
-				EEFNotifier notifier = editingProvider.getComponentRegistry().getService(EEFNotifier.class, (Object)viewHandler.getView());
+				EEFNotifier notifier = editingProvider.getServiceRegistry().getService(EEFNotifier.class, (Object)viewHandler.getView());
 				if (notifier != null) {
 					notifier.notify(viewHandler.getView(), notification);
 				}
@@ -373,14 +373,14 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		} else {
 			if (notifyEditor) {
 				for (ViewHandler<?> viewHandler : revelantHandlers) {
-					EEFNotifier notifier = (EEFNotifier) editingProvider.getComponentRegistry().getService(EEFNotifier.class, (Object)viewHandler.getView());
+					EEFNotifier notifier = (EEFNotifier) editingProvider.getServiceRegistry().getService(EEFNotifier.class, (Object)viewHandler.getView());
 					if (notifier != null) {
 						notifier.clearEditorNotification(viewHandler.getView(), editingEvent.getAffectedEditor());
 					}
 				}
 			} else {
 				for (ViewHandler<?> viewHandler : revelantHandlers) {
-					EEFNotifier notifier = (EEFNotifier) editingProvider.getComponentRegistry().getService(EEFNotifier.class, (Object)viewHandler.getView());
+					EEFNotifier notifier = (EEFNotifier) editingProvider.getServiceRegistry().getService(EEFNotifier.class, (Object)viewHandler.getView());
 					if (notifier != null) {
 						notifier.clearViewNotification(viewHandler.getView());
 					}
@@ -506,7 +506,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 
 	private List<EEFLockPolicy> initLockPolicies() {
 		List<EEFLockPolicy> result = Lists.newArrayList();
-		Collection<EEFLockPolicyFactory> factories = editingProvider.getComponentRegistry().getAllServices(EEFLockPolicyFactory.class, source);
+		Collection<EEFLockPolicyFactory> factories = editingProvider.getServiceRegistry().getAllServices(EEFLockPolicyFactory.class, source);
 		for (EEFLockPolicyFactory factory : factories) {
 			//TODO: can be optimized
 			EEFLockPolicy lockPolicy = factory.createLockPolicy();

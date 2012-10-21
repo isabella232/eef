@@ -60,11 +60,11 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 				FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
 				if (toolkit != null) {
 					view = new FormImplPropertiesEditingView(editingComponent, viewDescriptor);
-					view.setComponentRegistry(handlerProvider.getComponentRegistry());
+					view.setComponentRegistry(handlerProvider.getServiceRegistry());
 					((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[1]);
 				} else {
 					view = new SWTImplPropertiesEditingView(editingComponent, viewDescriptor);					
-					view.setComponentRegistry(handlerProvider.getComponentRegistry());
+					view.setComponentRegistry(handlerProvider.getServiceRegistry());
 					((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);
 				}
 			}
@@ -79,7 +79,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public void initView(PropertiesEditingComponent component) {
 		if (view != null) {
 			view.init();
-			EEFLockManager lockManager = handlerProvider.getComponentRegistry().getService(EEFLockManager.class, (Object)view);
+			EEFLockManager lockManager = handlerProvider.getServiceRegistry().getService(EEFLockManager.class, (Object)view);
 			lockManager.initView(view);
 		}
 	}

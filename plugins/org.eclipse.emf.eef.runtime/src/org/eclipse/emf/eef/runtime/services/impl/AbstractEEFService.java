@@ -20,24 +20,24 @@ import com.google.common.collect.Lists;
 public abstract class AbstractEEFService<T> implements EEFService<T> {
 
 	private Collection<String> providedServices;
-	protected EEFServiceRegistry componentRegistry;
+	protected EEFServiceRegistry serviceRegistry;
 	
 	public AbstractEEFService() {
 		providedServices = Lists.newArrayList();
 	}
 
 	/**
-	 * @return the componentRegistry
+	 * @return the serviceRegistry
 	 */
-	public EEFServiceRegistry getComponentRegistry() {
-		return componentRegistry;
+	public EEFServiceRegistry getServiceRegistry() {
+		return serviceRegistry;
 	}
 
 	/**
-	 * @param componentRegistry the componentRegistry to set
+	 * @param serviceRegistry the serviceRegistry to set
 	 */
-	public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
-		this.componentRegistry = componentRegistry;
+	public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
 	}
 
 

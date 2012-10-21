@@ -22,12 +22,12 @@ public interface EEFService<Element> {
 	 * Sets the {@link EEFServiceRegistry} referencing the current service.
 	 * @param serviceRegistry the referencing service registry
 	 */
-	void setComponentRegistry(EEFServiceRegistry serviceRegistry);
+	void setServiceRegistry(EEFServiceRegistry serviceRegistry);
 	
 	/**
 	 * @return the {@link EEFServiceRegistry} referencing the current service.
 	 */
-	EEFServiceRegistry getComponentRegistry();
+	EEFServiceRegistry getServiceRegistry();
 	
 	/**
 	 * @return a collection of {@link Class} describing all the services provided by this component.  

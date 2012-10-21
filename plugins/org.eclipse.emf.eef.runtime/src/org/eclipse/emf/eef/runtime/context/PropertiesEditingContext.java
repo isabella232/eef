@@ -20,7 +20,7 @@ public interface PropertiesEditingContext {
 	
 	/**
 	 * Defines the {@link EEFServiceRegistryImpl} of the current {@link PropertiesEditingContext}.
-	 * @param componentRegistry the {@link EEFServiceRegistryImpl}.
+	 * @param serviceRegistry the {@link EEFServiceRegistryImpl}.
 	 */
 	void setEEFComponentRegistry(EEFServiceRegistry componentRegistry);
 	

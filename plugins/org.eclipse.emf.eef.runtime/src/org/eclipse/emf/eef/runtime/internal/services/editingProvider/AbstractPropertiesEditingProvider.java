@@ -52,7 +52,7 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#getViewHandlerProvider(java.lang.Object)
 	 */
 	public ViewHandlerProvider getViewHandlerProvider(Object view) {
-		return componentRegistry.getService(ViewHandlerProvider.class, view);
+		return serviceRegistry.getService(ViewHandlerProvider.class, view);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 					 * @see com.google.common.base.Predicate#apply(java.lang.Object)
 					 */
 					public boolean apply(EPackage input) {
-						EMFService emfService = componentRegistry.getService(EMFService.class, element);
+						EMFService emfService = serviceRegistry.getService(EMFService.class, element);
 						return ((emfService != null && emfService.equals(element, input)) || element == input);
 					}
 
@@ -140,7 +140,7 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 	public final PropertiesEditingModel getEditingModel(EObject eObject) {
 		for (PropertiesEditingModel editingModel : getEditingModels()) {
 			if (editingModel.getComponentRegistry() == null) {
-				editingModel.setComponentRegistry(componentRegistry);
+				editingModel.setComponentRegistry(serviceRegistry);
 			}
 			if (editingModel.binding(eObject) != null) {
 				return editingModel;

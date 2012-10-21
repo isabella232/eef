@@ -163,17 +163,17 @@ public class EEFServiceRegistriesTests {
 		
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 		 */
-		public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
+		public void setServiceRegistry(EEFServiceRegistry componentRegistry) {
 			
 		}
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#getComponentRegistry()
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#getServiceRegistry()
 		 */
-		public EEFServiceRegistry getComponentRegistry() {
+		public EEFServiceRegistry getServiceRegistry() {
 			return null;
 		}
 
@@ -208,17 +208,17 @@ public class EEFServiceRegistriesTests {
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setComponentRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 		 */
-		public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
+		public void setServiceRegistry(EEFServiceRegistry componentRegistry) {
 			
 		}
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#getComponentRegistry()
+		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#getServiceRegistry()
 		 */
-		public EEFServiceRegistry getComponentRegistry() {
+		public EEFServiceRegistry getServiceRegistry() {
 			return null;
 		}
 

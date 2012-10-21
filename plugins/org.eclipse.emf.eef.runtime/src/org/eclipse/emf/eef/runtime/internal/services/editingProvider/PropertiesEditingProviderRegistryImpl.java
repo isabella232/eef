@@ -16,24 +16,24 @@
 // */
 //public class PropertiesEditingProviderRegistryImpl extends EEFServiceSimpleRegistry<EPackage, PropertiesEditingProvider> implements PropertiesEditingProviderRegistry {
 //
-//	private EEFServiceRegistry componentRegistry;
+//	private EEFServiceRegistry serviceRegistry;
 //	private ModelChangesNotificationManager notificationManager;
 //
 //	/**
 //	 * {@inheritDoc}
 //	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#setComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 //	 */
-//	public void setComponentRegistry(EEFServiceRegistry componentRegistry) {
-//		this.componentRegistry = componentRegistry;
+//	public void setComponentRegistry(EEFServiceRegistry serviceRegistry) {
+//		this.componentRegistry = serviceRegistry;
 //	}
 //
 //	/**
 //	 * {@inheritDoc}
 //	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderRegistry#unsetComponentRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 //	 */
-//	public void unsetComponentRegistry(EEFServiceRegistry componentRegistry) {
-//		if (componentRegistry == this.componentRegistry) {
-//			componentRegistry = null;
+//	public void unsetComponentRegistry(EEFServiceRegistry serviceRegistry) {
+//		if (serviceRegistry == this.componentRegistry) {
+//			serviceRegistry = null;
 //		}
 //	}
 //
@@ -60,7 +60,7 @@
 //	 * @see org.eclipse.emf.eef.runtime.services.impl.EEFServiceSimpleRegistry#addService(org.eclipse.emf.eef.runtime.services.EEFService)
 //	 */
 //	public synchronized void addService(PropertiesEditingProvider service) {
-//		service.setComponentRegistry(componentRegistry);
+//		service.setComponentRegistry(serviceRegistry);
 //		service.setNotificationManager(notificationManager);
 //		super.addService(service);
 //	}

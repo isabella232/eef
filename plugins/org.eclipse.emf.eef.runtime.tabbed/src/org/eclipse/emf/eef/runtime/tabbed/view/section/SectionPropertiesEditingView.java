@@ -237,7 +237,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 						control.dispose();
 					}
 				}
-				setComponentRegistry(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getComponentRegistry());
+				setComponentRegistry(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getServiceRegistry());
 				createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
 				parentComposite.layout();
 				viewHandler.initView(editingComponent);

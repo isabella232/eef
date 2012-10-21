@@ -22,7 +22,7 @@ public interface PropertiesEditingView extends PropertiesEditingListener {
 
 	/**
 	 * Defines the {@link EEFServiceRegistry} to use in the current view.
-	 * @param componentRegistry the {@link EEFServiceRegistry} to use.
+	 * @param serviceRegistry the {@link EEFServiceRegistry} to use.
 	 */
 	void setComponentRegistry(EEFServiceRegistry componentRegistry);
 	

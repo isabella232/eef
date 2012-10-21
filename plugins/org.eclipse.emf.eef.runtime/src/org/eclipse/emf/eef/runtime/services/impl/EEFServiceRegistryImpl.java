@@ -102,7 +102,7 @@ public class EEFServiceRegistryImpl implements Cloneable, EEFServiceRegistry {
 					}
 					storage.addService(service);
 				}
-				service.setComponentRegistry(this);
+				service.setServiceRegistry(this);
 			} else {
 				throw new PriorityCircularityException(service);
 			}

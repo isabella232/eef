@@ -44,13 +44,13 @@ public interface PropertiesEditingContextFactory {
 
 	/**
 	 * Defines the {@link EEFServiceRegistryImpl} to use in the current ContextFactory.
-	 * @param componentRegistry the {@link EEFServiceRegistryImpl} to use.
+	 * @param serviceRegistry the {@link EEFServiceRegistryImpl} to use.
 	 */
 	void setComponentRegistry(EEFServiceRegistry componentRegistry);
 	
 	/**
 	 * Unsets the {@link EEFServiceRegistryImpl} used in the current ContextFactory.
-	 * @param componentRegistry the {@link EEFServiceRegistryImpl} to use.
+	 * @param serviceRegistry the {@link EEFServiceRegistryImpl} to use.
 	 */
 	void unsetComponentRegistry(EEFServiceRegistry componentRegistry);
 	

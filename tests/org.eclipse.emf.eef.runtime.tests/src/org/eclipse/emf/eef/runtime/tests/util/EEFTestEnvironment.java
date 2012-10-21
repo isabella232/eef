@@ -344,7 +344,7 @@ public class EEFTestEnvironment {
 		}
 
 		/**
-		 * @param componentRegistry
+		 * @param serviceRegistry
 		 * @return
 		 */
 		public Builder setComponentRegistry(EEFServiceRegistry componentRegistry) {
