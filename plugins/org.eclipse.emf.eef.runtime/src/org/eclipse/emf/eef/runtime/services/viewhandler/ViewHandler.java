@@ -29,13 +29,6 @@ public interface ViewHandler<T> {
 	T getView();
 	
 	/**
-	 * Defines if the view(s) handle by this handler can manage this given editor.
-	 * @param editor editor to check.
-	 * @return <code>true</code> if the current handler can handle the given editor.
-	 */
-	boolean canHandle(Object editor);
-	
-	/**
 	 * @return the {@link ViewHandlerProvider} that created the current {@link ViewHandlerProvider};
 	 */
 	ViewHandlerProvider getProvider();

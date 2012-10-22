@@ -148,9 +148,14 @@ public interface ViewService extends EEFService<View> {
 	EditingDomain getEditingDomain(IWorkbenchPart part);
 	
 	/**
-	 * Executes the given job in the best Thread UI.
+	 * Executes the given job in the best Thread UI in a synchronous way.
 	 * @param job the Job to execute.
 	 */
-	void executeUIRunnable(Runnable job);
+	void executeSyncUIRunnable(Runnable job);
 
+	/**
+	 * Executes the given job in the best Thread UI in a asynchronous way.
+	 * @param job the Job to execute.
+	 */
+	void executeAsyncUIRunnable(Runnable job);
 }

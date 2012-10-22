@@ -27,10 +27,12 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.EEFServiceDescriptor;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
@@ -64,7 +66,7 @@ public class FeatureDocumentationTests {
 	public void testEcoreDocumentation() {
 		EEFTestEnvironment env = buildEcoreSampleEditingContext();
 		PropertiesEditingComponent editingComponent = env.getEditingContext().getEditingComponent();
-		ViewService viewService = env.getComponentRegistry().getService(ViewService.class, eclassView);
+		ViewService viewService = env.getServiceRegistry().getService(ViewService.class, eclassView);
 		viewService.setEditingComponent(editingComponent);
 		assertSame("Invalid documentation", ECORE_DOCUMENTATION, viewService.getHelpContent(nameEditor));
 	}
@@ -111,7 +113,7 @@ public class FeatureDocumentationTests {
 	public void testGenmodelDocumentation() {
 		EEFTestEnvironment testenv = buildGenmodelEditingContext();
 		PropertiesEditingComponent editingComponent = testenv.getEditingContext().getEditingComponent();
-		ViewService viewService = testenv.getComponentRegistry().getService(ViewService.class, eclassView);
+		ViewService viewService = testenv.getServiceRegistry().getService(ViewService.class, eclassView);
 		viewService.setEditingComponent(editingComponent);
 		String helpContent = viewService.getHelpContent(nameEditor);
 		EditingModelEnvironment env = editingComponent.getEditingModelEnvironment();
@@ -151,8 +153,12 @@ public class FeatureDocumentationTests {
 		};
 		Collection<PropertiesEditingProvider> providers = new ArrayList<PropertiesEditingProvider>();
 		providers.add(editingProvider);
+		Collection<EEFServiceDescriptor<? extends EEFService<Object>>> specificProviders = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<? extends EEFService<Object>>>();
+		
+		specificProviders.add((EEFServiceDescriptor<? extends EEFService<Object>>) new EEFServiceDescriptor<PropertiesEditingProvider>("specificEditingProvider", editingProvider));
+
 		Builder builder = new EEFTestEnvironment.Builder()
-													.setEditingProviders(providers)
+													.setPreloadedService(PropertiesEditingProvider.class, specificProviders)
 													.setEditedObject(EcoreFactory.eINSTANCE.createEClass());
 		return builder.build();
 	}

@@ -36,7 +36,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -270,11 +269,11 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 		EditingDomain editingDomain = null;
 		if (part instanceof IEditingDomainProvider) {
 			editingDomain = ((IEditingDomainProvider)part).getEditingDomain();
-		} else if (part instanceof IEditorPart) {
-			if ((((IEditorPart)part).getAdapter(IEditingDomainProvider.class)) != null) {
-				editingDomain = ((IEditingDomainProvider)((IEditorPart)part).getAdapter(IEditingDomainProvider.class)).getEditingDomain();
-			} else if ((((IEditorPart)part).getAdapter(EditingDomain.class)) != null) {
-				editingDomain = (EditingDomain)((IEditorPart)part).getAdapter(EditingDomain.class);
+		} else {
+			if ((part.getAdapter(IEditingDomainProvider.class)) != null) {
+				editingDomain = ((IEditingDomainProvider)part.getAdapter(IEditingDomainProvider.class)).getEditingDomain();
+			} else if ((part.getAdapter(EditingDomain.class)) != null) {
+				editingDomain = (EditingDomain)part.getAdapter(EditingDomain.class);
 			}
 		}
 		return editingDomain;
@@ -282,9 +281,21 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#executeUIRunnable(java.lang.Runnable)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#executeSyncUIRunnable(java.lang.Runnable)
 	 */
-	public void executeUIRunnable(Runnable job) {
+	public void executeSyncUIRunnable(Runnable job) {
+		if (null == Display.getCurrent()) {
+			PlatformUI.getWorkbench().getDisplay().syncExec(job);
+		} else {
+			Display.getCurrent().syncExec(job);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#executeAsyncUIRunnable(java.lang.Runnable)
+	 */
+	public void executeAsyncUIRunnable(Runnable job) {
 		if (null == Display.getCurrent()) {
 			PlatformUI.getWorkbench().getDisplay().asyncExec(job);
 		} else {

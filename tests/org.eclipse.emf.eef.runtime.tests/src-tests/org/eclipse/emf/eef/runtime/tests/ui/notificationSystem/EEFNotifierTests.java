@@ -8,35 +8,21 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
+import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
-import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
+import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.EEFServiceDescriptor;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
-import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
-import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
-import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.EEFPropertyNotification;
-import org.eclipse.swt.widgets.Composite;
 import org.junit.Test;
 
 /**
@@ -55,7 +41,10 @@ public class EEFNotifierTests extends UIEditingTestCase {
 	@Override
 	protected Builder initEnvironmentBuilder() {
 		Builder builder = super.initEnvironmentBuilder();
-		builder.setComponentRegistry(createComponentRegistry(builder));
+		Collection<EEFServiceDescriptor<? extends EEFService<Object>>> notifiers = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<? extends EEFService<Object>>>();
+		testNotifier = new TestNotifier();
+		notifiers.add(new EEFServiceDescriptor<EEFNotifier>("testNotifier", testNotifier));
+		builder.setPreloadedService(EEFNotifier.class, notifiers);
 		builder.setEditingModel(new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 									.bindClass(EcorePackage.Literals.EREFERENCE)
 										.withView(SampleView.class)
@@ -66,109 +55,6 @@ public class EEFNotifierTests extends UIEditingTestCase {
 									.build());
 		return builder;
 	}
-
-	public EEFServiceRegistry createComponentRegistry(EEFTestEnvironment.Builder builder) {
-		EEFServiceRegistry componentRegistry = new EEFServiceRegistryImpl();
-		try {
-			for (EMFService emfService : builder.getEMFServices()) {
-				Map<String, String> properties = new HashMap<String, String>();
-				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, emfService.getClass().getName());
-				componentRegistry.addService(emfService, properties);
-			}
-			for (ViewService service : builder.getViewServices()) {
-				Map<String, String> properties = new HashMap<String, String>();
-				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, service.getClass().getName());
-				componentRegistry.addService(service, properties);			
-			}
-			for (ToolkitPropertyEditorProvider provider : builder.getEditorProviders()) {
-				Map<String, String> properties = new HashMap<String, String>();
-				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
-				componentRegistry.addService(provider, properties);
-			}
-			for (PropertiesEditingProvider provider : builder.getEditingProviders()) {
-				Map<String, String> properties = new HashMap<String, String>();
-				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, provider.getClass().getName());
-				componentRegistry.addService(provider, properties);
-			}
-			Map<String, String> properties = new HashMap<String, String>();
-			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, TestNotifier.class.getName());
-			testNotifier = new TestNotifier();
-			componentRegistry.addService(testNotifier, properties);
-			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, EEFTestEnvironment.REFLECT_VIEW_HANDLER_PROVIDER_NAME);
-			componentRegistry.addService(new ReflectViewHandlerProvider() {
-
-				/**
-				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
-				 */
-				@Override
-				public Collection<String> providedServices() {
-					List<String> result = new ArrayList<String>();
-					result.add(ViewHandlerProvider.class.getName());
-					return result;
-				}
-				
-			}, properties);
-			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, EEFTestEnvironment.SWT_VIEW_HANDLER_PROVIDER_NAME);
-			properties.put(EEFTestEnvironment.PRIORITY_OVER_KEY, EEFTestEnvironment.REFLECT_VIEW_HANDLER_PROVIDER_NAME);
-			componentRegistry.addService(new SWTViewHandlerProvider() {
-
-				/**
-				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
-				 */
-				@Override
-				public Collection<String> providedServices() {
-					List<String> result = new ArrayList<String>();
-					result.add(ViewHandlerProvider.class.getName());
-					return result;
-				}
-
-				/**
-				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider#getHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
-				 */
-				@SuppressWarnings("unchecked")
-				@Override
-				public ViewHandler<? extends Composite> getHandler(PropertiesEditingComponent editingComponent, Object view) {
-					return new SWTViewHandler(this, editingComponent, (Class<? extends Composite>) view) {
-						
-						/**
-						 * {@inheritDoc}
-						 * @see org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandler#canHandle(java.lang.Object)
-						 */
-						@Override
-						public boolean canHandle(Object editor) {
-							return "name".equals(editor);
-						}
-
-					};
-				}
-				
-			}, properties);
-			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, EEFTestEnvironment.PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME);
-			properties.put(EEFTestEnvironment.PRIORITY_OVER_KEY, EEFTestEnvironment.SWT_VIEW_HANDLER_PROVIDER_NAME);
-			PropertiesEditingViewHandlerProvider handler = new PropertiesEditingViewHandlerProvider() {
-
-				/**
-				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
-				 */
-				@Override
-				public Collection<String> providedServices() {
-					List<String> result = new ArrayList<String>();
-					result.add(ViewHandlerProvider.class.getName());
-					return result;
-				}
-				
-			};
-			componentRegistry.addService(handler, properties);
-		} catch (PriorityCircularityException e) {
-			//TODO: can't happen!
-		}
-		return componentRegistry;
-	}
-
 	
 	/**
 	 * This test sets a inconvertible string in int value for the lower editor and checks that the {@link TestNotifier} has notified the editor.
@@ -257,7 +143,7 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 		 */
-		public void setServiceRegistry(EEFServiceRegistry componentRegistry) {
+		public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
 			
 		}
 

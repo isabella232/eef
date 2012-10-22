@@ -46,24 +46,24 @@ public class EEFServiceRegistriesTests {
 	@Test
 	public void testCustomizedEMFService() {
 		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
-		EEFServiceRegistry componentRegistry = env.getComponentRegistry();
-		assertTrue("Bad type of EEFServiceRegistry.", componentRegistry instanceof EEFServiceRegistryImpl);
-		EMFService defaultEMFService = componentRegistry.getService(EMFService.class, EcorePackage.eINSTANCE);
+		EEFServiceRegistry serviceRegistry = env.getServiceRegistry();
+		assertTrue("Bad type of EEFServiceRegistry.", serviceRegistry instanceof EEFServiceRegistryImpl);
+		EMFService defaultEMFService = serviceRegistry.getService(EMFService.class, EcorePackage.eINSTANCE);
 		try {
 			Map<String, String> properties = new HashMap<String, String>();
 			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, "customService");
-			componentRegistry.addService(new CustomEMFService(), properties);
+			serviceRegistry.addService(new CustomEMFService(), properties);
 		} catch (PriorityCircularityException e) {
 			//Can't happen
 		}
-		EMFService customEMFService = (EMFService) componentRegistry.getService(EMFService.class, EcorePackage.eINSTANCE);
+		EMFService customEMFService = (EMFService) serviceRegistry.getService(EMFService.class, EcorePackage.eINSTANCE);
 		assertNotSame("Bad type of EMFService returned.", defaultEMFService, customEMFService);
 	}
 	
 	@Test
 	public void testOrderedEEFServiceRegistrySelection() {
 		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
-		EEFServiceRegistry vhpRegistry = env.getComponentRegistry();
+		EEFServiceRegistry vhpRegistry = env.getServiceRegistry();
 		String component1 = "component1";
 		String component2 = "component2";
 		String component3 = "component3";
@@ -93,7 +93,7 @@ public class EEFServiceRegistriesTests {
 	@Test
 	public void testOrderedEEFServiceRegistryNonCircularity() {
 		EEFTestEnvironment env = new EEFTestEnvironment.Builder().build();
-		EEFServiceRegistry vhpRegistry = env.getComponentRegistry();
+		EEFServiceRegistry vhpRegistry = env.getServiceRegistry();
 		String component1 = "component1";
 		String component2 = "component2";
 		String component3 = "component3";
@@ -165,7 +165,7 @@ public class EEFServiceRegistriesTests {
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 		 */
-		public void setServiceRegistry(EEFServiceRegistry componentRegistry) {
+		public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
 			
 		}
 
@@ -210,7 +210,7 @@ public class EEFServiceRegistriesTests {
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 		 */
-		public void setServiceRegistry(EEFServiceRegistry componentRegistry) {
+		public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
 			
 		}
 

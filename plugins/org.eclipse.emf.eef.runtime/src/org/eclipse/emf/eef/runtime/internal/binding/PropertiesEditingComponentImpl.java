@@ -351,12 +351,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	}
 
 	protected final void highlightNotificationResult(PropertiesEditingEvent editingEvent, Diagnostic valueDiagnostic, boolean notifyEditor) {
-		List<ViewHandler<?>> revelantHandlers = Lists.newArrayList();
-		for (ViewHandler<?> viewHandler : viewHandlers) {
-			if (viewHandler.canHandle(editingEvent.getAffectedEditor())) {
-				revelantHandlers.add(viewHandler);
-			}
-		}
 		if (valueDiagnostic.getSeverity() != Diagnostic.OK) {
 			ValidationBasedNotification notification = null;
 			if (notifyEditor) {
@@ -364,7 +358,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			} else {
 				notification = new ValidationBasedNotification(valueDiagnostic);
 			}
-			for (ViewHandler<?> viewHandler : revelantHandlers) {
+			for (ViewHandler<?> viewHandler : viewHandlers) {
 				EEFNotifier notifier = editingProvider.getServiceRegistry().getService(EEFNotifier.class, (Object)viewHandler.getView());
 				if (notifier != null) {
 					notifier.notify(viewHandler.getView(), notification);
@@ -372,14 +366,14 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			}
 		} else {
 			if (notifyEditor) {
-				for (ViewHandler<?> viewHandler : revelantHandlers) {
+				for (ViewHandler<?> viewHandler : viewHandlers) {
 					EEFNotifier notifier = (EEFNotifier) editingProvider.getServiceRegistry().getService(EEFNotifier.class, (Object)viewHandler.getView());
 					if (notifier != null) {
 						notifier.clearEditorNotification(viewHandler.getView(), editingEvent.getAffectedEditor());
 					}
 				}
 			} else {
-				for (ViewHandler<?> viewHandler : revelantHandlers) {
+				for (ViewHandler<?> viewHandler : viewHandlers) {
 					EEFNotifier notifier = (EEFNotifier) editingProvider.getServiceRegistry().getService(EEFNotifier.class, (Object)viewHandler.getView());
 					if (notifier != null) {
 						notifier.clearViewNotification(viewHandler.getView());

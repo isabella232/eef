@@ -24,7 +24,7 @@ import com.google.common.collect.Maps;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public final class EditingViewNotifier extends AbstractEEFService<Object> implements EEFNotifier {
+public class EditingViewNotifier extends AbstractEEFService<Object> implements EEFNotifier {
 
 	private Map<PropertiesEditingView, DecorationSettings> decorationSettings;
 	
@@ -48,9 +48,9 @@ public final class EditingViewNotifier extends AbstractEEFService<Object> implem
 		if (view instanceof PropertiesEditingView) {
 			PropertiesEditingView editingView = (PropertiesEditingView) view;
 			if (notification instanceof EEFPropertyNotification) {
-				editingView.getViewService().executeUIRunnable(new AddDecorationOnEditor(editingView, (EEFPropertyNotification) notification));
+				editingView.getViewService().executeAsyncUIRunnable(new AddDecorationOnEditor(editingView, (EEFPropertyNotification) notification));
 			} else {
-				editingView.getViewService().executeUIRunnable(new AddDecorationOnView(editingView, notification));
+				editingView.getViewService().executeSyncUIRunnable(new AddDecorationOnView(editingView, notification));
 			}
 		}
 	}
@@ -62,7 +62,7 @@ public final class EditingViewNotifier extends AbstractEEFService<Object> implem
 	public void clearViewNotification(Object view) {
 		if (view instanceof PropertiesEditingView) {
 			PropertiesEditingView editingView = (PropertiesEditingView) view;
-			editingView.getViewService().executeUIRunnable(new RemoveDecorationOnView(editingView));
+			editingView.getViewService().executeAsyncUIRunnable(new RemoveDecorationOnView(editingView));
 		}
 	}
 
@@ -74,7 +74,7 @@ public final class EditingViewNotifier extends AbstractEEFService<Object> implem
 		if (view instanceof PropertiesEditingView) {
 			PropertiesEditingView editingView = (PropertiesEditingView) view;
 			if (editor instanceof ViewElement) {
-				editingView.getViewService().executeUIRunnable(new RemoveDecorationOnEditor(editingView, (ViewElement) editor));
+				editingView.getViewService().executeAsyncUIRunnable(new RemoveDecorationOnEditor(editingView, (ViewElement) editor));
 			}
 		}
 	}
