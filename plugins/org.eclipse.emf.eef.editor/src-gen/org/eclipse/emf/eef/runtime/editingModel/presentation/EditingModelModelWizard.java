@@ -38,6 +38,10 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.views.ViewsFactory;
+import org.eclipse.emf.eef.views.ViewsPackage;
+import org.eclipse.emf.eef.views.ViewsRepository;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -106,21 +110,29 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	protected EditingModelFactory editingModelFactory = editingModelPackage.getEditingModelFactory();
 
 	/**
+	 * This caches an instance of the model package.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ViewsPackage viewsModelPackage = ViewsPackage.eINSTANCE;
+
+	/**
+	 * This caches an instance of the model factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ViewsFactory viewsModelFactory = viewsModelPackage.getViewsFactory();
+
+	/**
 	 * This is the file creation page.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected EditingModelModelWizardNewFileCreationPage newFileCreationPage;
-
-	/**
-	 * This is the initial object creation page.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected EditingModelModelWizardInitialObjectCreationPage initialObjectCreationPage;
-
+	
 	/**
 	 * Remember the selection during initialization for populating the default container.
 	 * <!-- begin-user-doc -->
@@ -181,22 +193,26 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	}
 
 	/**
-	 * Create a new model.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
+	 * Create a new {@link PropertiesEditingModel}.
+	 * @generated NOT
 	 */
-	protected EObject createInitialModel() {
-		EClass eClass = (EClass)editingModelPackage.getEClassifier(initialObjectCreationPage.getInitialObjectName());
-		EObject rootObject = editingModelFactory.create(eClass);
-		return rootObject;
+	protected EObject createEditingModel() {
+		return editingModelFactory.create(editingModelPackage.getPropertiesEditingModel());
+	}
+
+	/**
+	 * Create a new {@link ViewsRepository}.
+	 * @generated NOT
+	 */
+	protected EObject createViewsRepository() {
+		return viewsModelFactory.create(viewsModelPackage.getViewsRepository());
 	}
 
 	/**
 	 * Do the work after everything is specified.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public boolean performFinish() {
@@ -226,15 +242,19 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 
 							// Add the initial model object to the contents.
 							//
-							EObject rootObject = createInitialModel();
+							EObject rootObject = createEditingModel();
 							if (rootObject != null) {
 								resource.getContents().add(rootObject);
 							}
-
+							rootObject = createViewsRepository();
+							if (rootObject != null) {
+								resource.getContents().add(rootObject);
+							}
+							
 							// Save the contents of the resource to the file system.
 							//
 							Map<Object, Object> options = new HashMap<Object, Object>();
-							options.put(XMLResource.OPTION_ENCODING, initialObjectCreationPage.getEncoding());
+							options.put(XMLResource.OPTION_ENCODING, "UTF-8");
 							resource.save(options);
 						}
 						catch (Exception exception) {
@@ -543,7 +563,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	 * The framework calls this to create the contents of the wizard.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 		@Override
 	public void addPages() {
@@ -588,10 +608,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 				}
 			}
 		}
-		initialObjectCreationPage = new EditingModelModelWizardInitialObjectCreationPage("Whatever2");
-		initialObjectCreationPage.setTitle(EditingModelEditPlugin.INSTANCE.getString("_UI_EditingModelModelWizard_label"));
-		initialObjectCreationPage.setDescription(EditingModelEditPlugin.INSTANCE.getString("_UI_Wizard_initial_object_description"));
-		addPage(initialObjectCreationPage);
+
 	}
 
 	/**
