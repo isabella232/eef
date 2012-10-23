@@ -50,7 +50,7 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 			if (notification instanceof EEFPropertyNotification) {
 				editingView.getViewService().executeAsyncUIRunnable(new AddDecorationOnEditor(editingView, (EEFPropertyNotification) notification));
 			} else {
-				editingView.getViewService().executeSyncUIRunnable(new AddDecorationOnView(editingView, notification));
+				editingView.getViewService().executeAsyncUIRunnable(new AddDecorationOnView(editingView, notification));
 			}
 		}
 	}
