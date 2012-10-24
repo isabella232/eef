@@ -20,5 +20,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
- org.eclipse.emf.eef.runtime.ui
+ org.eclipse.emf.eef.runtime.ui,
+ com.google.guava;bundle-version="10.0.1"
 Bundle-ActivationPolicy: lazy

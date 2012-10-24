@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.eclipse.emf.ecore.presentation.EcoreEditorID"
+            name="%_UI_EcoreEditor_label"
+            icon="resources/icons/EcoreModelFile.gif"
+            class="org.eclipse.emf.ecore.presentation.EcoreTabbedEditor"
+            contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor">
+         <contentTypeBinding contentTypeId="org.eclipse.emf.ecore"/>
+         <contentTypeBinding contentTypeId="org.eclipse.emf.emof"/>
+      </editor>
+   </extension>
+   
+  <!-- Tabbed properties views extension -->
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="org.eclipse.emf.ecore.editor.tabbed.properties"
+            labelProvider="org.eclipse.emf.eef.runtime.tabbed.view.section.EEFLabelProvider">
+         <propertyCategory
+               category="eef">
+         </propertyCategory>
+      </propertyContributor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs
+            contributorId="org.eclipse.emf.ecore.editor.tabbed.properties">
+         <propertyTab
+               id="EPackage"
+               label="EPackage"
+               category="eef"/>
+         <propertyTab
+               id="EClass"
+               label="EClass"
+               category="eef"/>
+      </propertyTabs>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections
+            contributorId="org.eclipse.emf.ecore.editor.tabbed.properties">
+         <propertySection
+               class="org.eclipse.emf.eef.runtime.tabbed.view.section.SectionPropertiesEditingView"
+               id="org.eclipse.emf.ecore.editor.tabbed.EPackage"
+               tab="EPackage">
+            <input
+                  type="org.eclipse.emf.ecore.EPackage">
+            </input>
+         </propertySection>
+        <propertySection
+               class="org.eclipse.emf.eef.runtime.tabbed.view.section.SectionPropertiesEditingView"
+               id="org.eclipse.emf.ecore.editor.tabbed.EClass"
+               tab="EClass">
+            <input
+                  type="org.eclipse.emf.ecore.EClass">
+            </input>
+         </propertySection>
+       </propertySections>
+   </extension>
+</plugin>

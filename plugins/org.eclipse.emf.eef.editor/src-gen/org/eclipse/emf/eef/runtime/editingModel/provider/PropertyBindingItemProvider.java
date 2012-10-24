@@ -21,12 +21,17 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding} object.
@@ -63,31 +68,60 @@ public class PropertyBindingItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addEditorPropertyDescriptor(object);
+			addFeaturePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Editor feature.
+	 * This adds a property descriptor for the Feature feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
-	protected void addEditorPropertyDescriptor(Object object) {
+	protected void addFeaturePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
+			(new ItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_PropertyBinding_editor_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PropertyBinding_editor_feature", "_UI_PropertyBinding_type"),
-				 EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR,
+				 getString("_UI_PropertyBinding_feature_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PropertyBinding_feature_feature", "_UI_PropertyBinding_type"),
+				 EditingModelPackage.Literals.PROPERTY_BINDING__FEATURE,
 				 true,
 				 false,
-				 false,
+				 true,
 				 null,
 				 null,
-				 null));
+				 null) {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getChoiceOfValues(java.lang.Object)
+					 */
+					@Override
+					public Collection<?> getChoiceOfValues(Object object) {
+						Collection<?> choiceOfValues = super.getChoiceOfValues(object);
+						PropertyBinding propertyBinding = ((PropertyBinding)object);
+						if (propertyBinding.eContainer() instanceof EClassBinding) {
+							final EClassBinding eClassBinding = (EClassBinding)propertyBinding.eContainer(); 
+							if (eClassBinding != null) {
+								return Collections2.filter(choiceOfValues, new Predicate<Object>() {
+
+									/**
+									 * {@inheritDoc}
+									 * @see com.google.common.base.Predicate#apply(java.lang.Object)
+									 */
+									public boolean apply(Object input) {
+										return input instanceof EStructuralFeature && eClassBinding.getEClass().getEAllStructuralFeatures().contains(input);
+									}
+
+								});
+							} 
+						} 
+						return choiceOfValues;
+					}
+				
+			});
 	}
 
 	/**

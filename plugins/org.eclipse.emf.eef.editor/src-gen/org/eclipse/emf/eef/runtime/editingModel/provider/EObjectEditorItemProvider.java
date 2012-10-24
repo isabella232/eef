@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -19,7 +21,16 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.editingModel.View;
+import org.eclipse.emf.eef.views.ElementEditor;
+
+import com.google.common.collect.Lists;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EObjectEditor} object.
@@ -65,11 +76,11 @@ public class EObjectEditorItemProvider
 	 * This adds a property descriptor for the Definition feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addDefinitionPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
+			(new ItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_EObjectEditor_definition_feature"),
@@ -80,7 +91,43 @@ public class EObjectEditorItemProvider
 				 true,
 				 null,
 				 null,
-				 null));
+				 null) {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getChoiceOfValues(java.lang.Object)
+					 */
+					@Override
+					public Collection<?> getChoiceOfValues(Object object) {
+						EObjectEditor eObjectEditor = ((EObjectEditor)object);
+						if (eObjectEditor.eContainer() instanceof PropertyBinding && eObjectEditor.eContainer().eContainer() instanceof EClassBinding) {
+							EClassBinding eClassBinding = (EClassBinding) eObjectEditor.eContainer().eContainer();
+							List<ElementEditor> usableEditors = Lists.newArrayList();
+							for (View view : eClassBinding.getViews()) {
+								if (view instanceof EObjectView && ((EObjectView) view).getDefinition() instanceof org.eclipse.emf.eef.views.View) {
+									org.eclipse.emf.eef.views.View uiView = (org.eclipse.emf.eef.views.View) ((EObjectView) view).getDefinition();
+									TreeIterator<EObject> eAllContents = uiView.eAllContents();
+									while (eAllContents.hasNext()) {
+										EObject next = eAllContents.next();
+										if (next instanceof ElementEditor) {
+											usableEditors.add((ElementEditor) next);
+										}
+									}
+								}
+							}
+							List<ElementEditor> result = Lists.newArrayList();
+							Collection<?> choiceOfValues = super.getChoiceOfValues(object);
+							for (Object value : choiceOfValues) {
+								if (value instanceof ElementEditor && usableEditors.contains(value)) {
+									result.add((ElementEditor) value);
+								}
+							}
+							return result;
+						}
+						return super.getChoiceOfValues(object);
+					}
+				
+			});
 	}
 
 	/**

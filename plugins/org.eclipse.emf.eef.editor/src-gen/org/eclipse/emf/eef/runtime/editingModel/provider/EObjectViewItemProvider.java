@@ -19,9 +19,14 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.views.View;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EObjectView} object.
@@ -67,11 +72,11 @@ public class EObjectViewItemProvider
 	 * This adds a property descriptor for the Definition feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addDefinitionPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
+			(new ItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_EObjectView_definition_feature"),
@@ -82,7 +87,30 @@ public class EObjectViewItemProvider
 				 true,
 				 null,
 				 null,
-				 null));
+				 null) {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getChoiceOfValues(java.lang.Object)
+					 */
+					@Override
+					public Collection<?> getChoiceOfValues(Object object) {
+						Collection<?> choiceOfValues = super.getChoiceOfValues(object);
+						return Collections2.filter(choiceOfValues, new Predicate<Object>() {
+
+							/**
+							 * {@inheritDoc}
+							 * @see com.google.common.base.Predicate#apply(java.lang.Object)
+							 */
+							public boolean apply(Object input) {
+								return input instanceof View;
+							}
+							
+						});
+					}
+				
+				
+			});
 	}
 
 	/**
