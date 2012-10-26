@@ -22,6 +22,13 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	private ModelChangesNotificationManager notificationManager;
 
 	/**
+	 * @return the serviceRegistry
+	 */
+	public EEFServiceRegistry getServiceRegistry() {
+		return serviceRegistry;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */

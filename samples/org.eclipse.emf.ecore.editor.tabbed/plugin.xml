@@ -18,59 +18,11 @@
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
       <propertyContributor
             contributorId="org.eclipse.emf.ecore.editor.tabbed.properties"
-            labelProvider="org.eclipse.emf.eef.runtime.tabbed.view.section.EEFLabelProvider">
+            labelProvider="org.eclipse.emf.eef.runtime.tabbed.view.section.EEFLabelProvider"
+            tabDescriptorProvider="org.eclipse.emf.eef.runtime.tabbed.view.providers.EEFTabDescriptorProvider">
          <propertyCategory
                category="eef">
          </propertyCategory>
       </propertyContributor>
    </extension>
-   <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
-      <propertyTabs
-            contributorId="org.eclipse.emf.ecore.editor.tabbed.properties">
-         <propertyTab
-               id="EPackage"
-               label="EPackage"
-               category="eef"/>
-         <propertyTab
-               id="EClass"
-               label="EClass"
-               category="eef"/>
-         <propertyTab
-               id="EClass Instance"
-               label="EClass Instance"
-               afterTab="EClass"
-               category="eef"/>
-      </propertyTabs>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertySections">
-      <propertySections
-            contributorId="org.eclipse.emf.ecore.editor.tabbed.properties">
-         <propertySection
-               class="org.eclipse.emf.eef.runtime.tabbed.view.section.SectionPropertiesEditingView"
-               id="org.eclipse.emf.ecore.editor.tabbed.EPackage"
-               tab="EPackage">
-            <input
-                  type="org.eclipse.emf.ecore.EPackage">
-            </input>
-         </propertySection>
-        <propertySection
-               class="org.eclipse.emf.eef.runtime.tabbed.view.section.SectionPropertiesEditingView"
-               id="org.eclipse.emf.ecore.editor.tabbed.EClass"
-               tab="EClass">
-            <input
-                  type="org.eclipse.emf.ecore.EClass">
-            </input>
-         </propertySection>
-        <propertySection
-               class="org.eclipse.emf.eef.runtime.tabbed.view.section.SectionPropertiesEditingView"
-               id="org.eclipse.emf.ecore.editor.tabbed.EClassInstance"
-               tab="EClass Instance">
-            <input
-                  type="org.eclipse.emf.ecore.EClass">
-            </input>
-         </propertySection>
-       </propertySections>
-   </extension>
-</plugin>
+ </plugin>

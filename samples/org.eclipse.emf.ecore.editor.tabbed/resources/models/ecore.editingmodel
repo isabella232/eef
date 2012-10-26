@@ -46,6 +46,48 @@
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0/@elements.1"/>
       </propertyBindings>
     </bindings>
+    <bindings>
+      <eClass href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EDataType"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.3"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.4"/>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.0/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EDataType/serializable"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.1/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/instanceClassName"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.4/@elements.0/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/instanceTypeName"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.4/@elements.0/@elements.1"/>
+      </propertyBindings>
+    </bindings>
+    <bindings>
+      <eClass href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnum"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.5"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.6"/>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EDataType/serializable"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.1/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/instanceClassName"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.6/@elements.0/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/instanceTypeName"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.6/@elements.0/@elements.1"/>
+      </propertyBindings>
+    </bindings>
     <involvedModels href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#/"/>
   </eef-model:PropertiesEditingModel>
   <eef-views:ViewsRepository name="ecore">
@@ -90,6 +132,56 @@
       </elements>
     </views>
     <views name="EClass Instance">
+      <elements xsi:type="eef-views:Container" name="Instance">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" name="Instance Class Name">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+        <elements xsi:type="eef-views:ElementEditor" name="Instance Type Name">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+      </elements>
+    </views>
+    <views name="EDataType">
+      <elements xsi:type="eef-views:Container" name="Identification">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" name="name">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+      </elements>
+      <elements xsi:type="eef-views:Container" name="Serialization">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" name="serializable">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+        </elements>
+      </elements>
+    </views>
+    <views name="EDataType Instance">
+      <elements xsi:type="eef-views:Container" name="Instance">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" name="Instance Class Name">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+        <elements xsi:type="eef-views:ElementEditor" name="Instance Type Name">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+      </elements>
+    </views>
+    <views name="EEnum">
+      <elements xsi:type="eef-views:Container" name="Identification">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" name="name">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+      </elements>
+      <elements xsi:type="eef-views:Container" name="Serialization">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" name="serializable">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+        </elements>
+      </elements>
+    </views>
+    <views name="EEnum Instance">
       <elements xsi:type="eef-views:Container" name="Instance">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="Instance Class Name">

@@ -41,6 +41,11 @@ public interface PropertiesEditingContextFactory {
 	 * @return the created {@link PropertiesEditingContext}.
 	 */
 	PropertiesEditingContext createPropertiesEditingContext(EditingDomain domain, AdapterFactory adapterFactory, EObject eObject);
+	
+	/**
+	 * @return the referenced {@link EEFServiceRegistry}.
+	 */
+	EEFServiceRegistry getServiceRegistry();
 
 	/**
 	 * Defines the {@link EEFServiceRegistryImpl} to use in the current ContextFactory.
