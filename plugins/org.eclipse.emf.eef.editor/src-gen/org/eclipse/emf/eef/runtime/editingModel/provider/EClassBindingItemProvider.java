@@ -8,11 +8,13 @@ package org.eclipse.emf.eef.runtime.editingModel.provider;
 
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -25,8 +27,11 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.JavaView;
+import org.eclipse.emf.eef.runtime.editingModel.View;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding} object.
@@ -136,11 +141,43 @@ public class EClassBindingItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_EClassBinding_type");
+		EClassBinding binding = (EClassBinding) object;
+		StringBuilder sb = new StringBuilder(getString("_UI_EClassBinding_type")).append(' ');
+		if (binding.getEClass() != null && binding.getEClass().getName() != null) {
+			sb.append(binding.getEClass().getName());
+		} else {
+			sb.append("???");
+		}
+		sb.append(" <-> ");
+		if (binding.getViews().size() > 1) {
+			sb.append('[');
+		}
+		for (Iterator<View> iterator = binding.getViews().iterator(); iterator.hasNext();) {
+			View view = iterator.next();
+			if (view instanceof EObjectView) {
+				EObject definition = ((EObjectView)view).getDefinition();
+				if (definition instanceof org.eclipse.emf.eef.views.View) {
+					sb.append(((org.eclipse.emf.eef.views.View) definition).getName());					
+				} else {
+					sb.append("???");
+				}
+			} else if (view instanceof JavaView) {
+				sb.append(((JavaView) view).getDefinition().toString());
+			} else {
+				sb.append("???");				
+			}
+			if (iterator.hasNext()) {
+				sb.append(';');
+			}
+		}
+		if (binding.getViews().size() > 1) {
+			sb.append(']');
+		}
+		return sb.toString();
 	}
 
 	/**

@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -26,9 +27,12 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.views.ElementEditor;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -169,11 +173,33 @@ public class PropertyBindingItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_PropertyBinding_type");
+		PropertyBinding binding = (PropertyBinding) object;
+		StringBuilder sb = new StringBuilder(getString("_UI_PropertyBinding_type")).append(' ');
+		if (binding.getFeature() != null) {
+			sb.append(binding.getFeature().getName());
+		} else {
+			sb.append("???");
+		}
+		sb.append(" <-> ");
+		if (binding.getEditor() != null) {
+			if (binding.getEditor() instanceof EObjectEditor) {
+				EObject definition = ((EObjectEditor)binding.getEditor()).getDefinition();
+				if (definition instanceof ElementEditor) {
+					sb.append(((ElementEditor) definition).getName());
+				} else {
+					sb.append("???");					
+				}
+			} else if (binding.getEditor() instanceof JavaEditor) {
+				sb.append(binding.getEditor().toString());
+			} else {
+				sb.append("???");					
+			}
+		}
+		return sb.toString();
 	}
 
 	/**
