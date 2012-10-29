@@ -55,21 +55,30 @@ public class EReferenceEditor extends StructuredViewer {
 	private Button upButton;
 	private Button downButton;
 	
+	private boolean locked;
+	
 	/**
 	 * @param parent
 	 * @param style
 	 */
 	public EReferenceEditor(Composite parent, int style) {
 		control = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(4, false);
+		GridLayout layout = new GridLayout(2, false);
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		control.setLayout(layout);
+		tree = new TreeViewer(control, style);
+		tree.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			public void selectionChanged(SelectionChangedEvent event) {
+				updateButtons();
+			}
+		});
 		addButton = new Button(control, SWT.PUSH);
-		GridData addButtonData = new GridData(GridData.FILL_HORIZONTAL);
-		addButtonData.horizontalAlignment = SWT.RIGHT;
+		GridData buttonData = new GridData();
+		buttonData.verticalAlignment = SWT.UP;
 		addButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Add"));
-		addButton.setLayoutData(addButtonData);
+		addButton.setLayoutData(buttonData);
 		addButton.addSelectionListener(new SelectionAdapter() {
 
 			/**
@@ -84,8 +93,6 @@ public class EReferenceEditor extends StructuredViewer {
 			
 		});
 		
-		GridData buttonData = new GridData();
-		buttonData.horizontalAlignment = SWT.RIGHT;
 		removeButton = new Button(control, SWT.PUSH);
 		removeButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Delete"));
 		removeButton.setLayoutData(buttonData);
@@ -145,18 +152,23 @@ public class EReferenceEditor extends StructuredViewer {
 				}
 			}
 		});
-
-		tree = new TreeViewer(control, style);
+		buildAdditionnalActionControls(control);
 		GridData treeData = new GridData(GridData.FILL_BOTH);
-		treeData.horizontalSpan = 4;
+		treeData.verticalSpan = control.getChildren().length - 1;
 		tree.getControl().setLayoutData(treeData);
-		tree.addSelectionChangedListener(new ISelectionChangedListener() {
-			
-			public void selectionChanged(SelectionChangedEvent event) {
-				updateButtons();
-			}
-		});
 		listeners = Lists.newArrayList();
+	}
+	
+	protected void buildAdditionnalActionControls(Composite parent) {
+		//Do nothing.
+	}
+
+	/**
+	 * @param locked the locked to set
+	 */
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+		updateButtons();
 	}
 
 	/**
@@ -439,12 +451,12 @@ public class EReferenceEditor extends StructuredViewer {
 
 	private boolean shouldEnableAdd(StructuredSelection selection) {
 		Object[] elements = ((IStructuredContentProvider)tree.getContentProvider()).getElements(tree.getInput());
-		return ((upperBound == -1) || (elements.length < upperBound));
+		return !locked && ((upperBound == -1) || (elements.length < upperBound));
 	}
 	
 	private boolean shouldEnableRemove(StructuredSelection selection) {
 		Object[] elements = ((IStructuredContentProvider)tree.getContentProvider()).getElements(tree.getInput());
-		return ((lowerBound == 0) || (elements.length > lowerBound));
+		return !locked && ((lowerBound == 0) || (elements.length > lowerBound));
 	}
 	
 	private boolean shouldEnableUp(StructuredSelection selection) {
@@ -452,7 +464,7 @@ public class EReferenceEditor extends StructuredViewer {
 		Object[] elements = ((IStructuredContentProvider)tree.getContentProvider()).getElements(tree.getInput());
 		if (elements != null) {
 			List<?> listInput = Arrays.asList(elements);
-			return listInput.size() > 1  && listInput.indexOf(selectedElement) > 0;
+			return !locked && (listInput.size() > 1  && listInput.indexOf(selectedElement) > 0);
 		}
 		return false;
 	}
@@ -462,7 +474,7 @@ public class EReferenceEditor extends StructuredViewer {
 		Object[] elements = ((IStructuredContentProvider)tree.getContentProvider()).getElements(tree.getInput());
 		if (elements != null) {
 			List<?> listInput = Arrays.asList(elements);
-			return (listInput.size() > 1)  && (listInput.indexOf(selectedElement) < listInput.size() - 1);
+			return !locked && (listInput.size() > 1)  && (listInput.indexOf(selectedElement) < listInput.size() - 1);
 		}
 		return false;
 	}

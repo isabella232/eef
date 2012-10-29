@@ -35,8 +35,9 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<EReferenceEditor> propertyEditorViewer;
-	
+
 	protected EStructuralFeature feature;
+	private ReferenceEditorListener listener;
 
 	/**
 	 * @param view
@@ -64,6 +65,9 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 		propertyEditorViewer.getViewer().setUpperBound(feature.getUpperBound());
 		propertyEditorViewer.getViewer().setInput(view.getEditingComponent().getEObject());
 		initListener();
+		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
+		layoutData.heightHint = view.getViewSettings().getMultiEditorHeight();
+		propertyEditorViewer.getViewer().setLayoutData(layoutData);
 	}
 
 	/**
@@ -118,96 +122,96 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 	 * Initialize the listener on the EReferenceEditor.
 	 */
 	protected void initListener() {
-		propertyEditorViewer.getViewer().addReferenceEditorListener(new ReferenceEditorListener() {
-			
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#removeAll(java.util.Collection)
-			 */
-			public void removeAll(Collection<?> removedElements) {
-				view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE_MANY, removedElements, null));
-				propertyEditorViewer.getViewer().refresh();
-			}
-			
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#remove(java.lang.Object)
-			 */
-			public void remove(Object removedElement) {
-				view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE, removedElement, null));
-				propertyEditorViewer.getViewer().refresh();
-			}
-			
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#moveUp(java.lang.Object)
-			 */
-			public void moveUp(Object movedElement) {
-				EObject editedElement = view.getEditingComponent().getEObject();
-				Object currentValue = editedElement.eGet(feature);
-				if (currentValue instanceof List<?>) {
-					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
-					if (oldIndex > 0) {
-						view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
-						propertyEditorViewer.getViewer().refresh();
-					}
+		if (listener == null) {
+			listener = new ReferenceEditorListener() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#removeAll(java.util.Collection)
+				 */
+				public void removeAll(Collection<?> removedElements) {
+					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE_MANY, removedElements, null));
+					propertyEditorViewer.getViewer().refresh();
 				}
-			}
-			
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#moveDown(java.lang.Object)
-			 */
-			public void moveDown(Object movedElement) {
-				EObject editedElement = view.getEditingComponent().getEObject();
-				Object currentValue = editedElement.eGet(feature);
-				if (currentValue instanceof List<?>) {
-					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
-					if (oldIndex < ((List<?>) currentValue).size()) {
-						view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
-						propertyEditorViewer.getViewer().refresh();
-					}
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#remove(java.lang.Object)
+				 */
+				public void remove(Object removedElement) {
+					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE, removedElement, null));
+					propertyEditorViewer.getViewer().refresh();
 				}
-			}
-			
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#edit(java.lang.Object)
-			 */
-			public void edit(Object editedElement) {
-				//TODO: We have to invoke the EditingPropertyPolicy
-			}
-			
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#add()
-			 */
-			public void add() {
-				EEFSelectionDialog dialog = new EEFSelectionDialog(propertyEditorViewer.getViewer().getControl().getShell(), true);
-				dialog.setTitle("Choose the element to add to the " + feature.getName() + " reference:");
-				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
-				dialog.addFilter(
-						new ChoiceOfValuesFilter(
-								view.getEditingComponent().getEditingContext().getAdapterFactory(), 
-								view.getEditingComponent().getEObject(), 
-								EReferenceMultiPropertyEditor.this.feature, 
-								view.getViewSettings().getSelectionMode()));
-				dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
-				if (dialog.open() == Window.OK) {
-					if (dialog.getSelection() != null) {
-						if (dialog.getSelection() instanceof Collection<?>) {
-							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD_MANY, null, dialog.getSelection()));
-						} else {
-							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, dialog.getSelection()));
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#moveUp(java.lang.Object)
+				 */
+				public void moveUp(Object movedElement) {
+					EObject editedElement = view.getEditingComponent().getEObject();
+					Object currentValue = editedElement.eGet(feature);
+					if (currentValue instanceof List<?>) {
+						int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
+						if (oldIndex > 0) {
+							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
+							propertyEditorViewer.getViewer().refresh();
 						}
-						propertyEditorViewer.getViewer().refresh();				
 					}
 				}
-			}
-		});
-		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
-		layoutData.heightHint = view.getViewSettings().getMultiEditorHeight();
-		propertyEditorViewer.getViewer().setLayoutData(layoutData);
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#moveDown(java.lang.Object)
+				 */
+				public void moveDown(Object movedElement) {
+					EObject editedElement = view.getEditingComponent().getEObject();
+					Object currentValue = editedElement.eGet(feature);
+					if (currentValue instanceof List<?>) {
+						int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
+						if (oldIndex < ((List<?>) currentValue).size()) {
+							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
+							propertyEditorViewer.getViewer().refresh();
+						}
+					}
+				}
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#edit(java.lang.Object)
+				 */
+				public void edit(Object editedElement) {
+					//TODO: We have to invoke the EditingPropertyPolicy
+				}
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#add()
+				 */
+				public void add() {
+					EEFSelectionDialog dialog = new EEFSelectionDialog(propertyEditorViewer.getViewer().getControl().getShell(), true);
+					dialog.setTitle("Choose the element to add to the " + feature.getName() + " reference:");
+					dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
+					dialog.addFilter(
+							new ChoiceOfValuesFilter(
+									view.getEditingComponent().getEditingContext().getAdapterFactory(), 
+									view.getEditingComponent().getEObject(), 
+									EReferenceMultiPropertyEditor.this.feature, 
+									view.getViewSettings().getSelectionMode()));
+					dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
+					if (dialog.open() == Window.OK) {
+						if (dialog.getSelection() != null) {
+							if (dialog.getSelection() instanceof Collection<?>) {
+								view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD_MANY, null, dialog.getSelection()));
+							} else {
+								view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, dialog.getSelection()));
+							}
+							propertyEditorViewer.getViewer().refresh();				
+						}
+					}
+				}
+			};
+			propertyEditorViewer.getViewer().addReferenceEditorListener(listener);
+		}
 	}
 
 }
