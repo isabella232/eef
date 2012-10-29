@@ -50,15 +50,17 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 				PropertiesEditingProvider editingProvider = serviceRegistry.getService(PropertiesEditingProvider.class, editedEObject.eClass().getEPackage());
 				if (editingProvider != null) {
 					PropertiesEditingModel editingModel = editingProvider.getEditingModel(editedEObject);
-					binding = editingModel.binding(editedEObject);
-					if (binding != null) {
-						List<ITabDescriptor> result = Lists.newArrayList();
-						for (org.eclipse.emf.eef.runtime.editingModel.View view : binding.getViews()) {
-							if (view instanceof EObjectView && ((EObjectView) view).getDefinition() instanceof View) {
-								result.add(new EEFTabDescriptor((View) ((EObjectView) view).getDefinition()));
+					if (editingModel != null) {
+						binding = editingModel.binding(editedEObject);
+						if (binding != null) {
+							List<ITabDescriptor> result = Lists.newArrayList();
+							for (org.eclipse.emf.eef.runtime.editingModel.View view : binding.getViews()) {
+								if (view instanceof EObjectView && ((EObjectView) view).getDefinition() instanceof View) {
+									result.add(new EEFTabDescriptor((View) ((EObjectView) view).getDefinition()));
+								}
 							}
+							return result.toArray(new ITabDescriptor[result.size()]);
 						}
-						return result.toArray(new ITabDescriptor[result.size()]);
 					}
 				}
 			}
