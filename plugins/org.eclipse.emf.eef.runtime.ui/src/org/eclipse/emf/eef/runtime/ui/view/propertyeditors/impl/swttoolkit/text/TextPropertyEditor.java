@@ -51,6 +51,8 @@ public class TextPropertyEditor implements PropertyEditor, MonovaluedPropertyEdi
 		Object value = view.getEditingComponent().getEObject().eGet(feature);
 		if (value instanceof String) {
 			propertyEditorControl.getViewer().getMainControl().setText((String) value);
+		} else {
+			propertyEditorControl.getViewer().getMainControl().setText(value.toString());			
 		}
 		initListeners();
 	}
