@@ -109,27 +109,91 @@
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/changeable"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.1"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.3/@elements.0"/>
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/ordered"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.2"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.1/@elements.0"/>
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/unsettable"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.3"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.3/@elements.1"/>
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/derived"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.4"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.1/@elements.1"/>
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/transient"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.5"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.2/@elements.0"/>
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/volatile"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.6"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.2/@elements.1"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/defaultValueLiteral"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.4"/>
+      </propertyBindings>
+    </bindings>
+    <bindings>
+      <eClass href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.8"/>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference/containment"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.1"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/upperBound"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.2"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/lowerBound"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.3"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/eType"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.1/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference/eOpposite"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.1/@elements.1"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference/eKeys"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.1/@elements.2"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference/resolveProxies"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.2/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/ordered"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.2/@elements.1/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/derived"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.2/@elements.1/@elements.1"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/transient"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.2/@elements.2/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/volatile"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.2/@elements.2/@elements.1"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/changeable"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.2/@elements.3/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/unsettable"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.2/@elements.3/@elements.1"/>
       </propertyBindings>
     </bindings>
     <involvedModels href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#/"/>
@@ -242,11 +306,16 @@
         <elements xsi:type="eef-views:ElementEditor" name="Name">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
         </elements>
-        <elements xsi:type="eef-views:ElementEditor" name="Type"/>
+        <elements xsi:type="eef-views:ElementEditor" name="Type">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
+        </elements>
         <elements xsi:type="eef-views:ElementEditor" name="Upper Bound">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" name="Lower Bound">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+        <elements xsi:type="eef-views:ElementEditor" name="Default Value Literal">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
         </elements>
       </elements>
@@ -255,23 +324,94 @@
         <elements xsi:type="eef-views:ElementEditor" name="Identifier">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
         </elements>
-        <elements xsi:type="eef-views:ElementEditor" name="Changeable">
+        <elements xsi:type="eef-views:Container" name="firstContainer">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.3"/>
+          <elements xsi:type="eef-views:ElementEditor" name="Ordered">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" name="Derived">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
+        </elements>
+        <elements xsi:type="eef-views:Container" name="secondContainer">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.3"/>
+          <elements xsi:type="eef-views:ElementEditor" name="Transient">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" name="Volatile">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
+        </elements>
+        <elements xsi:type="eef-views:Container" name="thirdContainer">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.3"/>
+          <elements xsi:type="eef-views:ElementEditor" name="Changeable">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" name="Unsettable">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
+        </elements>
+      </elements>
+    </views>
+    <views name="EReference">
+      <elements xsi:type="eef-views:Container" name="EReference">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" name="Name">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+        <elements xsi:type="eef-views:ElementEditor" name="Containment">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
         </elements>
-        <elements xsi:type="eef-views:ElementEditor" name="Ordered">
+        <elements xsi:type="eef-views:ElementEditor" name="Upper Bound">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+        <elements xsi:type="eef-views:ElementEditor" name="Lower Bound">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+      </elements>
+      <elements xsi:type="eef-views:Container" name="Typing">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" name="Type">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
+        </elements>
+        <elements xsi:type="eef-views:ElementEditor" name="Opposite Of">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
+        </elements>
+        <elements xsi:type="eef-views:ElementEditor" name="Keys">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.0"/>
+        </elements>
+      </elements>
+      <elements xsi:type="eef-views:Container" name="EReference Properties">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" name="Resolve Proxies">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
         </elements>
-        <elements xsi:type="eef-views:ElementEditor" name="Unsettable">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+        <elements xsi:type="eef-views:Container" name="firstContainer">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.3"/>
+          <elements xsi:type="eef-views:ElementEditor" name="Ordered">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" name="Derived">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
         </elements>
-        <elements xsi:type="eef-views:ElementEditor" name="Derived">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+        <elements xsi:type="eef-views:Container" name="secondContainer">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.3"/>
+          <elements xsi:type="eef-views:ElementEditor" name="Transient">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" name="Volatile">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
         </elements>
-        <elements xsi:type="eef-views:ElementEditor" name="Transient">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
-        </elements>
-        <elements xsi:type="eef-views:ElementEditor" name="Volatile">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+        <elements xsi:type="eef-views:Container" name="thirdContainer">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.3"/>
+          <elements xsi:type="eef-views:ElementEditor" name="Changeable">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" name="Unsettable">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
         </elements>
       </elements>
     </views>
