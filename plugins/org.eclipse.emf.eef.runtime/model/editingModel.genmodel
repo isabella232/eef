@@ -44,6 +44,7 @@
         <genParameters ecoreParameter="editingModel.ecore#//EClassBinding/feature/autowire"/>
       </genOperations>
       <genOperations ecoreOperation="editingModel.ecore#//EClassBinding/propertyEditor">
+        <genParameters ecoreParameter="editingModel.ecore#//EClassBinding/propertyEditor/eObject"/>
         <genParameters ecoreParameter="editingModel.ecore#//EClassBinding/propertyEditor/feature"/>
         <genParameters ecoreParameter="editingModel.ecore#//EClassBinding/propertyEditor/autowire"/>
       </genOperations>

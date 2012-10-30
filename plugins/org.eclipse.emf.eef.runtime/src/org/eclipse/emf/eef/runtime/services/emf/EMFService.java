@@ -19,20 +19,28 @@ import org.eclipse.emf.eef.runtime.services.EEFService;
 public interface EMFService extends EEFService<EPackage> {
 	
 	/**
-	 * Compares two EClass by trying to use the EPackage.Registry.
+	 * Compares two {@link EPackage} by trying to use the EPackage.Registry.
+	 * @param ePack1 first {@link EPackage} to compare.
+	 * @param ePack2 second {@link EPackage} to compare.
+	 * @return <code>true</code> if the two packages are equals.
+	 */
+	boolean equals(EPackage ePack1, EPackage ePack2);
+
+	/**
+	 * Compares two {@link EClass} by trying to use the EPackage.Registry.
 	 * @param eClass1 first {@link EClass} to compare.
 	 * @param eClass2 second {@link EClass} to compare.
-	 * @return <code>true</code> if the two EClasses are equal.
+	 * @return <code>true</code> if the two classes are equals.
 	 */
 	boolean equals(EClass eClass1, EClass eClass2);
 
 	/**
-	 * Compares two EPackage by trying to use the EPackage.Registry.
-	 * @param ePack1 first {@link EClass} to compare.
-	 * @param ePack2 second {@link EClass} to compare.
-	 * @return <code>true</code> if the two EPackages are equal.
+	 * Compares two {@link EStructuralFeature} by trying to use the EPackage.Registry.
+	 * @param esf1 first {@link EStructuralFeature} to compare.
+	 * @param esf2 second {@link EStructuralFeature} to compare.
+	 * @return <code>true</code> if the two features are equals.
 	 */
-	boolean equals(EPackage ePack1, EPackage ePack2);
+	boolean equals(EStructuralFeature esf1, EStructuralFeature esf2);
 
 	/**
 	 * Try to find a corresponding feature on the given EObject

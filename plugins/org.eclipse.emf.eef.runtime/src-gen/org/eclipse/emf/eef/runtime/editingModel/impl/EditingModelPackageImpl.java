@@ -589,6 +589,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		addEParameter(op, ecorePackage.getEBoolean(), "autowire", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(eClassBindingEClass, ecorePackage.getEJavaObject(), "propertyEditor", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEObject(), "eObject", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theEcorePackage.getEStructuralFeature(), "feature", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEBoolean(), "autowire", 1, 1, IS_UNIQUE, IS_ORDERED);
 

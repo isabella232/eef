@@ -30,6 +30,27 @@ public class EMFServiceImpl extends AbstractEEFService<EPackage> implements EMFS
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#equals(org.eclipse.emf.ecore.EPackage, org.eclipse.emf.ecore.EPackage)
+	 */
+	public boolean equals(final EPackage ePack1, final EPackage ePack2) {
+		if (ePack1 == ePack2) {
+			return true;
+		} else if (ePack1.eResource().getURI().isPlatform() && !ePack2.eResource().getURI().isPlatform()) {
+			EPackage ePackage1 = EPackage.Registry.INSTANCE.getEPackage(ePack1.getNsURI());
+			if (ePackage1.equals(ePack2)) {
+				return true;
+			}
+		} else if (!ePack1.eResource().getURI().isPlatform() && ePack2.eResource().getURI().isPlatform()) {
+			EPackage ePackage2 = EPackage.Registry.INSTANCE.getEPackage(ePack2.getNsURI());
+			if (ePackage2.equals(ePack1)) {
+				return true;
+			}			
+		} 
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#equals(org.eclipse.emf.ecore.EClass, org.eclipse.emf.ecore.EClass)
 	 */
 	public boolean equals(final EClass eClass1, final EClass eClass2) {
@@ -59,23 +80,10 @@ public class EMFServiceImpl extends AbstractEEFService<EPackage> implements EMFS
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#equals(org.eclipse.emf.ecore.EPackage, org.eclipse.emf.ecore.EPackage)
+	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#equals(org.eclipse.emf.ecore.EStructuralFeature, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
-	public boolean equals(final EPackage ePack1, final EPackage ePack2) {
-		if (ePack1 == ePack2) {
-			return true;
-		} else if (ePack1.eResource().getURI().isPlatform() && !ePack2.eResource().getURI().isPlatform()) {
-			EPackage ePackage1 = EPackage.Registry.INSTANCE.getEPackage(ePack1.getNsURI());
-			if (ePackage1.equals(ePack2)) {
-				return true;
-			}
-		} else if (!ePack1.eResource().getURI().isPlatform() && ePack2.eResource().getURI().isPlatform()) {
-			EPackage ePackage2 = EPackage.Registry.INSTANCE.getEPackage(ePack2.getNsURI());
-			if (ePackage2.equals(ePack1)) {
-				return true;
-			}			
-		} 
-		return false;
+	public boolean equals(EStructuralFeature esf1, EStructuralFeature esf2) {
+		return equals(esf1.eClass(), esf2.eClass()) && esf1.getName().equals(esf2.getName());
 	}
 
 	/**

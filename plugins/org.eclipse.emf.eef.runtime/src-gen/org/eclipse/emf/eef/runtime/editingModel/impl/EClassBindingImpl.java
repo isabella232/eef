@@ -30,6 +30,7 @@ import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 
 /**
  * <!-- begin-user-doc -->
@@ -242,9 +243,10 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Object propertyEditor(EStructuralFeature feature, boolean autowire) {
+	public Object propertyEditor(EObject eObject, EStructuralFeature feature, boolean autowire) {
+		EMFService emfService = ((PropertiesEditingModel)eContainer()).getServiceRegistry().getService(EMFService.class, eObject.eClass().getEPackage());
 		for (PropertyBinding binding : getPropertyBindings()) {
-			if (binding.getFeature().equals(feature)) {
+			if (emfService.equals(binding.getFeature(), feature)) {
 				Editor editor = binding.getEditor();
 				if (editor instanceof EObjectEditor) {
 					return ((EObjectEditor) editor).getDefinition();
@@ -272,7 +274,7 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 				}
 			}
 		}
-		return feature.getName();
+		return null;
 	}
 
 	/**

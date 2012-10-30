@@ -128,9 +128,9 @@ public interface EClassBinding extends EObject {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model featureRequired="true" autowireRequired="true"
+	 * @model eObjectRequired="true" featureRequired="true" autowireRequired="true"
 	 * @generated
 	 */
-	Object propertyEditor(EStructuralFeature feature, boolean autowire);
+	Object propertyEditor(EObject eObject, EStructuralFeature feature, boolean autowire);
 
 } // EClassBinding

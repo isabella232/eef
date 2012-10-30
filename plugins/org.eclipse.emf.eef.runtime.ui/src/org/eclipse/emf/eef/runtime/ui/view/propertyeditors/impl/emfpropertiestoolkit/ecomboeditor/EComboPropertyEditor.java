@@ -110,7 +110,7 @@ public class EComboPropertyEditor implements PropertyEditor, MonovaluedPropertyE
 					if (dialog.open() == Window.OK) {
 						if (dialog.getSelection() != null) {
 							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, dialog.getSelection()));
-							propertyEditorViewer.getViewer().setInput(dialog.getSelection());
+							propertyEditorViewer.getViewer().refresh();
 						}
 					}
 				}

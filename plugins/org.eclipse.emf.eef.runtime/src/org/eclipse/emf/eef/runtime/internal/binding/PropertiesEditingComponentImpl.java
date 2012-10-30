@@ -180,7 +180,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			EMFService service = editingProvider.getServiceRegistry().getService(EMFService.class, source.eClass().getEPackage());
 			EStructuralFeature structuralFeature = service.mapFeature(source, (EStructuralFeature)msg.getFeature());
 			EClassBinding binding = editingModel.binding(source);
-			Object propertyEditor = binding.propertyEditor(structuralFeature, editingContext.getOptions().autowire());
+			Object propertyEditor = binding.propertyEditor(source, structuralFeature, editingContext.getOptions().autowire());
 			for (ViewHandler<?> viewHandler : viewHandlers) {
 				switch (msg.getEventType()) {
 				case Notification.SET:
@@ -315,8 +315,17 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 				}
 				if (getEObject().eClass().getEAllStructuralFeatures().contains(feature)) {
 	 				Object currentValue = getEObject().eGet(feature);
-					return (currentValue == null && editingEvent.getNewValue() != null)
-							|| (currentValue != null && !currentValue.equals(editingEvent.getNewValue()));
+	 				Object newValue = null;
+	 				if (editingEvent.getNewValue() != null) {
+	 					if (feature instanceof EAttribute && editingEvent.getNewValue() instanceof String) {
+	 						newValue = EcoreUtil.createFromString(((EAttribute)feature).getEAttributeType(), (String)editingEvent.getNewValue());
+	 					}
+	 					if (newValue == null) {
+	 						newValue = editingEvent.getNewValue();
+	 					}
+	 				}
+					return (currentValue == null && newValue != null)
+							|| (currentValue != null && !currentValue.equals(newValue));
 				}
 			}
 			
