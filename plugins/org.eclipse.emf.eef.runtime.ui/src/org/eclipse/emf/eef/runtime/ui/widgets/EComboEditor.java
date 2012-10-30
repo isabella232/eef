@@ -194,6 +194,7 @@ public class EComboEditor extends Viewer {
 	@Override
 	public void setInput(Object input) {
 		this.input = input;
+		refresh();
 	}
 
 	/**

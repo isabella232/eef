@@ -32,6 +32,7 @@ import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
@@ -176,7 +177,8 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	public void notifyChanged(Notification msg) {
 		PropertiesEditingModel editingModel = getEditingModel();
 		if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
-			EStructuralFeature structuralFeature = (EStructuralFeature)msg.getFeature();
+			EMFService service = editingProvider.getServiceRegistry().getService(EMFService.class, source.eClass().getEPackage());
+			EStructuralFeature structuralFeature = service.mapFeature(source, (EStructuralFeature)msg.getFeature());
 			EClassBinding binding = editingModel.binding(source);
 			Object propertyEditor = binding.propertyEditor(structuralFeature, editingContext.getOptions().autowire());
 			for (ViewHandler<?> viewHandler : viewHandlers) {
