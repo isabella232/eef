@@ -11,6 +11,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -70,7 +71,6 @@ public class EEFRuntimeTabbed extends EMFPlugin {
 
 		private AdapterFactory adapterFactory;
 		private ServiceTracker editingContextFactorytracker;
-		private ServiceTracker serviceRegistrytracker;
 
 		/**
 		 * Creates an instance.
@@ -91,8 +91,6 @@ public class EEFRuntimeTabbed extends EMFPlugin {
 			super.start(context);
 			editingContextFactorytracker = new ServiceTracker(context, PropertiesEditingContextFactory.class.getName(), null);
 			editingContextFactorytracker.open();
-			serviceRegistrytracker = new ServiceTracker(context, EEFServiceRegistry.class.getName(), null);
-			serviceRegistrytracker.open();
 		}
 
 		/**
@@ -102,7 +100,6 @@ public class EEFRuntimeTabbed extends EMFPlugin {
 		public void stop(BundleContext context) throws Exception {
 			super.stop(context);
 			editingContextFactorytracker.close();
-			serviceRegistrytracker.close();
 		}
 		
 		
@@ -117,7 +114,7 @@ public class EEFRuntimeTabbed extends EMFPlugin {
 		 * @return
 		 */
 		public EEFServiceRegistry getServiceRegistry() {
-			return (EEFServiceRegistry) serviceRegistrytracker.getService();
+			return getEditingContextFactory().getServiceRegistry();
 		}
  
 		/**

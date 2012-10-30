@@ -94,7 +94,8 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 	 */
 	public void unregisterEditingComponent(PropertiesEditingComponent editingComponent) {
 		if (serviceRegistrations.get(editingComponent) != null) {
-			bundleContext.ungetService(serviceRegistrations.get(editingComponent).getReference());
+			serviceRegistrations.get(editingComponent).unregister();
+			serviceRegistrations.remove(editingComponent);
 		}
 	}
 
