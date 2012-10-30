@@ -164,14 +164,6 @@ public class EReferenceEditor extends StructuredViewer {
 	}
 
 	/**
-	 * @param locked the locked to set
-	 */
-	public void setLocked(boolean locked) {
-		this.locked = locked;
-		updateButtons();
-	}
-
-	/**
 	 * @param lowerBound the lowerBound to set
 	 */
 	public void setLowerBound(int lowerBound) {
@@ -428,6 +420,14 @@ public class EReferenceEditor extends StructuredViewer {
 		return control;
 	}
 		
+	/**
+	 * @param locked the locked to set
+	 */
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+		updateButtons();
+	}
+
 	/**
 	 * Update the list buttons.
 	 */
