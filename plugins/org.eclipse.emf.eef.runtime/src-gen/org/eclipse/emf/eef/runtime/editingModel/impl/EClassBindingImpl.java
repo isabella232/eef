@@ -27,10 +27,14 @@ import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.Editor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
+import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 /**
  * <!-- begin-user-doc -->
@@ -272,6 +276,19 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 						}
 					}
 				}
+			}
+			if (Collections2.filter(views, new Predicate<Object>() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see com.google.common.base.Predicate#apply(java.lang.Object)
+				 */
+				public boolean apply(Object input) {
+					return input instanceof JavaView;
+				}
+				
+			}).size() > 0 && feature != null) {
+				return feature.getName();
 			}
 		}
 		return null;

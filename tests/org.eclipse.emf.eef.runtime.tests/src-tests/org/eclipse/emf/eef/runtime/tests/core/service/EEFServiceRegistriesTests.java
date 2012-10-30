@@ -251,6 +251,10 @@ public class EEFServiceRegistriesTests {
 		public boolean equals(EClass eClass1, EClass eClass2) {
 			return false;
 		}
+
+		public boolean equals(EStructuralFeature esf1, EStructuralFeature esf2) {
+			return false;
+		}
 	}
 
 }

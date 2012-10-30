@@ -173,7 +173,7 @@ public class EEFLockTests extends UIEditingTestCase {
 		 */
 		public void fireLockChange(PropertiesEditingComponent editingComponent, Object view, EEFLockEvent lockEvent) {
 			if (lockEvent instanceof EEFPropertyLockEvent) {
-				Object editor = editingComponent.getBinding().propertyEditor(((EEFPropertyLockEvent) lockEvent).getLockedFeature(), editingComponent.getEditingContext().getOptions().autowire());
+				Object editor = editingComponent.getBinding().propertyEditor(editedObject, ((EEFPropertyLockEvent) lockEvent).getLockedFeature(), editingComponent.getEditingContext().getOptions().autowire());
 				if (lockEvent.getState() == EEFLockEvent.LockState.LOCKED) {
 					lockEditor(view, editor);
 				} else {

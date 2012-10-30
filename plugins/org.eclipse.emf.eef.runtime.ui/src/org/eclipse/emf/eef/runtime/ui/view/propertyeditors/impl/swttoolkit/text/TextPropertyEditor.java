@@ -52,7 +52,7 @@ public class TextPropertyEditor implements PropertyEditor, MonovaluedPropertyEdi
 		if (value instanceof String) {
 			propertyEditorControl.getViewer().getMainControl().setText((String) value);
 		} else {
-			propertyEditorControl.getViewer().getMainControl().setText(value.toString());			
+			propertyEditorControl.getViewer().getMainControl().setText(value == null?"":value.toString());			
 		}
 		initListeners();
 	}

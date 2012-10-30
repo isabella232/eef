@@ -47,7 +47,7 @@ public class EClassBindingResolverTests {
 		.bindClass(EcorePackage.Literals.ECLASS)
 			.withView(SampleView.class)
 		.build();
-		assertEquals("name", editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ENAMED_ELEMENT__NAME, true));		
+		assertEquals("name", editingModel.getBindings().get(0).propertyEditor(null, EcorePackage.Literals.ENAMED_ELEMENT__NAME, true));		
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class EClassBindingResolverTests {
 				.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME)
 					.withEditor("title")
 			.build();
-		assertEquals("title", editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ENAMED_ELEMENT__NAME, true));
+		assertEquals("title", editingModel.getBindings().get(0).propertyEditor(null, EcorePackage.Literals.ENAMED_ELEMENT__NAME, true));
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class EClassBindingResolverTests {
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(sampleView)
 			.build();
-		assertEquals(abstractEditor, editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ECLASS__ABSTRACT, true));
+		assertEquals(abstractEditor, editingModel.getBindings().get(0).propertyEditor(null, EcorePackage.Literals.ECLASS__ABSTRACT, true));
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class EClassBindingResolverTests {
 			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT)
 				.withEditor(instanciableEditor)
 			.build();
-		assertEquals(instanciableEditor, editingModel.getBindings().get(0).propertyEditor(EcorePackage.Literals.ECLASS__ABSTRACT, true));
+		assertEquals(instanciableEditor, editingModel.getBindings().get(0).propertyEditor(null, EcorePackage.Literals.ECLASS__ABSTRACT, true));
 	}
 
 }
