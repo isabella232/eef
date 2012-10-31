@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceMultiSWTPropertyEditor implements SWTPropertyEditor<EReferenceEditor> {
+public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<EReferenceEditor> {
 
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
@@ -25,7 +25,7 @@ public class EReferenceMultiSWTPropertyEditor implements SWTPropertyEditor<ERefe
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EReferenceMultiSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public EReferenceSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}

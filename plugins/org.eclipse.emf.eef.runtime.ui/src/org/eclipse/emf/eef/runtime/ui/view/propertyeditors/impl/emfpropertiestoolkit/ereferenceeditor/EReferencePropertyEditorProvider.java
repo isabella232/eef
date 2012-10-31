@@ -15,12 +15,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceMultiPropertyEditorProvider implements WidgetPropertyEditorProvider {
+public class EReferencePropertyEditorProvider implements WidgetPropertyEditorProvider {
 
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
 	
 	static {
-		widget.setName("EReferenceMultiEditor");
+		widget.setName("EReferenceEditor");
 	}
 	
 	/**
@@ -46,9 +46,9 @@ public class EReferenceMultiPropertyEditorProvider implements WidgetPropertyEdit
 	public PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
 		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
-			return new EReferenceMultiPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new EReferenceMultiFormPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));			
+			return new EReferencePropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new EReferenceFormPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));			
 		} else {
-			return new EReferenceMultiPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new EReferenceMultiSWTPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));
+			return new EReferencePropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new EReferenceSWTPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));
 		}
 	}
 

@@ -30,7 +30,7 @@ import org.eclipse.swt.layout.GridData;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceMultiPropertyEditor implements PropertyEditor, MultivaluedPropertyEditor {
+public class EReferencePropertyEditor implements PropertyEditor, MultivaluedPropertyEditor {
 
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
@@ -43,7 +43,7 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 	 * @param view
 	 * @param viewElement
 	 */
-	public EReferenceMultiPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<EReferenceEditor> propertyEditorViewer) {
+	public EReferencePropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<EReferenceEditor> propertyEditorViewer) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
@@ -196,7 +196,7 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 							new ChoiceOfValuesFilter(
 									view.getEditingComponent().getEditingContext().getAdapterFactory(), 
 									view.getEditingComponent().getEObject(), 
-									EReferenceMultiPropertyEditor.this.feature, 
+									EReferencePropertyEditor.this.feature, 
 									view.getViewSettings().getSelectionMode()));
 					dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
 					if (dialog.open() == Window.OK) {

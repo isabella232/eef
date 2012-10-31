@@ -16,7 +16,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceMultiFormPropertyEditor implements FormPropertyEditor<EReferenceEditor> {
+public class EReferenceFormPropertyEditor implements FormPropertyEditor<EReferenceEditor> {
 
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
@@ -26,7 +26,7 @@ public class EReferenceMultiFormPropertyEditor implements FormPropertyEditor<ERe
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EReferenceMultiFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public EReferenceFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}
@@ -45,7 +45,7 @@ public class EReferenceMultiFormPropertyEditor implements FormPropertyEditor<ERe
 	 */
 	public void build(final FormToolkit toolkit, final Composite parent) {
 		view.getViewService().createLabel(toolkit, parent, elementEditor, elementEditor.getName());
-		eReferenceEditor = new EReferenceEditor(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) {
+		eReferenceEditor = new EReferenceEditor(toolkit, parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) {
 
 			/**
 			 * {@inheritDoc}
