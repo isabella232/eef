@@ -49,6 +49,7 @@ public final class ModelChangesNotifierImpl extends EContentAdapter implements M
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
+		super.notifyChanged(notification);
 		String topic;
 		if (notification.getNotifier() instanceof EObject) {
 			EObject notifier = (EObject)notification.getNotifier();
