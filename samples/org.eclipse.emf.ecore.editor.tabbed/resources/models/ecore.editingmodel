@@ -196,6 +196,38 @@
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.2/@elements.3/@elements.1"/>
       </propertyBindings>
     </bindings>
+    <bindings>
+      <eClass href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.9"/>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/eType"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.1"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/lowerBound"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.2"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/upperBound"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.3"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation/eExceptions"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.4"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/unique"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.1/@elements.0/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/ordered"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.1/@elements.0/@elements.1"/>
+      </propertyBindings>
+    </bindings>
     <involvedModels href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#/"/>
   </eef-model:PropertiesEditingModel>
   <eef-views:ViewsRepository name="ecore">
@@ -301,7 +333,7 @@
       </elements>
     </views>
     <views name="EAttribute">
-      <elements xsi:type="eef-views:Container" name="EAttribute">
+      <elements xsi:type="eef-views:Container" name="Basics">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="Name">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
@@ -319,7 +351,7 @@
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
         </elements>
       </elements>
-      <elements xsi:type="eef-views:Container" name="EAttribute Properties">
+      <elements xsi:type="eef-views:Container" name="Properties">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="Identifier">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
@@ -354,7 +386,7 @@
       </elements>
     </views>
     <views name="EReference">
-      <elements xsi:type="eef-views:Container" name="EReference">
+      <elements xsi:type="eef-views:Container" name="Basics">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="Name">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
@@ -381,7 +413,7 @@
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.0"/>
         </elements>
       </elements>
-      <elements xsi:type="eef-views:Container" name="EReference Properties">
+      <elements xsi:type="eef-views:Container" name="Properties">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="Resolve Proxies">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
@@ -410,6 +442,38 @@
             <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
           </elements>
           <elements xsi:type="eef-views:ElementEditor" name="Unsettable">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
+        </elements>
+      </elements>
+    </views>
+    <views name="EOperation">
+      <elements xsi:type="eef-views:Container" name="Basics">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" name="Name">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+        <elements xsi:type="eef-views:ElementEditor" name="Type">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
+        </elements>
+        <elements xsi:type="eef-views:ElementEditor" name="Lower">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+        <elements xsi:type="eef-views:ElementEditor" name="Upper">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+        <elements xsi:type="eef-views:ElementEditor" name="Exceptions">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.0"/>
+        </elements>
+      </elements>
+      <elements xsi:type="eef-views:Container" name="Properties">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:Container" name="properties">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.3"/>
+          <elements xsi:type="eef-views:ElementEditor" name="Unique">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" name="Ordered">
             <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
           </elements>
         </elements>
