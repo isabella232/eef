@@ -67,9 +67,8 @@ public class HBoxFormPropertyEditor implements FormPropertyEditor<EEFControlWrap
 		hboxData.horizontalSpan = 3;
 		hbox.setLayoutData(hboxData);
 		layout = new GridLayout();
-		layout.marginHeight = 0;
+		layout.marginHeight = 1;
 		layout.marginWidth = 0;
-		layout.horizontalSpacing = 0;
 		layout.makeColumnsEqualWidth = false;
 		int numColumns = 0;
 		for (EObject element : container.eContents()) {
