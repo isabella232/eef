@@ -10,6 +10,7 @@ import org.eclipse.emf.eef.runtime.ui.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
@@ -70,8 +71,10 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
 					((FormPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(toolkit, currentContainer);
 					this.propertyEditors.put(container, propertyEditor);
-					for (EObject subContent : content.eContents()) {
-						buildElement(toolkit, (Composite) propertyEditor.getPropertyEditorViewer().getViewer().getControl(), subContent);
+					if (!(propertyEditor instanceof UndefinedPropertyEditor)) {
+						for (EObject subContent : content.eContents()) {
+							buildElement(toolkit, (Composite) propertyEditor.getPropertyEditorViewer().getViewer().getControl(), subContent);
+						}
 					}
 				}
 			}

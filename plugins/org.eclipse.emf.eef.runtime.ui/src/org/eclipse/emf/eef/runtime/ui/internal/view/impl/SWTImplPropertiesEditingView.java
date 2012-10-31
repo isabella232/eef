@@ -11,6 +11,7 @@ import org.eclipse.emf.eef.runtime.ui.view.SWTPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
@@ -65,8 +66,10 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView 
 				if (propertyEditor.getPropertyEditorViewer() instanceof SWTPropertyEditor) {
 					((SWTPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(currentContainer);
 					this.propertyEditors.put(container, propertyEditor);
-					for (EObject subContent : content.eContents()) {
-						buildElement((Composite) propertyEditor.getPropertyEditorViewer().getViewer().getControl(), subContent);
+					if (!(propertyEditor instanceof UndefinedPropertyEditor)) {
+						for (EObject subContent : content.eContents()) {
+							buildElement((Composite) propertyEditor.getPropertyEditorViewer().getViewer().getControl(), subContent);
+						}
 					}
 				}
 			}

@@ -7,7 +7,6 @@ import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProvider;
-import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -48,9 +47,9 @@ public class UndefinedPropertyEditorProvider implements WidgetPropertyEditorProv
 	public PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
 		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
-			return new UndefinedPropertyEditor(new UndefinedFormPropertyEditor((ElementEditor) editorContext.viewElement));			 
+			return new UndefinedPropertyEditor(new UndefinedFormPropertyEditor(editorContext.viewElement));			 
 		} else {
-			return new UndefinedPropertyEditor(new UndefinedSWTPropertyEditor((ElementEditor) editorContext.viewElement));			 
+			return new UndefinedPropertyEditor(new UndefinedSWTPropertyEditor(editorContext.viewElement));			 
 		}
 	}
 
