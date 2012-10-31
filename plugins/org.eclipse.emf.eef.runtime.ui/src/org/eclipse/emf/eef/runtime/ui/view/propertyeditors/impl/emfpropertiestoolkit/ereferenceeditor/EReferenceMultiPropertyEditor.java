@@ -67,6 +67,7 @@ public class EReferenceMultiPropertyEditor implements PropertyEditor, Multivalue
 		initListener();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.heightHint = view.getViewSettings().getMultiEditorHeight();
+		layoutData.horizontalSpan = 2;
 		propertyEditorViewer.getViewer().setLayoutData(layoutData);
 	}
 
