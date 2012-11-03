@@ -3,9 +3,10 @@
  */
 package org.eclipse.emf.eef.runtime.internal.policies;
 
-import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.policies.processors.LiveEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -23,11 +24,10 @@ public class LiveEObjectEditingPolicy extends DomainEObjectEditingPolicy {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.policies.DomainEObjectEditingPolicy#processCommand(org.eclipse.emf.common.command.Command)
+	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor#getProcessor()
 	 */
-	@Override
-	protected void processCommand(Command command) {
-		getEditingContext().getEditingDomain().getCommandStack().execute(command);
+	public EditingPolicyProcessor getProcessor() {
+		return new LiveEditingPolicyProcessor(getEditingContext());
 	}
 
 }

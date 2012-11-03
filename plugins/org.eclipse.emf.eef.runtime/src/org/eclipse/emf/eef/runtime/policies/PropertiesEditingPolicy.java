@@ -9,6 +9,9 @@ package org.eclipse.emf.eef.runtime.policies;
  */
 public interface PropertiesEditingPolicy {
 
+	/**
+	 * Executes the policy behavior with the good processor.
+	 */
 	void execute();
 	
 }
