@@ -1,12 +1,14 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies;
+package org.eclipse.emf.eef.runtime.internal.policies.eobject;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.policies.AbstractEditingPolicyWithProcessor;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing.ProcessingKind;
@@ -17,16 +19,14 @@ import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing.ProcessingKi
  */
 public abstract class EObjectEditingPolicy extends AbstractEditingPolicyWithProcessor {
 
-	private PropertiesEditingContext editingContext;
-	private PropertiesEditingEvent editingEvent;
+	private SemanticPropertiesEditingContext editingContext;
 
 	/**
 	 * @param editingContext
 	 * @param editingEvent
 	 */
-	public EObjectEditingPolicy(PropertiesEditingContext editingContext, PropertiesEditingEvent editingEvent) {
+	public EObjectEditingPolicy(SemanticPropertiesEditingContext editingContext) {
 		this.editingContext = editingContext;
-		this.editingEvent = editingEvent;
 	}
 
 	/**
@@ -37,19 +37,13 @@ public abstract class EObjectEditingPolicy extends AbstractEditingPolicyWithProc
 	}
 
 	/**
-	 * @return the editingEvent
-	 */
-	public final PropertiesEditingEvent getEditingEvent() {
-		return editingEvent;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.internal.policies.AbstractEditingPolicyWithProcessor#getPolicyProcessing()
 	 */
 	@Override
 	protected EditingPolicyProcessing getPolicyProcessing() {
 		EditingPolicyProcessing processing = new EditingPolicyProcessing();
+		PropertiesEditingEvent editingEvent = editingContext.getEditingEvent();
 		EClassBinding binding = editingContext.getEditingComponent().getBinding();
 		EStructuralFeature bindingFeature = binding.feature(editingEvent.getAffectedEditor(), editingContext.getEditingComponent().getEditingContext().getOptions().autowire());
 		EObject editedObject = (EObject)editingContext.getEditingComponent().getEObject();

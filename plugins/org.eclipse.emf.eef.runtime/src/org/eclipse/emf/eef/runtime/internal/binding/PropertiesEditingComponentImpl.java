@@ -352,7 +352,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			} 
 		}
 		SemanticPropertiesEditingContext context;
-		//TODO: First hypothesis, if I'm owned by a DomainAware context, I generate a SemanticDomainPEC.
 		if (editingContext instanceof DomainAwarePropertiesEditingContext) {
 			context = new SemanticDomainPropertiesEditingContext((DomainAwarePropertiesEditingContext) editingContext, editingEvent);			
 		} else {

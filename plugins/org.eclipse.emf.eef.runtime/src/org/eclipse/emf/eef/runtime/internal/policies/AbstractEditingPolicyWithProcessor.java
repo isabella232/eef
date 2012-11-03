@@ -17,7 +17,7 @@ public abstract class AbstractEditingPolicyWithProcessor implements EditingPolic
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute()
 	 */
-	public void execute() {
+	public final void execute() {
 		getProcessor().process(getPolicyProcessing());
 	}
 

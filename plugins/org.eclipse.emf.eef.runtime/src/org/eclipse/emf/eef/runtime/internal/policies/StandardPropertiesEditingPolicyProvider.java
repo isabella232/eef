@@ -9,6 +9,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.policies.eobject.EObjectBatchEditingPolicy;
+import org.eclipse.emf.eef.runtime.internal.policies.eobject.EObjectDirectEditingPolicy;
+import org.eclipse.emf.eef.runtime.internal.policies.eobject.EObjectLiveEditingPolicy;
+import org.eclipse.emf.eef.runtime.internal.policies.ereference.EReferenceBatchEditingPolicy;
+import org.eclipse.emf.eef.runtime.internal.policies.ereference.EReferenceDirectEditingPolicy;
+import org.eclipse.emf.eef.runtime.internal.policies.ereference.EReferenceLiveEditingPolicy;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
@@ -39,23 +45,42 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 		if (context instanceof SemanticPropertiesEditingContext) {
 			PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContext) context).getEditingEvent();
 			EStructuralFeature feature = context.getEditingComponent().getBinding().feature(editingEvent.getAffectedEditor(), context.getOptions().autowire());
-			if (feature != null && feature instanceof EReference && ((EReference)feature).isContainment() && editingEvent.getNewValue() == null) {
-				return new EReferencePropertiesEditingPolicy((SemanticPropertiesEditingContext) context);
+			if (isAddingInContainmentEvent(editingEvent, feature)) {
+				if (context instanceof SemanticDomainPropertiesEditingContext) {
+					SemanticDomainPropertiesEditingContext semanticEditingContext = (SemanticDomainPropertiesEditingContext) context;
+					if (semanticEditingContext.getOptions().liveMode()) {
+						return new EReferenceLiveEditingPolicy(semanticEditingContext);
+					} 
+					if (semanticEditingContext.getOptions().batchMode()) {
+						return new EReferenceBatchEditingPolicy(semanticEditingContext);
+					}				
+				} else {
+					return new EReferenceDirectEditingPolicy((SemanticPropertiesEditingContext) context);
+				}
 			} else {
 				if (context instanceof SemanticDomainPropertiesEditingContext) {
 					SemanticDomainPropertiesEditingContext semanticEditingContext = (SemanticDomainPropertiesEditingContext) context;
 					if (semanticEditingContext.getOptions().liveMode()) {
-						return new LiveEObjectEditingPolicy(semanticEditingContext, semanticEditingContext.getEditingEvent());
+						return new EObjectLiveEditingPolicy(semanticEditingContext);
 					} 
 					if (semanticEditingContext.getOptions().batchMode()) {
-						return new BatchEObjectEditingPolicy(semanticEditingContext, semanticEditingContext.getEditingEvent());
+						return new EObjectBatchEditingPolicy(semanticEditingContext);
 					}				
 				} else {
-					return new EObjectDirectEditingPolicy(context, editingEvent);
+					return new EObjectDirectEditingPolicy((SemanticPropertiesEditingContext) context);
 				}
 			}
 		}
 		return getNullEditingPolicy();
+	}
+
+	/**
+	 * @param editingEvent
+	 * @param feature
+	 * @return
+	 */
+	public boolean isAddingInContainmentEvent(PropertiesEditingEvent editingEvent, EStructuralFeature feature) {
+		return feature != null && feature instanceof EReference && ((EReference)feature).isContainment() && editingEvent.getNewValue() == null && editingEvent.getEventType() == PropertiesEditingEvent.ADD;
 	}
 
 	private PropertiesEditingPolicy getNullEditingPolicy() {

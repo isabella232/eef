@@ -1,25 +1,23 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies;
+package org.eclipse.emf.eef.runtime.internal.policies.ereference;
 
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.processors.DirectEditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EObjectDirectEditingPolicy extends EObjectEditingPolicy {
+public class EReferenceDirectEditingPolicy extends EReferenceEditingPolicy {
 
 	/**
-	 * @param editingContext
-	 * @param editingEvent
+	 * @param context
 	 */
-	public EObjectDirectEditingPolicy(PropertiesEditingContext editingContext, PropertiesEditingEvent editingEvent) {
-		super(editingContext, editingEvent);
+	public EReferenceDirectEditingPolicy(SemanticPropertiesEditingContext context) {
+		super(context);
 	}
 
 	/**
@@ -29,5 +27,5 @@ public class EObjectDirectEditingPolicy extends EObjectEditingPolicy {
 	public EditingPolicyProcessor getProcessor() {
 		return new DirectEditingPolicyProcessor();
 	}
-	
+
 }

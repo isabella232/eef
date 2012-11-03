@@ -1,25 +1,23 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies;
+package org.eclipse.emf.eef.runtime.internal.policies.ereference;
 
-import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.processors.LiveEditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class LiveEObjectEditingPolicy extends DomainEObjectEditingPolicy {
+public class EReferenceLiveEditingPolicy extends EReferenceDomainEditingPolicy {
 
 	/**
-	 * @param editingContext
-	 * @param editingEvent
+	 * @param context
 	 */
-	public LiveEObjectEditingPolicy(DomainAwarePropertiesEditingContext editingContext, PropertiesEditingEvent editingEvent) {
-		super(editingContext, editingEvent);
+	public EReferenceLiveEditingPolicy(SemanticDomainPropertiesEditingContext context) {
+		super(context);
 	}
 
 	/**
