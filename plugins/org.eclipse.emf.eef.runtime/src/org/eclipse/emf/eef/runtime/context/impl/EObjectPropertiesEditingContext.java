@@ -53,6 +53,14 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getServiceRegistry()
+	 */
+	public EEFServiceRegistry getServiceRegistry() {
+		return serviceRegistry;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setServiceRegistry(EMFServiceProvider)
 	 */
 	public void setServiceRegistry(EEFServiceRegistry emfServiceProvider) {

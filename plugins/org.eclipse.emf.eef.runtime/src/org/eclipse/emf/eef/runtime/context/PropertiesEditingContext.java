@@ -19,7 +19,12 @@ import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
 public interface PropertiesEditingContext {
 	
 	/**
-	 * Defines the {@link EEFServiceRegistryImpl} of the current {@link PropertiesEditingContext}.
+	 * @return the {@link EEFServiceRegistry} of the current {@link PropertiesEditingContext}.
+	 */
+	EEFServiceRegistry getServiceRegistry();
+	
+	/**
+	 * Defines the {@link EEFServiceRegistry} of the current {@link PropertiesEditingContext}.
 	 * @param serviceRegistry the {@link EEFServiceRegistryImpl}.
 	 */
 	void setServiceRegistry(EEFServiceRegistry serviceRegistry);

@@ -35,6 +35,13 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	}
 
 	/**
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getServiceRegistry()
+	 */
+	public EEFServiceRegistry getServiceRegistry() {
+		return delegatingContext.getServiceRegistry();
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
 	 */
