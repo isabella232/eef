@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.internal.context;
 
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 
 /**
@@ -12,32 +12,26 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
  */
 public class SemanticPropertiesEditingContext extends DelegatingPropertiesEditingContext {
 
-	private PropertiesEditingComponent editingComponent;
 	private PropertiesEditingEvent editingEvent;
 	
 	/**
-	 * @param editingComponent
-	 * @param viewChangeNotifier
+	 * @param parentContext
+	 * @param editingEvent
 	 */
-	public SemanticPropertiesEditingContext(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
-		super(editingComponent.getEditingContext());
-		this.editingComponent = editingComponent;
+	public SemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent) {
+		super(parentContext);
 		this.editingEvent = editingEvent;
-		
 	}
 	
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.context.DelegatingPropertiesEditingContext#getEditingComponent()
+	 * @return the parent {@link PropertiesEditingContext} of the current context.
 	 */
-	public PropertiesEditingComponent getEditingComponent() {
-		return editingComponent;
+	public PropertiesEditingContext getParentContext() {
+		return getDelegatingContext();
 	}
-
-
-
+	
 	/**
-	 * @return the viewChangeNotifier
+	 * @return the {@link PropertiesEditingEvent} which have generated this context.
 	 */
 	public PropertiesEditingEvent getEditingEvent() {
 		return editingEvent;

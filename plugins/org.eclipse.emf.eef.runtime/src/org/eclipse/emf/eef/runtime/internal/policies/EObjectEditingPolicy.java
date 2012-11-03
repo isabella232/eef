@@ -7,7 +7,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
@@ -16,17 +16,32 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class SemanticEditingPolicy implements PropertiesEditingPolicy {
+public abstract class EObjectEditingPolicy implements PropertiesEditingPolicy {
 
+	private PropertiesEditingContext editingContext;
 	private PropertiesEditingEvent editingEvent;
-	private PropertiesEditingComponent editingComponent;
 
 	/**
+	 * @param editingContext
 	 * @param editingEvent
 	 */
-	public SemanticEditingPolicy(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
-		this.editingComponent = editingComponent;
+	public EObjectEditingPolicy(PropertiesEditingContext editingContext, PropertiesEditingEvent editingEvent) {
+		this.editingContext = editingContext;
 		this.editingEvent = editingEvent;
+	}
+
+	/**
+	 * @return the editingContext
+	 */
+	public PropertiesEditingContext getEditingContext() {
+		return editingContext;
+	}
+
+	/**
+	 * @return the editingEvent
+	 */
+	public final PropertiesEditingEvent getEditingEvent() {
+		return editingEvent;
 	}
 
 	/**
@@ -34,36 +49,36 @@ public abstract class SemanticEditingPolicy implements PropertiesEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute()
 	 */
 	public void execute() {
-		EClassBinding binding = editingComponent.getBinding();
-		EStructuralFeature bindingFeature = binding.feature(editingEvent.getAffectedEditor(), editingComponent.getEditingContext().getOptions().autowire());
-		EObject editedObject = (EObject)editingComponent.getEObject();
-		EStructuralFeature feature = editingComponent.getEditingContext().getEMFService().mapFeature(editedObject, bindingFeature);
+		EClassBinding binding = editingContext.getEditingComponent().getBinding();
+		EStructuralFeature bindingFeature = binding.feature(editingEvent.getAffectedEditor(), editingContext.getEditingComponent().getEditingContext().getOptions().autowire());
+		EObject editedObject = (EObject)editingContext.getEditingComponent().getEObject();
+		EStructuralFeature feature = editingContext.getEditingComponent().getEditingContext().getEMFService().mapFeature(editedObject, bindingFeature);
 		if (feature != null) {
 
 			switch (editingEvent.getEventType()) {
 			case PropertiesEditingEvent.SET:
-				performSet((EObject) editingComponent.getEObject(), feature, editingEvent.getNewValue());				
+				performSet((EObject) editingContext.getEditingComponent().getEObject(), feature, editingEvent.getNewValue());				
 				break;
 			case PropertiesEditingEvent.UNSET:
-				performUnset((EObject) editingComponent.getEObject(), feature);								
+				performUnset((EObject) editingContext.getEditingComponent().getEObject(), feature);								
 				break;
 			case PropertiesEditingEvent.ADD:
-				performAdd((EObject) editingComponent.getEObject(), feature, editingEvent.getNewValue());				
+				performAdd((EObject) editingContext.getEditingComponent().getEObject(), feature, editingEvent.getNewValue());				
 				break;
 			case PropertiesEditingEvent.ADD_MANY:
-				performAddMany((EObject) editingComponent.getEObject(), feature, (Collection<?>) editingEvent.getNewValue());				
+				performAddMany((EObject) editingContext.getEditingComponent().getEObject(), feature, (Collection<?>) editingEvent.getNewValue());				
 				break;	
 			case PropertiesEditingEvent.REMOVE:
-				performRemove((EObject) editingComponent.getEObject(), feature, editingEvent.getOldValue());				
+				performRemove((EObject) editingContext.getEditingComponent().getEObject(), feature, editingEvent.getOldValue());				
 				break;
 			case PropertiesEditingEvent.REMOVE_MANY:
-				performRemoveMany((EObject) editingComponent.getEObject(), feature, (Collection<?>) editingEvent.getOldValue());				
+				performRemoveMany((EObject) editingContext.getEditingComponent().getEObject(), feature, (Collection<?>) editingEvent.getOldValue());				
 				break;
 			case PropertiesEditingEvent.MOVE:
-				performMove((EObject) editingComponent.getEObject(), feature, (Integer)editingEvent.getOldValue(), (Integer)editingEvent.getNewValue());				
+				performMove((EObject) editingContext.getEditingComponent().getEObject(), feature, (Integer)editingEvent.getOldValue(), (Integer)editingEvent.getNewValue());				
 				break;
 			default:
-				performSet((EObject) editingComponent.getEObject(), feature, editingEvent.getNewValue());				
+				performSet((EObject) editingContext.getEditingComponent().getEObject(), feature, editingEvent.getNewValue());				
 				break;
 			}
 		}

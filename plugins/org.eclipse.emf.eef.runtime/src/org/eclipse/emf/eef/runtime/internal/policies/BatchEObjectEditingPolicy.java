@@ -7,28 +7,26 @@ import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.command.AbortExecutionException;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class BatchSemanticDomainEditingPolicy extends SemanticDomainEditingPolicy {
+public class BatchEObjectEditingPolicy extends DomainEObjectEditingPolicy {
 
 	/**
-	 * @param editingDomain
-	 * @param editingComponent
+	 * @param editingContext
 	 * @param editingEvent
 	 */
-	public BatchSemanticDomainEditingPolicy(EditingDomain editingDomain, PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
-		super(editingDomain, editingComponent, editingEvent);
+	public BatchEObjectEditingPolicy(DomainAwarePropertiesEditingContext editingContext, PropertiesEditingEvent editingEvent) {
+		super(editingContext, editingEvent);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticDomainEditingPolicy#processCommand(org.eclipse.emf.common.command.Command)
+	 * @see org.eclipse.emf.eef.runtime.internal.policies.DomainEObjectEditingPolicy#processCommand(org.eclipse.emf.common.command.Command)
 	 */
 	@Override
 	protected void processCommand(Command command) {

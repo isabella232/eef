@@ -119,6 +119,7 @@ public interface EClassBinding extends EObject {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * TODO: this method should take the Edited EObject as parameter.
 	 * <!-- end-user-doc -->
 	 * @model viewRequired="true" autowireRequired="true"
 	 * @generated

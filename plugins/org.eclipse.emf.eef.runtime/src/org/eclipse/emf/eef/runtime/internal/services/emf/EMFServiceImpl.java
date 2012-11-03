@@ -3,23 +3,31 @@
  */
 package org.eclipse.emf.eef.runtime.internal.services.emf;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
+
+import com.google.common.collect.Sets;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
 public class EMFServiceImpl extends AbstractEEFService<EPackage> implements EMFService, DefaultService {
-	
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
@@ -129,6 +137,41 @@ public class EMFServiceImpl extends AbstractEEFService<EPackage> implements EMFS
 			}
 			return tmp;
 		}
-	}	
-	
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#listOfInstanciableType(EditingDomain, EObject, EReference)
+	 */
+	public Collection<EClass> listOfInstanciableType(EditingDomain domain, EObject editedObject, EReference eReference) {
+		Collection<EClass> result = Sets.newHashSet();
+		if (domain != null) {
+			Collection<?> newChildDescriptors = domain.getNewChildDescriptors(editedObject, null);
+			for (Object object : newChildDescriptors) {
+				if (object instanceof CommandParameter) {
+					CommandParameter commandParameter = (CommandParameter) object;
+					if (equals((EStructuralFeature)commandParameter.feature, eReference) && commandParameter.value instanceof EObject) {
+						result.add(((EObject) commandParameter.value).eClass());
+					}
+				}
+			}
+		} else {
+			EClass eReferenceType = eReference.getEReferenceType();
+			EObject container = eReferenceType;
+			while (container.eContainer() != null) {
+				container = container.eContainer();
+			}
+			TreeIterator<EObject> eAllContents = container.eAllContents();
+			while (eAllContents.hasNext()) {
+				EObject next = eAllContents.next();
+				if (next instanceof EClass) {
+					EClass eClass = (EClass) next;
+					if (!(eClass.isAbstract()) && eReferenceType.isSuperTypeOf(eClass)) {
+						result.add(eClass);
+					}
+				}
+			}
+		}
+		return result;
+	}
 }

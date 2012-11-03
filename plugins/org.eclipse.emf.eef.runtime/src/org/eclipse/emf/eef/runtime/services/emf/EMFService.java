@@ -3,13 +3,17 @@
  */
 package org.eclipse.emf.eef.runtime.services.emf;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
@@ -59,5 +63,14 @@ public interface EMFService extends EEFService<EPackage> {
 	 * @return the highest {@link Notifier}.
 	 */
 	Notifier highestNotifier(EObject src);
+
+	/**
+	 * Returns all EClass compatible with the {@link EReference} type. 
+	 * @param domain the editingDomain owning the editedObject (can be <code>null</code>).
+	 * @param editedObject the edited Object
+	 * @param eReference the edited reference
+	 * @return a {@link Collection} of {@link EClass} compatible with the {@link EReference} type.
+	 */
+	Collection<EClass> listOfInstanciableType(EditingDomain domain, EObject editedObject, EReference eReference);
 	
 }

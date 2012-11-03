@@ -10,26 +10,26 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class SemanticDirectEditingPolicy extends SemanticEditingPolicy {
+public class EObjectDirectEditingPolicy extends EObjectEditingPolicy {
 
 	/**
-	 * @param editingComponent
+	 * @param editingContext
 	 * @param editingEvent
 	 */
-	public SemanticDirectEditingPolicy(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
-		super(editingComponent, editingEvent);
+	public EObjectDirectEditingPolicy(PropertiesEditingContext editingContext, PropertiesEditingEvent editingEvent) {
+		super(editingContext, editingEvent);
 	}
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performSet(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.internal.policies.EObjectEditingPolicy#performSet(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	protected void performSet(EObject eObject, EStructuralFeature feature, Object value) {
 		if (value instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
@@ -41,7 +41,7 @@ public class SemanticDirectEditingPolicy extends SemanticEditingPolicy {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performUnset(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
+	 * @see org.eclipse.emf.eef.runtime.internal.policies.EObjectEditingPolicy#performUnset(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	protected void performUnset(EObject eObject, EStructuralFeature feature) {
 		eObject.eUnset(feature);
@@ -49,7 +49,7 @@ public class SemanticDirectEditingPolicy extends SemanticEditingPolicy {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performAdd(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.internal.policies.EObjectEditingPolicy#performAdd(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
 	protected void performAdd(EObject eObject, EStructuralFeature feature, Object newValue) {
@@ -66,7 +66,7 @@ public class SemanticDirectEditingPolicy extends SemanticEditingPolicy {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performAddMany(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
+	 * @see org.eclipse.emf.eef.runtime.internal.policies.EObjectEditingPolicy#performAddMany(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
 	 */
 	@SuppressWarnings("unchecked")
 	protected void performAddMany(EObject eObject, EStructuralFeature feature, Collection<?> newValues) {
@@ -85,7 +85,7 @@ public class SemanticDirectEditingPolicy extends SemanticEditingPolicy {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performRemove(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.internal.policies.EObjectEditingPolicy#performRemove(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
 	protected void performRemove(EObject eObject, EStructuralFeature feature, Object oldValue) {
@@ -98,7 +98,7 @@ public class SemanticDirectEditingPolicy extends SemanticEditingPolicy {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performRemoveMany(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
+	 * @see org.eclipse.emf.eef.runtime.internal.policies.EObjectEditingPolicy#performRemoveMany(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
 	 */
 	@SuppressWarnings("unchecked")
 	protected void performRemoveMany(EObject eObject, EStructuralFeature feature, Collection<?> oldValues) {
@@ -111,7 +111,7 @@ public class SemanticDirectEditingPolicy extends SemanticEditingPolicy {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.policies.SemanticEditingPolicy#performMove(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Integer, java.lang.Integer)
+	 * @see org.eclipse.emf.eef.runtime.internal.policies.EObjectEditingPolicy#performMove(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Integer, java.lang.Integer)
 	 */
 	protected void performMove(EObject eObject, EStructuralFeature feature, Integer oldIndex, Integer newIndex) {
 		Object currentValue = eObject.eGet(feature);

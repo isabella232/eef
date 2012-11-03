@@ -31,7 +31,7 @@ public class EMFEditAwareLockPolicy implements EEFLockPolicy {
 		if (feature != null) {
 			IItemPropertySource propertySource = (IItemPropertySource) editingContext.getAdapterFactory().adapt(object, IItemPropertySource.class);
 			if (propertySource != null) {
-				return !propertySource.getPropertyDescriptor(object, feature).canSetProperty(object);
+				return (propertySource.getPropertyDescriptor(object, feature) != null) && (!propertySource.getPropertyDescriptor(object, feature).canSetProperty(object));
 			}
 		}
 		return false;

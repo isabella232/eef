@@ -9,10 +9,9 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.EditingRecorder;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.EditingRecorderImpl;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.policies.SemanticDirectEditingPolicy;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
@@ -26,9 +25,9 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	protected EObject eObject;
 	protected AdapterFactory adapterFactory;
 	protected ContextOptions options;
+	protected EEFServiceRegistry serviceRegistry;
 	
 	private EditingRecorder editingRecorder;
-	private EEFServiceRegistry serviceRegistry;
 	private ModelChangesNotificationManager notificationManager;
 
 	private PropertiesEditingComponent component;
@@ -121,11 +120,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
-		if (editingContext instanceof SemanticPropertiesEditingContext) {
-			SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
-			return new SemanticDirectEditingPolicy(semanticEditingContext.getEditingComponent(), semanticEditingContext.getEditingEvent());
-		}
-		return null;
+		return serviceRegistry.getService(PropertiesEditingPolicyProvider.class, eObject).getEditingPolicy(editingContext);
 	}
 
 	/**

@@ -18,10 +18,12 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -349,10 +351,15 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 				return;
 			} 
 		}
-		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(new SemanticPropertiesEditingContext(this, editingEvent));
-		if (editingPolicy != null) {
-				editingPolicy.execute();				
+		SemanticPropertiesEditingContext context;
+		//TODO: First hypothesis, if I'm owned by a DomainAware context, I generate a SemanticDomainPEC.
+		if (editingContext instanceof DomainAwarePropertiesEditingContext) {
+			context = new SemanticDomainPropertiesEditingContext((DomainAwarePropertiesEditingContext) editingContext, editingEvent);			
+		} else {
+			context = new SemanticPropertiesEditingContext(editingContext, editingEvent);
 		}
+		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(context);
+		editingPolicy.execute();				
 		propagateEvent(editingEvent);
 		if (editingContext.getOptions().validateEditing()) {		
 			Diagnostic validate = validate();
