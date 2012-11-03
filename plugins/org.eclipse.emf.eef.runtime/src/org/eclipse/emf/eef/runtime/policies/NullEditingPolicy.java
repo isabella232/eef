@@ -1,11 +1,8 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies;
+package org.eclipse.emf.eef.runtime.policies;
 
-import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 
 /**
  * A null implementation of the {@link PropertiesEditingPolicy} interface.

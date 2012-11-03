@@ -9,13 +9,10 @@ import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotifierImpl;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
@@ -33,7 +30,6 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 
 	private BundleContext bundleContext;
 	private EventAdmin eventAdmin;
-	private EEFServiceRegistry serviceRegistry;
 	
 	private Map<PropertiesEditingComponent,ServiceRegistration> serviceRegistrations;
 	
@@ -61,24 +57,6 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#setServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
-	 */
-	public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unsetServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
-	 */
-	public void unsetServiceRegistry(EEFServiceRegistry serviceRegistry) {
-		if (serviceRegistry == this.serviceRegistry) {
-			this.serviceRegistry = null;
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#registerEditingComponentAsEventHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void registerEditingComponentAsEventHandler(PropertiesEditingComponent editingComponent) {
@@ -101,14 +79,14 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#initModelChangesNotifierIfNeeded(EObject)
+	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#initModelChangesNotifierIfNeeded(org.eclipse.emf.common.notify.Notifier)
 	 */
-	public void initModelChangesNotifierIfNeeded(EObject source) {
-		EMFService emfService = serviceRegistry.getService(EMFService.class, source.eClass().getEPackage());
-		Notifier highestNotifier = emfService.highestNotifier(source);
-		Adapter existingAdapter = EcoreUtil.getExistingAdapter(highestNotifier, ModelChangesNotifier.class);
+	public void initModelChangesNotifierIfNeeded(Notifier notifier) {
+		Adapter existingAdapter = EcoreUtil.getExistingAdapter(notifier, ModelChangesNotifier.class);
 		if (existingAdapter == null) {
-			highestNotifier.eAdapters().add(new ModelChangesNotifierImpl(eventAdmin));
+			notifier.eAdapters().add(new ModelChangesNotifierImpl(eventAdmin));
 		}
+		
 	}
+
 }

@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.tabbed.EEFRuntimeTabbed;
@@ -88,7 +89,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	public SectionPropertiesEditingView() {
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		this.propertyEditors = Maps.newHashMap();
-		this.serviceRegistry = EEFRuntimeTabbed.getPlugin().getServiceRegistry();
+		setServiceRegistry(EEFRuntimeTabbed.getPlugin().getServiceRegistry());
 	}
 
 
@@ -117,7 +118,8 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 				eObject = newEObject;
 				if (eObject != null) {
 					disposeComponentIfExist();
-					PropertiesEditingContext editingContext = EEFRuntimeTabbed.getPlugin().getEditingContextFactory().createPropertiesEditingContext(editingDomain, adapterFactory, eObject);
+					PropertiesEditingContextFactory contextFactory = EEFRuntimeTabbed.getPlugin().getServiceRegistry().getService(PropertiesEditingContextFactory.class, eObject);
+					PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext(editingDomain, adapterFactory, eObject);
 					editingContext.getOptions().setOption(UIConstants.FORM_TOOLKIT, tabbedPropertySheetPage.getWidgetFactory());
 					editingContext.getOptions().setMessageManager(initMessageManager());
 					editingComponent = editingContext.getEditingComponent();

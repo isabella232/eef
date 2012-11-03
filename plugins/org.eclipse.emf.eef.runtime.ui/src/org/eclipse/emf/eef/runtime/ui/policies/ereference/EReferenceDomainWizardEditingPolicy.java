@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies.ereference;
+package org.eclipse.emf.eef.runtime.ui.policies.ereference;
 
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
@@ -10,12 +10,12 @@ import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEdit
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class EReferenceDomainEditingPolicy extends EReferenceEditingPolicy {
-
+public abstract class EReferenceDomainWizardEditingPolicy extends EReferenceWizardEditingPolicy {
+	
 	/**
 	 * @param context
 	 */
-	public EReferenceDomainEditingPolicy(SemanticDomainPropertiesEditingContext context) {
+	public EReferenceDomainWizardEditingPolicy(SemanticDomainPropertiesEditingContext context) {
 		super(context);
 	}
 
@@ -27,5 +27,6 @@ public abstract class EReferenceDomainEditingPolicy extends EReferenceEditingPol
 	public DomainAwarePropertiesEditingContext getEditingContext() {
 		return (DomainAwarePropertiesEditingContext) super.getEditingContext();
 	}
+
 
 }

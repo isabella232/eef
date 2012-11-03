@@ -122,15 +122,6 @@ public class EEFEditingWizard extends Wizard {
 		public void setInput(PropertiesEditingContext context) {
 			this.context = context;
 			setTitle(context.getEditingComponent().getEObject().eClass().getName());
-//			if (messageManager != null) {
-//				messageManager.processMessage(new PropertiesValidationEditingEvent(null, Diagnostic.OK_INSTANCE));
-//				context.getEditingComponent().addEditingListener(new PropertiesEditingListener() {
-//
-//					public void firePropertiesChanged(PropertiesEditingEvent event) {
-//						messageManager.processMessage(event);
-//					}
-//				});
-//			}
 		}
 
 		/**

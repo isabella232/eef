@@ -9,41 +9,24 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
+import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingContextFactoryImpl implements PropertiesEditingContextFactory {
+public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObject> implements PropertiesEditingContextFactory, DefaultService {
 
-	private EEFServiceRegistry serviceRegistry;
 	private ModelChangesNotificationManager notificationManager;
 
 	/**
-	 * @return the serviceRegistry
-	 */
-	public EEFServiceRegistry getServiceRegistry() {
-		return serviceRegistry;
-	}
-
-	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
-	 */
-	public void unsetServiceRegistry(EEFServiceRegistry serviceRegistry) {
-		if (serviceRegistry == this.serviceRegistry) {
-			this.serviceRegistry = null;
-		}
+	public boolean serviceFor(EObject element) {
+		return true;
 	}
 
 	/**

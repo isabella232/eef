@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies.processors;
+package org.eclipse.emf.eef.runtime.policies.processors;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
@@ -21,7 +21,7 @@ public class LiveEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.policies.processors.DomainEditingPolicyProcessor#executeCommand(org.eclipse.emf.common.command.Command)
+	 * @see org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor#executeCommand(org.eclipse.emf.common.command.Command)
 	 */
 	@Override
 	protected void executeCommand(Command command) {

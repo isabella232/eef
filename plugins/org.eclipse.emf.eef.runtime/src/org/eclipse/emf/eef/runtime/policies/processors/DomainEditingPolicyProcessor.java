@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies.processors;
+package org.eclipse.emf.eef.runtime.policies.processors;
 
 import java.util.Collection;
 

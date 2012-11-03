@@ -1,23 +1,23 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies.ereference;
+package org.eclipse.emf.eef.runtime.policies.eobject;
 
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.policies.processors.LiveEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.policies.processors.BatchEditingPolicyProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceLiveEditingPolicy extends EReferenceDomainEditingPolicy {
+public class EObjectBatchEditingPolicy extends EObjectDomainEditingPolicy {
 
 	/**
-	 * @param context
+	 * @param editingContext
 	 */
-	public EReferenceLiveEditingPolicy(SemanticDomainPropertiesEditingContext context) {
-		super(context);
+	public EObjectBatchEditingPolicy(SemanticDomainPropertiesEditingContext editingContext) {
+		super(editingContext);
 	}
 
 	/**
@@ -25,7 +25,7 @@ public class EReferenceLiveEditingPolicy extends EReferenceDomainEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor#getProcessor()
 	 */
 	public EditingPolicyProcessor getProcessor() {
-		return new LiveEditingPolicyProcessor(getEditingContext());
+		return new BatchEditingPolicyProcessor(getEditingContext());
 	}
 
 }

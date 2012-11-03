@@ -1,15 +1,15 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies.eobject;
+package org.eclipse.emf.eef.runtime.policies.eobject;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.policies.AbstractEditingPolicyWithProcessor;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.policies.AbstractEditingPolicyWithProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing.ProcessingKind;
 
@@ -38,7 +38,7 @@ public abstract class EObjectEditingPolicy extends AbstractEditingPolicyWithProc
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.policies.AbstractEditingPolicyWithProcessor#getPolicyProcessing()
+	 * @see org.eclipse.emf.eef.runtime.policies.AbstractEditingPolicyWithProcessor#getPolicyProcessing()
 	 */
 	@Override
 	protected EditingPolicyProcessing getPolicyProcessing() {

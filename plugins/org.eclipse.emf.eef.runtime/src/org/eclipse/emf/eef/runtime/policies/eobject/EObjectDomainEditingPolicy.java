@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies.eobject;
+package org.eclipse.emf.eef.runtime.policies.eobject;
 
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;

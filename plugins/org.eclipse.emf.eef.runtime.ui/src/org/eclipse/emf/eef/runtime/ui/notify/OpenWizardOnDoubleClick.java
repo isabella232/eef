@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.commands.WizardEditingCommand;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -21,18 +22,14 @@ public class OpenWizardOnDoubleClick implements IDoubleClickListener {
 
 	private EditingDomain domain;
 	private AdapterFactory adapterFactory;
-	private PropertiesEditingContextFactory editingContextFactory;
-	
-	
+	private EEFServiceRegistry serviceRegistry;
 	
 	/**
-	 * @param factory the factory to set
+	 * @param serviceRegistry the serviceRegistry to set
 	 */
-	public void setEditingContextFactory(PropertiesEditingContextFactory factory) {
-		this.editingContextFactory = factory;
+	public final void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
 	}
-
-
 
 	/**
 	 * @param domain {@link EditingDomain} to use for editing actions.
@@ -53,7 +50,9 @@ public class OpenWizardOnDoubleClick implements IDoubleClickListener {
 		StructuredSelection selection = (StructuredSelection) event.getSelection();
 		PropertiesEditingContext context;
 		if (selection.getFirstElement() instanceof EObject) {
-			context = editingContextFactory.createPropertiesEditingContext(domain, adapterFactory, (EObject) selection.getFirstElement());
+			EObject eObject = (EObject) selection.getFirstElement();
+			PropertiesEditingContextFactory editingContextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, eObject);
+			context = editingContextFactory.createPropertiesEditingContext(domain, adapterFactory, eObject);
 			context.getOptions().setBatchMode(true);
 			WizardEditingCommand wizardEditingCommand = new WizardEditingCommand(context);
 			domain.getCommandStack().execute(wizardEditingCommand);

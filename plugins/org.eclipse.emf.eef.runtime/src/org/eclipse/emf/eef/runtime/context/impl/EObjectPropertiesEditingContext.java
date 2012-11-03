@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.context.impl;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.EditingRecorder;
@@ -95,7 +96,9 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
 		if (component == null) {
-			notificationManager.initModelChangesNotifierIfNeeded(eObject);
+			EMFService emfService = serviceRegistry.getService(EMFService.class, eObject.eClass().getEPackage());
+			Notifier highestNotifier = emfService.highestNotifier(eObject);
+			notificationManager.initModelChangesNotifierIfNeeded(highestNotifier);
 			PropertiesEditingProvider provider = serviceRegistry.getService(PropertiesEditingProvider.class, eObject.eClass().getEPackage());
 			provider.setNotificationManager(notificationManager);
 			component = provider.createComponent(eObject);

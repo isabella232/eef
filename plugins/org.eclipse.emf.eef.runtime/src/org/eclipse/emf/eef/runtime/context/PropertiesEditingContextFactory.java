@@ -8,14 +8,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
+import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface PropertiesEditingContextFactory {
+public interface PropertiesEditingContextFactory extends EEFService<EObject> {
 
 	/**
 	 * Creates a standard {@link PropertiesEditingContext} with an {@link AdapterFactory} and an {@link EObject}.
@@ -41,23 +40,6 @@ public interface PropertiesEditingContextFactory {
 	 * @return the created {@link PropertiesEditingContext}.
 	 */
 	PropertiesEditingContext createPropertiesEditingContext(EditingDomain domain, AdapterFactory adapterFactory, EObject eObject);
-	
-	/**
-	 * @return the referenced {@link EEFServiceRegistry}.
-	 */
-	EEFServiceRegistry getServiceRegistry();
-
-	/**
-	 * Defines the {@link EEFServiceRegistryImpl} to use in the current ContextFactory.
-	 * @param serviceRegistry the {@link EEFServiceRegistryImpl} to use.
-	 */
-	void setServiceRegistry(EEFServiceRegistry serviceRegistry);
-	
-	/**
-	 * Unsets the {@link EEFServiceRegistryImpl} used in the current ContextFactory.
-	 * @param serviceRegistry the {@link EEFServiceRegistryImpl} to use.
-	 */
-	void unsetServiceRegistry(EEFServiceRegistry serviceRegistry);
 	
 	/**
 	 * Defines the {@link ModelChangesNotificationManager} to uses in the current {@link PropertiesEditingContextFactory}.

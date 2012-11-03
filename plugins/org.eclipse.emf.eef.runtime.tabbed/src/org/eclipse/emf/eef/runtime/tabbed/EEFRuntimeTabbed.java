@@ -7,11 +7,9 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -70,7 +68,7 @@ public class EEFRuntimeTabbed extends EMFPlugin {
 	public static class Plugin extends EclipsePlugin {
 
 		private AdapterFactory adapterFactory;
-		private ServiceTracker editingContextFactorytracker;
+		private ServiceTracker eefServiceRegistrytracker;
 
 		/**
 		 * Creates an instance.
@@ -89,8 +87,8 @@ public class EEFRuntimeTabbed extends EMFPlugin {
 		 */
 		public void start(BundleContext context) throws Exception {
 			super.start(context);
-			editingContextFactorytracker = new ServiceTracker(context, PropertiesEditingContextFactory.class.getName(), null);
-			editingContextFactorytracker.open();
+			eefServiceRegistrytracker = new ServiceTracker(context, EEFServiceRegistry.class.getName(), null);
+			eefServiceRegistrytracker.open();
 		}
 
 		/**
@@ -99,24 +97,17 @@ public class EEFRuntimeTabbed extends EMFPlugin {
 		 */
 		public void stop(BundleContext context) throws Exception {
 			super.stop(context);
-			editingContextFactorytracker.close();
+			eefServiceRegistrytracker.close();
 		}
 		
-		
-		/**
-		 * @return
-		 */
-		public PropertiesEditingContextFactory getEditingContextFactory() {
-			return (PropertiesEditingContextFactory) editingContextFactorytracker.getService();
-		}
 		
 		/**
 		 * @return
 		 */
 		public EEFServiceRegistry getServiceRegistry() {
-			return getEditingContextFactory().getServiceRegistry();
+			return (EEFServiceRegistry) eefServiceRegistrytracker.getService();
 		}
- 
+		
 		/**
 		 * Log an error in the plugin.
 		 * @param message error message.

@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.notify;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 
 /**
@@ -16,10 +16,10 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 public interface EEFDoubleClickFactory {
 
 	/**
-	 * Defines the {@link PropertiesEditingContextFactory} to use in the {@link IDoubleClickListener}.
-	 * @param editingContextFactory {@link PropertiesEditingContextFactory} to set.
+	 * Defines the {@link EEFServiceRegistry} to use in the {@link IDoubleClickListener}.
+	 * @param serviceRegistry {@link EEFServiceRegistry} to set.
 	 */
-	void setEditingContextFactory(PropertiesEditingContextFactory editingContextFactory);
+	void setServiceRegistry(EEFServiceRegistry serviceRegistry);
 
 	/**
 	 * Creates a {@link IDoubleClickListener} that open an EEF wizard to 
