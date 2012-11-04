@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.policies.ereference;
+package org.eclipse.emf.eef.runtime.ui.internal.policies.ereference;
 
 import java.util.Collection;
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.policies.ereference;
+package org.eclipse.emf.eef.runtime.ui.internal.policies.ereference;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.ecore.EObject;
@@ -33,7 +33,7 @@ public class EReferenceBatchWizardEditingPolicy extends EReferenceDomainWizardEd
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.policies.ereference.EReferenceWizardEditingPolicy#attachToResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.ui.internal.policies.ereference.EReferenceWizardEditingPolicy#attachToResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
 	protected void attachToResource(final Resource resource, final EObject createdEObject) {
@@ -78,7 +78,7 @@ public class EReferenceBatchWizardEditingPolicy extends EReferenceDomainWizardEd
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.policies.ereference.EReferenceWizardEditingPolicy#detachFromResource(org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.ui.internal.policies.ereference.EReferenceWizardEditingPolicy#detachFromResource(org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
 	protected void detachFromResource(final EObject eObject) {

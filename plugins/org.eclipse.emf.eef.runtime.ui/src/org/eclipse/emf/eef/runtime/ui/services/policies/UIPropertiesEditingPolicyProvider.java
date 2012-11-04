@@ -1,16 +1,16 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.policies;
+package org.eclipse.emf.eef.runtime.ui.services.policies;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.StandardPropertiesEditingPolicyProvider;
-import org.eclipse.emf.eef.runtime.ui.policies.ereference.EReferenceBatchWizardEditingPolicy;
-import org.eclipse.emf.eef.runtime.ui.policies.ereference.EReferenceDirectWizardEditingPolicy;
-import org.eclipse.emf.eef.runtime.ui.policies.ereference.EReferenceLiveWizardEditingPolicy;
+import org.eclipse.emf.eef.runtime.ui.internal.policies.ereference.EReferenceBatchWizardEditingPolicy;
+import org.eclipse.emf.eef.runtime.ui.internal.policies.ereference.EReferenceDirectWizardEditingPolicy;
+import org.eclipse.emf.eef.runtime.ui.internal.policies.ereference.EReferenceLiveWizardEditingPolicy;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

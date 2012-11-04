@@ -1,24 +1,24 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.policies.ereference;
+package org.eclipse.emf.eef.runtime.ui.internal.policies.ereference;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.policies.processors.LiveEditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.policies.processors.DirectEditingPolicyProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceLiveWizardEditingPolicy extends EReferenceDomainWizardEditingPolicy {
+public class EReferenceDirectWizardEditingPolicy extends EReferenceWizardEditingPolicy {
 
 	/**
 	 * @param context
 	 */
-	public EReferenceLiveWizardEditingPolicy(SemanticDomainPropertiesEditingContext context) {
+	public EReferenceDirectWizardEditingPolicy(SemanticPropertiesEditingContext context) {
 		super(context);
 	}
 
@@ -27,21 +27,21 @@ public class EReferenceLiveWizardEditingPolicy extends EReferenceDomainWizardEdi
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor#getProcessor()
 	 */
 	public EditingPolicyProcessor getProcessor() {
-		return new LiveEditingPolicyProcessor(getEditingContext());
+		return new DirectEditingPolicyProcessor();
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.policies.ereference.EReferenceWizardEditingPolicy#attachToResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.ui.internal.policies.ereference.EReferenceWizardEditingPolicy#attachToResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
 	protected void attachToResource(Resource resource, EObject createdEObject) {
-		resource.getContents().add(createdEObject);
+		resource.getContents().equals(createdEObject);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.policies.ereference.EReferenceWizardEditingPolicy#detachFromResource(org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.ui.internal.policies.ereference.EReferenceWizardEditingPolicy#detachFromResource(org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
 	protected void detachFromResource(EObject eObject) {
