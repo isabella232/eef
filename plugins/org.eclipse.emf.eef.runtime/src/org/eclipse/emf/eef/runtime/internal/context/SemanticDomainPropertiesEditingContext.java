@@ -17,7 +17,7 @@ public class SemanticDomainPropertiesEditingContext extends SemanticPropertiesEd
 	 * @param parentContext
 	 * @param editingEvent
 	 */
-	public SemanticDomainPropertiesEditingContext(DomainAwarePropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent) {
+	SemanticDomainPropertiesEditingContext(DomainAwarePropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent) {
 		super(parentContext, editingEvent);
 	}
 

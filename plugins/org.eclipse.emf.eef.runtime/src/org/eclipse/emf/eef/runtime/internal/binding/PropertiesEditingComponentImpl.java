@@ -18,13 +18,11 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
@@ -351,13 +349,8 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 				return;
 			} 
 		}
-		SemanticPropertiesEditingContext context;
-		if (editingContext instanceof DomainAwarePropertiesEditingContext) {
-			context = new SemanticDomainPropertiesEditingContext((DomainAwarePropertiesEditingContext) editingContext, editingEvent);			
-		} else {
-			context = new SemanticPropertiesEditingContext(editingContext, editingEvent);
-		}
-		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(context);
+		PropertiesEditingContextFactory service = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, source);
+		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(service.createSemanticPropertiesEditingContext(editingContext, editingEvent));
 		editingPolicy.execute();				
 		propagateEvent(editingEvent);
 		if (editingContext.getOptions().validateEditing()) {		

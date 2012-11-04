@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
@@ -40,6 +41,14 @@ public interface PropertiesEditingContextFactory extends EEFService<EObject> {
 	 * @return the created {@link PropertiesEditingContext}.
 	 */
 	PropertiesEditingContext createPropertiesEditingContext(EditingDomain domain, AdapterFactory adapterFactory, EObject eObject);
+	
+	/**
+	 * Creates a semantic {@link PropertiesEditingContext} related to a given {@link PropertiesEditingEvent}.
+	 * @param parentContext the {@link PropertiesEditingContext} that generated this new contet
+	 * @param editingEvent the {@link PropertiesEditingEvent} to process with the created context.
+	 * @return the created {@link PropertiesEditingContext}.
+	 */
+	PropertiesEditingContext createSemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent);
 	
 	/**
 	 * Defines the {@link ModelChangesNotificationManager} to uses in the current {@link PropertiesEditingContextFactory}.

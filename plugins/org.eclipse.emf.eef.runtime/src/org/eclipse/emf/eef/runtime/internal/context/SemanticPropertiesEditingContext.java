@@ -18,7 +18,7 @@ public class SemanticPropertiesEditingContext extends DelegatingPropertiesEditin
 	 * @param parentContext
 	 * @param editingEvent
 	 */
-	public SemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent) {
+	SemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent) {
 		super(parentContext);
 		this.editingEvent = editingEvent;
 	}
