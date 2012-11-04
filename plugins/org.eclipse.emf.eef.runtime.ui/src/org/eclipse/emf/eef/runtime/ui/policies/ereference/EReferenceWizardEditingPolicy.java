@@ -17,6 +17,7 @@ import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.ui.wizard.EEFEditingWizard;
 import org.eclipse.emf.eef.runtime.ui.wizard.EEFWizardDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -64,16 +65,25 @@ public abstract class EReferenceWizardEditingPolicy extends EReferenceEditingPol
 			//TODO: use a UI helper for providing the shell 
 			EEFWizardDialog wDialog = new EEFWizardDialog(new Shell(), wizard);
 			int open = wDialog.open();
-			//TODO: manage the Cancel case
+			if (open == Window.CANCEL) {
+				detachFromResource(createdEObject);
+				return null;
+			}
 			
 		}
 		return createdEObject;
 	}
 
 	/**
-	 * Attaches the created Object to the given {@link Resource}.
+	 * Attaches the created object to the given {@link Resource}.
 	 * @param resource {@link Resource} to process.
 	 * @param createdEObject the {@link EObject} to attach.
 	 */
 	protected abstract void attachToResource(Resource resource, EObject createdEObject);
+
+	/**
+	 * Detaches the given object from its resource if it is contained as a root element.
+	 * @param eObject the {@link EObject} to attach.
+	 */
+	protected abstract void detachFromResource(EObject eObject);
 }

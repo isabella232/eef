@@ -76,4 +76,60 @@ public class EReferenceBatchWizardEditingPolicy extends EReferenceDomainWizardEd
 		});
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.policies.ereference.EReferenceWizardEditingPolicy#detachFromResource(org.eclipse.emf.ecore.EObject)
+	 */
+	@Override
+	protected void detachFromResource(final EObject eObject) {
+		getEditingContext().getEditingDomain().getCommandStack().execute(new AbstractCommand() {
+
+			private Resource objectResource;
+			private EObject focusedEObject;
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.common.command.Command#execute()
+			 */
+			public void execute() {
+				this.focusedEObject = eObject;
+				if (eObject.eResource() != null) {
+					objectResource = eObject.eResource();
+					if (objectResource.getContents().contains(focusedEObject)) {
+						objectResource.getContents().remove(focusedEObject);
+					}
+				}
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.common.command.AbstractCommand#undo()
+			 */
+			@Override
+			public void undo() {
+				objectResource.getContents().add(focusedEObject);
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.common.command.Command#redo()
+			 */
+			public void redo() {
+				if (objectResource.getContents().contains(focusedEObject)) {
+					objectResource.getContents().remove(focusedEObject);
+				}
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.common.command.AbstractCommand#prepare()
+			 */
+			@Override
+			protected boolean prepare() {
+				return true;
+			}
+			
+		});
+	}
+
 }

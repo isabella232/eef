@@ -39,4 +39,18 @@ public class EReferenceLiveWizardEditingPolicy extends EReferenceDomainWizardEdi
 		resource.getContents().add(createdEObject);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.policies.ereference.EReferenceWizardEditingPolicy#detachFromResource(org.eclipse.emf.ecore.EObject)
+	 */
+	@Override
+	protected void detachFromResource(EObject eObject) {
+		if (eObject.eResource() != null) {
+			Resource objectResource = eObject.eResource();
+			if (objectResource.getContents().contains(eObject)) {
+				objectResource.getContents().remove(eObject);
+			}
+		}
+	}
+
 }
