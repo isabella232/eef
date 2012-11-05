@@ -9,7 +9,6 @@ import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
 
 /**
@@ -57,11 +56,6 @@ public interface PropertiesEditingContext {
 	 * @return the {@link ContextOptions} object of this context.
 	 */
 	ContextOptions getOptions();
-	
-	/**
-	 * @return the {@link EMFService} used by the context for EMF purpose.
-	 */
-	EMFService getEMFService();
 	
 	/**
 	 * stop the recording of editing operations in this context.

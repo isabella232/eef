@@ -22,7 +22,8 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFService;
  *
  */
 public class EObjectPropertiesEditingContext implements PropertiesEditingContext {
-
+	
+	protected PropertiesEditingContext parentContext;
 	protected EObject eObject;
 	protected AdapterFactory adapterFactory;
 	protected ContextOptions options;
@@ -34,22 +35,27 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	private PropertiesEditingComponent component;
 
 	/**
-	 * @param eObject {@link EObject} to edit.
+	 * @param adapterFactory the {@link AdapterFactory} to use in the current context.
+	 * @param eObject the edited {@link EObject}.
 	 */
 	EObjectPropertiesEditingContext(AdapterFactory adapterFactory, EObject eObject) {
 		this.adapterFactory = adapterFactory;
 		this.eObject = eObject;
-		this.options = initOptions();
+		this.options = new ContextOptions();
 		this.editingRecorder = new EditingRecorderImpl();
 		editingRecorder.initRecording(eObject);
 	}
 
 	/**
-	 * Initialize the options of this context.
-	 * @return the {@link ContextOptions} to use.
+	 * @param parentContext the parent {@link PropertiesEditingContext}.
+	 * @param eObject the edited {@link EObject}.
 	 */
-	protected ContextOptions initOptions() {
-		return new ContextOptions();
+	EObjectPropertiesEditingContext(PropertiesEditingContext parentContext, EObject eObject) {
+		this.eObject = eObject;
+		this.options = new ContextOptions(parentContext.getOptions());
+		this.editingRecorder = new EditingRecorderImpl();
+		editingRecorder.initRecording(eObject);
+		this.parentContext = parentContext;
 	}
 
 	/**
@@ -57,7 +63,14 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getServiceRegistry()
 	 */
 	public EEFServiceRegistry getServiceRegistry() {
-		return serviceRegistry;
+		if (this.serviceRegistry != null) {
+			return serviceRegistry;
+		} else {
+			if (parentContext != null) {
+				return parentContext.getServiceRegistry();
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -80,14 +93,28 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @return the eObject
 	 */
 	public EObject getEObject() {
-		return eObject;
+		if (eObject != null) {
+			return eObject;
+		} else {
+			if (parentContext != null) {
+				return parentContext.getEditingComponent().getEObject();
+			}
+		}
+		return null;
 	}
 
 	/**
 	 * @return the adapterFactory
 	 */
 	public AdapterFactory getAdapterFactory() {
-		return adapterFactory;
+		if (adapterFactory != null) {
+			return adapterFactory;
+		} else {
+			if (parentContext != null) {
+				return parentContext.getAdapterFactory();
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -112,16 +139,12 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getOptions()
 	 */
 	public ContextOptions getOptions() {
-		return options;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEMFService()
-	 */
-	public EMFService getEMFService() {
-		if (getEditingComponent() != null) {
-			return serviceRegistry.getService(EMFService.class, getEditingComponent().getEObject().eClass().getEPackage());
+		if (options != null) {
+			return options;
+		} else {
+			if (parentContext != null) {
+				return parentContext.getOptions();
+			}
 		}
 		return null;
 	}
@@ -131,7 +154,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
-		return serviceRegistry.getService(PropertiesEditingPolicyProvider.class, eObject).getEditingPolicy(editingContext);
+		return serviceRegistry.getService(PropertiesEditingPolicyProvider.class, editingContext).getEditingPolicy(editingContext);
 	}
 
 	/**

@@ -8,7 +8,6 @@ import java.util.Collection;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
@@ -17,6 +16,7 @@ import org.eclipse.emf.eef.runtime.policies.AbstractEditingPolicyWithProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing.ProcessingKind;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
+import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 
 /**
@@ -63,9 +63,7 @@ public abstract class EReferenceEditingPolicy extends AbstractEditingPolicyWithP
 	 * @return the edited reference via the {@link PropertiesEditingEvent}.
 	 */
 	public final EReference getEditedReference() {
-		EStructuralFeature feature = editingContext.getEditingComponent().getBinding().feature(editingContext.getEditingEvent().getAffectedEditor(), editingContext.getOptions().autowire());
-		EMFService service = editingContext.getServiceRegistry().getService(EMFService.class, editingContext.getEditingComponent().getEObject().eClass().getEPackage());
-		return (EReference) service.mapFeature(editingContext.getEditingComponent().getEObject(), feature);
+		return editingContext.getServiceRegistry().getService(EEFEditingService.class, editingContext.getEditingComponent().getEObject()).getReferenceToEdit(editingContext);
 	}
 
 	/**
@@ -77,7 +75,7 @@ public abstract class EReferenceEditingPolicy extends AbstractEditingPolicyWithP
 		if (editedReference.getEReferenceType() != null && !editedReference.getEReferenceType().isAbstract()) {
 			createdEObject  = EcoreUtil.create(editedReference.getEReferenceType());
 		} else {
-			EMFService emfService = editingContext.getEMFService();
+			EMFService emfService = editingContext.getServiceRegistry().getService(EMFService.class, editingContext.getEditingComponent().getEObject().eClass().getEPackage());
 			Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(null, editingContext.getEditingComponent().getEObject(), editedReference);
 			if (listOfInstanciableType.size() > 0) {
 				createdEObject = EcoreUtil.create(listOfInstanciableType.iterator().next());

@@ -29,9 +29,9 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
-import org.eclipse.emf.eef.runtime.context.impl.PropertiesEditingContextFactoryImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.context.PropertiesEditingContextFactoryImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFService;
@@ -787,22 +787,6 @@ public class EEFTestEnvironment {
 			components = new ArrayList<PropertiesEditingComponent>();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
-		 */
-		public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unsetServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
-		 */
-		public void unsetServiceRegistry(EEFServiceRegistry serviceRegistry) {
-
-		}
-
 		public void unregisterEditingComponent(PropertiesEditingComponent editingComponent) {
 			components.remove(editingComponent);
 		}
@@ -811,9 +795,8 @@ public class EEFTestEnvironment {
 			components.add(editingComponent);
 		}
 
-		public void initModelChangesNotifierIfNeeded(EObject source) {
-			Notifier highestNotifier = new EMFServiceImpl().highestNotifier(source);
-			highestNotifier.eAdapters().add(new EContentAdapter() {
+		public void initModelChangesNotifierIfNeeded(Notifier source) {
+			source.eAdapters().add(new EContentAdapter() {
 
 				/**
 				 * {@inheritDoc}

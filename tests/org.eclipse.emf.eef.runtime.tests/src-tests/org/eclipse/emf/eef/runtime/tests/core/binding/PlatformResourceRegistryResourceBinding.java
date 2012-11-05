@@ -57,7 +57,7 @@ public class PlatformResourceRegistryResourceBinding {
 	 */
 	@Test
 	public void testPlatformRegistryMapper() {
-		EMFService emfService = editingContext.getEMFService();
+		EMFService emfService = editingContext.getServiceRegistry().getService(EMFService.class, getEClassFromEcoreFile().eClass().getEPackage());
 		EClass eClassifier = getEClassFromEcoreFile();
 		EClass eClass = ((EObject)editingContext.getEditingComponent().getEObject()).eClass();
 		boolean equals = emfService.equals(eClassifier, eClass);

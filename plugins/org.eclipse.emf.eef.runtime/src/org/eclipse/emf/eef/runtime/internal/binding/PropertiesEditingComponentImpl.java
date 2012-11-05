@@ -311,7 +311,8 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			EStructuralFeature feature = getBinding().feature(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
 			if (feature != null) {
 				if (!getEObject().eClass().getEAllStructuralFeatures().contains(feature)) {
-					feature = editingContext.getEMFService().mapFeature(getEObject(), feature);
+					EMFService emfService = editingContext.getServiceRegistry().getService(EMFService.class, editingContext.getEditingComponent().getEObject().eClass().getEPackage());
+					feature = emfService.mapFeature(getEObject(), feature);
 				}
 				if (getEObject().eClass().getEAllStructuralFeatures().contains(feature)) {
 	 				Object currentValue = getEObject().eGet(feature);

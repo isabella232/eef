@@ -3,9 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.policies;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
@@ -17,13 +14,14 @@ import org.eclipse.emf.eef.runtime.policies.eobject.EObjectLiveEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceBatchEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceDirectEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceLiveEditingPolicy;
+import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<EObject> implements PropertiesEditingPolicyProvider, DefaultService {
+public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<PropertiesEditingContext> implements PropertiesEditingPolicyProvider, DefaultService {
 
 	private PropertiesEditingPolicy nullEditingPolicy;
 
@@ -31,7 +29,7 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public boolean serviceFor(EObject element) {
+	public boolean serviceFor(PropertiesEditingContext element) {
 		return true;
 	}
 
@@ -42,8 +40,8 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context) {
 		if (context instanceof SemanticPropertiesEditingContext) {
 			PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContext) context).getEditingEvent();
-			EStructuralFeature feature = context.getEditingComponent().getBinding().feature(editingEvent.getAffectedEditor(), context.getOptions().autowire());
-			if (isAddingInContainmentEvent(editingEvent, feature)) {
+			EEFEditingService editingService = getServiceRegistry().getService(EEFEditingService.class, context.getEditingComponent().getEObject());
+			if (editingService.isAddingInContainmentEvent(context, editingEvent)) {
 				if (context instanceof SemanticDomainPropertiesEditingContext) {
 					if (((SemanticDomainPropertiesEditingContext) context).getOptions().liveMode()) {
 						return createEReferenceLiveEditingPolicy((SemanticDomainPropertiesEditingContext) context);
@@ -68,10 +66,6 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 			}
 		}
 		return getNullEditingPolicy();
-	}
-
-	private boolean isAddingInContainmentEvent(PropertiesEditingEvent editingEvent, EStructuralFeature feature) {
-		return feature != null && feature instanceof EReference && ((EReference)feature).isContainment() && editingEvent.getNewValue() == null && editingEvent.getEventType() == PropertiesEditingEvent.ADD;
 	}
 
 	private PropertiesEditingPolicy getNullEditingPolicy() {

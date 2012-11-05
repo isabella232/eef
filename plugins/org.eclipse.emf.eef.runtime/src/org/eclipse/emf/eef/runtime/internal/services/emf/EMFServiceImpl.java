@@ -144,7 +144,7 @@ public class EMFServiceImpl extends AbstractEEFService<EPackage> implements EMFS
 	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#listOfInstanciableType(EditingDomain, EObject, EReference)
 	 */
 	public Collection<EClass> listOfInstanciableType(EditingDomain domain, EObject editedObject, EReference eReference) {
-		Collection<EClass> result = Sets.newHashSet();
+		Collection<EClass> result = Sets.newLinkedHashSet();
 		if (domain != null) {
 			Collection<?> newChildDescriptors = domain.getNewChildDescriptors(editedObject, null);
 			for (Object object : newChildDescriptors) {

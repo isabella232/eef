@@ -26,6 +26,14 @@ public interface PropertiesEditingContextFactory extends EEFService<EObject> {
 	PropertiesEditingContext createPropertiesEditingContext(AdapterFactory adapterFactory, EObject eObject);
 
 	/**
+	 * Creates a standard {@link PropertiesEditingContext} from a parent {@link PropertiesEditingContext}.
+	 * @param parentContext the parent {@link PropertiesEditingContext}.
+	 * @param eObject {@link EObject} for the context.
+	 * @return the created {@link PropertiesEditingContext}.
+	 */
+	PropertiesEditingContext createPropertiesEditingContext(PropertiesEditingContext parentContext, EObject eObject);
+
+	/**
 	 * Creates a standard {@link PropertiesEditingContext} with an {@link AdapterFactoryEditingDomain} and an {@link EObject}.
 	 * @param domain {@link AdapterFactoryEditingDomain} for the context.
 	 * @param eObject {@link EObject} for the context.
@@ -41,7 +49,7 @@ public interface PropertiesEditingContextFactory extends EEFService<EObject> {
 	 * @return the created {@link PropertiesEditingContext}.
 	 */
 	PropertiesEditingContext createPropertiesEditingContext(EditingDomain domain, AdapterFactory adapterFactory, EObject eObject);
-	
+		
 	/**
 	 * Creates a semantic {@link PropertiesEditingContext} related to a given {@link PropertiesEditingEvent}.
 	 * @param parentContext the {@link PropertiesEditingContext} that generated this new contet

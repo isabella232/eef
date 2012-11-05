@@ -61,6 +61,23 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createPropertiesEditingContext(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject)
+	 */
+	public PropertiesEditingContext createPropertiesEditingContext(PropertiesEditingContext parentContext, EObject eObject) {
+		PropertiesEditingContext context;
+		if (parentContext instanceof DomainAwarePropertiesEditingContext) {
+			context = new DomainPropertiesEditingContext(parentContext, eObject);
+		} else if (parentContext instanceof EObjectPropertiesEditingContext) {
+			context = new EObjectPropertiesEditingContext(parentContext, eObject);
+		} else {
+			throw new IllegalArgumentException("Unable to process this context as a parent");
+		}
+		configureEditingContext(context);
+		return context;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createPropertiesEditingContext(org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain, org.eclipse.emf.ecore.EObject)
 	 */
 	public PropertiesEditingContext createPropertiesEditingContext(AdapterFactoryEditingDomain domain, EObject eObject) {

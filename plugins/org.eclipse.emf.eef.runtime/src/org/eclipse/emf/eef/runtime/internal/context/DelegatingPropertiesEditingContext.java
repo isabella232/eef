@@ -10,7 +10,6 @@ import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -86,14 +85,6 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	 */
 	public ContextOptions getOptions() {
 		return delegatingContext.getOptions();
-	}
-
-	/**
-	 * @return
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEMFService()
-	 */
-	public EMFService getEMFService() {
-		return delegatingContext.getEMFService();
 	}
 
 	/**

@@ -31,6 +31,10 @@ public class ContextOptions {
 		initDefaultOptions();
 	}
 	
+	public ContextOptions(ContextOptions contextOptions) {
+		this.options = Maps.newHashMap(contextOptions.options);
+	}
+	
 	protected void initDefaultOptions() {
 		setOption(AUTOWIRING_OPTION, true);
 		setOption(VALIDATION_OPTION, true);

@@ -12,6 +12,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.AbstractEditingPolicyWithProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing.ProcessingKind;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -47,7 +48,8 @@ public abstract class EObjectEditingPolicy extends AbstractEditingPolicyWithProc
 		EClassBinding binding = editingContext.getEditingComponent().getBinding();
 		EStructuralFeature bindingFeature = binding.feature(editingEvent.getAffectedEditor(), editingContext.getEditingComponent().getEditingContext().getOptions().autowire());
 		EObject editedObject = (EObject)editingContext.getEditingComponent().getEObject();
-		EStructuralFeature feature = editingContext.getEditingComponent().getEditingContext().getEMFService().mapFeature(editedObject, bindingFeature);
+		EMFService emfService = editingContext.getServiceRegistry().getService(EMFService.class, editingContext.getEditingComponent().getEObject().eClass().getEPackage());
+		EStructuralFeature feature = emfService.mapFeature(editedObject, bindingFeature);
 		if (feature != null) {
 			processing.target = editedObject;
 			processing.feature = feature;

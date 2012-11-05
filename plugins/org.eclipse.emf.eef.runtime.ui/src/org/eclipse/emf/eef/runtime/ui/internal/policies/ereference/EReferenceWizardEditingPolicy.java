@@ -3,18 +3,13 @@
  */
 package org.eclipse.emf.eef.runtime.ui.internal.policies.ereference;
 
-import java.util.Collection;
-
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceEditingPolicy;
-import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.wizard.EEFEditingWizard;
 import org.eclipse.emf.eef.runtime.ui.wizard.EEFWizardDialog;
 import org.eclipse.jface.window.Window;
@@ -43,35 +38,36 @@ public abstract class EReferenceWizardEditingPolicy extends EReferenceEditingPol
 	}
 
 	private EObject createObjectAndOpenWizard(PropertiesEditingContext editingContext, EReference editedReference) {
-		EObject createdEObject = null;
-		if (editedReference.getEReferenceType() != null && !editedReference.getEReferenceType().isAbstract()) {
-			createdEObject  = EcoreUtil.create(editedReference.getEReferenceType());
-		} else {
-			EMFService emfService = editingContext.getEMFService();
-			Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(null, editingContext.getEditingComponent().getEObject(), editedReference);
-			if (listOfInstanciableType.size() > 0) {
-				createdEObject = EcoreUtil.create(listOfInstanciableType.iterator().next());
-			} else {
-				//TODO: logging ?
+		editingContext.getOptions().setOption(UIConstants.FORM_TOOLKIT, null);
+		EEFEditingWizard wizard = new EEFEditingWizard(editingContext) {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.wizard.EEFEditingWizard#attachToResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.emf.ecore.EObject)
+			 */
+			@Override
+			protected void attachToResource(Resource resource, EObject eObject) {
+				EReferenceWizardEditingPolicy.this.attachToResource(resource, eObject);
 			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.wizard.EEFEditingWizard#detachFromResource(org.eclipse.emf.ecore.EObject)
+			 */
+			@Override
+			protected void detachFromResource(EObject eObject) {
+				EReferenceWizardEditingPolicy.this.detachFromResource(eObject);
+			}
+
+		};
+		//TODO: use a UI helper for providing the shell 
+		EEFWizardDialog wDialog = new EEFWizardDialog(new Shell(), wizard);
+		int open = wDialog.open();
+		if (open == Window.CANCEL) {
+			return null;
 		}
-		if (createdEObject != null) {
-			Resource eResource = editingContext.getEditingComponent().getEObject().eResource();
-			if (eResource != null) {
-				attachToResource(eResource, createdEObject);
-			}
-			PropertiesEditingContext subContext = getEditingContext().getServiceRegistry().getService(PropertiesEditingContextFactory.class, createdEObject).createPropertiesEditingContext(editingContext.getAdapterFactory(), createdEObject);
-			EEFEditingWizard wizard = new EEFEditingWizard(subContext);
-			//TODO: use a UI helper for providing the shell 
-			EEFWizardDialog wDialog = new EEFWizardDialog(new Shell(), wizard);
-			int open = wDialog.open();
-			if (open == Window.CANCEL) {
-				detachFromResource(createdEObject);
-				return null;
-			}
-			
-		}
-		return createdEObject;
+
+		return wizard.getCreatedObject();
 	}
 
 	/**

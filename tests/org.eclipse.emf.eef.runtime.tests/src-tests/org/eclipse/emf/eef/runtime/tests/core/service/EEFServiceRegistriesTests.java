@@ -17,8 +17,10 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
@@ -127,8 +129,6 @@ public class EEFServiceRegistriesTests {
 			public Object getView() { return null;	}
 
 			public ViewHandlerProvider getProvider() { return null;	}
-
-			public boolean canHandle(Object editor) { return false;	}
 
 			public void initView(PropertiesEditingComponent component) { }
  
@@ -254,6 +254,10 @@ public class EEFServiceRegistriesTests {
 
 		public boolean equals(EStructuralFeature esf1, EStructuralFeature esf2) {
 			return false;
+		}
+
+		public Collection<EClass> listOfInstanciableType(EditingDomain domain, EObject editedObject, EReference eReference) {
+			return null;
 		}
 	}
 

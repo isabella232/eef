@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.internal.context;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 
 /**
@@ -13,6 +14,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 public class SemanticPropertiesEditingContext extends DelegatingPropertiesEditingContext {
 
 	private PropertiesEditingEvent editingEvent;
+	private ContextOptions options;
 	
 	/**
 	 * @param parentContext
@@ -21,6 +23,7 @@ public class SemanticPropertiesEditingContext extends DelegatingPropertiesEditin
 	SemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent) {
 		super(parentContext);
 		this.editingEvent = editingEvent;
+		this.options = new ContextOptions(parentContext.getOptions());
 	}
 	
 	/**
@@ -37,4 +40,13 @@ public class SemanticPropertiesEditingContext extends DelegatingPropertiesEditin
 		return editingEvent;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.internal.context.DelegatingPropertiesEditingContext#getOptions()
+	 */
+	@Override
+	public ContextOptions getOptions() {
+		return options;
+	}
+	
 }

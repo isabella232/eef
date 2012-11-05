@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewSettingsImpl;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -130,7 +131,8 @@ public abstract class AbstractPropertiesEditingView implements PropertiesEditing
 			ElementEditor elementEditor = elementEditors.next();
 			EStructuralFeature bindingFeature = editingComponent.getBinding().feature(elementEditor, editingComponent.getEditingContext().getOptions().autowire());
 			EObject editedObject = editingComponent.getEObject();
-			EStructuralFeature feature = editingComponent.getEditingContext().getEMFService().mapFeature(editedObject, bindingFeature);
+			EMFService emfService = editingComponent.getEditingContext().getServiceRegistry().getService(EMFService.class, editedObject.eClass().getEPackage());
+			EStructuralFeature feature = emfService.mapFeature(editedObject, bindingFeature);
 			if (feature != null) {
 				PropertyEditor propertyEditor = propertyEditors.get(elementEditor);
 				propertyEditor.init(feature);

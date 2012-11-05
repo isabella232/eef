@@ -7,7 +7,9 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
-import org.eclipse.emf.eef.runtime.policies.StandardPropertiesEditingPolicyProvider;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
+import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.internal.policies.ereference.EReferenceBatchWizardEditingPolicy;
 import org.eclipse.emf.eef.runtime.ui.internal.policies.ereference.EReferenceDirectWizardEditingPolicy;
 import org.eclipse.emf.eef.runtime.ui.internal.policies.ereference.EReferenceLiveWizardEditingPolicy;
@@ -16,31 +18,58 @@ import org.eclipse.emf.eef.runtime.ui.internal.policies.ereference.EReferenceLiv
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class UIPropertiesEditingPolicyProvider extends StandardPropertiesEditingPolicyProvider {
+public class UIPropertiesEditingPolicyProvider extends AbstractEEFService<PropertiesEditingContext> implements PropertiesEditingPolicyProvider {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.StandardPropertiesEditingPolicyProvider#createEReferenceDirectEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	@Override
+	public boolean serviceFor(PropertiesEditingContext element) {
+		if (element instanceof SemanticPropertiesEditingContext) {
+			EEFEditingService editingService = getServiceRegistry().getService(EEFEditingService.class, element.getEditingComponent().getEObject());
+			return editingService.isAddingInContainmentEvent(element, ((SemanticPropertiesEditingContext) element).getEditingEvent());
+		}
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 */
+	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context) {
+		if (context instanceof SemanticDomainPropertiesEditingContext) {
+			if (((SemanticDomainPropertiesEditingContext) context).getOptions().liveMode()) {
+				return createEReferenceLiveEditingPolicy((SemanticDomainPropertiesEditingContext) context);
+			} 
+			if (((SemanticDomainPropertiesEditingContext) context).getOptions().batchMode()) {
+				return createEReferenceBatchEditingPolicy((SemanticDomainPropertiesEditingContext) context);
+			}				
+		} else {
+			return createEReferenceDirectEditingPolicy((SemanticPropertiesEditingContext) context);
+		}
+		return null;
+	}
+
+	/**
+	 * @param context
+	 * @return
+	 */
 	public PropertiesEditingPolicy createEReferenceDirectEditingPolicy(PropertiesEditingContext context) {
 		return new EReferenceDirectWizardEditingPolicy((SemanticPropertiesEditingContext) context);
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.StandardPropertiesEditingPolicyProvider#createEReferenceBatchEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 * @param context
+	 * @return
 	 */
-	@Override
 	public PropertiesEditingPolicy createEReferenceBatchEditingPolicy(PropertiesEditingContext context) {
 		return new EReferenceBatchWizardEditingPolicy((SemanticDomainPropertiesEditingContext) context);
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.StandardPropertiesEditingPolicyProvider#createEReferenceLiveEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 * @param context
+	 * @return
 	 */
-	@Override
 	public PropertiesEditingPolicy createEReferenceLiveEditingPolicy(PropertiesEditingContext context) {
 		return new EReferenceLiveWizardEditingPolicy((SemanticDomainPropertiesEditingContext) context);
 	}
