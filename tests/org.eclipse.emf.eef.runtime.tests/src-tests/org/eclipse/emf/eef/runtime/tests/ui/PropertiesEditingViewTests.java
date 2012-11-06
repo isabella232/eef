@@ -30,7 +30,7 @@ public class PropertiesEditingViewTests extends PropertiesEditingViewEditingTest
 	public void testPropertiesEditingViewBuild() {
 		assertEquals("Bad count of views.", 2, getViews().size());
 		Composite view = getViews().get(0);
-		assertEquals("Bad view selection.", 8, view.getChildren().length);
+		assertEquals("Bad view selection.", 7, view.getChildren().length);
 		Text nameText = getControl(view, 1);
 		assertEquals("Bad view initialization", EEFTestEnvironment.FIRST_ECLASS_SAMPLE_NAME, nameText.getText());
 		Button activeCheck = getControl(view, 3);

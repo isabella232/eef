@@ -32,10 +32,14 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.context.PropertiesEditingContextFactoryImpl;
+import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
+import org.eclipse.emf.eef.runtime.policies.StandardPropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
@@ -451,7 +455,8 @@ public class EEFTestEnvironment {
 			result.add(eClassView);
 			return result;
 		}
-
+		
+		//TODO: Robustness on widget finding ...
 		public List<View> createEcoreViews(List<Toolkit> toolkits) {
 			List<View> result = new ArrayList<View>();
 			View eClassView = ViewsFactory.eINSTANCE.createView();
@@ -466,7 +471,7 @@ public class EEFTestEnvironment {
 			eClassView.getElements().add(abstractEditor);
 			ElementEditor superTypes = ViewsFactory.eINSTANCE.createElementEditor();
 			superTypes.setName("eSuperTypes");
-			superTypes.setRepresentation(searchWidget(toolkits.get(1), "EReferenceMultiEditor"));
+			superTypes.setRepresentation(searchWidget(toolkits.get(1), "EReferenceEditor"));
 			eClassView.getElements().add(superTypes);
 			result.add(eClassView);
 			View eClassInstanceView = ViewsFactory.eINSTANCE.createView();
@@ -539,6 +544,21 @@ public class EEFTestEnvironment {
 			}
 			if (!preloadedServices.contains(EEFLockManager.class)) {
 				for (EEFServiceDescriptor<EEFLockManager> desc : createLockManagers()) {
+					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
+				}
+			}
+			if (!preloadedServices.contains(PropertiesEditingPolicyProvider.class)) {
+				for (EEFServiceDescriptor<PropertiesEditingPolicyProvider> desc : createPolicyProvider()) {
+					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
+				}
+			}
+			if (!preloadedServices.contains(PropertiesEditingContextFactory.class)) {
+				for (EEFServiceDescriptor<PropertiesEditingContextFactory> desc : createContextFactory()) {
+					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
+				}
+			}
+			if (!preloadedServices.contains(EEFEditingService.class)) {
+				for (EEFServiceDescriptor<EEFEditingService> desc : createEditingService()) {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
 				}
 			}
@@ -743,6 +763,66 @@ public class EEFTestEnvironment {
 				public Collection<String> providedServices() {
 					Collection<String> result = new ArrayList<String>();
 					result.add(EEFLockManager.class.getName());
+					return result;
+				}
+				
+			});
+			result.add(desc);
+			return result;
+		}
+
+		public Collection<EEFServiceDescriptor<PropertiesEditingPolicyProvider>> createPolicyProvider() {
+			Collection<EEFServiceDescriptor<PropertiesEditingPolicyProvider>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<PropertiesEditingPolicyProvider>>();
+			EEFServiceDescriptor<PropertiesEditingPolicyProvider> desc = new EEFServiceDescriptor<PropertiesEditingPolicyProvider>("propertieseditingpolicyprovider.default", new StandardPropertiesEditingPolicyProvider() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					Collection<String> result = new ArrayList<String>();
+					result.add(PropertiesEditingPolicyProvider.class.getName());
+					return result;
+				}
+				
+			});
+			result.add(desc);
+			return result;
+		}
+
+		public Collection<EEFServiceDescriptor<PropertiesEditingContextFactory>> createContextFactory() {
+			Collection<EEFServiceDescriptor<PropertiesEditingContextFactory>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<PropertiesEditingContextFactory>>();
+			EEFServiceDescriptor<PropertiesEditingContextFactory> desc = new EEFServiceDescriptor<PropertiesEditingContextFactory>("propertieseditingcontextfactory.default", new PropertiesEditingContextFactoryImpl() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					Collection<String> result = new ArrayList<String>();
+					result.add(PropertiesEditingContextFactory.class.getName());
+					return result;
+				}
+				
+			});
+			result.add(desc);
+			return result;
+		}
+
+		public Collection<EEFServiceDescriptor<EEFEditingService>> createEditingService() {
+			Collection<EEFServiceDescriptor<EEFEditingService>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EEFEditingService>>();
+			EEFServiceDescriptor<EEFEditingService> desc = new EEFServiceDescriptor<EEFEditingService>("eefeditingservice.default", new EEFEditingServiceImpl() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					Collection<String> result = new ArrayList<String>();
+					result.add(EEFEditingService.class.getName());
 					return result;
 				}
 				
