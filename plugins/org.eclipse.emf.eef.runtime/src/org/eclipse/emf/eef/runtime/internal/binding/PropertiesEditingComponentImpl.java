@@ -319,7 +319,11 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 				Object newValue = null;
 	 				if (editingEvent.getNewValue() != null) {
 	 					if (feature instanceof EAttribute && editingEvent.getNewValue() instanceof String) {
-	 						newValue = EcoreUtil.createFromString(((EAttribute)feature).getEAttributeType(), (String)editingEvent.getNewValue());
+	 						try {
+	 							newValue = EcoreUtil.createFromString(((EAttribute)feature).getEAttributeType(), (String)editingEvent.getNewValue());
+	 						} catch (Exception e) {
+	 							//Silent catch
+							}
 	 					}
 	 					if (newValue == null) {
 	 						newValue = editingEvent.getNewValue();
