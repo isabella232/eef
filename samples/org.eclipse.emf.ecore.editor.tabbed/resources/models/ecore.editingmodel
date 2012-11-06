@@ -4,6 +4,7 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.12"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.0"/>
@@ -15,6 +16,10 @@
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage/nsPrefix"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.2"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement/eAnnotations"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.12/@elements.0"/>
       </propertyBindings>
     </bindings>
     <bindings>
@@ -55,6 +60,7 @@
       <eClass href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EDataType"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.3"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.4"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.12"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.0/@elements.0"/>
@@ -71,11 +77,16 @@
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/instanceTypeName"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.4/@elements.0/@elements.1"/>
       </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement/eAnnotations"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.12/@elements.0"/>
+      </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnum"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.5"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.6"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.12"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.0"/>
@@ -92,10 +103,15 @@
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier/instanceTypeName"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.6/@elements.0/@elements.1"/>
       </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement/eAnnotations"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.12/@elements.0"/>
+      </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAttribute"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.7"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.12"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.0"/>
@@ -140,10 +156,15 @@
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/defaultValueLiteral"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.4"/>
       </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement/eAnnotations"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.12/@elements.0"/>
+      </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.8"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.12"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.0"/>
@@ -200,11 +221,16 @@
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature/unsettable"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.2/@elements.3/@elements.1"/>
       </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement/eAnnotations"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.12/@elements.0"/>
+      </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.9"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.10"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.12"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0"/>
@@ -237,10 +263,15 @@
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation/eParameters"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.10/@elements.0/@elements.0"/>
       </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement/eAnnotations"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.12/@elements.0"/>
+      </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EParameter"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.9"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.12"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0"/>
@@ -269,10 +300,15 @@
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ETypedElement/ordered"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.1/@elements.0/@elements.1"/>
       </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement/eAnnotations"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.12/@elements.0"/>
+      </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnumLiteral"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.11"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.12"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.11/@elements.0/@elements.0"/>
@@ -284,6 +320,10 @@
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEnumLiteral/value"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.11/@elements.0/@elements.2"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement/eAnnotations"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.12/@elements.0"/>
       </propertyBindings>
     </bindings>
     <bindings>
