@@ -44,7 +44,7 @@ public class ArrayFeatureContentProvider implements IStructuredContentProvider, 
 	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
 	 */
 	public Object[] getElements(Object inputElement) {
-		if (inputElement instanceof EObject && feature.eContainer().equals(((EObject)inputElement).eClass())) {
+		if (inputElement instanceof EObject && ((EObject)inputElement).eClass().getEAllStructuralFeatures().contains(feature)) {
 			return ((Collection<?>)((EObject)inputElement).eGet(feature)).toArray();
 		}
 		return new Object[0];

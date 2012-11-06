@@ -227,7 +227,18 @@ public class EEFEditingWizard extends Wizard {
 					}
 				}
 			});
+			firstSelection();
 			this.setControl(control);
+		}
+
+		/**
+		 * 
+		 */
+		private void firstSelection() {
+			EClass type = instanciableTypes.iterator().next();
+			radio.setSelection(new StructuredSelection(type));
+			createdObject = EcoreUtil.create(type);
+			createObject(createdObject);
 		}
 	}
 
