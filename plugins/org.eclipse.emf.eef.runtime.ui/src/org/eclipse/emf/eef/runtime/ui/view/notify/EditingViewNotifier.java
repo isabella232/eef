@@ -100,7 +100,13 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 		}
 
 		protected ControlDecoration decorateControl(final Control control, final EEFNotification notification) {
-			ControlDecoration decoration = null;
+			final int position = view.getViewSettings().getDecoratorPositioning();
+			ControlDecoration decoration = new ControlDecoration(control, position);
+			updateDecoration(decoration, notification);
+			return decoration;
+		}
+
+		protected ControlDecoration updateDecoration(final ControlDecoration decoration, final EEFNotification notification) {
 			Image image = null;
 			if (notification.getKind() == EEFNotification.ERROR) {
 				image = view.getViewSettings().getErrorDecorationImage();
@@ -110,8 +116,6 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 				image = view.getViewSettings().getLockDecorationImage();	
 			}
 			if (image != null) {
-				final int position = view.getViewSettings().getDecoratorPositioning();
-				decoration = new ControlDecoration(control, position);
 				decoration.setDescriptionText(notification.getMessage());
 				decoration.setImage(image);
 			}
