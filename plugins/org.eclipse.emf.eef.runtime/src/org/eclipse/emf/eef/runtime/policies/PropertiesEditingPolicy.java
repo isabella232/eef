@@ -8,6 +8,11 @@ package org.eclipse.emf.eef.runtime.policies;
  *
  */
 public interface PropertiesEditingPolicy {
+	
+	/**
+	 * @return an {@link EditingPolicyValidation} defining if the policy can be performed or not.
+	 */
+	EditingPolicyValidation validateEditing();
 
 	/**
 	 * Executes the policy behavior with the good processor.

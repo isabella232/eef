@@ -21,9 +21,8 @@ public abstract class EObjectDomainEditingPolicy extends EObjectEditingPolicy {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.policies.eobject.EObjectEditingPolicy#getEditingContext()
+	 * @see org.eclipse.emf.eef.runtime.policies.AbstractEditingPolicyWithProcessor#getEditingContext()
 	 */
-	@Override
 	public DomainAwarePropertiesEditingContext getEditingContext() {
 		return (DomainAwarePropertiesEditingContext) super.getEditingContext();
 	}

@@ -15,7 +15,6 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.AbstractEditingPolicyWithProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing.ProcessingKind;
-import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 
@@ -24,21 +23,12 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFService;
  *
  */
 public abstract class EReferenceEditingPolicy extends AbstractEditingPolicyWithProcessor {
-
-	private SemanticPropertiesEditingContext editingContext;
 	
 	/**
-	 * @param context the {@link PropertiesEditingContext} which have generated the current policy.
+	 * @param editingContext the {@link PropertiesEditingContext} which have generated the current policy.
 	 */
-	public EReferenceEditingPolicy(SemanticPropertiesEditingContext context) {
-		this.editingContext = context;
-	}
-
-	/**
-	 * @return the {@link PropertiesEditingContext} of this {@link PropertiesEditingPolicy}.
-	 */
-	public PropertiesEditingContext getEditingContext() {
-		return editingContext;
+	public EReferenceEditingPolicy(SemanticPropertiesEditingContext editingContext) {
+		super(editingContext);
 	}
 
 	/**

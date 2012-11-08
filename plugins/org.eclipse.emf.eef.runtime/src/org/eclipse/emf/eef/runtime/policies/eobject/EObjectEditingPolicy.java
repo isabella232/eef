@@ -5,7 +5,6 @@ package org.eclipse.emf.eef.runtime.policies.eobject;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -20,21 +19,11 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFService;
  */
 public abstract class EObjectEditingPolicy extends AbstractEditingPolicyWithProcessor {
 
-	private SemanticPropertiesEditingContext editingContext;
-
 	/**
-	 * @param editingContext
-	 * @param editingEvent
+	 * @param editingContext the {@link PropertiesEditingContext} which have generated the current policy.
 	 */
 	public EObjectEditingPolicy(SemanticPropertiesEditingContext editingContext) {
-		this.editingContext = editingContext;
-	}
-
-	/**
-	 * @return the editingContext
-	 */
-	public PropertiesEditingContext getEditingContext() {
-		return editingContext;
+		super(editingContext);
 	}
 
 	/**

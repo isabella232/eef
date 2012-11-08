@@ -12,8 +12,10 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
@@ -55,6 +57,18 @@ public interface PropertiesEditingComponent extends PropertiesEditingListener, E
 	 */
 	EClassBinding getBinding();
 	
+	/**
+	 * @param editingEvent the {@link PropertiesEditingEvent} to process.
+	 * @return a {@link PropertiesEditingPolicy} able to process the given event.
+	 */
+	PropertiesEditingPolicy getEditingPolicy(PropertiesEditingEvent editingEvent);
+
+	/**
+	 * Executes a {@link PropertiesEditingPolicy}.
+	 * @param editingPolicy the {@link PropertiesEditingPolicy} to perform.
+	 */
+	void execute(PropertiesEditingPolicy editingPolicy);
+
 	/**
 	 * Returns the {@link ViewHandler} able to manage the given view.
 	 * @param view the view to manage.

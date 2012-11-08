@@ -9,6 +9,14 @@ package org.eclipse.emf.eef.runtime.policies;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  */
 public class NullEditingPolicy implements PropertiesEditingPolicy {
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#validateEditing()
+	 */
+	public EditingPolicyValidation validateEditing() {
+		return new EditingPolicyValidation(this, true);
+	}
 
 	/**
 	 * {@inheritDoc}

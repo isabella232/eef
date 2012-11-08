@@ -23,12 +23,13 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
-import org.eclipse.emf.eef.runtime.notify.UIPropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
+import org.eclipse.emf.eef.runtime.policies.AbstractEditingPolicyWithProcessor;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
@@ -290,59 +291,35 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public synchronized void firePropertiesChanged(PropertiesEditingEvent editingEvent) {
-		if (shouldProcess(editingEvent)) {
-			if (editingEvent.delayedChanges()) {
-				delayedApplyingPropertiesChanged(editingEvent);
-			} else {
-				directApplyingPropertyChanged(editingEvent);
+		PropertiesEditingPolicy editingPolicy = getEditingPolicy(editingEvent);
+		if (editingEvent.delayedChanges()) {
+			delayedApplyingPropertiesChanged(editingEvent);
+		} else {
+			if (editingPolicy.validateEditing().canPerform()) {
+				execute(editingPolicy);
 			}
 		}
 	}
 
 	/**
-	 * Defines if an event must be processed by the current {@link PropertiesEditingComponent}.
-	 * @param editingEvent {@link PropertiesEditingEvent} to evaluate.
-	 * @return <code>true</code> if the event must be processed.
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingPolicy(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
-	protected boolean shouldProcess(PropertiesEditingEvent editingEvent) {
-		if (editingEvent instanceof UIPropertiesEditingEvent) {
-			return false;
-		} else {
-			EStructuralFeature feature = getBinding().feature(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
-			if (feature != null) {
-				if (!getEObject().eClass().getEAllStructuralFeatures().contains(feature)) {
-					EMFService emfService = editingContext.getServiceRegistry().getService(EMFService.class, editingContext.getEditingComponent().getEObject().eClass().getEPackage());
-					feature = emfService.mapFeature(getEObject(), feature);
-				}
-				if (getEObject().eClass().getEAllStructuralFeatures().contains(feature)) {
-	 				Object currentValue = getEObject().eGet(feature);
-	 				Object newValue = null;
-	 				if (editingEvent.getNewValue() != null) {
-	 					if (feature instanceof EAttribute && editingEvent.getNewValue() instanceof String) {
-	 						try {
-	 							newValue = EcoreUtil.createFromString(((EAttribute)feature).getEAttributeType(), (String)editingEvent.getNewValue());
-	 						} catch (Exception e) {
-	 							//Silent catch
-							}
-	 					}
-	 					if (newValue == null) {
-	 						newValue = editingEvent.getNewValue();
-	 					}
-	 				}
-					return (currentValue == null && newValue != null)
-							|| (currentValue != null && !currentValue.equals(newValue));
-				}
-			}
-			
-		}
-		return true;
+	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingEvent editingEvent) {
+		PropertiesEditingContextFactory service = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, source);
+		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(service.createSemanticPropertiesEditingContext(editingContext, editingEvent));
+		return editingPolicy;
 	}
-	
+
 	/**
-	 * Applying the model change(s) implied by an event immediately.
-	 * @param editingEvent the {@link PropertiesEditingEvent} to process.
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#execute(org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy)
 	 */
-	private void directApplyingPropertyChanged(PropertiesEditingEvent editingEvent) {
+	public void execute(PropertiesEditingPolicy editingPolicy) {
+		PropertiesEditingEvent editingEvent = null;
+		if (editingPolicy instanceof AbstractEditingPolicyWithProcessor) {
+			editingEvent = ((SemanticPropertiesEditingContext)((AbstractEditingPolicyWithProcessor) editingPolicy).getEditingContext()).getEditingEvent();
+		}
 		if (editingContext.getOptions().validateEditing()) {
 			Diagnostic valueDiagnostic = validateValue(editingEvent);
 			if ("test".equals(editingEvent.getNewValue())) {
@@ -354,8 +331,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 				return;
 			} 
 		}
-		PropertiesEditingContextFactory service = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, source);
-		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(service.createSemanticPropertiesEditingContext(editingContext, editingEvent));
 		editingPolicy.execute();				
 		propagateEvent(editingEvent);
 		if (editingContext.getOptions().validateEditing()) {		
