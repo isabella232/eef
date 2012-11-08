@@ -142,14 +142,24 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 			if (editor instanceof ViewElement) {
 				PropertyEditor propertyEditor = view.getPropertyEditor((ViewElement) editor);
 				final Control control = propertyEditor.getPropertyEditorViewer().getViewer().getControl();
-				ControlDecoration decoration = decorateControl(control, notification);
-				if (decoration != null) {
-					DecorationSettings settings = decorationSettings.get(view);
-					if (settings == null) {
+				DecorationSettings settings = decorationSettings.get(view);
+				if (settings != null) {
+					ControlDecoration existingDecoration = settings.decorations.get(editor);
+					if (existingDecoration != null) {
+						updateDecoration(existingDecoration, notification);
+					} else {
+						ControlDecoration decoration = decorateControl(control, notification);
+						if (decoration != null) {
+							settings.decorations.put(editor, decoration);
+						}
+					}
+				} else {
+					ControlDecoration decoration = decorateControl(control, notification);
+					if (decoration != null) {
 						settings = new DecorationSettings();
 						decorationSettings.put(view, settings);
+						settings.decorations.put(editor, decoration);
 					}
-					settings.decorations.put(editor, decoration);
 				}
 			}
 		}
