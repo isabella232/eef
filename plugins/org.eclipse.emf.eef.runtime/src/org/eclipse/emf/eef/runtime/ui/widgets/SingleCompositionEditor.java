@@ -9,6 +9,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.runtime.EEFRuntimePlugin;
+import org.eclipse.emf.eef.runtime.ui.utils.EditingUtils;
 import org.eclipse.emf.eef.runtime.ui.widgets.settings.EEFEditorSettings;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -39,6 +40,8 @@ public class SingleCompositionEditor extends Viewer {
 	private AdapterFactory adapterFactory;
 	
 	private List<SingleCompositionListener> listeners;
+	private Button edit;
+	private Button clear;
 
 	/**
 	 * @param parent parent {@link Composite} of this viewer.
@@ -74,14 +77,14 @@ public class SingleCompositionEditor extends Viewer {
 		}
 		inputDisplay.setEditable(false);
 		inputDisplay.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		Button edit;
 		if (toolkit != null) {
 			edit = toolkit.createButton(container, "...", SWT.PUSH);
 		} else {
 			edit = new Button(container, SWT.PUSH);
 			edit.setText("...");
 		}
-			
+		EditingUtils.setEEFtype(edit,
+				"eef::SingleCompositionEditor::editbutton");
 		edit.addSelectionListener(new SelectionAdapter() {
 
 			/**
@@ -95,13 +98,14 @@ public class SingleCompositionEditor extends Viewer {
 			}
 			
 		});
-		Button clear;
 		if (toolkit != null) {
 			clear = toolkit.createButton(container, "", SWT.PUSH);
 		} else {
 			clear = new Button(container, SWT.PUSH);
 		}
 		clear.setImage(EEFRuntimePlugin.getImage(EEFRuntimePlugin.ICONS_16x16 + "Delete_16x16.gif"));
+		EditingUtils.setEEFtype(clear,
+				"eef::SingleCompositionEditor::clearbutton");
 		clear.addSelectionListener(new SelectionAdapter() {
 
 			/**
@@ -241,4 +245,53 @@ public class SingleCompositionEditor extends Viewer {
 		
 	}
 
+	/**
+	 * Sets the given ID to the EObjectFlatComboViewer
+	 * 
+	 * @param id
+	 *            the id of the widget
+	 */
+	public void setID(Object id) {
+		EditingUtils.setID(inputDisplay, id);
+		EditingUtils.setID(edit, id);
+		EditingUtils.setID(clear, id);
+	}
+
+	/**
+	 * @return the ID of the EObjectFlatComboViewer
+	 */
+	public Object getID() {
+		return EditingUtils.getID(inputDisplay);
+	}
+
+	/**
+	 * Sets the viewer readonly
+	 * 
+	 * @param enabled
+	 *            sets the viewer read only or not.
+	 */
+	public void setEnabled(boolean enabled) {
+		edit.setEnabled(enabled);
+		inputDisplay.setEnabled(enabled);
+		clear.setEnabled(enabled);
+	}
+	
+	/**
+	 * @return if the table is enabled
+	 */
+	public boolean isEnabled() {
+		return inputDisplay.isEnabled();
+	}
+
+	/**
+	 * Sets the tooltip text on the viewer
+	 * 
+	 * @param tooltip
+	 *            the tooltip text
+	 */
+	public void setToolTipText(String tooltip) {
+		edit.setToolTipText(tooltip);
+		clear.setToolTipText(tooltip);
+		inputDisplay.setToolTipText(tooltip);
+	}
 }
