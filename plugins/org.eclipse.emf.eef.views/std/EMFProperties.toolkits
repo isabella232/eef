@@ -14,4 +14,5 @@
   <widgets name="ImageViewer"/>
   <widgets name="SingleCompositionViewer"/>
   <widgets name="SelectionDialog"/>
+  <widgets name="SingleCompositionEditor" implementation=""/>
 </eef-views:Toolkit>
