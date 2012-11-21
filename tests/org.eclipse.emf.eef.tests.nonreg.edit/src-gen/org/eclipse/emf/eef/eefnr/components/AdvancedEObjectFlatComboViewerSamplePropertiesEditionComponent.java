@@ -222,7 +222,7 @@ public class AdvancedEObjectFlatComboViewerSamplePropertiesEditionComponent exte
 		}
 		if (EefnrViewsRepository.AdvancedEObjectFlatComboViewerSample.Properties.advancedeobjectflatcomboviewerCompoRequiredProperty == event.getAffectedEditor()) {
 			if (event.getKind() == PropertiesEditionEvent.EDIT) {
-				if (advancedeobjectflatcomboviewerCompoRequiredPropertySettings.getValue() == null) {
+				if (advancedeobjectflatcomboviewerCompoRequiredPropertySettings.getValue() == "") {
 					EReferencePropertiesEditionContext context = new EReferencePropertiesEditionContext(editingContext, this, advancedeobjectflatcomboviewerCompoRequiredPropertySettings, editingContext.getAdapterFactory());
 					PropertiesEditingProvider provider = (PropertiesEditingProvider)editingContext.getAdapterFactory().adapt(editingContext.getEObject(), PropertiesEditingProvider.class);
 					Object result = null;
