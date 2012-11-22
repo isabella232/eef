@@ -323,7 +323,7 @@ String
 [include('org.eclipse.emf.common.util.Enumerator')/]
 [elseif (view.representationName('MultiValuedEditor'))]
 [include('org.eclipse.emf.common.util.EList')/]
-[elseif (view.representationName('EObjectFlatComboViewer') or view.representationName('AdvancedEObjectFlatComboViewer') or view.representationName('SingleCompositionViewer'))]
+[elseif (view.representationName('EObjectFlatComboViewer') or view.representationName('AdvancedEObjectFlatComboViewer') or view.representationName('SingleCompositionViewer') or view.representationName('SingleCompositionEditor'))]
 [include('org.eclipse.emf.ecore.EObject')/]
 [elseif (view.representationName('ReferencesTable') or view.representationName('AdvancedReferencesTable') or view.representationName('FlatReferencesTable') or view.representationName('TableComposition') or view.representationName('AdvancedTableComposition'))]
 [include('java.util.List')/]
