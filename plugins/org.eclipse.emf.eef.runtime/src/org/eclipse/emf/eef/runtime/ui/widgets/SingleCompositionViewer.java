@@ -44,6 +44,7 @@ import org.eclipse.ui.forms.widgets.SharedScrolledComposite;
 
 /**
  * @param <T>
+ * @deprecated
  */
 public class SingleCompositionViewer<T extends EObject> extends Composite {
 

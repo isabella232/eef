@@ -125,10 +125,14 @@ public abstract class SinglePartPropertiesEditingComponent extends StandardPrope
 	 * @see org.eclipse.emf.eef.runtime.impl.components.StandardPropertiesEditionComponent#shouldProcess(org.eclipse.emf.eef.runtime.api.notify.IPropertiesEditionEvent)
 	 */
 	protected boolean shouldProcess(IPropertiesEditionEvent event) {
-		if (event instanceof PropertiesEditionEvent && associatedFeature(event.getAffectedEditor()) != null) {
-			Object currentValue = semanticObject.eGet(associatedFeature(event.getAffectedEditor()));
-			return (currentValue == null && event.getNewValue() != null)
-					|| (currentValue != null && !currentValue.equals(event.getNewValue()));
+		if (event.getKind() == PropertiesEditionEvent.EDIT) {
+			return true;
+		} else {
+			if (event instanceof PropertiesEditionEvent && (!(event.getKind() == PropertiesEditionEvent.EDIT)) && associatedFeature(event.getAffectedEditor()) != null) {
+				Object currentValue = semanticObject.eGet(associatedFeature(event.getAffectedEditor()));
+				return (currentValue == null && event.getNewValue() != null)
+						|| (currentValue != null && !currentValue.equals(event.getNewValue()));
+			}
 		}
 		return super.shouldProcess(event);
 	}
