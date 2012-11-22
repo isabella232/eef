@@ -66,7 +66,6 @@
 [template public setterSignatureImplementation(elementEditor : ElementEditor) overrides setterSignatureImplementation ? (elementEditor.representationName('SingleCompositionEditor'))]
 [elementEditor.setterSignature()/] {
 		[elementEditor.elementEditorName()/].refresh();
-		[elementEditor.readOnly()/]
 	}
 [/template]
 
@@ -85,7 +84,6 @@
 [elementEditor.initSignature()/] {
 		[elementEditor.elementEditorName()/].setAdapterFactory(adapterFactory);
 		[elementEditor.elementEditorName()/].setInput(settings);
-		[elementEditor.readOnly()/]
 	}
 [/template]
 
