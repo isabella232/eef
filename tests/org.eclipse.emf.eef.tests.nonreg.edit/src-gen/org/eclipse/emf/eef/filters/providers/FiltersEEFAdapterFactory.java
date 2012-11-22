@@ -14,10 +14,6 @@ import org.eclipse.emf.common.notify.Adapter;
 
 import org.eclipse.emf.eef.eefnr.filters.util.FiltersAdapterFactory;
 
-import org.eclipse.emf.eef.filters.providers.ConcreteReferenceOwnerSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.filters.providers.ConcreteReferenceTargetSample1PropertiesEditionProvider;
-import org.eclipse.emf.eef.filters.providers.ConcreteReferenceTargetSample2PropertiesEditionProvider;
-
 import org.eclipse.emf.eef.references.providers.AbstractSamplePropertiesEditionProvider;
 
 /**

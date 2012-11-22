@@ -226,7 +226,6 @@ public class AdvancedTableCompositionEditorSamplePropertiesEditionComponent exte
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

@@ -159,7 +159,6 @@ public class ReferenceEnabledSampleBasePropertiesEditionComponent extends Single
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

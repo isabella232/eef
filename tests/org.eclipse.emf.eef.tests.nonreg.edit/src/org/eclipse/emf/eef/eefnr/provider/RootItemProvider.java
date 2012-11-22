@@ -259,6 +259,11 @@ public class RootItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(EefnrPackage.Literals.ROOT__SAMPLES,
+				 EefnrFactory.eINSTANCE.createSingleCompositionEditorSample()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EefnrPackage.Literals.ROOT__SAMPLES,
 				 ReferencesFactory.eINSTANCE.createReferenceEnabledSample()));
 
 		newChildDescriptors.add

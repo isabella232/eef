@@ -196,6 +196,16 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="singlecompositionviewMultiOptionalProperty"
         eType="#//AbstractSample" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleCompositionEditorSample" eSuperTypes="#//AbstractSample">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="singleCompositionEditorRequiredProperty"
+        lowerBound="1" eType="#//TextSample" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="singleCompositionEditorrOptionalProperty"
+        eType="#//TextSample" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="singleCompositionEditorRequiredAbstractProperty"
+        lowerBound="1" eType="#//AbstractSample" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="singleCompositionEditorOptionalAbstractProperty"
+        eType="#//AbstractSample" containment="true"/>
+  </eClassifiers>
   <eSubpackages name="references" nsURI="http://www.eclipse.org/emf/eef/nonreg/references/1.0.0"
       nsPrefix="eefnr-ref">
     <eClassifiers xsi:type="ecore:EClass" name="AbstractEnabledSample" abstract="true"

@@ -126,7 +126,6 @@ public class EventPropertiesEditionComponent extends SinglePartPropertiesEditing
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

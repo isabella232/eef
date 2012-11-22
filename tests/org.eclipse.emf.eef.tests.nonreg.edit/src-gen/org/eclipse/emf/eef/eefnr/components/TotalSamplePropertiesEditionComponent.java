@@ -697,13 +697,13 @@ public class TotalSamplePropertiesEditionComponent extends SinglePartPropertiesE
 		if (EefnrViewsRepository.TotalSample.Properties.multivaluededitorRequiredProperty == event.getAffectedEditor()) {
 			if (event.getKind() == PropertiesEditionEvent.SET) {
 				totalSample.getMultivaluededitorRequiredProperty().clear();
-				totalSample.getMultivaluededitorRequiredProperty().addAll(((List) event.getNewValue()));
+				totalSample.getMultivaluededitorRequiredProperty().addAll(((EList) event.getNewValue()));
 			}
 		}
 		if (EefnrViewsRepository.TotalSample.Properties.multivaluededitorOptionalProperty == event.getAffectedEditor()) {
 			if (event.getKind() == PropertiesEditionEvent.SET) {
 				totalSample.getMultivaluededitorOptionalProperty().clear();
-				totalSample.getMultivaluededitorOptionalProperty().addAll(((List) event.getNewValue()));
+				totalSample.getMultivaluededitorOptionalProperty().addAll(((EList) event.getNewValue()));
 			}
 		}
 		if (EefnrViewsRepository.TotalSample.Properties.tablecompositionRequiredProperty == event.getAffectedEditor()) {
@@ -932,11 +932,11 @@ public class TotalSamplePropertiesEditionComponent extends SinglePartPropertiesE
 				basePart.setEmfcomboviewerOptionalProperty((ENUM_SAMPLE)msg.getNewValue());
 			
 			if (EefnrPackage.eINSTANCE.getTotalSample_MultivaluededitorRequiredProperty().equals(msg.getFeature()) && basePart != null && isAccessible(EefnrViewsRepository.TotalSample.Properties.multivaluededitorRequiredProperty)) {
-				basePart.setMultivaluededitorRequiredProperty((EList)msg.getNewValue());
+				basePart.setMultivaluededitorRequiredProperty((EList<?>)msg.getNewValue());
 			}
 			
 			if (EefnrPackage.eINSTANCE.getTotalSample_MultivaluededitorOptionalProperty().equals(msg.getFeature()) && basePart != null && isAccessible(EefnrViewsRepository.TotalSample.Properties.multivaluededitorOptionalProperty)) {
-				basePart.setMultivaluededitorOptionalProperty((EList)msg.getNewValue());
+				basePart.setMultivaluededitorOptionalProperty((EList<?>)msg.getNewValue());
 			}
 			
 			if (EefnrPackage.eINSTANCE.getTotalSample_TablecompositionRequiredProperty().equals(msg.getFeature()) && isAccessible(EefnrViewsRepository.TotalSample.Properties.tablecompositionRequiredProperty))
@@ -969,7 +969,6 @@ public class TotalSamplePropertiesEditionComponent extends SinglePartPropertiesE
 			
 		}
 	}
-
 
 	/**
 	 * {@inheritDoc}

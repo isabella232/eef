@@ -225,7 +225,6 @@ public class TableCompositionExtensionEditorSamplePropertiesEditionComponent ext
 			
 		}
 	}
-
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.impl.components.StandardPropertiesEditionComponent#mustBeComposed(java.lang.Object, int)

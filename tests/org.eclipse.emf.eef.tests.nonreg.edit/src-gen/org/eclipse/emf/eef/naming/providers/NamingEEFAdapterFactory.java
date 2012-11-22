@@ -14,8 +14,6 @@ import org.eclipse.emf.common.notify.Adapter;
 
 import org.eclipse.emf.eef.eefnr.naming.util.CustomNamingAdapterFactory;
 
-import org.eclipse.emf.eef.naming.providers.EventPropertiesEditionProvider;
-
 import org.eclipse.emf.eef.references.providers.AbstractSamplePropertiesEditionProvider;
 
 /**

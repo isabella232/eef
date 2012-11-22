@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.eef.eefnr.*;
 import org.eclipse.emf.eef.eefnr.AdvancedEObjectFlatComboViewerSample;
 import org.eclipse.emf.eef.eefnr.AdvancedReferencesTableSample;
 import org.eclipse.emf.eef.eefnr.AdvancedTableCompositionEditorSample;
@@ -103,6 +104,7 @@ public class EefnrFactoryImpl extends EFactoryImpl implements EefnrFactory {
 			case EefnrPackage.IMAGE_VIEWER_SAMPLE: return createImageViewerSample();
 			case EefnrPackage.SELECTION_DIALOG_SAMPLE: return createSelectionDialogSample();
 			case EefnrPackage.SINGLE_COMPOSITION_VIEWER_SAMPLE: return createSingleCompositionViewerSample();
+			case EefnrPackage.SINGLE_COMPOSITION_EDITOR_SAMPLE: return createSingleCompositionEditorSample();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -346,6 +348,16 @@ public class EefnrFactoryImpl extends EFactoryImpl implements EefnrFactory {
 	public SingleCompositionViewerSample createSingleCompositionViewerSample() {
 		SingleCompositionViewerSampleImpl singleCompositionViewerSample = new SingleCompositionViewerSampleImpl();
 		return singleCompositionViewerSample;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SingleCompositionEditorSample createSingleCompositionEditorSample() {
+		SingleCompositionEditorSampleImpl singleCompositionEditorSample = new SingleCompositionEditorSampleImpl();
+		return singleCompositionEditorSample;
 	}
 
 	/**

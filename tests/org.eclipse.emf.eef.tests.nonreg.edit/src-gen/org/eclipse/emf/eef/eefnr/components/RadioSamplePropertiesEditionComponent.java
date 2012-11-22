@@ -136,7 +136,6 @@ public class RadioSamplePropertiesEditionComponent extends SinglePartPropertiesE
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

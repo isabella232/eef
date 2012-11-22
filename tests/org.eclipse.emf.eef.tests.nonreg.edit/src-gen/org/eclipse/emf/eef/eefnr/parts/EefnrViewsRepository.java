@@ -496,4 +496,28 @@ public class EefnrViewsRepository {
 	
 	}
 
+	/**
+	 * SingleCompositionEditorSample view descriptor
+	 * 
+	 */
+	public static class SingleCompositionEditorSample {
+		public static class Properties {
+	
+			
+			public static String singleCompositionEditorRequiredProperty = "eefnr::SingleCompositionEditorSample::properties::singleCompositionEditorRequiredProperty";
+			
+			
+			public static String singleCompositionEditorOptionalProperty = "eefnr::SingleCompositionEditorSample::properties::singleCompositionEditorOptionalProperty";
+			
+			
+			public static String singleCompositionEditorRequiredAbstractProperty = "eefnr::SingleCompositionEditorSample::properties::singleCompositionEditorRequiredAbstractProperty";
+			
+			
+			public static String singleCompositionEditorOptionalAbstractProperty = "eefnr::SingleCompositionEditorSample::properties::singleCompositionEditorOptionalAbstractProperty";
+			
+	
+		}
+	
+	}
+
 }

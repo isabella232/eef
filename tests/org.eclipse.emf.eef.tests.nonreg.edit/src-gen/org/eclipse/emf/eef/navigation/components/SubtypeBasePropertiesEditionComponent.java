@@ -356,7 +356,6 @@ public class SubtypeBasePropertiesEditionComponent extends SinglePartPropertiesE
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

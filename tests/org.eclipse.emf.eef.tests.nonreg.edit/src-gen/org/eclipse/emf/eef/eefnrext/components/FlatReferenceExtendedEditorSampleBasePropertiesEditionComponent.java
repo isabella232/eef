@@ -155,7 +155,6 @@ public class FlatReferenceExtendedEditorSampleBasePropertiesEditionComponent ext
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

@@ -226,7 +226,6 @@ public class TableCompositionEditorSamplePropertiesEditionComponent extends Sing
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

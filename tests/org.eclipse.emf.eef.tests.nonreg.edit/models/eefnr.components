@@ -272,6 +272,21 @@
         </properties>
         <model xsi:type="ecore:EClass" href="platform:/resource/org.eclipse.emf.eef.tests.nonreg/model/eefnr.ecore#//SingleCompositionViewerSample"/>
       </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_jUy0ETS3EeKxvtrn1FMXYA" name="SingleCompositionEditorSample" views="_lGs2kDS3EeKxvtrn1FMXYA">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_jUy0EjS3EeKxvtrn1FMXYA" name="singleCompositionEditorRequiredProperty" views="_lGs2kjS3EeKxvtrn1FMXYA">
+          <model xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.eef.tests.nonreg/model/eefnr.ecore#//SingleCompositionEditorSample/singleCompositionEditorRequiredProperty"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_jUy0EzS3EeKxvtrn1FMXYA" name="singleCompositionEditorOptionalProperty" views="_lGs2kzS3EeKxvtrn1FMXYA">
+          <model xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.eef.tests.nonreg/model/eefnr.ecore#//SingleCompositionEditorSample/singleCompositionEditorrOptionalProperty"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_H2GGcDS7EeKxvtrn1FMXYA" name="singleCompositionEditorRequiredAbstractProperty" views="_ibyBEDS6EeKxvtrn1FMXYA">
+          <model xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.eef.tests.nonreg/model/eefnr.ecore#//SingleCompositionEditorSample/singleCompositionEditorRequiredAbstractProperty"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_H2GGcTS7EeKxvtrn1FMXYA" name="singleCompositionEditorOptionalAbstractProperty" views="_ibyBETS6EeKxvtrn1FMXYA">
+          <model xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.eef.tests.nonreg/model/eefnr.ecore#//SingleCompositionEditorSample/singleCompositionEditorOptionalAbstractProperty"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="platform:/resource/org.eclipse.emf.eef.tests.nonreg/model/eefnr.ecore#//SingleCompositionEditorSample"/>
+      </bindings>
     </categories>
     <model href="platform:/resource/org.eclipse.emf.eef.tests.nonreg/model/eefnr.genmodel#//eefnr"/>
   </eef-components:PropertiesEditionContext>
@@ -880,6 +895,23 @@
           </elements>
           <elements xsi:type="eef-views:ElementEditor" xmi:id="_bUKJwD5eEeCwE69ZEpp39A" name="singlecompositionviewerMultiOptionalProperty">
             <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.12"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_lGs2kDS3EeKxvtrn1FMXYA" name="SingleCompositionEditorSample">
+        <elements xsi:type="eef-views:Container" xmi:id="_lGs2kTS3EeKxvtrn1FMXYA" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_lGs2kjS3EeKxvtrn1FMXYA" name="singleCompositionEditorRequiredProperty">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.14"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_lGs2kzS3EeKxvtrn1FMXYA" name="singleCompositionEditorOptionalProperty">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.14"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_ibyBEDS6EeKxvtrn1FMXYA" name="singleCompositionEditorRequiredAbstractProperty">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.14"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_ibyBETS6EeKxvtrn1FMXYA" name="singleCompositionEditorOptionalAbstractProperty">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.14"/>
           </elements>
         </elements>
       </views>

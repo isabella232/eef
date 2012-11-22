@@ -26,6 +26,7 @@ import org.eclipse.emf.eef.eefnr.parts.forms.ReferencesTableSamplePropertiesEdit
 import org.eclipse.emf.eef.eefnr.parts.forms.RootPropertiesEditionPartForm;
 import org.eclipse.emf.eef.eefnr.parts.forms.SamplePropertiesEditionPartForm;
 import org.eclipse.emf.eef.eefnr.parts.forms.SelectionDialogSamplePropertiesEditionPartForm;
+import org.eclipse.emf.eef.eefnr.parts.forms.SingleCompositionEditorSamplePropertiesEditionPartForm;
 import org.eclipse.emf.eef.eefnr.parts.forms.SingleCompositionViewerSamplePropertiesEditionPartForm;
 import org.eclipse.emf.eef.eefnr.parts.forms.TableCompositionEditorSamplePropertiesEditionPartForm;
 import org.eclipse.emf.eef.eefnr.parts.forms.TableCompositionExtensionEditorSamplePropertiesEditionPartForm;
@@ -49,6 +50,7 @@ import org.eclipse.emf.eef.eefnr.parts.impl.ReferencesTableSamplePropertiesEditi
 import org.eclipse.emf.eef.eefnr.parts.impl.RootPropertiesEditionPartImpl;
 import org.eclipse.emf.eef.eefnr.parts.impl.SamplePropertiesEditionPartImpl;
 import org.eclipse.emf.eef.eefnr.parts.impl.SelectionDialogSamplePropertiesEditionPartImpl;
+import org.eclipse.emf.eef.eefnr.parts.impl.SingleCompositionEditorSamplePropertiesEditionPartImpl;
 import org.eclipse.emf.eef.eefnr.parts.impl.SingleCompositionViewerSamplePropertiesEditionPartImpl;
 import org.eclipse.emf.eef.eefnr.parts.impl.TableCompositionEditorSamplePropertiesEditionPartImpl;
 import org.eclipse.emf.eef.eefnr.parts.impl.TableCompositionExtensionEditorSamplePropertiesEditionPartImpl;
@@ -216,6 +218,12 @@ public class EefnrPropertiesEditionPartProvider implements IPropertiesEditionPar
 				return new SingleCompositionViewerSamplePropertiesEditionPartImpl(component);
 			if (kind == EefnrViewsRepository.FORM_KIND)
 				return new SingleCompositionViewerSamplePropertiesEditionPartForm(component);
+		}
+		if (key == EefnrViewsRepository.SingleCompositionEditorSample.class) {
+			if (kind == EefnrViewsRepository.SWT_KIND)
+				return new SingleCompositionEditorSamplePropertiesEditionPartImpl(component);
+			if (kind == EefnrViewsRepository.FORM_KIND)
+				return new SingleCompositionEditorSamplePropertiesEditionPartForm(component);
 		}
 		return null;
 	}

@@ -181,7 +181,6 @@ public class DeferedFlatReferencesTableSampleEditorPropertiesEditionComponent ex
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

@@ -12,28 +12,6 @@ package org.eclipse.emf.eef.eefnr.providers;
 
 import org.eclipse.emf.common.notify.Adapter;
 
-import org.eclipse.emf.eef.eefnr.providers.AdvancedEObjectFlatComboViewerSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.AdvancedReferencesTableSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.AdvancedTableCompositionEditorSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.CheckboxSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.EMFComboViewerSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.EObjectFlatComboViewerSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.FlatReferenceTableSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.ImageViewerSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.MultiValuedEditorSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.RadioSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.ReferencesTableSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.RootPropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.SamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.SelectionDialogSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.SingleCompositionViewerSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.TableCompositionEditorSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.TableCompositionExtensionEditorSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.TextSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.TextSampleWithTwoTabsPropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.TextareaSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.eefnr.providers.TotalSamplePropertiesEditionProvider;
-
 import org.eclipse.emf.eef.eefnr.util.EefnrAdapterFactory;
 
 import org.eclipse.emf.eef.navigation.providers.NamedElementPropertiesEditionProvider;
@@ -229,6 +207,14 @@ public class EefnrEEFAdapterFactory extends EefnrAdapterFactory {
 	 */
 	public Adapter createSingleCompositionViewerSampleAdapter() {
 		return new SingleCompositionViewerSamplePropertiesEditionProvider();
+	}
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.eefnr.util.EefnrAdapterFactory#createSingleCompositionEditorSampleAdapter()
+	 * 
+	 */
+	public Adapter createSingleCompositionEditorSampleAdapter() {
+		return new SingleCompositionEditorSamplePropertiesEditionProvider();
 	}
 
 }

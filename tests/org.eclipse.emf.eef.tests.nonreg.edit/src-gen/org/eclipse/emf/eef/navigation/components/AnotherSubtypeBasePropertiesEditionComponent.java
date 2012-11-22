@@ -123,7 +123,6 @@ public class AnotherSubtypeBasePropertiesEditionComponent extends SinglePartProp
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

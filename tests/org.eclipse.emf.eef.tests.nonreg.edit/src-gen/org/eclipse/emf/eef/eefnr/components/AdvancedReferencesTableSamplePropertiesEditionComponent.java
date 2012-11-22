@@ -203,7 +203,6 @@ public class AdvancedReferencesTableSamplePropertiesEditionComponent extends Sin
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

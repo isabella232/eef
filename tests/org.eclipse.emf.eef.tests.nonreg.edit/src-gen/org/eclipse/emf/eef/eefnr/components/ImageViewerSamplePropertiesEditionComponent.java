@@ -147,7 +147,6 @@ public class ImageViewerSamplePropertiesEditionComponent extends SinglePartPrope
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

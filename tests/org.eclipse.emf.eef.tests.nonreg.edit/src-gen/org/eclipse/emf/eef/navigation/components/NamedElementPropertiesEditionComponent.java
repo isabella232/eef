@@ -126,7 +126,6 @@ public class NamedElementPropertiesEditionComponent extends SinglePartProperties
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

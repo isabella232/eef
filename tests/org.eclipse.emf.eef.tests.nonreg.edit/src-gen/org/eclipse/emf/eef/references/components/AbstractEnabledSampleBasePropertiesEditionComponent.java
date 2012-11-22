@@ -124,7 +124,6 @@ public class AbstractEnabledSampleBasePropertiesEditionComponent extends SingleP
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

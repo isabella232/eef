@@ -10,6 +10,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.eefnr.*;
 import org.eclipse.emf.eef.eefnr.AbstractSample;
 import org.eclipse.emf.eef.eefnr.AbstractTableCompositionTargetExtensionEditorSample;
 import org.eclipse.emf.eef.eefnr.AdvancedEObjectFlatComboViewerSample;
@@ -188,6 +189,10 @@ public class EefnrAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseSingleCompositionViewerSample(SingleCompositionViewerSample object) {
 				return createSingleCompositionViewerSampleAdapter();
+			}
+			@Override
+			public Adapter caseSingleCompositionEditorSample(SingleCompositionEditorSample object) {
+				return createSingleCompositionEditorSampleAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -542,6 +547,20 @@ public class EefnrAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSingleCompositionViewerSampleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample <em>Single Composition Editor Sample</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample
+	 * @generated
+	 */
+	public Adapter createSingleCompositionEditorSampleAdapter() {
 		return null;
 	}
 

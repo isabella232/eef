@@ -1345,6 +1345,70 @@ public interface EefnrPackage extends EPackage {
 	int SINGLE_COMPOSITION_VIEWER_SAMPLE_FEATURE_COUNT = ABSTRACT_SAMPLE_FEATURE_COUNT + 4;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.eef.eefnr.impl.SingleCompositionEditorSampleImpl <em>Single Composition Editor Sample</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.eef.eefnr.impl.SingleCompositionEditorSampleImpl
+	 * @see org.eclipse.emf.eef.eefnr.impl.EefnrPackageImpl#getSingleCompositionEditorSample()
+	 * @generated
+	 */
+	int SINGLE_COMPOSITION_EDITOR_SAMPLE = 24;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_COMPOSITION_EDITOR_SAMPLE__NAME = ABSTRACT_SAMPLE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Single Composition Editor Required Property</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_COMPOSITION_EDITOR_SAMPLE__SINGLE_COMPOSITION_EDITOR_REQUIRED_PROPERTY = ABSTRACT_SAMPLE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Single Composition Editorr Optional Property</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_COMPOSITION_EDITOR_SAMPLE__SINGLE_COMPOSITION_EDITORR_OPTIONAL_PROPERTY = ABSTRACT_SAMPLE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Single Composition Editor Required Abstract Property</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_COMPOSITION_EDITOR_SAMPLE__SINGLE_COMPOSITION_EDITOR_REQUIRED_ABSTRACT_PROPERTY = ABSTRACT_SAMPLE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Single Composition Editor Optional Abstract Property</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_COMPOSITION_EDITOR_SAMPLE__SINGLE_COMPOSITION_EDITOR_OPTIONAL_ABSTRACT_PROPERTY = ABSTRACT_SAMPLE_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Single Composition Editor Sample</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_COMPOSITION_EDITOR_SAMPLE_FEATURE_COUNT = ABSTRACT_SAMPLE_FEATURE_COUNT + 4;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.emf.eef.eefnr.ENUM_SAMPLE <em>ENUM SAMPLE</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1352,7 +1416,7 @@ public interface EefnrPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.eefnr.impl.EefnrPackageImpl#getENUM_SAMPLE()
 	 * @generated
 	 */
-	int ENUM_SAMPLE = 24;
+	int ENUM_SAMPLE = 25;
 
 
 	/**
@@ -2366,6 +2430,60 @@ public interface EefnrPackage extends EPackage {
 	EReference getSingleCompositionViewerSample_SinglecompositionviewMultiOptionalProperty();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample <em>Single Composition Editor Sample</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Single Composition Editor Sample</em>'.
+	 * @see org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample
+	 * @generated
+	 */
+	EClass getSingleCompositionEditorSample();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample#getSingleCompositionEditorRequiredProperty <em>Single Composition Editor Required Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Single Composition Editor Required Property</em>'.
+	 * @see org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample#getSingleCompositionEditorRequiredProperty()
+	 * @see #getSingleCompositionEditorSample()
+	 * @generated
+	 */
+	EReference getSingleCompositionEditorSample_SingleCompositionEditorRequiredProperty();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample#getSingleCompositionEditorrOptionalProperty <em>Single Composition Editorr Optional Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Single Composition Editorr Optional Property</em>'.
+	 * @see org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample#getSingleCompositionEditorrOptionalProperty()
+	 * @see #getSingleCompositionEditorSample()
+	 * @generated
+	 */
+	EReference getSingleCompositionEditorSample_SingleCompositionEditorrOptionalProperty();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample#getSingleCompositionEditorRequiredAbstractProperty <em>Single Composition Editor Required Abstract Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Single Composition Editor Required Abstract Property</em>'.
+	 * @see org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample#getSingleCompositionEditorRequiredAbstractProperty()
+	 * @see #getSingleCompositionEditorSample()
+	 * @generated
+	 */
+	EReference getSingleCompositionEditorSample_SingleCompositionEditorRequiredAbstractProperty();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample#getSingleCompositionEditorOptionalAbstractProperty <em>Single Composition Editor Optional Abstract Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Single Composition Editor Optional Abstract Property</em>'.
+	 * @see org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample#getSingleCompositionEditorOptionalAbstractProperty()
+	 * @see #getSingleCompositionEditorSample()
+	 * @generated
+	 */
+	EReference getSingleCompositionEditorSample_SingleCompositionEditorOptionalAbstractProperty();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.emf.eef.eefnr.ENUM_SAMPLE <em>ENUM SAMPLE</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3196,6 +3314,48 @@ public interface EefnrPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SINGLE_COMPOSITION_VIEWER_SAMPLE__SINGLECOMPOSITIONVIEW_MULTI_OPTIONAL_PROPERTY = eINSTANCE.getSingleCompositionViewerSample_SinglecompositionviewMultiOptionalProperty();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.eef.eefnr.impl.SingleCompositionEditorSampleImpl <em>Single Composition Editor Sample</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.eef.eefnr.impl.SingleCompositionEditorSampleImpl
+		 * @see org.eclipse.emf.eef.eefnr.impl.EefnrPackageImpl#getSingleCompositionEditorSample()
+		 * @generated
+		 */
+		EClass SINGLE_COMPOSITION_EDITOR_SAMPLE = eINSTANCE.getSingleCompositionEditorSample();
+
+		/**
+		 * The meta object literal for the '<em><b>Single Composition Editor Required Property</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SINGLE_COMPOSITION_EDITOR_SAMPLE__SINGLE_COMPOSITION_EDITOR_REQUIRED_PROPERTY = eINSTANCE.getSingleCompositionEditorSample_SingleCompositionEditorRequiredProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Single Composition Editorr Optional Property</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SINGLE_COMPOSITION_EDITOR_SAMPLE__SINGLE_COMPOSITION_EDITORR_OPTIONAL_PROPERTY = eINSTANCE.getSingleCompositionEditorSample_SingleCompositionEditorrOptionalProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Single Composition Editor Required Abstract Property</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SINGLE_COMPOSITION_EDITOR_SAMPLE__SINGLE_COMPOSITION_EDITOR_REQUIRED_ABSTRACT_PROPERTY = eINSTANCE.getSingleCompositionEditorSample_SingleCompositionEditorRequiredAbstractProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Single Composition Editor Optional Abstract Property</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SINGLE_COMPOSITION_EDITOR_SAMPLE__SINGLE_COMPOSITION_EDITOR_OPTIONAL_ABSTRACT_PROPERTY = eINSTANCE.getSingleCompositionEditorSample_SingleCompositionEditorOptionalAbstractProperty();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.eef.eefnr.ENUM_SAMPLE <em>ENUM SAMPLE</em>}' enum.

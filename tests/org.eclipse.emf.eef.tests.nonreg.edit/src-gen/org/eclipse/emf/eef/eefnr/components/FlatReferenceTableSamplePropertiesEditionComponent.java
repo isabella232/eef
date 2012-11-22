@@ -187,7 +187,6 @@ public class FlatReferenceTableSamplePropertiesEditionComponent extends SinglePa
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

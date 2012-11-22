@@ -216,7 +216,6 @@ public class EObjectFlatComboViewerSamplePropertiesEditionComponent extends Sing
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

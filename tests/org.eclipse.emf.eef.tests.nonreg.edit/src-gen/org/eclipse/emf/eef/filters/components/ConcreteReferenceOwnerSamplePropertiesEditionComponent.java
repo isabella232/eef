@@ -264,7 +264,6 @@ public class ConcreteReferenceOwnerSamplePropertiesEditionComponent extends Sing
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

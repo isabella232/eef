@@ -792,7 +792,6 @@ public class OwnerPropertiesEditionComponent extends SinglePartPropertiesEditing
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

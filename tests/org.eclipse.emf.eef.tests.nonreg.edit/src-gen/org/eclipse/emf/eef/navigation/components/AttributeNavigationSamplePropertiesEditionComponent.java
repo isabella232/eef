@@ -244,7 +244,6 @@ public class AttributeNavigationSamplePropertiesEditionComponent extends SingleP
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

@@ -9,6 +9,7 @@ package org.eclipse.emf.eef.eefnr.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+import org.eclipse.emf.eef.eefnr.*;
 import org.eclipse.emf.eef.eefnr.AbstractSample;
 import org.eclipse.emf.eef.eefnr.AbstractTableCompositionTargetExtensionEditorSample;
 import org.eclipse.emf.eef.eefnr.AdvancedEObjectFlatComboViewerSample;
@@ -255,6 +256,13 @@ public class EefnrSwitch<T> extends Switch<T> {
 				SingleCompositionViewerSample singleCompositionViewerSample = (SingleCompositionViewerSample)theEObject;
 				T result = caseSingleCompositionViewerSample(singleCompositionViewerSample);
 				if (result == null) result = caseAbstractSample(singleCompositionViewerSample);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EefnrPackage.SINGLE_COMPOSITION_EDITOR_SAMPLE: {
+				SingleCompositionEditorSample singleCompositionEditorSample = (SingleCompositionEditorSample)theEObject;
+				T result = caseSingleCompositionEditorSample(singleCompositionEditorSample);
+				if (result == null) result = caseAbstractSample(singleCompositionEditorSample);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -619,6 +627,21 @@ public class EefnrSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseSingleCompositionViewerSample(SingleCompositionViewerSample object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Single Composition Editor Sample</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Single Composition Editor Sample</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSingleCompositionEditorSample(SingleCompositionEditorSample object) {
 		return null;
 	}
 

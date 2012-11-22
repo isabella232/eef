@@ -184,7 +184,6 @@ public class DeferedReferencesTableSampleEditorPropertiesEditionComponent extend
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

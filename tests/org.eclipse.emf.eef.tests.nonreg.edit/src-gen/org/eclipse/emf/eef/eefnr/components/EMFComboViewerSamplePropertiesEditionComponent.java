@@ -136,7 +136,6 @@ public class EMFComboViewerSamplePropertiesEditionComponent extends SinglePartPr
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

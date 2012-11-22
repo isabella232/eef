@@ -126,7 +126,6 @@ public class ConcreteReferenceTargetSample1PropertiesEditionComponent extends Si
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

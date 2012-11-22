@@ -17,15 +17,6 @@ import org.eclipse.emf.common.notify.Adapter;
 
 import org.eclipse.emf.eef.eefnr.navigation.util.NavigationAdapterFactory;
 
-import org.eclipse.emf.eef.navigation.providers.AnotherSubtypePropertiesEditionProvider;
-import org.eclipse.emf.eef.navigation.providers.AttributeNavigationSamplePropertiesEditionProvider;
-import org.eclipse.emf.eef.navigation.providers.DeferedFlatReferencesTableSampleEditorPropertiesEditionProvider;
-import org.eclipse.emf.eef.navigation.providers.DeferedReferencesTableSampleEditorPropertiesEditionProvider;
-import org.eclipse.emf.eef.navigation.providers.ElementPropertiesEditionProvider;
-import org.eclipse.emf.eef.navigation.providers.NamedElementPropertiesEditionProvider;
-import org.eclipse.emf.eef.navigation.providers.OwnerPropertiesEditionProvider;
-import org.eclipse.emf.eef.navigation.providers.SubtypePropertiesEditionProvider;
-
 import org.eclipse.emf.eef.references.providers.AbstractSamplePropertiesEditionProvider;
 
 import org.eclipse.emf.eef.runtime.providers.PropertiesEditingProvider;

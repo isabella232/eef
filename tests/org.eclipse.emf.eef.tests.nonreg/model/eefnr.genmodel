@@ -130,6 +130,12 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference eefnr.ecore#//SingleCompositionViewerSample/singlecompositionviewMultiRequiredProperty"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference eefnr.ecore#//SingleCompositionViewerSample/singlecompositionviewMultiOptionalProperty"/>
     </genClasses>
+    <genClasses ecoreClass="eefnr.ecore#//SingleCompositionEditorSample">
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference eefnr.ecore#//SingleCompositionEditorSample/singleCompositionEditorRequiredProperty"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference eefnr.ecore#//SingleCompositionEditorSample/singleCompositionEditorrOptionalProperty"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference eefnr.ecore#//SingleCompositionEditorSample/singleCompositionEditorRequiredAbstractProperty"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference eefnr.ecore#//SingleCompositionEditorSample/singleCompositionEditorOptionalAbstractProperty"/>
+    </genClasses>
     <nestedGenPackages prefix="References" basePackage="org.eclipse.emf.eef.eefnr"
         disposableProviderFactory="true" ecorePackage="eefnr.ecore#//references">
       <genClasses image="false" ecoreClass="eefnr.ecore#//references/AbstractEnabledSample">
@@ -213,8 +219,8 @@
       <genClasses ecoreClass="eefnr.ecore#//filters/ConcreteReferenceTargetSample1"/>
       <genClasses ecoreClass="eefnr.ecore#//filters/ConcreteReferenceTargetSample2"/>
     </nestedGenPackages>
-    <nestedGenPackages prefix="CustomNaming" basePackage="org.eclipse.emf.eef.eefnr" disposableProviderFactory="true"
-        ecorePackage="eefnr.ecore#//naming">
+    <nestedGenPackages prefix="CustomNaming" basePackage="org.eclipse.emf.eef.eefnr"
+        disposableProviderFactory="true" ecorePackage="eefnr.ecore#//naming">
       <genClasses ecoreClass="eefnr.ecore#//naming/Event"/>
     </nestedGenPackages>
     <nestedGenPackages prefix="Interface" basePackage="org.eclipse.emf.eef.eefnr"

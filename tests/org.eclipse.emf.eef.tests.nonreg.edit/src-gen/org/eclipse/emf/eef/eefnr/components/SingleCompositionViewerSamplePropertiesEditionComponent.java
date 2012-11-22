@@ -144,7 +144,6 @@ public class SingleCompositionViewerSamplePropertiesEditionComponent extends Sin
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

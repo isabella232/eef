@@ -170,7 +170,6 @@ public class RootPropertiesEditionComponent extends SinglePartPropertiesEditingC
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

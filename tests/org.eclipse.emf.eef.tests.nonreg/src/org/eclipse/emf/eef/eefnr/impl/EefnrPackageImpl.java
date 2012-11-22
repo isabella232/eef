@@ -33,6 +33,7 @@ import org.eclipse.emf.eef.eefnr.ReferencesTableSample;
 import org.eclipse.emf.eef.eefnr.Root;
 import org.eclipse.emf.eef.eefnr.Sample;
 import org.eclipse.emf.eef.eefnr.SelectionDialogSample;
+import org.eclipse.emf.eef.eefnr.SingleCompositionEditorSample;
 import org.eclipse.emf.eef.eefnr.SingleCompositionViewerSample;
 import org.eclipse.emf.eef.eefnr.TableCompositionEditorSample;
 import org.eclipse.emf.eef.eefnr.TableCompositionExtensionEditorSample;
@@ -227,6 +228,13 @@ public class EefnrPackageImpl extends EPackageImpl implements EefnrPackage {
 	 * @generated
 	 */
 	private EClass singleCompositionViewerSampleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass singleCompositionEditorSampleEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1167,6 +1175,51 @@ public class EefnrPackageImpl extends EPackageImpl implements EefnrPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getSingleCompositionEditorSample() {
+		return singleCompositionEditorSampleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSingleCompositionEditorSample_SingleCompositionEditorRequiredProperty() {
+		return (EReference)singleCompositionEditorSampleEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSingleCompositionEditorSample_SingleCompositionEditorrOptionalProperty() {
+		return (EReference)singleCompositionEditorSampleEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSingleCompositionEditorSample_SingleCompositionEditorRequiredAbstractProperty() {
+		return (EReference)singleCompositionEditorSampleEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSingleCompositionEditorSample_SingleCompositionEditorOptionalAbstractProperty() {
+		return (EReference)singleCompositionEditorSampleEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getENUM_SAMPLE() {
 		return enuM_SAMPLEEEnum;
 	}
@@ -1317,6 +1370,12 @@ public class EefnrPackageImpl extends EPackageImpl implements EefnrPackage {
 		createEReference(singleCompositionViewerSampleEClass, SINGLE_COMPOSITION_VIEWER_SAMPLE__SINGLECOMPOSITIONVIEW_MULTI_REQUIRED_PROPERTY);
 		createEReference(singleCompositionViewerSampleEClass, SINGLE_COMPOSITION_VIEWER_SAMPLE__SINGLECOMPOSITIONVIEW_MULTI_OPTIONAL_PROPERTY);
 
+		singleCompositionEditorSampleEClass = createEClass(SINGLE_COMPOSITION_EDITOR_SAMPLE);
+		createEReference(singleCompositionEditorSampleEClass, SINGLE_COMPOSITION_EDITOR_SAMPLE__SINGLE_COMPOSITION_EDITOR_REQUIRED_PROPERTY);
+		createEReference(singleCompositionEditorSampleEClass, SINGLE_COMPOSITION_EDITOR_SAMPLE__SINGLE_COMPOSITION_EDITORR_OPTIONAL_PROPERTY);
+		createEReference(singleCompositionEditorSampleEClass, SINGLE_COMPOSITION_EDITOR_SAMPLE__SINGLE_COMPOSITION_EDITOR_REQUIRED_ABSTRACT_PROPERTY);
+		createEReference(singleCompositionEditorSampleEClass, SINGLE_COMPOSITION_EDITOR_SAMPLE__SINGLE_COMPOSITION_EDITOR_OPTIONAL_ABSTRACT_PROPERTY);
+
 		// Create enums
 		enuM_SAMPLEEEnum = createEEnum(ENUM_SAMPLE);
 	}
@@ -1385,6 +1444,7 @@ public class EefnrPackageImpl extends EPackageImpl implements EefnrPackage {
 		imageViewerSampleEClass.getESuperTypes().add(this.getAbstractSample());
 		selectionDialogSampleEClass.getESuperTypes().add(this.getAbstractSample());
 		singleCompositionViewerSampleEClass.getESuperTypes().add(this.getAbstractSample());
+		singleCompositionEditorSampleEClass.getESuperTypes().add(this.getAbstractSample());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(rootEClass, Root.class, "Root", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1504,6 +1564,12 @@ public class EefnrPackageImpl extends EPackageImpl implements EefnrPackage {
 		initEReference(getSingleCompositionViewerSample_SinglecompositionviewSingleOptionalProperty(), this.getSample(), null, "singlecompositionviewSingleOptionalProperty", null, 0, 1, SingleCompositionViewerSample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSingleCompositionViewerSample_SinglecompositionviewMultiRequiredProperty(), this.getAbstractSample(), null, "singlecompositionviewMultiRequiredProperty", null, 1, 1, SingleCompositionViewerSample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSingleCompositionViewerSample_SinglecompositionviewMultiOptionalProperty(), this.getAbstractSample(), null, "singlecompositionviewMultiOptionalProperty", null, 0, 1, SingleCompositionViewerSample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(singleCompositionEditorSampleEClass, SingleCompositionEditorSample.class, "SingleCompositionEditorSample", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSingleCompositionEditorSample_SingleCompositionEditorRequiredProperty(), this.getTextSample(), null, "singleCompositionEditorRequiredProperty", null, 1, 1, SingleCompositionEditorSample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSingleCompositionEditorSample_SingleCompositionEditorrOptionalProperty(), this.getTextSample(), null, "singleCompositionEditorrOptionalProperty", null, 0, 1, SingleCompositionEditorSample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSingleCompositionEditorSample_SingleCompositionEditorRequiredAbstractProperty(), this.getAbstractSample(), null, "singleCompositionEditorRequiredAbstractProperty", null, 1, 1, SingleCompositionEditorSample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSingleCompositionEditorSample_SingleCompositionEditorOptionalAbstractProperty(), this.getAbstractSample(), null, "singleCompositionEditorOptionalAbstractProperty", null, 0, 1, SingleCompositionEditorSample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(enuM_SAMPLEEEnum, org.eclipse.emf.eef.eefnr.ENUM_SAMPLE.class, "ENUM_SAMPLE");

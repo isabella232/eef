@@ -142,7 +142,6 @@ public class TextareaSamplePropertiesEditionComponent extends SinglePartProperti
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

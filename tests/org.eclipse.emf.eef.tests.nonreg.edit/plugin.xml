@@ -355,6 +355,12 @@
                id="org.eclipse.emf.eef.eefnr.section.SingleCompositionViewerSample"
                tab="Base">
          </propertySection>
+         <propertySection
+               class="org.eclipse.emf.eef.eefnr.parts.forms.SingleCompositionEditorSamplePropertiesEditionPartForm"
+               filter="org.eclipse.emf.eef.eefnr.providers.SingleCompositionEditorSamplePropertiesEditionProvider$EditionFilter"
+               id="org.eclipse.emf.eef.eefnr.section.SingleCompositionEditorSample"
+               tab="Base">
+         </propertySection>
       </propertySections>
    </extension>
 
@@ -529,7 +535,6 @@
             contributorId="org.eclipse.emf.eef.eefnr.properties">
          <propertySection
                class="org.eclipse.emf.eef.eefnr.interface_.parts.forms.SimpleSamplePropertiesEditionPartForm"
-               filter="org.eclipse.emf.eef.interface_.providers.SimpleSamplePropertiesEditionProvider$EditionFilter"
                id="org.eclipse.emf.eef.interface.section.SimpleSample"
                tab="Base">
          </propertySection>
@@ -747,5 +752,38 @@
                tab="AbstractSample">
          </propertySection>
       </propertySections>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.eclipse.emf.eef.tests.nonreg.edit.actionSet"
+            label="Sample Action Set"
+            visible="true">
+         <menu
+               id="sampleMenu"
+               label="Sample &amp;Menu">
+            <separator
+                  name="sampleGroup">
+            </separator>
+         </menu>
+         <!--action
+               class="org.eclipse.emf.eef.tests.nonreg.edit.actions.SampleAction"
+               icon="icons/sample.gif"
+               id="org.eclipse.emf.eef.tests.nonreg.edit.actions.SampleAction"
+               label="&amp;Sample Action"
+               menubarPath="sampleMenu/sampleGroup"
+               toolbarPath="sampleGroup"
+               tooltip="Hello, Eclipse world">
+         </action-->
+         <action
+               class="org.eclipse.emf.eef.tests.nonreg.edit.actions.RemoveSingleCompositionEditorAction"
+               id="org.eclipse.emf.eef.tests.nonreg.edit.actions.RemoveSingleCompositionEditorAction"
+               label="&amp;Remove SingleCompositionEditor Action"
+               menubarPath="sampleMenu/sampleGroup"
+               toolbarPath="sampleGroup"
+               tooltip="Remove SingleCompositionEditor Action">
+         </action>
+      </actionSet>
    </extension>
 </plugin>

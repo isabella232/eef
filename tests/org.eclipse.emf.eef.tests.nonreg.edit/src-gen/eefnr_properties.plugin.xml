@@ -231,6 +231,12 @@
                id="org.eclipse.emf.eef.eefnr.section.SingleCompositionViewerSample"
                tab="Base">
          </propertySection>
+         <propertySection
+               class="org.eclipse.emf.eef.eefnr.parts.forms.SingleCompositionEditorSamplePropertiesEditionPartForm"
+               filter="org.eclipse.emf.eef.eefnr.providers.SingleCompositionEditorSamplePropertiesEditionProvider$EditionFilter"
+               id="org.eclipse.emf.eef.eefnr.section.SingleCompositionEditorSample"
+               tab="Base">
+         </propertySection>
       </propertySections>
    </extension>
  </plugin>

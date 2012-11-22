@@ -145,7 +145,6 @@ public class SelectionDialogSamplePropertiesEditionComponent extends SinglePartP
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

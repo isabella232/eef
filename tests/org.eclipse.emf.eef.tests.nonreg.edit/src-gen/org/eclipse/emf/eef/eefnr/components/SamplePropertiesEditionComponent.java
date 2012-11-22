@@ -144,7 +144,6 @@ public class SamplePropertiesEditionComponent extends SinglePartPropertiesEditin
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 

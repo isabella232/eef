@@ -134,7 +134,6 @@ public class CheckboxSamplePropertiesEditionComponent extends SinglePartProperti
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 
