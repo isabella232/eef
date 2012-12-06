@@ -290,7 +290,7 @@ public abstract class TabElementTreeSelectionDialog extends Dialog implements IP
 			Object[] children = ((ITreeContentProvider)((AbstractTreeViewer)viewer).getContentProvider())
 					.getChildren(element);
 			// apply all filters
-			if (viewerFilters != null && children != null) {
+			if (viewerFilters != null && !viewerFilters.isEmpty() && children != null) {
 				// if one child match, show the parent in tree
 				for (ViewerFilter viewerFilter : viewerFilters) {
 					for (Object child : children) {
