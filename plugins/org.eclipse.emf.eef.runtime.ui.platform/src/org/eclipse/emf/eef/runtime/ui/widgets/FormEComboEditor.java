@@ -5,7 +5,6 @@ package org.eclipse.emf.eef.runtime.ui.widgets;
 
 import java.util.Collection;
 
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -19,6 +18,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.common.collect.Lists;
 
@@ -26,8 +26,9 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EComboEditor extends Viewer {
+public class FormEComboEditor extends Viewer {
 	
+	private FormToolkit toolkit;
 	private Composite control;
 	private Text text;
 	private Button setButton;
@@ -40,24 +41,27 @@ public class EComboEditor extends Viewer {
 	
 	private boolean locked;
 
-	public EComboEditor(Composite parent, int styles) {
+	public FormEComboEditor(FormToolkit toolkit, Composite parent, int styles) {
+		this.toolkit = toolkit;
 		buildComposite(parent, styles);
 	}
 
 	protected void buildComposite(Composite parent, int styles) {
-		control = new Composite(parent, SWT.NONE);
+		control = toolkit.createComposite(parent);
 		GridLayout layout = new GridLayout(3, false);
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		layout.marginLeft = 1;
 		control.setLayout(layout);
-		text = new Text(control, SWT.BORDER | styles);
+		text = toolkit.createText(control, "", SWT.NONE);
+		text.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
+		toolkit.paintBordersFor(control);
 		text.setEditable(false);
 		GridData textData = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(textData);
 		GridData buttonData = new GridData();
 		buttonData.verticalAlignment = SWT.UP;
-		setButton = new Button(control, SWT.PUSH);
+		setButton = toolkit.createButton(control, "", SWT.PUSH);
 		setButton.setText("...");
 		setButton.setLayoutData(buttonData);
 		setButton.addSelectionListener(new SelectionAdapter() {
@@ -73,7 +77,11 @@ public class EComboEditor extends Viewer {
 			}
 			
 		});
-		clearButton = new Button(control, SWT.PUSH);
+		if (toolkit != null) {
+			clearButton = toolkit.createButton(control, "", SWT.PUSH);
+		} else {
+			clearButton = new Button(control, SWT.PUSH);
+		}
 		clearButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Delete"));
 		clearButton.setLayoutData(buttonData);
 		clearButton.addSelectionListener(new SelectionAdapter() {

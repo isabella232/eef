@@ -19,6 +19,7 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
  org.eclipse.emf.eef.runtime.ui.internal.services.view;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.internal.view.impl;x-friends:="org.eclipse.emf.eef.runtime.tabbed,org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.internal.view.util;x-friends:="org.eclipse.emf.eef.runtime.tabbed",
+ org.eclipse.emf.eef.runtime.ui.internal.widgets.util;x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
  org.eclipse.emf.eef.runtime.ui.notify;
   uses:="org.eclipse.emf.eef.runtime.context,
    org.eclipse.jface.viewers,
@@ -102,6 +103,7 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl,
    org.eclipse.swt.widgets,
    org.eclipse.ui.forms.widgets",
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.editor;x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
  org.eclipse.emf.eef.runtime.ui.viewer;
   uses:="org.eclipse.emf.eef.runtime.notify,
    org.eclipse.emf.eef.runtime.context,
@@ -204,9 +206,5 @@ Import-Package: com.google.common.base;version="10.0.1",
  org.eclipse.swt.graphics,
  org.eclipse.swt.layout,
  org.eclipse.swt.widgets,
- org.eclipse.ui,
- org.eclipse.ui.contentassist,
- org.eclipse.ui.forms.widgets,
- org.eclipse.ui.views.properties,
  org.osgi.framework;version="1.5.0",
  org.osgi.service.event;version="1.2.0"

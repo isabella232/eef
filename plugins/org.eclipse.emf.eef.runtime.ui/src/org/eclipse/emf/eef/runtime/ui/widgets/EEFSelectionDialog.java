@@ -6,7 +6,6 @@ package org.eclipse.emf.eef.runtime.ui.widgets;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
@@ -154,13 +153,14 @@ public class EEFSelectionDialog extends Dialog {
 
 	/**
 	 * @return the contentProvider
+	 * TODO: need a real improvement
 	 */
 	public IContentProvider getContentProvider() {
 		if (contentProvider == null) {
 			if (adapterFactory == null) {
 				adapterFactory = EEFRuntimeUI.getPlugin().getRegistryAdapterFactory();
 			}
-			contentProvider = new AdapterFactoryContentProvider(adapterFactory);
+//			contentProvider = new AdapterFactoryContentProvider(adapterFactory);
 		}
 		return contentProvider;
 	}

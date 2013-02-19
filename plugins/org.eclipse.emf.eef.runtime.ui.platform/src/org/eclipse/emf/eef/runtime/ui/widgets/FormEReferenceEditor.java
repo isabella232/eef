@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.internal.widgets.util.NullContentProvider;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -35,6 +34,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.common.collect.Lists;
 
@@ -42,11 +42,12 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceEditor extends StructuredViewer {
+public class FormEReferenceEditor extends StructuredViewer {
 
 	private int lowerBound = 0;
 	private int upperBound = -1;
 	
+	private FormToolkit toolkit;
 	private Composite control;
 	private TreeViewer tree;
 	private Collection<ReferenceEditorListener> listeners;
@@ -57,16 +58,13 @@ public class EReferenceEditor extends StructuredViewer {
 	
 	private boolean locked;
 	
-	/**
-	 * @param parent
-	 * @param style
-	 */
-	public EReferenceEditor(Composite parent, int style) {
+	public FormEReferenceEditor(FormToolkit toolkit, Composite parent, int style) {
+		this.toolkit = toolkit;
 		buildComposite(parent, style);
 	}
 
 	protected void buildComposite(Composite parent, int style) {
-		control = new Composite(parent, SWT.NONE);
+		control = toolkit.createComposite(parent);
 		GridLayout layout = new GridLayout(2, false);
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
@@ -78,7 +76,7 @@ public class EReferenceEditor extends StructuredViewer {
 				updateButtons();
 			}
 		});
-		addButton = new Button(control, SWT.PUSH);
+		addButton = toolkit.createButton(control, "", SWT.PUSH);			
 		GridData buttonData = new GridData();
 		buttonData.verticalAlignment = SWT.UP;
 		addButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Add"));
@@ -97,14 +95,14 @@ public class EReferenceEditor extends StructuredViewer {
 
 		});
 
-		removeButton = new Button(control, SWT.PUSH);
+		removeButton = toolkit.createButton(control, "", SWT.PUSH);
 		removeButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Delete"));
 		removeButton.setLayoutData(buttonData);
 		removeButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.FormEReferenceEditor.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
 			 */
 			public void fireSingleSelection(Object selection) {
 				for (ReferenceEditorListener listener : listeners) {
@@ -114,7 +112,7 @@ public class EReferenceEditor extends StructuredViewer {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorSelectionAdapter#fireMultiSelection(java.util.List)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.FormEReferenceEditor.ReferenceEditorSelectionAdapter#fireMultiSelection(java.util.List)
 			 */
 			protected void fireMultiSelection(List<?> selection) {
 				for (ReferenceEditorListener listener : listeners) {
@@ -125,14 +123,14 @@ public class EReferenceEditor extends StructuredViewer {
 
 		});
 
-		upButton = new Button(control, SWT.PUSH);
+		upButton = toolkit.createButton(control, "", SWT.PUSH);
 		upButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ArrowUp"));
 		upButton.setLayoutData(buttonData);
 		upButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.FormEReferenceEditor.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
 			 */
 			public void fireSingleSelection(Object selection) {
 				for (ReferenceEditorListener listener : listeners) {
@@ -141,14 +139,14 @@ public class EReferenceEditor extends StructuredViewer {
 			}
 		});
 
-		downButton = new Button(control, SWT.PUSH);
+		downButton = toolkit.createButton(control, "", SWT.PUSH);
 		downButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ArrowDown"));
 		downButton.setLayoutData(buttonData);
 		downButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.FormEReferenceEditor.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
 			 */
 			public void fireSingleSelection(Object selection) {
 				for (ReferenceEditorListener listener : listeners) {

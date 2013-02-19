@@ -20,6 +20,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.common.collect.Lists;
 
@@ -27,8 +28,9 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ERadioEditor extends Viewer {
+public class FormERadioEditor extends Viewer {
 
+	private FormToolkit toolkit;
 	private Composite control;
 	private List<Button> radio;
 	private Button selection;
@@ -38,12 +40,13 @@ public class ERadioEditor extends Viewer {
 	
 	private Object input;
 
-	public ERadioEditor(Composite parent, int styles) {
+	public FormERadioEditor(FormToolkit toolkit, Composite parent, int styles) {
+		this.toolkit = toolkit;
 		buildComposite(parent, styles);
 	}
 	
 	private void buildComposite(Composite parent, int styles) {
-		control = new Composite(parent, SWT.NONE);
+		control = toolkit.createComposite(parent);
 		GridLayout layout = new GridLayout(1, false);
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
@@ -115,8 +118,7 @@ public class ERadioEditor extends Viewer {
 		for (Object object : elements) {
 			Button button;
 			String text = labelProvider != null?labelProvider.getText(object):object.toString();
-			button = new Button(control, SWT.RADIO);
-			button.setText(text);
+			button = toolkit.createButton(control, text, SWT.RADIO);
 			button.setData(object);
 			button.addSelectionListener(getSelectionListener());
 			radio.add(button);
@@ -136,7 +138,7 @@ public class ERadioEditor extends Viewer {
 			 */
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				fireSelectionChanged(new SelectionChangedEvent(ERadioEditor.this, new StructuredSelection(e.widget.getData())));
+				fireSelectionChanged(new SelectionChangedEvent(FormERadioEditor.this, new StructuredSelection(e.widget.getData())));
 				selection = (Button) e.item;
 			}
 			
