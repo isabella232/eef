@@ -52,7 +52,7 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.emf.eef.runtime.binding,
    org.eclipse.swt.widgets,
    org.eclipse.ui.forms.widgets",
- org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;x-friends:="org.eclipse.emf.eef.runtime.tests,org.eclipse.emf.eef.runtime.ui.platform",
+ org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;x-friends:="org.eclipse.emf.eef.runtime.tests,org.eclipse.emf.eef.runtime.tabbed,org.eclipse.emf.eef.runtime.ui.platform",
  org.eclipse.emf.eef.runtime.ui.view.handlers.reflect;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.view.handlers.swt;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.view.lock;x-friends:="org.eclipse.emf.eef.runtime.tests",
