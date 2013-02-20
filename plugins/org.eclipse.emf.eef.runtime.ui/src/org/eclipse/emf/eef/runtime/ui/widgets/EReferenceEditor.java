@@ -44,6 +44,9 @@ import com.google.common.collect.Lists;
  */
 public class EReferenceEditor extends StructuredViewer {
 
+	private Composite parent;
+	private int style;
+	
 	private int lowerBound = 0;
 	private int upperBound = -1;
 	
@@ -62,11 +65,13 @@ public class EReferenceEditor extends StructuredViewer {
 	 * @param style
 	 */
 	public EReferenceEditor(Composite parent, int style) {
-		buildComposite(parent, style);
+		this.parent = parent;
+		this.style = style;
 	}
 
-	protected void buildComposite(Composite parent, int style) {
-		control = new Composite(parent, SWT.NONE);
+
+	public void createContents() {
+		control = createControlComposite(parent);
 		GridLayout layout = new GridLayout(2, false);
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
@@ -78,7 +83,7 @@ public class EReferenceEditor extends StructuredViewer {
 				updateButtons();
 			}
 		});
-		addButton = new Button(control, SWT.PUSH);
+		addButton = createButton(control);
 		GridData buttonData = new GridData();
 		buttonData.verticalAlignment = SWT.UP;
 		addButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Add"));
@@ -97,7 +102,7 @@ public class EReferenceEditor extends StructuredViewer {
 
 		});
 
-		removeButton = new Button(control, SWT.PUSH);
+		removeButton = createButton(control);
 		removeButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Delete"));
 		removeButton.setLayoutData(buttonData);
 		removeButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
@@ -125,7 +130,7 @@ public class EReferenceEditor extends StructuredViewer {
 
 		});
 
-		upButton = new Button(control, SWT.PUSH);
+		upButton = createButton(control);
 		upButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ArrowUp"));
 		upButton.setLayoutData(buttonData);
 		upButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
@@ -141,7 +146,7 @@ public class EReferenceEditor extends StructuredViewer {
 			}
 		});
 
-		downButton = new Button(control, SWT.PUSH);
+		downButton = createButton(control);
 		downButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ArrowDown"));
 		downButton.setLayoutData(buttonData);
 		downButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
@@ -162,7 +167,22 @@ public class EReferenceEditor extends StructuredViewer {
 		tree.getControl().setLayoutData(treeData);
 		listeners = Lists.newArrayList();
 	}
+
+	/**
+	 * @param parent
+	 * @return
+	 */
+	protected Composite createControlComposite(Composite parent) {
+		return new Composite(parent, SWT.NONE);
+	}
 	
+	/**
+	 * @return
+	 */
+	protected Button createButton(Composite control) {
+		return new Button(control, SWT.PUSH);
+	}
+
 	protected void buildAdditionnalActionControls(Composite parent) {
 		//Do nothing.
 	}

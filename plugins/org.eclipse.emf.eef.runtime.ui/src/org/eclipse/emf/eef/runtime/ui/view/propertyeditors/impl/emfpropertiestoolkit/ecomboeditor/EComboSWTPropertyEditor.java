@@ -43,6 +43,7 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<EComboEdi
 	@Override
 	protected void createEditorContents(Composite parent) {
 		eComboEditor = new EComboEditor(parent, SWT.BORDER);
+		eComboEditor.createContents();
 		eComboEditor.setLabelProvider(new AdapterFactoryLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory()));
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		eComboEditor.setLayoutData(layoutData);

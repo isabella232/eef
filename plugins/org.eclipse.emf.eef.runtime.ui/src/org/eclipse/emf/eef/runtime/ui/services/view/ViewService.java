@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.services.view;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -24,8 +25,6 @@ import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -69,24 +68,20 @@ public interface ViewService extends EEFService<View> {
 
 	/**
 	 * Instantiates a new label to display the given feature.
-	 * @param toolkit a {@link FormToolkit} to use in Eclipse Form Style. This parameter can be null.
 	 * @param parent label container.
 	 * @param editor feature to display.
 	 * @param alternate alternative text.
 	 * @return created label.
 	 */
-	Label createLabel(FormToolkit toolkit, Composite parent, Object editor, String alternate);
+	Label createLabel(Composite parent, Object editor, String alternate);
 	
 	/**
 	 * Instantiates a help button for the given feature.
-	 * @param toolkit a {@link FormToolkit} to use in Eclipse Form Style. This parameter can be null.
 	 * @param parent button container.
 	 * @param editor feature to process.
-	 * @param alternate alternative text.
-	 * @param helpID help ID
 	 * @return created control.
 	 */
-	Control createHelpButton(FormToolkit toolkit, final Composite parent, Object editor);
+	Control createHelpButton(final Composite parent, Object editor);
 
 	/**
 	 * Returns documentation about the feature binded to the given editor. There is two strategies for getting this documentation:
@@ -141,11 +136,11 @@ public interface ViewService extends EEFService<View> {
 	Object getBestInput(Object sourceInput);
 
 	/**
-	 * Searches the editingDomain for the given WorkbenchPart.
-	 * @param part {@link IWorkbenchPart} editing the EObject.
+	 * Searches the editingDomain for the given {@link IAdaptable}.
+	 * @param part {@link IAdaptable} editing an EObject.
 	 * @return {@link EditingDomain} to use to edit the current {@link EObject}.
 	 */
-	EditingDomain getEditingDomain(IWorkbenchPart part);
+	EditingDomain getEditingDomain(IAdaptable part);
 	
 	/**
 	 * Executes the given job in the best Thread UI in a synchronous way.

@@ -29,6 +29,8 @@ import com.google.common.collect.Lists;
  */
 public class ERadioEditor extends Viewer {
 
+	private Composite parent;
+
 	private Composite control;
 	private List<Button> radio;
 	private Button selection;
@@ -39,17 +41,27 @@ public class ERadioEditor extends Viewer {
 	private Object input;
 
 	public ERadioEditor(Composite parent, int styles) {
-		buildComposite(parent, styles);
+		this.parent = parent;
 	}
 	
-	private void buildComposite(Composite parent, int styles) {
-		control = new Composite(parent, SWT.NONE);
+	public void createContents() {
+		control = createControlComposite(parent);
 		GridLayout layout = new GridLayout(1, false);
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		layout.marginLeft = 1;
 		control.setLayout(layout);
 		radio = Lists.newArrayList();
+	}
+
+	protected Composite createControlComposite(Composite parent) {
+		return  new Composite(parent, SWT.NONE);
+	}
+
+	protected Button createRadioButton(Composite control, String text) {
+		Button button = new Button(control, SWT.RADIO);
+		button.setText(text);
+		return button;
 	}
 
 	/**
@@ -113,10 +125,8 @@ public class ERadioEditor extends Viewer {
 		clear();
 		Object[] elements = contentProvider.getElements(getInput());
 		for (Object object : elements) {
-			Button button;
 			String text = labelProvider != null?labelProvider.getText(object):object.toString();
-			button = new Button(control, SWT.RADIO);
-			button.setText(text);
+			Button button = createRadioButton(control, text);
 			button.setData(object);
 			button.addSelectionListener(getSelectionListener());
 			radio.add(button);

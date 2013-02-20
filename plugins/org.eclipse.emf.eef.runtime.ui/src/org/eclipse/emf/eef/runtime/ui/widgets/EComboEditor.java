@@ -28,6 +28,9 @@ import com.google.common.collect.Lists;
  */
 public class EComboEditor extends Viewer {
 	
+	private Composite parent;
+	private int styles;
+
 	private Composite control;
 	private Text text;
 	private Button setButton;
@@ -41,24 +44,24 @@ public class EComboEditor extends Viewer {
 	private boolean locked;
 
 	public EComboEditor(Composite parent, int styles) {
-		buildComposite(parent, styles);
+		this.parent = parent;
+		this.styles = styles;
 	}
 
-	protected void buildComposite(Composite parent, int styles) {
-		control = new Composite(parent, SWT.NONE);
+	public void createContents() {
+		control = createControlComposite(parent);
 		GridLayout layout = new GridLayout(3, false);
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		layout.marginLeft = 1;
 		control.setLayout(layout);
-		text = new Text(control, SWT.BORDER | styles);
+		text = createText(control, styles);
 		text.setEditable(false);
 		GridData textData = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(textData);
 		GridData buttonData = new GridData();
 		buttonData.verticalAlignment = SWT.UP;
-		setButton = new Button(control, SWT.PUSH);
-		setButton.setText("...");
+		setButton = createSetButton(control);
 		setButton.setLayoutData(buttonData);
 		setButton.addSelectionListener(new SelectionAdapter() {
 
@@ -73,7 +76,7 @@ public class EComboEditor extends Viewer {
 			}
 			
 		});
-		clearButton = new Button(control, SWT.PUSH);
+		clearButton = createClearButton(control);
 		clearButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Delete"));
 		clearButton.setLayoutData(buttonData);
 		clearButton.addSelectionListener(new SelectionAdapter() {
@@ -93,6 +96,27 @@ public class EComboEditor extends Viewer {
 		listeners = Lists.newArrayList();
 	}
 	
+	protected Composite createControlComposite(Composite parent) {
+		return new Composite(parent, SWT.NONE);
+	}
+
+	protected Text createText(Composite control, int styles) {
+		return new Text(control, SWT.BORDER | styles);
+	}
+	
+	protected Button createSetButton(Composite control) {
+		Button result = new Button(control, SWT.PUSH);
+		result.setText("...");
+		return result;
+	}
+	
+	protected Button createClearButton(Composite control) {
+//		if (toolkit != null) {
+//			clearButton = toolkit.createButton(control, "", SWT.PUSH);
+//		}
+		return new Button(control, SWT.PUSH);
+	}
+
 	/**
 	 * Defines the {@link ILabelProvider} to use in this viewer.
 	 * @param provider the LabelProvider to use.

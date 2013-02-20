@@ -16,8 +16,9 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
  org.eclipse.emf.eef.runtime.ui.adapters;uses:="org.eclipse.emf.ecore",
  org.eclipse.emf.eef.runtime.ui.commands;uses:="org.eclipse.emf.eef.runtime.context,org.eclipse.emf.common.command",
  org.eclipse.emf.eef.runtime.ui.internal.resources;x-friends:="org.eclipse.emf.eef.runtime.editor",
- org.eclipse.emf.eef.runtime.ui.internal.services.view;x-friends:="org.eclipse.emf.eef.runtime.tests",
- org.eclipse.emf.eef.runtime.ui.internal.view.impl;x-friends:="org.eclipse.emf.eef.runtime.tabbed,org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util;x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
+ org.eclipse.emf.eef.runtime.ui.internal.services.view;x-friends:="org.eclipse.emf.eef.runtime.tests,org.eclipse.emf.eef.runtime.ui.platform",
+ org.eclipse.emf.eef.runtime.ui.internal.view.impl;x-friends:="org.eclipse.emf.eef.runtime.tabbed,org.eclipse.emf.eef.runtime.tests,org.eclipse.emf.eef.runtime.ui.platform",
  org.eclipse.emf.eef.runtime.ui.internal.view.util;x-friends:="org.eclipse.emf.eef.runtime.tabbed",
  org.eclipse.emf.eef.runtime.ui.internal.widgets.util;x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
  org.eclipse.emf.eef.runtime.ui.notify;
@@ -51,7 +52,7 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.emf.eef.runtime.binding,
    org.eclipse.swt.widgets,
    org.eclipse.ui.forms.widgets",
- org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;x-friends:="org.eclipse.emf.eef.runtime.tests,org.eclipse.emf.eef.runtime.tabbed",
+ org.eclipse.emf.eef.runtime.ui.view.handlers.editingview;x-friends:="org.eclipse.emf.eef.runtime.tests,org.eclipse.emf.eef.runtime.ui.platform",
  org.eclipse.emf.eef.runtime.ui.view.handlers.reflect;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.view.handlers.swt;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.view.lock;x-friends:="org.eclipse.emf.eef.runtime.tests",
@@ -70,7 +71,9 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.swt.widgets,
    org.eclipse.ui.forms.widgets",
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit;uses:="org.eclipse.emf.eef.views.toolkits,org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl",
- org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor;
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor;x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor;x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor;x-friends:="org.eclipse.emf.eef.runtime.ui.platform";
   uses:="org.eclipse.emf.ecore,
    org.eclipse.emf.eef.runtime.ui.services.propertyeditors,
    org.eclipse.emf.eef.runtime.ui.view,
@@ -93,6 +96,8 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util,
    org.eclipse.swt.widgets,
    org.eclipse.ui.forms.widgets",
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.group;x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.hbox;x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.text;
   uses:="org.eclipse.emf.eef.runtime.ui.services.propertyeditors,
    org.eclipse.emf.ecore,
@@ -103,6 +108,7 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl,
    org.eclipse.swt.widgets,
    org.eclipse.ui.forms.widgets",
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined;x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.editor;x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
  org.eclipse.emf.eef.runtime.ui.viewer;
   uses:="org.eclipse.emf.eef.runtime.notify,

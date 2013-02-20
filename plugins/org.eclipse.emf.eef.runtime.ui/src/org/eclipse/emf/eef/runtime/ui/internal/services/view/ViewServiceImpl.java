@@ -11,6 +11,7 @@
 
 package org.eclipse.emf.eef.runtime.ui.internal.services.view;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -36,16 +37,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  */
 public class ViewServiceImpl extends AbstractEEFService<View> implements ViewService, DefaultService {
 		
-	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+	protected static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	/**
 	 * Image registry key for help image (value <code>"dialog_help_image"</code> ).
@@ -85,20 +83,16 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService.ViewHelper#createLabel(org.eclipse.swt.widgets.Composite, java.lang.Object, java.lang.String)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#createLabel(org.eclipse.swt.widgets.Composite, java.lang.Object, java.lang.String)
 	 */
-	public Label createLabel(FormToolkit toolkit, Composite parent, Object editor, String alternate) {
+	public Label createLabel(Composite parent, Object editor, String alternate) {
 		String text = getDescription(editor, alternate);
 		if (!text.endsWith(": ") && !text.endsWith(":")) {
 			text += ": ";
 		}
 		Label label;
-		if (toolkit != null) {
-			label = toolkit.createLabel(parent, text);
-		} else {
-			label = new Label(parent, SWT.NONE);
-			label.setText(text);
-		}
+		label = new Label(parent, SWT.NONE);
+		label.setText(text);
 		EStructuralFeature associatedFeature = feature(editor);
 		if (associatedFeature != null && associatedFeature.isRequired()) {
 			label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
@@ -127,9 +121,9 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService.ViewHelper#createHelpButton(org.eclipse.swt.widgets.Composite, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#createHelpButton(org.eclipse.swt.widgets.Composite, java.lang.Object)
 	 */
-	public Control createHelpButton(FormToolkit toolkit, Composite parent, Object editor ) {
+	public Control createHelpButton(Composite parent, Object editor ) {
 		//To manage in future
 //		String helpID = null;
 		String alternate = getHelpContent(editor);
@@ -144,12 +138,7 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 //				item.setToolTipText(alternate);
 //			return result;
 //		} else {
-			Label result = null; 
-			if (toolkit != null) {
-				result = toolkit.createLabel(parent, EMPTY_STRING); //$NON-NLS-1$
-			} else {
-				result = new Label(parent, SWT.NONE);
-			}
+			Label result = new Label(parent, SWT.NONE);
 			if (alternate != null && !EMPTY_STRING.equals(alternate)) { //$NON-NLS-1$
 				result.setImage(image);
 				result.setToolTipText(alternate);
@@ -203,7 +192,7 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 	 * @param editor
 	 * @return
 	 */
-	private EStructuralFeature feature(Object editor) {
+	protected EStructuralFeature feature(Object editor) {
 		return editingComponent.getBinding().feature(editor, editingComponent.getEditingContext().getOptions().autowire());
 	}
 
@@ -265,7 +254,7 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#getEditingDomain(org.eclipse.ui.IWorkbenchPart)
 	 */
-	public EditingDomain getEditingDomain(IWorkbenchPart part) {
+	public EditingDomain getEditingDomain(IAdaptable part) {
 		EditingDomain editingDomain = null;
 		if (part instanceof IEditingDomainProvider) {
 			editingDomain = ((IEditingDomainProvider)part).getEditingDomain();
@@ -284,11 +273,7 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#executeSyncUIRunnable(java.lang.Runnable)
 	 */
 	public void executeSyncUIRunnable(Runnable job) {
-		if (null == Display.getCurrent()) {
-			PlatformUI.getWorkbench().getDisplay().syncExec(job);
-		} else {
-			Display.getCurrent().syncExec(job);
-		}
+		Display.getCurrent().syncExec(job);
 	}
 
 	/**
@@ -296,11 +281,7 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#executeAsyncUIRunnable(java.lang.Runnable)
 	 */
 	public void executeAsyncUIRunnable(Runnable job) {
-		if (null == Display.getCurrent()) {
-			PlatformUI.getWorkbench().getDisplay().asyncExec(job);
-		} else {
-			Display.getCurrent().asyncExec(job);
-		}
+		Display.getCurrent().asyncExec(job);
 	}
 
 }

@@ -43,7 +43,7 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<EReferen
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(final Composite parent) {
-		view.getViewService().createLabel(null, parent, elementEditor, elementEditor.getName());
+		view.getViewService().createLabel(parent, elementEditor, elementEditor.getName());
 		eReferenceEditor = new EReferenceEditor(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) {
 
 			/**
@@ -52,10 +52,11 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<EReferen
 			 */
 			@Override
 			protected void buildAdditionnalActionControls(Composite parent) {
-				view.getViewService().createHelpButton(null, parent, elementEditor);
+				view.getViewService().createHelpButton(parent, elementEditor);
 			}
 			
 		};
+		eReferenceEditor.createContents();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.heightHint = view.getViewSettings().getMultiEditorHeight();
 		layoutData.horizontalSpan = 2;
