@@ -1,7 +1,7 @@
+package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit;
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit;
 
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorProvider;

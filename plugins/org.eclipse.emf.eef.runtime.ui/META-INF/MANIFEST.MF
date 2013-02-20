@@ -70,7 +70,7 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util,
    org.eclipse.swt.widgets,
    org.eclipse.ui.forms.widgets",
- org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit;uses:="org.eclipse.emf.eef.views.toolkits,org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl",
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit;uses:="org.eclipse.emf.eef.views.toolkits,org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl";x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor;x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor;x-friends:="org.eclipse.emf.eef.runtime.ui.platform",
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor;x-friends:="org.eclipse.emf.eef.runtime.ui.platform";
