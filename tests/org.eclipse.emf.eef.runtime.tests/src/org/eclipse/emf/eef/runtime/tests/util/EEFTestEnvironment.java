@@ -49,16 +49,16 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
-import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl;
+import org.eclipse.emf.eef.runtime.ui.platform.internal.services.view.PlatformAwareViewServiceImpl;
+import org.eclipse.emf.eef.runtime.ui.platform.view.handlers.editingview.PlatformAwarePropertiesEditingViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesPlatformAwareToolkit;
+import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.SWTPlatformAwareToolkit;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
-import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.lock.EditingViewLockManager;
 import org.eclipse.emf.eef.runtime.ui.view.notify.EditingViewNotifier;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
@@ -587,7 +587,7 @@ public class EEFTestEnvironment {
 
 		public Collection<EEFServiceDescriptor<ViewService>> createViewServices() {
 			Collection<EEFServiceDescriptor<ViewService>> result = new ArrayList<EEFServiceDescriptor<ViewService>>();
-			result.add(new EEFServiceDescriptor<ViewService>("viewservice.default", new ViewServiceImpl() {
+			result.add(new EEFServiceDescriptor<ViewService>("viewservice.default", new PlatformAwareViewServiceImpl() {
 		
 				/**
 				 * {@inheritDoc}
@@ -606,7 +606,7 @@ public class EEFTestEnvironment {
 
 		public Collection<EEFServiceDescriptor<ToolkitPropertyEditorProvider>> createEditorProviders() {
 			Collection<EEFServiceDescriptor<ToolkitPropertyEditorProvider>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ToolkitPropertyEditorProvider>>();
-			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorProvider>("toolkitservice.swt", new SWTToolkit() {
+			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorProvider>("toolkitservice.swt", new SWTPlatformAwareToolkit() {
 
 				/**
 				 * {@inheritDoc}
@@ -620,7 +620,7 @@ public class EEFTestEnvironment {
 				}
 
 			}));
-			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorProvider>("toolkitservice.emfproperties", new EMFPropertiesToolkit() {
+			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorProvider>("toolkitservice.emfproperties", new EMFPropertiesPlatformAwareToolkit() {
 
 				/**
 				 * {@inheritDoc}
@@ -698,7 +698,7 @@ public class EEFTestEnvironment {
 
 			}, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
 			result.add(desc);
-			desc = new EEFServiceDescriptor<ViewHandlerProvider>(PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME, new PropertiesEditingViewHandlerProvider() {
+			desc = new EEFServiceDescriptor<ViewHandlerProvider>(PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME, new PlatformAwarePropertiesEditingViewHandlerProvider() {
 
 				/**
 				 * {@inheritDoc}

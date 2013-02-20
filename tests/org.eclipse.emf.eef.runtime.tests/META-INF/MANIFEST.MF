@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.emf.eef.runtime.ui,
  org.eclipse.emf.ecore.xmi,
- org.junit;bundle-version="4.0.0"
+ org.junit;bundle-version="4.0.0",
+ org.eclipse.emf.eef.runtime.ui.platform;bundle-version="2.0.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.emf.codegen.ecore.genmodel,
  org.eclipse.emf.edit.command,
