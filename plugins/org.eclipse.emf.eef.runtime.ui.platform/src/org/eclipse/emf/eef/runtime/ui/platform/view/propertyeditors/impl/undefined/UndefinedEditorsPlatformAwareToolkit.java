@@ -13,9 +13,14 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.Undefi
 public class UndefinedEditorsPlatformAwareToolkit extends UndefinedEditorsToolkit {
 
 	/**
-	 * 
+	 * TODO: Ugly pattern ... need a redesign.
+	 * If we don't clear the editorProviders instanciated by the default constructor, the PlatformAware editorProviders
+	 * aren't use since the editorProvider selection algorithm (method 
+	 *  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider.getPropertyEditor(PropertyEditorContext)) 
+	 *  don't have an ordering system between the different editorProviders.
 	 */
 	public UndefinedEditorsPlatformAwareToolkit() {
+		clearEditorProviders();
 		addPropertyEditorProvider(new UndefinedPlatformAwarePropertyEditorProvider());
 	}
 

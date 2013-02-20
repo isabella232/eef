@@ -63,4 +63,11 @@ public abstract class ToolkitPropertyEditorProvider extends AbstractEEFService<P
 		getModel().getWidgets().add(provider.getModel());
 		return this;
 	}
+	
+	/**
+	 * Clears the widgetProviders list.
+	 */
+	protected final void clearEditorProviders() {
+		widgetProviders.clear();
+	}
 }
