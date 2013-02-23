@@ -10,6 +10,7 @@ import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
+import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor;
 import org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener;
 import org.eclipse.emf.eef.runtime.ui.widgets.EEFSelectionDialog;
@@ -94,6 +95,7 @@ public class EComboPropertyEditor implements PropertyEditor, MonovaluedPropertyE
 					EEFSelectionDialog dialog = new EEFSelectionDialog(propertyEditorViewer.getViewer().getControl().getShell(), true);
 					dialog.setTitle("Choose the element to set to the " + feature.getName() + " reference:");
 					dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
+					dialog.setEditUIProvidersFactory(view.getEditingComponent().getEditingContext().getServiceRegistry().getService(EditUIProvidersFactory.class, this));
 					dialog.addFilter(
 							new ChoiceOfValuesFilter(
 									view.getEditingComponent().getEditingContext().getAdapterFactory(), 

@@ -41,7 +41,7 @@ public class EEFServiceRegistryImpl implements Cloneable, EEFServiceRegistry {
 	 */
 	@SuppressWarnings("unchecked")
 	public final <SERVICETYPE, ANY_SUBTYPE_OF_SERVICETYPE extends SERVICETYPE, ANY_SUBTYPE_OF_SERVICE extends EEFService<SERVICETYPE>> ANY_SUBTYPE_OF_SERVICE getService(Class<? extends ANY_SUBTYPE_OF_SERVICE> type, ANY_SUBTYPE_OF_SERVICETYPE element) {
-		List<EEFService<Object>> availableProviders = Lists.newArrayList();
+		List<EEFService<?>> availableProviders = Lists.newArrayList();
 		@SuppressWarnings("rawtypes")
 		EEFServiceStorage storage = storages.get(type.getName());
 		if (storage != null) {
@@ -97,7 +97,7 @@ public class EEFServiceRegistryImpl implements Cloneable, EEFServiceRegistry {
 				for (String serviceType : service.providedServices()) {
 					EEFServiceStorage storage = storages.get(serviceType);
 					if (storage == null) {
-						storage = new EEFServiceStorage();
+						storage = new EEFServiceStorage(this);
 						storages.put(serviceType, storage);
 					}
 					storage.addService(service);
@@ -251,12 +251,12 @@ public class EEFServiceRegistryImpl implements Cloneable, EEFServiceRegistry {
 	 * @param input list of {@link VHPMetadata} to process.
 	 * @return the {@link VHPMetadata}s with the highest priority.
 	 */
-	private Collection<EEFService<Object>> greatest(Collection<EEFService<Object>> input) {
+	private Collection<EEFService<?>> greatest(Collection<EEFService<?>> input) {
 		if (input.size() == 0 || input.size() == 1) {
 			return input;
 		}
-		List<EEFService<Object>> result = Lists.newArrayList(input);
-		for (EEFService<Object> vhpMetadata : input) {
+		List<EEFService<?>> result = Lists.newArrayList(input);
+		for (EEFService<?> vhpMetadata : input) {
 			result.removeAll(connexity(vhpMetadata));
 		}
 		return result;
@@ -335,15 +335,17 @@ public class EEFServiceRegistryImpl implements Cloneable, EEFServiceRegistry {
 	
 	private static class EEFServiceStorage<T> {
 		
+		private EEFServiceRegistryImpl registry;
 		private List<EEFService<?>> services;
-		private DefaultService defaultService;
+		private List<DefaultService> defaultServices;
 		
 		/**
 		 * 
 		 */
-		public EEFServiceStorage() {
+		public EEFServiceStorage(EEFServiceRegistryImpl registry) {
+			this.registry = registry;
 			this.services = Lists.newArrayList();
-			this.defaultService = null;
+			this.defaultServices = Lists.newArrayList();
 		}
 		
 		/**
@@ -352,8 +354,21 @@ public class EEFServiceRegistryImpl implements Cloneable, EEFServiceRegistry {
 		 */
 		public void addService(EEFService<?> service) {
 			if (service instanceof DefaultService) {
-				//TODO: check that, if a default service is already set, this new service is greatest that this one.
-				defaultService = (DefaultService) service;
+				List<EEFService<?>> services = Lists.newArrayList();
+				for (DefaultService defaultService : defaultServices) {
+					services.add((EEFService<?>) defaultService);
+				}
+				services.add(service);
+				Collection<EEFService<?>> greatest = registry.greatest(services);
+				if (greatest.contains(service)) {
+					defaultServices.add((DefaultService) service);
+				}
+				for (DefaultService defaultService : Lists.newArrayList(defaultServices)) {
+					if (!greatest.contains(defaultService)) {
+						defaultServices.remove(defaultService);
+					}
+				}
+				
 			} else {
 				services.add(service);
 			}
@@ -365,8 +380,8 @@ public class EEFServiceRegistryImpl implements Cloneable, EEFServiceRegistry {
 		 */
 		public void removeService(EEFService<?> service) {
 			services.remove(service);
-			if (defaultService == service) {
-				defaultService = null;
+			if (defaultServices.contains(service)) {
+				defaultServices.remove(service);
 			}
 		}
 		
@@ -382,8 +397,8 @@ public class EEFServiceRegistryImpl implements Cloneable, EEFServiceRegistry {
 					result.add((EEFService<T>) service);
 				}
 			}
-			if (result.size() == 0 && defaultService != null) {
-				result.add((EEFService<T>) defaultService);
+			if (result.size() == 0 && !defaultServices.isEmpty()) {
+				result.add((EEFService<T>) defaultServices.get(0));
 			}
 			return result;
 		}

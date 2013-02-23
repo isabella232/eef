@@ -187,6 +187,7 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 					EEFSelectionDialog dialog = new EEFSelectionDialog(propertyEditorViewer.getViewer().getControl().getShell(), true);
 					dialog.setTitle("Choose the element to add to the " + feature.getName() + " reference:");
 					dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
+					dialog.setEditUIProvidersFactory(view.getEditingComponent().getEditingContext().getServiceRegistry().getService(EditUIProvidersFactory.class, this));
 					dialog.addFilter(
 							new ChoiceOfValuesFilter(
 									view.getEditingComponent().getEditingContext().getAdapterFactory(), 
