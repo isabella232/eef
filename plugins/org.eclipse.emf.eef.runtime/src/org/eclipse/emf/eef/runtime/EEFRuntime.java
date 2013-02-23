@@ -2,8 +2,6 @@ package org.eclipse.emf.eef.runtime;
 
 import java.util.Map;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -58,8 +56,6 @@ public class EEFRuntime extends EMFPlugin {
 	public static class Plugin extends EclipsePlugin {
 
 		private Diagnostician diagnostician;
-//		private EEFServiceRegistryTracker<EMFServiceProvider> emfServiceTracker;
-//		private EEFServiceRegistryTracker<PropertiesEditingProviderRegistry> propertiesEditingProviderRegistryTracker;
 
 		/**
 		 * {@inheritDoc}
@@ -67,10 +63,6 @@ public class EEFRuntime extends EMFPlugin {
 		 */
 		public void start(BundleContext context) throws Exception {
 			super.start(context);
-//			emfServiceTracker = new EEFServiceRegistryTracker<EMFServiceProvider>(context, EMFServiceProvider.class);
-//			emfServiceTracker.open();
-//			propertiesEditingProviderRegistryTracker = new EEFServiceRegistryTracker<PropertiesEditingProviderRegistry>(context, PropertiesEditingProviderRegistry.class);
-//			propertiesEditingProviderRegistryTracker.open();
 		}
 
 		/**
@@ -79,38 +71,8 @@ public class EEFRuntime extends EMFPlugin {
 		 */
 		public void stop(BundleContext context) throws Exception {
 			super.stop(context);
-//			emfServiceTracker.close();
-//			propertiesEditingProviderRegistryTracker.close();
 		}
 		
-		/**
-		 * Returns the {@link EMFService} associated to the given {@link EPackage}.
-		 * @param ePackage filtering {@link EPackage}.
-		 * @return the {@link EMFService} associated to this package.
-		 */
-//		public EMFService getEMFService(EPackage ePackage) {
-//			EMFServiceProvider service = emfServiceTracker.getService();
-//			if (service != null) {
-//				return service.getEMFServiceForPackage(ePackage);
-//			} else {
-//				return null;
-//			}
-//		}
-		
-		/**
-		 * Returns the {@link PropertiesEditingProvider} for the given {@link EPackage}.
-		 * @param ePackage {@link EPackage} to process.
-		 * @return {@link PropertiesEditingProvider} that handle this package.
-		 */
-//		public PropertiesEditingProvider getPropertiesEditingProvider(EPackage ePackage) {
-//			PropertiesEditingProviderRegistry service = propertiesEditingProviderRegistryTracker.getService();
-//			if (service != null) {
-//				return service.getServiceForElement(ePackage);
-//			} else {
-//				return null;
-//			}
-//		}
-
 		/**
 		 * Creates an instance.
 		 * <!-- begin-user-doc -->
@@ -147,23 +109,5 @@ public class EEFRuntime extends EMFPlugin {
 			return diagnostician;
 		}
 		
-		/**
-		 * Log an error in the plugin.
-		 * @param message error message.
-		 * @param e the cause exception.
-		 */
-		public void logError(String message, Exception e) {
-			getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, message, e));
-		}
-
-		/**
-		 * Log a warning in the plugin.
-		 * @param message error message.
-		 * @param e the cause exception.
-		 */
-		public void logWarning(String message, Exception e) {
-			getLog().log(new Status(IStatus.WARNING, PLUGIN_ID, message, e));
-		}
-
 	}
 }
