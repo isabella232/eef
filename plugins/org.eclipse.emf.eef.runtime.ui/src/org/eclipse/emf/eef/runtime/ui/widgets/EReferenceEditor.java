@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.internal.widgets.util.NullContentProvider;
+import org.eclipse.emf.eef.runtime.ui.services.images.ImageManager;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -50,6 +51,8 @@ public class EReferenceEditor extends StructuredViewer {
 	private int lowerBound = 0;
 	private int upperBound = -1;
 	
+	private ImageManager imageManager;
+
 	private Composite control;
 	private TreeViewer tree;
 	private Collection<ReferenceEditorListener> listeners;
@@ -86,7 +89,11 @@ public class EReferenceEditor extends StructuredViewer {
 		addButton = createButton(control);
 		GridData buttonData = new GridData();
 		buttonData.verticalAlignment = SWT.UP;
-		addButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Add"));
+		if (imageManager != null) {
+			addButton.setImage(imageManager.getImage(EEFRuntimeUI.getResourceLocator(), "Add"));
+		} else {
+			addButton.setText("add");			
+		}
 		addButton.setLayoutData(buttonData);
 		addButton.addSelectionListener(new SelectionAdapter() {
 
@@ -103,7 +110,11 @@ public class EReferenceEditor extends StructuredViewer {
 		});
 
 		removeButton = createButton(control);
-		removeButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Delete"));
+		if (imageManager != null) {
+			removeButton.setImage(imageManager.getImage(EEFRuntimeUI.getResourceLocator(), "Delete"));
+		} else {
+			removeButton.setText("del");
+		}
 		removeButton.setLayoutData(buttonData);
 		removeButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
 
@@ -131,7 +142,11 @@ public class EReferenceEditor extends StructuredViewer {
 		});
 
 		upButton = createButton(control);
-		upButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ArrowUp"));
+		if (imageManager != null) {
+			upButton.setImage(imageManager.getImage(EEFRuntimeUI.getResourceLocator(), "ArrowUp"));
+		} else {
+			upButton.setText("up");
+		}
 		upButton.setLayoutData(buttonData);
 		upButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
 
@@ -147,7 +162,11 @@ public class EReferenceEditor extends StructuredViewer {
 		});
 
 		downButton = createButton(control);
-		downButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("ArrowDown"));
+		if (imageManager != null) {
+			downButton.setImage(imageManager.getImage(EEFRuntimeUI.getResourceLocator(), "ArrowDown"));
+		} else {
+			downButton.setText("down");			
+		}
 		downButton.setLayoutData(buttonData);
 		downButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
 
@@ -252,6 +271,14 @@ public class EReferenceEditor extends StructuredViewer {
 	public void setLabelProvider(IBaseLabelProvider labelProvider) {
 		tree.setLabelProvider(labelProvider);
 	}
+
+	/**
+	 * @param imageManager the imageManager to set
+	 */
+	public void setImageManager(ImageManager imageManager) {
+		this.imageManager = imageManager;
+	}
+
 
 	/**
 	 * @see org.eclipse.jface.viewers.StructuredViewer#addDoubleClickListener(org.eclipse.jface.viewers.IDoubleClickListener)

@@ -85,23 +85,6 @@ public class PlatformAwareViewServiceImpl extends ViewServiceImpl implements Pla
 //		}
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#getEditingDomain(org.eclipse.ui.IWorkbenchPart)
-	 */
-//	public EditingDomain getEditingDomain(IWorkbenchPart part) {
-//		EditingDomain editingDomain = null;
-//		if (part instanceof IEditingDomainProvider) {
-//			editingDomain = ((IEditingDomainProvider)part).getEditingDomain();
-//		} else {
-//			if ((part.getAdapter(IEditingDomainProvider.class)) != null) {
-//				editingDomain = ((IEditingDomainProvider)part.getAdapter(IEditingDomainProvider.class)).getEditingDomain();
-//			} else if ((part.getAdapter(EditingDomain.class)) != null) {
-//				editingDomain = (EditingDomain)part.getAdapter(EditingDomain.class);
-//			}
-//		}
-//		return editingDomain;
-//	}
 	
 	/**
 	 * {@inheritDoc}

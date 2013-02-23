@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
@@ -19,6 +18,7 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
+import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.widgets.ERadioEditor;
 import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -211,7 +211,8 @@ public class EEFEditingWizard extends Wizard {
 			control.setLayout(new GridLayout(1, false));
 			radio = new ERadioEditor(control, SWT.NONE);
 			radio.setContentProvide(new ArrayContentProvider());
-			radio.setLabelProvider(new AdapterFactoryLabelProvider(context.getAdapterFactory()));
+			EditUIProvidersFactory providersFactory = context.getServiceRegistry().getService(EditUIProvidersFactory.class, this);
+			radio.setLabelProvider(providersFactory.createLabelProvider(context.getAdapterFactory()));
 			radio.setInput(instanciableTypes);
 			radio.addSelectionChangedListener(new ISelectionChangedListener() {
 				

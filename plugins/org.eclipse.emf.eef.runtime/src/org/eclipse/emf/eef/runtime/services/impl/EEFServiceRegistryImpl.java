@@ -352,6 +352,7 @@ public class EEFServiceRegistryImpl implements Cloneable, EEFServiceRegistry {
 		 */
 		public void addService(EEFService<?> service) {
 			if (service instanceof DefaultService) {
+				//TODO: check that, if a default service is already set, this new service is greatest that this one.
 				defaultService = (DefaultService) service;
 			} else {
 				services.add(service);

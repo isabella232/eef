@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.emfpro
 import org.eclipse.emf.eef.runtime.ui.platform.services.view.PlatformAwareViewService;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.platform.widgets.FormEReferenceEditor;
+import org.eclipse.emf.eef.runtime.ui.services.images.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor;
@@ -19,7 +20,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EEContainmentFormPropertyEditor implements FormPropertyEditor<EReferenceEditor> {
+public class EContainmentFormPropertyEditor implements FormPropertyEditor<EReferenceEditor> {
 
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
@@ -29,7 +30,7 @@ public class EEContainmentFormPropertyEditor implements FormPropertyEditor<ERefe
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EEContainmentFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public EContainmentFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}
@@ -69,6 +70,8 @@ public class EEContainmentFormPropertyEditor implements FormPropertyEditor<ERefe
 			}
 			
 		};
+		ImageManager imageManager = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(ImageManager.class, this);
+		eReferenceEditor.setImageManager(imageManager);
 		eReferenceEditor.createContents();
 		toolkit.adapt((Composite) eReferenceEditor.getControl());
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);

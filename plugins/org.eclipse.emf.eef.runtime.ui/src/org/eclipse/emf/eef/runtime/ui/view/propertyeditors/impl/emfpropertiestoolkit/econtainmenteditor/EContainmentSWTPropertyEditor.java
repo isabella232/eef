@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor;
 
+import org.eclipse.emf.eef.runtime.ui.services.images.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor;
@@ -56,6 +57,8 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<EReferen
 			}
 			
 		};
+		ImageManager imageManager = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(ImageManager.class, this);
+		eReferenceEditor.setImageManager(imageManager);
 		eReferenceEditor.createContents();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.heightHint = view.getViewSettings().getMultiEditorHeight();

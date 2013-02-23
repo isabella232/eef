@@ -6,9 +6,8 @@ package org.eclipse.emf.eef.runtime.ui.widgets;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
+import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -43,6 +42,7 @@ public class EEFSelectionDialog extends Dialog {
 	private Object input;
 	private Object selection;
 	private Collection<ViewerFilter> filters;
+	private EditUIProvidersFactory providersFactory;
 	
 	/**
 	 * @param parent
@@ -150,17 +150,21 @@ public class EEFSelectionDialog extends Dialog {
 	public void setAdapterFactory(AdapterFactory adapterFactory) {
 		this.adapterFactory = adapterFactory;
 	}
+	
+	/**
+	 * @param providersFactory the {@link EditUIProvidersFactory} to use in this dialog.
+	 */
+	public void setEditUIProvidersFactory(EditUIProvidersFactory providersFactory) {
+		this.providersFactory = providersFactory;
+	}
 
 	/**
 	 * @return the contentProvider
 	 * TODO: need a real improvement
 	 */
 	public IContentProvider getContentProvider() {
-		if (contentProvider == null) {
-			if (adapterFactory == null) {
-				adapterFactory = EEFRuntimeUI.getPlugin().getRegistryAdapterFactory();
-			}
-//			contentProvider = new AdapterFactoryContentProvider(adapterFactory);
+		if (contentProvider == null && providersFactory != null) {
+			contentProvider = providersFactory.createContentProvider(adapterFactory);
 		}
 		return contentProvider;
 	}
@@ -177,10 +181,7 @@ public class EEFSelectionDialog extends Dialog {
 	 */
 	public IBaseLabelProvider getLabelProvider() {
 		if (labelProvider == null) {
-			if (adapterFactory == null) {
-				adapterFactory = EEFRuntimeUI.getPlugin().getRegistryAdapterFactory();
-			}
-			labelProvider = new AdapterFactoryLabelProvider(adapterFactory);
+			labelProvider = providersFactory.createLabelProvider(adapterFactory);
 		}
 		return labelProvider;
 	}

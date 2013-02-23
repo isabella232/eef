@@ -3,11 +3,9 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor;
 
-import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
@@ -49,10 +47,6 @@ public class EComboPropertyEditor implements PropertyEditor, MonovaluedPropertyE
 	 */
 	public void init(EStructuralFeature feature) {
 		this.feature = feature;
-		AdapterFactory currentAdapterFactory = view.getEditingComponent().getEditingContext().getAdapterFactory();
-		if (currentAdapterFactory == null) {
-			currentAdapterFactory = EEFRuntimeUI.getPlugin().getRegistryAdapterFactory();
-		}
 		if (view.getEditingComponent().getEObject().eGet(feature) != null) {
 			propertyEditorViewer.getViewer().setInput(view.getEditingComponent().getEObject().eGet(feature));
 		}

@@ -3,9 +3,12 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor;
 
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.ui.services.images.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.StandardSWTPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
@@ -43,8 +46,13 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<EComboEdi
 	@Override
 	protected void createEditorContents(Composite parent) {
 		eComboEditor = new EComboEditor(parent, SWT.BORDER);
+		PropertiesEditingContext editingContext = view.getEditingComponent().getEditingContext();
+		EEFServiceRegistry serviceRegistry = editingContext.getServiceRegistry();
+		EditUIProvidersFactory providersFactory = serviceRegistry.getService(EditUIProvidersFactory.class, this);
+		eComboEditor.setLabelProvider(providersFactory.createLabelProvider(editingContext.getAdapterFactory()));
+		ImageManager imageManager = serviceRegistry.getService(ImageManager.class, this);
+		eComboEditor.setImageManager(imageManager);
 		eComboEditor.createContents();
-		eComboEditor.setLabelProvider(new AdapterFactoryLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory()));
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		eComboEditor.setLayoutData(layoutData);
 	}

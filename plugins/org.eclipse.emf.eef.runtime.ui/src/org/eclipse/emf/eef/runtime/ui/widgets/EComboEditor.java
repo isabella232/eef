@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.widgets;
 import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
+import org.eclipse.emf.eef.runtime.ui.services.images.ImageManager;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -24,10 +25,10 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EComboEditor extends Viewer {
-	
+
 	private Composite parent;
 	private int styles;
 
@@ -35,12 +36,13 @@ public class EComboEditor extends Viewer {
 	private Text text;
 	private Button setButton;
 	private Button clearButton;
-	
+
 	private ILabelProvider labelProvider;
-	
+	private ImageManager imageManager;
+
 	private Object input;
 	private Collection<EComboListener> listeners;
-	
+
 	private boolean locked;
 
 	public EComboEditor(Composite parent, int styles) {
@@ -67,6 +69,7 @@ public class EComboEditor extends Viewer {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 			 */
 			public void widgetSelected(SelectionEvent e) {
@@ -74,15 +77,20 @@ public class EComboEditor extends Viewer {
 					listener.set();
 				}
 			}
-			
+
 		});
 		clearButton = createClearButton(control);
-		clearButton.setImage(EEFRuntimeUI.getPlugin().getRuntimeImage("Delete"));
+		if (imageManager != null) {
+			clearButton.setImage(imageManager.getImage(EEFRuntimeUI.getResourceLocator(), "Delete"));
+		} else {
+			clearButton.setText("del");
+		}
 		clearButton.setLayoutData(buttonData);
 		clearButton.addSelectionListener(new SelectionAdapter() {
-			
+
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 			 */
 			@Override
@@ -95,7 +103,7 @@ public class EComboEditor extends Viewer {
 		});
 		listeners = Lists.newArrayList();
 	}
-	
+
 	protected Composite createControlComposite(Composite parent) {
 		return new Composite(parent, SWT.NONE);
 	}
@@ -103,46 +111,58 @@ public class EComboEditor extends Viewer {
 	protected Text createText(Composite control, int styles) {
 		return new Text(control, SWT.BORDER | styles);
 	}
-	
+
 	protected Button createSetButton(Composite control) {
 		Button result = new Button(control, SWT.PUSH);
 		result.setText("...");
 		return result;
 	}
-	
+
 	protected Button createClearButton(Composite control) {
-//		if (toolkit != null) {
-//			clearButton = toolkit.createButton(control, "", SWT.PUSH);
-//		}
 		return new Button(control, SWT.PUSH);
 	}
 
 	/**
 	 * Defines the {@link ILabelProvider} to use in this viewer.
-	 * @param provider the LabelProvider to use.
+	 * 
+	 * @param provider
+	 *            the LabelProvider to use.
 	 */
 	public void setLabelProvider(ILabelProvider provider) {
 		this.labelProvider = provider;
 	}
-	
+
+	/**
+	 * @param imageManager
+	 *            the imageManager to set
+	 */
+	public void setImageManager(ImageManager imageManager) {
+		this.imageManager = imageManager;
+	}
+
 	/**
 	 * Adds a listener to the current viewer.
-	 * @param listener the {@link EComboListener} to add.
+	 * 
+	 * @param listener
+	 *            the {@link EComboListener} to add.
 	 */
 	public void addEComboListener(EComboListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	/**
 	 * Removes a listener to the current viewer.
-	 * @param listener the {@link EComboListener} to remove.
+	 * 
+	 * @param listener
+	 *            the {@link EComboListener} to remove.
 	 */
 	public void removeEComboListener(EComboListener listener) {
 		listeners.remove(listener);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#getControl()
 	 */
 	@Override
@@ -152,6 +172,7 @@ public class EComboEditor extends Viewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#getInput()
 	 */
 	@Override
@@ -161,6 +182,7 @@ public class EComboEditor extends Viewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#getSelection()
 	 */
 	@Override
@@ -170,6 +192,7 @@ public class EComboEditor extends Viewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#refresh()
 	 */
 	@Override
@@ -188,6 +211,7 @@ public class EComboEditor extends Viewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#setInput(java.lang.Object)
 	 */
 	@Override
@@ -202,18 +226,21 @@ public class EComboEditor extends Viewer {
 	public void setLayoutData(GridData layoutData) {
 		control.setLayoutData(layoutData);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.jface.viewers.Viewer#setSelection(org.eclipse.jface.viewers.ISelection, boolean)
+	 * 
+	 * @see org.eclipse.jface.viewers.Viewer#setSelection(org.eclipse.jface.viewers.ISelection,
+	 *      boolean)
 	 */
 	@Override
 	public void setSelection(ISelection selection, boolean reveal) {
 		// I don't think this method should be called on this viewer.
 	}
-	
+
 	/**
-	 * @param locked the locked to set
+	 * @param locked
+	 *            the locked to set
 	 */
 	public void setLocked(boolean locked) {
 		this.locked = locked;
@@ -231,21 +258,19 @@ public class EComboEditor extends Viewer {
 	private boolean shouldEnableClear(Object input) {
 		return !locked && (input != null);
 	}
-	
 
 	public interface EComboListener {
-		
+
 		/**
 		 * Notifies a "Set" operation.
 		 */
 		void set();
-		
+
 		/**
 		 * Notifies a "Clear" operation.
 		 */
 		void clear();
-		
-	}
 
+	}
 
 }

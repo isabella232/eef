@@ -6,17 +6,15 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiesto
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
+import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor;
 import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener;
 import org.eclipse.emf.eef.runtime.ui.widgets.util.ArrayFeatureContentProvider;
@@ -52,12 +50,9 @@ public class EContainmentPropertyEditor implements PropertyEditor, MultivaluedPr
 	 */
 	public void init(EStructuralFeature feature) {
 		this.feature = feature;
-		AdapterFactory currentAdapterFactory = view.getEditingComponent().getEditingContext().getAdapterFactory();
-		if (currentAdapterFactory == null) {
-			currentAdapterFactory = EEFRuntimeUI.getPlugin().getRegistryAdapterFactory();
-		}
 		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(this.feature));
-		propertyEditorViewer.getViewer().setLabelProvider(new AdapterFactoryLabelProvider(currentAdapterFactory));
+		EditUIProvidersFactory providersFactory = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(EditUIProvidersFactory.class, this);
+		propertyEditorViewer.getViewer().setLabelProvider(providersFactory.createLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory()));
 		propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());
 		propertyEditorViewer.getViewer().setUpperBound(feature.getUpperBound());
 		propertyEditorViewer.getViewer().setInput(view.getEditingComponent().getEObject());

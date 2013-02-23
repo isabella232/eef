@@ -3,11 +3,7 @@ package org.eclipse.emf.eef.runtime.ui;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
-import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
-import org.eclipse.swt.graphics.Image;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -64,8 +60,6 @@ public class EEFRuntimeUI extends EMFPlugin {
 	 */
 	public static class Plugin extends EclipsePlugin {
 
-		private AdapterFactory adapterFactory;
-
 		/**
 		 * Creates an instance.
 		 */
@@ -95,21 +89,5 @@ public class EEFRuntimeUI extends EMFPlugin {
 			getLog().log(new Status(IStatus.WARNING, PLUGIN_ID, message, e));
 		}
 
-		/**
-		 * Return an embedded image of the runtime.
-		 * @param key ID of the image
-		 * @return the associated image.
-		 */
-		public Image getRuntimeImage(String key)  {
-			Object image = getResourceLocator().getImage(key);
-			return ExtendedImageRegistry.getInstance().getImage(image);
-		}
-		
-		public AdapterFactory getRegistryAdapterFactory() {
-			if (adapterFactory == null) {
-				adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-			}
-			return adapterFactory;
-		}
 	}
 }

@@ -23,7 +23,7 @@ public class EContainmentPlatformAwarePropertyEditorProvider extends EContainmen
 	public PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
 		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
-			return new EContainmentPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new EEContainmentFormPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));			
+			return new EContainmentPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new EContainmentFormPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));			
 		} else {
 			return super.getPropertyEditor(editorContext);
 		}
