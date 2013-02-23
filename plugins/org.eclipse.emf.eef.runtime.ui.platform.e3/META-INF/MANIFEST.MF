@@ -8,7 +8,7 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/PlatformAwareViewService.xml,OSGI-INF/PlatformAwarePropertiesEditingViewHandlerProvider.xml,OSGI-INF/SWTPlatformAwareToolkit.xml,OSGI-INF/EMFPropertiesPlatformAwareToolkit.xml,OSGI-INF/UndefinedEditorsPlatformAwareToolkit.xml, OSGI-INF/E3EditUIProvidersFactory.xml, OSGI-INF/E3ImageManager.xml
+Service-Component: OSGI-INF/PlatformAwareViewService.xml,OSGI-INF/PlatformAwarePropertiesEditingViewHandlerProvider.xml,OSGI-INF/SWTPlatformAwareToolkit.xml,OSGI-INF/EMFPropertiesPlatformAwareToolkit.xml,OSGI-INF/UndefinedEditorsPlatformAwareToolkit.xml, OSGI-INF/E3EditUIProvidersFactory.xml, OSGI-INF/E3ImageManager.xml, OSGI-INF/E3EEFLogger.xml
 Import-Package: com.google.common.collect;version="10.0.1",
  org.eclipse.core.commands.common,
  org.eclipse.core.runtime;version="3.4.0",
@@ -24,6 +24,7 @@ Import-Package: com.google.common.collect;version="10.0.1",
  org.eclipse.emf.eef.runtime.notify,
  org.eclipse.emf.eef.runtime.services,
  org.eclipse.emf.eef.runtime.services.impl,
+ org.eclipse.emf.eef.runtime.services.logging,
  org.eclipse.emf.eef.runtime.services.viewhandler,
  org.eclipse.emf.eef.runtime.services.viewhandler.exceptions,
  org.eclipse.emf.eef.runtime.ui,
@@ -64,10 +65,13 @@ Import-Package: com.google.common.collect;version="10.0.1",
  org.eclipse.ui,
  org.eclipse.ui.contentassist,
  org.eclipse.ui.forms.widgets,
+ org.eclipse.ui.plugin,
  org.eclipse.ui.views.properties,
+ org.osgi.framework;version="1.5.0",
  org.osgi.service.component;version="1.1.0"
 Export-Package: org.eclipse.emf.eef.runtime.ui.platform.internal.services.view;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.platform.internal.view.impl;x-friends:="org.eclipse.emf.eef.runtime.tabbed",
  org.eclipse.emf.eef.runtime.ui.platform.view.handlers.editingview;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.emfpropertiestoolkit;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit;x-friends:="org.eclipse.emf.eef.runtime.tests"
+Bundle-Activator: org.eclipse.emf.eef.runtime.ui.platform.E3EEFRuntimeUIPlatformPlugin

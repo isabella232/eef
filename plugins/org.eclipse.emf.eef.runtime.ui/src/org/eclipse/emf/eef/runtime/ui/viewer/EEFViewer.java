@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
+import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
@@ -119,8 +120,8 @@ public class EEFViewer extends ContentViewer {
 		int i = 1;
 		for (ViewHandler<?> handler : viewHandlers) {
 			if (handler instanceof PropertiesEditingViewHandler) {
+				PropertiesEditingViewHandler propertiesEditingViewHandler = (PropertiesEditingViewHandler) handler;
 				try {
-					PropertiesEditingViewHandler propertiesEditingViewHandler = (PropertiesEditingViewHandler) handler;
 					CTabItem item = new CTabItem(folder, SWT.NONE);
 					item.setText(propertiesEditingViewHandler.getViewDescriptor().getName());
 					PropertiesEditingView view = propertiesEditingViewHandler.createView(component, folder);
@@ -128,7 +129,8 @@ public class EEFViewer extends ContentViewer {
 					handler.initView(component);
 					item.setControl(view.getContents());
 				} catch (ViewConstructionException e) {
-					EEFRuntimeUI.getPlugin().getLog().log(new Status(IStatus.ERROR, EEFRuntimeUI.PLUGIN_ID, "An error occured during view creation.", e));
+					EEFLogger logger = handler.getProvider().getServiceRegistry().getService(EEFLogger.class, this);
+					logger.logError(EEFRuntimeUI.PLUGIN_ID, "An error occured during view creation.", e);
 				}
 			} else if (handler instanceof SWTViewHandler) {
 				SWTViewHandler swtViewHandler = (SWTViewHandler)handler;
