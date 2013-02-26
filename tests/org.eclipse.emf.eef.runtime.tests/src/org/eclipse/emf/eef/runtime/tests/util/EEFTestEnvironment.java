@@ -45,20 +45,26 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
+import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.platform.internal.services.view.PlatformAwareViewServiceImpl;
+import org.eclipse.emf.eef.runtime.ui.platform.services.logging.E3EEFLogger;
+import org.eclipse.emf.eef.runtime.ui.platform.services.resources.E3ImageManager;
 import org.eclipse.emf.eef.runtime.ui.platform.view.handlers.editingview.PlatformAwarePropertiesEditingViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesPlatformAwareToolkit;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.SWTPlatformAwareToolkit;
+import org.eclipse.emf.eef.runtime.ui.platform.viewer.E3EditUIProvidersFactory;
+import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.lock.EditingViewLockManager;
 import org.eclipse.emf.eef.runtime.ui.view.notify.EditingViewNotifier;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
@@ -289,7 +295,7 @@ public class EEFTestEnvironment {
 			this.serviceRegistry= serviceRegistry;
 			return this;
 		}
-		
+
 		public Builder setPreloadedService(Class<? extends EEFService<?>> serviceKind, Collection<EEFServiceDescriptor<? extends EEFService<Object>>> descriptors) {
 			preloadedServices.add(serviceKind);
 			eefServices.addAll(descriptors);
@@ -455,7 +461,7 @@ public class EEFTestEnvironment {
 			result.add(eClassView);
 			return result;
 		}
-		
+
 		//TODO: Robustness on widget finding ...
 		public List<View> createEcoreViews(List<Toolkit> toolkits) {
 			List<View> result = new ArrayList<View>();
@@ -562,6 +568,21 @@ public class EEFTestEnvironment {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
 				}
 			}
+			if (!preloadedServices.contains(EditUIProvidersFactory.class)) {
+				for (EEFServiceDescriptor<EditUIProvidersFactory> desc : createProviderFactory()) {
+					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
+				}
+			}
+			if (!preloadedServices.contains(ImageManager.class)) {
+				for (EEFServiceDescriptor<ImageManager> desc : createImageManager()) {
+					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
+				}
+			}
+			if (!preloadedServices.contains(EEFLogger.class)) {
+				for (EEFServiceDescriptor<EEFLogger> desc : createEEFLogger()) {
+					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
+				}
+			}
 			return eefServices;
 		}
 
@@ -588,7 +609,7 @@ public class EEFTestEnvironment {
 		public Collection<EEFServiceDescriptor<ViewService>> createViewServices() {
 			Collection<EEFServiceDescriptor<ViewService>> result = new ArrayList<EEFServiceDescriptor<ViewService>>();
 			result.add(new EEFServiceDescriptor<ViewService>("viewservice.default", new PlatformAwareViewServiceImpl() {
-		
+
 				/**
 				 * {@inheritDoc}
 				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
@@ -599,7 +620,7 @@ public class EEFTestEnvironment {
 					result.add(ViewService.class.getName());
 					return result;
 				}
-		
+
 			}));
 			return result;
 		}
@@ -640,7 +661,7 @@ public class EEFTestEnvironment {
 		public Collection<EEFServiceDescriptor<PropertiesEditingProvider>> createEditingProviders() {
 			Collection<EEFServiceDescriptor<PropertiesEditingProvider>> result = new ArrayList<EEFServiceDescriptor<PropertiesEditingProvider>>();
 			result.add(new EEFServiceDescriptor<PropertiesEditingProvider>("propertieseditingprovider.default", new PropertiesEditingProviderImpl() {
-		
+
 				/**
 				 * {@inheritDoc}
 				 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl#getEditingModel()
@@ -649,7 +670,7 @@ public class EEFTestEnvironment {
 				protected PropertiesEditingModel getEditingModel() {
 					return Builder.this.getEditingModel();
 				}
-		
+
 				/**
 				 * {@inheritDoc}
 				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
@@ -660,12 +681,12 @@ public class EEFTestEnvironment {
 					result.add(PropertiesEditingProvider.class.getName());
 					return result;
 				}
-		
-		
+
+
 			}));
 			return result;
 		}
-		
+
 		public Collection<EEFServiceDescriptor<ViewHandlerProvider>> createVHandlerProviders() {
 			Collection<EEFServiceDescriptor<ViewHandlerProvider>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ViewHandlerProvider>>();
 			EEFServiceDescriptor<ViewHandlerProvider> desc = new EEFServiceDescriptor<ViewHandlerProvider>(REFLECT_VIEW_HANDLER_PROVIDER_NAME, new ReflectViewHandlerProvider() {
@@ -715,7 +736,7 @@ public class EEFTestEnvironment {
 			result.add(desc);
 			return result;
 		}
-		
+
 		public Collection<EEFServiceDescriptor<EEFNotifier>> createNotifiers() {
 			Collection<EEFServiceDescriptor<EEFNotifier>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EEFNotifier>>();
 			EEFServiceDescriptor<EEFNotifier> desc = new EEFServiceDescriptor<EEFNotifier>("notifier.default", new EditingViewNotifier() {
@@ -730,7 +751,7 @@ public class EEFTestEnvironment {
 					result.add(EEFNotifier.class.getName());
 					return result;
 				}
-				
+
 			});
 			result.add(desc);
 			return result;
@@ -750,7 +771,7 @@ public class EEFTestEnvironment {
 					result.add(EEFLockManager.class.getName());
 					return result;
 				}
-				
+
 			});
 			result.add(desc);
 			desc = new EEFServiceDescriptor<EEFLockManager>("lockmanager.default", new NullLockManager() {
@@ -765,7 +786,7 @@ public class EEFTestEnvironment {
 					result.add(EEFLockManager.class.getName());
 					return result;
 				}
-				
+
 			});
 			result.add(desc);
 			return result;
@@ -785,7 +806,7 @@ public class EEFTestEnvironment {
 					result.add(PropertiesEditingPolicyProvider.class.getName());
 					return result;
 				}
-				
+
 			});
 			result.add(desc);
 			return result;
@@ -805,7 +826,7 @@ public class EEFTestEnvironment {
 					result.add(PropertiesEditingContextFactory.class.getName());
 					return result;
 				}
-				
+
 			});
 			result.add(desc);
 			return result;
@@ -825,7 +846,67 @@ public class EEFTestEnvironment {
 					result.add(EEFEditingService.class.getName());
 					return result;
 				}
-				
+
+			});
+			result.add(desc);
+			return result;
+		}
+
+		public Collection<EEFServiceDescriptor<EditUIProvidersFactory>> createProviderFactory() {
+			Collection<EEFServiceDescriptor<EditUIProvidersFactory>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EditUIProvidersFactory>>();
+			EEFServiceDescriptor<EditUIProvidersFactory> desc = new EEFServiceDescriptor<EditUIProvidersFactory>("edituiprovidersfactory.default", new E3EditUIProvidersFactory() { 
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					Collection<String> result = new ArrayList<String>();
+					result.add(EditUIProvidersFactory.class.getName());
+					return result;
+				}
+
+			});
+			result.add(desc);
+			return result;
+		}
+
+		public Collection<EEFServiceDescriptor<ImageManager>> createImageManager() {
+			Collection<EEFServiceDescriptor<ImageManager>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ImageManager>>();
+			EEFServiceDescriptor<ImageManager> desc = new EEFServiceDescriptor<ImageManager>("imagemanager.default", new E3ImageManager() { 
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					Collection<String> result = new ArrayList<String>();
+					result.add(ImageManager.class.getName());
+					return result;
+				}
+
+			});
+			result.add(desc);
+			return result;
+		}
+
+		public Collection<EEFServiceDescriptor<EEFLogger>> createEEFLogger() {
+			Collection<EEFServiceDescriptor<EEFLogger>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EEFLogger>>();
+			EEFServiceDescriptor<EEFLogger> desc = new EEFServiceDescriptor<EEFLogger>("eeflogger.e3", new E3EEFLogger() { 
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					Collection<String> result = new ArrayList<String>();
+					result.add(EEFLogger.class.getName());
+					return result;
+				}
+
 			});
 			result.add(desc);
 			return result;

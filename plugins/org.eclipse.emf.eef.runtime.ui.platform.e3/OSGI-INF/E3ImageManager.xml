@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.platform.services.image.E3ImageManager">
-   <implementation class="org.eclipse.emf.eef.runtime.ui.platform.services.image.E3ImageManager"/>
+   <implementation class="org.eclipse.emf.eef.runtime.ui.platform.services.resources.E3ImageManager"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
       <provide interface="org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager"/>

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.platform.services.image;
+package org.eclipse.emf.eef.runtime.ui.platform.services.resources;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
