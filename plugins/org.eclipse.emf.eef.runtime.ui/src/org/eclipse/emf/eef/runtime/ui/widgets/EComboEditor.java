@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.widgets;
 import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
-import org.eclipse.emf.eef.runtime.ui.services.images.ImageManager;
+import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;

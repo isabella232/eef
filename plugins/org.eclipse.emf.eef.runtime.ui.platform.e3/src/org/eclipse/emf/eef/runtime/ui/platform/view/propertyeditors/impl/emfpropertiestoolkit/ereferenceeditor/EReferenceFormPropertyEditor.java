@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.emfpro
 import org.eclipse.emf.eef.runtime.ui.platform.services.view.PlatformAwareViewService;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.platform.widgets.FormEReferenceEditor;
-import org.eclipse.emf.eef.runtime.ui.services.images.ImageManager;
+import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor;

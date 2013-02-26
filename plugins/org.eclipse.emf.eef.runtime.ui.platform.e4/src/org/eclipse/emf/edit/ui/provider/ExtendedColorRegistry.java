@@ -21,7 +21,8 @@ import org.eclipse.swt.widgets.Display;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.provider.IItemColorProvider;
-import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.jface.resource.ColorDescriptor;
 import org.eclipse.jface.resource.DeviceResourceException;
 
@@ -32,10 +33,13 @@ import org.eclipse.jface.resource.DeviceResourceException;
  */
 public class ExtendedColorRegistry
 {
-  public static final ExtendedColorRegistry INSTANCE = new ExtendedColorRegistry();
-
   protected Display display;
   protected HashMap<Collection<?>, Color> table = new HashMap<Collection<?>, Color>(10);
+  
+  /**
+   * @eefspecific 
+   */
+  private EEFServiceRegistry serviceRegistry;
 
   public ExtendedColorRegistry()
   {
@@ -47,6 +51,15 @@ public class ExtendedColorRegistry
   {
     this.display = display;
     hookDisplayDispose(display);
+  }
+
+  /**
+   * Sets the {@link EEFServiceRegistry} to use in order to get EEF related services.
+   * @param serviceRegistry the {@link EEFServiceRegistry} to use.
+   * @eefspecific
+   */
+  public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
+	this.serviceRegistry = serviceRegistry;
   }
 
   public Color getColor(Color foregroundColor, Color backgroundColor, Object object)
@@ -74,7 +87,9 @@ public class ExtendedColorRegistry
           }
           catch (DeviceResourceException exception)
           {
-            EMFEditUIPlugin.INSTANCE.log(exception);
+        	//@eefspecific
+        	EEFLogger logger = serviceRegistry.getService(EEFLogger.class, this);
+            logger.logError("org.eclipse.emf.eef.runtime.ui.platform.e4", "An error occured", exception);
           }
         }
         else if (object instanceof URI)
@@ -119,7 +134,9 @@ public class ExtendedColorRegistry
           }
           catch (DeviceResourceException exception)
           {
-            EMFEditUIPlugin.INSTANCE.log(exception);
+          	//@eefspecific
+          	EEFLogger logger = serviceRegistry.getService(EEFLogger.class, this);
+            logger.logError("org.eclipse.emf.eef.runtime.ui.platform.e4", "An error occured", exception);
           }
         }
 

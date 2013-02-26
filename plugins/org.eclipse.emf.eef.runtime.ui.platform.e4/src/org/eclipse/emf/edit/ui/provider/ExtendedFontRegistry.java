@@ -17,7 +17,8 @@ import java.util.HashMap;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.provider.IItemFontProvider;
-import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.jface.resource.DeviceResourceException;
 import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.swt.SWT;
@@ -36,6 +37,11 @@ public class ExtendedFontRegistry
 
   protected Display display;
   protected HashMap<Collection<?>, Font> table = new HashMap<Collection<?>, Font>(10);
+  
+  /**
+   * @eefspecific 
+   */
+  private EEFServiceRegistry serviceRegistry;
 
   public ExtendedFontRegistry()
   {
@@ -47,6 +53,15 @@ public class ExtendedFontRegistry
   {
     this.display = display;
     hookDisplayDispose(display);
+  }
+
+  /**
+   * Sets the {@link EEFServiceRegistry} to use in order to get EEF related services.
+   * @param serviceRegistry the {@link EEFServiceRegistry} to use.
+   * @eefspecific
+   */
+  public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
+	this.serviceRegistry = serviceRegistry;
   }
 
   public Font getFont(Font baseFont, Object object)
@@ -73,7 +88,9 @@ public class ExtendedFontRegistry
           }
           catch (DeviceResourceException exception)
           {
-            EMFEditUIPlugin.INSTANCE.log(exception);
+          	//@eefspecific
+          	EEFLogger logger = serviceRegistry.getService(EEFLogger.class, this);
+            logger.logError("org.eclipse.emf.eef.runtime.ui.platform.e4", "An error occured", exception);
           }
         }
         else if (object instanceof URI)
@@ -137,7 +154,9 @@ public class ExtendedFontRegistry
           }
           catch (DeviceResourceException exception)
           {
-            EMFEditUIPlugin.INSTANCE.log(exception);
+          	//@eefspecific
+          	EEFLogger logger = serviceRegistry.getService(EEFLogger.class, this);
+            logger.logError("org.eclipse.emf.eef.runtime.ui.platform.e4", "An error occured", exception);
           }
         }
 

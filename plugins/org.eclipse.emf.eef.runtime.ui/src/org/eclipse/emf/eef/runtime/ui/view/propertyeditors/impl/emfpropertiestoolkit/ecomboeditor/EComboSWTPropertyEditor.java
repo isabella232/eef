@@ -5,7 +5,7 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiesto
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.ui.services.images.ImageManager;
+import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.StandardSWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;

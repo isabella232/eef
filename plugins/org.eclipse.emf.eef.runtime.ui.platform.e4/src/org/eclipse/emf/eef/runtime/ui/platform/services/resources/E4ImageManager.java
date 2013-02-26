@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.platform.services.image;
+package org.eclipse.emf.eef.runtime.ui.platform.services.resources;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Image;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class E3ImageManager extends AbstractEEFService<Object> implements ImageManager {
+public class E4ImageManager extends AbstractEEFService<Object> implements ImageManager {
 	
 	/**
 	 * {@inheritDoc}
@@ -25,11 +25,12 @@ public class E3ImageManager extends AbstractEEFService<Object> implements ImageM
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager#getImage(org.eclipse.emf.common.util.ResourceLocator, java.lang.String)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.images.ImageManager#getImage(org.eclipse.emf.common.util.ResourceLocator, java.lang.String)
 	 */
 	public Image getImage(ResourceLocator resourceLocator, String key) {
 		Object image = resourceLocator.getImage(key);
-		return ExtendedImageRegistry.getInstance().getImage(image);
+		ExtendedImageRegistry imageRegistry = getServiceRegistry().getService(RegistryProvider.class, this).getImageRegistry();
+		return imageRegistry.getImage(image);
 	}
 
 }

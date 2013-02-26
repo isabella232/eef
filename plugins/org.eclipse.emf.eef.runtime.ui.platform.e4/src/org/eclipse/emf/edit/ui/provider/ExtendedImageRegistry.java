@@ -24,19 +24,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.edit.EMFEditPlugin;
+import org.eclipse.emf.edit.provider.ComposedImage;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
-
-import org.eclipse.emf.common.EMFPlugin;
-import org.eclipse.emf.common.util.URI;
-
-import org.eclipse.emf.edit.EMFEditPlugin;
-import org.eclipse.emf.edit.provider.ComposedImage;
 
 
 /**
@@ -44,14 +41,12 @@ import org.eclipse.emf.edit.provider.ComposedImage;
  */
 public class ExtendedImageRegistry 
 {
-  public static final ExtendedImageRegistry INSTANCE = new ExtendedImageRegistry();
-
-  public static ExtendedImageRegistry getInstance()
-  {
-    return INSTANCE;
-  }
-
   protected HashMap<Object, Image> table = new HashMap<Object, Image>(10);
+  
+  /**
+   * @eefspecific 
+   */
+  private EEFServiceRegistry serviceRegistry;
 
   public ExtendedImageRegistry() 
   {
@@ -75,6 +70,22 @@ public class ExtendedImageRegistry
   protected static String createChildURLPrefix = 
     EMFEditPlugin.INSTANCE.getImage("full/ctool16/CreateChild").toString() + "#";
 
+  /**
+   * @return the {@link EEFServiceRegistry} used for this class.
+   */
+  public EEFServiceRegistry getServiceRegistry() {
+	return serviceRegistry;
+  }
+  
+  /**
+   * Sets the {@link EEFServiceRegistry} to use in order to get EEF related services.
+   * @param serviceRegistry the {@link EEFServiceRegistry} to use.
+   * @eefspecific
+   */
+  public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
+	this.serviceRegistry = serviceRegistry;
+  }
+
   public Image getImage(Object object) 
   {
     if (object instanceof Image)
@@ -97,16 +108,16 @@ public class ExtendedImageRegistry
           ImageDescriptor imageDescriptor = null;
           if (urlString.startsWith(resourceURLPrefix))
           {
-            if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
-            {
-              imageDescriptor = 
-                PlatformUI.getWorkbench().getEditorRegistry().getImageDescriptor 
-                  ("dummy." + urlString.substring(resourceURLPrefix.length()));
-            }
-            else
-            {
+//            if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+//            {
+//              imageDescriptor = 
+//                PlatformUI.getWorkbench().getEditorRegistry().getImageDescriptor 
+//                  ("dummy." + urlString.substring(resourceURLPrefix.length()));
+//            }
+//            else
+//            {
               result = getImage(resourceURL);
-            }
+//            }
           }
           else if (urlString.startsWith(itemURLPrefix))
           {
@@ -159,7 +170,7 @@ public class ExtendedImageRegistry
         }
         else if (object instanceof ComposedImage)
         {
-          ImageDescriptor composedImageDescriptor = new ComposedImageDescriptor((ComposedImage)object);
+          ImageDescriptor composedImageDescriptor = new ComposedImageDescriptor(this, (ComposedImage)object);
           result = composedImageDescriptor.createImage();
         }
 
@@ -250,12 +261,20 @@ class ImageWrapperImageDescriptor extends ImageDescriptor
 
 class ComposedImageDescriptor extends CompositeImageDescriptor
 {
+  /**
+   * @eefspecific
+   */
+  private ExtendedImageRegistry imageRegistry;
   protected ComposedImage composedImage;
   protected List<ImageData> imageDatas;
 
-  public ComposedImageDescriptor(ComposedImage composedImage)
+  /**
+   * @eefspecific
+   */
+  public ComposedImageDescriptor(ExtendedImageRegistry imageRegistry, ComposedImage composedImage)
   {
-    this.composedImage = composedImage;
+	  this.imageRegistry = imageRegistry;
+	  this.composedImage = composedImage;
   }
 
   @Override
@@ -272,6 +291,9 @@ class ComposedImageDescriptor extends CompositeImageDescriptor
     }
   }
 
+  /**
+   * @eefspecific
+   */
   @Override
   public Point getSize()
   {
@@ -280,7 +302,7 @@ class ComposedImageDescriptor extends CompositeImageDescriptor
     List<ComposedImage.Size> sizes = new ArrayList<ComposedImage.Size>(images.size());
     for (Object object : images)
     {
-      Image image = ExtendedImageRegistry.getInstance().getImage(object);
+      Image image = imageRegistry.getImage(object);
       ImageData imageData = image.getImageData();
       imageDatas.add(imageData);
 

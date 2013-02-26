@@ -38,6 +38,9 @@ import org.eclipse.emf.edit.provider.ITableItemColorProvider;
 import org.eclipse.emf.edit.provider.ITableItemFontProvider;
 import org.eclipse.emf.edit.provider.ITableItemLabelProvider;
 import org.eclipse.emf.edit.provider.IViewerNotification;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.ui.platform.services.resources.RegistryProvider;
+import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 
 
 /**
@@ -151,6 +154,12 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
    * if adapters from more the one factory are involved in the model.
    */
   protected AdapterFactory adapterFactory;
+  
+  /**
+   * This keep track of the {@link EEFServiceRegistry} to use in order to get EEF-specific services.
+   * @eefspecific 
+   */
+  protected EEFServiceRegistry serviceRegistry;
 
   /**
    * The font that will be used when no font is specified.
@@ -230,8 +239,17 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
 
     this.adapterFactory = adapterFactory;
   }
-
+  
   /**
+   * Set the {@link EEFServiceRegistry} to use.
+   * @param serviceRegistry the {@link EEFServiceRegistry} to use.
+   * @eefspecific 
+   */
+  public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
+	this.serviceRegistry = serviceRegistry;
+  }
+
+/**
    * Return the default font.
    */
   public Font getDefaultFont()
@@ -329,7 +347,9 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
         getImageFromObject(itemLabelProvider.getImage(object)) :
         getDefaultImage(object);
   }
-
+  /**
+   * @eefspecific 
+   */
   protected Image getDefaultImage(Object object)
   {
     String image = "full/obj16/GenericValue";
@@ -349,13 +369,15 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
     {
       image = "full/obj16/RealValue";
     }
-
-    return getImageFromObject(EMFEditPlugin.INSTANCE.getImage(image));
+    ImageManager manager = serviceRegistry.getService(ImageManager.class, this);
+    return manager.getImage(org.eclipse.emf.edit.EMFEditPlugin.INSTANCE, image);
+//    return getImageFromObject(EMFEditPlugin.INSTANCE.getImage(image));
   }
 
   protected Image getImageFromObject(Object object)
   {
-    return ExtendedImageRegistry.getInstance().getImage(object);
+	ExtendedImageRegistry imageRegistry = serviceRegistry.getService(RegistryProvider.class, this).getImageRegistry();
+    return imageRegistry.getImage(object);
   }
 
   /**
@@ -431,7 +453,8 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
 
   protected Color getColorFromObject(Object object)
   {
-    return object == null ? null : ExtendedColorRegistry.INSTANCE.getColor(defaultForeground, defaultBackground, object);
+	ExtendedColorRegistry colorRegistry = serviceRegistry.getService(RegistryProvider.class, this).getColorRegistry();
+    return object == null ? null : colorRegistry.getColor(defaultForeground, defaultBackground, object);
   }
 
   /**

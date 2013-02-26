@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.platform.e4.StandardRegistryProvider">
+   <implementation class="org.eclipse.emf.eef.runtime.ui.platform.services.resources.impl.RegistryProviderImpl"/>
+   <service>
+      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
+      <provide interface="org.eclipse.emf.eef.runtime.ui.platform.services.resources.RegistryProvider"/>
+   </service>
+</scr:component>
