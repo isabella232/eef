@@ -4,5 +4,5 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.ui.notify.EEFDoubleClickFactory"/>
    </service>
-   <reference bind="setEditingContextFactory" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory" name="PropertiesEditingContextFactory" policy="static"/>
+   <reference bind="setServiceRegistry" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.EEFServiceRegistry" name="EEFServiceRegistry" policy="dynamic"/>
 </scr:component>

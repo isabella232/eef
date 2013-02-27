@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.platform.E4EditUIProvidersFactory">
+   <implementation class="org.eclipse.emf.eef.runtime.ui.platform.viewer.E4EditUIProvidersFactory"/>
+   <service>
+      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
+      <provide interface="org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory"/>
+   </service>
+</scr:component>
