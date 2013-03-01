@@ -41,7 +41,7 @@ public class FormEComboEditor extends EComboEditor {
 	 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor#createText(org.eclipse.swt.widgets.Composite, int)
 	 */
 	protected Text createText(Composite control, int styles) {
-		Text result = toolkit.createText(control, "", styles);
+		Text result = toolkit.createText(control, "", SWT.NONE);
 		result.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 		toolkit.paintBordersFor(control);
 		return result;
