@@ -9,22 +9,18 @@ package org.eclipse.emf.samples.conference.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.samples.conference.ConferencePackage;
-import org.eclipse.emf.samples.conference.Keyword;
 import org.eclipse.emf.samples.conference.Participant;
 import org.eclipse.emf.samples.conference.Session;
 import org.eclipse.emf.samples.conference.SessionType;
@@ -37,10 +33,10 @@ import org.eclipse.emf.samples.conference.SessionType;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getTitle <em>Title</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getKeywords <em>Keywords</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getPresenters <em>Presenters</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getDocumentation <em>Documentation</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getKeywords <em>Keywords</em>}</li>
  * </ul>
  * </p>
  *
@@ -66,16 +62,6 @@ public class SessionImpl extends EObjectImpl implements Session {
 	 * @ordered
 	 */
 	protected String title = TITLE_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getKeywords() <em>Keywords</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getKeywords()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Keyword> keywords;
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -108,24 +94,34 @@ public class SessionImpl extends EObjectImpl implements Session {
 	protected EList<Participant> presenters;
 
 	/**
-	 * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getDocumentation()
+	 * @see #getDescription()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String DOCUMENTATION_EDEFAULT = null;
+	protected static final String DESCRIPTION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getDocumentation()
+	 * @see #getDescription()
 	 * @generated
 	 * @ordered
 	 */
-	protected String documentation = DOCUMENTATION_EDEFAULT;
+	protected String description = DESCRIPTION_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getKeywords() <em>Keywords</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getKeywords()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> keywords;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -172,18 +168,6 @@ public class SessionImpl extends EObjectImpl implements Session {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Keyword> getKeywords() {
-		if (keywords == null) {
-			keywords = new EObjectContainmentEList<Keyword>(Keyword.class, this, ConferencePackage.SESSION__KEYWORDS);
-		}
-		return keywords;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public SessionType getType() {
 		return type;
 	}
@@ -217,8 +201,8 @@ public class SessionImpl extends EObjectImpl implements Session {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getDocumentation() {
-		return documentation;
+	public String getDescription() {
+		return description;
 	}
 
 	/**
@@ -226,11 +210,11 @@ public class SessionImpl extends EObjectImpl implements Session {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setDocumentation(String newDocumentation) {
-		String oldDocumentation = documentation;
-		documentation = newDocumentation;
+	public void setDescription(String newDescription) {
+		String oldDescription = description;
+		description = newDescription;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConferencePackage.SESSION__DOCUMENTATION, oldDocumentation, documentation));
+			eNotify(new ENotificationImpl(this, Notification.SET, ConferencePackage.SESSION__DESCRIPTION, oldDescription, description));
 	}
 
 	/**
@@ -238,13 +222,11 @@ public class SessionImpl extends EObjectImpl implements Session {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ConferencePackage.SESSION__KEYWORDS:
-				return ((InternalEList<?>)getKeywords()).basicRemove(otherEnd, msgs);
+	public EList<String> getKeywords() {
+		if (keywords == null) {
+			keywords = new EDataTypeUniqueEList<String>(String.class, this, ConferencePackage.SESSION__KEYWORDS);
 		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
+		return keywords;
 	}
 
 	/**
@@ -257,14 +239,14 @@ public class SessionImpl extends EObjectImpl implements Session {
 		switch (featureID) {
 			case ConferencePackage.SESSION__TITLE:
 				return getTitle();
-			case ConferencePackage.SESSION__KEYWORDS:
-				return getKeywords();
 			case ConferencePackage.SESSION__TYPE:
 				return getType();
 			case ConferencePackage.SESSION__PRESENTERS:
 				return getPresenters();
-			case ConferencePackage.SESSION__DOCUMENTATION:
-				return getDocumentation();
+			case ConferencePackage.SESSION__DESCRIPTION:
+				return getDescription();
+			case ConferencePackage.SESSION__KEYWORDS:
+				return getKeywords();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -281,10 +263,6 @@ public class SessionImpl extends EObjectImpl implements Session {
 			case ConferencePackage.SESSION__TITLE:
 				setTitle((String)newValue);
 				return;
-			case ConferencePackage.SESSION__KEYWORDS:
-				getKeywords().clear();
-				getKeywords().addAll((Collection<? extends Keyword>)newValue);
-				return;
 			case ConferencePackage.SESSION__TYPE:
 				setType((SessionType)newValue);
 				return;
@@ -292,8 +270,12 @@ public class SessionImpl extends EObjectImpl implements Session {
 				getPresenters().clear();
 				getPresenters().addAll((Collection<? extends Participant>)newValue);
 				return;
-			case ConferencePackage.SESSION__DOCUMENTATION:
-				setDocumentation((String)newValue);
+			case ConferencePackage.SESSION__DESCRIPTION:
+				setDescription((String)newValue);
+				return;
+			case ConferencePackage.SESSION__KEYWORDS:
+				getKeywords().clear();
+				getKeywords().addAll((Collection<? extends String>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -310,17 +292,17 @@ public class SessionImpl extends EObjectImpl implements Session {
 			case ConferencePackage.SESSION__TITLE:
 				setTitle(TITLE_EDEFAULT);
 				return;
-			case ConferencePackage.SESSION__KEYWORDS:
-				getKeywords().clear();
-				return;
 			case ConferencePackage.SESSION__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
 			case ConferencePackage.SESSION__PRESENTERS:
 				getPresenters().clear();
 				return;
-			case ConferencePackage.SESSION__DOCUMENTATION:
-				setDocumentation(DOCUMENTATION_EDEFAULT);
+			case ConferencePackage.SESSION__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
+				return;
+			case ConferencePackage.SESSION__KEYWORDS:
+				getKeywords().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -336,14 +318,14 @@ public class SessionImpl extends EObjectImpl implements Session {
 		switch (featureID) {
 			case ConferencePackage.SESSION__TITLE:
 				return TITLE_EDEFAULT == null ? title != null : !TITLE_EDEFAULT.equals(title);
-			case ConferencePackage.SESSION__KEYWORDS:
-				return keywords != null && !keywords.isEmpty();
 			case ConferencePackage.SESSION__TYPE:
 				return type != TYPE_EDEFAULT;
 			case ConferencePackage.SESSION__PRESENTERS:
 				return presenters != null && !presenters.isEmpty();
-			case ConferencePackage.SESSION__DOCUMENTATION:
-				return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
+			case ConferencePackage.SESSION__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+			case ConferencePackage.SESSION__KEYWORDS:
+				return keywords != null && !keywords.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -362,8 +344,10 @@ public class SessionImpl extends EObjectImpl implements Session {
 		result.append(title);
 		result.append(", type: ");
 		result.append(type);
-		result.append(", documentation: ");
-		result.append(documentation);
+		result.append(", description: ");
+		result.append(description);
+		result.append(", keywords: ");
+		result.append(keywords);
 		result.append(')');
 		return result.toString();
 	}

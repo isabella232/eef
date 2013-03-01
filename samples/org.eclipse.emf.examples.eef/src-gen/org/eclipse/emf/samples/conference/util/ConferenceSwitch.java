@@ -105,12 +105,6 @@ public class ConferenceSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ConferencePackage.KEYWORD: {
-				Keyword keyword = (Keyword)theEObject;
-				T result = caseKeyword(keyword);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ConferencePackage.VENUE: {
 				Venue venue = (Venue)theEObject;
 				T result = caseVenue(venue);
@@ -181,21 +175,6 @@ public class ConferenceSwitch<T> {
 	 * @generated
 	 */
 	public T caseSession(Session object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Keyword</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Keyword</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseKeyword(Keyword object) {
 		return null;
 	}
 

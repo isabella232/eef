@@ -28,7 +28,6 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.eclipse.emf.samples.conference.ConferenceFactory;
 import org.eclipse.emf.samples.conference.ConferencePackage;
 import org.eclipse.emf.samples.conference.Session;
 
@@ -70,7 +69,7 @@ public class SessionItemProvider
 			addTitlePropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
 			addPresentersPropertyDescriptor(object);
-			addDocumentationPropertyDescriptor(object);
+			addDescriptionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -142,19 +141,19 @@ public class SessionItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Documentation feature.
+	 * This adds a property descriptor for the Description feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addDocumentationPropertyDescriptor(Object object) {
+	protected void addDescriptionPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Session_documentation_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Session_documentation_feature", "_UI_Session_type"),
-				 ConferencePackage.Literals.SESSION__DOCUMENTATION,
+				 getString("_UI_Session_description_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Session_description_feature", "_UI_Session_type"),
+				 ConferencePackage.Literals.SESSION__DESCRIPTION,
 				 true,
 				 false,
 				 false,
@@ -232,7 +231,7 @@ public class SessionItemProvider
 		switch (notification.getFeatureID(Session.class)) {
 			case ConferencePackage.SESSION__TITLE:
 			case ConferencePackage.SESSION__TYPE:
-			case ConferencePackage.SESSION__DOCUMENTATION:
+			case ConferencePackage.SESSION__DESCRIPTION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case ConferencePackage.SESSION__KEYWORDS:
@@ -256,7 +255,7 @@ public class SessionItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ConferencePackage.Literals.SESSION__KEYWORDS,
-				 ConferenceFactory.eINSTANCE.createKeyword()));
+				 ""));
 	}
 
 	/**

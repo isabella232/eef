@@ -64,7 +64,6 @@ public class ConferenceFactoryImpl extends EFactoryImpl implements ConferenceFac
 			case ConferencePackage.CONFERENCE: return createConference();
 			case ConferencePackage.PARTICIPANT: return createParticipant();
 			case ConferencePackage.SESSION: return createSession();
-			case ConferencePackage.KEYWORD: return createKeyword();
 			case ConferencePackage.VENUE: return createVenue();
 			case ConferencePackage.ROOM: return createRoom();
 			case ConferencePackage.SCHEDULE: return createSchedule();
@@ -136,16 +135,6 @@ public class ConferenceFactoryImpl extends EFactoryImpl implements ConferenceFac
 	public Session createSession() {
 		SessionImpl session = new SessionImpl();
 		return session;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Keyword createKeyword() {
-		KeywordImpl keyword = new KeywordImpl();
-		return keyword;
 	}
 
 	/**

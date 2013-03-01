@@ -35,13 +35,19 @@
             contributorClass="org.eclipse.emf.samples.conference.presentation.ConferenceActionBarContributor">
       </editor>
    </extension>
+   <!-- Tabbed properties views extension -->
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
       <propertyContributor
-            contributorId="org.eclipse.emf.examples.eef.editor.propertyContributor1">
-         <propertyCategory></propertyCategory>
+            contributorId="org.eclipse.emf.samples.conference.properties"
+            labelProvider="org.eclipse.emf.eef.runtime.tabbed.view.section.EEFLabelProvider"
+            tabDescriptorProvider="org.eclipse.emf.eef.runtime.tabbed.view.providers.EEFTabDescriptorProvider">
+         <propertyCategory
+               category="eef">
+         </propertyCategory>
       </propertyContributor>
    </extension>
+ 
    <extension
          point="org.eclipse.ui.views">
       <category

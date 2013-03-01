@@ -53,15 +53,6 @@ public interface ConferenceFactory extends EFactory {
 	Session createSession();
 
 	/**
-	 * Returns a new object of class '<em>Keyword</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Keyword</em>'.
-	 * @generated
-	 */
-	Keyword createKeyword();
-
-	/**
 	 * Returns a new object of class '<em>Venue</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -84,10 +84,6 @@ public class ConferenceAdapterFactory extends AdapterFactoryImpl {
 				return createSessionAdapter();
 			}
 			@Override
-			public Adapter caseKeyword(Keyword object) {
-				return createKeywordAdapter();
-			}
-			@Override
 			public Adapter caseVenue(Venue object) {
 				return createVenueAdapter();
 			}
@@ -162,20 +158,6 @@ public class ConferenceAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSessionAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.samples.conference.Keyword <em>Keyword</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.samples.conference.Keyword
-	 * @generated
-	 */
-	public Adapter createKeywordAdapter() {
 		return null;
 	}
 

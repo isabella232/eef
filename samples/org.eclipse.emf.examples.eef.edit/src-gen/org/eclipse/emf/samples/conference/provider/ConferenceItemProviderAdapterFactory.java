@@ -145,29 +145,6 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.samples.conference.Keyword} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected KeywordItemProvider keywordItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.samples.conference.Keyword}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createKeywordAdapter() {
-		if (keywordItemProvider == null) {
-			keywordItemProvider = new KeywordItemProvider(this);
-		}
-
-		return keywordItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.samples.conference.Venue} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -361,7 +338,6 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 		if (conferenceItemProvider != null) conferenceItemProvider.dispose();
 		if (participantItemProvider != null) participantItemProvider.dispose();
 		if (sessionItemProvider != null) sessionItemProvider.dispose();
-		if (keywordItemProvider != null) keywordItemProvider.dispose();
 		if (venueItemProvider != null) venueItemProvider.dispose();
 		if (roomItemProvider != null) roomItemProvider.dispose();
 		if (scheduleItemProvider != null) scheduleItemProvider.dispose();

@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.emf.samples.conference.Participant#getFirstname <em>Firstname</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.Participant#getLastname <em>Lastname</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.Participant#getAssists <em>Assists</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.Participant#getAttending <em>Attending</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.Participant#getGender <em>Gender</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.Participant#isIsRegistered <em>Is Registered</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.Participant#getJobTitle <em>Job Title</em>}</li>
@@ -86,20 +86,20 @@ public interface Participant extends EObject {
 	void setLastname(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Assists</b></em>' reference list.
+	 * Returns the value of the '<em><b>Attending</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.samples.conference.Session}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Assists</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Attending</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Assists</em>' reference list.
-	 * @see org.eclipse.emf.samples.conference.ConferencePackage#getParticipant_Assists()
+	 * @return the value of the '<em>Attending</em>' reference list.
+	 * @see org.eclipse.emf.samples.conference.ConferencePackage#getParticipant_Attending()
 	 * @model
 	 * @generated
 	 */
-	EList<Session> getAssists();
+	EList<Session> getAttending();
 
 	/**
 	 * Returns the value of the '<em><b>Gender</b></em>' attribute.

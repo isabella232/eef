@@ -66,7 +66,7 @@ public class ParticipantItemProvider
 
 			addFirstnamePropertyDescriptor(object);
 			addLastnamePropertyDescriptor(object);
-			addAssistsPropertyDescriptor(object);
+			addAttendingPropertyDescriptor(object);
 			addGenderPropertyDescriptor(object);
 			addIsRegisteredPropertyDescriptor(object);
 			addJobTitlePropertyDescriptor(object);
@@ -121,19 +121,19 @@ public class ParticipantItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Assists feature.
+	 * This adds a property descriptor for the Attending feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addAssistsPropertyDescriptor(Object object) {
+	protected void addAttendingPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Participant_assists_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Participant_assists_feature", "_UI_Participant_type"),
-				 ConferencePackage.Literals.PARTICIPANT__ASSISTS,
+				 getString("_UI_Participant_attending_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Participant_attending_feature", "_UI_Participant_type"),
+				 ConferencePackage.Literals.PARTICIPANT__ATTENDING,
 				 true,
 				 false,
 				 true,

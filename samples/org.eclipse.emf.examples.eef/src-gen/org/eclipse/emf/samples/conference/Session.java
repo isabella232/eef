@@ -19,10 +19,10 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.samples.conference.Session#getTitle <em>Title</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.Session#getKeywords <em>Keywords</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.Session#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.Session#getPresenters <em>Presenters</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.Session#getDocumentation <em>Documentation</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.Session#getDescription <em>Description</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.Session#getKeywords <em>Keywords</em>}</li>
  * </ul>
  * </p>
  *
@@ -56,22 +56,6 @@ public interface Session extends EObject {
 	 * @generated
 	 */
 	void setTitle(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Keywords</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.samples.conference.Keyword}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Keywords</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Keywords</em>' containment reference list.
-	 * @see org.eclipse.emf.samples.conference.ConferencePackage#getSession_Keywords()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Keyword> getKeywords();
 
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
@@ -120,29 +104,45 @@ public interface Session extends EObject {
 	EList<Participant> getPresenters();
 
 	/**
-	 * Returns the value of the '<em><b>Documentation</b></em>' attribute.
+	 * Returns the value of the '<em><b>Description</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Documentation</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Description</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Documentation</em>' attribute.
-	 * @see #setDocumentation(String)
-	 * @see org.eclipse.emf.samples.conference.ConferencePackage#getSession_Documentation()
+	 * @return the value of the '<em>Description</em>' attribute.
+	 * @see #setDescription(String)
+	 * @see org.eclipse.emf.samples.conference.ConferencePackage#getSession_Description()
 	 * @model required="true"
 	 * @generated
 	 */
-	String getDocumentation();
+	String getDescription();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.samples.conference.Session#getDocumentation <em>Documentation</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.emf.samples.conference.Session#getDescription <em>Description</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Documentation</em>' attribute.
-	 * @see #getDocumentation()
+	 * @param value the new value of the '<em>Description</em>' attribute.
+	 * @see #getDescription()
 	 * @generated
 	 */
-	void setDocumentation(String value);
+	void setDescription(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Keywords</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Keywords</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Keywords</em>' attribute list.
+	 * @see org.eclipse.emf.samples.conference.ConferencePackage#getSession_Keywords()
+	 * @model
+	 * @generated
+	 */
+	EList<String> getKeywords();
 
 } // Session

@@ -34,7 +34,7 @@ import org.eclipse.emf.samples.conference.Session;
  * <ul>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.ParticipantImpl#getFirstname <em>Firstname</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.ParticipantImpl#getLastname <em>Lastname</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.impl.ParticipantImpl#getAssists <em>Assists</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.impl.ParticipantImpl#getAttending <em>Attending</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.ParticipantImpl#getGender <em>Gender</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.ParticipantImpl#isIsRegistered <em>Is Registered</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.ParticipantImpl#getJobTitle <em>Job Title</em>}</li>
@@ -87,14 +87,14 @@ public class ParticipantImpl extends EObjectImpl implements Participant {
 	protected String lastname = LASTNAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getAssists() <em>Assists</em>}' reference list.
+	 * The cached value of the '{@link #getAttending() <em>Attending</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAssists()
+	 * @see #getAttending()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Session> assists;
+	protected EList<Session> attending;
 
 	/**
 	 * The default value of the '{@link #getGender() <em>Gender</em>}' attribute.
@@ -252,11 +252,11 @@ public class ParticipantImpl extends EObjectImpl implements Participant {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Session> getAssists() {
-		if (assists == null) {
-			assists = new EObjectResolvingEList<Session>(Session.class, this, ConferencePackage.PARTICIPANT__ASSISTS);
+	public EList<Session> getAttending() {
+		if (attending == null) {
+			attending = new EObjectResolvingEList<Session>(Session.class, this, ConferencePackage.PARTICIPANT__ATTENDING);
 		}
-		return assists;
+		return attending;
 	}
 
 	/**
@@ -371,8 +371,8 @@ public class ParticipantImpl extends EObjectImpl implements Participant {
 				return getFirstname();
 			case ConferencePackage.PARTICIPANT__LASTNAME:
 				return getLastname();
-			case ConferencePackage.PARTICIPANT__ASSISTS:
-				return getAssists();
+			case ConferencePackage.PARTICIPANT__ATTENDING:
+				return getAttending();
 			case ConferencePackage.PARTICIPANT__GENDER:
 				return getGender();
 			case ConferencePackage.PARTICIPANT__IS_REGISTERED:
@@ -402,9 +402,9 @@ public class ParticipantImpl extends EObjectImpl implements Participant {
 			case ConferencePackage.PARTICIPANT__LASTNAME:
 				setLastname((String)newValue);
 				return;
-			case ConferencePackage.PARTICIPANT__ASSISTS:
-				getAssists().clear();
-				getAssists().addAll((Collection<? extends Session>)newValue);
+			case ConferencePackage.PARTICIPANT__ATTENDING:
+				getAttending().clear();
+				getAttending().addAll((Collection<? extends Session>)newValue);
 				return;
 			case ConferencePackage.PARTICIPANT__GENDER:
 				setGender((GENDER)newValue);
@@ -436,8 +436,8 @@ public class ParticipantImpl extends EObjectImpl implements Participant {
 			case ConferencePackage.PARTICIPANT__LASTNAME:
 				setLastname(LASTNAME_EDEFAULT);
 				return;
-			case ConferencePackage.PARTICIPANT__ASSISTS:
-				getAssists().clear();
+			case ConferencePackage.PARTICIPANT__ATTENDING:
+				getAttending().clear();
 				return;
 			case ConferencePackage.PARTICIPANT__GENDER:
 				setGender(GENDER_EDEFAULT);
@@ -467,8 +467,8 @@ public class ParticipantImpl extends EObjectImpl implements Participant {
 				return FIRSTNAME_EDEFAULT == null ? firstname != null : !FIRSTNAME_EDEFAULT.equals(firstname);
 			case ConferencePackage.PARTICIPANT__LASTNAME:
 				return LASTNAME_EDEFAULT == null ? lastname != null : !LASTNAME_EDEFAULT.equals(lastname);
-			case ConferencePackage.PARTICIPANT__ASSISTS:
-				return assists != null && !assists.isEmpty();
+			case ConferencePackage.PARTICIPANT__ATTENDING:
+				return attending != null && !attending.isEmpty();
 			case ConferencePackage.PARTICIPANT__GENDER:
 				return gender != GENDER_EDEFAULT;
 			case ConferencePackage.PARTICIPANT__IS_REGISTERED:
