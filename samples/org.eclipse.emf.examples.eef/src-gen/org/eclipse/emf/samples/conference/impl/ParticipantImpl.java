@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
+import org.eclipse.emf.samples.conference.Conference;
 import org.eclipse.emf.samples.conference.ConferencePackage;
 import org.eclipse.emf.samples.conference.GENDER;
 import org.eclipse.emf.samples.conference.Participant;
@@ -345,12 +346,17 @@ public class ParticipantImpl extends EObjectImpl implements Participant {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public boolean isSpeaker() {
-		// TODO: implement this method to return the 'Speaker' attribute
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		if (eContainer() instanceof Conference) {
+			for (Session session : ((Conference) eContainer()).getSessions()) {
+				if (session.getPresenters() != null && session.getPresenters().contains(this)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
