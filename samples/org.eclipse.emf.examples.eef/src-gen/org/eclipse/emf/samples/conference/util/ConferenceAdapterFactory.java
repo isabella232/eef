@@ -2,22 +2,18 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ConferenceAdapterFactory.java,v 1.5 2011/11/14 15:03:14 sbouchet Exp $
+ * $Id$
  */
 package org.eclipse.emf.samples.conference.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.samples.conference.Conference;
-import org.eclipse.emf.samples.conference.ConferencePackage;
-import org.eclipse.emf.samples.conference.Person;
-import org.eclipse.emf.samples.conference.Room;
-import org.eclipse.emf.samples.conference.Site;
-import org.eclipse.emf.samples.conference.Talk;
-import org.eclipse.emf.samples.conference.Topic;
 
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
+import org.eclipse.emf.ecore.EObject;
+
+import org.eclipse.emf.samples.conference.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -80,24 +76,32 @@ public class ConferenceAdapterFactory extends AdapterFactoryImpl {
 				return createConferenceAdapter();
 			}
 			@Override
-			public Adapter casePerson(Person object) {
-				return createPersonAdapter();
+			public Adapter caseParticipant(Participant object) {
+				return createParticipantAdapter();
 			}
 			@Override
-			public Adapter caseTalk(Talk object) {
-				return createTalkAdapter();
+			public Adapter caseSession(Session object) {
+				return createSessionAdapter();
 			}
 			@Override
-			public Adapter caseTopic(Topic object) {
-				return createTopicAdapter();
+			public Adapter caseKeyword(Keyword object) {
+				return createKeywordAdapter();
 			}
 			@Override
-			public Adapter caseSite(Site object) {
-				return createSiteAdapter();
+			public Adapter caseVenue(Venue object) {
+				return createVenueAdapter();
 			}
 			@Override
 			public Adapter caseRoom(Room object) {
 				return createRoomAdapter();
+			}
+			@Override
+			public Adapter caseSchedule(Schedule object) {
+				return createScheduleAdapter();
+			}
+			@Override
+			public Adapter caseSessionSchedule(SessionSchedule object) {
+				return createSessionScheduleAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -134,58 +138,58 @@ public class ConferenceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.samples.conference.Person <em>Person</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.samples.conference.Participant <em>Participant</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.emf.samples.conference.Person
+	 * @see org.eclipse.emf.samples.conference.Participant
 	 * @generated
 	 */
-	public Adapter createPersonAdapter() {
+	public Adapter createParticipantAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.samples.conference.Talk <em>Talk</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.samples.conference.Session <em>Session</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.emf.samples.conference.Talk
+	 * @see org.eclipse.emf.samples.conference.Session
 	 * @generated
 	 */
-	public Adapter createTalkAdapter() {
+	public Adapter createSessionAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.samples.conference.Topic <em>Topic</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.samples.conference.Keyword <em>Keyword</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.emf.samples.conference.Topic
+	 * @see org.eclipse.emf.samples.conference.Keyword
 	 * @generated
 	 */
-	public Adapter createTopicAdapter() {
+	public Adapter createKeywordAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.samples.conference.Site <em>Site</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.samples.conference.Venue <em>Venue</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.emf.samples.conference.Site
+	 * @see org.eclipse.emf.samples.conference.Venue
 	 * @generated
 	 */
-	public Adapter createSiteAdapter() {
+	public Adapter createVenueAdapter() {
 		return null;
 	}
 
@@ -200,6 +204,34 @@ public class ConferenceAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRoomAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.samples.conference.Schedule <em>Schedule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.samples.conference.Schedule
+	 * @generated
+	 */
+	public Adapter createScheduleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.samples.conference.SessionSchedule <em>Session Schedule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.samples.conference.SessionSchedule
+	 * @generated
+	 */
+	public Adapter createSessionScheduleAdapter() {
 		return null;
 	}
 

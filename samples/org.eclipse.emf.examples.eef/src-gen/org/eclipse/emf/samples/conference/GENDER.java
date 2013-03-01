@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GENDER.java,v 1.3 2011/01/05 15:06:12 glefur Exp $
+ * $Id$
  */
 package org.eclipse.emf.samples.conference;
 

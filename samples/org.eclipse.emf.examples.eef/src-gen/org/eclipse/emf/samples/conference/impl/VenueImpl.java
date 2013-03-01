@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SiteImpl.java,v 1.4 2011/04/23 20:13:47 glefur Exp $
+ * $Id$
  */
 package org.eclipse.emf.samples.conference.impl;
 
@@ -10,53 +10,38 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.eclipse.emf.samples.conference.ConferencePackage;
 import org.eclipse.emf.samples.conference.Room;
-import org.eclipse.emf.samples.conference.Site;
+import org.eclipse.emf.samples.conference.Venue;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Site</b></em>'.
+ * An implementation of the model object '<em><b>Venue</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.samples.conference.impl.SiteImpl#getDocumentation <em>Documentation</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.impl.SiteImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.impl.SiteImpl#getRooms <em>Rooms</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.impl.VenueImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.impl.VenueImpl#getRooms <em>Rooms</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.impl.VenueImpl#getGetToTheVenue <em>Get To The Venue</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class SiteImpl extends EObjectImpl implements Site {
-	/**
-	 * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDocumentation()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String DOCUMENTATION_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDocumentation()
-	 * @generated
-	 * @ordered
-	 */
-	protected String documentation = DOCUMENTATION_EDEFAULT;
-
+public class VenueImpl extends EObjectImpl implements Venue {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -88,11 +73,31 @@ public class SiteImpl extends EObjectImpl implements Site {
 	protected EList<Room> rooms;
 
 	/**
+	 * The default value of the '{@link #getGetToTheVenue() <em>Get To The Venue</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getGetToTheVenue()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String GET_TO_THE_VENUE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getGetToTheVenue() <em>Get To The Venue</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getGetToTheVenue()
+	 * @generated
+	 * @ordered
+	 */
+	protected String getToTheVenue = GET_TO_THE_VENUE_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SiteImpl() {
+	protected VenueImpl() {
 		super();
 	}
 
@@ -103,28 +108,7 @@ public class SiteImpl extends EObjectImpl implements Site {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ConferencePackage.Literals.SITE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getDocumentation() {
-		return documentation;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDocumentation(String newDocumentation) {
-		String oldDocumentation = documentation;
-		documentation = newDocumentation;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConferencePackage.SITE__DOCUMENTATION, oldDocumentation, documentation));
+		return ConferencePackage.Literals.VENUE;
 	}
 
 	/**
@@ -145,7 +129,7 @@ public class SiteImpl extends EObjectImpl implements Site {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConferencePackage.SITE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, ConferencePackage.VENUE__NAME, oldName, name));
 	}
 
 	/**
@@ -155,9 +139,30 @@ public class SiteImpl extends EObjectImpl implements Site {
 	 */
 	public EList<Room> getRooms() {
 		if (rooms == null) {
-			rooms = new EObjectContainmentEList<Room>(Room.class, this, ConferencePackage.SITE__ROOMS);
+			rooms = new EObjectContainmentEList<Room>(Room.class, this, ConferencePackage.VENUE__ROOMS);
 		}
 		return rooms;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getGetToTheVenue() {
+		return getToTheVenue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setGetToTheVenue(String newGetToTheVenue) {
+		String oldGetToTheVenue = getToTheVenue;
+		getToTheVenue = newGetToTheVenue;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ConferencePackage.VENUE__GET_TO_THE_VENUE, oldGetToTheVenue, getToTheVenue));
 	}
 
 	/**
@@ -168,7 +173,7 @@ public class SiteImpl extends EObjectImpl implements Site {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ConferencePackage.SITE__ROOMS:
+			case ConferencePackage.VENUE__ROOMS:
 				return ((InternalEList<?>)getRooms()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -182,12 +187,12 @@ public class SiteImpl extends EObjectImpl implements Site {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ConferencePackage.SITE__DOCUMENTATION:
-				return getDocumentation();
-			case ConferencePackage.SITE__NAME:
+			case ConferencePackage.VENUE__NAME:
 				return getName();
-			case ConferencePackage.SITE__ROOMS:
+			case ConferencePackage.VENUE__ROOMS:
 				return getRooms();
+			case ConferencePackage.VENUE__GET_TO_THE_VENUE:
+				return getGetToTheVenue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -201,15 +206,15 @@ public class SiteImpl extends EObjectImpl implements Site {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ConferencePackage.SITE__DOCUMENTATION:
-				setDocumentation((String)newValue);
-				return;
-			case ConferencePackage.SITE__NAME:
+			case ConferencePackage.VENUE__NAME:
 				setName((String)newValue);
 				return;
-			case ConferencePackage.SITE__ROOMS:
+			case ConferencePackage.VENUE__ROOMS:
 				getRooms().clear();
 				getRooms().addAll((Collection<? extends Room>)newValue);
+				return;
+			case ConferencePackage.VENUE__GET_TO_THE_VENUE:
+				setGetToTheVenue((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -223,14 +228,14 @@ public class SiteImpl extends EObjectImpl implements Site {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ConferencePackage.SITE__DOCUMENTATION:
-				setDocumentation(DOCUMENTATION_EDEFAULT);
-				return;
-			case ConferencePackage.SITE__NAME:
+			case ConferencePackage.VENUE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case ConferencePackage.SITE__ROOMS:
+			case ConferencePackage.VENUE__ROOMS:
 				getRooms().clear();
+				return;
+			case ConferencePackage.VENUE__GET_TO_THE_VENUE:
+				setGetToTheVenue(GET_TO_THE_VENUE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -244,12 +249,12 @@ public class SiteImpl extends EObjectImpl implements Site {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ConferencePackage.SITE__DOCUMENTATION:
-				return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
-			case ConferencePackage.SITE__NAME:
+			case ConferencePackage.VENUE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case ConferencePackage.SITE__ROOMS:
+			case ConferencePackage.VENUE__ROOMS:
 				return rooms != null && !rooms.isEmpty();
+			case ConferencePackage.VENUE__GET_TO_THE_VENUE:
+				return GET_TO_THE_VENUE_EDEFAULT == null ? getToTheVenue != null : !GET_TO_THE_VENUE_EDEFAULT.equals(getToTheVenue);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -264,12 +269,12 @@ public class SiteImpl extends EObjectImpl implements Site {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (documentation: ");
-		result.append(documentation);
-		result.append(", name: ");
+		result.append(" (name: ");
 		result.append(name);
+		result.append(", getToTheVenue: ");
+		result.append(getToTheVenue);
 		result.append(')');
 		return result.toString();
 	}
 
-} //SiteImpl
+} //VenueImpl

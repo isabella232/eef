@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ConferenceFactory.java,v 1.4 2011/04/23 20:13:47 glefur Exp $
+ * $Id$
  */
 package org.eclipse.emf.samples.conference;
 
@@ -35,40 +35,40 @@ public interface ConferenceFactory extends EFactory {
 	Conference createConference();
 
 	/**
-	 * Returns a new object of class '<em>Person</em>'.
+	 * Returns a new object of class '<em>Participant</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Person</em>'.
+	 * @return a new object of class '<em>Participant</em>'.
 	 * @generated
 	 */
-	Person createPerson();
+	Participant createParticipant();
 
 	/**
-	 * Returns a new object of class '<em>Talk</em>'.
+	 * Returns a new object of class '<em>Session</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Talk</em>'.
+	 * @return a new object of class '<em>Session</em>'.
 	 * @generated
 	 */
-	Talk createTalk();
+	Session createSession();
 
 	/**
-	 * Returns a new object of class '<em>Topic</em>'.
+	 * Returns a new object of class '<em>Keyword</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Topic</em>'.
+	 * @return a new object of class '<em>Keyword</em>'.
 	 * @generated
 	 */
-	Topic createTopic();
+	Keyword createKeyword();
 
 	/**
-	 * Returns a new object of class '<em>Site</em>'.
+	 * Returns a new object of class '<em>Venue</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Site</em>'.
+	 * @return a new object of class '<em>Venue</em>'.
 	 * @generated
 	 */
-	Site createSite();
+	Venue createVenue();
 
 	/**
 	 * Returns a new object of class '<em>Room</em>'.
@@ -78,6 +78,24 @@ public interface ConferenceFactory extends EFactory {
 	 * @generated
 	 */
 	Room createRoom();
+
+	/**
+	 * Returns a new object of class '<em>Schedule</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Schedule</em>'.
+	 * @generated
+	 */
+	Schedule createSchedule();
+
+	/**
+	 * Returns a new object of class '<em>Session Schedule</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Session Schedule</em>'.
+	 * @generated
+	 */
+	SessionSchedule createSessionSchedule();
 
 	/**
 	 * Returns the package supported by this factory.

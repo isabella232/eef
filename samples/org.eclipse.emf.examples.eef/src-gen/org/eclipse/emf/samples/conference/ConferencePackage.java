@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ConferencePackage.java,v 1.5 2011/04/23 20:13:47 glefur Exp $
+ * $Id$
  */
 package org.eclipse.emf.samples.conference;
 
@@ -42,7 +42,7 @@ public interface ConferencePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://www.eclipse.org/emf/samples/eef/1.0.0";
+	String eNS_URI = "http://www.eclipse.org/emf/samples/eef/2.0";
 
 	/**
 	 * The package namespace name.
@@ -71,49 +71,31 @@ public interface ConferencePackage extends EPackage {
 	int CONFERENCE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Place</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONFERENCE__PLACE = 0;
-
-	/**
 	 * The feature id for the '<em><b>Participants</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONFERENCE__PARTICIPANTS = 1;
+	int CONFERENCE__PARTICIPANTS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Talks</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Sessions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONFERENCE__TALKS = 2;
+	int CONFERENCE__SESSIONS = 1;
 
 	/**
-	 * The feature id for the '<em><b>Topics</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Venues</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONFERENCE__TOPICS = 3;
-
-	/**
-	 * The feature id for the '<em><b>Sites</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONFERENCE__SITES = 4;
+	int CONFERENCE__VENUES = 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -122,7 +104,7 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONFERENCE__NAME = 5;
+	int CONFERENCE__NAME = 3;
 
 	/**
 	 * The feature id for the '<em><b>Overview</b></em>' attribute.
@@ -131,7 +113,16 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONFERENCE__OVERVIEW = 6;
+	int CONFERENCE__OVERVIEW = 4;
+
+	/**
+	 * The feature id for the '<em><b>Schedule</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFERENCE__SCHEDULE = 5;
 
 	/**
 	 * The number of structural features of the '<em>Conference</em>' class.
@@ -140,17 +131,17 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONFERENCE_FEATURE_COUNT = 7;
+	int CONFERENCE_FEATURE_COUNT = 6;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.impl.PersonImpl <em>Person</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.impl.ParticipantImpl <em>Participant</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.samples.conference.impl.PersonImpl
-	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getPerson()
+	 * @see org.eclipse.emf.samples.conference.impl.ParticipantImpl
+	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getParticipant()
 	 * @generated
 	 */
-	int PERSON = 1;
+	int PARTICIPANT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Firstname</b></em>' attribute.
@@ -159,7 +150,7 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__FIRSTNAME = 0;
+	int PARTICIPANT__FIRSTNAME = 0;
 
 	/**
 	 * The feature id for the '<em><b>Lastname</b></em>' attribute.
@@ -168,25 +159,7 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__LASTNAME = 1;
-
-	/**
-	 * The feature id for the '<em><b>Age</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PERSON__AGE = 2;
-
-	/**
-	 * The feature id for the '<em><b>Eclipse Commiter</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PERSON__ECLIPSE_COMMITER = 3;
+	int PARTICIPANT__LASTNAME = 1;
 
 	/**
 	 * The feature id for the '<em><b>Assists</b></em>' reference list.
@@ -195,7 +168,7 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__ASSISTS = 4;
+	int PARTICIPANT__ASSISTS = 2;
 
 	/**
 	 * The feature id for the '<em><b>Gender</b></em>' attribute.
@@ -204,7 +177,7 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__GENDER = 5;
+	int PARTICIPANT__GENDER = 3;
 
 	/**
 	 * The feature id for the '<em><b>Is Registered</b></em>' attribute.
@@ -213,26 +186,53 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__IS_REGISTERED = 6;
+	int PARTICIPANT__IS_REGISTERED = 4;
 
 	/**
-	 * The number of structural features of the '<em>Person</em>' class.
+	 * The feature id for the '<em><b>Job Title</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON_FEATURE_COUNT = 7;
+	int PARTICIPANT__JOB_TITLE = 5;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.impl.TalkImpl <em>Talk</em>}' class.
+	 * The feature id for the '<em><b>Bio</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.samples.conference.impl.TalkImpl
-	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getTalk()
+	 * @generated
+	 * @ordered
+	 */
+	int PARTICIPANT__BIO = 6;
+
+	/**
+	 * The feature id for the '<em><b>Speaker</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARTICIPANT__SPEAKER = 7;
+
+	/**
+	 * The number of structural features of the '<em>Participant</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARTICIPANT_FEATURE_COUNT = 8;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.impl.SessionImpl <em>Session</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.samples.conference.impl.SessionImpl
+	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getSession()
 	 * @generated
 	 */
-	int TALK = 2;
+	int SESSION = 2;
 
 	/**
 	 * The feature id for the '<em><b>Title</b></em>' attribute.
@@ -241,16 +241,16 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TALK__TITLE = 0;
+	int SESSION__TITLE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Topic</b></em>' reference.
+	 * The feature id for the '<em><b>Keywords</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TALK__TOPIC = 1;
+	int SESSION__KEYWORDS = 1;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -259,25 +259,16 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TALK__TYPE = 2;
+	int SESSION__TYPE = 2;
 
 	/**
-	 * The feature id for the '<em><b>Presenter</b></em>' reference.
+	 * The feature id for the '<em><b>Presenters</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TALK__PRESENTER = 3;
-
-	/**
-	 * The feature id for the '<em><b>Creator</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TALK__CREATOR = 4;
+	int SESSION__PRESENTERS = 3;
 
 	/**
 	 * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -286,81 +277,54 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TALK__DOCUMENTATION = 5;
+	int SESSION__DOCUMENTATION = 4;
 
 	/**
-	 * The number of structural features of the '<em>Talk</em>' class.
+	 * The number of structural features of the '<em>Session</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TALK_FEATURE_COUNT = 6;
+	int SESSION_FEATURE_COUNT = 5;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.impl.TopicImpl <em>Topic</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.impl.KeywordImpl <em>Keyword</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.samples.conference.impl.TopicImpl
-	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getTopic()
+	 * @see org.eclipse.emf.samples.conference.impl.KeywordImpl
+	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getKeyword()
 	 * @generated
 	 */
-	int TOPIC = 3;
+	int KEYWORD = 3;
 
 	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOPIC__DESCRIPTION = 0;
-
-	/**
-	 * The feature id for the '<em><b>References</b></em>' attribute list.
+	 * The feature id for the '<em><b>Label</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TOPIC__REFERENCES = 1;
+	int KEYWORD__LABEL = 0;
 
 	/**
-	 * The feature id for the '<em><b>Documentation</b></em>' attribute.
+	 * The number of structural features of the '<em>Keyword</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TOPIC__DOCUMENTATION = 2;
+	int KEYWORD_FEATURE_COUNT = 1;
 
 	/**
-	 * The number of structural features of the '<em>Topic</em>' class.
+	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.impl.VenueImpl <em>Venue</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOPIC_FEATURE_COUNT = 3;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.impl.SiteImpl <em>Site</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.samples.conference.impl.SiteImpl
-	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getSite()
+	 * @see org.eclipse.emf.samples.conference.impl.VenueImpl
+	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getVenue()
 	 * @generated
 	 */
-	int SITE = 4;
-
-	/**
-	 * The feature id for the '<em><b>Documentation</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SITE__DOCUMENTATION = 0;
+	int VENUE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -369,7 +333,7 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__NAME = 1;
+	int VENUE__NAME = 0;
 
 	/**
 	 * The feature id for the '<em><b>Rooms</b></em>' containment reference list.
@@ -378,16 +342,25 @@ public interface ConferencePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__ROOMS = 2;
+	int VENUE__ROOMS = 1;
 
 	/**
-	 * The number of structural features of the '<em>Site</em>' class.
+	 * The feature id for the '<em><b>Get To The Venue</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SITE_FEATURE_COUNT = 3;
+	int VENUE__GET_TO_THE_VENUE = 2;
+
+	/**
+	 * The number of structural features of the '<em>Venue</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VENUE_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.impl.RoomImpl <em>Room</em>}' class.
@@ -427,14 +400,88 @@ public interface ConferencePackage extends EPackage {
 	int ROOM_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.TALK_TYPE <em>TALK TYPE</em>}' enum.
+	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.impl.ScheduleImpl <em>Schedule</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.samples.conference.TALK_TYPE
-	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getTALK_TYPE()
+	 * @see org.eclipse.emf.samples.conference.impl.ScheduleImpl
+	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getSchedule()
 	 * @generated
 	 */
-	int TALK_TYPE = 6;
+	int SCHEDULE = 6;
+
+	/**
+	 * The feature id for the '<em><b>Sessions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCHEDULE__SESSIONS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Schedule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCHEDULE_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.impl.SessionScheduleImpl <em>Session Schedule</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.samples.conference.impl.SessionScheduleImpl
+	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getSessionSchedule()
+	 * @generated
+	 */
+	int SESSION_SCHEDULE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Session</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SESSION_SCHEDULE__SESSION = 0;
+
+	/**
+	 * The feature id for the '<em><b>Room</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SESSION_SCHEDULE__ROOM = 1;
+
+	/**
+	 * The feature id for the '<em><b>Date</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SESSION_SCHEDULE__DATE = 2;
+
+	/**
+	 * The number of structural features of the '<em>Session Schedule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SESSION_SCHEDULE_FEATURE_COUNT = 3;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.SessionType <em>Session Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.samples.conference.SessionType
+	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getSessionType()
+	 * @generated
+	 */
+	int SESSION_TYPE = 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.samples.conference.GENDER <em>GENDER</em>}' enum.
@@ -444,7 +491,7 @@ public interface ConferencePackage extends EPackage {
 	 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getGENDER()
 	 * @generated
 	 */
-	int GENDER = 7;
+	int GENDER = 9;
 
 
 	/**
@@ -458,17 +505,6 @@ public interface ConferencePackage extends EPackage {
 	EClass getConference();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Conference#getPlace <em>Place</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Place</em>'.
-	 * @see org.eclipse.emf.samples.conference.Conference#getPlace()
-	 * @see #getConference()
-	 * @generated
-	 */
-	EAttribute getConference_Place();
-
-	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.samples.conference.Conference#getParticipants <em>Participants</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -480,37 +516,26 @@ public interface ConferencePackage extends EPackage {
 	EReference getConference_Participants();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.samples.conference.Conference#getTalks <em>Talks</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.samples.conference.Conference#getSessions <em>Sessions</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Talks</em>'.
-	 * @see org.eclipse.emf.samples.conference.Conference#getTalks()
+	 * @return the meta object for the containment reference list '<em>Sessions</em>'.
+	 * @see org.eclipse.emf.samples.conference.Conference#getSessions()
 	 * @see #getConference()
 	 * @generated
 	 */
-	EReference getConference_Talks();
+	EReference getConference_Sessions();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.samples.conference.Conference#getTopics <em>Topics</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.samples.conference.Conference#getVenues <em>Venues</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Topics</em>'.
-	 * @see org.eclipse.emf.samples.conference.Conference#getTopics()
+	 * @return the meta object for the containment reference list '<em>Venues</em>'.
+	 * @see org.eclipse.emf.samples.conference.Conference#getVenues()
 	 * @see #getConference()
 	 * @generated
 	 */
-	EReference getConference_Topics();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.samples.conference.Conference#getSites <em>Sites</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Sites</em>'.
-	 * @see org.eclipse.emf.samples.conference.Conference#getSites()
-	 * @see #getConference()
-	 * @generated
-	 */
-	EReference getConference_Sites();
+	EReference getConference_Venues();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Conference#getName <em>Name</em>}'.
@@ -535,253 +560,242 @@ public interface ConferencePackage extends EPackage {
 	EAttribute getConference_Overview();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.samples.conference.Person <em>Person</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.samples.conference.Conference#getSchedule <em>Schedule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Person</em>'.
-	 * @see org.eclipse.emf.samples.conference.Person
+	 * @return the meta object for the containment reference '<em>Schedule</em>'.
+	 * @see org.eclipse.emf.samples.conference.Conference#getSchedule()
+	 * @see #getConference()
 	 * @generated
 	 */
-	EClass getPerson();
+	EReference getConference_Schedule();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Person#getFirstname <em>Firstname</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.emf.samples.conference.Participant <em>Participant</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Participant</em>'.
+	 * @see org.eclipse.emf.samples.conference.Participant
+	 * @generated
+	 */
+	EClass getParticipant();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Participant#getFirstname <em>Firstname</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Firstname</em>'.
-	 * @see org.eclipse.emf.samples.conference.Person#getFirstname()
-	 * @see #getPerson()
+	 * @see org.eclipse.emf.samples.conference.Participant#getFirstname()
+	 * @see #getParticipant()
 	 * @generated
 	 */
-	EAttribute getPerson_Firstname();
+	EAttribute getParticipant_Firstname();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Person#getLastname <em>Lastname</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Participant#getLastname <em>Lastname</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Lastname</em>'.
-	 * @see org.eclipse.emf.samples.conference.Person#getLastname()
-	 * @see #getPerson()
+	 * @see org.eclipse.emf.samples.conference.Participant#getLastname()
+	 * @see #getParticipant()
 	 * @generated
 	 */
-	EAttribute getPerson_Lastname();
+	EAttribute getParticipant_Lastname();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Person#getAge <em>Age</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Age</em>'.
-	 * @see org.eclipse.emf.samples.conference.Person#getAge()
-	 * @see #getPerson()
-	 * @generated
-	 */
-	EAttribute getPerson_Age();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Person#isEclipseCommiter <em>Eclipse Commiter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Eclipse Commiter</em>'.
-	 * @see org.eclipse.emf.samples.conference.Person#isEclipseCommiter()
-	 * @see #getPerson()
-	 * @generated
-	 */
-	EAttribute getPerson_EclipseCommiter();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.emf.samples.conference.Person#getAssists <em>Assists</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.samples.conference.Participant#getAssists <em>Assists</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Assists</em>'.
-	 * @see org.eclipse.emf.samples.conference.Person#getAssists()
-	 * @see #getPerson()
+	 * @see org.eclipse.emf.samples.conference.Participant#getAssists()
+	 * @see #getParticipant()
 	 * @generated
 	 */
-	EReference getPerson_Assists();
+	EReference getParticipant_Assists();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Person#getGender <em>Gender</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Participant#getGender <em>Gender</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Gender</em>'.
-	 * @see org.eclipse.emf.samples.conference.Person#getGender()
-	 * @see #getPerson()
+	 * @see org.eclipse.emf.samples.conference.Participant#getGender()
+	 * @see #getParticipant()
 	 * @generated
 	 */
-	EAttribute getPerson_Gender();
+	EAttribute getParticipant_Gender();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Person#isIsRegistered <em>Is Registered</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Participant#isIsRegistered <em>Is Registered</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Is Registered</em>'.
-	 * @see org.eclipse.emf.samples.conference.Person#isIsRegistered()
-	 * @see #getPerson()
+	 * @see org.eclipse.emf.samples.conference.Participant#isIsRegistered()
+	 * @see #getParticipant()
 	 * @generated
 	 */
-	EAttribute getPerson_IsRegistered();
+	EAttribute getParticipant_IsRegistered();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.samples.conference.Talk <em>Talk</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Participant#getJobTitle <em>Job Title</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Talk</em>'.
-	 * @see org.eclipse.emf.samples.conference.Talk
+	 * @return the meta object for the attribute '<em>Job Title</em>'.
+	 * @see org.eclipse.emf.samples.conference.Participant#getJobTitle()
+	 * @see #getParticipant()
 	 * @generated
 	 */
-	EClass getTalk();
+	EAttribute getParticipant_JobTitle();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Talk#getTitle <em>Title</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Participant#getBio <em>Bio</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Bio</em>'.
+	 * @see org.eclipse.emf.samples.conference.Participant#getBio()
+	 * @see #getParticipant()
+	 * @generated
+	 */
+	EAttribute getParticipant_Bio();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Participant#isSpeaker <em>Speaker</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Speaker</em>'.
+	 * @see org.eclipse.emf.samples.conference.Participant#isSpeaker()
+	 * @see #getParticipant()
+	 * @generated
+	 */
+	EAttribute getParticipant_Speaker();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.samples.conference.Session <em>Session</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Session</em>'.
+	 * @see org.eclipse.emf.samples.conference.Session
+	 * @generated
+	 */
+	EClass getSession();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Session#getTitle <em>Title</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Title</em>'.
-	 * @see org.eclipse.emf.samples.conference.Talk#getTitle()
-	 * @see #getTalk()
+	 * @see org.eclipse.emf.samples.conference.Session#getTitle()
+	 * @see #getSession()
 	 * @generated
 	 */
-	EAttribute getTalk_Title();
+	EAttribute getSession_Title();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.emf.samples.conference.Talk#getTopic <em>Topic</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.samples.conference.Session#getKeywords <em>Keywords</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Topic</em>'.
-	 * @see org.eclipse.emf.samples.conference.Talk#getTopic()
-	 * @see #getTalk()
+	 * @return the meta object for the containment reference list '<em>Keywords</em>'.
+	 * @see org.eclipse.emf.samples.conference.Session#getKeywords()
+	 * @see #getSession()
 	 * @generated
 	 */
-	EReference getTalk_Topic();
+	EReference getSession_Keywords();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Talk#getType <em>Type</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Session#getType <em>Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Type</em>'.
-	 * @see org.eclipse.emf.samples.conference.Talk#getType()
-	 * @see #getTalk()
+	 * @see org.eclipse.emf.samples.conference.Session#getType()
+	 * @see #getSession()
 	 * @generated
 	 */
-	EAttribute getTalk_Type();
+	EAttribute getSession_Type();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.emf.samples.conference.Talk#getPresenter <em>Presenter</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.samples.conference.Session#getPresenters <em>Presenters</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Presenter</em>'.
-	 * @see org.eclipse.emf.samples.conference.Talk#getPresenter()
-	 * @see #getTalk()
+	 * @return the meta object for the reference list '<em>Presenters</em>'.
+	 * @see org.eclipse.emf.samples.conference.Session#getPresenters()
+	 * @see #getSession()
 	 * @generated
 	 */
-	EReference getTalk_Presenter();
+	EReference getSession_Presenters();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.emf.samples.conference.Talk#getCreator <em>Creator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Creator</em>'.
-	 * @see org.eclipse.emf.samples.conference.Talk#getCreator()
-	 * @see #getTalk()
-	 * @generated
-	 */
-	EReference getTalk_Creator();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Talk#getDocumentation <em>Documentation</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Session#getDocumentation <em>Documentation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Documentation</em>'.
-	 * @see org.eclipse.emf.samples.conference.Talk#getDocumentation()
-	 * @see #getTalk()
+	 * @see org.eclipse.emf.samples.conference.Session#getDocumentation()
+	 * @see #getSession()
 	 * @generated
 	 */
-	EAttribute getTalk_Documentation();
+	EAttribute getSession_Documentation();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.samples.conference.Topic <em>Topic</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.emf.samples.conference.Keyword <em>Keyword</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Topic</em>'.
-	 * @see org.eclipse.emf.samples.conference.Topic
+	 * @return the meta object for class '<em>Keyword</em>'.
+	 * @see org.eclipse.emf.samples.conference.Keyword
 	 * @generated
 	 */
-	EClass getTopic();
+	EClass getKeyword();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Topic#getDescription <em>Description</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Keyword#getLabel <em>Label</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Description</em>'.
-	 * @see org.eclipse.emf.samples.conference.Topic#getDescription()
-	 * @see #getTopic()
+	 * @return the meta object for the attribute '<em>Label</em>'.
+	 * @see org.eclipse.emf.samples.conference.Keyword#getLabel()
+	 * @see #getKeyword()
 	 * @generated
 	 */
-	EAttribute getTopic_Description();
+	EAttribute getKeyword_Label();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.eclipse.emf.samples.conference.Topic#getReferences <em>References</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.emf.samples.conference.Venue <em>Venue</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>References</em>'.
-	 * @see org.eclipse.emf.samples.conference.Topic#getReferences()
-	 * @see #getTopic()
+	 * @return the meta object for class '<em>Venue</em>'.
+	 * @see org.eclipse.emf.samples.conference.Venue
 	 * @generated
 	 */
-	EAttribute getTopic_References();
+	EClass getVenue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Topic#getDocumentation <em>Documentation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Documentation</em>'.
-	 * @see org.eclipse.emf.samples.conference.Topic#getDocumentation()
-	 * @see #getTopic()
-	 * @generated
-	 */
-	EAttribute getTopic_Documentation();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.samples.conference.Site <em>Site</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Site</em>'.
-	 * @see org.eclipse.emf.samples.conference.Site
-	 * @generated
-	 */
-	EClass getSite();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Site#getDocumentation <em>Documentation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Documentation</em>'.
-	 * @see org.eclipse.emf.samples.conference.Site#getDocumentation()
-	 * @see #getSite()
-	 * @generated
-	 */
-	EAttribute getSite_Documentation();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Site#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Venue#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.eclipse.emf.samples.conference.Site#getName()
-	 * @see #getSite()
+	 * @see org.eclipse.emf.samples.conference.Venue#getName()
+	 * @see #getVenue()
 	 * @generated
 	 */
-	EAttribute getSite_Name();
+	EAttribute getVenue_Name();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.samples.conference.Site#getRooms <em>Rooms</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.samples.conference.Venue#getRooms <em>Rooms</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Rooms</em>'.
-	 * @see org.eclipse.emf.samples.conference.Site#getRooms()
-	 * @see #getSite()
+	 * @see org.eclipse.emf.samples.conference.Venue#getRooms()
+	 * @see #getVenue()
 	 * @generated
 	 */
-	EReference getSite_Rooms();
+	EReference getVenue_Rooms();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Venue#getGetToTheVenue <em>Get To The Venue</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Get To The Venue</em>'.
+	 * @see org.eclipse.emf.samples.conference.Venue#getGetToTheVenue()
+	 * @see #getVenue()
+	 * @generated
+	 */
+	EAttribute getVenue_GetToTheVenue();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.samples.conference.Room <em>Room</em>}'.
@@ -816,14 +830,78 @@ public interface ConferencePackage extends EPackage {
 	EAttribute getRoom_Capacity();
 
 	/**
-	 * Returns the meta object for enum '{@link org.eclipse.emf.samples.conference.TALK_TYPE <em>TALK TYPE</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.emf.samples.conference.Schedule <em>Schedule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>TALK TYPE</em>'.
-	 * @see org.eclipse.emf.samples.conference.TALK_TYPE
+	 * @return the meta object for class '<em>Schedule</em>'.
+	 * @see org.eclipse.emf.samples.conference.Schedule
 	 * @generated
 	 */
-	EEnum getTALK_TYPE();
+	EClass getSchedule();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.samples.conference.Schedule#getSessions <em>Sessions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Sessions</em>'.
+	 * @see org.eclipse.emf.samples.conference.Schedule#getSessions()
+	 * @see #getSchedule()
+	 * @generated
+	 */
+	EReference getSchedule_Sessions();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.samples.conference.SessionSchedule <em>Session Schedule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Session Schedule</em>'.
+	 * @see org.eclipse.emf.samples.conference.SessionSchedule
+	 * @generated
+	 */
+	EClass getSessionSchedule();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.samples.conference.SessionSchedule#getSession <em>Session</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Session</em>'.
+	 * @see org.eclipse.emf.samples.conference.SessionSchedule#getSession()
+	 * @see #getSessionSchedule()
+	 * @generated
+	 */
+	EReference getSessionSchedule_Session();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.samples.conference.SessionSchedule#getRoom <em>Room</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Room</em>'.
+	 * @see org.eclipse.emf.samples.conference.SessionSchedule#getRoom()
+	 * @see #getSessionSchedule()
+	 * @generated
+	 */
+	EReference getSessionSchedule_Room();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.SessionSchedule#getDate <em>Date</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Date</em>'.
+	 * @see org.eclipse.emf.samples.conference.SessionSchedule#getDate()
+	 * @see #getSessionSchedule()
+	 * @generated
+	 */
+	EAttribute getSessionSchedule_Date();
+
+	/**
+	 * Returns the meta object for enum '{@link org.eclipse.emf.samples.conference.SessionType <em>Session Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Session Type</em>'.
+	 * @see org.eclipse.emf.samples.conference.SessionType
+	 * @generated
+	 */
+	EEnum getSessionType();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.emf.samples.conference.GENDER <em>GENDER</em>}'.
@@ -868,14 +946,6 @@ public interface ConferencePackage extends EPackage {
 		EClass CONFERENCE = eINSTANCE.getConference();
 
 		/**
-		 * The meta object literal for the '<em><b>Place</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CONFERENCE__PLACE = eINSTANCE.getConference_Place();
-
-		/**
 		 * The meta object literal for the '<em><b>Participants</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -884,28 +954,20 @@ public interface ConferencePackage extends EPackage {
 		EReference CONFERENCE__PARTICIPANTS = eINSTANCE.getConference_Participants();
 
 		/**
-		 * The meta object literal for the '<em><b>Talks</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Sessions</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CONFERENCE__TALKS = eINSTANCE.getConference_Talks();
+		EReference CONFERENCE__SESSIONS = eINSTANCE.getConference_Sessions();
 
 		/**
-		 * The meta object literal for the '<em><b>Topics</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Venues</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CONFERENCE__TOPICS = eINSTANCE.getConference_Topics();
-
-		/**
-		 * The meta object literal for the '<em><b>Sites</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CONFERENCE__SITES = eINSTANCE.getConference_Sites();
+		EReference CONFERENCE__VENUES = eINSTANCE.getConference_Venues();
 
 		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
@@ -924,14 +986,22 @@ public interface ConferencePackage extends EPackage {
 		EAttribute CONFERENCE__OVERVIEW = eINSTANCE.getConference_Overview();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.impl.PersonImpl <em>Person</em>}' class.
+		 * The meta object literal for the '<em><b>Schedule</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.samples.conference.impl.PersonImpl
-		 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getPerson()
 		 * @generated
 		 */
-		EClass PERSON = eINSTANCE.getPerson();
+		EReference CONFERENCE__SCHEDULE = eINSTANCE.getConference_Schedule();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.impl.ParticipantImpl <em>Participant</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.samples.conference.impl.ParticipantImpl
+		 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getParticipant()
+		 * @generated
+		 */
+		EClass PARTICIPANT = eINSTANCE.getParticipant();
 
 		/**
 		 * The meta object literal for the '<em><b>Firstname</b></em>' attribute feature.
@@ -939,7 +1009,7 @@ public interface ConferencePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PERSON__FIRSTNAME = eINSTANCE.getPerson_Firstname();
+		EAttribute PARTICIPANT__FIRSTNAME = eINSTANCE.getParticipant_Firstname();
 
 		/**
 		 * The meta object literal for the '<em><b>Lastname</b></em>' attribute feature.
@@ -947,23 +1017,7 @@ public interface ConferencePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PERSON__LASTNAME = eINSTANCE.getPerson_Lastname();
-
-		/**
-		 * The meta object literal for the '<em><b>Age</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute PERSON__AGE = eINSTANCE.getPerson_Age();
-
-		/**
-		 * The meta object literal for the '<em><b>Eclipse Commiter</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute PERSON__ECLIPSE_COMMITER = eINSTANCE.getPerson_EclipseCommiter();
+		EAttribute PARTICIPANT__LASTNAME = eINSTANCE.getParticipant_Lastname();
 
 		/**
 		 * The meta object literal for the '<em><b>Assists</b></em>' reference list feature.
@@ -971,7 +1025,7 @@ public interface ConferencePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PERSON__ASSISTS = eINSTANCE.getPerson_Assists();
+		EReference PARTICIPANT__ASSISTS = eINSTANCE.getParticipant_Assists();
 
 		/**
 		 * The meta object literal for the '<em><b>Gender</b></em>' attribute feature.
@@ -979,7 +1033,7 @@ public interface ConferencePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PERSON__GENDER = eINSTANCE.getPerson_Gender();
+		EAttribute PARTICIPANT__GENDER = eINSTANCE.getParticipant_Gender();
 
 		/**
 		 * The meta object literal for the '<em><b>Is Registered</b></em>' attribute feature.
@@ -987,17 +1041,41 @@ public interface ConferencePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PERSON__IS_REGISTERED = eINSTANCE.getPerson_IsRegistered();
+		EAttribute PARTICIPANT__IS_REGISTERED = eINSTANCE.getParticipant_IsRegistered();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.impl.TalkImpl <em>Talk</em>}' class.
+		 * The meta object literal for the '<em><b>Job Title</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.samples.conference.impl.TalkImpl
-		 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getTalk()
 		 * @generated
 		 */
-		EClass TALK = eINSTANCE.getTalk();
+		EAttribute PARTICIPANT__JOB_TITLE = eINSTANCE.getParticipant_JobTitle();
+
+		/**
+		 * The meta object literal for the '<em><b>Bio</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARTICIPANT__BIO = eINSTANCE.getParticipant_Bio();
+
+		/**
+		 * The meta object literal for the '<em><b>Speaker</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARTICIPANT__SPEAKER = eINSTANCE.getParticipant_Speaker();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.impl.SessionImpl <em>Session</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.samples.conference.impl.SessionImpl
+		 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getSession()
+		 * @generated
+		 */
+		EClass SESSION = eINSTANCE.getSession();
 
 		/**
 		 * The meta object literal for the '<em><b>Title</b></em>' attribute feature.
@@ -1005,15 +1083,15 @@ public interface ConferencePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute TALK__TITLE = eINSTANCE.getTalk_Title();
+		EAttribute SESSION__TITLE = eINSTANCE.getSession_Title();
 
 		/**
-		 * The meta object literal for the '<em><b>Topic</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Keywords</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference TALK__TOPIC = eINSTANCE.getTalk_Topic();
+		EReference SESSION__KEYWORDS = eINSTANCE.getSession_Keywords();
 
 		/**
 		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
@@ -1021,23 +1099,15 @@ public interface ConferencePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute TALK__TYPE = eINSTANCE.getTalk_Type();
+		EAttribute SESSION__TYPE = eINSTANCE.getSession_Type();
 
 		/**
-		 * The meta object literal for the '<em><b>Presenter</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Presenters</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference TALK__PRESENTER = eINSTANCE.getTalk_Presenter();
-
-		/**
-		 * The meta object literal for the '<em><b>Creator</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TALK__CREATOR = eINSTANCE.getTalk_Creator();
+		EReference SESSION__PRESENTERS = eINSTANCE.getSession_Presenters();
 
 		/**
 		 * The meta object literal for the '<em><b>Documentation</b></em>' attribute feature.
@@ -1045,59 +1115,35 @@ public interface ConferencePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute TALK__DOCUMENTATION = eINSTANCE.getTalk_Documentation();
+		EAttribute SESSION__DOCUMENTATION = eINSTANCE.getSession_Documentation();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.impl.TopicImpl <em>Topic</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.impl.KeywordImpl <em>Keyword</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.samples.conference.impl.TopicImpl
-		 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getTopic()
+		 * @see org.eclipse.emf.samples.conference.impl.KeywordImpl
+		 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getKeyword()
 		 * @generated
 		 */
-		EClass TOPIC = eINSTANCE.getTopic();
+		EClass KEYWORD = eINSTANCE.getKeyword();
 
 		/**
-		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TOPIC__DESCRIPTION = eINSTANCE.getTopic_Description();
-
-		/**
-		 * The meta object literal for the '<em><b>References</b></em>' attribute list feature.
+		 * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute TOPIC__REFERENCES = eINSTANCE.getTopic_References();
+		EAttribute KEYWORD__LABEL = eINSTANCE.getKeyword_Label();
 
 		/**
-		 * The meta object literal for the '<em><b>Documentation</b></em>' attribute feature.
+		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.impl.VenueImpl <em>Venue</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.samples.conference.impl.VenueImpl
+		 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getVenue()
 		 * @generated
 		 */
-		EAttribute TOPIC__DOCUMENTATION = eINSTANCE.getTopic_Documentation();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.impl.SiteImpl <em>Site</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.samples.conference.impl.SiteImpl
-		 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getSite()
-		 * @generated
-		 */
-		EClass SITE = eINSTANCE.getSite();
-
-		/**
-		 * The meta object literal for the '<em><b>Documentation</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SITE__DOCUMENTATION = eINSTANCE.getSite_Documentation();
+		EClass VENUE = eINSTANCE.getVenue();
 
 		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
@@ -1105,7 +1151,7 @@ public interface ConferencePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SITE__NAME = eINSTANCE.getSite_Name();
+		EAttribute VENUE__NAME = eINSTANCE.getVenue_Name();
 
 		/**
 		 * The meta object literal for the '<em><b>Rooms</b></em>' containment reference list feature.
@@ -1113,7 +1159,15 @@ public interface ConferencePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SITE__ROOMS = eINSTANCE.getSite_Rooms();
+		EReference VENUE__ROOMS = eINSTANCE.getVenue_Rooms();
+
+		/**
+		 * The meta object literal for the '<em><b>Get To The Venue</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VENUE__GET_TO_THE_VENUE = eINSTANCE.getVenue_GetToTheVenue();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.impl.RoomImpl <em>Room</em>}' class.
@@ -1142,14 +1196,66 @@ public interface ConferencePackage extends EPackage {
 		EAttribute ROOM__CAPACITY = eINSTANCE.getRoom_Capacity();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.TALK_TYPE <em>TALK TYPE</em>}' enum.
+		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.impl.ScheduleImpl <em>Schedule</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.samples.conference.TALK_TYPE
-		 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getTALK_TYPE()
+		 * @see org.eclipse.emf.samples.conference.impl.ScheduleImpl
+		 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getSchedule()
 		 * @generated
 		 */
-		EEnum TALK_TYPE = eINSTANCE.getTALK_TYPE();
+		EClass SCHEDULE = eINSTANCE.getSchedule();
+
+		/**
+		 * The meta object literal for the '<em><b>Sessions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCHEDULE__SESSIONS = eINSTANCE.getSchedule_Sessions();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.impl.SessionScheduleImpl <em>Session Schedule</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.samples.conference.impl.SessionScheduleImpl
+		 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getSessionSchedule()
+		 * @generated
+		 */
+		EClass SESSION_SCHEDULE = eINSTANCE.getSessionSchedule();
+
+		/**
+		 * The meta object literal for the '<em><b>Session</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SESSION_SCHEDULE__SESSION = eINSTANCE.getSessionSchedule_Session();
+
+		/**
+		 * The meta object literal for the '<em><b>Room</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SESSION_SCHEDULE__ROOM = eINSTANCE.getSessionSchedule_Room();
+
+		/**
+		 * The meta object literal for the '<em><b>Date</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SESSION_SCHEDULE__DATE = eINSTANCE.getSessionSchedule_Date();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.SessionType <em>Session Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.samples.conference.SessionType
+		 * @see org.eclipse.emf.samples.conference.impl.ConferencePackageImpl#getSessionType()
+		 * @generated
+		 */
+		EEnum SESSION_TYPE = eINSTANCE.getSessionType();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.samples.conference.GENDER <em>GENDER</em>}' enum.

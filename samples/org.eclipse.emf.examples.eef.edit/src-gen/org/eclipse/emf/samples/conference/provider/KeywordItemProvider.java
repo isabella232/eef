@@ -27,15 +27,15 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import org.eclipse.emf.samples.conference.ConferencePackage;
-import org.eclipse.emf.samples.conference.Room;
+import org.eclipse.emf.samples.conference.Keyword;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.samples.conference.Room} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.samples.conference.Keyword} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class RoomItemProvider
+public class KeywordItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -49,7 +49,7 @@ public class RoomItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RoomItemProvider(AdapterFactory adapterFactory) {
+	public KeywordItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -64,26 +64,25 @@ public class RoomItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
-			addCapacityPropertyDescriptor(object);
+			addLabelPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
+	 * This adds a property descriptor for the Label feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNamePropertyDescriptor(Object object) {
+	protected void addLabelPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Room_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Room_name_feature", "_UI_Room_type"),
-				 ConferencePackage.Literals.ROOM__NAME,
+				 getString("_UI_Keyword_label_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Keyword_label_feature", "_UI_Keyword_type"),
+				 ConferencePackage.Literals.KEYWORD__LABEL,
 				 true,
 				 false,
 				 false,
@@ -93,36 +92,14 @@ public class RoomItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Capacity feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addCapacityPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Room_capacity_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Room_capacity_feature", "_UI_Room_type"),
-				 ConferencePackage.Literals.ROOM__CAPACITY,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This returns Room.gif.
+	 * This returns Keyword.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Room"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Keyword"));
 	}
 
 	/**
@@ -133,10 +110,10 @@ public class RoomItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Room)object).getName();
+		String label = ((Keyword)object).getLabel();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Room_type") :
-			getString("_UI_Room_type") + " " + label;
+			getString("_UI_Keyword_type") :
+			getString("_UI_Keyword_type") + " " + label;
 	}
 
 	/**
@@ -150,9 +127,8 @@ public class RoomItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Room.class)) {
-			case ConferencePackage.ROOM__NAME:
-			case ConferencePackage.ROOM__CAPACITY:
+		switch (notification.getFeatureID(Keyword.class)) {
+			case ConferencePackage.KEYWORD__LABEL:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

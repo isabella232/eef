@@ -12,7 +12,7 @@
 
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <factory
-            uri="http://www.eclipse.org/emf/samples/eef/1.0.0"
+            uri="http://www.eclipse.org/emf/samples/eef/2.0"
             class="org.eclipse.emf.samples.conference.provider.ConferenceItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TalkItemProvider.java,v 1.4 2011/01/02 14:10:47 glefur Exp $
+ * $Id$
  */
 package org.eclipse.emf.samples.conference.provider;
 
@@ -12,7 +12,11 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.ResourceLocator;
+
+import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -23,16 +27,18 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
+import org.eclipse.emf.samples.conference.ConferenceFactory;
 import org.eclipse.emf.samples.conference.ConferencePackage;
-import org.eclipse.emf.samples.conference.Talk;
+import org.eclipse.emf.samples.conference.Venue;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.samples.conference.Talk} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.samples.conference.Venue} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class TalkItemProvider
+public class VenueItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -46,7 +52,7 @@ public class TalkItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TalkItemProvider(AdapterFactory adapterFactory) {
+	public VenueItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -61,30 +67,26 @@ public class TalkItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addTitlePropertyDescriptor(object);
-			addTopicPropertyDescriptor(object);
-			addTypePropertyDescriptor(object);
-			addPresenterPropertyDescriptor(object);
-			addCreatorPropertyDescriptor(object);
-			addDocumentationPropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
+			addGetToTheVenuePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Title feature.
+	 * This adds a property descriptor for the Name feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addTitlePropertyDescriptor(Object object) {
+	protected void addNamePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Talk_title_feature"),
-				 getString("_UI_Talk_title_description"),
-				 ConferencePackage.Literals.TALK__TITLE,
+				 getString("_UI_Venue_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Venue_name_feature", "_UI_Venue_type"),
+				 ConferencePackage.Literals.VENUE__NAME,
 				 true,
 				 false,
 				 false,
@@ -94,41 +96,19 @@ public class TalkItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Topic feature.
+	 * This adds a property descriptor for the Get To The Venue feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addTopicPropertyDescriptor(Object object) {
+	protected void addGetToTheVenuePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Talk_topic_feature"),
-				 getString("_UI_Talk_topic_description"),
-				 ConferencePackage.Literals.TALK__TOPIC,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Type feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addTypePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Talk_type_feature"),
-				 getString("_UI_Talk_type_description"),
-				 ConferencePackage.Literals.TALK__TYPE,
+				 getString("_UI_Venue_getToTheVenue_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Venue_getToTheVenue_feature", "_UI_Venue_type"),
+				 ConferencePackage.Literals.VENUE__GET_TO_THE_VENUE,
 				 true,
 				 false,
 				 false,
@@ -138,80 +118,44 @@ public class TalkItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Presenter feature.
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addPresenterPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Talk_presenter_feature"),
-				 getString("_UI_Talk_presenter_description"),
-				 ConferencePackage.Literals.TALK__PRESENTER,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+	@Override
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
+		if (childrenFeatures == null) {
+			super.getChildrenFeatures(object);
+			childrenFeatures.add(ConferencePackage.Literals.VENUE__ROOMS);
+		}
+		return childrenFeatures;
 	}
 
 	/**
-	 * This adds a property descriptor for the Creator feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addCreatorPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Talk_creator_feature"),
-				 getString("_UI_Talk_creator_description"),
-				 ConferencePackage.Literals.TALK__CREATOR,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+	@Override
+	protected EStructuralFeature getChildFeature(Object object, Object child) {
+		// Check the type of the specified child object and return the proper feature to use for
+		// adding (see {@link AddCommand}) it as a child.
+
+		return super.getChildFeature(object, child);
 	}
 
 	/**
-	 * This adds a property descriptor for the Documentation feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addDocumentationPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Talk_documentation_feature"),
-				 getString("_UI_Talk_documentation_description"),
-				 ConferencePackage.Literals.TALK__DOCUMENTATION,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This returns Talk.gif.
+	 * This returns Venue.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Talk"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Venue"));
 	}
 
 	/**
@@ -222,10 +166,10 @@ public class TalkItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Talk)object).getTitle();
+		String label = ((Venue)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Talk_type") :
-			getString("_UI_Talk_type") + " " + label;
+			getString("_UI_Venue_type") :
+			getString("_UI_Venue_type") + " " + label;
 	}
 
 	/**
@@ -239,11 +183,13 @@ public class TalkItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Talk.class)) {
-			case ConferencePackage.TALK__TITLE:
-			case ConferencePackage.TALK__TYPE:
-			case ConferencePackage.TALK__DOCUMENTATION:
+		switch (notification.getFeatureID(Venue.class)) {
+			case ConferencePackage.VENUE__NAME:
+			case ConferencePackage.VENUE__GET_TO_THE_VENUE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case ConferencePackage.VENUE__ROOMS:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -259,6 +205,11 @@ public class TalkItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConferencePackage.Literals.VENUE__ROOMS,
+				 ConferenceFactory.eINSTANCE.createRoom()));
 	}
 
 	/**

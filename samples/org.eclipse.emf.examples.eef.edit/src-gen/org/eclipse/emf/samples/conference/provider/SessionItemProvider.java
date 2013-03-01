@@ -28,17 +28,17 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.eclipse.emf.samples.conference.Conference;
 import org.eclipse.emf.samples.conference.ConferenceFactory;
 import org.eclipse.emf.samples.conference.ConferencePackage;
+import org.eclipse.emf.samples.conference.Session;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.samples.conference.Conference} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.samples.conference.Session} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ConferenceItemProvider
+public class SessionItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -52,7 +52,7 @@ public class ConferenceItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ConferenceItemProvider(AdapterFactory adapterFactory) {
+	public SessionItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -67,26 +67,28 @@ public class ConferenceItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
-			addOverviewPropertyDescriptor(object);
+			addTitlePropertyDescriptor(object);
+			addTypePropertyDescriptor(object);
+			addPresentersPropertyDescriptor(object);
+			addDocumentationPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
+	 * This adds a property descriptor for the Title feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNamePropertyDescriptor(Object object) {
+	protected void addTitlePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Conference_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Conference_name_feature", "_UI_Conference_type"),
-				 ConferencePackage.Literals.CONFERENCE__NAME,
+				 getString("_UI_Session_title_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Session_title_feature", "_UI_Session_type"),
+				 ConferencePackage.Literals.SESSION__TITLE,
 				 true,
 				 false,
 				 false,
@@ -96,19 +98,63 @@ public class ConferenceItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Overview feature.
+	 * This adds a property descriptor for the Type feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addOverviewPropertyDescriptor(Object object) {
+	protected void addTypePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Conference_overview_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Conference_overview_feature", "_UI_Conference_type"),
-				 ConferencePackage.Literals.CONFERENCE__OVERVIEW,
+				 getString("_UI_Session_type_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Session_type_feature", "_UI_Session_type"),
+				 ConferencePackage.Literals.SESSION__TYPE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Presenters feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPresentersPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Session_presenters_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Session_presenters_feature", "_UI_Session_type"),
+				 ConferencePackage.Literals.SESSION__PRESENTERS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Documentation feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addDocumentationPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Session_documentation_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Session_documentation_feature", "_UI_Session_type"),
+				 ConferencePackage.Literals.SESSION__DOCUMENTATION,
 				 true,
 				 false,
 				 false,
@@ -129,10 +175,7 @@ public class ConferenceItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ConferencePackage.Literals.CONFERENCE__PARTICIPANTS);
-			childrenFeatures.add(ConferencePackage.Literals.CONFERENCE__SESSIONS);
-			childrenFeatures.add(ConferencePackage.Literals.CONFERENCE__VENUES);
-			childrenFeatures.add(ConferencePackage.Literals.CONFERENCE__SCHEDULE);
+			childrenFeatures.add(ConferencePackage.Literals.SESSION__KEYWORDS);
 		}
 		return childrenFeatures;
 	}
@@ -151,14 +194,14 @@ public class ConferenceItemProvider
 	}
 
 	/**
-	 * This returns Conference.gif.
+	 * This returns Session.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Conference"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Session"));
 	}
 
 	/**
@@ -169,10 +212,10 @@ public class ConferenceItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Conference)object).getName();
+		String label = ((Session)object).getTitle();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Conference_type") :
-			getString("_UI_Conference_type") + " " + label;
+			getString("_UI_Session_type") :
+			getString("_UI_Session_type") + " " + label;
 	}
 
 	/**
@@ -186,15 +229,13 @@ public class ConferenceItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Conference.class)) {
-			case ConferencePackage.CONFERENCE__NAME:
-			case ConferencePackage.CONFERENCE__OVERVIEW:
+		switch (notification.getFeatureID(Session.class)) {
+			case ConferencePackage.SESSION__TITLE:
+			case ConferencePackage.SESSION__TYPE:
+			case ConferencePackage.SESSION__DOCUMENTATION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case ConferencePackage.CONFERENCE__PARTICIPANTS:
-			case ConferencePackage.CONFERENCE__SESSIONS:
-			case ConferencePackage.CONFERENCE__VENUES:
-			case ConferencePackage.CONFERENCE__SCHEDULE:
+			case ConferencePackage.SESSION__KEYWORDS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -214,23 +255,8 @@ public class ConferenceItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ConferencePackage.Literals.CONFERENCE__PARTICIPANTS,
-				 ConferenceFactory.eINSTANCE.createParticipant()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ConferencePackage.Literals.CONFERENCE__SESSIONS,
-				 ConferenceFactory.eINSTANCE.createSession()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ConferencePackage.Literals.CONFERENCE__VENUES,
-				 ConferenceFactory.eINSTANCE.createVenue()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ConferencePackage.Literals.CONFERENCE__SCHEDULE,
-				 ConferenceFactory.eINSTANCE.createSchedule()));
+				(ConferencePackage.Literals.SESSION__KEYWORDS,
+				 ConferenceFactory.eINSTANCE.createKeyword()));
 	}
 
 	/**

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Room.java,v 1.1 2011/04/23 20:13:47 glefur Exp $
+ * $Id$
  */
 package org.eclipse.emf.samples.conference;
 

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ConferenceImpl.java,v 1.4 2011/01/05 15:06:12 glefur Exp $
+ * $Id$
  */
 package org.eclipse.emf.samples.conference.impl;
 
@@ -10,19 +10,24 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.eclipse.emf.samples.conference.Conference;
 import org.eclipse.emf.samples.conference.ConferencePackage;
-import org.eclipse.emf.samples.conference.Person;
-import org.eclipse.emf.samples.conference.Site;
-import org.eclipse.emf.samples.conference.Talk;
-import org.eclipse.emf.samples.conference.Topic;
+import org.eclipse.emf.samples.conference.Participant;
+import org.eclipse.emf.samples.conference.Schedule;
+import org.eclipse.emf.samples.conference.Session;
+import org.eclipse.emf.samples.conference.Venue;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,39 +36,18 @@ import org.eclipse.emf.samples.conference.Topic;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.samples.conference.impl.ConferenceImpl#getPlace <em>Place</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.ConferenceImpl#getParticipants <em>Participants</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.impl.ConferenceImpl#getTalks <em>Talks</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.impl.ConferenceImpl#getTopics <em>Topics</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.impl.ConferenceImpl#getSites <em>Sites</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.impl.ConferenceImpl#getSessions <em>Sessions</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.impl.ConferenceImpl#getVenues <em>Venues</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.ConferenceImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.ConferenceImpl#getOverview <em>Overview</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.impl.ConferenceImpl#getSchedule <em>Schedule</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class ConferenceImpl extends EObjectImpl implements Conference {
-	/**
-	 * The default value of the '{@link #getPlace() <em>Place</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPlace()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String PLACE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getPlace() <em>Place</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPlace()
-	 * @generated
-	 * @ordered
-	 */
-	protected String place = PLACE_EDEFAULT;
-
 	/**
 	 * The cached value of the '{@link #getParticipants() <em>Participants</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -72,37 +56,27 @@ public class ConferenceImpl extends EObjectImpl implements Conference {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Person> participants;
+	protected EList<Participant> participants;
 
 	/**
-	 * The cached value of the '{@link #getTalks() <em>Talks</em>}' containment reference list.
+	 * The cached value of the '{@link #getSessions() <em>Sessions</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getTalks()
+	 * @see #getSessions()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Talk> talks;
+	protected EList<Session> sessions;
 
 	/**
-	 * The cached value of the '{@link #getTopics() <em>Topics</em>}' containment reference list.
+	 * The cached value of the '{@link #getVenues() <em>Venues</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getTopics()
+	 * @see #getVenues()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Topic> topics;
-
-	/**
-	 * The cached value of the '{@link #getSites() <em>Sites</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSites()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Site> sites;
+	protected EList<Venue> venues;
 
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -145,6 +119,16 @@ public class ConferenceImpl extends EObjectImpl implements Conference {
 	protected String overview = OVERVIEW_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getSchedule() <em>Schedule</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSchedule()
+	 * @generated
+	 * @ordered
+	 */
+	protected Schedule schedule;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -168,30 +152,9 @@ public class ConferenceImpl extends EObjectImpl implements Conference {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getPlace() {
-		return place;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPlace(String newPlace) {
-		String oldPlace = place;
-		place = newPlace;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConferencePackage.CONFERENCE__PLACE, oldPlace, place));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Person> getParticipants() {
+	public EList<Participant> getParticipants() {
 		if (participants == null) {
-			participants = new EObjectContainmentEList<Person>(Person.class, this, ConferencePackage.CONFERENCE__PARTICIPANTS);
+			participants = new EObjectContainmentEList<Participant>(Participant.class, this, ConferencePackage.CONFERENCE__PARTICIPANTS);
 		}
 		return participants;
 	}
@@ -201,11 +164,11 @@ public class ConferenceImpl extends EObjectImpl implements Conference {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Talk> getTalks() {
-		if (talks == null) {
-			talks = new EObjectContainmentEList<Talk>(Talk.class, this, ConferencePackage.CONFERENCE__TALKS);
+	public EList<Session> getSessions() {
+		if (sessions == null) {
+			sessions = new EObjectContainmentEList<Session>(Session.class, this, ConferencePackage.CONFERENCE__SESSIONS);
 		}
-		return talks;
+		return sessions;
 	}
 
 	/**
@@ -213,23 +176,11 @@ public class ConferenceImpl extends EObjectImpl implements Conference {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Topic> getTopics() {
-		if (topics == null) {
-			topics = new EObjectContainmentEList<Topic>(Topic.class, this, ConferencePackage.CONFERENCE__TOPICS);
+	public EList<Venue> getVenues() {
+		if (venues == null) {
+			venues = new EObjectContainmentEList<Venue>(Venue.class, this, ConferencePackage.CONFERENCE__VENUES);
 		}
-		return topics;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Site> getSites() {
-		if (sites == null) {
-			sites = new EObjectContainmentEList<Site>(Site.class, this, ConferencePackage.CONFERENCE__SITES);
-		}
-		return sites;
+		return venues;
 	}
 
 	/**
@@ -279,17 +230,60 @@ public class ConferenceImpl extends EObjectImpl implements Conference {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Schedule getSchedule() {
+		return schedule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetSchedule(Schedule newSchedule, NotificationChain msgs) {
+		Schedule oldSchedule = schedule;
+		schedule = newSchedule;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ConferencePackage.CONFERENCE__SCHEDULE, oldSchedule, newSchedule);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSchedule(Schedule newSchedule) {
+		if (newSchedule != schedule) {
+			NotificationChain msgs = null;
+			if (schedule != null)
+				msgs = ((InternalEObject)schedule).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ConferencePackage.CONFERENCE__SCHEDULE, null, msgs);
+			if (newSchedule != null)
+				msgs = ((InternalEObject)newSchedule).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ConferencePackage.CONFERENCE__SCHEDULE, null, msgs);
+			msgs = basicSetSchedule(newSchedule, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ConferencePackage.CONFERENCE__SCHEDULE, newSchedule, newSchedule));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ConferencePackage.CONFERENCE__PARTICIPANTS:
 				return ((InternalEList<?>)getParticipants()).basicRemove(otherEnd, msgs);
-			case ConferencePackage.CONFERENCE__TALKS:
-				return ((InternalEList<?>)getTalks()).basicRemove(otherEnd, msgs);
-			case ConferencePackage.CONFERENCE__TOPICS:
-				return ((InternalEList<?>)getTopics()).basicRemove(otherEnd, msgs);
-			case ConferencePackage.CONFERENCE__SITES:
-				return ((InternalEList<?>)getSites()).basicRemove(otherEnd, msgs);
+			case ConferencePackage.CONFERENCE__SESSIONS:
+				return ((InternalEList<?>)getSessions()).basicRemove(otherEnd, msgs);
+			case ConferencePackage.CONFERENCE__VENUES:
+				return ((InternalEList<?>)getVenues()).basicRemove(otherEnd, msgs);
+			case ConferencePackage.CONFERENCE__SCHEDULE:
+				return basicSetSchedule(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -302,20 +296,18 @@ public class ConferenceImpl extends EObjectImpl implements Conference {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ConferencePackage.CONFERENCE__PLACE:
-				return getPlace();
 			case ConferencePackage.CONFERENCE__PARTICIPANTS:
 				return getParticipants();
-			case ConferencePackage.CONFERENCE__TALKS:
-				return getTalks();
-			case ConferencePackage.CONFERENCE__TOPICS:
-				return getTopics();
-			case ConferencePackage.CONFERENCE__SITES:
-				return getSites();
+			case ConferencePackage.CONFERENCE__SESSIONS:
+				return getSessions();
+			case ConferencePackage.CONFERENCE__VENUES:
+				return getVenues();
 			case ConferencePackage.CONFERENCE__NAME:
 				return getName();
 			case ConferencePackage.CONFERENCE__OVERVIEW:
 				return getOverview();
+			case ConferencePackage.CONFERENCE__SCHEDULE:
+				return getSchedule();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -329,30 +321,26 @@ public class ConferenceImpl extends EObjectImpl implements Conference {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ConferencePackage.CONFERENCE__PLACE:
-				setPlace((String)newValue);
-				return;
 			case ConferencePackage.CONFERENCE__PARTICIPANTS:
 				getParticipants().clear();
-				getParticipants().addAll((Collection<? extends Person>)newValue);
+				getParticipants().addAll((Collection<? extends Participant>)newValue);
 				return;
-			case ConferencePackage.CONFERENCE__TALKS:
-				getTalks().clear();
-				getTalks().addAll((Collection<? extends Talk>)newValue);
+			case ConferencePackage.CONFERENCE__SESSIONS:
+				getSessions().clear();
+				getSessions().addAll((Collection<? extends Session>)newValue);
 				return;
-			case ConferencePackage.CONFERENCE__TOPICS:
-				getTopics().clear();
-				getTopics().addAll((Collection<? extends Topic>)newValue);
-				return;
-			case ConferencePackage.CONFERENCE__SITES:
-				getSites().clear();
-				getSites().addAll((Collection<? extends Site>)newValue);
+			case ConferencePackage.CONFERENCE__VENUES:
+				getVenues().clear();
+				getVenues().addAll((Collection<? extends Venue>)newValue);
 				return;
 			case ConferencePackage.CONFERENCE__NAME:
 				setName((String)newValue);
 				return;
 			case ConferencePackage.CONFERENCE__OVERVIEW:
 				setOverview((String)newValue);
+				return;
+			case ConferencePackage.CONFERENCE__SCHEDULE:
+				setSchedule((Schedule)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -366,26 +354,23 @@ public class ConferenceImpl extends EObjectImpl implements Conference {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ConferencePackage.CONFERENCE__PLACE:
-				setPlace(PLACE_EDEFAULT);
-				return;
 			case ConferencePackage.CONFERENCE__PARTICIPANTS:
 				getParticipants().clear();
 				return;
-			case ConferencePackage.CONFERENCE__TALKS:
-				getTalks().clear();
+			case ConferencePackage.CONFERENCE__SESSIONS:
+				getSessions().clear();
 				return;
-			case ConferencePackage.CONFERENCE__TOPICS:
-				getTopics().clear();
-				return;
-			case ConferencePackage.CONFERENCE__SITES:
-				getSites().clear();
+			case ConferencePackage.CONFERENCE__VENUES:
+				getVenues().clear();
 				return;
 			case ConferencePackage.CONFERENCE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
 			case ConferencePackage.CONFERENCE__OVERVIEW:
 				setOverview(OVERVIEW_EDEFAULT);
+				return;
+			case ConferencePackage.CONFERENCE__SCHEDULE:
+				setSchedule((Schedule)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -399,20 +384,18 @@ public class ConferenceImpl extends EObjectImpl implements Conference {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ConferencePackage.CONFERENCE__PLACE:
-				return PLACE_EDEFAULT == null ? place != null : !PLACE_EDEFAULT.equals(place);
 			case ConferencePackage.CONFERENCE__PARTICIPANTS:
 				return participants != null && !participants.isEmpty();
-			case ConferencePackage.CONFERENCE__TALKS:
-				return talks != null && !talks.isEmpty();
-			case ConferencePackage.CONFERENCE__TOPICS:
-				return topics != null && !topics.isEmpty();
-			case ConferencePackage.CONFERENCE__SITES:
-				return sites != null && !sites.isEmpty();
+			case ConferencePackage.CONFERENCE__SESSIONS:
+				return sessions != null && !sessions.isEmpty();
+			case ConferencePackage.CONFERENCE__VENUES:
+				return venues != null && !venues.isEmpty();
 			case ConferencePackage.CONFERENCE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case ConferencePackage.CONFERENCE__OVERVIEW:
 				return OVERVIEW_EDEFAULT == null ? overview != null : !OVERVIEW_EDEFAULT.equals(overview);
+			case ConferencePackage.CONFERENCE__SCHEDULE:
+				return schedule != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -427,9 +410,7 @@ public class ConferenceImpl extends EObjectImpl implements Conference {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (place: ");
-		result.append(place);
-		result.append(", name: ");
+		result.append(" (name: ");
 		result.append(name);
 		result.append(", overview: ");
 		result.append(overview);

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ConferencePackageImpl.java,v 1.6 2011/04/23 20:13:47 glefur Exp $
+ * $Id$
  */
 package org.eclipse.emf.samples.conference.impl;
 
@@ -11,15 +11,20 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import org.eclipse.emf.samples.conference.Conference;
 import org.eclipse.emf.samples.conference.ConferenceFactory;
 import org.eclipse.emf.samples.conference.ConferencePackage;
-import org.eclipse.emf.samples.conference.Person;
+import org.eclipse.emf.samples.conference.Keyword;
+import org.eclipse.emf.samples.conference.Participant;
 import org.eclipse.emf.samples.conference.Room;
-import org.eclipse.emf.samples.conference.Site;
-import org.eclipse.emf.samples.conference.Talk;
-import org.eclipse.emf.samples.conference.Topic;
+import org.eclipse.emf.samples.conference.Schedule;
+import org.eclipse.emf.samples.conference.Session;
+import org.eclipse.emf.samples.conference.SessionSchedule;
+import org.eclipse.emf.samples.conference.SessionType;
+import org.eclipse.emf.samples.conference.Venue;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,28 +45,28 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass personEClass = null;
+	private EClass participantEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass talkEClass = null;
+	private EClass sessionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass topicEClass = null;
+	private EClass keywordEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass siteEClass = null;
+	private EClass venueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -75,7 +80,21 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EEnum talK_TYPEEEnum = null;
+	private EClass scheduleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass sessionScheduleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum sessionTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -159,8 +178,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConference_Place() {
-		return (EAttribute)conferenceEClass.getEStructuralFeatures().get(0);
+	public EReference getConference_Participants() {
+		return (EReference)conferenceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -168,7 +187,7 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getConference_Participants() {
+	public EReference getConference_Sessions() {
 		return (EReference)conferenceEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -177,7 +196,7 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getConference_Talks() {
+	public EReference getConference_Venues() {
 		return (EReference)conferenceEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -186,26 +205,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getConference_Topics() {
-		return (EReference)conferenceEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getConference_Sites() {
-		return (EReference)conferenceEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getConference_Name() {
-		return (EAttribute)conferenceEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)conferenceEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -214,7 +215,7 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * @generated
 	 */
 	public EAttribute getConference_Overview() {
-		return (EAttribute)conferenceEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)conferenceEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -222,8 +223,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getPerson() {
-		return personEClass;
+	public EReference getConference_Schedule() {
+		return (EReference)conferenceEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -231,8 +232,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_Firstname() {
-		return (EAttribute)personEClass.getEStructuralFeatures().get(0);
+	public EClass getParticipant() {
+		return participantEClass;
 	}
 
 	/**
@@ -240,8 +241,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_Lastname() {
-		return (EAttribute)personEClass.getEStructuralFeatures().get(1);
+	public EAttribute getParticipant_Firstname() {
+		return (EAttribute)participantEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -249,8 +250,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_Age() {
-		return (EAttribute)personEClass.getEStructuralFeatures().get(2);
+	public EAttribute getParticipant_Lastname() {
+		return (EAttribute)participantEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -258,8 +259,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_EclipseCommiter() {
-		return (EAttribute)personEClass.getEStructuralFeatures().get(3);
+	public EReference getParticipant_Assists() {
+		return (EReference)participantEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -267,8 +268,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPerson_Assists() {
-		return (EReference)personEClass.getEStructuralFeatures().get(4);
+	public EAttribute getParticipant_Gender() {
+		return (EAttribute)participantEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -276,8 +277,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_Gender() {
-		return (EAttribute)personEClass.getEStructuralFeatures().get(5);
+	public EAttribute getParticipant_IsRegistered() {
+		return (EAttribute)participantEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -285,8 +286,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_IsRegistered() {
-		return (EAttribute)personEClass.getEStructuralFeatures().get(6);
+	public EAttribute getParticipant_JobTitle() {
+		return (EAttribute)participantEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -294,8 +295,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getTalk() {
-		return talkEClass;
+	public EAttribute getParticipant_Bio() {
+		return (EAttribute)participantEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -303,8 +304,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTalk_Title() {
-		return (EAttribute)talkEClass.getEStructuralFeatures().get(0);
+	public EAttribute getParticipant_Speaker() {
+		return (EAttribute)participantEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -312,8 +313,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTalk_Topic() {
-		return (EReference)talkEClass.getEStructuralFeatures().get(1);
+	public EClass getSession() {
+		return sessionEClass;
 	}
 
 	/**
@@ -321,8 +322,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTalk_Type() {
-		return (EAttribute)talkEClass.getEStructuralFeatures().get(2);
+	public EAttribute getSession_Title() {
+		return (EAttribute)sessionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -330,8 +331,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTalk_Presenter() {
-		return (EReference)talkEClass.getEStructuralFeatures().get(3);
+	public EReference getSession_Keywords() {
+		return (EReference)sessionEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -339,8 +340,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTalk_Creator() {
-		return (EReference)talkEClass.getEStructuralFeatures().get(4);
+	public EAttribute getSession_Type() {
+		return (EAttribute)sessionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -348,8 +349,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTalk_Documentation() {
-		return (EAttribute)talkEClass.getEStructuralFeatures().get(5);
+	public EReference getSession_Presenters() {
+		return (EReference)sessionEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -357,8 +358,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getTopic() {
-		return topicEClass;
+	public EAttribute getSession_Documentation() {
+		return (EAttribute)sessionEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -366,8 +367,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTopic_Description() {
-		return (EAttribute)topicEClass.getEStructuralFeatures().get(0);
+	public EClass getKeyword() {
+		return keywordEClass;
 	}
 
 	/**
@@ -375,8 +376,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTopic_References() {
-		return (EAttribute)topicEClass.getEStructuralFeatures().get(1);
+	public EAttribute getKeyword_Label() {
+		return (EAttribute)keywordEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -384,8 +385,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTopic_Documentation() {
-		return (EAttribute)topicEClass.getEStructuralFeatures().get(2);
+	public EClass getVenue() {
+		return venueEClass;
 	}
 
 	/**
@@ -393,8 +394,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSite() {
-		return siteEClass;
+	public EAttribute getVenue_Name() {
+		return (EAttribute)venueEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -402,8 +403,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSite_Documentation() {
-		return (EAttribute)siteEClass.getEStructuralFeatures().get(0);
+	public EReference getVenue_Rooms() {
+		return (EReference)venueEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -411,17 +412,8 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSite_Name() {
-		return (EAttribute)siteEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSite_Rooms() {
-		return (EReference)siteEClass.getEStructuralFeatures().get(2);
+	public EAttribute getVenue_GetToTheVenue() {
+		return (EAttribute)venueEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -456,8 +448,62 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getTALK_TYPE() {
-		return talK_TYPEEEnum;
+	public EClass getSchedule() {
+		return scheduleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSchedule_Sessions() {
+		return (EReference)scheduleEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSessionSchedule() {
+		return sessionScheduleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSessionSchedule_Session() {
+		return (EReference)sessionScheduleEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSessionSchedule_Room() {
+		return (EReference)sessionScheduleEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSessionSchedule_Date() {
+		return (EAttribute)sessionScheduleEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getSessionType() {
+		return sessionTypeEEnum;
 	}
 
 	/**
@@ -498,47 +544,52 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 
 		// Create classes and their features
 		conferenceEClass = createEClass(CONFERENCE);
-		createEAttribute(conferenceEClass, CONFERENCE__PLACE);
 		createEReference(conferenceEClass, CONFERENCE__PARTICIPANTS);
-		createEReference(conferenceEClass, CONFERENCE__TALKS);
-		createEReference(conferenceEClass, CONFERENCE__TOPICS);
-		createEReference(conferenceEClass, CONFERENCE__SITES);
+		createEReference(conferenceEClass, CONFERENCE__SESSIONS);
+		createEReference(conferenceEClass, CONFERENCE__VENUES);
 		createEAttribute(conferenceEClass, CONFERENCE__NAME);
 		createEAttribute(conferenceEClass, CONFERENCE__OVERVIEW);
+		createEReference(conferenceEClass, CONFERENCE__SCHEDULE);
 
-		personEClass = createEClass(PERSON);
-		createEAttribute(personEClass, PERSON__FIRSTNAME);
-		createEAttribute(personEClass, PERSON__LASTNAME);
-		createEAttribute(personEClass, PERSON__AGE);
-		createEAttribute(personEClass, PERSON__ECLIPSE_COMMITER);
-		createEReference(personEClass, PERSON__ASSISTS);
-		createEAttribute(personEClass, PERSON__GENDER);
-		createEAttribute(personEClass, PERSON__IS_REGISTERED);
+		participantEClass = createEClass(PARTICIPANT);
+		createEAttribute(participantEClass, PARTICIPANT__FIRSTNAME);
+		createEAttribute(participantEClass, PARTICIPANT__LASTNAME);
+		createEReference(participantEClass, PARTICIPANT__ASSISTS);
+		createEAttribute(participantEClass, PARTICIPANT__GENDER);
+		createEAttribute(participantEClass, PARTICIPANT__IS_REGISTERED);
+		createEAttribute(participantEClass, PARTICIPANT__JOB_TITLE);
+		createEAttribute(participantEClass, PARTICIPANT__BIO);
+		createEAttribute(participantEClass, PARTICIPANT__SPEAKER);
 
-		talkEClass = createEClass(TALK);
-		createEAttribute(talkEClass, TALK__TITLE);
-		createEReference(talkEClass, TALK__TOPIC);
-		createEAttribute(talkEClass, TALK__TYPE);
-		createEReference(talkEClass, TALK__PRESENTER);
-		createEReference(talkEClass, TALK__CREATOR);
-		createEAttribute(talkEClass, TALK__DOCUMENTATION);
+		sessionEClass = createEClass(SESSION);
+		createEAttribute(sessionEClass, SESSION__TITLE);
+		createEReference(sessionEClass, SESSION__KEYWORDS);
+		createEAttribute(sessionEClass, SESSION__TYPE);
+		createEReference(sessionEClass, SESSION__PRESENTERS);
+		createEAttribute(sessionEClass, SESSION__DOCUMENTATION);
 
-		topicEClass = createEClass(TOPIC);
-		createEAttribute(topicEClass, TOPIC__DESCRIPTION);
-		createEAttribute(topicEClass, TOPIC__REFERENCES);
-		createEAttribute(topicEClass, TOPIC__DOCUMENTATION);
+		keywordEClass = createEClass(KEYWORD);
+		createEAttribute(keywordEClass, KEYWORD__LABEL);
 
-		siteEClass = createEClass(SITE);
-		createEAttribute(siteEClass, SITE__DOCUMENTATION);
-		createEAttribute(siteEClass, SITE__NAME);
-		createEReference(siteEClass, SITE__ROOMS);
+		venueEClass = createEClass(VENUE);
+		createEAttribute(venueEClass, VENUE__NAME);
+		createEReference(venueEClass, VENUE__ROOMS);
+		createEAttribute(venueEClass, VENUE__GET_TO_THE_VENUE);
 
 		roomEClass = createEClass(ROOM);
 		createEAttribute(roomEClass, ROOM__NAME);
 		createEAttribute(roomEClass, ROOM__CAPACITY);
 
+		scheduleEClass = createEClass(SCHEDULE);
+		createEReference(scheduleEClass, SCHEDULE__SESSIONS);
+
+		sessionScheduleEClass = createEClass(SESSION_SCHEDULE);
+		createEReference(sessionScheduleEClass, SESSION_SCHEDULE__SESSION);
+		createEReference(sessionScheduleEClass, SESSION_SCHEDULE__ROOM);
+		createEAttribute(sessionScheduleEClass, SESSION_SCHEDULE__DATE);
+
 		// Create enums
-		talK_TYPEEEnum = createEEnum(TALK_TYPE);
+		sessionTypeEEnum = createEEnum(SESSION_TYPE);
 		genderEEnum = createEEnum(GENDER);
 	}
 
@@ -573,50 +624,55 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(conferenceEClass, Conference.class, "Conference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getConference_Place(), ecorePackage.getEString(), "place", null, 1, 1, Conference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getConference_Participants(), this.getPerson(), null, "participants", null, 0, -1, Conference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getConference_Talks(), this.getTalk(), null, "talks", null, 0, -1, Conference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getConference_Topics(), this.getTopic(), null, "topics", null, 0, -1, Conference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getConference_Sites(), this.getSite(), null, "sites", null, 0, -1, Conference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConference_Participants(), this.getParticipant(), null, "participants", null, 0, -1, Conference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConference_Sessions(), this.getSession(), null, "sessions", null, 0, -1, Conference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConference_Venues(), this.getVenue(), null, "venues", null, 1, -1, Conference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConference_Name(), ecorePackage.getEString(), "name", null, 1, 1, Conference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConference_Overview(), ecorePackage.getEString(), "overview", null, 0, 1, Conference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConference_Schedule(), this.getSchedule(), null, "schedule", null, 1, 1, Conference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(personEClass, Person.class, "Person", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getPerson_Firstname(), ecorePackage.getEString(), "firstname", null, 1, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPerson_Lastname(), ecorePackage.getEString(), "lastname", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPerson_Age(), ecorePackage.getEInt(), "age", null, 1, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPerson_EclipseCommiter(), ecorePackage.getEBoolean(), "eclipseCommiter", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPerson_Assists(), this.getTalk(), null, "assists", null, 0, -1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPerson_Gender(), this.getGENDER(), "gender", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPerson_IsRegistered(), ecorePackage.getEBoolean(), "isRegistered", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(participantEClass, Participant.class, "Participant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getParticipant_Firstname(), ecorePackage.getEString(), "firstname", null, 1, 1, Participant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getParticipant_Lastname(), ecorePackage.getEString(), "lastname", null, 0, 1, Participant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getParticipant_Assists(), this.getSession(), null, "assists", null, 0, -1, Participant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getParticipant_Gender(), this.getGENDER(), "gender", null, 0, 1, Participant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getParticipant_IsRegistered(), ecorePackage.getEBoolean(), "isRegistered", null, 0, 1, Participant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getParticipant_JobTitle(), ecorePackage.getEString(), "jobTitle", null, 0, 1, Participant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getParticipant_Bio(), ecorePackage.getEString(), "bio", null, 1, 1, Participant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getParticipant_Speaker(), ecorePackage.getEBoolean(), "speaker", null, 1, 1, Participant.class, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
-		initEClass(talkEClass, Talk.class, "Talk", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTalk_Title(), ecorePackage.getEString(), "title", null, 1, 1, Talk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTalk_Topic(), this.getTopic(), null, "topic", null, 1, 1, Talk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTalk_Type(), this.getTALK_TYPE(), "type", null, 0, 1, Talk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTalk_Presenter(), this.getPerson(), null, "presenter", null, 1, 1, Talk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTalk_Creator(), this.getPerson(), null, "creator", null, 0, 1, Talk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTalk_Documentation(), ecorePackage.getEString(), "documentation", null, 1, 1, Talk.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(sessionEClass, Session.class, "Session", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSession_Title(), ecorePackage.getEString(), "title", null, 1, 1, Session.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSession_Keywords(), this.getKeyword(), null, "keywords", null, 0, -1, Session.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSession_Type(), this.getSessionType(), "type", null, 0, 1, Session.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSession_Presenters(), this.getParticipant(), null, "presenters", null, 1, -1, Session.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSession_Documentation(), ecorePackage.getEString(), "documentation", null, 1, 1, Session.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(topicEClass, Topic.class, "Topic", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTopic_Description(), ecorePackage.getEString(), "description", null, 0, 1, Topic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTopic_References(), ecorePackage.getEString(), "references", null, 0, -1, Topic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTopic_Documentation(), ecorePackage.getEString(), "documentation", null, 1, 1, Topic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(keywordEClass, Keyword.class, "Keyword", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getKeyword_Label(), ecorePackage.getEString(), "label", null, 0, 1, Keyword.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(siteEClass, Site.class, "Site", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSite_Documentation(), ecorePackage.getEString(), "documentation", null, 1, 1, Site.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSite_Name(), ecorePackage.getEString(), "name", null, 1, 1, Site.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSite_Rooms(), this.getRoom(), null, "rooms", null, 0, -1, Site.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(venueEClass, Venue.class, "Venue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getVenue_Name(), ecorePackage.getEString(), "name", null, 1, 1, Venue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getVenue_Rooms(), this.getRoom(), null, "rooms", null, 0, -1, Venue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVenue_GetToTheVenue(), ecorePackage.getEString(), "getToTheVenue", null, 0, 1, Venue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(roomEClass, Room.class, "Room", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRoom_Name(), ecorePackage.getEString(), "name", null, 1, 1, Room.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRoom_Capacity(), ecorePackage.getEInt(), "capacity", null, 0, 1, Room.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(scheduleEClass, Schedule.class, "Schedule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSchedule_Sessions(), this.getSessionSchedule(), null, "sessions", null, 0, -1, Schedule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(sessionScheduleEClass, SessionSchedule.class, "SessionSchedule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSessionSchedule_Session(), this.getSession(), null, "session", null, 1, 1, SessionSchedule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSessionSchedule_Room(), this.getRoom(), null, "room", null, 1, 1, SessionSchedule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSessionSchedule_Date(), ecorePackage.getEDate(), "date", null, 1, 1, SessionSchedule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Initialize enums and add enum literals
-		initEEnum(talK_TYPEEEnum, org.eclipse.emf.samples.conference.TALK_TYPE.class, "TALK_TYPE");
-		addEEnumLiteral(talK_TYPEEEnum, org.eclipse.emf.samples.conference.TALK_TYPE.WORKSHOP);
-		addEEnumLiteral(talK_TYPEEEnum, org.eclipse.emf.samples.conference.TALK_TYPE.DEMONSTRATION);
-		addEEnumLiteral(talK_TYPEEEnum, org.eclipse.emf.samples.conference.TALK_TYPE.CONFERENCE);
+		initEEnum(sessionTypeEEnum, SessionType.class, "SessionType");
+		addEEnumLiteral(sessionTypeEEnum, SessionType.STANDARD);
+		addEEnumLiteral(sessionTypeEEnum, SessionType.TUTORIAL);
+		addEEnumLiteral(sessionTypeEEnum, SessionType.KEYNOTE);
 
 		initEEnum(genderEEnum, org.eclipse.emf.samples.conference.GENDER.class, "GENDER");
 		addEEnumLiteral(genderEEnum, org.eclipse.emf.samples.conference.GENDER.MALE);
@@ -640,7 +696,7 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	protected void createGenConstraintAnnotations() {
 		String source = "genConstraint";			
 		addAnnotation
-		  (getTalk_Presenter(), 
+		  (getSession_Presenters(), 
 		   source, 
 		   new String[] {
 			 "significant", "true"

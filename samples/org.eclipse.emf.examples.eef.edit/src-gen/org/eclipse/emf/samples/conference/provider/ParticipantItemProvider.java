@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PersonItemProvider.java,v 1.4 2011/01/02 14:10:47 glefur Exp $
+ * $Id$
  */
 package org.eclipse.emf.samples.conference.provider;
 
@@ -12,7 +12,9 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.ResourceLocator;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -23,16 +25,17 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
 import org.eclipse.emf.samples.conference.ConferencePackage;
-import org.eclipse.emf.samples.conference.Person;
+import org.eclipse.emf.samples.conference.Participant;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.samples.conference.Person} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.samples.conference.Participant} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class PersonItemProvider
+public class ParticipantItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -46,7 +49,7 @@ public class PersonItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PersonItemProvider(AdapterFactory adapterFactory) {
+	public ParticipantItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -63,11 +66,12 @@ public class PersonItemProvider
 
 			addFirstnamePropertyDescriptor(object);
 			addLastnamePropertyDescriptor(object);
-			addAgePropertyDescriptor(object);
-			addEclipseCommiterPropertyDescriptor(object);
 			addAssistsPropertyDescriptor(object);
 			addGenderPropertyDescriptor(object);
 			addIsRegisteredPropertyDescriptor(object);
+			addJobTitlePropertyDescriptor(object);
+			addBioPropertyDescriptor(object);
+			addSpeakerPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -83,9 +87,9 @@ public class PersonItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Person_firstname_feature"),
-				 getString("_UI_Person_firstname_description"),
-				 ConferencePackage.Literals.PERSON__FIRSTNAME,
+				 getString("_UI_Participant_firstname_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Participant_firstname_feature", "_UI_Participant_type"),
+				 ConferencePackage.Literals.PARTICIPANT__FIRSTNAME,
 				 true,
 				 false,
 				 false,
@@ -105,57 +109,13 @@ public class PersonItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Person_lastname_feature"),
-				 getString("_UI_Person_lastname_description"),
-				 ConferencePackage.Literals.PERSON__LASTNAME,
+				 getString("_UI_Participant_lastname_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Participant_lastname_feature", "_UI_Participant_type"),
+				 ConferencePackage.Literals.PARTICIPANT__LASTNAME,
 				 true,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Age feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addAgePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Person_age_feature"),
-				 getString("_UI_Person_age_description"),
-				 ConferencePackage.Literals.PERSON__AGE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Eclipse Commiter feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addEclipseCommiterPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Person_eclipseCommiter_feature"),
-				 getString("_UI_Person_eclipseCommiter_description"),
-				 ConferencePackage.Literals.PERSON__ECLIPSE_COMMITER,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -171,9 +131,9 @@ public class PersonItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Person_assists_feature"),
-				 getString("_UI_Person_assists_description"),
-				 ConferencePackage.Literals.PERSON__ASSISTS,
+				 getString("_UI_Participant_assists_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Participant_assists_feature", "_UI_Participant_type"),
+				 ConferencePackage.Literals.PARTICIPANT__ASSISTS,
 				 true,
 				 false,
 				 true,
@@ -193,9 +153,9 @@ public class PersonItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Person_gender_feature"),
-				 getString("_UI_Person_gender_description"),
-				 ConferencePackage.Literals.PERSON__GENDER,
+				 getString("_UI_Participant_gender_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Participant_gender_feature", "_UI_Participant_type"),
+				 ConferencePackage.Literals.PARTICIPANT__GENDER,
 				 true,
 				 false,
 				 false,
@@ -215,9 +175,9 @@ public class PersonItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Person_isRegistered_feature"),
-				 getString("_UI_Person_isRegistered_description"),
-				 ConferencePackage.Literals.PERSON__IS_REGISTERED,
+				 getString("_UI_Participant_isRegistered_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Participant_isRegistered_feature", "_UI_Participant_type"),
+				 ConferencePackage.Literals.PARTICIPANT__IS_REGISTERED,
 				 true,
 				 false,
 				 false,
@@ -227,14 +187,80 @@ public class PersonItemProvider
 	}
 
 	/**
-	 * This returns Person.gif.
+	 * This adds a property descriptor for the Job Title feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addJobTitlePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Participant_jobTitle_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Participant_jobTitle_feature", "_UI_Participant_type"),
+				 ConferencePackage.Literals.PARTICIPANT__JOB_TITLE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Bio feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addBioPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Participant_bio_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Participant_bio_feature", "_UI_Participant_type"),
+				 ConferencePackage.Literals.PARTICIPANT__BIO,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Speaker feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSpeakerPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Participant_speaker_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Participant_speaker_feature", "_UI_Participant_type"),
+				 ConferencePackage.Literals.PARTICIPANT__SPEAKER,
+				 false,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This returns Participant.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Person"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Participant"));
 	}
 
 	/**
@@ -245,10 +271,10 @@ public class PersonItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Person)object).getFirstname();
+		String label = ((Participant)object).getFirstname();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Person_type") :
-			getString("_UI_Person_type") + " " + label;
+			getString("_UI_Participant_type") :
+			getString("_UI_Participant_type") + " " + label;
 	}
 
 	/**
@@ -262,13 +288,14 @@ public class PersonItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Person.class)) {
-			case ConferencePackage.PERSON__FIRSTNAME:
-			case ConferencePackage.PERSON__LASTNAME:
-			case ConferencePackage.PERSON__AGE:
-			case ConferencePackage.PERSON__ECLIPSE_COMMITER:
-			case ConferencePackage.PERSON__GENDER:
-			case ConferencePackage.PERSON__IS_REGISTERED:
+		switch (notification.getFeatureID(Participant.class)) {
+			case ConferencePackage.PARTICIPANT__FIRSTNAME:
+			case ConferencePackage.PARTICIPANT__LASTNAME:
+			case ConferencePackage.PARTICIPANT__GENDER:
+			case ConferencePackage.PARTICIPANT__IS_REGISTERED:
+			case ConferencePackage.PARTICIPANT__JOB_TITLE:
+			case ConferencePackage.PARTICIPANT__BIO:
+			case ConferencePackage.PARTICIPANT__SPEAKER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

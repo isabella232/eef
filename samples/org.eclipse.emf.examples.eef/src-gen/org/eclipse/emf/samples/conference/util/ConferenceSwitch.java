@@ -1,9 +1,16 @@
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * $Id$
+ */
 package org.eclipse.emf.samples.conference.util;
 
-
 import java.util.List;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.emf.samples.conference.*;
 
 /**
@@ -86,33 +93,45 @@ public class ConferenceSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ConferencePackage.PERSON: {
-				Person person = (Person)theEObject;
-				T result = casePerson(person);
+			case ConferencePackage.PARTICIPANT: {
+				Participant participant = (Participant)theEObject;
+				T result = caseParticipant(participant);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ConferencePackage.TALK: {
-				Talk talk = (Talk)theEObject;
-				T result = caseTalk(talk);
+			case ConferencePackage.SESSION: {
+				Session session = (Session)theEObject;
+				T result = caseSession(session);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ConferencePackage.TOPIC: {
-				Topic topic = (Topic)theEObject;
-				T result = caseTopic(topic);
+			case ConferencePackage.KEYWORD: {
+				Keyword keyword = (Keyword)theEObject;
+				T result = caseKeyword(keyword);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ConferencePackage.SITE: {
-				Site site = (Site)theEObject;
-				T result = caseSite(site);
+			case ConferencePackage.VENUE: {
+				Venue venue = (Venue)theEObject;
+				T result = caseVenue(venue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ConferencePackage.ROOM: {
 				Room room = (Room)theEObject;
 				T result = caseRoom(room);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ConferencePackage.SCHEDULE: {
+				Schedule schedule = (Schedule)theEObject;
+				T result = caseSchedule(schedule);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ConferencePackage.SESSION_SCHEDULE: {
+				SessionSchedule sessionSchedule = (SessionSchedule)theEObject;
+				T result = caseSessionSchedule(sessionSchedule);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -136,62 +155,62 @@ public class ConferenceSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Person</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Participant</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Person</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Participant</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T casePerson(Person object) {
+	public T caseParticipant(Participant object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Talk</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Session</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Talk</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Session</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTalk(Talk object) {
+	public T caseSession(Session object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Topic</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Keyword</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Topic</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Keyword</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTopic(Topic object) {
+	public T caseKeyword(Keyword object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Site</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Venue</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Site</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Venue</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSite(Site object) {
+	public T caseVenue(Venue object) {
 		return null;
 	}
 
@@ -207,6 +226,36 @@ public class ConferenceSwitch<T> {
 	 * @generated
 	 */
 	public T caseRoom(Room object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Schedule</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Schedule</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSchedule(Schedule object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Session Schedule</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Session Schedule</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSessionSchedule(SessionSchedule object) {
 		return null;
 	}
 

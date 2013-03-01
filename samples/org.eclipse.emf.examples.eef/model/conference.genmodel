@@ -8,10 +8,10 @@
   <foreignModel>conference.ecore</foreignModel>
   <genPackages prefix="Conference" basePackage="org.eclipse.emf.samples" disposableProviderFactory="true"
       ecorePackage="conference.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="conference.ecore#//TALK_TYPE">
-      <genEnumLiterals ecoreEnumLiteral="conference.ecore#//TALK_TYPE/WORKSHOP"/>
-      <genEnumLiterals ecoreEnumLiteral="conference.ecore#//TALK_TYPE/DEMONSTRATION"/>
-      <genEnumLiterals ecoreEnumLiteral="conference.ecore#//TALK_TYPE/CONFERENCE"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="conference.ecore#//SessionType">
+      <genEnumLiterals ecoreEnumLiteral="conference.ecore#//SessionType/Standard"/>
+      <genEnumLiterals ecoreEnumLiteral="conference.ecore#//SessionType/Tutorial"/>
+      <genEnumLiterals ecoreEnumLiteral="conference.ecore#//SessionType/Keynote"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="conference.ecore#//GENDER">
       <genEnumLiterals ecoreEnumLiteral="conference.ecore#//GENDER/MALE"/>
@@ -19,64 +19,50 @@
       <genEnumLiterals ecoreEnumLiteral="conference.ecore#//GENDER/UNKNOWN"/>
     </genEnums>
     <genClasses ecoreClass="conference.ecore#//Conference">
-      <genFeatures createChild="false" propertyDescription="The conference's place"
-          ecoreFeature="ecore:EAttribute conference.ecore#//Conference/place"/>
       <genFeatures property="None" children="true" createChild="true" propertyDescription="Person attending to the conference"
           ecoreFeature="ecore:EReference conference.ecore#//Conference/participants"/>
-      <genFeatures property="None" children="true" createChild="true" propertyDescription="Talks of the conference"
-          ecoreFeature="ecore:EReference conference.ecore#//Conference/talks"/>
-      <genFeatures property="None" children="true" createChild="true" propertyDescription="Topics discussed during the conference"
-          ecoreFeature="ecore:EReference conference.ecore#//Conference/topics"/>
-      <genFeatures property="None" children="true" createChild="true" propertyDescription="Where the conference take place"
-          ecoreFeature="ecore:EReference conference.ecore#//Conference/sites"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conference.ecore#//Conference/sessions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conference.ecore#//Conference/venues"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Conference/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Conference/overview"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conference.ecore#//Conference/schedule"/>
     </genClasses>
-    <genClasses ecoreClass="conference.ecore#//Person">
-      <genFeatures createChild="false" propertyDescription="Firstname of the person"
-          ecoreFeature="ecore:EAttribute conference.ecore#//Person/firstname"/>
-      <genFeatures createChild="false" propertyDescription="Last name of the person"
-          ecoreFeature="ecore:EAttribute conference.ecore#//Person/lastname"/>
-      <genFeatures createChild="false" propertyDescription="age of the person" ecoreFeature="ecore:EAttribute conference.ecore#//Person/age"/>
-      <genFeatures createChild="false" propertyDescription="Does the person commit on Eclipse"
-          ecoreFeature="ecore:EAttribute conference.ecore#//Person/eclipseCommiter"/>
-      <genFeatures notify="false" createChild="false" propertyDescription="Talks which the person attends"
-          propertySortChoices="true" ecoreFeature="ecore:EReference conference.ecore#//Person/assists"/>
-      <genFeatures createChild="false" propertyDescription="Gender of the person"
-          ecoreFeature="ecore:EAttribute conference.ecore#//Person/gender"/>
-      <genFeatures createChild="false" propertyDescription="Does the person is registered for the conference"
-          ecoreFeature="ecore:EAttribute conference.ecore#//Person/isRegistered"/>
+    <genClasses ecoreClass="conference.ecore#//Participant">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Participant/firstname"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Participant/lastname"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conference.ecore#//Participant/assists"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Participant/gender"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Participant/isRegistered"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Participant/jobTitle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Participant/bio"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Participant/speaker"/>
     </genClasses>
-    <genClasses ecoreClass="conference.ecore#//Talk">
-      <genFeatures createChild="false" propertyDescription="The title of the talk"
-          ecoreFeature="ecore:EAttribute conference.ecore#//Talk/title"/>
-      <genFeatures notify="false" createChild="false" propertyDescription="Topics discussed during the talk"
-          propertySortChoices="true" ecoreFeature="ecore:EReference conference.ecore#//Talk/topic"/>
-      <genFeatures createChild="false" propertyDescription="Type of the talk" ecoreFeature="ecore:EAttribute conference.ecore#//Talk/type"/>
-      <genFeatures notify="false" createChild="false" propertyDescription="Person presenting the talk"
-          propertySortChoices="true" ecoreFeature="ecore:EReference conference.ecore#//Talk/presenter"/>
-      <genFeatures notify="false" createChild="false" propertyCategory="" propertyDescription="Person who created the talk"
-          propertySortChoices="true" ecoreFeature="ecore:EReference conference.ecore#//Talk/creator"/>
-      <genFeatures createChild="false" propertyDescription="Description of the talk"
-          ecoreFeature="ecore:EAttribute conference.ecore#//Talk/documentation"/>
+    <genClasses ecoreClass="conference.ecore#//Session">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Session/title"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conference.ecore#//Session/keywords"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Session/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conference.ecore#//Session/presenters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Session/documentation"/>
     </genClasses>
-    <genClasses ecoreClass="conference.ecore#//Topic">
-      <genFeatures createChild="false" propertyDescription="Description of the talk"
-          ecoreFeature="ecore:EAttribute conference.ecore#//Topic/description"/>
-      <genFeatures createChild="false" propertyDescription="Some references on this topic"
-          ecoreFeature="ecore:EAttribute conference.ecore#//Topic/references"/>
-      <genFeatures createChild="false" propertyDescription="Information about this topic"
-          ecoreFeature="ecore:EAttribute conference.ecore#//Topic/documentation"/>
+    <genClasses ecoreClass="conference.ecore#//Keyword">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Keyword/label"/>
     </genClasses>
-    <genClasses ecoreClass="conference.ecore#//Site">
-      <genFeatures createChild="false" propertyDescription="Information about this site"
-          ecoreFeature="ecore:EAttribute conference.ecore#//Site/documentation"/>
-      <genFeatures createChild="false" propertyDescription="Name of the place" ecoreFeature="ecore:EAttribute conference.ecore#//Site/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conference.ecore#//Site/rooms"/>
+    <genClasses ecoreClass="conference.ecore#//Venue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Venue/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conference.ecore#//Venue/rooms"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Venue/getToTheVenue"/>
     </genClasses>
     <genClasses ecoreClass="conference.ecore#//Room">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Room/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//Room/capacity"/>
+    </genClasses>
+    <genClasses ecoreClass="conference.ecore#//Schedule">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conference.ecore#//Schedule/sessions"/>
+    </genClasses>
+    <genClasses ecoreClass="conference.ecore#//SessionSchedule">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conference.ecore#//SessionSchedule/session"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conference.ecore#//SessionSchedule/room"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conference.ecore#//SessionSchedule/date"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

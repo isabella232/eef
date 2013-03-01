@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ConferenceItemProviderAdapterFactory.java,v 1.5 2011/04/23 20:13:43 glefur Exp $
+ * $Id$
  */
 package org.eclipse.emf.samples.conference.provider;
 
@@ -12,6 +12,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -23,6 +24,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+
 import org.eclipse.emf.samples.conference.util.ConferenceAdapterFactory;
 
 /**
@@ -97,95 +99,95 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.samples.conference.Person} instances.
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.samples.conference.Participant} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PersonItemProvider personItemProvider;
+	protected ParticipantItemProvider participantItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.samples.conference.Person}.
+	 * This creates an adapter for a {@link org.eclipse.emf.samples.conference.Participant}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createPersonAdapter() {
-		if (personItemProvider == null) {
-			personItemProvider = new PersonItemProvider(this);
+	public Adapter createParticipantAdapter() {
+		if (participantItemProvider == null) {
+			participantItemProvider = new ParticipantItemProvider(this);
 		}
 
-		return personItemProvider;
+		return participantItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.samples.conference.Talk} instances.
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.samples.conference.Session} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TalkItemProvider talkItemProvider;
+	protected SessionItemProvider sessionItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.samples.conference.Talk}.
+	 * This creates an adapter for a {@link org.eclipse.emf.samples.conference.Session}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createTalkAdapter() {
-		if (talkItemProvider == null) {
-			talkItemProvider = new TalkItemProvider(this);
+	public Adapter createSessionAdapter() {
+		if (sessionItemProvider == null) {
+			sessionItemProvider = new SessionItemProvider(this);
 		}
 
-		return talkItemProvider;
+		return sessionItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.samples.conference.Topic} instances.
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.samples.conference.Keyword} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TopicItemProvider topicItemProvider;
+	protected KeywordItemProvider keywordItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.samples.conference.Topic}.
+	 * This creates an adapter for a {@link org.eclipse.emf.samples.conference.Keyword}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createTopicAdapter() {
-		if (topicItemProvider == null) {
-			topicItemProvider = new TopicItemProvider(this);
+	public Adapter createKeywordAdapter() {
+		if (keywordItemProvider == null) {
+			keywordItemProvider = new KeywordItemProvider(this);
 		}
 
-		return topicItemProvider;
+		return keywordItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.samples.conference.Site} instances.
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.samples.conference.Venue} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SiteItemProvider siteItemProvider;
+	protected VenueItemProvider venueItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.samples.conference.Site}.
+	 * This creates an adapter for a {@link org.eclipse.emf.samples.conference.Venue}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createSiteAdapter() {
-		if (siteItemProvider == null) {
-			siteItemProvider = new SiteItemProvider(this);
+	public Adapter createVenueAdapter() {
+		if (venueItemProvider == null) {
+			venueItemProvider = new VenueItemProvider(this);
 		}
 
-		return siteItemProvider;
+		return venueItemProvider;
 	}
 
 	/**
@@ -209,6 +211,52 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 		}
 
 		return roomItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.samples.conference.Schedule} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ScheduleItemProvider scheduleItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.samples.conference.Schedule}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createScheduleAdapter() {
+		if (scheduleItemProvider == null) {
+			scheduleItemProvider = new ScheduleItemProvider(this);
+		}
+
+		return scheduleItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.samples.conference.SessionSchedule} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected SessionScheduleItemProvider sessionScheduleItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.samples.conference.SessionSchedule}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createSessionScheduleAdapter() {
+		if (sessionScheduleItemProvider == null) {
+			sessionScheduleItemProvider = new SessionScheduleItemProvider(this);
+		}
+
+		return sessionScheduleItemProvider;
 	}
 
 	/**
@@ -311,11 +359,13 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	 */
 	public void dispose() {
 		if (conferenceItemProvider != null) conferenceItemProvider.dispose();
-		if (personItemProvider != null) personItemProvider.dispose();
-		if (talkItemProvider != null) talkItemProvider.dispose();
-		if (topicItemProvider != null) topicItemProvider.dispose();
-		if (siteItemProvider != null) siteItemProvider.dispose();
+		if (participantItemProvider != null) participantItemProvider.dispose();
+		if (sessionItemProvider != null) sessionItemProvider.dispose();
+		if (keywordItemProvider != null) keywordItemProvider.dispose();
+		if (venueItemProvider != null) venueItemProvider.dispose();
 		if (roomItemProvider != null) roomItemProvider.dispose();
+		if (scheduleItemProvider != null) scheduleItemProvider.dispose();
+		if (sessionScheduleItemProvider != null) sessionScheduleItemProvider.dispose();
 	}
 
 }

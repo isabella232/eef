@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SiteItemProvider.java,v 1.5 2011/04/23 20:13:43 glefur Exp $
+ * $Id$
  */
 package org.eclipse.emf.samples.conference.provider;
 
@@ -12,29 +12,31 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.ResourceLocator;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
 import org.eclipse.emf.samples.conference.ConferenceFactory;
 import org.eclipse.emf.samples.conference.ConferencePackage;
-import org.eclipse.emf.samples.conference.Site;
+import org.eclipse.emf.samples.conference.Schedule;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.samples.conference.Site} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.samples.conference.Schedule} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class SiteItemProvider
+public class ScheduleItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -48,7 +50,7 @@ public class SiteItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SiteItemProvider(AdapterFactory adapterFactory) {
+	public ScheduleItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -63,54 +65,8 @@ public class SiteItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addDocumentationPropertyDescriptor(object);
-			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Documentation feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addDocumentationPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Site_documentation_feature"),
-				 getString("_UI_Site_documentation_description"),
-				 ConferencePackage.Literals.SITE__DOCUMENTATION,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Site_name_feature"),
-				 getString("_UI_Site_name_description"),
-				 ConferencePackage.Literals.SITE__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
 	/**
@@ -125,7 +81,7 @@ public class SiteItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ConferencePackage.Literals.SITE__ROOMS);
+			childrenFeatures.add(ConferencePackage.Literals.SCHEDULE__SESSIONS);
 		}
 		return childrenFeatures;
 	}
@@ -144,14 +100,14 @@ public class SiteItemProvider
 	}
 
 	/**
-	 * This returns Site.gif.
+	 * This returns Schedule.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Site"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Schedule"));
 	}
 
 	/**
@@ -162,10 +118,7 @@ public class SiteItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Site)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Site_type") :
-			getString("_UI_Site_type") + " " + label;
+		return getString("_UI_Schedule_type");
 	}
 
 	/**
@@ -179,12 +132,8 @@ public class SiteItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Site.class)) {
-			case ConferencePackage.SITE__DOCUMENTATION:
-			case ConferencePackage.SITE__NAME:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case ConferencePackage.SITE__ROOMS:
+		switch (notification.getFeatureID(Schedule.class)) {
+			case ConferencePackage.SCHEDULE__SESSIONS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -204,8 +153,8 @@ public class SiteItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ConferencePackage.Literals.SITE__ROOMS,
-				 ConferenceFactory.eINSTANCE.createRoom()));
+				(ConferencePackage.Literals.SCHEDULE__SESSIONS,
+				 ConferenceFactory.eINSTANCE.createSessionSchedule()));
 	}
 
 	/**
