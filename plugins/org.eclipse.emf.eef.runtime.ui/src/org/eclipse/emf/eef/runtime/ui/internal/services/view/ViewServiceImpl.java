@@ -270,18 +270,26 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#executeSyncUIRunnable(java.lang.Runnable)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#executeSyncUIRunnable(org.eclipse.swt.widgets.Display, java.lang.Runnable)
 	 */
-	public void executeSyncUIRunnable(Runnable job) {
-		Display.getCurrent().syncExec(job);
+	public void executeSyncUIRunnable(Display display, Runnable job) {
+		if (display != null) {
+			display.syncExec(job);
+		} else {
+			Display.getCurrent().syncExec(job);
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#executeAsyncUIRunnable(java.lang.Runnable)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#executeAsyncUIRunnable(org.eclipse.swt.widgets.Display, java.lang.Runnable)
 	 */
-	public void executeAsyncUIRunnable(Runnable job) {
-		Display.getCurrent().asyncExec(job);
+	public void executeAsyncUIRunnable(Display display, Runnable job) {
+		if (display != null) {
+			display.asyncExec(job);
+		} else {
+			Display.getCurrent().asyncExec(job);
+		}
 	}
 
 }

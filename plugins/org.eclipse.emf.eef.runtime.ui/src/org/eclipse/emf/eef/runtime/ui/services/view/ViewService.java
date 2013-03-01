@@ -24,6 +24,7 @@ import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 /**
@@ -144,13 +145,15 @@ public interface ViewService extends EEFService<View> {
 	
 	/**
 	 * Executes the given job in the best Thread UI in a synchronous way.
+	 * @param display a {@link Display} where to execute the job.
 	 * @param job the Job to execute.
 	 */
-	void executeSyncUIRunnable(Runnable job);
+	void executeSyncUIRunnable(Display display, Runnable job);
 
 	/**
 	 * Executes the given job in the best Thread UI in a asynchronous way.
+	 * @param display a {@link Display} where to execute the job.
 	 * @param job the Job to execute.
 	 */
-	void executeAsyncUIRunnable(Runnable job);
+	void executeAsyncUIRunnable(Display display, Runnable job);
 }

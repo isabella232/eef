@@ -88,10 +88,12 @@ public class PlatformAwareViewServiceImpl extends ViewServiceImpl implements Pla
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl#executeSyncUIRunnable(java.lang.Runnable)
+	 * @see org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl#executeSyncUIRunnable(org.eclipse.swt.widgets.Display, java.lang.Runnable)
 	 */
-	public void executeSyncUIRunnable(Runnable job) {
-		if (null == Display.getCurrent()) {
+	public void executeSyncUIRunnable(Display display, Runnable job) {
+		if (display != null) {
+			display.syncExec(job);
+		} else if (null == Display.getCurrent()) {
 			PlatformUI.getWorkbench().getDisplay().syncExec(job);
 		} else {
 			Display.getCurrent().syncExec(job);
@@ -102,8 +104,10 @@ public class PlatformAwareViewServiceImpl extends ViewServiceImpl implements Pla
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl#executeAsyncUIRunnable(java.lang.Runnable)
 	 */
-	public void executeAsyncUIRunnable(Runnable job) {
-		if (null == Display.getCurrent()) {
+	public void executeAsyncUIRunnable(Display display, Runnable job) {
+		if (display != null) {
+			display.asyncExec(job);
+		} else if (null == Display.getCurrent()) {
 			PlatformUI.getWorkbench().getDisplay().asyncExec(job);
 		} else {
 			Display.getCurrent().asyncExec(job);

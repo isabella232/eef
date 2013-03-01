@@ -48,9 +48,9 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 		if (view instanceof PropertiesEditingView) {
 			PropertiesEditingView editingView = (PropertiesEditingView) view;
 			if (notification instanceof EEFPropertyNotification) {
-				editingView.getViewService().executeAsyncUIRunnable(new AddDecorationOnEditor(editingView, (EEFPropertyNotification) notification));
+				editingView.getViewService().executeAsyncUIRunnable(editingView.getContents().getDisplay(), new AddDecorationOnEditor(editingView, (EEFPropertyNotification) notification));
 			} else {
-				editingView.getViewService().executeAsyncUIRunnable(new AddDecorationOnView(editingView, notification));
+				editingView.getViewService().executeAsyncUIRunnable(editingView.getContents().getDisplay(), new AddDecorationOnView(editingView, notification));
 			}
 		}
 	}
@@ -62,7 +62,7 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 	public void clearViewNotification(Object view) {
 		if (view instanceof PropertiesEditingView) {
 			PropertiesEditingView editingView = (PropertiesEditingView) view;
-			editingView.getViewService().executeAsyncUIRunnable(new RemoveDecorationOnView(editingView));
+			editingView.getViewService().executeAsyncUIRunnable(editingView.getContents().getDisplay(), new RemoveDecorationOnView(editingView));
 		}
 	}
 
@@ -74,7 +74,7 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 		if (view instanceof PropertiesEditingView) {
 			PropertiesEditingView editingView = (PropertiesEditingView) view;
 			if (editor instanceof ViewElement) {
-				editingView.getViewService().executeAsyncUIRunnable(new RemoveDecorationOnEditor(editingView, (ViewElement) editor));
+				editingView.getViewService().executeAsyncUIRunnable(editingView.getContents().getDisplay(), new RemoveDecorationOnEditor(editingView, (ViewElement) editor));
 			}
 		}
 	}

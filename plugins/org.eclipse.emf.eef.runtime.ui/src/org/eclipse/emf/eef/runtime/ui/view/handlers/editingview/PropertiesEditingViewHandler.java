@@ -118,7 +118,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 */
 	public void setValue(final Object field, final Object value) throws ViewHandlingException {
 		if (view != null) {
-			view.getViewService().executeSyncUIRunnable(new Runnable() {
+			view.getViewService().executeSyncUIRunnable(view.getContents().getDisplay(), new Runnable() {
 				public void run() {
 					view.setValue(field, value);
 				}
@@ -132,7 +132,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 */
 	public void unsetValue(final Object field) throws ViewHandlingException {
 		if (view != null) {
-			view.getViewService().executeSyncUIRunnable(new Runnable() {
+			view.getViewService().executeSyncUIRunnable(view.getContents().getDisplay(), new Runnable() {
 				public void run() {
 					view.unsetValue(field);
 				}
@@ -146,7 +146,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 */
 	public void addValue(final Object field, final Object newValue) throws ViewHandlingException {
 		if (view != null) {
-			view.getViewService().executeSyncUIRunnable(new Runnable() {
+			view.getViewService().executeSyncUIRunnable(view.getContents().getDisplay(), new Runnable() {
 				public void run() {
 					view.addValue(field, newValue);
 				}
@@ -160,7 +160,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 */
 	public void addAllValues(final Object field, final Collection<?> values) throws ViewHandlingException {
 		if (view != null) {	
-			view.getViewService().executeSyncUIRunnable(new Runnable() {
+			view.getViewService().executeSyncUIRunnable(view.getContents().getDisplay(), new Runnable() {
 				public void run() {
 					view.addAllValues(field, values);
 				}
@@ -175,7 +175,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 */
 	public void removeValue(final Object field, final Object value) throws ViewHandlingException {
 		if (view != null) {
-			view.getViewService().executeSyncUIRunnable(new Runnable() {
+			view.getViewService().executeSyncUIRunnable(view.getContents().getDisplay(), new Runnable() {
 				public void run() {
 					view.removeValue(field, value);
 				}
@@ -189,7 +189,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 */
 	public void removeAllValues(final Object field, final Collection<?> values) throws ViewHandlingException {
 		if (view != null) {
-			view.getViewService().executeSyncUIRunnable(new Runnable() {
+			view.getViewService().executeSyncUIRunnable(view.getContents().getDisplay(), new Runnable() {
 				public void run() {
 					view.removeAllValues(field, values);
 				}
@@ -203,7 +203,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 */
 	public void moveValue(final Object field, final Object value, final int newIndex) throws ViewHandlingException {
 		if (view != null) {
-			view.getViewService().executeSyncUIRunnable(new Runnable() {
+			view.getViewService().executeSyncUIRunnable(view.getContents().getDisplay(), new Runnable() {
 				public void run() {
 					view.moveValue(field, value, newIndex);
 				}

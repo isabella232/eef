@@ -44,12 +44,5 @@ public interface PlatformAwareViewService extends ViewService, EEFService<View> 
 	 * @return created control.
 	 */
 	Control createHelpButton(FormToolkit toolkit, final Composite parent, Object editor);
-
-	/**
-	 * Searches the editingDomain for the given WorkbenchPart.
-	 * @param part {@link IWorkbenchPart} editing the EObject.
-	 * @return {@link EditingDomain} to use to edit the current {@link EObject}.
-	 */
-//	EditingDomain getEditingDomain(IWorkbenchPart part);
 	
 }
