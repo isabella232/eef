@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit;
 
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.checkbox.CheckboxPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.combo.ComboPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.group.GroupContainerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.hbox.HBoxContainerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditorProvider;
@@ -24,6 +25,7 @@ public class SWTToolkit extends ToolkitPropertyEditorProvider {
 	public static final String SWT_TOOLKIT_NAME = "swt";
 	
 	private static final Toolkit toolkit = ToolkitsFactory.eINSTANCE.createToolkit();
+	
 	static {
 		toolkit.setName(SWT_TOOLKIT_NAME);		
 	}
@@ -36,7 +38,8 @@ public class SWTToolkit extends ToolkitPropertyEditorProvider {
 		.addPropertyEditorProvider(new CheckboxPropertyEditorProvider())
 		.addPropertyEditorProvider(new GroupContainerProvider())
 		.addPropertyEditorProvider(new HBoxContainerProvider())
-		.addPropertyEditorProvider(new TextareaPropertyEditorProvider());
+		.addPropertyEditorProvider(new TextareaPropertyEditorProvider())
+		.addPropertyEditorProvider(new ComboPropertyEditorProvider());
 	}
 
 	/**
