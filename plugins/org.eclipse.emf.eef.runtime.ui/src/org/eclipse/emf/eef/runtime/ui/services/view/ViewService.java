@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -83,6 +84,14 @@ public interface ViewService extends EEFService<View> {
 	 * @return created control.
 	 */
 	Control createHelpButton(final Composite parent, Object editor);
+	
+	/**
+	 * Creates a Text with smart scrollbars.
+	 * @param parent the {@link Composite} where to create the widget.
+	 * @param styles widget styles.
+	 * @return the created Text.
+	 */
+	Text createScrollableText(Composite parent, int styles);
 
 	/**
 	 * Returns documentation about the feature binded to the given editor. There is two strategies for getting this documentation:

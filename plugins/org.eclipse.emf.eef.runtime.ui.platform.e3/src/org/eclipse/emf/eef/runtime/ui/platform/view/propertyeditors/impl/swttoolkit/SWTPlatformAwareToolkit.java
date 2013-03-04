@@ -7,6 +7,7 @@ import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttool
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.group.GroupPlatformAwareContainerProvider;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.hbox.HBoxPlatformAwareContainerProvider;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.text.TextPlatformAwarePropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.textarea.TextareaPlatformAwarePropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 
 /**
@@ -27,7 +28,8 @@ public class SWTPlatformAwareToolkit extends SWTToolkit {
 		addPropertyEditorProvider(new TextPlatformAwarePropertyEditorProvider())
 		.addPropertyEditorProvider(new CheckboxPlatformAwarePropertyEditorProvider())
 		.addPropertyEditorProvider(new GroupPlatformAwareContainerProvider())
-		.addPropertyEditorProvider(new HBoxPlatformAwareContainerProvider());
+		.addPropertyEditorProvider(new HBoxPlatformAwareContainerProvider())
+		.addPropertyEditorProvider(new TextareaPlatformAwarePropertyEditorProvider());
 	}
 
 }

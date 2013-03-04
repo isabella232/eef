@@ -31,12 +31,26 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.text.source.IVerticalRuler;
+import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Scrollable;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -147,6 +161,54 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 //		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#createScrollableText(org.eclipse.swt.widgets.Composite, int)
+	 */
+	public Text createScrollableText(Composite parent, int styles) {
+		final Text text = new Text(parent, styles);
+
+		// If this text has no scroll bars, simply return it.
+		if ((styles & (SWT.H_SCROLL | SWT.V_SCROLL)) == 0) {
+			return text;
+		}
+
+		// Otherwise, set up its listeners
+		setUpScrollableListener(text);
+
+		return text;
+	}
+
+	/**
+	 * Sets up the listeners allowing us to hide the scroll bars of the given scrollable when they are not
+	 * needed.
+	 * 
+	 * @param scrollable
+	 *            The scrollable widget to setup.
+	 */
+	private void setUpScrollableListener(final Scrollable scrollable) {
+		final ControlListener resizeListener = new ScrollableResizeListener(scrollable);
+		scrollable.addControlListener(resizeListener);
+
+		final ModifyListener modifyListener = new ScrollableModifyListener(scrollable);
+		if (scrollable instanceof Text) {
+			((Text)scrollable).addModifyListener(modifyListener);
+		} else if (scrollable instanceof StyledText) {
+			((StyledText)scrollable).addModifyListener(modifyListener);
+		}
+
+		scrollable.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				scrollable.removeControlListener(resizeListener);
+				if (scrollable instanceof Text) {
+					((Text)scrollable).removeModifyListener(modifyListener);
+				} else if (scrollable instanceof StyledText) {
+					((StyledText)scrollable).removeModifyListener(modifyListener);
+				}
+			}
+		});
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.services.view.ViewService#setID(org.eclipse.swt.widgets.Control, java.lang.Object)
@@ -289,6 +351,186 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 			display.asyncExec(job);
 		} else {
 			Display.getCurrent().asyncExec(job);
+		}
+	}
+
+	private static abstract class AbstractScrollableListener {
+		
+		/**
+		 * Computes the size of the text displayed by the given {@link Text} widget.
+		 * 
+		 * @param widget
+		 *            The widget on which is displayed the text.
+		 * @param text
+		 *            The actual displayed text.
+		 * @return The actual size of the {@link Text} widget's content.
+		 */
+		protected static Point computeTextSize(Control widget, String text) {
+			String[] lines = text.split("\r\n|\n|\r"); //$NON-NLS-1$
+
+			String longestLine = ""; //$NON-NLS-1$
+			if (lines.length > 0) {
+				longestLine = lines[0];
+				for (int i = 0; i < lines.length; i++) {
+					if (lines[i].length() > longestLine.length()) {
+						longestLine = lines[i];
+					}
+				}
+			}
+			GC gc = new GC(widget);
+			gc.setFont(widget.getFont());
+			final int textWidth = gc.stringExtent(longestLine).x;
+			final int textHeight = gc.stringExtent("W").y * lines.length; //$NON-NLS-1$
+			gc.dispose();
+
+			return new Point(textWidth, textHeight);
+		}
+
+	}
+	
+	
+	/**
+	 * This will be used as the resize listener for our scrollable text controls in order to determine whether
+	 * the scroll bars are needed.
+	 * 
+	 * @author <a href="mailto:laurent.goubet@obeo.fr">Laurent Goubet</a>
+	 */
+	protected static class ScrollableResizeListener extends AbstractScrollableListener implements ControlListener  {
+		/** Keeps a reference to the last size we computed. */
+		private Point lastSize;
+
+		/** Keeps a reference to the last text we computed a size for. */
+		private String lastText;
+
+		/** The {@link Scrollable} widget against which this listener has been registered. */
+		private final Scrollable text;
+
+		/**
+		 * Instantiates our resize listener for the given text widget.
+		 * 
+		 * @param text
+		 *            The text widget to listen to.
+		 */
+		public ScrollableResizeListener(Scrollable text) {
+			this.text = text;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.swt.events.ControlAdapter#controlResized(org.eclipse.swt.events.ControlEvent)
+		 */
+		public void controlResized(ControlEvent e) {
+			final Rectangle clientArea = text.getClientArea();
+			final String currentText;
+			if (text instanceof Text) {
+				currentText = ((Text)text).getText();
+			} else if (text instanceof StyledText) {
+				currentText = ((StyledText)text).getText();
+			} else {
+				return;
+			}
+			Point textSize = lastSize;
+			if (textSize == null || !lastText.equals(currentText)) {
+				textSize = computeTextSize(text, currentText);
+				lastText = currentText;
+				lastSize = textSize;
+			}
+			if (clientArea.width > textSize.x && text.getHorizontalBar() != null) {
+				text.getHorizontalBar().setVisible(false);
+			} else if (text.getHorizontalBar() != null) {
+				text.getHorizontalBar().setVisible(true);
+			}
+			if (clientArea.height > textSize.y && text.getVerticalBar() != null) {
+				text.getVerticalBar().setVisible(false);
+			} else if (text.getVerticalBar() != null) {
+				text.getVerticalBar().setVisible(true);
+			}
+		}
+
+		public void controlMoved(ControlEvent e) {
+		}
+	}
+
+	/**
+	 * This subclass of a source viewer will only show its scroll bars if they are needed.
+	 * 
+	 * @author <a href="mailto:laurent.goubet@obeo.fr">Laurent Goubet</a>
+	 */
+	protected static class ScrollableSourceViewer extends SourceViewer {
+		/**
+		 * Constructs a new source viewer. The vertical ruler is initially visible. The viewer has not yet
+		 * been initialized with a source viewer configuration.
+		 * 
+		 * @param parent
+		 *            the parent of the viewer's control.
+		 * @param ruler
+		 *            the vertical ruler used by this source viewer.
+		 * @param styles
+		 *            the SWT style bits for the viewer's control,
+		 *            <em>if <code>SWT.WRAP</code> is set then a custom document adapter needs to be provided, see {@link #createDocumentAdapter()}.
+		 */
+		public ScrollableSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {
+			super(parent, ruler, styles);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.jface.text.TextViewer#createTextWidget(org.eclipse.swt.widgets.Composite, int)
+		 */
+		@Override
+		protected StyledText createTextWidget(Composite parent, int styles) {
+			return super.createTextWidget(parent, styles);
+		}
+	}
+
+	/**
+	 * This will be used as the resize listener for our scrollable text controls in order to determine whether
+	 * the scroll bars are needed.
+	 * 
+	 * @author <a href="mailto:laurent.goubet@obeo.fr">Laurent Goubet</a>
+	 */
+	protected static class ScrollableModifyListener extends AbstractScrollableListener implements ModifyListener {
+		/** The {@link Scrollable} widget against which this listener has been registered. */
+		private final Scrollable text;
+
+		/**
+		 * Instantiates our modify listener for the given text widget.
+		 * 
+		 * @param text
+		 *            The text widget to listen to.
+		 */
+		public ScrollableModifyListener(Scrollable text) {
+			this.text = text;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+		 */
+		public void modifyText(ModifyEvent e) {
+			final Rectangle clientArea = text.getClientArea();
+			final String currentText;
+			if (text instanceof Text) {
+				currentText = ((Text)text).getText();
+			} else if (text instanceof StyledText) {
+				currentText = ((StyledText)text).getText();
+			} else {
+				return;
+			}
+			final Point textSize = computeTextSize(text, currentText);
+			if (clientArea.width > textSize.x && text.getHorizontalBar() != null) {
+				text.getHorizontalBar().setVisible(false);
+			} else if (text.getHorizontalBar() != null) {
+				text.getHorizontalBar().setVisible(true);
+			}
+			if (clientArea.height > textSize.y && text.getVerticalBar() != null) {
+				text.getVerticalBar().setVisible(false);
+			} else if (text.getVerticalBar() != null) {
+				text.getVerticalBar().setVisible(true);
+			}
 		}
 	}
 
