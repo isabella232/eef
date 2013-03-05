@@ -70,19 +70,25 @@ public class TextareaPropertyEditor implements PropertyEditor, MonovaluedPropert
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
+		String newValue;
 		if (value == null) {
-			propertyEditorControl.getViewer().getMainControl().setText("");
+			newValue = "";
 		} else if (value instanceof String) {
-			propertyEditorControl.getViewer().getMainControl().setText((String) value);
+			newValue = (String) value;
 		} else if (value instanceof EObject) {
 			Adapter adapt = view.getEditingComponent().getEditingContext().getAdapterFactory().adapt((EObject)value, IItemLabelProvider.class);
 			if (adapt instanceof IItemLabelProvider) {
-				propertyEditorControl.getViewer().getMainControl().setText(((IItemLabelProvider) adapt).getText(value));
+				newValue = ((IItemLabelProvider) adapt).getText(value);
 			} else {
-				propertyEditorControl.getViewer().getMainControl().setText(value.toString());
+				newValue = value.toString();
 			}
 		} else {
-			propertyEditorControl.getViewer().getMainControl().setText(value.toString());
+			newValue = value.toString();
+		}
+		Text text = propertyEditorControl.getViewer().getMainControl();
+		String oldValue = text.getText();
+		if (!value.equals(oldValue)) {
+			text.setText(newValue);
 		}
 	}
 
