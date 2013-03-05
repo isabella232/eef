@@ -10,6 +10,7 @@ import org.eclipse.emf.eef.runtime.ui.platform.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
 import org.eclipse.emf.eef.views.Container;
@@ -60,8 +61,10 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
 					((FormPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(toolkit, currentContainer);
-					this.propertyEditors.put(elementEditor, propertyEditor);
+				} else if (propertyEditor.getPropertyEditorViewer() instanceof SWTPropertyEditor) {
+					((SWTPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(currentContainer);					
 				}
+				this.propertyEditors.put(elementEditor, propertyEditor);
 			}
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
@@ -71,11 +74,13 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
 					((FormPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(toolkit, currentContainer);
-					this.propertyEditors.put(container, propertyEditor);
-					if (!(propertyEditor instanceof UndefinedPropertyEditor)) {
-						for (EObject subContent : content.eContents()) {
-							buildElement(toolkit, (Composite) propertyEditor.getPropertyEditorViewer().getViewer().getControl(), subContent);
-						}
+				} else if (propertyEditor.getPropertyEditorViewer() instanceof SWTPropertyEditor) {
+					((SWTPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(currentContainer);					
+				}
+				this.propertyEditors.put(container, propertyEditor);
+				if (!(propertyEditor instanceof UndefinedPropertyEditor)) {
+					for (EObject subContent : content.eContents()) {
+						buildElement(toolkit, (Composite) propertyEditor.getPropertyEditorViewer().getViewer().getControl(), subContent);
 					}
 				}
 			}

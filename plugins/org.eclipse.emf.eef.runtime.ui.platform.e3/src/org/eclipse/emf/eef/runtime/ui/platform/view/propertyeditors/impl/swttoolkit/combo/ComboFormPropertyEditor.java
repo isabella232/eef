@@ -5,20 +5,25 @@ package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoo
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.StandardFormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.StandardSWTPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.combo.ComboUIPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ComboFormPropertyEditor extends StandardSWTPropertyEditor<ComboViewer> {
+public class ComboFormPropertyEditor extends StandardFormPropertyEditor<ComboViewer> implements ComboUIPropertyEditor {
 
 	protected ComboViewer combo;
 
@@ -32,19 +37,35 @@ public class ComboFormPropertyEditor extends StandardSWTPropertyEditor<ComboView
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.StandardSWTPropertyEditor#createEditorContents(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.StandardFormPropertyEditor#createEditorContents(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
 	 */
-	protected void createEditorContents(Composite parent) {
-		combo = new ComboViewer(parent, SWT.DROP_DOWN);
+	protected void createEditorContents(FormToolkit toolkit, Composite parent) {
+		Control comboControl;
+		if (toolkit.getBorderStyle() == SWT.BORDER) {
+			comboControl = new Combo(parent, SWT.BORDER | SWT.DROP_DOWN);
+			combo = new ComboViewer((Combo)comboControl);
+		} else {
+			comboControl = new CCombo(parent, SWT.FLAT | SWT.DROP_DOWN);
+			combo = new ComboViewer((CCombo)comboControl);
+		}
+		toolkit.adapt(comboControl, true, false);
 		GridData comboData = new GridData(GridData.FILL_HORIZONTAL);
-		combo.getCCombo().setLayoutData(comboData);
+		comboControl.setLayoutData(comboData);
 		PropertiesEditingContext editingContext = view.getEditingComponent().getEditingContext();
 		EEFServiceRegistry serviceRegistry = editingContext.getServiceRegistry();
 		EditUIProvidersFactory providersFactory = serviceRegistry.getService(EditUIProvidersFactory.class, this);
-		combo.setContentProvider(providersFactory.createContentProvider(editingContext.getAdapterFactory()));
 		combo.setLabelProvider(providersFactory.createLabelProvider(editingContext.getAdapterFactory()));
-		view.getViewService().setID(combo.getCCombo(), elementEditor.getQualifiedIdentifier());
-		view.getViewService().setEEFtype(combo.getCCombo(), "eef::Combo"); //$NON-NLS-1$
+		combo.setContentProvider(new ComboContentProvider());
+		view.getViewService().setID(comboControl, elementEditor.getQualifiedIdentifier());
+		view.getViewService().setEEFtype(comboControl, "eef::Combo"); //$NON-NLS-1$
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.combo.ComboUIPropertyEditor#initCombo(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.combo.ComboUIPropertyEditor.ComboContentProviderInput)
+	 */
+	public void initCombo(ComboContentProviderInput input) {
+		combo.setInput(input);
 	}
 
 	/**

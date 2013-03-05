@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.internal.services.emf;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
@@ -16,6 +17,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
@@ -173,5 +176,20 @@ public class EMFServiceImpl extends AbstractEEFService<EPackage> implements EMFS
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.emf.EMFService#choiceOfValues(org.eclipse.emf.common.notify.AdapterFactory, java.lang.Object, org.eclipse.emf.ecore.EStructuralFeature)
+	 */
+	public Object choiceOfValues(AdapterFactory adapterFactory, Object editedElement, EStructuralFeature feature) {
+		IItemPropertySource propertySource = (IItemPropertySource) adapterFactory.adapt(editedElement, IItemPropertySource.class);
+		if (propertySource != null) {
+			IItemPropertyDescriptor descriptor = propertySource.getPropertyDescriptor(editedElement, feature);
+			if (descriptor != null) {
+				return descriptor.getChoiceOfValues(editedElement);
+			}
+		}
+		return null;
 	}
 }

@@ -322,9 +322,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		}
 		if (editingContext.getOptions().validateEditing()) {
 			Diagnostic valueDiagnostic = validateValue(editingEvent);
-			if ("test".equals(editingEvent.getNewValue())) {
-				valueDiagnostic = new BasicDiagnostic(Diagnostic.ERROR, "", 0, "Cannot be test", null);
-			}
 			highlightNotificationResult(editingEvent, valueDiagnostic, true);
 			if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
 				propagateEvent(new PropertiesValidationEditingEvent(editingEvent, valueDiagnostic));
@@ -521,6 +518,8 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 				ret = BasicDiagnostic.toDiagnostic(iae);
 			} catch (WrappedException we) {
 				ret = BasicDiagnostic.toDiagnostic(we);
+			} catch (NullPointerException e) {
+				// An suspicious error occured (e.g. on Enum) let's go on. 
 			}
 		}
 		return ret;

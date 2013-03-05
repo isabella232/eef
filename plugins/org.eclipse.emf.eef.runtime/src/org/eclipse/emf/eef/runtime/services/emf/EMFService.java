@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.services.emf;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -73,4 +74,13 @@ public interface EMFService extends EEFService<EPackage> {
 	 */
 	Collection<EClass> listOfInstanciableType(EditingDomain domain, EObject editedObject, EReference eReference);
 	
+	
+	/**
+	 * Returns the choices of all the values that the given property may take one.
+	 * @param adapterFactory {@link AdapterFactory} to use.
+	 * @param editedElement the edited element.
+	 * @param feature the edited feature.
+	 * @return a all the settable values for the given or <code>null</code> if these values cannot be found. 
+	 */
+	Object choiceOfValues(AdapterFactory adapterFactory, Object editedElement, EStructuralFeature feature);
 }

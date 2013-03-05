@@ -10,10 +10,15 @@ import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.combo.ComboUIPropertyEditor.ComboContentProviderInput;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -44,8 +49,10 @@ public class ComboPropertyEditor implements PropertyEditor, MonovaluedPropertyEd
 	 */
 	public void init(EStructuralFeature feature) {
 		this.feature = feature;
-		Object value = view.getEditingComponent().getEObject().eGet(feature);
-		propertyEditorControl.getViewer().setInput(value);			
+		if (propertyEditorControl instanceof ComboUIPropertyEditor) {
+			((ComboUIPropertyEditor) propertyEditorControl).initCombo(new ComboContentProviderInput(view.getEditingComponent().getEditingContext(), feature));
+		}
+		setValue(view.getEditingComponent().getEObject().eGet(feature));
 		initListeners();
 	}
 
@@ -62,7 +69,11 @@ public class ComboPropertyEditor implements PropertyEditor, MonovaluedPropertyEd
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
-		propertyEditorControl.getViewer().setInput(value);					
+		if (value instanceof ISelection) {
+			propertyEditorControl.getViewer().setSelection((ISelection) value);
+		} else {
+			propertyEditorControl.getViewer().setSelection(new StructuredSelection(value));			
+		}
 	}
 
 	/**
@@ -70,15 +81,17 @@ public class ComboPropertyEditor implements PropertyEditor, MonovaluedPropertyEd
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#unsetValue()
 	 */
 	public void unsetValue() {
-		propertyEditorControl.getViewer().setInput(null);
+		propertyEditorControl.getViewer().setInput(new StructuredSelection(Lists.newArrayList()));
 	}
 
 	private void initListeners() {
 		propertyEditorControl.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
 			
 			public void selectionChanged(SelectionChangedEvent event) {
-				if (view.getEditingComponent() != null)
-					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer().getInput(), true));
+				if (view.getEditingComponent() != null) {
+					Object value = ((StructuredSelection)propertyEditorControl.getViewer().getSelection()).getFirstElement();
+					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, value));
+				}
 			}
 		});
 	}		
