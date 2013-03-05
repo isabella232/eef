@@ -32,8 +32,6 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.text.source.IVerticalRuler;
-import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ControlEvent;
@@ -455,39 +453,6 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 		}
 
 		public void controlMoved(ControlEvent e) {
-		}
-	}
-
-	/**
-	 * This subclass of a source viewer will only show its scroll bars if they are needed.
-	 * 
-	 * @author <a href="mailto:laurent.goubet@obeo.fr">Laurent Goubet</a>
-	 */
-	protected static class ScrollableSourceViewer extends SourceViewer {
-		/**
-		 * Constructs a new source viewer. The vertical ruler is initially visible. The viewer has not yet
-		 * been initialized with a source viewer configuration.
-		 * 
-		 * @param parent
-		 *            the parent of the viewer's control.
-		 * @param ruler
-		 *            the vertical ruler used by this source viewer.
-		 * @param styles
-		 *            the SWT style bits for the viewer's control,
-		 *            <em>if <code>SWT.WRAP</code> is set then a custom document adapter needs to be provided, see {@link #createDocumentAdapter()}.
-		 */
-		public ScrollableSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {
-			super(parent, ruler, styles);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.jface.text.TextViewer#createTextWidget(org.eclipse.swt.widgets.Composite, int)
-		 */
-		@Override
-		protected StyledText createTextWidget(Composite parent, int styles) {
-			return super.createTextWidget(parent, styles);
 		}
 	}
 
