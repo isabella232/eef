@@ -115,7 +115,7 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util,
    org.eclipse.swt.widgets,
    org.eclipse.ui.forms.widgets",
- org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.combo;x-friends:="org.eclipse.emf.eef.runtime.ui.platform.e3",
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.combo,
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.group;x-friends:="org.eclipse.emf.eef.runtime.ui.platform.e3,org.eclipse.emf.eef.runtime.ui.platform.e4",
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.hbox;x-friends:="org.eclipse.emf.eef.runtime.ui.platform.e3,org.eclipse.emf.eef.runtime.ui.platform.e4",
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.text;
