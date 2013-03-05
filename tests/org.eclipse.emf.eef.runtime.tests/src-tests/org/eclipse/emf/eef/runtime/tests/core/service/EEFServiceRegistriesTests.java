@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -234,6 +235,10 @@ public class EEFServiceRegistriesTests {
 
 		public boolean serviceFor(EPackage element) {
 			return element == EcorePackage.eINSTANCE;
+		}
+
+		public Object choiceOfValues(AdapterFactory adapterFactory, Object editedElement, EStructuralFeature feature) {
+			return null;
 		}
 
 		public EStructuralFeature mapFeature(EObject editedObject, EStructuralFeature feature) {
