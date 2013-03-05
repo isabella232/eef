@@ -27,6 +27,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.views.View;
@@ -121,10 +122,15 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 	public String getDescription(Object editor, String alternate) {
 		String text = alternate;
 		EStructuralFeature associatedFeature = feature(editor);
+		EObject eObject = editingComponent.getEObject();
+		if (!eObject.eClass().getEAllStructuralFeatures().contains(associatedFeature)) {
+			EMFService service = editingComponent.getEditingContext().getServiceRegistry().getService(EMFService.class, eObject.eClass().getEPackage());
+			associatedFeature = service.mapFeature(eObject, associatedFeature);
+		}
 		if (associatedFeature != null) {
-			IItemPropertySource labelProvider = (IItemPropertySource) editingComponent.getEditingContext().getAdapterFactory().adapt(editingComponent.getEObject(), org.eclipse.emf.edit.provider.IItemPropertySource.class);
+			IItemPropertySource labelProvider = (IItemPropertySource) editingComponent.getEditingContext().getAdapterFactory().adapt(eObject, org.eclipse.emf.edit.provider.IItemPropertySource.class);
 			if (labelProvider != null) {
-				IItemPropertyDescriptor propertyDescriptor = labelProvider.getPropertyDescriptor(editingComponent.getEObject(), associatedFeature);
+				IItemPropertyDescriptor propertyDescriptor = labelProvider.getPropertyDescriptor(eObject, associatedFeature);
 				if (propertyDescriptor != null) {
 					text = propertyDescriptor.getDisplayName(editor);
 				}
