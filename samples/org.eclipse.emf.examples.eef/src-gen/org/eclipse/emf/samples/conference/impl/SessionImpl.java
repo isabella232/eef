@@ -34,7 +34,7 @@ import org.eclipse.emf.samples.conference.SessionType;
  * <ul>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getPresenters <em>Presenters</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getSpeakers <em>Speakers</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.impl.SessionImpl#getKeywords <em>Keywords</em>}</li>
  * </ul>
@@ -84,14 +84,14 @@ public class SessionImpl extends EObjectImpl implements Session {
 	protected SessionType type = TYPE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getPresenters() <em>Presenters</em>}' reference list.
+	 * The cached value of the '{@link #getSpeakers() <em>Speakers</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPresenters()
+	 * @see #getSpeakers()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Participant> presenters;
+	protected EList<Participant> speakers;
 
 	/**
 	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
@@ -189,11 +189,11 @@ public class SessionImpl extends EObjectImpl implements Session {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Participant> getPresenters() {
-		if (presenters == null) {
-			presenters = new EObjectResolvingEList<Participant>(Participant.class, this, ConferencePackage.SESSION__PRESENTERS);
+	public EList<Participant> getSpeakers() {
+		if (speakers == null) {
+			speakers = new EObjectResolvingEList<Participant>(Participant.class, this, ConferencePackage.SESSION__SPEAKERS);
 		}
-		return presenters;
+		return speakers;
 	}
 
 	/**
@@ -241,8 +241,8 @@ public class SessionImpl extends EObjectImpl implements Session {
 				return getTitle();
 			case ConferencePackage.SESSION__TYPE:
 				return getType();
-			case ConferencePackage.SESSION__PRESENTERS:
-				return getPresenters();
+			case ConferencePackage.SESSION__SPEAKERS:
+				return getSpeakers();
 			case ConferencePackage.SESSION__DESCRIPTION:
 				return getDescription();
 			case ConferencePackage.SESSION__KEYWORDS:
@@ -266,9 +266,9 @@ public class SessionImpl extends EObjectImpl implements Session {
 			case ConferencePackage.SESSION__TYPE:
 				setType((SessionType)newValue);
 				return;
-			case ConferencePackage.SESSION__PRESENTERS:
-				getPresenters().clear();
-				getPresenters().addAll((Collection<? extends Participant>)newValue);
+			case ConferencePackage.SESSION__SPEAKERS:
+				getSpeakers().clear();
+				getSpeakers().addAll((Collection<? extends Participant>)newValue);
 				return;
 			case ConferencePackage.SESSION__DESCRIPTION:
 				setDescription((String)newValue);
@@ -295,8 +295,8 @@ public class SessionImpl extends EObjectImpl implements Session {
 			case ConferencePackage.SESSION__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
-			case ConferencePackage.SESSION__PRESENTERS:
-				getPresenters().clear();
+			case ConferencePackage.SESSION__SPEAKERS:
+				getSpeakers().clear();
 				return;
 			case ConferencePackage.SESSION__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
@@ -320,8 +320,8 @@ public class SessionImpl extends EObjectImpl implements Session {
 				return TITLE_EDEFAULT == null ? title != null : !TITLE_EDEFAULT.equals(title);
 			case ConferencePackage.SESSION__TYPE:
 				return type != TYPE_EDEFAULT;
-			case ConferencePackage.SESSION__PRESENTERS:
-				return presenters != null && !presenters.isEmpty();
+			case ConferencePackage.SESSION__SPEAKERS:
+				return speakers != null && !speakers.isEmpty();
 			case ConferencePackage.SESSION__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 			case ConferencePackage.SESSION__KEYWORDS:

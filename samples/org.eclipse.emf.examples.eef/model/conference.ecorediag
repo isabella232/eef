@@ -127,15 +127,15 @@
     <children xmi:type="notation:Node" xmi:id="_sZcnUJkgEd6sxtwdpecy3w" type="4010"/>
     <children xmi:type="notation:Node" xmi:id="_sZcnUZkgEd6sxtwdpecy3w" type="5008">
       <children xmi:type="notation:Node" xmi:id="_sZdOY5kgEd6sxtwdpecy3w" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="conference.ecore#//GENDER/MALE"/>
+        <element xmi:type="ecore:EEnumLiteral" href="conference.ecore#//GENDER/Male"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_sZdOZJkgEd6sxtwdpecy3w"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_sZd1cJkgEd6sxtwdpecy3w" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="conference.ecore#//GENDER/FEMALE"/>
+        <element xmi:type="ecore:EEnumLiteral" href="conference.ecore#//GENDER/Female"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_sZd1cZkgEd6sxtwdpecy3w"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_sZd1cpkgEd6sxtwdpecy3w" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="conference.ecore#//GENDER/UNKNOWN"/>
+        <element xmi:type="ecore:EEnumLiteral" href="conference.ecore#//GENDER/Unknown"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_sZd1c5kgEd6sxtwdpecy3w"/>
       </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_sZdOYJkgEd6sxtwdpecy3w"/>
@@ -297,7 +297,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_sZwwY5kgEd6sxtwdpecy3w" routing="Rectilinear" lineColor="0"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_sZwwZJkgEd6sxtwdpecy3w" fontName="Sans" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="conference.ecore#//Session/presenters"/>
+    <element xmi:type="ecore:EReference" href="conference.ecore#//Session/speakers"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_sZwwZZkgEd6sxtwdpecy3w" points="[-92, 40, 135, -111]$[-203, 40, 24, -111]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_sg8WcJkgEd6sxtwdpecy3w" id="(0.5,0.0)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_sg8WcZkgEd6sxtwdpecy3w" id="(0.87081337,1.0)"/>

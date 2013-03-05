@@ -23,37 +23,37 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum GENDER implements Enumerator {
 	/**
-	 * The '<em><b>MALE</b></em>' literal object.
+	 * The '<em><b>Male</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #MALE_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	MALE(0, "MALE", "male"),
+	MALE(0, "Male", "male"),
 
 	/**
-	 * The '<em><b>FEMALE</b></em>' literal object.
+	 * The '<em><b>Female</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #FEMALE_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	FEMALE(1, "FEMALE", "female"),
+	FEMALE(1, "Female", "female"),
 
 	/**
-	 * The '<em><b>UNKNOWN</b></em>' literal object.
+	 * The '<em><b>Unknown</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #UNKNOWN_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	UNKNOWN(3, "UNKNOWN", "unknown");
+	UNKNOWN(3, "Unknown", "unknown");
 
 	/**
-	 * The '<em><b>MALE</b></em>' literal value.
+	 * The '<em><b>Male</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>MALE</b></em>' literal object isn't clear,
@@ -61,14 +61,14 @@ public enum GENDER implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MALE
-	 * @model literal="male"
+	 * @model name="Male" literal="male"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int MALE_VALUE = 0;
 
 	/**
-	 * The '<em><b>FEMALE</b></em>' literal value.
+	 * The '<em><b>Female</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>FEMALE</b></em>' literal object isn't clear,
@@ -76,14 +76,14 @@ public enum GENDER implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FEMALE
-	 * @model literal="female"
+	 * @model name="Female" literal="female"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int FEMALE_VALUE = 1;
 
 	/**
-	 * The '<em><b>UNKNOWN</b></em>' literal value.
+	 * The '<em><b>Unknown</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>UNKNOWN</b></em>' literal object isn't clear,
@@ -91,7 +91,7 @@ public enum GENDER implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #UNKNOWN
-	 * @model literal="unknown"
+	 * @model name="Unknown" literal="unknown"
 	 * @generated
 	 * @ordered
 	 */

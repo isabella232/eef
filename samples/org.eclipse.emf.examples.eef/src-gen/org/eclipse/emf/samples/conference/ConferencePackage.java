@@ -253,13 +253,13 @@ public interface ConferencePackage extends EPackage {
 	int SESSION__TYPE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Presenters</b></em>' reference list.
+	 * The feature id for the '<em><b>Speakers</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SESSION__PRESENTERS = 2;
+	int SESSION__SPEAKERS = 2;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -673,15 +673,15 @@ public interface ConferencePackage extends EPackage {
 	EAttribute getSession_Type();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.emf.samples.conference.Session#getPresenters <em>Presenters</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.samples.conference.Session#getSpeakers <em>Speakers</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Presenters</em>'.
-	 * @see org.eclipse.emf.samples.conference.Session#getPresenters()
+	 * @return the meta object for the reference list '<em>Speakers</em>'.
+	 * @see org.eclipse.emf.samples.conference.Session#getSpeakers()
 	 * @see #getSession()
 	 * @generated
 	 */
-	EReference getSession_Presenters();
+	EReference getSession_Speakers();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.samples.conference.Session#getDescription <em>Description</em>}'.
@@ -1045,12 +1045,12 @@ public interface ConferencePackage extends EPackage {
 		EAttribute SESSION__TYPE = eINSTANCE.getSession_Type();
 
 		/**
-		 * The meta object literal for the '<em><b>Presenters</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Speakers</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SESSION__PRESENTERS = eINSTANCE.getSession_Presenters();
+		EReference SESSION__SPEAKERS = eINSTANCE.getSession_Speakers();
 
 		/**
 		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.

@@ -36,7 +36,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Session">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//SessionType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="presenters" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="speakers" lowerBound="1"
         upperBound="-1" eType="#//Participant">
       <eAnnotations source="genConstraint">
         <details key="significant" value="true"/>
@@ -53,9 +53,9 @@
     <eLiterals name="Keynote" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="GENDER">
-    <eLiterals name="MALE" literal="male"/>
-    <eLiterals name="FEMALE" value="1" literal="female"/>
-    <eLiterals name="UNKNOWN" value="3" literal="unknown"/>
+    <eLiterals name="Male" literal="male"/>
+    <eLiterals name="Female" value="1" literal="female"/>
+    <eLiterals name="Unknown" value="3" literal="unknown"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Venue">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

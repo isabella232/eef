@@ -332,7 +332,7 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSession_Presenters() {
+	public EReference getSession_Speakers() {
 		return (EReference)sessionEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -538,7 +538,7 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 		sessionEClass = createEClass(SESSION);
 		createEAttribute(sessionEClass, SESSION__TITLE);
 		createEAttribute(sessionEClass, SESSION__TYPE);
-		createEReference(sessionEClass, SESSION__PRESENTERS);
+		createEReference(sessionEClass, SESSION__SPEAKERS);
 		createEAttribute(sessionEClass, SESSION__DESCRIPTION);
 		createEAttribute(sessionEClass, SESSION__KEYWORDS);
 
@@ -615,7 +615,7 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 		initEClass(sessionEClass, Session.class, "Session", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSession_Title(), ecorePackage.getEString(), "title", null, 1, 1, Session.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSession_Type(), this.getSessionType(), "type", null, 0, 1, Session.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSession_Presenters(), this.getParticipant(), null, "presenters", null, 1, -1, Session.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSession_Speakers(), this.getParticipant(), null, "speakers", null, 1, -1, Session.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSession_Description(), ecorePackage.getEString(), "description", null, 1, 1, Session.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSession_Keywords(), ecorePackage.getEString(), "keywords", null, 0, -1, Session.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -664,7 +664,7 @@ public class ConferencePackageImpl extends EPackageImpl implements ConferencePac
 	protected void createGenConstraintAnnotations() {
 		String source = "genConstraint";			
 		addAnnotation
-		  (getSession_Presenters(), 
+		  (getSession_Speakers(), 
 		   source, 
 		   new String[] {
 			 "significant", "true"

@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.emf.samples.conference.Session#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.Session#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.emf.samples.conference.Session#getPresenters <em>Presenters</em>}</li>
+ *   <li>{@link org.eclipse.emf.samples.conference.Session#getSpeakers <em>Speakers</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.Session#getDescription <em>Description</em>}</li>
  *   <li>{@link org.eclipse.emf.samples.conference.Session#getKeywords <em>Keywords</em>}</li>
  * </ul>
@@ -87,21 +87,21 @@ public interface Session extends EObject {
 	void setType(SessionType value);
 
 	/**
-	 * Returns the value of the '<em><b>Presenters</b></em>' reference list.
+	 * Returns the value of the '<em><b>Speakers</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.samples.conference.Participant}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Presenters</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Speakers</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Presenters</em>' reference list.
-	 * @see org.eclipse.emf.samples.conference.ConferencePackage#getSession_Presenters()
+	 * @return the value of the '<em>Speakers</em>' reference list.
+	 * @see org.eclipse.emf.samples.conference.ConferencePackage#getSession_Speakers()
 	 * @model required="true"
 	 *        annotation="genConstraint significant='true'"
 	 * @generated
 	 */
-	EList<Participant> getPresenters();
+	EList<Participant> getSpeakers();
 
 	/**
 	 * Returns the value of the '<em><b>Description</b></em>' attribute.

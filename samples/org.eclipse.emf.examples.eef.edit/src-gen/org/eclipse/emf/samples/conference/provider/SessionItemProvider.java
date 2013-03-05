@@ -68,7 +68,7 @@ public class SessionItemProvider
 
 			addTitlePropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
-			addPresentersPropertyDescriptor(object);
+			addSpeakersPropertyDescriptor(object);
 			addDescriptionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -119,19 +119,19 @@ public class SessionItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Presenters feature.
+	 * This adds a property descriptor for the Speakers feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addPresentersPropertyDescriptor(Object object) {
+	protected void addSpeakersPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Session_presenters_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Session_presenters_feature", "_UI_Session_type"),
-				 ConferencePackage.Literals.SESSION__PRESENTERS,
+				 getString("_UI_Session_speakers_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Session_speakers_feature", "_UI_Session_type"),
+				 ConferencePackage.Literals.SESSION__SPEAKERS,
 				 true,
 				 false,
 				 true,

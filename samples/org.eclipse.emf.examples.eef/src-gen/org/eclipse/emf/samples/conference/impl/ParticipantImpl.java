@@ -351,7 +351,7 @@ public class ParticipantImpl extends EObjectImpl implements Participant {
 	public boolean isSpeaker() {
 		if (eContainer() instanceof Conference) {
 			for (Session session : ((Conference) eContainer()).getSessions()) {
-				if (session.getPresenters() != null && session.getPresenters().contains(this)) {
+				if (session.getSpeakers() != null && session.getSpeakers().contains(this)) {
 					return true;
 				}
 			}
