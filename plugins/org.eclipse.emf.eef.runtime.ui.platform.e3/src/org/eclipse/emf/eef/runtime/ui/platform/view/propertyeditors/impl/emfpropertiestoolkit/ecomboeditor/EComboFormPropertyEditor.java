@@ -6,12 +6,11 @@ package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.emfpro
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.StandardFormPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.platform.widgets.FormEComboEditor;
+import org.eclipse.emf.eef.runtime.ui.platform.widgets.FormSingleLinePropertyViewer;
 import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
-import org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor;
+import org.eclipse.emf.eef.runtime.ui.widgets.SingleLinePropertyViewer;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -22,9 +21,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EComboFormPropertyEditor extends StandardFormPropertyEditor<EComboEditor> implements PropertyEditorViewer<EComboEditor> {
+public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleLinePropertyViewer> {
 
-	private FormEComboEditor eComboEditor;
+	private FormSingleLinePropertyViewer eComboEditor;
 
 	/**
 	 * @param view
@@ -38,7 +37,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<EComboE
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
-	public FormEComboEditor getViewer() {
+	public FormSingleLinePropertyViewer getViewer() {
 		return eComboEditor;
 	}
 
@@ -48,7 +47,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<EComboE
 	 */
 	@Override
 	protected void createEditorContents(FormToolkit toolkit, Composite parent) {
-		eComboEditor = new FormEComboEditor(toolkit, parent, SWT.BORDER);
+		eComboEditor = new FormSingleLinePropertyViewer(toolkit, parent, SWT.BORDER);
 		PropertiesEditingContext editingContext = view.getEditingComponent().getEditingContext();
 		EEFServiceRegistry serviceRegistry = editingContext.getServiceRegistry();
 		EditUIProvidersFactory providersFactory = serviceRegistry.getService(EditUIProvidersFactory.class, this);
@@ -57,7 +56,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<EComboE
 		eComboEditor.setImageManager(imageManager);
 		eComboEditor.createContents();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
-		eComboEditor.setLayoutData(layoutData);
+		eComboEditor.getControl().setLayoutData(layoutData);
 	}
 
 

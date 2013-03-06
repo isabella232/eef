@@ -141,6 +141,7 @@ public class PropertyBindingItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR);
+			childrenFeatures.add(EditingModelPackage.Literals.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS);
 		}
 		return childrenFeatures;
 	}
@@ -215,6 +216,7 @@ public class PropertyBindingItemProvider
 
 		switch (notification.getFeatureID(PropertyBinding.class)) {
 			case EditingModelPackage.PROPERTY_BINDING__EDITOR:
+			case EditingModelPackage.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -241,6 +243,11 @@ public class PropertyBindingItemProvider
 			(createChildParameter
 				(EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR,
 				 EditingModelFactory.eINSTANCE.createEObjectEditor()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EditingModelPackage.Literals.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS,
+				 EditingModelFactory.eINSTANCE.createPropertyBinding()));
 	}
 
 	/**

@@ -11,10 +11,16 @@
  */
 package org.eclipse.emf.eef.views.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.eef.runtime.ui.internal.util.NamingHelper;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.IdentifiedElement;
@@ -30,6 +36,7 @@ import org.eclipse.emf.eef.views.ViewsPackage;
  *   <li>{@link org.eclipse.emf.eef.views.impl.ElementEditorImpl#getQualifiedIdentifier <em>Qualified Identifier</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ElementEditorImpl#isReadOnly <em>Read Only</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ElementEditorImpl#isNameAsLabel <em>Name As Label</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.views.impl.ElementEditorImpl#getSubElementEditors <em>Sub Element Editors</em>}</li>
  * </ul>
  * </p>
  *
@@ -85,6 +92,16 @@ public class ElementEditorImpl extends ViewElementImpl implements ElementEditor 
 	 * @ordered
 	 */
 	protected boolean nameAsLabel = NAME_AS_LABEL_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getSubElementEditors() <em>Sub Element Editors</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSubElementEditors()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ElementEditor> subElementEditors;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -174,6 +191,32 @@ public class ElementEditorImpl extends ViewElementImpl implements ElementEditor 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<ElementEditor> getSubElementEditors() {
+		if (subElementEditors == null) {
+			subElementEditors = new EObjectContainmentEList<ElementEditor>(ElementEditor.class, this, ViewsPackage.ELEMENT_EDITOR__SUB_ELEMENT_EDITORS);
+		}
+		return subElementEditors;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ViewsPackage.ELEMENT_EDITOR__SUB_ELEMENT_EDITORS:
+				return ((InternalEList<?>)getSubElementEditors()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -183,6 +226,8 @@ public class ElementEditorImpl extends ViewElementImpl implements ElementEditor 
 				return isReadOnly();
 			case ViewsPackage.ELEMENT_EDITOR__NAME_AS_LABEL:
 				return isNameAsLabel();
+			case ViewsPackage.ELEMENT_EDITOR__SUB_ELEMENT_EDITORS:
+				return getSubElementEditors();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -192,6 +237,7 @@ public class ElementEditorImpl extends ViewElementImpl implements ElementEditor 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -200,6 +246,10 @@ public class ElementEditorImpl extends ViewElementImpl implements ElementEditor 
 				return;
 			case ViewsPackage.ELEMENT_EDITOR__NAME_AS_LABEL:
 				setNameAsLabel((Boolean)newValue);
+				return;
+			case ViewsPackage.ELEMENT_EDITOR__SUB_ELEMENT_EDITORS:
+				getSubElementEditors().clear();
+				getSubElementEditors().addAll((Collection<? extends ElementEditor>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -219,6 +269,9 @@ public class ElementEditorImpl extends ViewElementImpl implements ElementEditor 
 			case ViewsPackage.ELEMENT_EDITOR__NAME_AS_LABEL:
 				setNameAsLabel(NAME_AS_LABEL_EDEFAULT);
 				return;
+			case ViewsPackage.ELEMENT_EDITOR__SUB_ELEMENT_EDITORS:
+				getSubElementEditors().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -237,6 +290,8 @@ public class ElementEditorImpl extends ViewElementImpl implements ElementEditor 
 				return readOnly != READ_ONLY_EDEFAULT;
 			case ViewsPackage.ELEMENT_EDITOR__NAME_AS_LABEL:
 				return nameAsLabel != NAME_AS_LABEL_EDEFAULT;
+			case ViewsPackage.ELEMENT_EDITOR__SUB_ELEMENT_EDITORS:
+				return subElementEditors != null && !subElementEditors.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

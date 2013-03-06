@@ -9,7 +9,7 @@ import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.StandardSWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
-import org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor;
+import org.eclipse.emf.eef.runtime.ui.widgets.SingleLinePropertyViewer;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -19,9 +19,9 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<EComboEditor> {
+public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLinePropertyViewer> {
 
-	private EComboEditor eComboEditor;
+	private SingleLinePropertyViewer eComboEditor;
 
 	/**
 	 * @param view
@@ -35,7 +35,7 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<EComboEdi
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
-	public EComboEditor getViewer() {
+	public SingleLinePropertyViewer getViewer() {
 		return eComboEditor;
 	}
 
@@ -45,7 +45,7 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<EComboEdi
 	 */
 	@Override
 	protected void createEditorContents(Composite parent) {
-		eComboEditor = new EComboEditor(parent, SWT.BORDER);
+		eComboEditor = new SingleLinePropertyViewer(parent, SWT.BORDER);
 		PropertiesEditingContext editingContext = view.getEditingComponent().getEditingContext();
 		EEFServiceRegistry serviceRegistry = editingContext.getServiceRegistry();
 		EditUIProvidersFactory providersFactory = serviceRegistry.getService(EditUIProvidersFactory.class, this);
@@ -54,7 +54,7 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<EComboEdi
 		eComboEditor.setImageManager(imageManager);
 		eComboEditor.createContents();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
-		eComboEditor.setLayoutData(layoutData);
+		eComboEditor.getControl().setLayoutData(layoutData);
 	}
 
 	

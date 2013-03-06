@@ -467,13 +467,22 @@ public interface ViewsPackage extends EPackage {
 	int ELEMENT_EDITOR__NAME_AS_LABEL = VIEW_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Sub Element Editors</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELEMENT_EDITOR__SUB_ELEMENT_EDITORS = VIEW_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Element Editor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ELEMENT_EDITOR_FEATURE_COUNT = VIEW_ELEMENT_FEATURE_COUNT + 3;
+	int ELEMENT_EDITOR_FEATURE_COUNT = VIEW_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.eef.views.impl.CategoryImpl <em>Category</em>}' class.
@@ -611,6 +620,15 @@ public interface ViewsPackage extends EPackage {
 	 * @ordered
 	 */
 	int CUSTOM_ELEMENT_EDITOR__NAME_AS_LABEL = ELEMENT_EDITOR__NAME_AS_LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Sub Element Editors</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_ELEMENT_EDITOR__SUB_ELEMENT_EDITORS = ELEMENT_EDITOR__SUB_ELEMENT_EDITORS;
 
 	/**
 	 * The number of structural features of the '<em>Custom Element Editor</em>' class.
@@ -953,6 +971,17 @@ public interface ViewsPackage extends EPackage {
 	EAttribute getElementEditor_NameAsLabel();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.eef.views.ElementEditor#getSubElementEditors <em>Sub Element Editors</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Sub Element Editors</em>'.
+	 * @see org.eclipse.emf.eef.views.ElementEditor#getSubElementEditors()
+	 * @see #getElementEditor()
+	 * @generated
+	 */
+	EReference getElementEditor_SubElementEditors();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.views.Category <em>Category</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1276,6 +1305,14 @@ public interface ViewsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ELEMENT_EDITOR__NAME_AS_LABEL = eINSTANCE.getElementEditor_NameAsLabel();
+
+		/**
+		 * The meta object literal for the '<em><b>Sub Element Editors</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ELEMENT_EDITOR__SUB_ELEMENT_EDITORS = eINSTANCE.getElementEditor_SubElementEditors();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.eef.views.impl.CategoryImpl <em>Category</em>}' class.

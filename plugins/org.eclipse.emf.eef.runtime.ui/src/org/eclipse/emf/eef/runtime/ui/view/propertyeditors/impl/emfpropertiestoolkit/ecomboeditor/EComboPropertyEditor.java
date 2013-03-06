@@ -11,9 +11,9 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEdi
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
-import org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor;
-import org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener;
 import org.eclipse.emf.eef.runtime.ui.widgets.EEFSelectionDialog;
+import org.eclipse.emf.eef.runtime.ui.widgets.SingleLinePropertyViewer;
+import org.eclipse.emf.eef.runtime.ui.widgets.SingleLinePropertyViewer.SingleLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.window.Window;
@@ -27,16 +27,16 @@ public class EComboPropertyEditor implements PropertyEditor, MonovaluedPropertyE
 
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
-	protected PropertyEditorViewer<EComboEditor> propertyEditorViewer;
+	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
 	private EStructuralFeature feature;
-	private EComboListener listener;
+	private SingleLinePropertyViewerListener listener;
 
 	/**
 	 * @param view
 	 * @param elementEditor
 	 * @param propertyEditorViewer
 	 */
-	public EComboPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<EComboEditor> propertyEditorViewer) {
+	public EComboPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
@@ -53,7 +53,7 @@ public class EComboPropertyEditor implements PropertyEditor, MonovaluedPropertyE
 		}
 		initListener();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
-		propertyEditorViewer.getViewer().setLayoutData(layoutData);
+		propertyEditorViewer.getViewer().getControl().setLayoutData(layoutData);
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class EComboPropertyEditor implements PropertyEditor, MonovaluedPropertyE
 	 */
 	protected void initListener() {
 		if (listener == null) {
-			listener = new EComboListener() {
+			listener = new SingleLinePropertyViewerListener() {
 
 				/**
 				 * {@inheritDoc}
@@ -121,7 +121,7 @@ public class EComboPropertyEditor implements PropertyEditor, MonovaluedPropertyE
 				}
 				
 			};
-			propertyEditorViewer.getViewer().addEComboListener(listener);
+			propertyEditorViewer.getViewer().addEDatePickerListener(listener);
 		}
 	}
 }

@@ -294,6 +294,15 @@ public class ViewsPackageImpl extends EPackageImpl implements ViewsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getElementEditor_SubElementEditors() {
+		return (EReference)elementEditorEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getCategory() {
 		return categoryEClass;
 	}
@@ -502,6 +511,7 @@ public class ViewsPackageImpl extends EPackageImpl implements ViewsPackage {
 		elementEditorEClass = createEClass(ELEMENT_EDITOR);
 		createEAttribute(elementEditorEClass, ELEMENT_EDITOR__READ_ONLY);
 		createEAttribute(elementEditorEClass, ELEMENT_EDITOR__NAME_AS_LABEL);
+		createEReference(elementEditorEClass, ELEMENT_EDITOR__SUB_ELEMENT_EDITORS);
 
 		categoryEClass = createEClass(CATEGORY);
 		createEReference(categoryEClass, CATEGORY__VIEWS);
@@ -595,6 +605,7 @@ public class ViewsPackageImpl extends EPackageImpl implements ViewsPackage {
 		initEClass(elementEditorEClass, ElementEditor.class, "ElementEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getElementEditor_ReadOnly(), ecorePackage.getEBoolean(), "readOnly", null, 1, 1, ElementEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getElementEditor_NameAsLabel(), ecorePackage.getEBoolean(), "nameAsLabel", null, 0, 1, ElementEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getElementEditor_SubElementEditors(), this.getElementEditor(), null, "subElementEditors", null, 0, -1, ElementEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(categoryEClass, Category.class, "Category", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCategory_Views(), this.getView(), this.getView_Category(), "views", null, 0, -1, Category.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

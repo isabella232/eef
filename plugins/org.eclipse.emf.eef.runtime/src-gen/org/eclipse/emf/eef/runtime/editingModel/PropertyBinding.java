@@ -6,6 +6,7 @@
  */
 package org.eclipse.emf.eef.runtime.editingModel;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getEditor <em>Editor</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSubPropertyBindings <em>Sub Property Bindings</em>}</li>
  * </ul>
  * </p>
  *
@@ -78,5 +80,21 @@ public interface PropertyBinding extends EObject {
 	 * @generated
 	 */
 	void setEditor(Editor value);
+
+	/**
+	 * Returns the value of the '<em><b>Sub Property Bindings</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Sub Property Bindings</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Sub Property Bindings</em>' containment reference list.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertyBinding_SubPropertyBindings()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<PropertyBinding> getSubPropertyBindings();
 
 } // PropertyBinding

@@ -25,6 +25,7 @@
     <genClasses ecoreClass="views.ecore#//ElementEditor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute views.ecore#//ElementEditor/readOnly"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute views.ecore#//ElementEditor/nameAsLabel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference views.ecore#//ElementEditor/subElementEditors"/>
     </genClasses>
     <genClasses ecoreClass="views.ecore#//Category">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference views.ecore#//Category/views"/>
@@ -51,7 +52,8 @@
     <genClasses image="false" ecoreClass="views.ecore#//IdentifiedElement">
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute views.ecore#//IdentifiedElement/qualifiedIdentifier"/>
     </genClasses>
-    <nestedGenPackages prefix="Toolkits" disposableProviderFactory="true" ecorePackage="views.ecore#//toolkits">
+    <nestedGenPackages prefix="Toolkits" basePackage="org.eclipse.emf.eef.views" disposableProviderFactory="true"
+        ecorePackage="views.ecore#//toolkits">
       <genClasses ecoreClass="views.ecore#//toolkits/Toolkit">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference views.ecore#//toolkits/Toolkit/widgets"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute views.ecore#//toolkits/Toolkit/name"/>

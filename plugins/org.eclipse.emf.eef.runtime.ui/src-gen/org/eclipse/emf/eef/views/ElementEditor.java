@@ -11,6 +11,8 @@
  */
 package org.eclipse.emf.eef.views;
 
+import org.eclipse.emf.common.util.EList;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -22,6 +24,7 @@ package org.eclipse.emf.eef.views;
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.ElementEditor#isReadOnly <em>Read Only</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.ElementEditor#isNameAsLabel <em>Name As Label</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.views.ElementEditor#getSubElementEditors <em>Sub Element Editors</em>}</li>
  * </ul>
  * </p>
  *
@@ -81,5 +84,21 @@ public interface ElementEditor extends ViewElement, IdentifiedElement {
 	 * @generated
 	 */
 	void setNameAsLabel(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Sub Element Editors</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.eef.views.ElementEditor}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Sub Element Editors</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Sub Element Editors</em>' containment reference list.
+	 * @see org.eclipse.emf.eef.views.ViewsPackage#getElementEditor_SubElementEditors()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<ElementEditor> getSubElementEditors();
 
 } // ElementEditor

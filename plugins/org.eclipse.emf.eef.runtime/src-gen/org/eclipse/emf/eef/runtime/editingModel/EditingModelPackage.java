@@ -267,13 +267,22 @@ public interface EditingModelPackage extends EPackage {
 	int PROPERTY_BINDING__EDITOR = 1;
 
 	/**
+	 * The feature id for the '<em><b>Sub Property Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_BINDING__SUB_PROPERTY_BINDINGS = 2;
+
+	/**
 	 * The number of structural features of the '<em>Property Binding</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_BINDING_FEATURE_COUNT = 2;
+	int PROPERTY_BINDING_FEATURE_COUNT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Handler</b></em>' attribute.
@@ -648,6 +657,17 @@ public interface EditingModelPackage extends EPackage {
 	EReference getPropertyBinding_Editor();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSubPropertyBindings <em>Sub Property Bindings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Sub Property Bindings</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSubPropertyBindings()
+	 * @see #getPropertyBinding()
+	 * @generated
+	 */
+	EReference getPropertyBinding_SubPropertyBindings();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.EObjectView <em>EObject View</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -937,6 +957,14 @@ public interface EditingModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PROPERTY_BINDING__EDITOR = eINSTANCE.getPropertyBinding_Editor();
+
+		/**
+		 * The meta object literal for the '<em><b>Sub Property Bindings</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROPERTY_BINDING__SUB_PROPERTY_BINDINGS = eINSTANCE.getPropertyBinding_SubPropertyBindings();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EObjectViewImpl <em>EObject View</em>}' class.
