@@ -125,6 +125,18 @@
       <propertyBindings>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Schedule/sessions"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.0"/>
+        <subPropertyBindings>
+          <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/session"/>
+          <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.0/@subElementEditors.0"/>
+        </subPropertyBindings>
+        <subPropertyBindings>
+          <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/room"/>
+          <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.0/@subElementEditors.1"/>
+        </subPropertyBindings>
+        <subPropertyBindings>
+          <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/date"/>
+          <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.0/@subElementEditors.2"/>
+        </subPropertyBindings>
       </propertyBindings>
     </bindings>
     <involvedModels href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#/"/>
@@ -259,6 +271,15 @@
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="sessions">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
+          <subElementEditors name="session">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          </subElementEditors>
+          <subElementEditors name="room">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          </subElementEditors>
+          <subElementEditors name="date">
+            <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          </subElementEditors>
         </elements>
       </elements>
     </views>

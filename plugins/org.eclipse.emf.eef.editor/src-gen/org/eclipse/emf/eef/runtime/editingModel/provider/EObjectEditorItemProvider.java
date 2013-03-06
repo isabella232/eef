@@ -100,20 +100,28 @@ public class EObjectEditorItemProvider
 					@Override
 					public Collection<?> getChoiceOfValues(Object object) {
 						EObjectEditor eObjectEditor = ((EObjectEditor)object);
-						if (eObjectEditor.eContainer() instanceof PropertyBinding && eObjectEditor.eContainer().eContainer() instanceof EClassBinding) {
-							EClassBinding eClassBinding = (EClassBinding) eObjectEditor.eContainer().eContainer();
+						if (eObjectEditor.eContainer() instanceof PropertyBinding) {
 							List<ElementEditor> usableEditors = Lists.newArrayList();
-							for (View view : eClassBinding.getViews()) {
-								if (view instanceof EObjectView && ((EObjectView) view).getDefinition() instanceof org.eclipse.emf.eef.views.View) {
-									org.eclipse.emf.eef.views.View uiView = (org.eclipse.emf.eef.views.View) ((EObjectView) view).getDefinition();
-									TreeIterator<EObject> eAllContents = uiView.eAllContents();
-									while (eAllContents.hasNext()) {
-										EObject next = eAllContents.next();
-										if (next instanceof ElementEditor) {
-											usableEditors.add((ElementEditor) next);
+							if (eObjectEditor.eContainer().eContainer() instanceof EClassBinding) {
+								EClassBinding eClassBinding = (EClassBinding) eObjectEditor.eContainer().eContainer();
+								for (View view : eClassBinding.getViews()) {
+									if (view instanceof EObjectView && ((EObjectView) view).getDefinition() instanceof org.eclipse.emf.eef.views.View) {
+										org.eclipse.emf.eef.views.View uiView = (org.eclipse.emf.eef.views.View) ((EObjectView) view).getDefinition();
+										TreeIterator<EObject> eAllContents = uiView.eAllContents();
+										while (eAllContents.hasNext()) {
+											EObject next = eAllContents.next();
+											if (next instanceof ElementEditor) {
+												usableEditors.add((ElementEditor) next);
+											}
 										}
 									}
 								}
+							} else if (eObjectEditor.eContainer().eContainer() instanceof PropertyBinding) {
+								PropertyBinding propertyBinding = (PropertyBinding) eObjectEditor.eContainer().eContainer();
+								if (propertyBinding.getEditor() instanceof EObjectEditor && ((EObjectEditor)propertyBinding.getEditor()).getDefinition() instanceof ElementEditor) {
+									usableEditors.addAll((Collection<? extends ElementEditor>) ((EObjectEditor)propertyBinding.getEditor()).getDefinition().eContents());
+								}
+								
 							}
 							List<ElementEditor> result = Lists.newArrayList();
 							Collection<?> choiceOfValues = super.getChoiceOfValues(object);

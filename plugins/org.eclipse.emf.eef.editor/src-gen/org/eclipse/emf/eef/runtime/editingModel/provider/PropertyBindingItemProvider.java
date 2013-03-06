@@ -13,7 +13,9 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -108,20 +110,13 @@ public class PropertyBindingItemProvider
 						PropertyBinding propertyBinding = ((PropertyBinding)object);
 						if (propertyBinding.eContainer() instanceof EClassBinding) {
 							final EClassBinding eClassBinding = (EClassBinding)propertyBinding.eContainer(); 
-							if (eClassBinding != null) {
-								return Collections2.filter(choiceOfValues, new Predicate<Object>() {
-
-									/**
-									 * {@inheritDoc}
-									 * @see com.google.common.base.Predicate#apply(java.lang.Object)
-									 */
-									public boolean apply(Object input) {
-										return input instanceof EStructuralFeature && eClassBinding.getEClass().getEAllStructuralFeatures().contains(input);
-									}
-
-								});
-							} 
-						} 
+							return Collections2.filter(choiceOfValues, new EClassFeaturesFilter(eClassBinding.getEClass()));
+						} else if (propertyBinding.eContainer() instanceof PropertyBinding) {
+							final PropertyBinding parentPropertyBinding = (PropertyBinding)propertyBinding.eContainer();
+							if (parentPropertyBinding.getFeature() instanceof EReference) {
+								return Collections2.filter(choiceOfValues, new EClassFeaturesFilter((EClass) parentPropertyBinding.getFeature().getEType()));
+							}
+						}
 						return choiceOfValues;
 					}
 				
@@ -259,6 +254,24 @@ public class PropertyBindingItemProvider
 	@Override
 	public ResourceLocator getResourceLocator() {
 		return EditingModelEditPlugin.INSTANCE;
+	}
+
+	private static final class EClassFeaturesFilter implements Predicate<Object> {
+		
+		private final EClass targetClass;
+
+		private EClassFeaturesFilter(EClass targetClass) {
+			this.targetClass = targetClass;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see com.google.common.base.Predicate#apply(java.lang.Object)
+		 */
+		public boolean apply(Object input) {
+			return input instanceof EStructuralFeature && targetClass.getEAllStructuralFeatures().contains(input);
+		}
 	}
 
 }
