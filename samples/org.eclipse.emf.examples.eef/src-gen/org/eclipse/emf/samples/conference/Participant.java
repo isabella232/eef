@@ -70,7 +70,7 @@ public interface Participant extends EObject {
 	 * @return the value of the '<em>Lastname</em>' attribute.
 	 * @see #setLastname(String)
 	 * @see org.eclipse.emf.samples.conference.ConferencePackage#getParticipant_Lastname()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	String getLastname();
@@ -218,7 +218,7 @@ public interface Participant extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Speaker</em>' attribute.
 	 * @see org.eclipse.emf.samples.conference.ConferencePackage#getParticipant_Speaker()
-	 * @model required="true" changeable="false" volatile="true" derived="true"
+	 * @model required="true" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	boolean isSpeaker();
