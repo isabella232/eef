@@ -90,6 +90,7 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl",
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor;x-friends:="org.eclipse.emf.eef.runtime.ui.platform.e3,org.eclipse.emf.eef.runtime.ui.platform.e4",
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor;x-friends:="org.eclipse.emf.eef.runtime.ui.platform.e3,org.eclipse.emf.eef.runtime.ui.platform.e4",
+ org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker;x-friends:="org.eclipse.emf.eef.runtime.ui.platform.e3,org.eclipse.emf.eef.runtime.ui.platform.e4",
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor;
   x-friends:="org.eclipse.emf.eef.runtime.ui.platform.e3,
    org.eclipse.emf.eef.runtime.ui.platform.e4";

@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiesto
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor.EContainmentPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker.EDatePickerPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor.EReferencePropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
@@ -32,7 +33,8 @@ public class EMFPropertiesToolkit extends ToolkitPropertyEditorProvider {
 	public EMFPropertiesToolkit() {
 		addPropertyEditorProvider(new EReferencePropertyEditorProvider())
 			.addPropertyEditorProvider(new EComboPropertyEditorProvider())
-			.addPropertyEditorProvider(new EContainmentPropertyEditorProvider());
+			.addPropertyEditorProvider(new EContainmentPropertyEditorProvider())
+			.addPropertyEditorProvider(new EDatePickerPropertyEditorProvider());
 	}
 
 	/**

@@ -250,7 +250,7 @@
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" name="date">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.3"/>
         </elements>
       </elements>
     </views>
