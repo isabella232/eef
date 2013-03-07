@@ -53,4 +53,8 @@ public interface UIConstants {
 	 */
 	final Image LOCK_DECORATOR = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_CONTENT_PROPOSAL).getImage();
 
+	/**
+	 * Defines the default width of a Table column in EEF.
+	 */
+	public static final int DEFAULT_COLUMN_WIDTH = 100;
 }

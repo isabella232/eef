@@ -17,11 +17,10 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.ITreeViewerListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
@@ -35,6 +34,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Widget;
 
 import com.google.common.collect.Lists;
@@ -45,6 +45,11 @@ import com.google.common.collect.Lists;
  */
 public class EReferenceEditor extends StructuredViewer {
 
+	/**
+	 * Constant usable in the addColumn method as width parameter.
+	 */
+	public static final int UNDEFINED_COLUMN_WIDTH = -1;
+	
 	private Composite parent;
 	private int style;
 	
@@ -54,7 +59,7 @@ public class EReferenceEditor extends StructuredViewer {
 	private ImageManager imageManager;
 
 	private Composite control;
-	private TreeViewer tree;
+	private TableViewer table;
 	private Collection<ReferenceEditorListener> listeners;
 	private Button addButton;
 	private Button removeButton;
@@ -62,6 +67,8 @@ public class EReferenceEditor extends StructuredViewer {
 	private Button downButton;
 	
 	private boolean locked;
+
+	private List<ColumnSettings> columnsToInit = Lists.newArrayList();
 	
 	/**
 	 * @param parent
@@ -79,8 +86,11 @@ public class EReferenceEditor extends StructuredViewer {
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		control.setLayout(layout);
-		tree = new TreeViewer(control, style);
-		tree.addSelectionChangedListener(new ISelectionChangedListener() {
+		table = new TableViewer(control, style);
+		if (!columnsToInit.isEmpty()) {
+			initColumns();
+		}
+		table.addSelectionChangedListener(new ISelectionChangedListener() {
 
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateButtons();
@@ -183,8 +193,39 @@ public class EReferenceEditor extends StructuredViewer {
 		buildAdditionnalActionControls(control);
 		GridData treeData = new GridData(GridData.FILL_BOTH);
 		treeData.verticalSpan = control.getChildren().length - 1;
-		tree.getControl().setLayoutData(treeData);
+		table.getControl().setLayoutData(treeData);
 		listeners = Lists.newArrayList();
+	}
+	
+	private void initColumns() {
+		table.getTable().setHeaderVisible(true);
+		for (ColumnSettings col : columnsToInit) {
+			TableColumn column = new TableColumn(table.getTable(), SWT.NONE);
+			column.setText(col.name);
+			if (col.width > 0) {
+				column.setWidth(col.width);
+			}
+		}
+		columnsToInit.clear();
+	}
+
+
+	/**
+	 * Adds a column to the Table
+	 * @param name name of the column
+	 * @param width width of the column. This value can be UNDEFINED_COLUMN_WIDTH. 
+	 */
+	public void addColumn(String name, int width) {
+		if (table != null) {
+			table.getTable().setHeaderVisible(true);
+			TableColumn column = new TableColumn(table.getTable(), SWT.NONE);
+			column.setText(name);
+			if (width > 0) {
+				column.setWidth(width);
+			}
+		} else {
+			columnsToInit.add(new ColumnSettings(name, width));
+		}
 	}
 
 	/**
@@ -240,14 +281,14 @@ public class EReferenceEditor extends StructuredViewer {
 	 * @see org.eclipse.jface.viewers.ContentViewer#getContentProvider()
 	 */
 	public IContentProvider getContentProvider() {
-		return tree.getContentProvider();
+		return table.getContentProvider();
 	}
 
 	/**
 	 * @see org.eclipse.jface.viewers.ContentViewer#getInput()
 	 */
 	public Object getInput() {
-		return tree.getInput();
+		return table.getInput();
 	}
 	
 	/**
@@ -255,21 +296,21 @@ public class EReferenceEditor extends StructuredViewer {
 	 * @see org.eclipse.jface.viewers.Viewer#inputChanged(java.lang.Object, java.lang.Object)
 	 */
 	protected void inputChanged(Object input, Object oldInput) {
-		tree.setInput(input);
+		table.setInput(input);
 	}
 
 	/**
 	 * @see org.eclipse.jface.viewers.TreeViewer#getLabelProvider()
 	 */
 	public IBaseLabelProvider getLabelProvider() {
-		return tree.getLabelProvider();
+		return table.getLabelProvider();
 	}
 
 	/**
 	 * @see org.eclipse.jface.viewers.ColumnViewer#setLabelProvider(org.eclipse.jface.viewers.IBaseLabelProvider)
 	 */
 	public void setLabelProvider(IBaseLabelProvider labelProvider) {
-		tree.setLabelProvider(labelProvider);
+		table.setLabelProvider(labelProvider);
 	}
 
 	/**
@@ -284,42 +325,42 @@ public class EReferenceEditor extends StructuredViewer {
 	 * @see org.eclipse.jface.viewers.StructuredViewer#addDoubleClickListener(org.eclipse.jface.viewers.IDoubleClickListener)
 	 */
 	public void addDoubleClickListener(IDoubleClickListener listener) {
-		tree.addDoubleClickListener(listener);
+		table.addDoubleClickListener(listener);
 	}
 
 	/**
 	 * @see org.eclipse.jface.viewers.Viewer#setSelection(org.eclipse.jface.viewers.ISelection)
 	 */
 	public void setSelection(ISelection selection) {
-		tree.setSelection(selection);
+		table.setSelection(selection);
 	}
 
 	/**
 	 * @see org.eclipse.jface.viewers.StructuredViewer#addDragSupport(int, org.eclipse.swt.dnd.Transfer[], org.eclipse.swt.dnd.DragSourceListener)
 	 */
 	public void addDragSupport(int operations, Transfer[] transferTypes, DragSourceListener listener) {
-		tree.addDragSupport(operations, transferTypes, listener);
+		table.addDragSupport(operations, transferTypes, listener);
 	}
 
 	/**
 	 * @see org.eclipse.jface.viewers.StructuredViewer#addDropSupport(int, org.eclipse.swt.dnd.Transfer[], org.eclipse.swt.dnd.DropTargetListener)
 	 */
 	public void addDropSupport(int operations, Transfer[] transferTypes, DropTargetListener listener) {
-		tree.addDropSupport(operations, transferTypes, listener);
+		table.addDropSupport(operations, transferTypes, listener);
 	}
 
 	/**
 	 * @see org.eclipse.jface.viewers.StructuredViewer#addFilter(org.eclipse.jface.viewers.ViewerFilter)
 	 */
 	public void addFilter(ViewerFilter filter) {
-		tree.addFilter(filter);
+		table.addFilter(filter);
 	}
 
 	/**
 	 * @see org.eclipse.jface.viewers.StructuredViewer#getFilters()
 	 */
 	public ViewerFilter[] getFilters() {
-		return tree.getFilters();
+		return table.getFilters();
 	}
 
 	/**
@@ -327,28 +368,28 @@ public class EReferenceEditor extends StructuredViewer {
 	 */
 	public void setContentProvider(IContentProvider provider) {
 		super.setContentProvider(new NullContentProvider());
-		tree.setContentProvider(provider);
+		table.setContentProvider(provider);
 	}
 
 	/**
 	 * @see org.eclipse.jface.viewers.StructuredViewer#getSorter()
 	 */
 	public ViewerSorter getSorter() {
-		return tree.getSorter();
+		return table.getSorter();
 	}
 
 	/**
 	 * @see org.eclipse.jface.viewers.TreeViewer#setSelection(org.eclipse.jface.viewers.ISelection, boolean)
 	 */
 	public void setSelection(ISelection selection, boolean reveal) {
-		tree.setSelection(selection, reveal);
+		table.setSelection(selection, reveal);
 	}
 
 	/**
 	 * @see org.eclipse.jface.viewers.StructuredViewer#setFilters(org.eclipse.jface.viewers.ViewerFilter[])
 	 */
 	public void setFilters(ViewerFilter[] filters) {
-		tree.setFilters(filters);
+		table.setFilters(filters);
 	}
 
 	/**
@@ -356,7 +397,7 @@ public class EReferenceEditor extends StructuredViewer {
 	 * @see org.eclipse.jface.viewers.Viewer#addSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener)
 	 */
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		tree.addSelectionChangedListener(listener);
+		table.addSelectionChangedListener(listener);
 	}
 
 	/**
@@ -364,15 +405,7 @@ public class EReferenceEditor extends StructuredViewer {
 	 * @see org.eclipse.jface.viewers.StructuredViewer#addPostSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener)
 	 */
 	public void addPostSelectionChangedListener(ISelectionChangedListener listener) {
-		tree.addPostSelectionChangedListener(listener);
-	}
-
-	/**
-	 * @param listener
-	 * @see org.eclipse.jface.viewers.AbstractTreeViewer#addTreeListener(org.eclipse.jface.viewers.ITreeViewerListener)
-	 */
-	public void addTreeListener(ITreeViewerListener listener) {
-		tree.addTreeListener(listener);
+		table.addPostSelectionChangedListener(listener);
 	}
 
 	/**
@@ -418,7 +451,7 @@ public class EReferenceEditor extends StructuredViewer {
 	 */
 	@Override
 	protected List<?> getSelectionFromWidget() {
-		ISelection selection = tree.getSelection();
+		ISelection selection = table.getSelection();
 		if (selection instanceof StructuredSelection) {
 			return ((StructuredSelection) selection).toList();
 		} else {
@@ -439,7 +472,7 @@ public class EReferenceEditor extends StructuredViewer {
 	 */
 	@Override
 	protected void internalRefresh(Object element) {
-		tree.refresh();
+		table.refresh();
 		updateButtons();
 	}
 
@@ -449,7 +482,7 @@ public class EReferenceEditor extends StructuredViewer {
 	 */
 	@Override
 	public void reveal(Object element) {
-		tree.reveal(element);
+		table.reveal(element);
 	}
 
 	/**
@@ -459,7 +492,7 @@ public class EReferenceEditor extends StructuredViewer {
 	@Override
 	protected void setSelectionToWidget(@SuppressWarnings("rawtypes") List elements, boolean reveal) {
 		StructuredSelection selection = new StructuredSelection(elements);
-		tree.setSelection(selection, reveal);
+		table.setSelection(selection, reveal);
 	}
 
 	/**
@@ -483,7 +516,7 @@ public class EReferenceEditor extends StructuredViewer {
 	 * Update the list buttons.
 	 */
 	protected void updateButtons() {
-		StructuredSelection selection = (StructuredSelection) tree.getSelection();
+		StructuredSelection selection = (StructuredSelection) table.getSelection();
 		addButton.setEnabled(shouldEnableAdd(selection));
 		if (selection.size() == 0) {
 			removeButton.setEnabled(false);
@@ -501,18 +534,18 @@ public class EReferenceEditor extends StructuredViewer {
 	}
 
 	private boolean shouldEnableAdd(StructuredSelection selection) {
-		Object[] elements = ((IStructuredContentProvider)tree.getContentProvider()).getElements(tree.getInput());
+		Object[] elements = ((IStructuredContentProvider)table.getContentProvider()).getElements(table.getInput());
 		return !locked && ((upperBound == -1) || (elements.length < upperBound));
 	}
 	
 	private boolean shouldEnableRemove(StructuredSelection selection) {
-		Object[] elements = ((IStructuredContentProvider)tree.getContentProvider()).getElements(tree.getInput());
+		Object[] elements = ((IStructuredContentProvider)table.getContentProvider()).getElements(table.getInput());
 		return !locked && ((lowerBound == 0) || (elements.length > lowerBound));
 	}
 	
 	private boolean shouldEnableUp(StructuredSelection selection) {
 		Object selectedElement = selection.getFirstElement();
-		Object[] elements = ((IStructuredContentProvider)tree.getContentProvider()).getElements(tree.getInput());
+		Object[] elements = ((IStructuredContentProvider)table.getContentProvider()).getElements(table.getInput());
 		if (elements != null) {
 			List<?> listInput = Arrays.asList(elements);
 			return !locked && (listInput.size() > 1  && listInput.indexOf(selectedElement) > 0);
@@ -522,7 +555,7 @@ public class EReferenceEditor extends StructuredViewer {
 
 	private boolean shouldEnableDown(StructuredSelection selection) {
 		Object selectedElement = selection.getFirstElement();
-		Object[] elements = ((IStructuredContentProvider)tree.getContentProvider()).getElements(tree.getInput());
+		Object[] elements = ((IStructuredContentProvider)table.getContentProvider()).getElements(table.getInput());
 		if (elements != null) {
 			List<?> listInput = Arrays.asList(elements);
 			return !locked && (listInput.size() > 1)  && (listInput.indexOf(selectedElement) < listInput.size() - 1);
@@ -584,9 +617,9 @@ public class EReferenceEditor extends StructuredViewer {
 		 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 		 */
 		public void widgetSelected(SelectionEvent e) {
-			if (tree.getSelection() != null && !tree.getSelection().isEmpty()) {
-				if (tree.getSelection() instanceof StructuredSelection) {
-					StructuredSelection sSel = (StructuredSelection) tree.getSelection();
+			if (table.getSelection() != null && !table.getSelection().isEmpty()) {
+				if (table.getSelection() instanceof StructuredSelection) {
+					StructuredSelection sSel = (StructuredSelection) table.getSelection();
 					if (sSel.size() == 1) {
 						fireSingleSelection(sSel.getFirstElement());
 					} else {
@@ -604,4 +637,21 @@ public class EReferenceEditor extends StructuredViewer {
 		}
 	}
 
+	
+	private static final class ColumnSettings {
+		
+		private String name;
+		private int width;
+		
+		/**
+		 * @param name
+		 * @param width
+		 */
+		public ColumnSettings(String name, int width) {
+			this.name = name;
+			this.width = width;
+		}
+		
+		
+	}
 }

@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.platform.services.view.PlatformAwareViewService;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.platform.widgets.FormEReferenceEditor;
@@ -70,6 +72,11 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<ERefer
 			}
 			
 		};
+		for (EObject subEditor : elementEditor.eContents()) {
+			if (subEditor instanceof ElementEditor) {
+				eReferenceEditor.addColumn(((ElementEditor) subEditor).getName(), UIConstants.DEFAULT_COLUMN_WIDTH);
+			}
+		}
 		ImageManager imageManager = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(ImageManager.class, this);
 		eReferenceEditor.setImageManager(imageManager);
 		eReferenceEditor.createContents();

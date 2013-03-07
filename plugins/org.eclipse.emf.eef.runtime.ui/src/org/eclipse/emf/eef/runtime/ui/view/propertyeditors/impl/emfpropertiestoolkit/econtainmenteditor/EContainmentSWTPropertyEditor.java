@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor;
@@ -57,6 +59,11 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<EReferen
 			}
 			
 		};
+		for (EObject subEditor : elementEditor.eContents()) {
+			if (subEditor instanceof ElementEditor) {
+				eReferenceEditor.addColumn(((ElementEditor) subEditor).getName(), UIConstants.DEFAULT_COLUMN_WIDTH);
+			}
+		}
 		ImageManager imageManager = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(ImageManager.class, this);
 		eReferenceEditor.setImageManager(imageManager);
 		eReferenceEditor.createContents();
