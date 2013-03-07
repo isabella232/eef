@@ -4,9 +4,7 @@
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_d16hU3_9EeKVteANPWy22Q">
       <children xsi:type="advanced:Perspective" xmi:id="_d16hVH_9EeKVteANPWy22Q">
         <children xsi:type="basic:PartSashContainer" xmi:id="_d16hVX_9EeKVteANPWy22Q">
-          <children xsi:type="basic:PartStack" xmi:id="_d16hVn_9EeKVteANPWy22Q">
-            <children xsi:type="basic:Part" xmi:id="_BLJUAH__EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.part.main" contributionURI="bundleclass://org.eclipse.emf.example.eef.application/org.eclipse.emf.example.eef.application.parts.MainPart" label="Main"/>
-          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_d16hVn_9EeKVteANPWy22Q"/>
         </children>
       </children>
     </children>
@@ -20,12 +18,6 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_d16hUn_9EeKVteANPWy22Q" label="About" command="_d16hSH_9EeKVteANPWy22Q"/>
       </children>
     </mainMenu>
-    <trimBars xmi:id="_d16hV3_9EeKVteANPWy22Q">
-      <children xsi:type="menu:ToolBar" xmi:id="_d16hWH_9EeKVteANPWy22Q" elementId="toolbar:org.eclipse.ui.main.toolbar">
-        <children xsi:type="menu:HandledToolItem" xmi:id="_d16hWX_9EeKVteANPWy22Q" iconURI="platform:/plugin/org.eclipse.emf.example.eef.application/icons/sample.gif" command="_d16hQn_9EeKVteANPWy22Q"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_d16hWn_9EeKVteANPWy22Q" iconURI="platform:/plugin/org.eclipse.emf.example.eef.application/icons/save_edit.gif" command="_d16hRX_9EeKVteANPWy22Q"/>
-      </children>
-    </trimBars>
   </children>
   <handlers xmi:id="_d156O3_9EeKVteANPWy22Q" contributionURI="bundleclass://org.eclipse.emf.example.eef.application/org.eclipse.emf.example.eef.application.handlers.QuitHandler" command="_d156On_9EeKVteANPWy22Q"/>
   <handlers xmi:id="_d16hQ3_9EeKVteANPWy22Q" contributionURI="bundleclass://org.eclipse.emf.example.eef.application/org.eclipse.emf.example.eef.application.handlers.OpenHandler" command="_d16hQn_9EeKVteANPWy22Q"/>
@@ -41,6 +33,7 @@
     <children xmi:id="_d156Mn_9EeKVteANPWy22Q" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
     <children xmi:id="_d156M3_9EeKVteANPWy22Q" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
+  <descriptors xmi:id="_LTW38IdDEeKzrdDxMUC9DQ" elementId="org.eclipse.emf.example.eef.application.eefpartdescriptor" label="Bonjour !" contributionURI="bundleclass://org.eclipse.emf.eef.runtime.ui.platform.e4/org.eclipse.emf.eef.runtime.ui.platform.parts.E4EEFPart"/>
   <commands xmi:id="_d156On_9EeKVteANPWy22Q" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>
   <commands xmi:id="_d16hQn_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.open" commandName="openCommand"/>
   <commands xmi:id="_d16hRX_9EeKVteANPWy22Q" elementId="org.eclipse.ui.file.save" commandName="saveCommand"/>
