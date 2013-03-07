@@ -22,6 +22,7 @@ import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorLi
 import org.eclipse.emf.eef.runtime.ui.widgets.util.ArrayFeatureContentProvider;
 import org.eclipse.emf.eef.runtime.ui.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.views.ElementEditor;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.layout.GridData;
 
@@ -57,7 +58,13 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(this.feature));
 		EditUIProvidersFactory providersFactory = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(EditUIProvidersFactory.class, this);
 		PropertyBinding propertyBinding = view.getEditingComponent().getBinding().propertyBinding(elementEditor, view.getEditingComponent().getEditingContext().getOptions().autowire());
-		propertyEditorViewer.getViewer().setLabelProvider(providersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory(), propertyBinding));
+		ILabelProvider labelProvider;
+		if (propertyBinding != null) {
+			labelProvider = providersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory(), propertyBinding);
+		} else {
+			labelProvider = providersFactory.createLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory());
+		}
+		propertyEditorViewer.getViewer().setLabelProvider(labelProvider);
 		propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());
 		propertyEditorViewer.getViewer().setUpperBound(feature.getUpperBound());
 		propertyEditorViewer.getViewer().setInput(view.getEditingComponent().getEObject());

@@ -16,8 +16,8 @@ import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Tree;
 import org.junit.Test;
 
 /**
@@ -61,8 +61,8 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
 		EClassifier eClassifier = editedElement.getEPackage().getEClassifiers().get(3);
 		editedElement.getESuperTypes().add((EClass) eClassifier);
-		Tree tree = getReferenceEditorTree(view.getContents());
-		assertEquals(editedElement.getESuperTypes().size(), tree.getItemCount());
+		Table table = getReferenceEditorTable(view.getContents());
+		assertEquals(editedElement.getESuperTypes().size(), table.getItemCount());
 	}
 	
 	@Test
@@ -80,8 +80,8 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		editedElement.getESuperTypes()
 			.addAll(newESuperClasses);
 		//NOTE: This doesn't throw a ADD_MANY notification
-		Tree tree = getReferenceEditorTree(view.getContents());
-		assertEquals(editedElement.getESuperTypes().size(), tree.getItemCount());
+		Table table = getReferenceEditorTable(view.getContents());
+		assertEquals(editedElement.getESuperTypes().size(), table.getItemCount());
 	}
 
 	@Test
@@ -91,8 +91,8 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
 		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
 		editedElement.getESuperTypes().remove(editedElement.getESuperTypes().get(0));
-		Tree tree = getReferenceEditorTree(view.getContents());
-		assertEquals(editedElement.getESuperTypes().size(), tree.getItemCount());
+		Table table = getReferenceEditorTable(view.getContents());
+		assertEquals(editedElement.getESuperTypes().size(), table.getItemCount());
 	}
 
 	@Test
@@ -102,8 +102,8 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
 		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
 		editedElement.getESuperTypes().clear();
-		Tree tree = getReferenceEditorTree(view.getContents());
-		assertEquals(editedElement.getESuperTypes().size(), tree.getItemCount());
+		Table table = getReferenceEditorTable(view.getContents());
+		assertEquals(editedElement.getESuperTypes().size(), table.getItemCount());
 	}
 
 	@Test
@@ -112,19 +112,19 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		initUI();
 		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
 		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
-		Tree tree = getReferenceEditorTree(view.getContents());
-		Object eSuperType1 = tree.getItem(1).getData();
+		Table table = getReferenceEditorTable(view.getContents());
+		Object eSuperType1 = table.getItem(1).getData();
 		editedElement.getESuperTypes().move(0, editedElement.getESuperTypes().get(1));
-		assertEquals(eSuperType1, tree.getItem(0).getData());
+		assertEquals(eSuperType1, table.getItem(0).getData());
 	}
 
-	private Tree getReferenceEditorTree(Composite view) {
+	private Table getReferenceEditorTable(Composite view) {
 		Control[] children = view.getChildren();
 		for (Control control : children) {
-			if (control instanceof Tree) {
-				return (Tree) control;
+			if (control instanceof Table) {
+				return (Table) control;
 			} else if (control instanceof Composite) {
-				Tree referenceEditorTree = getReferenceEditorTree((Composite) control);
+				Table referenceEditorTree = getReferenceEditorTable((Composite) control);
 				if (referenceEditorTree != null) {
 					return referenceEditorTree;
 				}
