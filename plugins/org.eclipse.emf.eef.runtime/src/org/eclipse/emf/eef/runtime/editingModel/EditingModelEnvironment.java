@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.editingModel;
 
-import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -23,6 +23,6 @@ public interface EditingModelEnvironment {
 	 * @param feature {@link EStructuralFeature} to process.
 	 * @return the {@link GenFeature} associated to the feature if accessible, <code>null</code> otherwise.
 	 */
-	GenFeature genFeature(EStructuralFeature feature);
+	EObject genFeature(EStructuralFeature feature);
 
 }

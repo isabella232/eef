@@ -12,7 +12,6 @@
 package org.eclipse.emf.eef.runtime.ui.internal.services.view;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -272,11 +271,14 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 			EditingOptions options = editingComponent.getBinding().getEditingModel().getOptions();
 			if (options == null || options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.GENMODEL_PROPERTY_DESCRIPTION) {
 				EditingModelEnvironment editingModelEnvironment = editingComponent.getEditingModelEnvironment();
-				GenFeature genFeature = editingModelEnvironment.genFeature(feature);
+				EObject genFeature = editingModelEnvironment.genFeature(feature);
 				if (genFeature != null) {
-					String documentation = genFeature.getPropertyDescription();
-					if (documentation != null && documentation.length() > 0) {
-						return documentation;
+					EStructuralFeature esf = genFeature.eClass().getEStructuralFeature("propertyDescription");
+					if (esf != null) {
+						String documentation = (String) genFeature.eGet(esf);
+						if (documentation != null && documentation.length() > 0) {
+							return documentation;
+						}
 					}
 				}
 			} else {
