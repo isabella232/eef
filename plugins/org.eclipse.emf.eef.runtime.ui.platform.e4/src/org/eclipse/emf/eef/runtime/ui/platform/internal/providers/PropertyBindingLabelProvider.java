@@ -20,6 +20,10 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 public class PropertyBindingLabelProvider extends AdapterFactoryLabelProvider {
 	
 	private PropertyBinding propertyBinding;
+<<<<<<< HEAD
+=======
+	private EEFServiceRegistry serviceRegistry;
+>>>>>>> 3ed3e62622d5ef0fa7efc4a2391fa43ed25fc407
 
 	/**
 	 * @param adapterFactory
