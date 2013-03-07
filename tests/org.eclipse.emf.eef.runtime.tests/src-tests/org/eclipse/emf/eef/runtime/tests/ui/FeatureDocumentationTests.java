@@ -119,7 +119,7 @@ public class FeatureDocumentationTests {
 		EditingModelEnvironment env = editingComponent.getEditingModelEnvironment();
 		EClass eClassEClassFromResourceSet = getEClassEClassFromResourceSet(env.getResourceSet());
 		EStructuralFeature eStructuralFeature = eClassEClassFromResourceSet.getEStructuralFeature("name");
-		GenFeature genFeature = env.genFeature(eStructuralFeature);
+		GenFeature genFeature = (GenFeature) env.genFeature(eStructuralFeature);
 		assertEquals("Invalid documentation", genFeature.getPropertyDescription(), helpContent);
 	}
 

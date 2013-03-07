@@ -13,7 +13,7 @@ import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
 import org.eclipse.emf.samples.conference.ConferenceFactory;
-import org.eclipse.emf.samples.conference.Person;
+import org.eclipse.emf.samples.conference.Participant;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -34,7 +34,7 @@ public class MainPart {
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, new BasicCommandStack());
 		
 		// Initializing model
-		Person person = ConferenceFactory.eINSTANCE.createPerson();
+		Participant person = ConferenceFactory.eINSTANCE.createParticipant();
 		
 		// Initializing EEF editing context
 		PropertiesEditingContextFactory contextFactory = this.serviceRegistry.getService(PropertiesEditingContextFactory.class, person);

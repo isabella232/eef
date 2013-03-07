@@ -5,7 +5,7 @@ package org.eclipse.emf.eef.runtime.internal.editingModel;
 
 import java.util.Collection;
 
-import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -41,12 +41,12 @@ public final class EditingModelEnvironmentImpl implements EditingModelEnvironmen
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment#genFeature(org.eclipse.emf.ecore.EStructuralFeature)
 	 */
-	public GenFeature genFeature(EStructuralFeature feature) {
+	public EObject genFeature(EStructuralFeature feature) {
 		if (crossReferenceAdapter != null) {
 			Collection<Setting> inverseReferences = crossReferenceAdapter.getInverseReferences(feature);
 			for (Setting setting : inverseReferences) {
-				if (setting.getEObject() instanceof GenFeature) {
-					return (GenFeature) setting.getEObject();
+				if ("GenFeature".equals(setting.getEObject().eClass().getName())) {
+					return setting.getEObject();
 				}
 			}
 		}

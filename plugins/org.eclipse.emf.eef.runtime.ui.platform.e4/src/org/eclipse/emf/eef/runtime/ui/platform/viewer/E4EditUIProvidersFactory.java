@@ -7,7 +7,9 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
+import org.eclipse.emf.eef.runtime.ui.platform.internal.providers.PropertyBindingLabelProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -61,6 +63,14 @@ public class E4EditUIProvidersFactory extends AbstractEEFService<Object> impleme
 		return adapterFactoryLabelProvider;
 	}
 
-	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory#createPropertyBindingLabelProvider(org.eclipse.emf.common.notify.AdapterFactory, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 */
+	public ILabelProvider createPropertyBindingLabelProvider(AdapterFactory adapterFactory, PropertyBinding binding) {
+		PropertyBindingLabelProvider propertyBindingLabelProvider = new PropertyBindingLabelProvider(adapterFactory, binding);
+		propertyBindingLabelProvider.setServiceRegistry(getServiceRegistry());
+		return propertyBindingLabelProvider;
+	}
 
 }

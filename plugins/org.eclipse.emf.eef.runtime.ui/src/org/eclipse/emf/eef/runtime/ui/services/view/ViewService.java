@@ -11,7 +11,6 @@
 package org.eclipse.emf.eef.runtime.ui.services.view;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
