@@ -49,8 +49,8 @@ public class EDatePackerPropertyEditor implements PropertyEditor, MonovaluedProp
 	 */
 	public void init(EStructuralFeature feature) {
 		this.feature = feature;
-		EEFViewerInput input = new EEFViewerInput(view.getEditingComponent().getEditingContext(), feature);
 		if (view.getEditingComponent().getEObject().eGet(feature) != null) {
+			EEFViewerInput input = new EEFViewerInput(view.getEditingComponent().getEditingContext(), feature);
 			propertyEditorViewer.getViewer().setInput(input);
 		}
 		initListener();

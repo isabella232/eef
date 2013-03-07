@@ -297,6 +297,24 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public PropertyBinding propertyBinding(Object view, boolean autowire) {
+		for (PropertyBinding binding : getPropertyBindings()) {
+			Editor editor = binding.getEditor();
+			if (editor instanceof JavaEditor && view.equals(((JavaEditor) editor).getDefinition())) {
+				return binding;
+			}
+			if (editor instanceof EObjectEditor && view.equals(((EObjectEditor) editor).getDefinition())) {
+				return binding;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

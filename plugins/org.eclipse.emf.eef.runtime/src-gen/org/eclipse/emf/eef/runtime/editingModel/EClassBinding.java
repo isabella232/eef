@@ -134,4 +134,12 @@ public interface EClassBinding extends EObject {
 	 */
 	Object propertyEditor(EObject eObject, EStructuralFeature feature, boolean autowire);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model viewRequired="true" autowireRequired="true"
+	 * @generated
+	 */
+	PropertyBinding propertyBinding(Object view, boolean autowire);
+
 } // EClassBinding

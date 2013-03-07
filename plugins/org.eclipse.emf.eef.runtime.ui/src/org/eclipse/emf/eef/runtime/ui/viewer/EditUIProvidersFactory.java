@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.viewer;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -35,5 +36,12 @@ public interface EditUIProvidersFactory extends EEFService<Object> {
 	 */
 	ILabelProvider createLabelProvider(AdapterFactory adapterFactory);
 
+	/**
+	 * Create an {@link ILabelProvider} for EEF viewers using the given {@link AdapterFactory}. If this adapterFactory is <code>null</code>, 
+	 * getAdapterFactory() method is used.
+	 * @param adapterFactory a contextual {@link AdapterFactory}.
+	 * @return the label provider to use in EEF viewers.
+	 */
+	ILabelProvider createPropertyBindingLabelProvider(AdapterFactory adapterFactory, PropertyBinding binding);
 	
 }

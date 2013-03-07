@@ -15,6 +15,7 @@ import org.eclipse.emf.eef.runtime.ui.widgets.EEFSelectionDialog;
 import org.eclipse.emf.eef.runtime.ui.widgets.SingleLinePropertyViewer;
 import org.eclipse.emf.eef.runtime.ui.widgets.SingleLinePropertyViewer.SingleLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.widgets.util.ChoiceOfValuesFilter;
+import org.eclipse.emf.eef.runtime.ui.widgets.util.EEFViewerInput;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.layout.GridData;
@@ -49,7 +50,8 @@ public class EComboPropertyEditor implements PropertyEditor, MonovaluedPropertyE
 	public void init(EStructuralFeature feature) {
 		this.feature = feature;
 		if (view.getEditingComponent().getEObject().eGet(feature) != null) {
-			propertyEditorViewer.getViewer().setInput(view.getEditingComponent().getEObject().eGet(feature));
+			EEFViewerInput input = new EEFViewerInput(view.getEditingComponent().getEditingContext(), feature);
+			propertyEditorViewer.getViewer().setInput(input);
 		}
 		initListener();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);

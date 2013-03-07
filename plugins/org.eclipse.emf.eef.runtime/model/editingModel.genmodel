@@ -48,6 +48,10 @@
         <genParameters ecoreParameter="editingModel.ecore#//EClassBinding/propertyEditor/feature"/>
         <genParameters ecoreParameter="editingModel.ecore#//EClassBinding/propertyEditor/autowire"/>
       </genOperations>
+      <genOperations ecoreOperation="editingModel.ecore#//EClassBinding/propertyBinding">
+        <genParameters ecoreParameter="editingModel.ecore#//EClassBinding/propertyBinding/view"/>
+        <genParameters ecoreParameter="editingModel.ecore#//EClassBinding/propertyBinding/autowire"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="editingModel.ecore#//View">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//View/handler"/>

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -55,7 +56,8 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 		this.feature = feature;
 		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(this.feature));
 		EditUIProvidersFactory providersFactory = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(EditUIProvidersFactory.class, this);
-		propertyEditorViewer.getViewer().setLabelProvider(providersFactory.createLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory()));
+		PropertyBinding propertyBinding = view.getEditingComponent().getBinding().propertyBinding(elementEditor, view.getEditingComponent().getEditingContext().getOptions().autowire());
+		propertyEditorViewer.getViewer().setLabelProvider(providersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory(), propertyBinding));
 		propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());
 		propertyEditorViewer.getViewer().setUpperBound(feature.getUpperBound());
 		propertyEditorViewer.getViewer().setInput(view.getEditingComponent().getEObject());
