@@ -4,14 +4,13 @@
 package org.eclipse.emf.eef.runtime.ui.platform.internal.providers;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -20,10 +19,6 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 public class PropertyBindingLabelProvider extends AdapterFactoryLabelProvider {
 	
 	private PropertyBinding propertyBinding;
-<<<<<<< HEAD
-=======
-	private EEFServiceRegistry serviceRegistry;
->>>>>>> 3ed3e62622d5ef0fa7efc4a2391fa43ed25fc407
 
 	/**
 	 * @param adapterFactory
