@@ -16,6 +16,9 @@ Import-Package: javax.inject;version="1.0.0",
  org.eclipse.e4.core.contexts,
  org.eclipse.e4.core.services.log,
  org.eclipse.e4.ui.di,
+ org.eclipse.e4.ui.model.application,
+ org.eclipse.e4.ui.model.application.descriptor.basic,
+ org.eclipse.e4.ui.model.application.ui,
  org.eclipse.emf.common.command,
  org.eclipse.emf.common.notify,
  org.eclipse.emf.common.util,
@@ -56,4 +59,5 @@ Import-Package: javax.inject;version="1.0.0",
  org.eclipse.swt.program,
  org.eclipse.swt.widgets,
  org.osgi.service.component;version="1.2.0"
-Export-Package: org.eclipse.emf.eef.runtime.ui.platform.parts
+Export-Package: org.eclipse.emf.eef.runtime.ui.platform.parts,
+ org.eclipse.emf.eef.runtime.ui.platform.utils

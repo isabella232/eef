@@ -9,8 +9,6 @@ package org.eclipse.emf.example.eef.application;
  */
 public interface ConferenceApplicationConstants {
 	
-	final String EEF_PART_DESCRIPTOR = "org.eclipse.emf.example.eef.application.eefpartdescriptor";
-
 	final String EDITINGDOMAIN = "editingdomain";
 	
 }
