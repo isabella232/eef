@@ -26,7 +26,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.platform.application.model.utils.ApplicationModelBuilder;
-import org.eclipse.emf.eef.runtime.ui.platform.parts.E4EEFPart;
+import org.eclipse.emf.eef.runtime.ui.platform.application.parts.E4EEFPart;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;

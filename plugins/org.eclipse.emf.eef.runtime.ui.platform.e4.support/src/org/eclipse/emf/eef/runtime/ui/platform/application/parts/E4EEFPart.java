@@ -1,5 +1,5 @@
  
-package org.eclipse.emf.eef.runtime.ui.platform.parts;
+package org.eclipse.emf.eef.runtime.ui.platform.application.parts;
 
 
 import javax.inject.Inject;
