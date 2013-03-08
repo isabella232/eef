@@ -62,7 +62,7 @@ public abstract class AbstractEEFOpenHandler {
 				E4EEFPart partImpl = (E4EEFPart) mPart.getObject();
 				PropertiesEditingContextFactory contextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, root);
 				PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext(editingDomain, root);
-				partImpl.getViewer().setInput(editingContext);
+				partImpl.setInput(editingContext);
 			}
 		}
 		

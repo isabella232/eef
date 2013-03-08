@@ -1426,8 +1426,7 @@ public class ConferenceEditor extends MultiPageEditorPart implements IEditingDom
 
 		// Do the work within an operation because this is a long running activity that modifies the workbench.
 		//
-		WorkspaceModifyOperation operation =
-				new WorkspaceModifyOperation() {
+		WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
 			// This is the method that gets invoked when the operation runs.
 			//
 			@Override
