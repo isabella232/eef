@@ -11,19 +11,16 @@
 package org.eclipse.emf.example.eef.application.handlers;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 import javax.inject.Named;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.model.application.MApplication;
-import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
-import org.eclipse.e4.ui.model.application.ui.basic.MPartSashContainer;
-import org.eclipse.e4.ui.model.application.ui.basic.MPartSashContainerElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.e4.ui.services.IServiceConstants;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.emf.common.command.BasicCommandStack;
@@ -36,15 +33,15 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.platform.parts.E4EEFPart;
+import org.eclipse.emf.eef.runtime.ui.platform.utils.ApplicationModelBuilder;
 import org.eclipse.emf.example.eef.application.ConferenceApplicationConstants;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.emf.eef.runtime.ui.platform.utils.ApplicationModelBuilder;
 
 public class OpenHandler {
 
 	@Execute
-	public void execute(IEclipseContext context, @Named(IServiceConstants.ACTIVE_SHELL) Shell shell, EPartService partService,MApplication applicationModel, MPerspective perspective, EEFServiceRegistry serviceRegistry) throws InvocationTargetException, InterruptedException {
+	public void execute(IEclipseContext context, EModelService modelService, EPartService partService, EEFServiceRegistry serviceRegistry, MApplication applicationModel, @Named(IServiceConstants.ACTIVE_SHELL) Shell shell) throws InvocationTargetException, InterruptedException {
 		FileDialog dialog = new FileDialog(shell);
 		dialog.setFilterExtensions(new String[] { "*.conference" });
 		String path = dialog.open();
@@ -62,7 +59,7 @@ public class OpenHandler {
 				ApplicationModelBuilder builder = new ApplicationModelBuilder(applicationModel);
 				builder.addEEFPartDescriptor();
 				EObject root = resource.getContents().get(0);
-				MPartStack partStack = getPartStack(perspective);
+				MPartStack partStack = (MPartStack) modelService.find("org.eclipse.emf.example.eef.application.partsatck", applicationModel);
 				MPart mPart = partService.createPart(ApplicationModelBuilder.EEF_PART_DESCRIPTOR);
 				partStack.getChildren().add(mPart);
 				partService.showPart(mPart, PartState.ACTIVATE);
@@ -75,20 +72,4 @@ public class OpenHandler {
 		
 	}
 	
-	
-	private MPartStack getPartStack(MPerspective perspective) {
-		List<MPartSashContainerElement> perspectiveChildren = perspective.getChildren();
-		if (perspectiveChildren.size() > 0) {
-			if (perspectiveChildren.get(0) instanceof MPartSashContainer) {
-				MPartSashContainer partSashContainer = (MPartSashContainer)perspectiveChildren.get(0);
-				List<MPartSashContainerElement> partSashChildren = partSashContainer.getChildren();
-				if (partSashChildren.size() > 0) {
-					if (partSashChildren.get(0) instanceof MPartStack) {
-						return (MPartStack)partSashChildren.get(0);
-					}
-				}
-			}
-		}
-		return null;
-	}
 }

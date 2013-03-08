@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_d156MH_9EeKVteANPWy22Q" elementId="org.eclipse.e4.ide.application" bindingContexts="_d156MX_9EeKVteANPWy22Q">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_d16hS3_9EeKVteANPWy22Q" label="org.eclipse.emf.example.eef.application" width="500" height="400">
-    <children xsi:type="advanced:PerspectiveStack" xmi:id="_d16hU3_9EeKVteANPWy22Q">
-      <children xsi:type="advanced:Perspective" xmi:id="_d16hVH_9EeKVteANPWy22Q">
-        <children xsi:type="basic:PartSashContainer" xmi:id="_d16hVX_9EeKVteANPWy22Q">
-          <children xsi:type="basic:PartStack" xmi:id="_d16hVn_9EeKVteANPWy22Q"/>
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_d16hS3_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application" label="EEF Conference Manager" width="800" height="500">
+    <children xsi:type="advanced:PerspectiveStack" xmi:id="_d16hU3_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.perspectivestack">
+      <children xsi:type="advanced:Perspective" xmi:id="_d16hVH_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.perspective">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_d16hVX_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.pscontainer">
+          <children xsi:type="basic:PartStack" xmi:id="_d16hVn_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.partsatck"/>
         </children>
       </children>
     </children>
