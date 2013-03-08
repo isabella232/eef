@@ -36,7 +36,7 @@ public class E4EEFPart {
 	private EEFViewer viewer;
 	
 	@Inject
-	MDirtyable dirty;
+	private MDirtyable dirty;
 
 
 	@Inject
