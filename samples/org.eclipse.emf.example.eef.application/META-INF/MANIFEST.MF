@@ -47,7 +47,7 @@ Import-Package: org.eclipse.emf.edit.domain,
  org.eclipse.emf.eef.runtime.context,
  org.eclipse.emf.eef.runtime.internal.context,
  org.eclipse.emf.eef.runtime.services,
+ org.eclipse.emf.eef.runtime.ui.platform.application.handlers,
  org.eclipse.emf.eef.runtime.ui.platform.parts,
- org.eclipse.emf.eef.runtime.ui.platform.utils,
  org.eclipse.emf.eef.runtime.ui.viewer,
  org.eclipse.emf.samples.conference

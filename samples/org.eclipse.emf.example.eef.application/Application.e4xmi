@@ -4,7 +4,7 @@
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_d16hU3_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.perspectivestack">
       <children xsi:type="advanced:Perspective" xmi:id="_d16hVH_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.perspective">
         <children xsi:type="basic:PartSashContainer" xmi:id="_d16hVX_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.pscontainer">
-          <children xsi:type="basic:PartStack" xmi:id="_d16hVn_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.partsatck"/>
+          <children xsi:type="basic:PartStack" xmi:id="_d16hVn_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.partstack"/>
         </children>
       </children>
     </children>

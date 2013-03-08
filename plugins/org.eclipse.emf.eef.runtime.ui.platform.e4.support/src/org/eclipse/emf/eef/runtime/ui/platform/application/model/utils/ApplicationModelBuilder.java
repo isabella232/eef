@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.platform.utils;
+package org.eclipse.emf.eef.runtime.ui.platform.application.model.utils;
 
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.descriptor.basic.MBasicFactory;
