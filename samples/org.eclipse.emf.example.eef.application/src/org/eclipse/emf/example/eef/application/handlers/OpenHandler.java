@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.emf.example.eef.application.handlers;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,8 +21,17 @@ import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.descriptor.basic.MPartDescriptor;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.eef.runtime.ui.platform.application.handlers.AbstractEEFOpenHandler;
 import org.eclipse.emf.eef.runtime.ui.platform.application.model.utils.ApplicationModelBuilder;
+import org.eclipse.emf.eef.runtime.ui.platform.application.parts.E4EEFPart;
+import org.eclipse.emf.eef.runtime.ui.viewer.filters.ViewFilter;
+import org.eclipse.emf.eef.views.View;
+import org.eclipse.emf.eef.views.ViewsRepository;
 import org.eclipse.emf.example.eef.application.ConferenceApplicationConstants;
 
 /**
@@ -63,6 +76,10 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 	 */
 	@Override
 	protected void configureCreatedPart(EModelService modelService, MApplication applicationModel, MPart mPart) {
+		E4EEFPart partImpl = (E4EEFPart) mPart.getObject();
+		Collection<String> selectedViews = new ArrayList<String>();
+		selectedViews.add("Conference::Conference");
+		partImpl.addFilter(new ViewFilter(selectedViews));
 	}
 
 	private MPartDescriptor getEEFPartDescriptor(MApplication applicationModel) {

@@ -4,7 +4,10 @@
 package org.eclipse.emf.eef.runtime.ui.viewer;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
@@ -17,9 +20,14 @@ import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
+import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter;
+import org.eclipse.emf.eef.runtime.ui.viewer.filters.ViewFilter;
+import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -33,6 +41,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
+import com.google.common.collect.Lists;
+
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  * TODO: ADD PartFilter management
@@ -45,6 +55,7 @@ public class EEFViewer extends ContentViewer {
 	private ItemListener listener;
 	private boolean dynamicTabHeader = true;
 	private Collection<ViewHandler<?>> viewHandlers;
+	private List<EEFViewerFilter> filters;
 
 	/**
 	 * @param parent {@link Composite} containing this viewer.
@@ -97,7 +108,7 @@ public class EEFViewer extends ContentViewer {
 	 */
 	public void setContentProvider(IContentProvider contentProvider) {
 		assert contentProvider instanceof EEFContentProvider:"The content provider of this viewer must implement EEFContentProvider interface.";
-	super.setContentProvider(contentProvider);
+		super.setContentProvider(contentProvider);
 	}
 
 	/**
@@ -121,16 +132,19 @@ public class EEFViewer extends ContentViewer {
 		for (ViewHandler<?> handler : viewHandlers) {
 			if (handler instanceof PropertiesEditingViewHandler) {
 				PropertiesEditingViewHandler propertiesEditingViewHandler = (PropertiesEditingViewHandler) handler;
-				try {
-					CTabItem item = new CTabItem(folder, SWT.NONE);
-					item.setText(propertiesEditingViewHandler.getViewDescriptor().getName());
-					PropertiesEditingView view = propertiesEditingViewHandler.createView(component, folder);
-					view.getContents().setLayoutData(new GridData(GridData.FILL_BOTH));
-					handler.initView(component);
-					item.setControl(view.getContents());
-				} catch (ViewConstructionException e) {
-					EEFLogger logger = handler.getProvider().getServiceRegistry().getService(EEFLogger.class, this);
-					logger.logError(EEFRuntimeUI.PLUGIN_ID, "An error occured during view creation.", e);
+				View viewDescriptor = propertiesEditingViewHandler.getViewDescriptor();
+				boolean filtered = isFiltered(viewDescriptor);
+				if (filtered) {
+					try {
+						CTabItem item = new CTabItem(folder, SWT.NONE);
+						item.setText(viewDescriptor.getName());
+						PropertiesEditingView view = propertiesEditingViewHandler.createView(component, folder);
+						view.getContents().setLayoutData(new GridData(GridData.FILL_BOTH));
+						item.setControl(view.getContents());
+					} catch (ViewConstructionException e) {
+						EEFLogger logger = handler.getProvider().getServiceRegistry().getService(EEFLogger.class, this);
+						logger.logError(EEFRuntimeUI.PLUGIN_ID, "An error occured during view creation.", e);
+					}
 				}
 			} else if (handler instanceof SWTViewHandler) {
 				SWTViewHandler swtViewHandler = (SWTViewHandler)handler;
@@ -156,6 +170,23 @@ public class EEFViewer extends ContentViewer {
 			}
 		}
 		folder.setSelection(0);
+	}
+
+	/**
+	 * @param viewDescriptor
+	 * @return
+	 */
+	private boolean isFiltered(View viewDescriptor) {
+		if (filters != null) {
+			for (EEFViewerFilter filter : filters) {
+				if (filter instanceof ViewFilter) {
+					if (!filter.select(this, viewDescriptor)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -199,7 +230,6 @@ public class EEFViewer extends ContentViewer {
 	 * @param listener {@link PropertiesEditingListener} to add.
 	 */
 	public void addEditingListener(PropertiesEditingListener listener) {
-		//TODO: to protect
 		((EEFContentProvider)getContentProvider()).addEditingListener(listener);
 	}
 
@@ -209,6 +239,78 @@ public class EEFViewer extends ContentViewer {
 	 */
 	public void removeEditingListener(PropertiesEditingListener listener) {
 		((EEFContentProvider)getContentProvider()).removeEditingListener(listener);
+	}
+
+	/**
+	 * Adds the given filter to this viewer, and triggers refiltering and
+	 * resorting of the elements. If you want to add more than one filter
+	 * consider using {@link StructuredViewer#setFilters(ViewerFilter[])}.
+	 * 
+	 * @param filter
+	 *            a viewer filter
+	 * @see StructuredViewer#setFilters(ViewerFilter[])
+	 */
+	public void addFilter(EEFViewerFilter filter) {
+		if (filters == null) {
+			filters = Lists.newArrayList();
+		}
+		filters.add(filter);
+		refresh();
+	}
+
+	/**
+	 * Removes the given filter from this viewer, and triggers refiltering and
+	 * resorting of the elements if required. Has no effect if the identical
+	 * filter is not registered. If you want to remove more than one filter
+	 * consider using {@link StructuredViewer#setFilters(ViewerFilter[])}.
+	 * 
+	 * @param filter
+	 *            a viewer filter
+	 * @see StructuredViewer#setFilters(ViewerFilter[])
+	 */
+	public void removeFilter(EEFViewerFilter filter) {
+		Assert.isNotNull(filter);
+		if (filters != null) {
+			// Note: can't use List.remove(Object). Use identity comparison
+			// instead.
+			for (Iterator<EEFViewerFilter> i = filters.iterator(); i.hasNext();) {
+				Object o = i.next();
+				if (o == filter) {
+					i.remove();
+					refresh();
+					if (filters.size() == 0) {
+						filters = null;
+					}
+					return;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Sets the filters, replacing any previous filters, and triggers
+	 * refiltering and resorting of the elements.
+	 * 
+	 * @param filters an array of viewer filters
+	 */
+	public void setFilters(EEFViewerFilter[] filters) {
+		if (filters.length == 0) {
+			resetFilters();
+		} else {
+			this.filters = Lists.newArrayList(filters);
+			refresh();
+		}
+	}
+	
+	/**
+	 * Discards this viewer's filters and triggers refiltering and resorting of
+	 * the elements.
+	 */
+	public void resetFilters() {
+		if (filters != null) {
+			filters = null;
+			refresh();
+		}
 	}
 
 	/*

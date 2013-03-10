@@ -23,12 +23,14 @@ import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter; 
 
 public class E4EEFPart {
 
@@ -39,19 +41,28 @@ public class E4EEFPart {
 	private MDirtyable dirty;
 
 
+	/**
+	 * @param serviceRegistry
+	 * @param parent
+	 */
 	@Inject
 	public E4EEFPart(EEFServiceRegistry serviceRegistry, Composite parent) {
-
-		// Initializing model
 		viewer = new EEFViewer(parent, SWT.NONE);
 		viewer.setContentProvider(new EEFContentProvider());
 
 	}
 	
+	/**
+	 * @return the input {@link PropertiesEditingContext} of the nested {@link EEFViewer}.
+	 */
 	public Object getInput() {
 		return viewer.getInput();
 	}
 
+	/**
+	 * Defines the new input of the nested {@link EEFViewer}.
+	 * @param input the new input.
+	 */
 	public void setInput(Object input) {
 		viewer.setInput(input);
 		if (input instanceof DomainAwarePropertiesEditingContext) {
@@ -63,6 +74,23 @@ public class E4EEFPart {
 			commandStack.addCommandStackListener(new EEFCommandStackListener((BasicCommandStack) commandStack, viewer.getControl(), dirty));
 		}
 	}
+	
+	/**
+	 * Adds a new filter in the nested {@link EEFViewer}.
+	 * @param filter 
+	 */
+	public void addFilter(EEFViewerFilter filter) {
+		viewer.addFilter(filter);
+	}
+	
+	/**
+	 * Removes a new filter in the nested {@link EEFViewer}.
+	 * @param filter 
+	 */
+	public void removeFilter(EEFViewerFilter filter) {
+		viewer.removeFilter(filter);
+	}
+	
 
 	@Focus
 	public void onFocus() {

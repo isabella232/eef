@@ -53,4 +53,6 @@ Import-Package: org.eclipse.emf.edit.domain,
  org.eclipse.emf.eef.runtime.ui.platform.application.utils,
  org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl,
  org.eclipse.emf.eef.runtime.ui.viewer,
+ org.eclipse.emf.eef.runtime.ui.viewer.filters,
+ org.eclipse.emf.eef.views,
  org.eclipse.emf.samples.conference

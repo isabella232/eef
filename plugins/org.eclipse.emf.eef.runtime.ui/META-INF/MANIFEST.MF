@@ -138,6 +138,7 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.swt.custom,
    org.eclipse.jface.viewers,
    org.eclipse.swt.widgets",
+ org.eclipse.emf.eef.runtime.ui.viewer.filters,
  org.eclipse.emf.eef.runtime.ui.widgets;
   uses:="org.eclipse.swt.dnd,
    org.eclipse.jface.viewers,
