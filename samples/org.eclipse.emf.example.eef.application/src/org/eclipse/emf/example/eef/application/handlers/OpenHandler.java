@@ -10,7 +10,15 @@
  *******************************************************************************/
 package org.eclipse.emf.example.eef.application.handlers;
 
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.model.application.descriptor.basic.MPartDescriptor;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.emf.eef.runtime.ui.platform.application.handlers.AbstractEEFOpenHandler;
+import org.eclipse.emf.eef.runtime.ui.platform.application.model.utils.ApplicationModelBuilder;
 import org.eclipse.emf.example.eef.application.ConferenceApplicationConstants;
 
 /**
@@ -18,15 +26,6 @@ import org.eclipse.emf.example.eef.application.ConferenceApplicationConstants;
  *
  */
 public class OpenHandler extends AbstractEEFOpenHandler {
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.platform.application.handlers.AbstractEEFOpenHandler#getEditingDomainKey()
-	 */
-	@Override
-	protected String getEditingDomainKey() {
-		return ConferenceApplicationConstants.EDITINGDOMAIN;
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -45,5 +44,38 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 	protected String[] getFilterExtensions() {
 		return new String[] { "*.conference" };
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.application.handlers.AbstractEEFOpenHandler#configurePart(org.eclipse.e4.ui.workbench.modeling.EModelService, org.eclipse.e4.ui.model.application.MApplication, org.eclipse.e4.ui.model.application.ui.basic.MPart)
+	 */
+	@Override
+	protected void preparePartCreation(EModelService modelService, MApplication applicationModel) {
+		MPartDescriptor descriptor = getEEFPartDescriptor(applicationModel);
+		if (descriptor != null) {
+			descriptor.setCloseable(false);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.application.handlers.AbstractEEFOpenHandler#configureCreatedPart(org.eclipse.e4.ui.workbench.modeling.EModelService, org.eclipse.e4.ui.model.application.MApplication, org.eclipse.e4.ui.model.application.ui.basic.MPart)
+	 */
+	@Override
+	protected void configureCreatedPart(EModelService modelService, MApplication applicationModel, MPart mPart) {
+	}
+
+	private MPartDescriptor getEEFPartDescriptor(MApplication applicationModel) {
+		List<MPartDescriptor> descriptors = applicationModel.getDescriptors();
+		MPartDescriptor descriptor = null;
+		Iterator<MPartDescriptor> iterator = descriptors.iterator();
+		while (descriptor == null && iterator.hasNext()) {
+			MPartDescriptor mPartDescriptor = iterator.next();
+			if (ApplicationModelBuilder.EEF_PART_DESCRIPTOR.equals(mPartDescriptor.getElementId())) {
+				descriptor = mPartDescriptor;
+			}
+		}
+		return descriptor;
+	}
+
 }

@@ -3,8 +3,9 @@
   <children xsi:type="basic:TrimmedWindow" xmi:id="_d16hS3_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application" label="EEF Conference Manager" width="800" height="500">
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_d16hU3_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.perspectivestack">
       <children xsi:type="advanced:Perspective" xmi:id="_d16hVH_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.perspective">
-        <children xsi:type="basic:PartSashContainer" xmi:id="_d16hVX_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.pscontainer">
-          <children xsi:type="basic:PartStack" xmi:id="_d16hVn_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.partstack"/>
+        <children xsi:type="basic:PartSashContainer" xmi:id="_d16hVX_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.pscontainer" horizontal="true">
+          <children xsi:type="basic:PartStack" xmi:id="_d16hVn_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.partstack.aside" containerData="25"/>
+          <children xsi:type="basic:PartStack" xmi:id="_gTQPsIf7EeK2gqXTzhsQnw" elementId="org.eclipse.emf.example.eef.application.partstack.main" containerData="75"/>
         </children>
       </children>
     </children>

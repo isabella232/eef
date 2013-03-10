@@ -9,8 +9,6 @@ package org.eclipse.emf.example.eef.application;
  */
 public interface ConferenceApplicationConstants {
 	
-	final String EDITINGDOMAIN = "editingdomain";
-	
-	final String APPLICATION_PARTSTACK = "org.eclipse.emf.example.eef.application.partstack";
+	final String APPLICATION_PARTSTACK = "org.eclipse.emf.example.eef.application.partstack.main";
 	
 }

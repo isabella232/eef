@@ -67,4 +67,6 @@ Import-Package: javax.inject;version="1.0.0",
  org.osgi.service.component;version="1.2.0"
 Export-Package: org.eclipse.emf.eef.runtime.ui.platform.application.handlers,
  org.eclipse.emf.eef.runtime.ui.platform.application.model.utils,
- org.eclipse.emf.eef.runtime.ui.platform.application.parts
+ org.eclipse.emf.eef.runtime.ui.platform.application.parts,
+ org.eclipse.emf.eef.runtime.ui.platform.application.utils,
+ org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl

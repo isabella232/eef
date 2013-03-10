@@ -47,6 +47,10 @@ public class E4EEFPart {
 		viewer.setContentProvider(new EEFContentProvider());
 
 	}
+	
+	public Object getInput() {
+		return viewer.getInput();
+	}
 
 	public void setInput(Object input) {
 		viewer.setInput(input);
@@ -145,9 +149,6 @@ public class E4EEFPart {
 	/**
 	 * This returns whether something has been persisted to the URI of the specified resource.
 	 * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	protected boolean isPersisted(Resource resource) {
 		boolean result = false;
