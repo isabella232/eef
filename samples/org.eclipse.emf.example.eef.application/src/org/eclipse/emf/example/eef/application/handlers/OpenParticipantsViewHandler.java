@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.services.IServiceConstants;
@@ -30,6 +31,11 @@ public class OpenParticipantsViewHandler extends AbstractEEFOpenViewHandler {
 	@Inject
 	@Named(IServiceConstants.ACTIVE_PART)
 	private MPart activePart;
+	
+	@CanExecute
+	public boolean canExecute(@Named(IServiceConstants.ACTIVE_PART)MPart activePart) {
+		return activePart != null;
+	}
 	
 	/**
 	 * {@inheritDoc}
