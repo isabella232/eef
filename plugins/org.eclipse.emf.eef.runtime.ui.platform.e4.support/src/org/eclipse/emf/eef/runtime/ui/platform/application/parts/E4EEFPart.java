@@ -20,17 +20,21 @@ import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.ui.platform.application.utils.EditingInput;
+import org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl.URIEditingInput;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
+import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter; 
 
 public class E4EEFPart {
 
@@ -39,6 +43,9 @@ public class E4EEFPart {
 	
 	@Inject
 	private MDirtyable dirty;
+
+	@Inject
+	private EEFServiceRegistry serviceRegistry;
 
 
 	/**
@@ -63,15 +70,19 @@ public class E4EEFPart {
 	 * Defines the new input of the nested {@link EEFViewer}.
 	 * @param input the new input.
 	 */
-	public void setInput(Object input) {
-		viewer.setInput(input);
-		if (input instanceof DomainAwarePropertiesEditingContext) {
-			DomainAwarePropertiesEditingContext context = (DomainAwarePropertiesEditingContext) input;
-			editingDomain = context.getEditingDomain();
-		} 
+	public void setInput(EditingInput input) {
+		editingDomain = input.getEditingDomain();
 		CommandStack commandStack = editingDomain.getCommandStack();
 		if (commandStack instanceof BasicCommandStack) {
 			commandStack.addCommandStackListener(new EEFCommandStackListener((BasicCommandStack) commandStack, viewer.getControl(), dirty));
+		}
+		if (input instanceof URIEditingInput) {
+			Resource resource = editingDomain.getResourceSet().getResource(((URIEditingInput) input).getUri(), true);
+			EObject root = resource.getContents().get(0);
+			PropertiesEditingContextFactory contextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, root);
+			//TODO: is the ED always an AFED ?
+			PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext((AdapterFactoryEditingDomain)editingDomain, root);
+			viewer.setInput(editingContext);
 		}
 	}
 	

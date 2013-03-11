@@ -29,6 +29,7 @@ import org.eclipse.emf.eef.runtime.ui.platform.application.model.utils.Applicati
 import org.eclipse.emf.eef.runtime.ui.platform.application.parts.E4EEFPart;
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.EditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl.URIEditingInput;
+import org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl.VoidEditingInput;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -41,6 +42,30 @@ public abstract class AbstractEEFOpenHandler {
 
 	@Execute
 	public void execute(IEclipseContext context, EModelService modelService, EPartService partService, EEFServiceRegistry serviceRegistry, MApplication applicationModel, @Named(IServiceConstants.ACTIVE_SHELL) Shell shell) throws InvocationTargetException, InterruptedException {
+		EditingInput editingInput = initInput(context, shell);
+		context.set(EditingInput.class, editingInput);
+		ApplicationModelBuilder builder = new ApplicationModelBuilder(applicationModel);
+		builder.addPartDescriptorIfNeeded(ApplicationModelBuilder.EEF_PART_DESCRIPTOR);
+		MElementContainer partStack = (MElementContainer) modelService.find(getElementContainerID(), applicationModel);
+		preparePartCreation(modelService, applicationModel);
+		MPart mPart = partService.createPart(ApplicationModelBuilder.EEF_PART_DESCRIPTOR);
+		partStack.getChildren().add(mPart);
+		partService.showPart(mPart, PartState.ACTIVATE);
+		E4EEFPart partImpl = (E4EEFPart) mPart.getObject();
+		partImpl.setInput(editingInput);
+		if (editingInput instanceof URIEditingInput) {
+			mPart.setLabel(((URIEditingInput) editingInput).getUri().trimFileExtension().lastSegment());
+		}
+		configureCreatedPart(modelService, applicationModel, mPart);		
+	}
+
+	/**
+	 * @param context
+	 * @param shell
+	 * @return 
+	 */
+	private EditingInput initInput(IEclipseContext context, Shell shell) {
+		EditingInput editingInput = null;
 		FileDialog dialog = new FileDialog(shell);
 		String[] filterExtensions = getFilterExtensions();
 		if (filterExtensions != null && filterExtensions.length > 0) {
@@ -53,27 +78,14 @@ public abstract class AbstractEEFOpenHandler {
 			Resource resource = editingDomain.getResourceSet().getResource(fileURI, true);
 			if (resource == null || resource.getContents().isEmpty()) {
 				MessageDialog.openError(shell, "Invalid conference data", "The application what unable to open the conference descriptor file");
-			} else {
-				ApplicationModelBuilder builder = new ApplicationModelBuilder(applicationModel);
-				builder.addEEFPartDescriptor();
-				EObject root = resource.getContents().get(0);
-				MElementContainer partStack = (MElementContainer) modelService.find(getElementContainerID(), applicationModel);
-				preparePartCreation(modelService, applicationModel);
-				MPart mPart = partService.createPart(ApplicationModelBuilder.EEF_PART_DESCRIPTOR);
-				partStack.getChildren().add(mPart);
-				partService.showPart(mPart, PartState.ACTIVATE);
-				E4EEFPart partImpl = (E4EEFPart) mPart.getObject();
-				PropertiesEditingContextFactory contextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, root);
-				PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext(editingDomain, root);
-				partImpl.setInput(editingContext);
-				EditingInput editingInput = mPart.getContext().get(EditingInput.class);
-				if (editingInput instanceof URIEditingInput) {
-					mPart.setLabel(((URIEditingInput) editingInput).getUri().trimFileExtension().lastSegment());
-				}
-				configureCreatedPart(modelService, applicationModel, mPart);
+				editingInput = new VoidEditingInput();
+			} else {				
+				editingInput = new URIEditingInput(fileURI, editingDomain);
 			}
+		} else {
+			editingInput = new VoidEditingInput();			
 		}
-		
+		return editingInput;
 	}
 
 	/**
@@ -123,8 +135,6 @@ public abstract class AbstractEEFOpenHandler {
 			editingDomain = (AdapterFactoryEditingDomain) editingInput.getEditingDomain();
 		} else {
 			editingDomain = new AdapterFactoryEditingDomain(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE), new BasicCommandStack());
-			editingInput = new URIEditingInput(uri, editingDomain);
-			context.set(EditingInput.class, editingInput);
 		}
 		return editingDomain;
 	}
