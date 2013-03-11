@@ -28,6 +28,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.EditingInput;
+import org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl.EditingContextEditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl.URIEditingInput;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
@@ -76,7 +77,9 @@ public class E4EEFPart {
 		if (commandStack instanceof BasicCommandStack) {
 			commandStack.addCommandStackListener(new EEFCommandStackListener((BasicCommandStack) commandStack, viewer.getControl(), dirty));
 		}
-		if (input instanceof URIEditingInput) {
+		if (input instanceof EditingContextEditingInput) {
+			viewer.setInput(((EditingContextEditingInput) input).getEditingContext());
+		} else if (input instanceof URIEditingInput) {
 			Resource resource = editingDomain.getResourceSet().getResource(((URIEditingInput) input).getUri(), true);
 			EObject root = resource.getContents().get(0);
 			PropertiesEditingContextFactory contextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, root);

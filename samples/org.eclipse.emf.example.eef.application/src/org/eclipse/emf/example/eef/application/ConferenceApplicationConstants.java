@@ -9,7 +9,7 @@ package org.eclipse.emf.example.eef.application;
  */
 public interface ConferenceApplicationConstants {
 	
-	final String APPLICATION_PARTSTACK = "org.eclipse.emf.example.eef.application.partstack.main";
+	final String MAIN_PARTSTACK = "org.eclipse.emf.example.eef.application.partstack.main";
 	final String ASIDE_PARTSTACK = "org.eclipse.emf.example.eef.application.partstack.aside";
 	
 }

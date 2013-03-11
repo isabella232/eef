@@ -46,7 +46,7 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 	 */
 	@Override
 	protected String getElementContainerID() {
-		return ConferenceApplicationConstants.APPLICATION_PARTSTACK;
+		return ConferenceApplicationConstants.MAIN_PARTSTACK;
 	}
 
 	/**

@@ -17,6 +17,8 @@
       </children>
       <children xsi:type="menu:Menu" xmi:id="_JUO6AInOEeK7u5sa3An73A" elementId="org.eclipse.emf.example.eef.application.menu.view" label="View">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_QapjEInOEeK7u5sa3An73A" elementId="org.eclipse.emf.example.eef.application.handledmenuitem.openParticipantsView" label="Open Participants View" command="_7j9BAInNEeK7u5sa3An73A"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_meGKgIouEeKbUd4r6T_PSA" elementId="org.eclipse.emf.example.eef.application.handledmenuitem.openSessionsView" label="Open Sessions View" command="_ZbWs8IouEeKbUd4r6T_PSA"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_850JoIouEeKbUd4r6T_PSA" elementId="org.eclipse.emf.example.eef.application.handledmenuitem.openSessionsView" label="Open Schedule View" command="_XovN4IowEeKbUd4r6T_PSA"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_d16hUX_9EeKVteANPWy22Q" label="Help">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_d16hUn_9EeKVteANPWy22Q" label="About" command="_d16hSH_9EeKVteANPWy22Q"/>
@@ -28,6 +30,8 @@
   <handlers xmi:id="_d16hRn_9EeKVteANPWy22Q" contributionURI="bundleclass://org.eclipse.emf.example.eef.application/org.eclipse.emf.example.eef.application.handlers.SaveHandler" command="_d16hRX_9EeKVteANPWy22Q"/>
   <handlers xmi:id="_d16hSX_9EeKVteANPWy22Q" contributionURI="bundleclass://org.eclipse.emf.example.eef.application/org.eclipse.emf.example.eef.application.handlers.AboutHandler" command="_d16hSH_9EeKVteANPWy22Q"/>
   <handlers xmi:id="_1uaJ8InNEeK7u5sa3An73A" elementId="org.eclipse.emf.example.eef.application.handler.openParticipantsView" contributionURI="bundleclass://org.eclipse.emf.example.eef.application/org.eclipse.emf.example.eef.application.handlers.OpenParticipantsViewHandler" command="_7j9BAInNEeK7u5sa3An73A"/>
+  <handlers xmi:id="_dvn-gIouEeKbUd4r6T_PSA" elementId="org.eclipse.emf.example.eef.application.handler.openSessionsView" contributionURI="bundleclass://org.eclipse.emf.example.eef.application/org.eclipse.emf.example.eef.application.handlers.OpenSessionsViewHandler" command="_ZbWs8IouEeKbUd4r6T_PSA"/>
+  <handlers xmi:id="_a3gP8IowEeKbUd4r6T_PSA" elementId="org.eclipse.emf.example.eef.application.handler.openScheduleView" contributionURI="bundleclass://org.eclipse.emf.example.eef.application/org.eclipse.emf.example.eef.application.handlers.OpenScheduleViewHandler" command="_XovN4IowEeKbUd4r6T_PSA"/>
   <bindingTables xmi:id="_d16hQH_9EeKVteANPWy22Q" bindingContext="_d156MX_9EeKVteANPWy22Q">
     <bindings xmi:id="_d16hQX_9EeKVteANPWy22Q" keySequence="M1+Q" command="_d156On_9EeKVteANPWy22Q"/>
     <bindings xmi:id="_d16hRH_9EeKVteANPWy22Q" keySequence="M1+O" command="_d16hQn_9EeKVteANPWy22Q"/>
@@ -42,7 +46,9 @@
   <commands xmi:id="_d16hQn_9EeKVteANPWy22Q" elementId="org.eclipse.emf.example.eef.application.open" commandName="openCommand"/>
   <commands xmi:id="_d16hRX_9EeKVteANPWy22Q" elementId="org.eclipse.ui.file.save" commandName="saveCommand"/>
   <commands xmi:id="_d16hSH_9EeKVteANPWy22Q" elementId="org.eclipse.ui.help.aboutAction" commandName="aboutCommand"/>
-  <commands xmi:id="_7j9BAInNEeK7u5sa3An73A" elementId="org.eclipse.emf.example.eef.application.command.openParticipantView" commandName="openParticipantViewCommand" description="Open The Participant View"/>
+  <commands xmi:id="_7j9BAInNEeK7u5sa3An73A" elementId="org.eclipse.emf.example.eef.application.command.openParticipantsView" commandName="openParticipantsViewCommand" description="Open The Participants View"/>
+  <commands xmi:id="_ZbWs8IouEeKbUd4r6T_PSA" elementId="org.eclipse.emf.example.eef.application.command.openSessionsView" commandName="openSessionsViewCommand" description="Open The Sessions View"/>
+  <commands xmi:id="_XovN4IowEeKbUd4r6T_PSA" elementId="org.eclipse.emf.example.eef.application.command.openScheduleView" commandName="openScheduleViewCommand" description="Open The Schedule View"/>
   <addons xmi:id="_d156NH_9EeKVteANPWy22Q" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_d156NX_9EeKVteANPWy22Q" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_d156Nn_9EeKVteANPWy22Q" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
