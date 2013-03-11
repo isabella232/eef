@@ -140,6 +140,7 @@ public class EEFViewer extends ContentViewer {
 						item.setText(viewDescriptor.getName());
 						PropertiesEditingView view = propertiesEditingViewHandler.createView(component, folder);
 						view.getContents().setLayoutData(new GridData(GridData.FILL_BOTH));
+						handler.initView(component);
 						item.setControl(view.getContents());
 					} catch (ViewConstructionException e) {
 						EEFLogger logger = handler.getProvider().getServiceRegistry().getService(EEFLogger.class, this);
