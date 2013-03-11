@@ -64,11 +64,9 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 	 */
 	@Override
 	protected void preparePartCreation(EModelService modelService, MApplication applicationModel) {
-		MPartDescriptor descriptor = getEEFPartDescriptor(applicationModel);
-		if (descriptor != null) {
-			descriptor.setCloseable(false);
-		}
+		changePartCloseability(applicationModel, false);
 	}
+
 
 	/**
 	 * {@inheritDoc}
@@ -76,6 +74,7 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 	 */
 	@Override
 	protected void configureCreatedPart(EModelService modelService, MApplication applicationModel, MPart mPart) {
+		changePartCloseability(applicationModel, true);
 		E4EEFPart partImpl = (E4EEFPart) mPart.getObject();
 		Collection<String> selectedViews = new ArrayList<String>();
 		selectedViews.add("Conference::Conference");
@@ -95,4 +94,15 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 		return descriptor;
 	}
 
+	/**
+	 * @param applicationModel
+	 * @param closeability
+	 */
+	private void changePartCloseability(MApplication applicationModel,
+			boolean closeability) {
+		MPartDescriptor descriptor = getEEFPartDescriptor(applicationModel);
+		if (descriptor != null) {
+			descriptor.setCloseable(closeability);
+		}
+	}
 }
