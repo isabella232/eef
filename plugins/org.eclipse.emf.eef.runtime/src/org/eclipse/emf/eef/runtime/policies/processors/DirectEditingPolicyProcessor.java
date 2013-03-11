@@ -10,14 +10,25 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
+import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
 public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
+
+	private EditingPolicyWithProcessor editingPolicy;
+
+	public DirectEditingPolicyProcessor(EditingPolicyWithProcessor editingPolicy) {
+		this.editingPolicy = editingPolicy;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -32,7 +43,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 			performUnset(behavior.target, behavior.feature);
 			break;
 		case EDIT:
-//			performEdit(behavior.target, behavior.feature, behavior.value);
+			performEdit(behavior.target, behavior.feature, behavior.value);
 			break;
 		case ADD:
 			performAdd(behavior.target, behavior.feature, behavior.value);			
@@ -74,6 +85,20 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	 */
 	public void performUnset(EObject eObject, EStructuralFeature feature) {
 		eObject.eUnset(feature);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#performSet(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 */
+	public void performEdit(EObject eObject, EStructuralFeature feature, Object value) {
+		if (value instanceof EObject) {
+			PropertiesEditingContext editingContext = editingPolicy.getEditingContext();
+			EObject editedElement = (EObject)value;
+			PropertiesEditingContextFactory factory = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, editedElement);
+			PropertiesEditingPolicy subElementEditingPolicy = editingContext.getEditingPolicy(factory.createPropertiesEditingContext(editingContext, editedElement));
+			editingPolicy.getEditingContext().getEditingComponent().execute(subElementEditingPolicy);			
+		}
 	}
 
 	/**

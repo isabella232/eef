@@ -25,7 +25,7 @@ public class EReferenceDirectEditingPolicy extends EReferenceEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor#getProcessor()
 	 */
 	public EditingPolicyProcessor getProcessor() {
-		return new DirectEditingPolicyProcessor();
+		return new DirectEditingPolicyProcessor(this);
 	}
 
 }

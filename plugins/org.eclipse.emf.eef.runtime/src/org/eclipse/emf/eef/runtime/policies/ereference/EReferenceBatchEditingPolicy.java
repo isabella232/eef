@@ -25,7 +25,7 @@ public class EReferenceBatchEditingPolicy extends EReferenceDomainEditingPolicy 
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor#getProcessor()
 	 */
 	public EditingPolicyProcessor getProcessor() {
-		return new BatchEditingPolicyProcessor(getEditingContext());
+		return new BatchEditingPolicyProcessor(this);
 	}
 
 }

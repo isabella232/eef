@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.policies.processors.BatchEditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.ui.internal.policies.processors.BatchWizardEditingPolicyProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -28,7 +28,7 @@ public class EReferenceBatchWizardEditingPolicy extends EReferenceDomainWizardEd
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor#getProcessor()
 	 */
 	public EditingPolicyProcessor getProcessor() {
-		return new BatchEditingPolicyProcessor(getEditingContext());
+		return new BatchWizardEditingPolicyProcessor(this);
 	}
 
 	/**

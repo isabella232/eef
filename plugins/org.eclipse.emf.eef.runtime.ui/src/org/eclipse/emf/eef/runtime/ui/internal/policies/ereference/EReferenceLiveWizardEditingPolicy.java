@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.policies.processors.LiveEditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.ui.internal.policies.processors.LiveWizardEditingPolicyProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -27,7 +27,7 @@ public class EReferenceLiveWizardEditingPolicy extends EReferenceDomainWizardEdi
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor#getProcessor()
 	 */
 	public EditingPolicyProcessor getProcessor() {
-		return new LiveEditingPolicyProcessor(getEditingContext());
+		return new LiveWizardEditingPolicyProcessor(this);
 	}
 
 	/**

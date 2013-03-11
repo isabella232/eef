@@ -25,7 +25,7 @@ public class EObjectDirectEditingPolicy extends EObjectEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor#getProcessor()
 	 */
 	public EditingPolicyProcessor getProcessor() {
-		return new DirectEditingPolicyProcessor();
+		return new DirectEditingPolicyProcessor(this);
 	}
 	
 }

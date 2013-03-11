@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.policies.processors;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -13,10 +13,10 @@ import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 public class LiveEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 
 	/**
-	 * @param editingContext
+	 * @param editingPolicy
 	 */
-	public LiveEditingPolicyProcessor(DomainAwarePropertiesEditingContext editingContext) {
-		super(editingContext);
+	public LiveEditingPolicyProcessor(EditingPolicyWithProcessor editingPolicy) {
+		super(editingPolicy);
 	}
 
 	/**

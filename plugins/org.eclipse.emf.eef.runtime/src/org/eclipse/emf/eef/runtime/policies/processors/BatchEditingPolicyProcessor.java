@@ -7,7 +7,7 @@ import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.command.AbortExecutionException;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -16,12 +16,12 @@ import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 public class BatchEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 
 	/**
-	 * @param editingContext
+	 * @param editingPolicy
 	 */
-	public BatchEditingPolicyProcessor(DomainAwarePropertiesEditingContext editingContext) {
-		super(editingContext);
+	public BatchEditingPolicyProcessor(EditingPolicyWithProcessor editingPolicy) {
+		super(editingPolicy);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor#executeCommand(org.eclipse.emf.common.command.Command)

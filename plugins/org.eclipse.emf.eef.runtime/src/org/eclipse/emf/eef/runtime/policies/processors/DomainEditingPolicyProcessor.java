@@ -20,6 +20,7 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -32,8 +33,9 @@ public abstract class DomainEditingPolicyProcessor implements EditingPolicyProce
 	/**
 	 * @param editingContext
 	 */
-	public DomainEditingPolicyProcessor(DomainAwarePropertiesEditingContext editingContext) {
-		this.editingContext = editingContext;
+	public DomainEditingPolicyProcessor(EditingPolicyWithProcessor editingPolicy) {
+		assert editingPolicy.getEditingContext() instanceof DomainAwarePropertiesEditingContext:"Unable to process the EditingPolicy with the given EditingContext (unable to find an EditingDomain).";
+		this.editingContext = ((DomainAwarePropertiesEditingContext)editingPolicy.getEditingContext());
 	}
 
 	/**
@@ -59,7 +61,7 @@ public abstract class DomainEditingPolicyProcessor implements EditingPolicyProce
 	 * @param behavior {@link EditingPolicyProcessing} to process.
 	 * @return the {@link Command} to execute.
 	 */
-	private Command convertToCommand(EditingPolicyProcessing behavior) {
+	protected Command convertToCommand(EditingPolicyProcessing behavior) {
 		EObject eObject = behavior.target;
 		EStructuralFeature feature = behavior.feature;
 		Object newValue = behavior.value;
@@ -79,12 +81,6 @@ public abstract class DomainEditingPolicyProcessor implements EditingPolicyProce
 				return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, new BasicEList<Object>());
 			} else {
 				return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, null);
-			}
-		case EDIT:
-			if (newValue == null) {
-				return null;
-			} else {
-//				wizardEditing
 			}
 		case ADD:
 			if (newValue == null) {

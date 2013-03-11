@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.policies;
 
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
@@ -14,5 +16,11 @@ public interface EditingPolicyWithProcessor extends PropertiesEditingPolicy {
 	 * @return the {@link PropertiesEditingPolicyProvider} to use.
 	 */
 	EditingPolicyProcessor getProcessor();
+
+	/**
+	 * Returns the {@link PropertiesEditingContext} managing this policy.
+	 * @return the {@link PropertiesEditingContext} managing this policy.
+	 */
+	PropertiesEditingContext getEditingContext();
 
 }

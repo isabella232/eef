@@ -25,7 +25,7 @@ public class EReferenceLiveEditingPolicy extends EReferenceDomainEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor#getProcessor()
 	 */
 	public EditingPolicyProcessor getProcessor() {
-		return new LiveEditingPolicyProcessor(getEditingContext());
+		return new LiveEditingPolicyProcessor(this);
 	}
 
 }
