@@ -27,6 +27,7 @@ public class EditingPolicyProcessing {
 	public enum ProcessingKind {
 		SET,
 		UNSET,
+		EDIT,
 		ADD,
 		ADD_MANY,
 		REMOVE,

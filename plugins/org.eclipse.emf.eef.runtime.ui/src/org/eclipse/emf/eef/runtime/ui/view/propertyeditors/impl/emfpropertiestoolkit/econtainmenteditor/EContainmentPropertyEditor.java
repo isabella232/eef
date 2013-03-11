@@ -17,7 +17,7 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer;
-import org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.ReferenceEditorListener;
+import org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.widgets.util.ArrayFeatureContentProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -34,7 +34,7 @@ public class EContainmentPropertyEditor implements PropertyEditor, MultivaluedPr
 	protected PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer;
 
 	protected EStructuralFeature feature;
-	private ReferenceEditorListener listener;
+	private MultiLinePropertyViewerListener listener;
 
 	/**
 	 * @param view
@@ -125,7 +125,7 @@ public class EContainmentPropertyEditor implements PropertyEditor, MultivaluedPr
 	 */
 	protected void initListener() {
 		if (listener == null) {
-			listener = new ReferenceEditorListener() {
+			listener = new MultiLinePropertyViewerListener() {
 
 				/**
 				 * {@inheritDoc}
@@ -182,7 +182,8 @@ public class EContainmentPropertyEditor implements PropertyEditor, MultivaluedPr
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#edit(java.lang.Object)
 				 */
 				public void edit(Object editedElement) {
-					//TODO: We have to invoke the EditingPropertyPolicy
+					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.EDIT, editedElement, null));
+					propertyEditorViewer.getViewer().refresh();
 				}
 
 				/**

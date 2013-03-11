@@ -80,6 +80,12 @@ public abstract class DomainEditingPolicyProcessor implements EditingPolicyProce
 			} else {
 				return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, null);
 			}
+		case EDIT:
+			if (newValue == null) {
+				return null;
+			} else {
+//				wizardEditing
+			}
 		case ADD:
 			if (newValue == null) {
 				return null;

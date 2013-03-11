@@ -50,6 +50,10 @@ public abstract class EObjectEditingPolicy extends AbstractEditingPolicyWithProc
 			case PropertiesEditingEvent.UNSET:
 				processing.processingKind = ProcessingKind.UNSET;
 				break;
+			case PropertiesEditingEvent.EDIT:
+				processing.processingKind = ProcessingKind.EDIT;
+				processing.value = editingEvent.getNewValue();
+				break;
 			case PropertiesEditingEvent.ADD:
 				processing.processingKind = ProcessingKind.ADD;
 				processing.value = editingEvent.getNewValue();

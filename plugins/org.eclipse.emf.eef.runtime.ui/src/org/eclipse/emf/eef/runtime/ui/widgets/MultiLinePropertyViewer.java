@@ -11,6 +11,7 @@ import java.util.List;
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.internal.widgets.util.NullContentProvider;
 import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -60,7 +61,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 
 	private Composite control;
 	private TableViewer table;
-	private Collection<ReferenceEditorListener> listeners;
+	private Collection<MultiLinePropertyViewerListener> listeners;
 	private Button addButton;
 	private Button removeButton;
 	private Button upButton;
@@ -96,6 +97,23 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 				updateButtons();
 			}
 		});
+		table.addDoubleClickListener(new IDoubleClickListener() {
+			
+			public void doubleClick(DoubleClickEvent event) {
+				if (table.getSelection() != null && !table.getSelection().isEmpty()) {
+					if (table.getSelection() instanceof StructuredSelection) {
+						StructuredSelection sSel = (StructuredSelection) table.getSelection();
+						if (sSel.size() > 0) {
+							Object selection = sSel.getFirstElement();
+							for (MultiLinePropertyViewerListener listener : listeners) {
+								listener.edit(selection);
+							}
+						}
+					}
+				}
+				
+			}
+		});
 		addButton = createButton(control);
 		GridData buttonData = new GridData();
 		buttonData.verticalAlignment = SWT.UP;
@@ -112,7 +130,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 			 */
 			public void widgetSelected(SelectionEvent e) {
-				for (ReferenceEditorListener listener : listeners) {
+				for (MultiLinePropertyViewerListener listener : listeners) {
 					listener.add();
 				}
 			}
@@ -126,24 +144,24 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 			removeButton.setText("del");
 		}
 		removeButton.setLayoutData(buttonData);
-		removeButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
+		removeButton.addSelectionListener(new MultiLinePropertyViewerSelectionAdapter() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerSelectionAdapter#fireSingleSelection(java.lang.Object)
 			 */
 			public void fireSingleSelection(Object selection) {
-				for (ReferenceEditorListener listener : listeners) {
+				for (MultiLinePropertyViewerListener listener : listeners) {
 					listener.remove(selection);
 				}
 			}
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.ReferenceEditorSelectionAdapter#fireMultiSelection(java.util.List)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerSelectionAdapter#fireMultiSelection(java.util.List)
 			 */
 			protected void fireMultiSelection(List<?> selection) {
-				for (ReferenceEditorListener listener : listeners) {
+				for (MultiLinePropertyViewerListener listener : listeners) {
 					listener.removeAll(selection);
 				}
 			}
@@ -158,14 +176,14 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 			upButton.setText("up");
 		}
 		upButton.setLayoutData(buttonData);
-		upButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
+		upButton.addSelectionListener(new MultiLinePropertyViewerSelectionAdapter() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerSelectionAdapter#fireSingleSelection(java.lang.Object)
 			 */
 			public void fireSingleSelection(Object selection) {
-				for (ReferenceEditorListener listener : listeners) {
+				for (MultiLinePropertyViewerListener listener : listeners) {
 					listener.moveUp(selection);
 				}
 			}
@@ -178,14 +196,14 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 			downButton.setText("down");			
 		}
 		downButton.setLayoutData(buttonData);
-		downButton.addSelectionListener(new ReferenceEditorSelectionAdapter() {
+		downButton.addSelectionListener(new MultiLinePropertyViewerSelectionAdapter() {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerSelectionAdapter#fireSingleSelection(java.lang.Object)
 			 */
 			public void fireSingleSelection(Object selection) {
-				for (ReferenceEditorListener listener : listeners) {
+				for (MultiLinePropertyViewerListener listener : listeners) {
 					listener.moveDown(selection);
 				}
 			}
@@ -262,18 +280,18 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	}
 
 	/**
-	 * Add a {@link ReferenceEditorListener} to this instance.
-	 * @param listener {@link ReferenceEditorListener} to add.
+	 * Add a {@link MultiLinePropertyViewerListener} to this instance.
+	 * @param listener {@link MultiLinePropertyViewerListener} to add.
 	 */
-	public void addReferenceEditorListener(ReferenceEditorListener listener) {
+	public void addReferenceEditorListener(MultiLinePropertyViewerListener listener) {
 		listeners.add(listener);
 	}
 	
 	/**
-	 * Remove a {@link ReferenceEditorListener} to this instance.
-	 * @param listener {@link ReferenceEditorListener} to remove.
+	 * Remove a {@link MultiLinePropertyViewerListener} to this instance.
+	 * @param listener {@link MultiLinePropertyViewerListener} to remove.
 	 */
-	public void removeReferenceEditorListener(ReferenceEditorListener listener) {
+	public void removeReferenceEditorListener(MultiLinePropertyViewerListener listener) {
 		listeners.remove(listener);
 	}
 	
@@ -567,7 +585,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
 	 *
 	 */
-	public interface ReferenceEditorListener {
+	public interface MultiLinePropertyViewerListener {
 
 		/**
 		 * Handle a "add" request.
@@ -610,7 +628,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
 	 *
 	 */
-	private abstract class ReferenceEditorSelectionAdapter extends SelectionAdapter {
+	private abstract class MultiLinePropertyViewerSelectionAdapter extends SelectionAdapter {
 
 		/**
 		 * {@inheritDoc}

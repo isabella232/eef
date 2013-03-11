@@ -18,7 +18,7 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.widgets.EEFSelectionDialog;
 import org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer;
-import org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.ReferenceEditorListener;
+import org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.widgets.util.ArrayFeatureContentProvider;
 import org.eclipse.emf.eef.runtime.ui.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -37,7 +37,7 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 	protected PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer;
 
 	protected EStructuralFeature feature;
-	private ReferenceEditorListener listener;
+	private MultiLinePropertyViewerListener listener;
 
 	/**
 	 * @param view
@@ -128,7 +128,7 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 	 */
 	protected void initListener() {
 		if (listener == null) {
-			listener = new ReferenceEditorListener() {
+			listener = new MultiLinePropertyViewerListener() {
 
 				/**
 				 * {@inheritDoc}

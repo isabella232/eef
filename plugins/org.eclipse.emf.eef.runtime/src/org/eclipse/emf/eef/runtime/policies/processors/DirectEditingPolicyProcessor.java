@@ -31,6 +31,9 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 		case UNSET:
 			performUnset(behavior.target, behavior.feature);
 			break;
+		case EDIT:
+//			performEdit(behavior.target, behavior.feature, behavior.value);
+			break;
 		case ADD:
 			performAdd(behavior.target, behavior.feature, behavior.value);			
 			break;

@@ -26,6 +26,14 @@ public interface PropertiesEditingEvent {
 	 * @see Notification#getEventType
 	 */
 	int UNSET = Notification.UNSET;
+	
+	/**
+	 * An {@link Notification#getEventType event type} indicating that 
+	 * a feature of the notifier has been set.
+	 * This applies for simple features.
+	 * @see Notification#getEventType
+	 */
+	int EDIT = 30;
 
 	/**
 	 * An {@link Notification#getEventType event type} indicating that 
