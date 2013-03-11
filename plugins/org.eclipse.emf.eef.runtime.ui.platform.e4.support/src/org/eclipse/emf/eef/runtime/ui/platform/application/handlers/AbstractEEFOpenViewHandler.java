@@ -38,7 +38,7 @@ public abstract class AbstractEEFOpenViewHandler {
 		MPart mPart = partService.createPart(ApplicationModelBuilder.EEF_PART_DESCRIPTOR);
 		partStack.getChildren().add(mPart);
 		partService.showPart(mPart, PartState.ACTIVATE);
-		EditingInput editingInput = getEditingInput(mPart);
+		EditingInput editingInput = getEditingInput(context, mPart, shell);
 		E4EEFPart partImpl = (E4EEFPart) mPart.getObject();
 		partImpl.setInput(editingInput);
 		if (editingInput instanceof URIEditingInput) {
@@ -48,10 +48,12 @@ public abstract class AbstractEEFOpenViewHandler {
 	}
 
 	/**
+	 * @param context
 	 * @param mPart
-	 * @return
+	 * @param shell
+	 * @return 
 	 */
-	protected abstract EditingInput getEditingInput(MPart mPart);
+	protected abstract EditingInput getEditingInput(IEclipseContext context, MPart mPart, Shell shell);
 
 	/**
 	 * Defines the element where to open the EEF part
@@ -76,7 +78,6 @@ public abstract class AbstractEEFOpenViewHandler {
 	 */
 	protected void configureCreatedPart(EModelService modelService, MApplication applicationModel, MPart mPart) {
 		// Do nothing
-
 	}
 
 }
