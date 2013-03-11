@@ -83,7 +83,7 @@ public class EComboPropertyEditor implements PropertyEditor, MonovaluedPropertyE
 	}
 
 	/**
-	 * Initialize the listener on the EReferenceEditor.
+	 * Initialize the listener on the MultiLinePropertyViewer.
 	 */
 	protected void initListener() {
 		if (listener == null) {

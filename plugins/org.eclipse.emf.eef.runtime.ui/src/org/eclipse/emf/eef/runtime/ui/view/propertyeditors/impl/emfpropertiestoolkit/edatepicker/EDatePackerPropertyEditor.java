@@ -83,7 +83,7 @@ public class EDatePackerPropertyEditor implements PropertyEditor, MonovaluedProp
 	}
 
 	/**
-	 * Initialize the listener on the EReferenceEditor.
+	 * Initialize the listener on the MultiLinePropertyViewer.
 	 */
 	protected void initListener() {
 		if (listener == null) {

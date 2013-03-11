@@ -18,7 +18,7 @@ public class EReferencePropertyEditorProvider implements WidgetPropertyEditorPro
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
 	
 	static {
-		widget.setName("EReferenceEditor");
+		widget.setName("MultiLinePropertyViewer");
 	}
 	
 	/**

@@ -477,7 +477,7 @@ public class EEFTestEnvironment {
 			eClassView.getElements().add(abstractEditor);
 			ElementEditor superTypes = ViewsFactory.eINSTANCE.createElementEditor();
 			superTypes.setName("eSuperTypes");
-			superTypes.setRepresentation(searchWidget(toolkits.get(1), "EReferenceEditor"));
+			superTypes.setRepresentation(searchWidget(toolkits.get(1), "MultiLinePropertyViewer"));
 			eClassView.getElements().add(superTypes);
 			result.add(eClassView);
 			View eClassInstanceView = ViewsFactory.eINSTANCE.createView();

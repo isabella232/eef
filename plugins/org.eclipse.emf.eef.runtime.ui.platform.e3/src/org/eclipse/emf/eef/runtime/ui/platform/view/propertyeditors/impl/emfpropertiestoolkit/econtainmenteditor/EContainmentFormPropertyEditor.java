@@ -11,7 +11,7 @@ import org.eclipse.emf.eef.runtime.ui.platform.widgets.FormEReferenceEditor;
 import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor;
+import org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -22,11 +22,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EContainmentFormPropertyEditor implements FormPropertyEditor<EReferenceEditor> {
+public class EContainmentFormPropertyEditor implements FormPropertyEditor<MultiLinePropertyViewer> {
 
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
-	private EReferenceEditor eReferenceEditor;
+	private MultiLinePropertyViewer multiLinePropertyViewer;
 
 	/**
 	 * @param view
@@ -41,8 +41,8 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<ERefer
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
-	public EReferenceEditor getViewer() {
-		return eReferenceEditor;
+	public MultiLinePropertyViewer getViewer() {
+		return multiLinePropertyViewer;
 	}
 
 	/**
@@ -56,11 +56,11 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<ERefer
 		} else {
 			viewService.createLabel(parent, elementEditor, elementEditor.getName());
 		}
-		eReferenceEditor = new FormEReferenceEditor(toolkit, parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) {
+		multiLinePropertyViewer = new FormEReferenceEditor(toolkit, parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor#buildAdditionnalActionControls(org.eclipse.swt.widgets.Composite)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer#buildAdditionnalActionControls(org.eclipse.swt.widgets.Composite)
 			 */
 			@Override
 			protected void buildAdditionnalActionControls(Composite parent) {
@@ -74,17 +74,17 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<ERefer
 		};
 		for (EObject subEditor : elementEditor.eContents()) {
 			if (subEditor instanceof ElementEditor) {
-				eReferenceEditor.addColumn(((ElementEditor) subEditor).getName(), UIConstants.DEFAULT_COLUMN_WIDTH);
+				multiLinePropertyViewer.addColumn(((ElementEditor) subEditor).getName(), UIConstants.DEFAULT_COLUMN_WIDTH);
 			}
 		}
 		ImageManager imageManager = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(ImageManager.class, this);
-		eReferenceEditor.setImageManager(imageManager);
-		eReferenceEditor.createContents();
-		toolkit.adapt((Composite) eReferenceEditor.getControl());
+		multiLinePropertyViewer.setImageManager(imageManager);
+		multiLinePropertyViewer.createContents();
+		toolkit.adapt((Composite) multiLinePropertyViewer.getControl());
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.heightHint = view.getViewSettings().getMultiEditorHeight();
 		layoutData.horizontalSpan = 2;
-		eReferenceEditor.setLayoutData(layoutData);
+		multiLinePropertyViewer.setLayoutData(layoutData);
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<ERefer
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
-		eReferenceEditor.setLocked(true);		
+		multiLinePropertyViewer.setLocked(true);		
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<ERefer
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		eReferenceEditor.setLocked(true);		
+		multiLinePropertyViewer.setLocked(true);		
 	}
 
 

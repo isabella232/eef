@@ -8,7 +8,7 @@ import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor;
+import org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -18,11 +18,11 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<EReferenceEditor> {
+public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLinePropertyViewer> {
 
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
-	private EReferenceEditor eReferenceEditor;
+	private MultiLinePropertyViewer multiLinePropertyViewer;
 
 	/**
 	 * @param view
@@ -37,8 +37,8 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<EReferen
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
-	public EReferenceEditor getViewer() {
-		return eReferenceEditor;
+	public MultiLinePropertyViewer getViewer() {
+		return multiLinePropertyViewer;
 	}
 
 	/**
@@ -47,11 +47,11 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<EReferen
 	 */
 	public void build(final Composite parent) {
 		view.getViewService().createLabel(parent, elementEditor, elementEditor.getName());
-		eReferenceEditor = new EReferenceEditor(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) {
+		multiLinePropertyViewer = new MultiLinePropertyViewer(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor#buildAdditionnalActionControls(org.eclipse.swt.widgets.Composite)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer#buildAdditionnalActionControls(org.eclipse.swt.widgets.Composite)
 			 */
 			@Override
 			protected void buildAdditionnalActionControls(Composite parent) {
@@ -61,16 +61,16 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<EReferen
 		};
 		for (EObject subEditor : elementEditor.eContents()) {
 			if (subEditor instanceof ElementEditor) {
-				eReferenceEditor.addColumn(((ElementEditor) subEditor).getName(), UIConstants.DEFAULT_COLUMN_WIDTH);
+				multiLinePropertyViewer.addColumn(((ElementEditor) subEditor).getName(), UIConstants.DEFAULT_COLUMN_WIDTH);
 			}
 		}
 		ImageManager imageManager = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(ImageManager.class, this);
-		eReferenceEditor.setImageManager(imageManager);
-		eReferenceEditor.createContents();
+		multiLinePropertyViewer.setImageManager(imageManager);
+		multiLinePropertyViewer.createContents();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.heightHint = view.getViewSettings().getMultiEditorHeight();
 		layoutData.horizontalSpan = 2;
-		eReferenceEditor.setLayoutData(layoutData);
+		multiLinePropertyViewer.setLayoutData(layoutData);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<EReferen
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
-		eReferenceEditor.setLocked(true);		
+		multiLinePropertyViewer.setLocked(true);		
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<EReferen
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		eReferenceEditor.setLocked(false);		
+		multiLinePropertyViewer.setLocked(false);		
 	}
 
 

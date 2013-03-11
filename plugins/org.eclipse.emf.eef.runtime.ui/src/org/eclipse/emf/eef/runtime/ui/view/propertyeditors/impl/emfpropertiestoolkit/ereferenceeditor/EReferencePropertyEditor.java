@@ -17,8 +17,8 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.widgets.EEFSelectionDialog;
-import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor;
-import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorListener;
+import org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer;
+import org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.ReferenceEditorListener;
 import org.eclipse.emf.eef.runtime.ui.widgets.util.ArrayFeatureContentProvider;
 import org.eclipse.emf.eef.runtime.ui.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -34,7 +34,7 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 
 	protected PropertiesEditingView view;
 	protected ElementEditor elementEditor;
-	protected PropertyEditorViewer<EReferenceEditor> propertyEditorViewer;
+	protected PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer;
 
 	protected EStructuralFeature feature;
 	private ReferenceEditorListener listener;
@@ -43,7 +43,7 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 	 * @param view
 	 * @param viewElement
 	 */
-	public EReferencePropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<EReferenceEditor> propertyEditorViewer) {
+	public EReferencePropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
@@ -124,7 +124,7 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 	}
 
 	/**
-	 * Initialize the listener on the EReferenceEditor.
+	 * Initialize the listener on the MultiLinePropertyViewer.
 	 */
 	protected void initListener() {
 		if (listener == null) {

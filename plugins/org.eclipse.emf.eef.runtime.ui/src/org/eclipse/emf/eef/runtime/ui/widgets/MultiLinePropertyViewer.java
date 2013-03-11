@@ -43,7 +43,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceEditor extends StructuredViewer {
+public class MultiLinePropertyViewer extends StructuredViewer {
 
 	/**
 	 * Constant usable in the addColumn method as width parameter.
@@ -74,7 +74,7 @@ public class EReferenceEditor extends StructuredViewer {
 	 * @param parent
 	 * @param style
 	 */
-	public EReferenceEditor(Composite parent, int style) {
+	public MultiLinePropertyViewer(Composite parent, int style) {
 		this.parent = parent;
 		this.style = style;
 	}
@@ -130,7 +130,7 @@ public class EReferenceEditor extends StructuredViewer {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
 			 */
 			public void fireSingleSelection(Object selection) {
 				for (ReferenceEditorListener listener : listeners) {
@@ -140,7 +140,7 @@ public class EReferenceEditor extends StructuredViewer {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorSelectionAdapter#fireMultiSelection(java.util.List)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.ReferenceEditorSelectionAdapter#fireMultiSelection(java.util.List)
 			 */
 			protected void fireMultiSelection(List<?> selection) {
 				for (ReferenceEditorListener listener : listeners) {
@@ -162,7 +162,7 @@ public class EReferenceEditor extends StructuredViewer {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
 			 */
 			public void fireSingleSelection(Object selection) {
 				for (ReferenceEditorListener listener : listeners) {
@@ -182,7 +182,7 @@ public class EReferenceEditor extends StructuredViewer {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer.ReferenceEditorSelectionAdapter#fireSingleSelection(java.lang.Object)
 			 */
 			public void fireSingleSelection(Object selection) {
 				for (ReferenceEditorListener listener : listeners) {

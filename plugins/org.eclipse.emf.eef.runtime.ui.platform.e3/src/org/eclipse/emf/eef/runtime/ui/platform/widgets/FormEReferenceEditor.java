@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.platform.widgets;
 
-import org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor;
+import org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -13,7 +13,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class FormEReferenceEditor extends EReferenceEditor {
+public class FormEReferenceEditor extends MultiLinePropertyViewer {
 
 	private FormToolkit toolkit;
 
@@ -29,7 +29,7 @@ public class FormEReferenceEditor extends EReferenceEditor {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor#createControlComposite(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer#createControlComposite(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected Composite createControlComposite(Composite parent) {
@@ -38,7 +38,7 @@ public class FormEReferenceEditor extends EReferenceEditor {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.widgets.EReferenceEditor#createButton(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer#createButton(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected Button createButton(Composite control) {
