@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            name="org.eclipse.emf.example.eef.application.fx"
+            application="at.bestsolution.efxclipse.runtime.workbench.fx.application">
+          <property
+               name="clearPersistedState"
+               value="false">
+         </property>
+         <property
+               name="cssTheme"
+               value="themes.default">
+         </property>
+        <property
+               name="applicationXMI"
+               value="org.eclipse.emf.example.eef.application.fx/Application.e4xmi">
+         </property>
+         <property
+               name="applicationCSS"
+               value="platform:/plugin/org.eclipse.emf.example.eef.application.fx/css/default.css">
+         </property>
+         <property
+               name="appName"
+               value="org.eclipse.emf.example.eef.application.fx">
+         </property>
+      </product>
+   </extension>
+    <extension
+         point="at.bestsolution.efxclipse.runtime.theme">
+      <theme
+            basestylesheet="css/default.css"
+            id="themes.default"
+            name="Default theme">
+      </theme>
+   </extension>
+
+</plugin>

@@ -1,0 +1,7 @@
+Bug fixes:
+	- Bad cancel management in sub wizard context
+
+Improvement:
+	- Save all
+	- Undo/Redo management
+	- CSS styling 
