@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -22,6 +23,7 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewElement;
+import org.eclipse.swt.widgets.Composite;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
@@ -31,14 +33,14 @@ import com.google.common.collect.UnmodifiableIterator;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class AbstractPropertiesEditingView<T> implements PropertiesEditingView<T> {
+public abstract class AbstractPropertiesEditingView implements PropertiesEditingView {
 	
 	protected EEFServiceRegistry serviceRegistry;
 	protected PropertiesEditingComponent editingComponent;
 	protected View viewDescriptor;
 	
 	protected Map<ViewElement, PropertyEditor> propertyEditors;
-	protected T contentsComposite;
+	protected Composite contentsComposite;
 	protected ViewService service;
 	
 	/**
@@ -115,7 +117,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getContents()
 	 */
-	public T getContents() {
+	public Composite getContents() {
 		return contentsComposite;
 	}
 

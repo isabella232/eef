@@ -12,12 +12,13 @@ import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewElement;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface PropertiesEditingView<T> extends PropertiesEditingListener {
+public interface PropertiesEditingView extends PropertiesEditingListener {
 
 	/**
 	 * Defines the {@link EEFServiceRegistry} to use in the current view.
@@ -55,7 +56,7 @@ public interface PropertiesEditingView<T> extends PropertiesEditingListener {
 	/**
 	 * @return the {@link Composite} containing view contents.
 	 */
-	T getContents();
+	Composite getContents();
 	
 	/**
 	 * Initializes the view.
