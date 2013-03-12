@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
@@ -24,9 +25,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.ui.platform.application.E4EEFSupportConstants;
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.EditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl.EditingContextEditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl.URIEditingInput;
@@ -47,6 +50,7 @@ public class E4EEFPart {
 
 	@Inject
 	private EEFServiceRegistry serviceRegistry;
+	private MPart mPart;
 
 
 	/**
@@ -54,7 +58,8 @@ public class E4EEFPart {
 	 * @param parent
 	 */
 	@Inject
-	public E4EEFPart(EEFServiceRegistry serviceRegistry, Composite parent) {
+	public E4EEFPart(MPart mPart, EEFServiceRegistry serviceRegistry, Composite parent) {
+		this.mPart = mPart;
 		viewer = new EEFViewer(parent, SWT.NONE);
 		viewer.setContentProvider(new EEFContentProvider());
 
@@ -78,13 +83,16 @@ public class E4EEFPart {
 			commandStack.addCommandStackListener(new EEFCommandStackListener((BasicCommandStack) commandStack, viewer.getControl(), dirty));
 		}
 		if (input instanceof EditingContextEditingInput) {
-			viewer.setInput(((EditingContextEditingInput) input).getEditingContext());
+			DomainAwarePropertiesEditingContext context = ((EditingContextEditingInput) input).getEditingContext();
+			context.getOptions().setOption(E4EEFSupportConstants.MODELPART_OPTION_KEY, mPart);
+			viewer.setInput(context);
 		} else if (input instanceof URIEditingInput) {
 			Resource resource = editingDomain.getResourceSet().getResource(((URIEditingInput) input).getUri(), true);
 			EObject root = resource.getContents().get(0);
 			PropertiesEditingContextFactory contextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, root);
 			//TODO: is the ED always an AFED ?
 			PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext((AdapterFactoryEditingDomain)editingDomain, root);
+			editingContext.getOptions().setOption("ModelPart", mPart);
 			viewer.setInput(editingContext);
 		}
 	}

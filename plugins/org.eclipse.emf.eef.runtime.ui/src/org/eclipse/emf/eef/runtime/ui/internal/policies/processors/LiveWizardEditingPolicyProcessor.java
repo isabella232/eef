@@ -36,9 +36,9 @@ public class LiveWizardEditingPolicyProcessor extends LiveEditingPolicyProcessor
 		Object newValue = behavior.value;
 		switch (behavior.processingKind) {
 		case EDIT:
-			if (newValue == null) {
-				PropertiesEditingContextFactory editingContextFactory = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, eObject);
-				PropertiesEditingContext context = editingContextFactory.createPropertiesEditingContext(editingContext, eObject);
+			if (newValue != null) {
+				PropertiesEditingContextFactory editingContextFactory = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, (EObject)newValue);
+				PropertiesEditingContext context = editingContextFactory.createPropertiesEditingContext(editingContext, (EObject)newValue);
 				context.getOptions().setBatchMode(true);
 				context.getOptions().setOption(UIConstants.FORM_TOOLKIT, null);
 				WizardEditingCommand wizardEditingCommand = new WizardEditingCommand(context);

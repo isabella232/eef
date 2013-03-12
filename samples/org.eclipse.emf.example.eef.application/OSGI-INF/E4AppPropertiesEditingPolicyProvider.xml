@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.eclipse.emf.example.eef.application.services.policies.E4AppPropertiesEditingPolicyProvider">
+   <implementation class="org.eclipse.emf.example.eef.application.services.policies.E4AppPropertiesEditingPolicyProvider"/>
+   <service>
+      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
+      <provide interface="org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider"/>
+   </service>
+   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.UIPropertiesEditingPolicyProvider"/>
+</scr:component>

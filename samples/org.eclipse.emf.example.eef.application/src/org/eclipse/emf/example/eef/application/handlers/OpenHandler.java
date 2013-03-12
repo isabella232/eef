@@ -33,6 +33,7 @@ import org.eclipse.emf.eef.runtime.ui.viewer.filters.ViewFilter;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewsRepository;
 import org.eclipse.emf.example.eef.application.ConferenceApplicationConstants;
+import org.eclipse.emf.example.eef.application.ConferenceManagerActivator;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

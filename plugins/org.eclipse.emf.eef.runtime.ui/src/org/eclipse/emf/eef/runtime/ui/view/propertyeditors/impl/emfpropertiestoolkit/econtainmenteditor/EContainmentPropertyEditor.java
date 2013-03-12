@@ -182,7 +182,7 @@ public class EContainmentPropertyEditor implements PropertyEditor, MultivaluedPr
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#edit(java.lang.Object)
 				 */
 				public void edit(Object editedElement) {
-					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.EDIT, editedElement, null));
+					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.EDIT, null, editedElement));
 					propertyEditorViewer.getViewer().refresh();
 				}
 
