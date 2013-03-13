@@ -10,12 +10,13 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoo
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor.EReferencePropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EMFPropertiesToolkit extends ToolkitPropertyEditorProvider {
+public class EMFPropertiesToolkit extends ToolkitPropertyEditorProvider<Composite> {
 
 	/**
 	 * EMFProperties toolkit name.

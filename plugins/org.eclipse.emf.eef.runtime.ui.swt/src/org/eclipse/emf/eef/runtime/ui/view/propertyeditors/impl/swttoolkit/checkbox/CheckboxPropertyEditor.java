@@ -15,6 +15,7 @@ import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -22,7 +23,7 @@ import org.eclipse.swt.widgets.Button;
  */
 public class CheckboxPropertyEditor implements PropertyEditor, MonovaluedPropertyEditor {
 
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer;
 
@@ -32,7 +33,7 @@ public class CheckboxPropertyEditor implements PropertyEditor, MonovaluedPropert
 	 * @param view {@link PropertiesEditingView} where the PropertyEditor is built.
 	 * @param viewElement {@link ElementEditor} specifying the Property Editor.
 	 */
-	public CheckboxPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer) {
+	public CheckboxPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;

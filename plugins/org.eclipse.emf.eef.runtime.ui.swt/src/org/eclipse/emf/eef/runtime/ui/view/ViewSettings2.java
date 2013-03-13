@@ -10,22 +10,7 @@ import org.eclipse.swt.graphics.Image;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface ViewSettings {
-
-	/**
-	 * @return the default MultiEditor height
-	 */
-	int getMultiEditorHeight();
-	
-	/**
-	 * @return the default EEF selection dialogs height 
-	 */
-	int getEEFSelectionDialogHeight();
-	
-	/**
-	 * @return the default EEF selection dialogs width 
-	 */
-	int getEEFSelectionDialogWidth();
+public interface ViewSettings2 {
 
 	/**
 	 * @return the {@link SelectionMode}.

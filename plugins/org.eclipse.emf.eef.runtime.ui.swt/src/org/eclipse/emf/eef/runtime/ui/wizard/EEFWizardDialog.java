@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.wizard;
 
-import org.eclipse.emf.eef.runtime.ui.UIConstants;
+import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
@@ -51,7 +51,7 @@ public class EEFWizardDialog extends WizardDialog {
 	@Override
 	protected Point getInitialSize() {
 		Point initialSize = super.getInitialSize();
-		return new Point(Math.min(UIConstants.INITIAL_WIZARD_SIZE.x, initialSize.x), Math.min(UIConstants.INITIAL_WIZARD_SIZE.y, initialSize.y));
+		return new Point(Math.min(EEFSWTConstants.INITIAL_WIZARD_SIZE.x, initialSize.x), Math.min(EEFSWTConstants.INITIAL_WIZARD_SIZE.y, initialSize.y));
 	}
 
 

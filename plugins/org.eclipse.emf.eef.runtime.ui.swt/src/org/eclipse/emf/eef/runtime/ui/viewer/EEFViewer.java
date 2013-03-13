@@ -8,15 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
-import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandler;
@@ -138,13 +135,13 @@ public class EEFViewer extends ContentViewer {
 					try {
 						CTabItem item = new CTabItem(folder, SWT.NONE);
 						item.setText(viewDescriptor.getName());
-						PropertiesEditingView view = propertiesEditingViewHandler.createView(component, folder);
+						PropertiesEditingView<Composite> view = propertiesEditingViewHandler.createView(component, folder);
 						view.getContents().setLayoutData(new GridData(GridData.FILL_BOTH));
 						handler.initView(component);
 						item.setControl(view.getContents());
 					} catch (ViewConstructionException e) {
 						EEFLogger logger = handler.getProvider().getServiceRegistry().getService(EEFLogger.class, this);
-						logger.logError(EEFRuntimeUI.PLUGIN_ID, "An error occured during view creation.", e);
+						logger.logError("org.eclipse.emf.eef.runtime.ui.swt", "An error occured during view creation.", e);
 					}
 				}
 			} else if (handler instanceof SWTViewHandler) {
@@ -157,7 +154,8 @@ public class EEFViewer extends ContentViewer {
 					swtViewHandler.createView(viewComposite);
 					handler.initView(component);
 				} catch (ViewConstructionException e) {
-					EEFRuntimeUI.getPlugin().getLog().log(new Status(IStatus.ERROR, EEFRuntimeUI.PLUGIN_ID, "An error occured during view creation.", e));
+					EEFLogger logger = handler.getProvider().getServiceRegistry().getService(EEFLogger.class, this);
+					logger.logError("org.eclipse.emf.eef.runtime.ui.swt", "An error occured during view creation.", e);
 				}
 				item.setControl(viewComposite);
 			}

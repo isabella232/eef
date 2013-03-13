@@ -7,12 +7,13 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyE
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class UndefinedEditorsToolkit extends ToolkitPropertyEditorProvider {
+public class UndefinedEditorsToolkit extends ToolkitPropertyEditorProvider<Composite> {
 
 	/**
 	 * Undefined Editors Toolkit name.

@@ -26,7 +26,7 @@ public class ComboSWTPropertyEditor extends StandardSWTPropertyEditor<ComboViewe
 	 * @param view
 	 * @param viewElement
 	 */
-	public ComboSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public ComboSWTPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
 	}
 

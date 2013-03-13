@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView implements SWTPropertiesEditingView {
+public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<Composite> implements SWTPropertiesEditingView {
 
 	/**
 	 * @param editingComponent

@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.ui.UIConstants;
+import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor;
@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLinePropertyViewer> {
 
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	private MultiLinePropertyViewer multiLinePropertyViewer;
 
@@ -28,7 +28,7 @@ public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLineP
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EReferenceSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public EReferenceSWTPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}

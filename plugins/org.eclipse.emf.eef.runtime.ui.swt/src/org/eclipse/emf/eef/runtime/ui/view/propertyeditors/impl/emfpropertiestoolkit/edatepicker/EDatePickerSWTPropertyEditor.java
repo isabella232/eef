@@ -27,7 +27,7 @@ public class EDatePickerSWTPropertyEditor extends StandardSWTPropertyEditor<Sing
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EDatePickerSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public EDatePickerSWTPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
 	}
 

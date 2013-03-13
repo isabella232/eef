@@ -27,7 +27,7 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLin
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EComboSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public EComboSWTPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
 	}
 

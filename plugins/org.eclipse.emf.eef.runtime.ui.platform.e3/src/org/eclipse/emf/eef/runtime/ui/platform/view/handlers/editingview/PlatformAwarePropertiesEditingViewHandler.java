@@ -5,7 +5,7 @@ package org.eclipse.emf.eef.runtime.ui.platform.view.handlers.editingview;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
-import org.eclipse.emf.eef.runtime.ui.UIConstants;
+import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.internal.view.impl.SWTImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.platform.internal.view.impl.FormImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -37,7 +37,7 @@ public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditing
 		if (view == null) {
 			if (args.length > 1 && args[0] instanceof PropertiesEditingComponent && args[1] instanceof Composite) {
 				PropertiesEditingComponent editingComponent = (PropertiesEditingComponent) args[0];
-				FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
+				FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 				if (toolkit != null) {
 					view = new FormImplPropertiesEditingView(editingComponent, viewDescriptor);
 					view.setServiceRegistry(handlerProvider.getServiceRegistry());

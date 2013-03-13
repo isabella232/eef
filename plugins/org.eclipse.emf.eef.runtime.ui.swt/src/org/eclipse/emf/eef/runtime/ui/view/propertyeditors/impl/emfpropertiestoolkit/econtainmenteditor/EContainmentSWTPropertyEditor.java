@@ -4,7 +4,6 @@
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor;
@@ -20,7 +19,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLinePropertyViewer> {
 
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	private MultiLinePropertyViewer multiLinePropertyViewer;
 
@@ -28,7 +27,7 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLin
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EContainmentSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public EContainmentSWTPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}

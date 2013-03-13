@@ -7,6 +7,7 @@ import org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util.EEF
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
@@ -21,7 +22,7 @@ public abstract class StandardSWTControlPropertyEditor<CONTROL extends Control> 
 	 * @param view
 	 * @param viewElement
 	 */
-	public StandardSWTControlPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public StandardSWTControlPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
 	}
 

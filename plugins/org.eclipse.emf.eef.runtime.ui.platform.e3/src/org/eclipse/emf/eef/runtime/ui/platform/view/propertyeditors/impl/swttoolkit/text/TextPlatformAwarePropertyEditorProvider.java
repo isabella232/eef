@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.text;
 
-import org.eclipse.emf.eef.runtime.ui.UIConstants;
+import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditorProvider;
@@ -22,7 +22,7 @@ public class TextPlatformAwarePropertyEditorProvider extends TextPropertyEditorP
 	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
 	public PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
-		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(UIConstants.FORM_TOOLKIT);
+		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
 			return new TextPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new TextFormPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));			
 		} else {

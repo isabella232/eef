@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrapperViewer<Button>> {
 
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected Button checkbox;
 	
@@ -28,7 +28,7 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 	 * @param view
 	 * @param viewElement
 	 */
-	public CheckboxSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public CheckboxSWTPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}

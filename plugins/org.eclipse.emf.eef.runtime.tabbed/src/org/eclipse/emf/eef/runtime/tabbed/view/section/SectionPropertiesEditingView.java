@@ -18,7 +18,7 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.tabbed.EEFRuntimeTabbed;
 import org.eclipse.emf.eef.runtime.tabbed.internal.view.util.DescriptorHelper;
 import org.eclipse.emf.eef.runtime.tabbed.internal.view.util.ValidationMessageInjector;
-import org.eclipse.emf.eef.runtime.ui.UIConstants;
+import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.ui.platform.internal.view.impl.FormImplPropertiesEditingView;
@@ -120,7 +120,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 					disposeComponentIfExist();
 					PropertiesEditingContextFactory contextFactory = EEFRuntimeTabbed.getPlugin().getServiceRegistry().getService(PropertiesEditingContextFactory.class, eObject);
 					PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext(editingDomain, adapterFactory, eObject);
-					editingContext.getOptions().setOption(UIConstants.FORM_TOOLKIT, tabbedPropertySheetPage.getWidgetFactory());
+					editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, tabbedPropertySheetPage.getWidgetFactory());
 					editingContext.getOptions().setMessageManager(initMessageManager());
 					editingComponent = editingContext.getEditingComponent();
 					editingComponent.addEditingListener(this);

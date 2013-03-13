@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public abstract class StandardSWTPropertyEditor<VIEWER extends Viewer> implements SWTPropertyEditor<VIEWER> {
 	
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	
 	
@@ -23,7 +23,7 @@ public abstract class StandardSWTPropertyEditor<VIEWER extends Viewer> implement
 	 * @param view {@link PropertiesEditingView} where the PropertyEditor is built.
 	 * @param viewElement {@link ElementEditor} specifying the Property Editor.
 	 */
-	public StandardSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public StandardSWTPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}

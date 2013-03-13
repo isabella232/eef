@@ -12,12 +12,13 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.text.
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class SWTToolkit extends ToolkitPropertyEditorProvider {
+public class SWTToolkit extends ToolkitPropertyEditorProvider<Composite> {
 
 	/**
 	 * SWT Toolkit name.

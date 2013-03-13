@@ -22,12 +22,12 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditingView> {
+public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditingView<Composite>> {
 
 	protected View viewDescriptor;
 	protected PropertiesEditingViewHandlerProvider handlerProvider;
 	protected PropertiesEditingComponent editingComponent;
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	
 	/**
 	 * @param handlerProvider 
@@ -50,7 +50,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#createView(java.lang.Object[])
 	 */
-	public PropertiesEditingView createView(Object... args) throws ViewConstructionException {
+	public PropertiesEditingView<Composite> createView(Object... args) throws ViewConstructionException {
 		if (view == null) {
 			if (args.length > 1 && args[0] instanceof PropertiesEditingComponent && args[1] instanceof Composite) {
 				PropertiesEditingComponent editingComponent = (PropertiesEditingComponent) args[0];
@@ -92,7 +92,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getView()
 	 */
-	public PropertiesEditingView getView() { 
+	public PropertiesEditingView<Composite> getView() { 
 		return view;
 	}
 
@@ -100,7 +100,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * Force the view of this {@link ViewHandler}.
 	 * @param propertiesEditingView the view to define for this handler.
 	 */
-	public void setView(PropertiesEditingView propertiesEditingView) {
+	public void setView(PropertiesEditingView<Composite> propertiesEditingView) {
 		view = propertiesEditingView;
 	}
 

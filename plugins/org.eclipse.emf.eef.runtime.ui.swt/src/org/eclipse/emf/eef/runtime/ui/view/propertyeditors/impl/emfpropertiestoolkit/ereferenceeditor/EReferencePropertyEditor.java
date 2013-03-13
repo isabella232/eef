@@ -25,6 +25,7 @@ import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -32,7 +33,7 @@ import org.eclipse.swt.layout.GridData;
  */
 public class EReferencePropertyEditor implements PropertyEditor, MultivaluedPropertyEditor {
 
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer;
 
@@ -43,7 +44,7 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 	 * @param view
 	 * @param viewElement
 	 */
-	public EReferencePropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
+	public EReferencePropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;

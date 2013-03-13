@@ -16,6 +16,7 @@ import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 import com.google.common.collect.Maps;
@@ -26,7 +27,7 @@ import com.google.common.collect.Maps;
  */
 public class EditingViewNotifier extends AbstractEEFService<Object> implements EEFNotifier {
 
-	private Map<PropertiesEditingView, DecorationSettings> decorationSettings;
+	private Map<PropertiesEditingView<Composite>, DecorationSettings> decorationSettings;
 	
 	public EditingViewNotifier() {
 		decorationSettings = Maps.newHashMap();
@@ -46,7 +47,7 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 	 */
 	public void notify(Object view, final EEFNotification notification) {
 		if (view instanceof PropertiesEditingView) {
-			PropertiesEditingView editingView = (PropertiesEditingView) view;
+			PropertiesEditingView<Composite> editingView = (PropertiesEditingView<Composite>) view;
 			if (notification instanceof EEFPropertyNotification) {
 				editingView.getViewService().executeAsyncUIRunnable(editingView.getContents().getDisplay(), new AddDecorationOnEditor(editingView, (EEFPropertyNotification) notification));
 			} else {
@@ -61,7 +62,7 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 	 */
 	public void clearViewNotification(Object view) {
 		if (view instanceof PropertiesEditingView) {
-			PropertiesEditingView editingView = (PropertiesEditingView) view;
+			PropertiesEditingView<Composite> editingView = (PropertiesEditingView<Composite>) view;
 			editingView.getViewService().executeAsyncUIRunnable(editingView.getContents().getDisplay(), new RemoveDecorationOnView(editingView));
 		}
 	}
@@ -72,7 +73,7 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 	 */
 	public void clearEditorNotification(Object view, Object editor) {
 		if (view instanceof PropertiesEditingView) {
-			PropertiesEditingView editingView = (PropertiesEditingView) view;
+			PropertiesEditingView<Composite> editingView = (PropertiesEditingView<Composite>) view;
 			if (editor instanceof ViewElement) {
 				editingView.getViewService().executeAsyncUIRunnable(editingView.getContents().getDisplay(), new RemoveDecorationOnEditor(editingView, (ViewElement) editor));
 			}
@@ -93,9 +94,9 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 	
 	private class AbstractAddDecoration {
 		
-		protected PropertiesEditingView view;
+		protected PropertiesEditingView<Composite> view;
 		
-		public AbstractAddDecoration(PropertiesEditingView view) {
+		public AbstractAddDecoration(PropertiesEditingView<Composite> view) {
 			this.view = view;
 		}
 
@@ -128,7 +129,7 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 
 		private EEFPropertyNotification notification;
 
-		public AddDecorationOnEditor(PropertiesEditingView editingView, EEFPropertyNotification notification) {
+		public AddDecorationOnEditor(PropertiesEditingView<Composite> editingView, EEFPropertyNotification notification) {
 			super(editingView);
 			this.notification = notification;
 		}
@@ -170,7 +171,7 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 
 		private EEFNotification notification;
 
-		public AddDecorationOnView(PropertiesEditingView editingView, EEFNotification notification) {
+		public AddDecorationOnView(PropertiesEditingView<Composite> editingView, EEFNotification notification) {
 			super(editingView);
 			this.notification = notification;
 		}
@@ -198,10 +199,10 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 
 	private final class RemoveDecorationOnEditor implements Runnable {
 		
-		private PropertiesEditingView view;
+		private PropertiesEditingView<Composite> view;
 		private ViewElement editor;
 
-		public RemoveDecorationOnEditor(PropertiesEditingView editingView, ViewElement editor) {
+		public RemoveDecorationOnEditor(PropertiesEditingView<Composite> editingView, ViewElement editor) {
 			this.view = editingView;
 			this.editor = editor;
 		}
@@ -222,9 +223,9 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 
 	private final class RemoveDecorationOnView implements Runnable {
 
-		private PropertiesEditingView view;
+		private PropertiesEditingView<Composite> view;
 		
-		public RemoveDecorationOnView(PropertiesEditingView editingView) {
+		public RemoveDecorationOnView(PropertiesEditingView<Composite> editingView) {
 			this.view = editingView;
 		}
 

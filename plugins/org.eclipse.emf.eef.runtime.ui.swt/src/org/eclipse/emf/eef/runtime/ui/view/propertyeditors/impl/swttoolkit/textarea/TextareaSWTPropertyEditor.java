@@ -23,7 +23,7 @@ public class TextareaSWTPropertyEditor extends StandardSWTControlPropertyEditor<
 	 * @param view
 	 * @param viewElement
 	 */
-	public TextareaSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public TextareaSWTPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
 	}
 

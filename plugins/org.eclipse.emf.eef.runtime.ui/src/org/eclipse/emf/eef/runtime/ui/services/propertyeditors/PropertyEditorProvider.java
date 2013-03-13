@@ -12,14 +12,14 @@ import org.eclipse.emf.eef.views.ViewElement;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface PropertyEditorProvider {
+public interface PropertyEditorProvider<T> {
 	
 	/**
 	 * Return the PropertyEditor for this ElementEditor
 	 * @param editorContext {@link PropertyEditorContext} to process.
 	 * @return the {@link PropertyEditor} for the given {@link ElementEditor}. 
 	 */
-	PropertyEditor getPropertyEditor(PropertyEditorContext editorContext);
+	PropertyEditor getPropertyEditor(PropertyEditorContext<T> editorContext);
 	
 	/**
 	 * Represents a context for a {@link PropertyEditor} composed of:
@@ -28,16 +28,16 @@ public interface PropertyEditorProvider {
 	 *  
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
 	 */
-	public final class PropertyEditorContext {
+	public final class PropertyEditorContext<T> {
 		
-		public PropertiesEditingView view;
+		public PropertiesEditingView<T> view;
 		public ViewElement viewElement;
 		
 		/**
 		 * @param view
 		 * @param viewElement
 		 */
-		public PropertyEditorContext(PropertiesEditingView view, ViewElement viewElement) {
+		public PropertyEditorContext(PropertiesEditingView<T> view, ViewElement viewElement) {
 			this.view = view;
 			this.viewElement = viewElement;
 		}

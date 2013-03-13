@@ -23,7 +23,7 @@ public class TextSWTPropertyEditor extends StandardSWTControlPropertyEditor<Text
 	 * @param view
 	 * @param viewElement
 	 */
-	public TextSWTPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public TextSWTPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
 	}
 

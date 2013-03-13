@@ -19,6 +19,7 @@ import org.eclipse.emf.eef.runtime.ui.widgets.util.EEFViewerInput;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -26,7 +27,7 @@ import org.eclipse.swt.layout.GridData;
  */
 public class EDatePackerPropertyEditor implements PropertyEditor, MonovaluedPropertyEditor {
 
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
 	private EStructuralFeature feature;
@@ -37,7 +38,7 @@ public class EDatePackerPropertyEditor implements PropertyEditor, MonovaluedProp
 	 * @param elementEditor
 	 * @param propertyEditorViewer
 	 */
-	public EDatePackerPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+	public EDatePackerPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;

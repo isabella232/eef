@@ -8,25 +8,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 /**
- * UI Interface Constants for EEF
+ * UI Interface Constants for EEF swt-dependant.
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  */
-public interface UIConstants {
-
-	/**
-	 * ReferenceEditor Height
-	 */
-	final int MULTI_EDITOR_HEIGHT = 180;
-	
-	/**
-	 * EEF Selection Dialog Width
-	 */
-	final int EEF_SELECTION_DIALOG_WIDTH = 500;
-	
-	/**
-	 * EEF Selection Dialog Width
-	 */
-	final int EEF_SELECTION_DIALOG_HEIGHT = 350;
+public interface EEFSWTConstants {
 
 	/**
 	 * Defines the initial size for the Editing wizard.
@@ -53,8 +38,4 @@ public interface UIConstants {
 	 */
 	final Image LOCK_DECORATOR = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_CONTENT_PROPOSAL).getImage();
 
-	/**
-	 * Defines the default width of a Table column in EEF.
-	 */
-	public static final int DEFAULT_COLUMN_WIDTH = 100;
 }

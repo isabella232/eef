@@ -17,6 +17,7 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -25,7 +26,7 @@ import org.eclipse.swt.widgets.Text;
  */
 public class TextareaPropertyEditor implements PropertyEditor, MonovaluedPropertyEditor {
 
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<EEFControlWrapperViewer<Text>> propertyEditorControl;
 
@@ -36,7 +37,7 @@ public class TextareaPropertyEditor implements PropertyEditor, MonovaluedPropert
 	 * @param viewElement
 	 * @param propertyEditorViewer
 	 */
-	public TextareaPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<EEFControlWrapperViewer<Text>> propertyEditorViewer) {
+	public TextareaPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<EEFControlWrapperViewer<Text>> propertyEditorViewer) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorControl = propertyEditorViewer;

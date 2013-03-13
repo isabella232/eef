@@ -1,7 +1,7 @@
 package org.eclipse.emf.eef.runtime.tabbed.internal.view.util;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.emf.eef.runtime.ui.UIConstants;
+import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -50,19 +50,19 @@ public class ValidationMessageInjector {
 				CLabel messageControl = getMessage();
 				messageControl.setText("Errors");
 				messageControl.setForeground(propertyComposite.getDisplay().getSystemColor(SWT.COLOR_RED));
-				messageControl.setImage(UIConstants.ERROR_DECORATOR);
+				messageControl.setImage(EEFSWTConstants.ERROR_DECORATOR);
 				messageControl.setToolTipText(message);
 			} else if (severity == IStatus.WARNING) {
 				CLabel messageControl = getMessage();
 				messageControl.setText("Warnings");
 				messageControl.setForeground(propertyComposite.getDisplay().getSystemColor(SWT.COLOR_DARK_YELLOW));
-				messageControl.setImage(UIConstants.WARNING_DECORATOR);
+				messageControl.setImage(EEFSWTConstants.WARNING_DECORATOR);
 				messageControl.setToolTipText(message);
 			} else if (severity == EEFNotification.LOCK) {
 				CLabel messageControl = getMessage();
 				messageControl.setText("Lock");
 				messageControl.setForeground(propertyComposite.getDisplay().getSystemColor(SWT.COLOR_DARK_GREEN));
-				messageControl.setImage(UIConstants.LOCK_DECORATOR);
+				messageControl.setImage(EEFSWTConstants.LOCK_DECORATOR);
 				messageControl.setToolTipText(message);
 			} else {
 				dispose();

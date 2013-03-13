@@ -10,7 +10,7 @@ import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorPro
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface ModelPropertyEditorProvider<T extends EObject> extends PropertyEditorProvider {
+public interface ModelPropertyEditorProvider<T extends EObject,U> extends PropertyEditorProvider<U> {
 
 	/**
 	 * @return the model for this provider.

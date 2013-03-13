@@ -17,6 +17,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.widgets.Composite;
 
 import com.google.common.collect.Lists;
 
@@ -26,7 +27,7 @@ import com.google.common.collect.Lists;
  */
 public class ComboPropertyEditor implements PropertyEditor, MonovaluedPropertyEditor {
 
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<ComboViewer> propertyEditorControl;
 
@@ -37,7 +38,7 @@ public class ComboPropertyEditor implements PropertyEditor, MonovaluedPropertyEd
 	 * @param viewElement
 	 * @param propertyEditorViewer
 	 */
-	public ComboPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor, PropertyEditorViewer<ComboViewer> propertyEditorViewer) {
+	public ComboPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<ComboViewer> propertyEditorViewer) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorControl = propertyEditorViewer;

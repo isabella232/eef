@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceEditingPolicy;
-import org.eclipse.emf.eef.runtime.ui.UIConstants;
+import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.wizard.EEFEditingWizard;
 import org.eclipse.emf.eef.runtime.ui.wizard.EEFWizardDialog;
 import org.eclipse.jface.window.Window;
@@ -38,7 +38,7 @@ public abstract class EReferenceWizardEditingPolicy extends EReferenceEditingPol
 	}
 
 	private EObject createObjectAndOpenWizard(PropertiesEditingContext editingContext, EReference editedReference) {
-		editingContext.getOptions().setOption(UIConstants.FORM_TOOLKIT, null);
+		editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
 		EEFEditingWizard wizard = new EEFEditingWizard(editingContext) {
 
 			/**

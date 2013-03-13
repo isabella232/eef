@@ -8,12 +8,13 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEd
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EComboPropertyEditorProvider implements WidgetPropertyEditorProvider {
+public class EComboPropertyEditorProvider implements WidgetPropertyEditorProvider<Composite> {
 
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
 	
@@ -33,7 +34,7 @@ public class EComboPropertyEditorProvider implements WidgetPropertyEditorProvide
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProvider#serviceFor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public boolean serviceFor(PropertyEditorContext editorContext) {
+	public boolean serviceFor(PropertyEditorContext<Composite> editorContext) {
 		return getModel() == editorContext.viewElement.getRepresentation();
 	}
 
@@ -41,7 +42,7 @@ public class EComboPropertyEditorProvider implements WidgetPropertyEditorProvide
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
+	public PropertyEditor getPropertyEditor(PropertyEditorContext<Composite> editorContext) {
 		return new EComboPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new EComboSWTPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 
