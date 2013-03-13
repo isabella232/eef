@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiesto
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
+import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
@@ -104,7 +105,7 @@ public class EComboPropertyEditor implements PropertyEditor, MonovaluedPropertyE
 									view.getEditingComponent().getEditingContext().getAdapterFactory(), 
 									view.getEditingComponent().getEObject(), 
 									EComboPropertyEditor.this.feature, 
-									view.getViewSettings().getSelectionMode()));
+									EEFSWTConstants.DEFAULT_SELECTION_MODE));
 					dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
 					if (dialog.open() == Window.OK) {
 						if (dialog.getSelection() != null) {

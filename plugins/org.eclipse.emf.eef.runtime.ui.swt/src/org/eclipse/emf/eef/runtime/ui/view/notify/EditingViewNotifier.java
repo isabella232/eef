@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
+import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
@@ -15,6 +16,7 @@ import org.eclipse.emf.eef.runtime.view.notify.EEFPropertyNotification;
 import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -101,7 +103,7 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 		}
 
 		protected ControlDecoration decorateControl(final Control control, final EEFNotification notification) {
-			final int position = view.getViewSettings().getDecoratorPositioning();
+			final int position = EEFSWTConstants.DECORATOR_POSITIONING;
 			ControlDecoration decoration = new ControlDecoration(control, position);
 			updateDecoration(decoration, notification);
 			return decoration;
@@ -110,11 +112,11 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 		protected ControlDecoration updateDecoration(final ControlDecoration decoration, final EEFNotification notification) {
 			Image image = null;
 			if (notification.getKind() == EEFNotification.ERROR) {
-				image = view.getViewSettings().getErrorDecorationImage();
+				image = EEFSWTConstants.ERROR_DECORATOR;
 			} else if (notification.getKind() == EEFNotification.WARNING) {
-				image = view.getViewSettings().getWarningDecorationImage();	
+				image = EEFSWTConstants.WARNING_DECORATOR;	
 			} else if (notification.getKind() == EEFNotification.LOCK) {
-				image = view.getViewSettings().getLockDecorationImage();	
+				image = EEFSWTConstants.LOCK_DECORATOR;	
 			}
 			if (image != null) {
 				decoration.setDescriptionText(notification.getMessage());
@@ -142,24 +144,27 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 			Object editor = ((EEFPropertyNotification) notification).getEditor();
 			if (editor instanceof ViewElement) {
 				PropertyEditor propertyEditor = view.getPropertyEditor((ViewElement) editor);
-				final Control control = propertyEditor.getPropertyEditorViewer().getViewer().getControl();
-				DecorationSettings settings = decorationSettings.get(view);
-				if (settings != null) {
-					ControlDecoration existingDecoration = settings.decorations.get(editor);
-					if (existingDecoration != null) {
-						updateDecoration(existingDecoration, notification);
+				Object viewer = propertyEditor.getPropertyEditorViewer().getViewer();
+				if (viewer instanceof Viewer) {
+					final Control control = ((Viewer) viewer).getControl();
+					DecorationSettings settings = decorationSettings.get(view);
+					if (settings != null) {
+						ControlDecoration existingDecoration = settings.decorations.get(editor);
+						if (existingDecoration != null) {
+							updateDecoration(existingDecoration, notification);
+						} else {
+							ControlDecoration decoration = decorateControl(control, notification);
+							if (decoration != null) {
+								settings.decorations.put(editor, decoration);
+							}
+						}
 					} else {
 						ControlDecoration decoration = decorateControl(control, notification);
 						if (decoration != null) {
+							settings = new DecorationSettings();
+							decorationSettings.put(view, settings);
 							settings.decorations.put(editor, decoration);
 						}
-					}
-				} else {
-					ControlDecoration decoration = decorateControl(control, notification);
-					if (decoration != null) {
-						settings = new DecorationSettings();
-						decorationSettings.put(view, settings);
-						settings.decorations.put(editor, decoration);
 					}
 				}
 			}
@@ -216,7 +221,10 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 			if (settings != null && settings.decorations.get(editor) != null) {
 				settings.decorations.get(editor).dispose();
 				settings.decorations.remove(editor);
-				view.getPropertyEditor(editor).getPropertyEditorViewer().getViewer().getControl().getParent().redraw();
+				Object viewer = view.getPropertyEditor(editor).getPropertyEditorViewer().getViewer();
+				if (viewer instanceof Viewer) {
+					((Viewer) viewer).getControl().getParent().redraw();
+				}
 			}
 		}
 	}

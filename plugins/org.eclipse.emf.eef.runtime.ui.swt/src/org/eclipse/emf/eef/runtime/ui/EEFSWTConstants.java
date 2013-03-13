@@ -3,7 +3,9 @@
  */
 package org.eclipse.emf.eef.runtime.ui;
 
+import org.eclipse.emf.eef.runtime.ui.widgets.util.SelectionMode;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
@@ -22,6 +24,16 @@ public interface EEFSWTConstants {
 	 * Defines a constant for the FormToolkit option's key.
 	 */
 	final String FORM_TOOLKIT = "FORM_TOOLKIT";
+	
+	/**
+	 * Defines the defaults selection mode.
+	 */
+	final SelectionMode DEFAULT_SELECTION_MODE = SelectionMode.TREE;
+	
+	/**
+	 * Defines the default decorator positioning
+	 */
+	final int DECORATOR_POSITIONING = SWT.TOP | SWT.LEFT;
 
 	/**
 	 * Defines the default image to use as error decorator.

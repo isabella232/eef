@@ -15,6 +15,7 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.editor
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -48,8 +49,8 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 	private void buildElement(Composite currentContainer, EObject content) {
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;
-			PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
-			ToolkitPropertyEditorProvider propertyEditorProvider = serviceRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
+			PropertyEditorContext<Composite> editorContext = new PropertyEditorContext<Composite>(this, elementEditor);
+			ToolkitPropertyEditorProvider<Composite> propertyEditorProvider = serviceRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof SWTPropertyEditor) {
@@ -59,8 +60,8 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 			}
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
-			PropertyEditorContext editorContext = new PropertyEditorContext(this, container);
-			ToolkitPropertyEditorProvider propertyEditorProvider = serviceRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
+			PropertyEditorContext<Composite> editorContext = new PropertyEditorContext<Composite>(this, container);
+			ToolkitPropertyEditorProvider<Composite> propertyEditorProvider = serviceRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof SWTPropertyEditor) {
@@ -68,7 +69,7 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 					this.propertyEditors.put(container, propertyEditor);
 					if (!(propertyEditor instanceof UndefinedPropertyEditor)) {
 						for (EObject subContent : content.eContents()) {
-							buildElement((Composite) propertyEditor.getPropertyEditorViewer().getViewer().getControl(), subContent);
+							buildElement((Composite)((Viewer) propertyEditor.getPropertyEditorViewer().getViewer()).getControl(), subContent);
 						}
 					}
 				}

@@ -56,8 +56,8 @@ public class ToolkitResource extends ResourceImpl {
 					toManage = EEFRuntimeUI.getPlugin().getBundle().getBundleContext().installBundle(uri.segment(0));
 				} 
 				@SuppressWarnings("unchecked")
-				Class<org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider> toolkitClass = (Class<ToolkitPropertyEditorProvider>) toManage.loadClass(uri.lastSegment());
-				ToolkitPropertyEditorProvider toolkitProvider = toolkitClass.newInstance();
+				Class<org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider<?>> toolkitClass = (Class<ToolkitPropertyEditorProvider<?>>) toManage.loadClass(uri.lastSegment());
+				ToolkitPropertyEditorProvider<?> toolkitProvider = toolkitClass.newInstance();
 				Toolkit model = toolkitProvider.getModel();
 				getContents().add(model);
 			} catch (InstantiationException e) {

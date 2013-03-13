@@ -22,6 +22,7 @@ import org.eclipse.emf.eef.runtime.view.notify.impl.LockNotification;
 import org.eclipse.emf.eef.runtime.view.notify.impl.PropertyLockNotification;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.ViewElement;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -43,7 +44,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	 */
 	public void initView(Object view) {
 		if (view instanceof PropertiesEditingView) {
-			PropertiesEditingView editingView = (PropertiesEditingView) view;
+			PropertiesEditingView<Composite> editingView = (PropertiesEditingView<Composite>) view;
 			PropertiesEditingComponent editingComponent = editingView.getEditingComponent();
 			EObject editedEObject = editingComponent.getEObject();
 			Collection<EEFLockPolicy> policies = editingComponent.getLockPolicies();
@@ -55,7 +56,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 		}
 	}
 
-	private void checkViewLockingTowardsPolicies(PropertiesEditingView editingView, EObject editedEObject, Collection<EEFLockPolicy> policies) {
+	private void checkViewLockingTowardsPolicies(PropertiesEditingView<Composite> editingView, EObject editedEObject, Collection<EEFLockPolicy> policies) {
 		for (EEFLockPolicy lockPolicy : policies) {
 			if (lockPolicy.isLocked(editingView.getEditingComponent().getEditingContext(), editedEObject)) {
 				lockView(editingView);
@@ -63,7 +64,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 		}
 	}
 
-	private void checkEditorsLockingTowardPolicies(PropertiesEditingView editingView, PropertiesEditingComponent editingComponent,
+	private void checkEditorsLockingTowardPolicies(PropertiesEditingView<Composite> editingView, PropertiesEditingComponent editingComponent,
 			EObject editedEObject, Collection<EEFLockPolicy> policies, boolean autowire, EMFService emfService) {
 		TreeIterator<EObject> viewContents = editingView.getViewModel().eAllContents();
 		while (viewContents.hasNext()) {
@@ -85,7 +86,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	 */
 	public void lockView(Object view) {
 		if (view instanceof PropertiesEditingView) {
-			((PropertiesEditingView) view).lock();
+			((PropertiesEditingView<Composite>) view).lock();
 			EEFNotifier notifier = getServiceRegistry().getService(EEFNotifier.class, view);
 			notifier.notify(view, new LockNotification("This view is locked."));
 		}
@@ -97,7 +98,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	 */
 	public void lockEditor(Object view, Object editor) {
 		if (view instanceof PropertiesEditingView && editor instanceof ViewElement) {
-			PropertyEditor propertyEditor = ((PropertiesEditingView) view).getPropertyEditor((ViewElement) editor);
+			PropertyEditor propertyEditor = ((PropertiesEditingView<Composite>) view).getPropertyEditor((ViewElement) editor);
 			if (propertyEditor != null) {
 				propertyEditor.getPropertyEditorViewer().lock();
 				EEFNotifier notifier = getServiceRegistry().getService(EEFNotifier.class, view);
@@ -112,7 +113,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	 */
 	public void clearViewLock(Object view) {
 		if (view instanceof PropertiesEditingView) {
-			((PropertiesEditingView) view).unlock();
+			((PropertiesEditingView<Composite>) view).unlock();
 			EEFNotifier notifier = getServiceRegistry().getService(EEFNotifier.class, view);
 			notifier.clearViewNotification(view);
 		}		
@@ -124,7 +125,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	 */
 	public void clearEditorLock(Object view, Object editor) {
 		if (view instanceof PropertiesEditingView && editor instanceof ViewElement) {
-			PropertyEditor propertyEditor = ((PropertiesEditingView) view).getPropertyEditor((ViewElement) editor);
+			PropertyEditor propertyEditor = ((PropertiesEditingView<Composite>) view).getPropertyEditor((ViewElement) editor);
 			if (propertyEditor != null) {
 				propertyEditor.getPropertyEditorViewer().unlock();
 				EEFNotifier notifier = getServiceRegistry().getService(EEFNotifier.class, view);
