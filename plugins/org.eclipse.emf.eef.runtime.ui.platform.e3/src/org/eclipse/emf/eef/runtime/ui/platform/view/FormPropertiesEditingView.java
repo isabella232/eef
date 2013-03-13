@@ -11,7 +11,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface FormPropertiesEditingView extends PropertiesEditingView {
+public interface FormPropertiesEditingView extends PropertiesEditingView<Composite> {
 
 	/**
 	 * Create the contents of the view in the given composite using the given toolkit.

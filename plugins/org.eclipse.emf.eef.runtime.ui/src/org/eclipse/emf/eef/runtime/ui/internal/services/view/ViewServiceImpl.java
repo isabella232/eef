@@ -36,13 +36,6 @@ import org.eclipse.emf.eef.views.View;
  */
 public class ViewServiceImpl extends AbstractEEFService<View> implements ViewService, DefaultService {
 		
-	protected static final String EMPTY_STRING = ""; //$NON-NLS-1$
-
-	/**
-	 * Image registry key for help image (value <code>"dialog_help_image"</code> ).
-	 */
-	public static final String DLG_IMG_HELP = "dialog_help_image"; //$NON-NLS-1$
-
 	private PropertiesEditingComponent editingComponent;
 	
 	/**

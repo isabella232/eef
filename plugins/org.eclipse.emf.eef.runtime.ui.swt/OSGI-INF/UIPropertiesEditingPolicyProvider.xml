@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.UIPropertiesEditingPolicyProvider">
-   <implementation class="org.eclipse.emf.eef.runtime.ui.services.policies.UIPropertiesEditingPolicyProvider"/>
+   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.services.policies.UIPropertiesEditingPolicyProvider"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
       <provide interface="org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider"/>

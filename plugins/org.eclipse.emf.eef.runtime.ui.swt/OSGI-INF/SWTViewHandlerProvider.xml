@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.SWTViewHandlerProvider">
-   <implementation class="org.eclipse.emf.eef.runtime.ui.view.handlers.swt.SWTViewHandlerProvider"/>
+   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.view.handlers.swt.SWTViewHandlerProvider"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider"/>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.StandardDoubleClickFactory">
-   <implementation class="org.eclipse.emf.eef.runtime.ui.internal.notify.EEFDoubleClickFactoryImpl"/>
-   <service>
-      <provide interface="org.eclipse.emf.eef.runtime.ui.notify.EEFDoubleClickFactory"/>
-   </service>
-   <reference bind="setServiceRegistry" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.EEFServiceRegistry" name="EEFServiceRegistry" policy="dynamic"/>
-</scr:component>

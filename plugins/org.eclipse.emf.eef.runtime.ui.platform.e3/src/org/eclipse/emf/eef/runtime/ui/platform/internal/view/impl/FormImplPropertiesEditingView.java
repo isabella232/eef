@@ -10,9 +10,7 @@ import org.eclipse.emf.eef.runtime.ui.platform.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.SWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
@@ -24,7 +22,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView implements FormPropertiesEditingView {
+public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView<Composite> implements FormPropertiesEditingView {
 
 	/**
 	 * Non-parameterized constructor for {@link SectionPropertiesEditingView} purpose.
@@ -55,8 +53,8 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 	private void buildElement(FormToolkit toolkit, Composite currentContainer, EObject content) {
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;
-			PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
-			ToolkitPropertyEditorProvider propertyEditorProvider = serviceRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
+			PropertyEditorContext<Composite> editorContext = new PropertyEditorContext<Composite>(this, elementEditor);
+			ToolkitPropertyEditorProvider<Composite> propertyEditorProvider = serviceRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {

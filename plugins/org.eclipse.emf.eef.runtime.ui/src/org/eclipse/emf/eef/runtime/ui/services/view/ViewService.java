@@ -29,21 +29,6 @@ import org.eclipse.emf.eef.views.View;
 public interface ViewService extends EEFService<View> {
 	
 	/**
-	 * Defines the constant for an unknown EEF representation type.
-	 */
-	String UNKNOW_EEF_TYPE = "unknown eef type";
-
-	/**
-	 * Defines the key for the EEF widgets id.
-	 */
-	String EEF_WIDGET_ID_KEY = "org.eclipse.emf.eef.widgets.id";
-
-	/**
-	 * Defines the key for the EEF widgets type.
-	 */
-	String EEF_WIDGET_TYPE_KEY = "org.eclipse.emf.eef.widgets.type";
-
-	/**
 	 * @return the {@link PropertiesEditingComponent} of this helper.
 	 */
 	PropertiesEditingComponent getEditingComponent();
@@ -74,7 +59,6 @@ public interface ViewService extends EEFService<View> {
 	 */
 	String getHelpContent(Object editor);
 	
-	/**
 	/**
 	 * Computes the 'best' input from the given source. Searching the {@link Resource} or
 	 * the {@link ResourceSet} if it's an {@link EObject}.
