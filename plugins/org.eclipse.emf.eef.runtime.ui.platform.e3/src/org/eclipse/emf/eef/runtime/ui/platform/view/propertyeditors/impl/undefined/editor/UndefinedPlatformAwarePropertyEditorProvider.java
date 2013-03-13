@@ -3,10 +3,11 @@
  */
 package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.undefined.editor;
 
-import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditorProvider;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
@@ -19,7 +20,7 @@ public class UndefinedPlatformAwarePropertyEditorProvider extends UndefinedPrope
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
+	public PropertyEditor getPropertyEditor(PropertyEditorContext<Composite> editorContext) {
 		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
 			return new UndefinedPropertyEditor(new UndefinedFormPropertyEditor(editorContext.viewElement));			 

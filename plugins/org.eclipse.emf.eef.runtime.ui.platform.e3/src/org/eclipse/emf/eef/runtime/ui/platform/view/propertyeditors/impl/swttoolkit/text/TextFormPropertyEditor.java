@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.text;
 
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.StandardFormControlPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.swt.services.view.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
@@ -24,7 +25,7 @@ public class TextFormPropertyEditor extends StandardFormControlPropertyEditor<Te
 	 * @param view
 	 * @param viewElement
 	 */
-	public TextFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public TextFormPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
 	}
 
@@ -38,8 +39,10 @@ public class TextFormPropertyEditor extends StandardFormControlPropertyEditor<Te
 		toolkit.paintBordersFor(parent);
 		GridData nameData = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(nameData);
-		view.getViewService().setID(text, elementEditor.getQualifiedIdentifier());
-		view.getViewService().setEEFtype(text, "eef::Text"); //$NON-NLS-1$
+		if (view.getViewService() instanceof SWTViewService) {
+			((SWTViewService) view.getViewService()).setID(text, elementEditor.getQualifiedIdentifier());
+			((SWTViewService) view.getViewService()).setEEFtype(text, "eef::Text"); //$NON-NLS-1$
+		}
 	}
 
 	/**

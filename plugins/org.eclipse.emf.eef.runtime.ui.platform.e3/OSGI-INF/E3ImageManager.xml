@@ -3,6 +3,6 @@
    <implementation class="org.eclipse.emf.eef.runtime.ui.platform.services.resources.E3ImageManager"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
-      <provide interface="org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager"/>
+      <provide interface="org.eclipse.emf.eef.runtime.ui.swt.services.resources.ImageManager"/>
    </service>
 </scr:component>

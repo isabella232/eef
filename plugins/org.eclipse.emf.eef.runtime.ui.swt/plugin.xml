@@ -15,35 +15,15 @@
 
 <plugin>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://www.eclipse.org/emf/eef/views/1.0.0"
-            class="org.eclipse.emf.eef.views.ViewsPackage"
-            genModel="resources/model/views.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://www.eclipse.org/emf/eef/views/toolkits/1.0.0"
-            class="org.eclipse.emf.eef.views.toolkits.ToolkitsPackage"
-            genModel="resources/model/views.genmodel"/>
-   </extension>
-   <extension
-         point="org.eclipse.emf.ecore.protocol_parser">
-      <parser
-            class="org.eclipse.emf.eef.runtime.ui.internal.resources.ToolkitResourceFactory"
-            protocolName="eeftoolkit">
-      </parser>
-   </extension>
    <extension
          point="org.eclipse.emf.ecore.uri_mapping">
       <mapping
             source="eeftoolkit://SWT.toolkit"
-            target="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit">
+            target="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit">
       </mapping>
       <mapping
             source="eeftoolkit://EMFProperties.toolkit"
-            target="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit">
+            target="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit">
       </mapping>
    </extension>
 

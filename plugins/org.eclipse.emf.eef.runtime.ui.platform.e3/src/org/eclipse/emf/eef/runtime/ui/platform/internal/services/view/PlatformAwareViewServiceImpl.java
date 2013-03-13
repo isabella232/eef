@@ -12,7 +12,7 @@
 package org.eclipse.emf.eef.runtime.ui.platform.internal.services.view;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.services.view.SWTViewServiceImpl;
 import org.eclipse.emf.eef.runtime.ui.platform.services.view.PlatformAwareViewService;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -27,7 +27,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  */
-public class PlatformAwareViewServiceImpl extends ViewServiceImpl implements PlatformAwareViewService {
+public class PlatformAwareViewServiceImpl extends SWTViewServiceImpl implements PlatformAwareViewService {
 		
 	/**
 	 * {@inheritDoc}

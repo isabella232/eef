@@ -4,8 +4,8 @@
 package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.hbox;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.FormPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.services.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.swt.layout.GridData;

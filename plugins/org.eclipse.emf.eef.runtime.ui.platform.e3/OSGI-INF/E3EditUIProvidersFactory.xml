@@ -3,6 +3,6 @@
    <implementation class="org.eclipse.emf.eef.runtime.ui.platform.viewer.E3EditUIProvidersFactory"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
-      <provide interface="org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory"/>
+      <provide interface="org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory"/>
    </service>
 </scr:component>

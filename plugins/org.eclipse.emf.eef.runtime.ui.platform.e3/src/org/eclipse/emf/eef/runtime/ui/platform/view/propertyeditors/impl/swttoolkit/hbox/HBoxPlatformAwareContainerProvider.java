@@ -3,10 +3,10 @@
  */
 package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.hbox;
 
-import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.hbox.HBoxContainerProvider;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.hbox.HBoxPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.hbox.HBoxContainerProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.hbox.HBoxPropertyEditor;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 

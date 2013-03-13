@@ -4,14 +4,15 @@
 package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.platform.services.view.PlatformAwareViewService;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.platform.widgets.FormEReferenceEditor;
-import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
+import org.eclipse.emf.eef.runtime.ui.swt.services.resources.ImageManager;
+import org.eclipse.emf.eef.runtime.ui.swt.services.view.SWTViewService;
+import org.eclipse.emf.eef.runtime.ui.swt.widgets.MultiLinePropertyViewer;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -24,7 +25,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  */
 public class EContainmentFormPropertyEditor implements FormPropertyEditor<MultiLinePropertyViewer> {
 
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	private MultiLinePropertyViewer multiLinePropertyViewer;
 
@@ -32,7 +33,7 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<MultiL
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EContainmentFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public EContainmentFormPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}
@@ -53,8 +54,8 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<MultiL
 		final ViewService viewService = view.getViewService();
 		if (viewService instanceof PlatformAwareViewService) {
 			((PlatformAwareViewService)viewService).createLabel(toolkit, parent, elementEditor, elementEditor.getName());
-		} else {
-			viewService.createLabel(parent, elementEditor, elementEditor.getName());
+		} else if (viewService instanceof SWTViewService) {
+			((SWTViewService) viewService).createLabel(parent, elementEditor, elementEditor.getName());
 		}
 		multiLinePropertyViewer = new FormEReferenceEditor(toolkit, parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) {
 
@@ -66,15 +67,15 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<MultiL
 			protected void buildAdditionnalActionControls(Composite parent) {
 				if (viewService instanceof PlatformAwareViewService) {
 					((PlatformAwareViewService)viewService).createHelpButton(toolkit, parent, elementEditor);
-				} else {
-					viewService.createHelpButton(parent, elementEditor);
+				} else if (viewService instanceof SWTViewService) {
+					((SWTViewService) viewService).createHelpButton(parent, elementEditor);
 				}
 			}
 			
 		};
 		for (EObject subEditor : elementEditor.eContents()) {
 			if (subEditor instanceof ElementEditor) {
-				multiLinePropertyViewer.addColumn(((ElementEditor) subEditor).getName(), EEFSWTConstants.DEFAULT_COLUMN_WIDTH);
+				multiLinePropertyViewer.addColumn(((ElementEditor) subEditor).getName(), UIConstants.DEFAULT_COLUMN_WIDTH);
 			}
 		}
 		ImageManager imageManager = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(ImageManager.class, this);

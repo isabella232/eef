@@ -7,10 +7,10 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.StandardFormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.platform.widgets.FormSingleLinePropertyViewer;
-import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
+import org.eclipse.emf.eef.runtime.ui.swt.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
-import org.eclipse.emf.eef.runtime.ui.widgets.SingleLinePropertyViewer;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.widgets.SingleLinePropertyViewer;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -29,7 +29,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EComboFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public EComboFormPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
 	}
 

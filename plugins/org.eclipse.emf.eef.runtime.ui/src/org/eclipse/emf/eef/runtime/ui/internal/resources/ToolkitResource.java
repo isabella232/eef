@@ -13,7 +13,7 @@ import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleException;
+import org.osgi.framework.BundleContext;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -53,24 +53,34 @@ public class ToolkitResource extends ResourceImpl {
 			try {
 				Bundle toManage = EEFRuntimeUI.getPlugin().getBundle();
 				if (!EEFRuntimeUI.PLUGIN_ID.equals(uri.segment(0))) {
-					toManage = EEFRuntimeUI.getPlugin().getBundle().getBundleContext().installBundle(uri.segment(0));
+					BundleContext bundleContext = EEFRuntimeUI.getPlugin().getBundle().getBundleContext();
+					toManage = searchBundle(bundleContext,uri.segment(0));
 				} 
-				@SuppressWarnings("unchecked")
-				Class<org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider<?>> toolkitClass = (Class<ToolkitPropertyEditorProvider<?>>) toManage.loadClass(uri.lastSegment());
-				ToolkitPropertyEditorProvider<?> toolkitProvider = toolkitClass.newInstance();
-				Toolkit model = toolkitProvider.getModel();
-				getContents().add(model);
+				if (toManage != null) {
+					@SuppressWarnings("unchecked")
+					Class<org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider<?>> toolkitClass = (Class<ToolkitPropertyEditorProvider<?>>) toManage.loadClass(uri.lastSegment());
+					ToolkitPropertyEditorProvider<?> toolkitProvider = toolkitClass.newInstance();
+					Toolkit model = toolkitProvider.getModel();
+					getContents().add(model);
+				}
 			} catch (InstantiationException e) {
 				throw new IllegalArgumentException("Cannot instanciate given toolkit", e);
 			} catch (IllegalAccessException e) {
 				throw new IllegalArgumentException("Cannot access toolkit", e);
 			} catch (ClassNotFoundException e) {
 				throw new IllegalArgumentException("Invalid toolkit", e);
-			} catch (BundleException e) {
-				throw new IllegalArgumentException("Unable to load the bundle " + uri.segment(1), e);
-			}
+			} 
 			setLoaded(true);
 		}
+	}
+	
+	public Bundle searchBundle(BundleContext context, String symbolicName) {
+		for (Bundle bundle : context.getBundles()) {
+			if (symbolicName.equals(bundle.getSymbolicName())) {
+				return bundle;
+			}
+		}
+		return null;
 	}
 
 }

@@ -79,11 +79,16 @@ Import-Package: com.google.common.base;version="10.0.1",
  org.eclipse.swt.widgets,
  org.osgi.framework;version="1.5.0",
  org.osgi.service.event;version="1.2.0"
-Bundle-Activator: org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT
-Export-Package: org.eclipse.emf.eef.runtime.ui.swt.internal.services.propertyeditors.util,
+Bundle-Activator: org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT$Plugin
+Export-Package: org.eclipse.emf.eef.runtime.ui.swt,
+ org.eclipse.emf.eef.runtime.ui.swt.internal.services.propertyeditors.util,
+ org.eclipse.emf.eef.runtime.ui.swt.internal.services.view,
  org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl,
+ org.eclipse.emf.eef.runtime.ui.swt.internal.view.util,
  org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util,
  org.eclipse.emf.eef.runtime.ui.swt.services.resources,
+ org.eclipse.emf.eef.runtime.ui.swt.services.view,
+ org.eclipse.emf.eef.runtime.ui.swt.util,
  org.eclipse.emf.eef.runtime.ui.swt.view.handlers.editingview,
  org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors,
  org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl,

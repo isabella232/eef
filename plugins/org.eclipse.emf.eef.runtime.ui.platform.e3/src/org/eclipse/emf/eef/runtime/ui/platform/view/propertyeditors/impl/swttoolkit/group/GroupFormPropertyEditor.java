@@ -3,8 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.group;
 
-import org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.FormPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.services.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;

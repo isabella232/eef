@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.platform.widgets;
 
-import org.eclipse.emf.eef.runtime.ui.widgets.SingleLinePropertyViewer;
+import org.eclipse.emf.eef.runtime.ui.swt.widgets.SingleLinePropertyViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;

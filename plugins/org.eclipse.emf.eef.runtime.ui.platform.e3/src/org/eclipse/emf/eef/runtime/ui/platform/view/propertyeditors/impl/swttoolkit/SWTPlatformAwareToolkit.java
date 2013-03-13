@@ -9,7 +9,7 @@ import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttool
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.hbox.HBoxPlatformAwareContainerProvider;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.text.TextPlatformAwarePropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.textarea.TextareaPlatformAwarePropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

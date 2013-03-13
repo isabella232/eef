@@ -9,11 +9,14 @@ import org.eclipse.emf.eef.runtime.ui.internal.view.impl.AbstractPropertiesEditi
 import org.eclipse.emf.eef.runtime.ui.platform.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -66,8 +69,8 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 			}
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
-			PropertyEditorContext editorContext = new PropertyEditorContext(this, container);
-			ToolkitPropertyEditorProvider propertyEditorProvider = serviceRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
+			PropertyEditorContext<Composite> editorContext = new PropertyEditorContext<Composite>(this, container);
+			ToolkitPropertyEditorProvider<Composite> propertyEditorProvider = serviceRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
@@ -78,7 +81,10 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 				this.propertyEditors.put(container, propertyEditor);
 				if (!(propertyEditor instanceof UndefinedPropertyEditor)) {
 					for (EObject subContent : content.eContents()) {
-						buildElement(toolkit, (Composite) propertyEditor.getPropertyEditorViewer().getViewer().getControl(), subContent);
+						Object viewer = propertyEditor.getPropertyEditorViewer().getViewer();
+						if (viewer instanceof Viewer) {
+							buildElement(toolkit, (Composite) ((Viewer) viewer).getControl(), subContent);
+						}
 					}
 				}
 			}

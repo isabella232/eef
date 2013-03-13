@@ -6,9 +6,10 @@ package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoo
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.StandardFormPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.swt.services.view.SWTViewService;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.combo.ComboUIPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.combo.ComboUIPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.swt.SWT;
@@ -31,7 +32,7 @@ public class ComboFormPropertyEditor extends StandardFormPropertyEditor<ComboVie
 	 * @param view
 	 * @param viewElement
 	 */
-	public ComboFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public ComboFormPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
 	}
 
@@ -56,8 +57,10 @@ public class ComboFormPropertyEditor extends StandardFormPropertyEditor<ComboVie
 		EditUIProvidersFactory providersFactory = serviceRegistry.getService(EditUIProvidersFactory.class, this);
 		combo.setLabelProvider(providersFactory.createLabelProvider(editingContext.getAdapterFactory()));
 		combo.setContentProvider(new ComboContentProvider());
-		view.getViewService().setID(comboControl, elementEditor.getQualifiedIdentifier());
-		view.getViewService().setEEFtype(comboControl, "eef::Combo"); //$NON-NLS-1$
+		if (view.getViewService() instanceof SWTViewService) {
+			((SWTViewService) view.getViewService()).setID(comboControl, elementEditor.getQualifiedIdentifier());
+			((SWTViewService) view.getViewService()).setEEFtype(comboControl, "eef::Combo"); //$NON-NLS-1$
+		}
 	}
 
 	/**

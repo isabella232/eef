@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl;
 import org.eclipse.emf.eef.runtime.ui.platform.services.view.PlatformAwareViewService;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
+import org.eclipse.emf.eef.runtime.ui.swt.services.view.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.Viewer;
@@ -18,14 +19,14 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  */
 public abstract class StandardFormPropertyEditor<VIEWER extends Viewer> implements FormPropertyEditor<VIEWER> {
 
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 
 	/**
 	 * @param view {@link PropertiesEditingView} where the PropertyEditor is built.
 	 * @param viewElement {@link ElementEditor} specifying the Property Editor.
 	 */
-	public StandardFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public StandardFormPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}
@@ -38,14 +39,14 @@ public abstract class StandardFormPropertyEditor<VIEWER extends Viewer> implemen
 		ViewService viewService = view.getViewService();
 		if (viewService instanceof PlatformAwareViewService) {
 			((PlatformAwareViewService)viewService).createLabel(toolkit, parent, elementEditor, elementEditor.getName());
-		} else {
-			viewService.createLabel(parent, elementEditor, elementEditor.getName());
+		} else if (viewService instanceof SWTViewService) {
+			((SWTViewService) viewService).createLabel(parent, elementEditor, elementEditor.getName());
 		}
 		createEditorContents(toolkit, parent);
 		if (viewService instanceof PlatformAwareViewService) {
 			((PlatformAwareViewService)viewService).createHelpButton(toolkit, parent, elementEditor);
-		} else {
-			viewService.createHelpButton(parent, elementEditor);
+		} else if (viewService instanceof SWTViewService) {
+			((SWTViewService) viewService).createHelpButton(parent, elementEditor);
 		}
 	}
 

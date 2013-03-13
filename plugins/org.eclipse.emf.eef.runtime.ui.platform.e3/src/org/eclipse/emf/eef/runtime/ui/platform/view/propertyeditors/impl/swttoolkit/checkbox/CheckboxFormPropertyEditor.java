@@ -3,10 +3,11 @@
  */
 package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.swttoolkit.checkbox;
 
-import org.eclipse.emf.eef.runtime.ui.internal.services.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.platform.services.view.PlatformAwareViewService;
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.services.propertyeditors.util.EEFControlWrapperViewer;
+import org.eclipse.emf.eef.runtime.ui.swt.services.view.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
@@ -20,7 +21,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  *
  */
 public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControlWrapperViewer<Button>> {
-	protected PropertiesEditingView view;
+	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected Button checkbox;
 	
@@ -30,7 +31,7 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 	 * @param view
 	 * @param viewElement
 	 */
-	public CheckboxFormPropertyEditor(PropertiesEditingView view, ElementEditor elementEditor) {
+	public CheckboxFormPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}
@@ -69,12 +70,15 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 		GridData checkboxData = new GridData(GridData.FILL_HORIZONTAL);
 		checkboxData.horizontalSpan = 2;
 		checkbox.setLayoutData(checkboxData);
-		viewService.setID(checkbox, elementEditor.getQualifiedIdentifier());
-		viewService.setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
-		if (viewService instanceof PlatformAwareViewService) {
-			((PlatformAwareViewService)viewService).createHelpButton(toolkit, parent, elementEditor);
-		} else {
-			viewService.createHelpButton(parent, elementEditor);
+		if (viewService instanceof SWTViewService) {
+			SWTViewService swtViewService = (SWTViewService)viewService;
+			swtViewService.setID(checkbox, elementEditor.getQualifiedIdentifier());
+			swtViewService.setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
+			if (viewService instanceof PlatformAwareViewService) {
+				((PlatformAwareViewService)viewService).createHelpButton(toolkit, parent, elementEditor);
+			} else {
+				swtViewService.createHelpButton(parent, elementEditor);
+			}
 		}
 	}
 

@@ -1,7 +1,7 @@
 package org.eclipse.emf.eef.runtime.tabbed.internal.view.util;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.emf.eef.runtime.ui.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;

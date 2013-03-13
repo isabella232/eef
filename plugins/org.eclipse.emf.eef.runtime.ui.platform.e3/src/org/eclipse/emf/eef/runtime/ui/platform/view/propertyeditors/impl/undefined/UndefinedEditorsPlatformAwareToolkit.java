@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.undefined;
 
 import org.eclipse.emf.eef.runtime.ui.platform.view.propertyeditors.impl.undefined.editor.UndefinedPlatformAwarePropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.undefined.UndefinedEditorsToolkit;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.undefined.UndefinedEditorsToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

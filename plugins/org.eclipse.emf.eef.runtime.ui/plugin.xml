@@ -35,16 +35,4 @@
             protocolName="eeftoolkit">
       </parser>
    </extension>
-   <extension
-         point="org.eclipse.emf.ecore.uri_mapping">
-      <mapping
-            source="eeftoolkit://SWT.toolkit"
-            target="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.swttoolkit.SWTToolkit">
-      </mapping>
-      <mapping
-            source="eeftoolkit://EMFProperties.toolkit"
-            target="eeftoolkit:/org.eclipse.emf.eef.runtime.ui/org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit">
-      </mapping>
-   </extension>
-
 </plugin>
