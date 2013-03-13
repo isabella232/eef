@@ -15,9 +15,10 @@ Export-Package: org.eclipse.emf.eef.runtime.ui;
    org.eclipse.emf.common.notify",
  org.eclipse.emf.eef.runtime.ui.adapters;uses:="org.eclipse.emf.ecore",
  org.eclipse.emf.eef.runtime.ui.commands;uses:="org.eclipse.emf.eef.runtime.context,org.eclipse.emf.common.command",
+ org.eclipse.emf.eef.runtime.ui.internal.resources,
  org.eclipse.emf.eef.runtime.ui.internal.services.view,
  org.eclipse.emf.eef.runtime.ui.internal.view.impl,
- org.eclipse.emf.eef.runtime.ui.internal.view.util;x-friends:="org.eclipse.emf.eef.runtime.tabbed",
+ org.eclipse.emf.eef.runtime.ui.internal.view.util,
  org.eclipse.emf.eef.runtime.ui.services.propertyeditors;
   uses:="org.eclipse.emf.eef.runtime.ui.view,
    org.eclipse.emf.eef.runtime.ui.view.propertyeditors,

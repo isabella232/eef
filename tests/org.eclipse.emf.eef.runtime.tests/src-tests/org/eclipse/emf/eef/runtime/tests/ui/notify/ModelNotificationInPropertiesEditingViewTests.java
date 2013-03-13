@@ -43,7 +43,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		disposeUI();
 		initUI();
 		EClass editedElement = (EClass) editingContext.getEditingComponent().getEObject();
-		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
+		PropertiesEditingView<Composite> view = (PropertiesEditingView<Composite>) views.get(0);
 		editedElement.setName(NEW_ECLASS_NAME);
 		Text nameText = getText(view);
 		assertEquals(editedElement.getName(), nameText.getText());
@@ -58,7 +58,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		disposeUI();
 		initUI();
 		EClass editedElement = (EClass) editingContext.getEditingComponent().getEObject();
-		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
+		PropertiesEditingView<Composite> view = (PropertiesEditingView<Composite>) views.get(0);
 		EClassifier eClassifier = editedElement.getEPackage().getEClassifiers().get(3);
 		editedElement.getESuperTypes().add((EClass) eClassifier);
 		Table table = getReferenceEditorTable(view.getContents());
@@ -70,7 +70,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		disposeUI();
 		initUI();
 		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
-		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
+		PropertiesEditingView<Composite> view = (PropertiesEditingView<Composite>) views.get(0);
 		EClassifier eClassifier1 = editedElement.getEPackage().getEClassifiers().get(1);
 		EClassifier eClassifier2 = editedElement.getEPackage().getEClassifiers().get(2);
 		editedElement.getESuperTypes().clear();
@@ -89,7 +89,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		disposeUI();
 		initUI();
 		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
-		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
+		PropertiesEditingView<Composite> view = (PropertiesEditingView<Composite>) views.get(0);
 		editedElement.getESuperTypes().remove(editedElement.getESuperTypes().get(0));
 		Table table = getReferenceEditorTable(view.getContents());
 		assertEquals(editedElement.getESuperTypes().size(), table.getItemCount());
@@ -100,7 +100,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		disposeUI();
 		initUI();
 		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
-		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
+		PropertiesEditingView<Composite> view = (PropertiesEditingView<Composite>) views.get(0);
 		editedElement.getESuperTypes().clear();
 		Table table = getReferenceEditorTable(view.getContents());
 		assertEquals(editedElement.getESuperTypes().size(), table.getItemCount());
@@ -111,7 +111,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		disposeUI();
 		initUI();
 		EClass editedElement = (EClass)editingContext.getEditingComponent().getEObject();
-		PropertiesEditingView view = (PropertiesEditingView) views.get(0);
+		PropertiesEditingView<Composite> view = (PropertiesEditingView<Composite>) views.get(0);
 		Table table = getReferenceEditorTable(view.getContents());
 		Object eSuperType1 = table.getItem(1).getData();
 		editedElement.getESuperTypes().move(0, editedElement.getESuperTypes().get(1));
@@ -133,7 +133,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		return null;
 	}
 
-	private Button getButton(PropertiesEditingView view) {
+	private Button getButton(PropertiesEditingView<Composite> view) {
 		Control[] children = view.getContents().getChildren();
 		for (Control control : children) {
 			if (control instanceof Button) {
@@ -143,7 +143,7 @@ public class ModelNotificationInPropertiesEditingViewTests extends UIEditingTest
 		return null;
 	}
 
-	private Text getText(PropertiesEditingView view) {
+	private Text getText(PropertiesEditingView<Composite> view) {
 		Control[] children = view.getContents().getChildren();
 		for (Control control : children) {
 			if (control instanceof Text) {

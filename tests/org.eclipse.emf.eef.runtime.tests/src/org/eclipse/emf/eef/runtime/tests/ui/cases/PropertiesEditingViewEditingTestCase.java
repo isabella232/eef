@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
-import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
-import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
