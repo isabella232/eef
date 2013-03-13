@@ -29,7 +29,7 @@ import org.eclipse.emf.eef.runtime.ui.platform.application.parts.E4EEFPart;
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.EditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl.EditingContextEditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl.URIEditingInput;
-import org.eclipse.emf.eef.runtime.ui.viewer.filters.ViewFilter;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewFilter;
 import org.eclipse.emf.example.eef.application.ConferenceApplicationConstants;
 import org.eclipse.emf.samples.conference.Conference;
 import org.eclipse.swt.widgets.Shell;

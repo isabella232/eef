@@ -33,9 +33,9 @@ import org.eclipse.emf.eef.runtime.ui.platform.application.E4EEFSupportConstants
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.EditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl.EditingContextEditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.application.utils.impl.URIEditingInput;
-import org.eclipse.emf.eef.runtime.ui.viewer.EEFContentProvider;
-import org.eclipse.emf.eef.runtime.ui.viewer.EEFViewer;
-import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.EEFViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;

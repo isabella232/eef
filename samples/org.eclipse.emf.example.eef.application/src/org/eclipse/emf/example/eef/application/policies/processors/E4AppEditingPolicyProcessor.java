@@ -11,7 +11,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
-import org.eclipse.emf.eef.runtime.ui.internal.policies.processors.LiveWizardEditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.processors.LiveWizardEditingPolicyProcessor;
 import org.eclipse.emf.example.eef.application.handlers.OpenDetailsViewHandler;
 import org.eclipse.emf.example.eef.application.utils.E4ServicesUtils;
 

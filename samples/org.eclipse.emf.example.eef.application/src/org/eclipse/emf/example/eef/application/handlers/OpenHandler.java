@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.eef.runtime.ui.platform.application.handlers.AbstractEEFOpenHandler;
 import org.eclipse.emf.eef.runtime.ui.platform.application.model.utils.ApplicationModelBuilder;
 import org.eclipse.emf.eef.runtime.ui.platform.application.parts.E4EEFPart;
-import org.eclipse.emf.eef.runtime.ui.viewer.filters.ViewFilter;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewFilter;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewsRepository;
 import org.eclipse.emf.example.eef.application.ConferenceApplicationConstants;

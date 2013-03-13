@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.platform.services.resources;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
-import org.eclipse.emf.eef.runtime.ui.services.resources.ImageManager;
+import org.eclipse.emf.eef.runtime.ui.swt.services.resources.ImageManager;
 import org.eclipse.swt.graphics.Image;
 
 /**
