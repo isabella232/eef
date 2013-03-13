@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.emf.eef.runtime.feature"
+      id="org.eclipse.emf.eef.runtime.e3.feature"
       label="%featureName"
       version="2.0.0.qualifier"
       provider-name="%providerName">
@@ -28,28 +28,14 @@ http://www.eclipse.org/legal/epl-v10.html
    </url>
 
    <plugin
-         id="org.eclipse.emf.eef.doc"
+         id="org.eclipse.emf.eef.runtime.ui.platform.e3"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.emf.eef.runtime"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.emf.eef.runtime.tabbed"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.emf.eef.runtime.ui"
+         id="org.eclipse.emf.eef.runtime.ui.swt"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -17,11 +17,13 @@
 	<modules>
 		<module>../../plugins/org.eclipse.emf.eef.runtime</module>		
 		<module>../../plugins/org.eclipse.emf.eef.runtime.ui</module>		
+		<module>../../plugins/org.eclipse.emf.eef.runtime.ui.swt</module>		
 		<module>../../plugins/org.eclipse.emf.eef.runtime.ui.platform.e3</module>		
 		<module>../../plugins/org.eclipse.emf.eef.runtime.tabbed</module>		
 		<module>../../plugins/org.eclipse.emf.eef.doc</module>
-		<module>../../features/org.eclipse.emf.eef.runtime.feature</module>				
 		<module>../../plugins/org.eclipse.emf.eef.editor</module>
+		<module>../../features/org.eclipse.emf.eef.runtime.feature</module>				
+		<module>../../features/org.eclipse.emf.eef.runtime.e3.feature</module>				
 		<module>../../features/org.eclipse.emf.eef.edt.feature</module>				
 		<module>../org.eclipse.emf.eef.repository</module>				
 		<module>../../tests/org.eclipse.emf.eef.runtime.tests</module>				
