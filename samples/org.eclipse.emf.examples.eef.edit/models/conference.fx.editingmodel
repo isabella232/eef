@@ -9,11 +9,38 @@
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0"/>
       </propertyBindings>
     </bindings>
+    <bindings>
+      <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/firstname"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/lastname"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.1"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/isRegistered"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.2"/>
+      </propertyBindings>
+    </bindings>
   </eef-model:PropertiesEditingModel>
   <eef-views:ViewsRepository documentation="" name="ConferenceFX">
     <views name="Conference">
       <elements xsi:type="eef-views:ElementEditor" name="name">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.0"/>
+      </elements>
+    </views>
+    <views name="Participant">
+      <elements xsi:type="eef-views:ElementEditor" name="firstname">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.0"/>
+      </elements>
+      <elements xsi:type="eef-views:ElementEditor" name="lastname">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.0"/>
+      </elements>
+      <elements xsi:type="eef-views:ElementEditor" name="registered">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.1"/>
       </elements>
     </views>
   </eef-views:ViewsRepository>

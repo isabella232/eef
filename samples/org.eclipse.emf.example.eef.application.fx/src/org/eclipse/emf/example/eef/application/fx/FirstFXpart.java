@@ -20,8 +20,8 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstruct
 import org.eclipse.emf.eef.runtime.ui.fx.view.handlers.editingview.FXEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.View;
-import org.eclipse.emf.samples.conference.Conference;
 import org.eclipse.emf.samples.conference.ConferenceFactory;
+import org.eclipse.emf.samples.conference.Participant;
 
 @SuppressWarnings("restriction")
 public class FirstFXpart {
@@ -31,27 +31,13 @@ public class FirstFXpart {
 	@Inject
 	public FirstFXpart(BorderPane parent, final MApplication application, EEFServiceRegistry serviceRegistry) {
 		
-//		GridPane center = new GridPane();
-//		Label nameLabel = new Label("Name:");
-//		GridPane.setConstraints(nameLabel, 1, 1);
-//		final TextField name = new TextField();
-//		GridPane.setConstraints(name, 2, 1);
-//		name.setOnKeyReleased(new EventHandler<KeyEvent>() {
-//
-//			@Override
-//			public void handle(KeyEvent event) {
-//				System.out.println("Released - Text value: " + ((TextField)event.getSource()).getText());
-//			}
-//			
-//		});
-//		center.getChildren().addAll(nameLabel, name);
-//		parent.setCenter(center);
-
-		Conference conference = ConferenceFactory.eINSTANCE.createConference();
-		conference.setName("EclipseCon 2013");
+		Participant participant = ConferenceFactory.eINSTANCE.createParticipant();
+		participant.setFirstname("John");
+		participant.setLastname("Doe");
+		participant.setIsRegistered(true);
 		AdapterFactoryEditingDomain editingDomain = new AdapterFactoryEditingDomain(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE), new BasicCommandStack());
-		PropertiesEditingContextFactory contextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, conference);
-		PropertiesEditingContext context = contextFactory.createPropertiesEditingContext(editingDomain, conference);
+		PropertiesEditingContextFactory contextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, participant);
+		PropertiesEditingContext context = contextFactory.createPropertiesEditingContext(editingDomain, participant);
 		viewHandlers = context.getEditingComponent().createViewHandlers();
 		PropertiesEditingComponent component = context.getEditingComponent();
 		for (ViewHandler<?> handler : viewHandlers) {

@@ -3,9 +3,9 @@
  */
 package org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.text;
 
-import javafx.event.EventHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -101,14 +101,23 @@ public class TextPropertyEditor implements PropertyEditor, MonovaluedPropertyEdi
 	}
 
 	private void initListeners() {
-		propertyEditorControl.getViewer().setOnKeyReleased(new EventHandler<KeyEvent>() {
+		propertyEditorControl.getViewer().textProperty().addListener(new ChangeListener<String>() {
 
-			public void handle(KeyEvent event) {
-				view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer().getText(),true));				
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (view.getEditingComponent() != null) {
+					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, newValue ,true));									
+				}
 			}
 			
+			
+			
 		});
-		
+//		.setOnKeyReleased(new EventHandler<KeyEvent>() {
+//
+//			public void handle(KeyEvent event) {
+//			}
+//			
+//		});
 	}		
 
 }

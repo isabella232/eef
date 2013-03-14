@@ -9,6 +9,9 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: javafx.application;version="2.2.0",
+ javafx.beans.binding;version="2.2.0",
+ javafx.beans.property;version="2.2.0",
+ javafx.beans.value;version="2.2.0",
  javafx.collections;version="2.2.0",
  javafx.event;version="2.2.0",
  javafx.geometry;version="2.2.0",
