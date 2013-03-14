@@ -35,6 +35,7 @@
       <plugin id="at.bestsolution.efxclipse.runtime.workbench.fx.controls"/>
       <plugin id="at.bestsolution.efxclipse.runtime.workbench.renderers.base"/>
       <plugin id="at.bestsolution.efxclipse.runtime.workbench.renderers.fx"/>
+      <plugin id="com.google.guava"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="javax.annotation"/>
       <plugin id="javax.inject"/>
@@ -63,7 +64,12 @@
       <plugin id="org.eclipse.emf.ecore.change"/>
       <plugin id="org.eclipse.emf.ecore.xmi"/>
       <plugin id="org.eclipse.emf.edit"/>
+      <plugin id="org.eclipse.emf.eef.runtime"/>
+      <plugin id="org.eclipse.emf.eef.runtime.ui"/>
+      <plugin id="org.eclipse.emf.eef.runtime.ui.fx"/>
       <plugin id="org.eclipse.emf.example.eef.application.fx"/>
+      <plugin id="org.eclipse.emf.examples.eef"/>
+      <plugin id="org.eclipse.emf.examples.eef.edit"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
       <plugin id="org.eclipse.equinox.ds"/>

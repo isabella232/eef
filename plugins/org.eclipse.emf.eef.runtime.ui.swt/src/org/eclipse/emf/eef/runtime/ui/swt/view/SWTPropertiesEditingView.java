@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 public interface SWTPropertiesEditingView {
 
 	/**
-	 * Create the contents of the view in the given composite.
+	 * Creates the contents of the view in the given composite.
 	 * @param composite owning {@link Composite}.
 	 */
 	void createContents(Composite composite);
