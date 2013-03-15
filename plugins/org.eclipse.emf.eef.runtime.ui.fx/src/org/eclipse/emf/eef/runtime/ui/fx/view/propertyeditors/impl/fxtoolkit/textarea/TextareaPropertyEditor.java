@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.text;
+package org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.textarea;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -24,11 +24,11 @@ import org.eclipse.emf.eef.views.ElementEditor;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class TextPropertyEditor implements PropertyEditor, MonovaluedPropertyEditor {
+public class TextareaPropertyEditor implements PropertyEditor, MonovaluedPropertyEditor {
 
 	protected PropertiesEditingView<Pane> view;
 	protected ElementEditor elementEditor;
-	protected PropertyEditorViewer<TextField> propertyEditorControl;
+	protected PropertyEditorViewer<TextArea> propertyEditorControl;
 
 	protected EStructuralFeature feature;
 
@@ -37,7 +37,7 @@ public class TextPropertyEditor implements PropertyEditor, MonovaluedPropertyEdi
 	 * @param viewElement
 	 * @param propertyEditorViewer
 	 */
-	public TextPropertyEditor(PropertiesEditingView<Pane> view, ElementEditor elementEditor, PropertyEditorViewer<TextField> propertyEditorViewer) {
+	public TextareaPropertyEditor(PropertiesEditingView<Pane> view, ElementEditor elementEditor, PropertyEditorViewer<TextArea> propertyEditorViewer) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorControl = propertyEditorViewer;
@@ -86,7 +86,7 @@ public class TextPropertyEditor implements PropertyEditor, MonovaluedPropertyEdi
 		} else {
 			textValue = value.toString();
 		}
-		TextField viewer = propertyEditorControl.getViewer();
+		TextArea viewer = propertyEditorControl.getViewer();
 		if (!textValue.equals(viewer.getText())) {
 			viewer.setText(textValue);
 		}
@@ -112,6 +112,12 @@ public class TextPropertyEditor implements PropertyEditor, MonovaluedPropertyEdi
 			
 			
 		});
+//		.setOnKeyReleased(new EventHandler<KeyEvent>() {
+//
+//			public void handle(KeyEvent event) {
+//			}
+//			
+//		});
 	}		
 
 }

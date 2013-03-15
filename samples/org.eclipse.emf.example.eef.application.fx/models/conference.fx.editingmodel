@@ -16,6 +16,7 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.2"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/firstname"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0"/>
@@ -26,13 +27,15 @@
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/gender"/>
-        <subPropertyBindings>
-          <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/gender"/>
-        </subPropertyBindings>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.2"/>
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/isRegistered"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.3"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/bio"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0"/>
       </propertyBindings>
     </bindings>
   </eef-model:PropertiesEditingModel>
@@ -57,6 +60,11 @@
       </elements>
       <elements xsi:type="eef-views:ElementEditor" name="registered">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.1"/>
+      </elements>
+    </views>
+    <views name="Bio">
+      <elements xsi:type="eef-views:ElementEditor" name="bio">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.3"/>
       </elements>
     </views>
   </eef-views:ViewsRepository>

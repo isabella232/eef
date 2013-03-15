@@ -33,6 +33,7 @@ Import-Package: javafx.application;version="2.2.0",
  org.eclipse.emf.eef.runtime.services,
  org.eclipse.emf.eef.runtime.services.emf,
  org.eclipse.emf.eef.runtime.services.impl,
+ org.eclipse.emf.eef.runtime.services.logging,
  org.eclipse.emf.eef.runtime.services.viewhandler,
  org.eclipse.emf.eef.runtime.services.viewhandler.exceptions,
  org.eclipse.emf.eef.runtime.ui.internal.services.view,
@@ -47,4 +48,5 @@ Import-Package: javafx.application;version="2.2.0",
  org.eclipse.emf.eef.views.toolkits,
  org.osgi.service.event;version="1.3.0"
 Service-Component: OSGI-INF/FXEditingViewHandlerProvider.xml,OSGI-INF/FXViewService.xml,OSGI-INF/UndefinedEditorsToolkit.xml,OSGI-INF/FXToolkit.xml 
-Export-Package: org.eclipse.emf.eef.runtime.ui.fx.view.handlers.editingview
+Export-Package: org.eclipse.emf.eef.runtime.ui.fx.view.handlers.editingview,
+ org.eclipse.emf.eef.runtime.ui.fx.viewer
