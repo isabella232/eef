@@ -1,6 +1,8 @@
 package org.eclipse.emf.example.eef.application.fx;
 import java.util.Collection;
 
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
@@ -31,29 +33,41 @@ public class FirstFXpart {
 	@Inject
 	public FirstFXpart(BorderPane parent, final MApplication application, EEFServiceRegistry serviceRegistry) {
 		
-		Participant participant = ConferenceFactory.eINSTANCE.createParticipant();
-		participant.setFirstname("John");
-		participant.setLastname("Doe");
-		participant.setIsRegistered(true);
+		Participant eObj = ConferenceFactory.eINSTANCE.createParticipant();
+		eObj.setFirstname("John");
+		eObj.setLastname("Doe");
+		eObj.setIsRegistered(true);
+//		Conference eObj = ConferenceFactory.eINSTANCE.createConference();
+//		eObj.setName("DeathFest");
+//		eObj.setOverview("A fest about the death !!!!!");
 		AdapterFactoryEditingDomain editingDomain = new AdapterFactoryEditingDomain(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE), new BasicCommandStack());
-		PropertiesEditingContextFactory contextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, participant);
-		PropertiesEditingContext context = contextFactory.createPropertiesEditingContext(editingDomain, participant);
+		PropertiesEditingContextFactory contextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, eObj);
+		PropertiesEditingContext context = contextFactory.createPropertiesEditingContext(editingDomain, eObj);
+
+		TabPane container = new TabPane();
 		viewHandlers = context.getEditingComponent().createViewHandlers();
-		PropertiesEditingComponent component = context.getEditingComponent();
+		PropertiesEditingComponent component = context.getEditingComponent();		
 		for (ViewHandler<?> handler : viewHandlers) {
 			if (handler instanceof FXEditingViewHandler) {
 				FXEditingViewHandler propertiesEditingViewHandler = (FXEditingViewHandler) handler;
 				View viewDescriptor = propertiesEditingViewHandler.getViewDescriptor();
 				try {
-					PropertiesEditingView<Pane> view = propertiesEditingViewHandler.createView(component, parent);
+					Tab tab = new Tab(viewDescriptor.getName());
+					BorderPane tabContent = new BorderPane();
+					PropertiesEditingView<Pane> view = propertiesEditingViewHandler.createView(component, tabContent);
 					handler.initView(component);
+					tab.setContent(tabContent);
+					tab.setClosable(false);
+					container.getTabs().add(tab);
 				} catch (ViewConstructionException e) {
 					EEFLogger logger = handler.getProvider().getServiceRegistry().getService(EEFLogger.class, this);
 					logger.logError("org.eclipse.emf.eef.runtime.ui.swt", "An error occured during view creation.", e);
 				}	
 			}
 		}
-	
+		
+		parent.setCenter(container);
+		
 	}
 	
 }

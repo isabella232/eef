@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit;
 import javafx.scene.layout.Pane;
 
 import org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.checkbox.CheckboxPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.combo.ComboPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.text.TextPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
@@ -33,7 +34,8 @@ public class FXToolkit extends ToolkitPropertyEditorProvider<Pane> {
 	 */
 	public FXToolkit() {
 		addPropertyEditorProvider(new TextPropertyEditorProvider())
-		.addPropertyEditorProvider(new CheckboxPropertyEditorProvider());
+		.addPropertyEditorProvider(new CheckboxPropertyEditorProvider())
+		.addPropertyEditorProvider(new ComboPropertyEditorProvider());
 	}
 
 	/**

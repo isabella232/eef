@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.examples.eef.edit.ConferenceFXPropertiesEditingProvider">
+   <implementation class="org.eclipse.emf.example.eef.application.fx.provides.ConferenceFXPropertiesEditingProvider"/>
+   <service>
+      <provide interface="org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider"/>
+      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
+   </service>
+   <property name="priority.over" type="String" value="org.eclipse.emf.examples.eef.edit.ConferencePropertiesEditingProvider"/>
+</scr:component>

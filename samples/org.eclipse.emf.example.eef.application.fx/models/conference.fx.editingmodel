@@ -8,6 +8,10 @@
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0"/>
       </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/overview"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.1"/>
+      </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant"/>
@@ -21,14 +25,23 @@
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.1"/>
       </propertyBindings>
       <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/gender"/>
+        <subPropertyBindings>
+          <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/gender"/>
+        </subPropertyBindings>
+      </propertyBindings>
+      <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/isRegistered"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.2"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.3"/>
       </propertyBindings>
     </bindings>
   </eef-model:PropertiesEditingModel>
   <eef-views:ViewsRepository documentation="" name="ConferenceFX">
     <views name="Conference">
       <elements xsi:type="eef-views:ElementEditor" name="name">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.0"/>
+      </elements>
+      <elements xsi:type="eef-views:ElementEditor" name="overview">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.0"/>
       </elements>
     </views>
@@ -38,6 +51,9 @@
       </elements>
       <elements xsi:type="eef-views:ElementEditor" name="lastname">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.0"/>
+      </elements>
+      <elements xsi:type="eef-views:ElementEditor" name="gender">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.2"/>
       </elements>
       <elements xsi:type="eef-views:ElementEditor" name="registered">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.1"/>

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.samples.conferences.providers;
+package org.eclipse.emf.example.eef.application.fx.provides;
 
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
 
@@ -9,7 +9,7 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ConferencePropertiesEditingProvider extends PropertiesEditingProviderImpl {
+public class ConferenceFXPropertiesEditingProvider extends PropertiesEditingProviderImpl {
 
 	/**
 	 * {@inheritDoc}
@@ -17,7 +17,7 @@ public class ConferencePropertiesEditingProvider extends PropertiesEditingProvid
 	 */
 	@Override
 	protected String getEditingModelPath() {
-		return "platform:/plugin/org.eclipse.emf.examples.eef.edit/models/conference.editingmodel";
+		return "platform:/plugin/org.eclipse.emf.example.eef.application.fx/models/conference.fx.editingmodel";
 	}
 
 	

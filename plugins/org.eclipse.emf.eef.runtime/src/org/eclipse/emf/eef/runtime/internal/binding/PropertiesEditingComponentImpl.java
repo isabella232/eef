@@ -12,6 +12,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.Diagnostician;
@@ -506,7 +507,8 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	private Diagnostic validateValue(PropertiesEditingEvent editingEvent) {
 		Diagnostic ret = Diagnostic.OK_INSTANCE;
 		EStructuralFeature feature = getBinding().feature(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
-		if (editingEvent.getNewValue() != null && feature instanceof EAttribute) {
+		// TODO: Skipped test on EEnum to process later.
+		if (editingEvent.getNewValue() != null && feature instanceof EAttribute && !(feature.getEType() instanceof EEnum)) {
 			EAttribute attribute = (EAttribute)feature;
 			try {
 				Object newValue = editingEvent.getNewValue();
@@ -519,7 +521,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			} catch (WrappedException we) {
 				ret = BasicDiagnostic.toDiagnostic(we);
 			} catch (NullPointerException e) {
-				// An suspicious error occured (e.g. on Enum) let's go on. 
+				// A suspicious error occurred (e.g. on Enum) let's go on. 
 			}
 		}
 		return ret;
