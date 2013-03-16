@@ -30,6 +30,12 @@ public class FXViewer {
 	private PropertiesEditingContext context; 
 	private Collection<ViewHandler<?>> viewHandlers;
 	
+	/**
+	 * @return the viewer input.
+	 */
+	public Object getInput() {
+		return this.context;
+	}
 	
 	/**
 	 * Defines the {@link PropertiesEditingContext} to edit.

@@ -67,6 +67,7 @@
       <plugin id="org.eclipse.emf.eef.runtime"/>
       <plugin id="org.eclipse.emf.eef.runtime.ui"/>
       <plugin id="org.eclipse.emf.eef.runtime.ui.fx"/>
+      <plugin id="org.eclipse.emf.eef.runtime.ui.fx.e4"/>
       <plugin id="org.eclipse.emf.example.eef.application.fx"/>
       <plugin id="org.eclipse.emf.examples.eef"/>
       <plugin id="org.eclipse.emf.examples.eef.edit"/>
