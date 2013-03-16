@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.swt.e3.SWTPlatformAwareToolkit">
+   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.swttoolkit.SWTPlatformAwareToolkit"/>
+   <service>
+      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
+      <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider"/>
+   </service>
+   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.SWTToolkit"/>
+</scr:component>
