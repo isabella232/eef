@@ -21,7 +21,7 @@
   </parent>
 
   <groupId>org.eclipse</groupId>
-  <artifactId>org.eclipse.emf.eef.runtime.tabbed</artifactId>
+  <artifactId>org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed</artifactId>
   <version>2.0.0-SNAPSHOT</version>
   <name>EEF Runtime Tabbed Properties Views Bridge Plugin</name>
   <packaging>eclipse-plugin</packaging>

@@ -40,8 +40,8 @@
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
       <propertyContributor
             contributorId="org.eclipse.emf.samples.conference.properties"
-            labelProvider="org.eclipse.emf.eef.runtime.tabbed.view.section.EEFLabelProvider"
-            tabDescriptorProvider="org.eclipse.emf.eef.runtime.tabbed.view.providers.EEFTabDescriptorProvider">
+            labelProvider="org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.section.EEFLabelProvider"
+            tabDescriptorProvider="org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.providers.EEFTabDescriptorProvider">
          <propertyCategory
                category="eef">
          </propertyCategory>

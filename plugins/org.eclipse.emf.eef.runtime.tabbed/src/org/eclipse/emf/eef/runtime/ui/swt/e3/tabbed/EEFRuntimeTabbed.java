@@ -1,4 +1,4 @@
-package org.eclipse.emf.eef.runtime.tabbed;
+package org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -17,7 +17,7 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class EEFRuntimeTabbed extends EMFPlugin {
 
-	public static final String PLUGIN_ID = "org.eclipse.emf.eef.runtime.tabbed";	
+	public static final String PLUGIN_ID = "org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed";	
 	
 	/**
 	 * Keep track of the singleton.

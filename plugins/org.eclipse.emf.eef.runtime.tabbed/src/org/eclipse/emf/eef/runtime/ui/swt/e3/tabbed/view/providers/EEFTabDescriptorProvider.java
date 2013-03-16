@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.tabbed.view.providers;
+package org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.providers;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.tabbed.EEFRuntimeTabbed;
-import org.eclipse.emf.eef.runtime.tabbed.view.section.SectionPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.EEFRuntimeTabbed;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.section.SectionPropertiesEditingView;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.ISelection;
