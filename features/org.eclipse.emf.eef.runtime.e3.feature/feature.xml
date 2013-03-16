@@ -28,14 +28,14 @@ http://www.eclipse.org/legal/epl-v10.html
    </url>
 
    <plugin
-         id="org.eclipse.emf.eef.runtime.ui.platform.e3"
+         id="org.eclipse.emf.eef.runtime.ui.swt"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.emf.eef.runtime.ui.swt"
+         id="org.eclipse.emf.eef.runtime.ui.swt.e3"
          download-size="0"
          install-size="0"
          version="0.0.0"

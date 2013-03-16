@@ -15,10 +15,10 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.impl.FormImplPropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.EEFRuntimeTabbed;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.internal.view.util.DescriptorHelper;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.internal.view.util.ValidationMessageInjector;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.util.PropertiesEditingMessageManagerImpl;
@@ -89,7 +89,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	public SectionPropertiesEditingView() {
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		this.propertyEditors = Maps.newHashMap();
-		setServiceRegistry(EEFRuntimeTabbed.getPlugin().getServiceRegistry());
+		setServiceRegistry(E3EEFRuntimeUIPlatformPlugin.getPlugin().getServiceRegistry());
 	}
 
 
@@ -118,7 +118,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 				eObject = newEObject;
 				if (eObject != null) {
 					disposeComponentIfExist();
-					PropertiesEditingContextFactory contextFactory = EEFRuntimeTabbed.getPlugin().getServiceRegistry().getService(PropertiesEditingContextFactory.class, eObject);
+					PropertiesEditingContextFactory contextFactory = E3EEFRuntimeUIPlatformPlugin.getPlugin().getServiceRegistry().getService(PropertiesEditingContextFactory.class, eObject);
 					PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext(editingDomain, adapterFactory, eObject);
 					editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, tabbedPropertySheetPage.getWidgetFactory());
 					editingContext.getOptions().setMessageManager(initMessageManager());

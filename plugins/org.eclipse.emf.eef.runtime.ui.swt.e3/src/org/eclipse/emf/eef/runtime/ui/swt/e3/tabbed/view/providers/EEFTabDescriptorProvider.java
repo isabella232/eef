@@ -14,7 +14,7 @@ import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
-import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.EEFRuntimeTabbed;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.section.SectionPropertiesEditingView;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.viewers.IFilter;
@@ -42,7 +42,7 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 	 * @see org.eclipse.ui.views.properties.tabbed.ITabDescriptorProvider#getTabDescriptors(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
 	public ITabDescriptor[] getTabDescriptors(IWorkbenchPart part, ISelection selection) {
-		EEFServiceRegistry serviceRegistry = EEFRuntimeTabbed.getPlugin().getServiceRegistry();
+		EEFServiceRegistry serviceRegistry = E3EEFRuntimeUIPlatformPlugin.getPlugin().getServiceRegistry();
 		if (selection instanceof StructuredSelection) {
 			Object firstElement = ((StructuredSelection) selection).getFirstElement();
 			if (firstElement instanceof EObject) {
@@ -152,7 +152,7 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 					public boolean select(Object toTest) {
 						EObject resolveSemanticObject = resolveSemanticObject(toTest);
 						if (resolveSemanticObject != null) {
-							EMFService emfService = EEFRuntimeTabbed.getPlugin().getServiceRegistry().getService(EMFService.class, resolveSemanticObject.eClass().getEPackage());
+							EMFService emfService = E3EEFRuntimeUIPlatformPlugin.getPlugin().getServiceRegistry().getService(EMFService.class, resolveSemanticObject.eClass().getEPackage());
 							return emfService.equals(binding.getEClass(), resolveSemanticObject.eClass());
 						}
 						return false;

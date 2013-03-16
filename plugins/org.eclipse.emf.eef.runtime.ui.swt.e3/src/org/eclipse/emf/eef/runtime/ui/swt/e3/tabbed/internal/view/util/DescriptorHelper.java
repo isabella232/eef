@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.EEFRuntimeTabbed;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
@@ -69,13 +69,13 @@ public class DescriptorHelper {
 			return (Map<?, ?>)descriptorToTabField.get(propertySheetPage);
 
 		} catch (SecurityException e) {
-			EEFRuntimeTabbed.getPlugin().logError("Unable to access the descriptorToTab method", e);
+			E3EEFRuntimeUIPlatformPlugin.getPlugin().logError("Unable to access the descriptorToTab method", e);
 		} catch (NoSuchFieldException e) {
-			EEFRuntimeTabbed.getPlugin().logError("Unable to access the descriptorToTab method", e);
+			E3EEFRuntimeUIPlatformPlugin.getPlugin().logError("Unable to access the descriptorToTab method", e);
 		} catch (IllegalArgumentException e) {
-			EEFRuntimeTabbed.getPlugin().logError("Unable to access the descriptorToTab method", e);
+			E3EEFRuntimeUIPlatformPlugin.getPlugin().logError("Unable to access the descriptorToTab method", e);
 		} catch (IllegalAccessException e) {
-			EEFRuntimeTabbed.getPlugin().logError("Unable to access the descriptorToTab method", e);
+			E3EEFRuntimeUIPlatformPlugin.getPlugin().logError("Unable to access the descriptorToTab method", e);
 		} finally {
 			if (descriptorToTabField != null) {
 				descriptorToTabField.setAccessible(oldAccessible);
@@ -97,7 +97,7 @@ public class DescriptorHelper {
 		try {
 			return source.getClass().getDeclaredMethod(name, argsType);
 		} catch (Exception e) {
-			EEFRuntimeTabbed.getPlugin().logError("Unable to access a method", e);
+			E3EEFRuntimeUIPlatformPlugin.getPlugin().logError("Unable to access a method", e);
 		}
 		return null;
 	}
@@ -115,7 +115,7 @@ public class DescriptorHelper {
 		try {
 			return method.invoke(source, args);
 		} catch (Exception e) {
-			EEFRuntimeTabbed.getPlugin().logError("Unable to invoke a method", e);
+			E3EEFRuntimeUIPlatformPlugin.getPlugin().logError("Unable to invoke a method", e);
 		}
 		return null;
 	}
