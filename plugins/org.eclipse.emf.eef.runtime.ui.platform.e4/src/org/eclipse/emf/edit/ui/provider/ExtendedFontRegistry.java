@@ -90,7 +90,7 @@ public class ExtendedFontRegistry
           {
           	//@eefspecific
           	EEFLogger logger = serviceRegistry.getService(EEFLogger.class, this);
-            logger.logError("org.eclipse.emf.eef.runtime.ui.platform.e4", "An error occured", exception);
+            logger.logError("org.eclipse.emf.eef.runtime.ui.swt.e4.e4", "An error occured", exception);
           }
         }
         else if (object instanceof URI)
@@ -156,7 +156,7 @@ public class ExtendedFontRegistry
           {
           	//@eefspecific
           	EEFLogger logger = serviceRegistry.getService(EEFLogger.class, this);
-            logger.logError("org.eclipse.emf.eef.runtime.ui.platform.e4", "An error occured", exception);
+            logger.logError("org.eclipse.emf.eef.runtime.ui.swt.e4.e4", "An error occured", exception);
           }
         }
 

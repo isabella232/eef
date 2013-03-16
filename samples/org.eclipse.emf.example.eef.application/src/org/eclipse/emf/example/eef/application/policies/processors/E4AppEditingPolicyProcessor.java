@@ -21,7 +21,7 @@ import org.eclipse.emf.example.eef.application.utils.E4ServicesUtils;
  */
 public class E4AppEditingPolicyProcessor extends LiveWizardEditingPolicyProcessor {
 
-	private static final String OPEN_DETAILS_VIEW_COMMANDID = "org.eclipse.emf.eef.runtime.ui.platform.application.OpenDetailsViewCommand";
+	private static final String OPEN_DETAILS_VIEW_COMMANDID = "org.eclipse.emf.eef.runtime.ui.swt.e4.OpenDetailsViewCommand";
 
 
 	/**

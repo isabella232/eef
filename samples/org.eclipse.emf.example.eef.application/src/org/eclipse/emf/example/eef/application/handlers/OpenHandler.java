@@ -26,9 +26,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
-import org.eclipse.emf.eef.runtime.ui.platform.application.handlers.AbstractEEFOpenHandler;
-import org.eclipse.emf.eef.runtime.ui.platform.application.model.utils.ApplicationModelBuilder;
-import org.eclipse.emf.eef.runtime.ui.platform.application.parts.E4EEFPart;
+import org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenHandler;
+import org.eclipse.emf.eef.runtime.ui.swt.e4.model.utils.ApplicationModelBuilder;
+import org.eclipse.emf.eef.runtime.ui.swt.e4.parts.E4EEFPart;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewFilter;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewsRepository;
@@ -43,7 +43,7 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.platform.application.handlers.AbstractEEFOpenHandler#getElementContainerID()
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenHandler#getElementContainerID()
 	 */
 	@Override
 	protected String getElementContainerID() {
@@ -52,7 +52,7 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.platform.application.handlers.AbstractEEFOpenHandler#getFilterExtensions()
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenHandler#getFilterExtensions()
 	 */
 	@Override
 	protected String[] getFilterExtensions() {
@@ -61,7 +61,7 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.platform.application.handlers.AbstractEEFOpenHandler#configurePart(org.eclipse.e4.ui.workbench.modeling.EModelService, org.eclipse.e4.ui.model.application.MApplication, org.eclipse.e4.ui.model.application.ui.basic.MPart)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenHandler#configurePart(org.eclipse.e4.ui.workbench.modeling.EModelService, org.eclipse.e4.ui.model.application.MApplication, org.eclipse.e4.ui.model.application.ui.basic.MPart)
 	 */
 	@Override
 	protected void preparePartCreation(EModelService modelService, MApplication applicationModel) {
@@ -71,7 +71,7 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.platform.application.handlers.AbstractEEFOpenHandler#configureCreatedPart(org.eclipse.e4.ui.workbench.modeling.EModelService, org.eclipse.e4.ui.model.application.MApplication, org.eclipse.e4.ui.model.application.ui.basic.MPart)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenHandler#configureCreatedPart(org.eclipse.e4.ui.workbench.modeling.EModelService, org.eclipse.e4.ui.model.application.MApplication, org.eclipse.e4.ui.model.application.ui.basic.MPart)
 	 */
 	@Override
 	protected void configureCreatedPart(EModelService modelService, MApplication applicationModel, MPart mPart) {

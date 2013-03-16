@@ -55,6 +55,8 @@
       <plugin id="org.eclipse.emf.eef.runtime.ui"/>
       <plugin id="org.eclipse.emf.eef.runtime.ui.platform.e4"/>
       <plugin id="org.eclipse.emf.eef.runtime.ui.platform.e4.support"/>
+      <plugin id="org.eclipse.emf.eef.runtime.ui.swt"/>
+      <plugin id="org.eclipse.emf.eef.runtime.ui.swt.e4"/>
       <plugin id="org.eclipse.emf.example.eef.application"/>
       <plugin id="org.eclipse.emf.examples.eef"/>
       <plugin id="org.eclipse.emf.examples.eef.edit"/>

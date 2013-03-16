@@ -39,7 +39,7 @@ import org.eclipse.emf.edit.provider.ITableItemFontProvider;
 import org.eclipse.emf.edit.provider.ITableItemLabelProvider;
 import org.eclipse.emf.edit.provider.IViewerNotification;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.ui.platform.services.resources.RegistryProvider;
+import org.eclipse.emf.eef.runtime.ui.swt.e4.services.resources.RegistryProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.services.resources.ImageManager;
 
 
