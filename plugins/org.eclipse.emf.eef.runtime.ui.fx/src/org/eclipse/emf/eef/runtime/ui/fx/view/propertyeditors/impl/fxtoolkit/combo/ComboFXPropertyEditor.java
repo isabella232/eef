@@ -38,7 +38,8 @@ public class ComboFXPropertyEditor extends StandardFXPropertyEditor<ComboBox<Obj
 	 */
 	protected void createEditorContents(Pane parent) {
 		combo = new ComboBox<Object>();
-		GridPane.setConstraints(combo, 2, editorRowIndex(), 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.NEVER);
+		combo.setMaxWidth(Double.MAX_VALUE);
+		GridPane.setConstraints(combo, 2, editorRowIndex(), 1, 1, HPos.LEFT, VPos.CENTER, Priority.ALWAYS, Priority.NEVER);
 		parent.getChildren().add(combo);
 	}
 

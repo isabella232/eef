@@ -4,7 +4,6 @@
 package org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors;
 
 import java.awt.Composite;
-import java.util.List;
 
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -13,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.ui.fx.services.view.FXViewService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -56,14 +54,16 @@ public abstract class StandardFXPropertyEditor<CONTROL extends Control> implemen
 		createEditorContents(parent);
 		if (fxViewService != null) {
 			Label button = fxViewService.createHelpButton(parent, elementEditor);
-			GridPane.setColumnIndex(button, 3);
+			GridPane.setConstraints(button, 3, editorRowIndex(), 1, 1, HPos.RIGHT, VPos.CENTER);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	protected final int editorRowIndex() {
 		if (index == -1) {
-			index = ((List<EObject>) elementEditor.eContainer().eGet(elementEditor.eContainingFeature())).indexOf(elementEditor) + 1; 
+			ViewService viewService = view.getViewService();
+			if (viewService instanceof FXViewService) {
+				index = ((FXViewService) viewService).viewElementRow(elementEditor);
+			}
 		}
 		return index;
 	}

@@ -40,6 +40,7 @@ public class FXImplPropertiesEditingView extends AbstractPropertiesEditingView<P
 	 */
 	public void createContents(Pane container) {
 		contentsComposite = new GridPane();
+		contentsComposite.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		if (container instanceof BorderPane) {
 			((BorderPane) container).setCenter(contentsComposite);
 		} else {

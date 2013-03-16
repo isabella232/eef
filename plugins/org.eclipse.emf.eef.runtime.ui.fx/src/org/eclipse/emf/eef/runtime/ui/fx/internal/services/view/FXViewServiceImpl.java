@@ -3,20 +3,24 @@
  */
 package org.eclipse.emf.eef.runtime.ui.fx.internal.services.view;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.RunnableFuture;
 
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.ui.fx.services.view.FXViewService;
 import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl;
+import org.eclipse.emf.eef.views.Container;
+import org.eclipse.emf.eef.views.ElementEditor;
+import org.eclipse.emf.eef.views.ViewElement;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -24,7 +28,7 @@ import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl;
  */
 public class FXViewServiceImpl extends ViewServiceImpl implements FXViewService {
 
-	private static final String EMPTY_STRING = "";
+//	private static final String EMPTY_STRING = "";
 
 	/**
 	 * {@inheritDoc}
@@ -53,13 +57,35 @@ public class FXViewServiceImpl extends ViewServiceImpl implements FXViewService 
 		String alternate = getHelpContent(editor);
 //		Image image = JFaceResources.getImage(DLG_IMG_HELP);
 		Label result = new Label();
-		if (alternate != null && !EMPTY_STRING.equals(alternate)) { //$NON-NLS-1$
+//		if (alternate != null && !EMPTY_STRING.equals(alternate)) { //$NON-NLS-1$
 //			result.setImage(image);
 			result.setText("?");
 			result.setTooltip(new Tooltip(alternate));
-		}
+//		}
 		parent.getChildren().add(result);
 		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.fx.services.view.FXViewService#viewElementRow(org.eclipse.emf.eef.views.ViewElement)
+	 */
+	@SuppressWarnings("unchecked")
+	public int viewElementRow(ViewElement element) {
+		return ((List<EObject>) element.eContainer().eGet(element.eContainingFeature())).indexOf(element) + 1;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.fx.services.view.FXViewService#containerColumnsCount(org.eclipse.emf.eef.views.Container)
+	 */
+	public int containerColumnsCount(Container container) {
+		for (EObject element : container.eContents()) {
+			if (element instanceof ElementEditor) {
+				return 3;
+			}
+		}
+		return 1;
 	}
 
 	/**

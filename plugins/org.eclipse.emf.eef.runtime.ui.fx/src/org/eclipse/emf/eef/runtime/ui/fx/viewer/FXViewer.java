@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.ui.fx.viewer;
 
 import java.util.Collection;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Control;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -62,6 +63,7 @@ public class FXViewer {
 					try {
 						Tab tab = new Tab(viewDescriptor.getName());
 						BorderPane tabContent = new BorderPane();
+						tabContent.setPadding(new Insets(10, 10, 10, 10));
 						propertiesEditingViewHandler.createView(component, tabContent);
 						handler.initView(component);
 						tab.setContent(tabContent);

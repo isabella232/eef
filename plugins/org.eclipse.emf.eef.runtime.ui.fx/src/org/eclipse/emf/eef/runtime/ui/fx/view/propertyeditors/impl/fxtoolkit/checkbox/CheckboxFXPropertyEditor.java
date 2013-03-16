@@ -48,14 +48,14 @@ public class CheckboxFXPropertyEditor implements FXPropertyEditorViewer<CheckBox
 	 * @see org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.FXPropertyEditorViewer#build(javafx.scene.layout.Pane)
 	 */
 	public void build(Pane parent) {
-		int index = ((List<EObject>) elementEditor.eContainer().eGet(elementEditor.eContainingFeature())).indexOf(elementEditor);
 		ViewService viewService = view.getViewService();
-		checkbox = new CheckBox(viewService.getDescription(elementEditor, elementEditor.getName()));
-		GridPane.setConstraints(checkbox, 1, index+1, 2, 1, HPos.LEFT, VPos.CENTER, Priority.ALWAYS, Priority.NEVER);
-		parent.getChildren().add(checkbox);
 		if (viewService instanceof FXViewService) {
+			FXViewService fxViewService = (FXViewService)viewService;
+			checkbox = new CheckBox(viewService.getDescription(elementEditor, elementEditor.getName()));
+			GridPane.setConstraints(checkbox, 1, fxViewService.viewElementRow(elementEditor), 2, 1, HPos.LEFT, VPos.CENTER, Priority.ALWAYS, Priority.NEVER);
+			parent.getChildren().add(checkbox);
 			Control button = ((FXViewService) viewService).createHelpButton(parent, elementEditor);
-			GridPane.setColumnIndex(button, 3);
+			GridPane.setConstraints(button, 3, fxViewService.viewElementRow(elementEditor), 1, 1, HPos.RIGHT, VPos.CENTER, Priority.NEVER, Priority.NEVER);
 		}
 	}
 
