@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -36,7 +35,7 @@ import com.google.common.collect.Lists;
 public class FXViewer {
 
 	
-	private Node container;
+	private BorderPane container;
 	private PropertiesEditingContext context; 
 	private Collection<ViewHandler<?>> viewHandlers;
 	private List<EEFViewerFilter> filters;
@@ -61,7 +60,7 @@ public class FXViewer {
 	/**
 	 * @return the container
 	 */
-	public Node getControl() {
+	public Pane getControl() {
 		return container;
 	}
 
@@ -78,7 +77,9 @@ public class FXViewer {
 	public void refresh() {
 		if (context != null) {
 			viewHandlers = context.getEditingComponent().createViewHandlers();
-			Collection<ViewHandler<?>> filteredHandlers = Collections2.filter(viewHandlers, new Predicate<ViewHandler<?>>() {
+			Collection<ViewHandler<?>> filteredHandlers;
+			if (filters != null && filters.size() > 0) {  
+			filteredHandlers = Collections2.filter(viewHandlers, new Predicate<ViewHandler<?>>() {
 				
 				/**
 				 * @param handler
@@ -89,48 +90,62 @@ public class FXViewer {
 					return view instanceof View && isFiltered((View) view);
 				}
 			});
+			} else {
+				filteredHandlers = viewHandlers;
+			}
 			// We display tab if dynamicTabHeader is set to false OR if there is more than 1 view to display
 			boolean isTabbed = dynamicTabHeader == false || filteredHandlers.size() > 1;
+			// If the container doesn't exists, we create one.
 			if (container == null) {
-				if (isTabbed) {
-					container = new TabPane();
-				} else {
-					container = new BorderPane();
-				}
+				container = new BorderPane();
 			} else {
-				if (container instanceof BorderPane) {
-					if (container.getParent() instanceof Pane) {
-						((Pane)container.getParent()).getChildren().remove(container);
-						if (isTabbed) {							
-							container = new TabPane();
-						} else {
-							container = new BorderPane();
-						}
-					} else {
-						//FIXME: I don't know how to manage this case.
-					}
+				// Else we clear the existing views.
+				if (container.getCenter() instanceof TabPane) {
+					((TabPane) container.getCenter()).getTabs().clear();
+				} else if (container.getCenter() instanceof BorderPane) {
+					((BorderPane)container.getCenter()).getChildren().remove(container.getCenter());
 				}
-				//TODO: compute isTabbed state.
-				container.getTabs().clear();
 			}
 			PropertiesEditingComponent component = context.getEditingComponent();		
-			for (ViewHandler<?> handler : viewHandlers) {
-				if (handler instanceof FXEditingViewHandler) {
-					FXEditingViewHandler propertiesEditingViewHandler = (FXEditingViewHandler) handler;
-					View viewDescriptor = propertiesEditingViewHandler.getViewDescriptor();
-					try {
-						Tab tab = new Tab(viewDescriptor.getName());
-						BorderPane tabContent = new BorderPane();
-						tabContent.setPadding(new Insets(10, 10, 10, 10));
-						propertiesEditingViewHandler.createView(component, tabContent);
-						handler.initView(component);
-						tab.setContent(tabContent);
-						tab.setClosable(false);
-						container.getTabs().add(tab);
-					} catch (ViewConstructionException e) {
-						EEFLogger logger = handler.getProvider().getServiceRegistry().getService(EEFLogger.class, this);
-						logger.logError("org.eclipse.emf.eef.runtime.ui.fx", "An error occured during view creation.", e);
-					}	
+			if (isTabbed) {
+				TabPane viewContainer = new TabPane();
+				container.setCenter(viewContainer);
+				for (ViewHandler<?> handler : filteredHandlers) {
+					if (handler instanceof FXEditingViewHandler) {
+						FXEditingViewHandler propertiesEditingViewHandler = (FXEditingViewHandler) handler;
+						View viewDescriptor = propertiesEditingViewHandler.getViewDescriptor();
+						try {
+							Tab tab = new Tab(viewDescriptor.getName());
+							BorderPane tabContent = new BorderPane();
+							tabContent.setPadding(new Insets(10, 10, 10, 10));
+							propertiesEditingViewHandler.createView(component, tabContent);
+							handler.initView(component);
+							tab.setContent(tabContent);
+							tab.setClosable(false);
+							viewContainer.getTabs().add(tab);
+						} catch (ViewConstructionException e) {
+							EEFLogger logger = handler.getProvider().getServiceRegistry().getService(EEFLogger.class, this);
+							logger.logError("org.eclipse.emf.eef.runtime.ui.fx", "An error occured during view creation.", e);
+						}	
+					}
+				}
+			} else {
+				if (filteredHandlers.size() == 1) {
+					
+					ViewHandler<?> handler = filteredHandlers.iterator().next();
+					if (handler instanceof FXEditingViewHandler) {
+						FXEditingViewHandler propertiesEditingViewHandler = (FXEditingViewHandler) handler;
+						try {
+							BorderPane viewContainer = new BorderPane();
+							viewContainer.setPadding(new Insets(10, 10, 10, 10));
+							propertiesEditingViewHandler.createView(component, viewContainer);
+							handler.initView(component);
+							container.setCenter(viewContainer);
+						} catch (ViewConstructionException e) {
+							EEFLogger logger = handler.getProvider().getServiceRegistry().getService(EEFLogger.class, this);
+							logger.logError("org.eclipse.emf.eef.runtime.ui.fx", "An error occured during view creation.", e);
+						}	
+					}
 				}
 			}
 		}
