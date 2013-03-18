@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
@@ -14,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -27,6 +29,8 @@ import org.eclipse.emf.eef.runtime.ui.fx.widgets.utils.AdapterFactoryFeatureObse
 import at.bestsolution.efxclipse.runtime.emf.edit.ui.AdapterFactoryTableCellFactory;
 import at.bestsolution.efxclipse.runtime.emf.edit.ui.ProxyCellValueFactory;
 
+import com.google.common.collect.Lists;
+
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
@@ -38,6 +42,9 @@ public class MultiLinePropertyViewer extends BorderPane  {
 	private Button removeButton;
 	private Button upButton;
 	private Button downButton;
+
+	private Collection<MultiLinePropertyViewerListener> listeners;
+
 	private AdapterFactory adapterFactory;
 
 	public MultiLinePropertyViewer() {
@@ -51,14 +58,71 @@ public class MultiLinePropertyViewer extends BorderPane  {
 		vbox.setPadding(new Insets(0, 10, 0, 10));
 		vbox.setSpacing(5);
 		setRight(vbox);
+		listeners = Lists.newArrayList();
 	}
 
 	private VBox createControlPanel() {
 		VBox vbox = new VBox();
 		addButton = createButton("icons/Add.gif");
+		addButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see javafx.event.EventHandler#handle(javafx.event.Event)
+			 */
+			public void handle(MouseEvent event) {
+				for (MultiLinePropertyViewerListener listener : listeners) {
+					listener.add();
+				}
+			}
+			
+		});
 		removeButton = createButton("icons/Delete.gif");
+		removeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see javafx.event.EventHandler#handle(javafx.event.Event)
+			 */
+			public void handle(MouseEvent event) {
+				for (MultiLinePropertyViewerListener listener : listeners) {
+					if (table.getSelectionModel().getSelectedItems().size() > 1) {
+						listener.removeAll(table.getSelectionModel().getSelectedItems());
+					} else if (table.getSelectionModel().getSelectedItems().size() == 1) {
+						listener.remove(table.getSelectionModel().getSelectedItem());
+					}
+				}
+			}
+			
+		});
 		upButton = createButton("icons/ArrowUp.gif");
+		upButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see javafx.event.EventHandler#handle(javafx.event.Event)
+			 */
+			public void handle(MouseEvent event) {
+				for (MultiLinePropertyViewerListener listener : listeners) {
+					listener.moveUp(table.getSelectionModel().getSelectedItem());
+				}
+			}
+			
+		});
 		downButton = createButton("icons/ArrowDown.gif");
+		downButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see javafx.event.EventHandler#handle(javafx.event.Event)
+			 */
+			public void handle(MouseEvent event) {
+				for (MultiLinePropertyViewerListener listener : listeners) {
+					listener.moveDown(table.getSelectionModel().getSelectedItem());
+				}
+			}
+			
+		});
 		vbox.getChildren().addAll(addButton, removeButton, upButton, downButton);
 		buildAdditionnalActionControls(vbox);
 		return vbox;
@@ -88,8 +152,10 @@ public class MultiLinePropertyViewer extends BorderPane  {
 	}
 	
 	public void setLocked(boolean b) {
-		// TODO Auto-generated method stub
-		
+		addButton.setDisable(b);
+		removeButton.setDisable(b);
+		upButton.setDisable(b);
+		downButton.setDisable(b);
 	}
 
 	protected void buildAdditionnalActionControls(Pane parent) {
@@ -116,9 +182,20 @@ public class MultiLinePropertyViewer extends BorderPane  {
 		
 	}	
 	
+	/**
+	 * Add a {@link MultiLinePropertyViewerListener} to this instance.
+	 * @param listener {@link MultiLinePropertyViewerListener} to add.
+	 */
 	public void addReferenceEditorListener(MultiLinePropertyViewerListener listener) {
-		// TODO Auto-generated method stub
-		
+		listeners.add(listener);
+	}
+	
+	/**
+	 * Remove a {@link MultiLinePropertyViewerListener} to this instance.
+	 * @param listener {@link MultiLinePropertyViewerListener} to remove.
+	 */
+	public void removeReferenceEditorListener(MultiLinePropertyViewerListener listener) {
+		listeners.remove(listener);
 	}
 	
 	/**

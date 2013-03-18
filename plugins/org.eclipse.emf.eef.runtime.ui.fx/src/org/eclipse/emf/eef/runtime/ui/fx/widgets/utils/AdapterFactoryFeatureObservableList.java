@@ -73,6 +73,7 @@ public class AdapterFactoryFeatureObservableList<T> implements ObservableList<T>
 
 	@SuppressWarnings("unchecked")
 	private void updateContents(final Object root, EStructuralFeature feature) {
+		elements.clear();
 		if (root instanceof EObject) {
 			Object value = ((EObject) root).eGet(feature);
 			if (value instanceof Collection) {
