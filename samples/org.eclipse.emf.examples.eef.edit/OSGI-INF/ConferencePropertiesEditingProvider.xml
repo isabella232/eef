@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.examples.eef.edit.ConferencePropertiesEditingProvider">
-   <implementation class="org.eclipse.emf.samples.conferences.providers.ConferencePropertiesEditingProvider"/>
+   <implementation class="org.eclipse.emf.samples.conference.providers.ConferencePropertiesEditingProvider"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider"/>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>

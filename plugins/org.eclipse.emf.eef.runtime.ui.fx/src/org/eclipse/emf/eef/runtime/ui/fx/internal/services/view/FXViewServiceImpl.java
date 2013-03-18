@@ -17,9 +17,13 @@ import javafx.scene.text.FontWeight;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.ui.fx.services.view.FXViewService;
+import org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXWidgetPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl;
+import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
+import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProvider;
 import org.eclipse.emf.eef.views.Container;
-import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.ViewElement;
 
 /**
@@ -28,7 +32,7 @@ import org.eclipse.emf.eef.views.ViewElement;
  */
 public class FXViewServiceImpl extends ViewServiceImpl implements FXViewService {
 
-//	private static final String EMPTY_STRING = "";
+	private static final String EMPTY_STRING = "";
 
 	/**
 	 * {@inheritDoc}
@@ -57,11 +61,11 @@ public class FXViewServiceImpl extends ViewServiceImpl implements FXViewService 
 		String alternate = getHelpContent(editor);
 //		Image image = JFaceResources.getImage(DLG_IMG_HELP);
 		Label result = new Label();
-//		if (alternate != null && !EMPTY_STRING.equals(alternate)) { //$NON-NLS-1$
+		if (alternate != null && !EMPTY_STRING.equals(alternate)) { //$NON-NLS-1$
 //			result.setImage(image);
 			result.setText("?");
 			result.setTooltip(new Tooltip(alternate));
-//		}
+		}
 		parent.getChildren().add(result);
 		return result;
 	}
@@ -77,15 +81,23 @@ public class FXViewServiceImpl extends ViewServiceImpl implements FXViewService 
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.fx.services.view.FXViewService#containerColumnsCount(org.eclipse.emf.eef.views.Container)
+	 * @see org.eclipse.emf.eef.runtime.ui.fx.services.view.FXViewService#containerColumnsCount(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.Container)
 	 */
-	public int containerColumnsCount(Container container) {
+	public int containerColumnsCount(PropertiesEditingView<Pane> view, Container container) {
+		int result = 1;
 		for (EObject element : container.eContents()) {
-			if (element instanceof ElementEditor) {
-				return 3;
+			PropertyEditorContext<Pane> editorContext = new PropertyEditorContext<Pane>((PropertiesEditingView<Pane>) view, (ViewElement) element);
+			ToolkitPropertyEditorProvider<Pane> toolkitProvider = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(ToolkitPropertyEditorProvider.class, editorContext);
+			for (WidgetPropertyEditorProvider<Pane> widgetProvider : toolkitProvider.getWidgetProviders()) {
+				if (widgetProvider.serviceFor(editorContext)) {
+					int columnsConsumption = ((FXWidgetPropertyEditorProvider<?>)widgetProvider).columnsConsumption();
+					if(columnsConsumption > result) {
+						result = columnsConsumption;
+					}
+				}
 			}
 		}
-		return 1;
+		return result;
 	}
 
 	/**

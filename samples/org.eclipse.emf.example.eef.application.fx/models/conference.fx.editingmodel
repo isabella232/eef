@@ -4,6 +4,7 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0"/>
@@ -12,30 +13,34 @@
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/overview"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.1"/>
       </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/participants"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0"/>
+      </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.2"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.3"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/firstname"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0/@elements.0"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0/@elements.0"/>
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/lastname"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0/@elements.1"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0/@elements.1"/>
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/gender"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0/@elements.2"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0/@elements.2"/>
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/isRegistered"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.0"/>
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/bio"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.1/@elements.0"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.1/@elements.0"/>
       </propertyBindings>
     </bindings>
   </eef-model:PropertiesEditingModel>
@@ -46,6 +51,11 @@
       </elements>
       <elements xsi:type="eef-views:ElementEditor" name="overview">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.0"/>
+      </elements>
+    </views>
+    <views name="Participants">
+      <elements xsi:type="eef-views:ElementEditor" name="participants">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.fx/org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXToolkit#//@widgets.5"/>
       </elements>
     </views>
     <views name="Participant">

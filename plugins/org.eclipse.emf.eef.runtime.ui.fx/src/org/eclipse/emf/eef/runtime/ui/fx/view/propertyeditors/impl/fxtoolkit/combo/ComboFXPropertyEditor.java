@@ -6,7 +6,6 @@ package org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.co
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;

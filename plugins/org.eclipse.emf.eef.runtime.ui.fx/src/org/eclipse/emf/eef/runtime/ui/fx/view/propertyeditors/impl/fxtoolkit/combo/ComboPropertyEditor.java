@@ -89,7 +89,6 @@ public class ComboPropertyEditor implements PropertyEditor, MonovaluedPropertyEd
 			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
 				if (view.getEditingComponent() != null) {
 					if (newValue instanceof Enumerator) {
-						Enumerator enumerator = (Enumerator)newValue;
 						view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, newValue, true));
 					}
 				}

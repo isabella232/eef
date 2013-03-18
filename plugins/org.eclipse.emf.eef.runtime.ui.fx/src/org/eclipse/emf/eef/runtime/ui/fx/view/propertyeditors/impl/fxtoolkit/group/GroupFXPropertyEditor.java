@@ -58,7 +58,7 @@ public class GroupFXPropertyEditor implements FXPropertyEditorViewer<Pane> {
 		ViewService viewService = view.getViewService();
 		if (viewService instanceof FXViewService) {
 			FXViewService fxViewService = (FXViewService)viewService;
-			GridPane.setConstraints(group, 1, fxViewService.viewElementRow(container), fxViewService.containerColumnsCount((Container) container.eContainer()), 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.NEVER);
+			GridPane.setConstraints(group, 1, fxViewService.viewElementRow(container), fxViewService.containerColumnsCount(view, (Container) container.eContainer()), 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.NEVER);
 		}
 	}
 	

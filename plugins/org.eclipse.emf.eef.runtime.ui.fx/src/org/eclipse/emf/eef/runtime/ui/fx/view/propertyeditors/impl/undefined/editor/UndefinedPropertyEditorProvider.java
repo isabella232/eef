@@ -6,8 +6,8 @@ package org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.undefined.ed
 import javafx.scene.layout.Pane;
 
 import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
+import org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXWidgetPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
 
@@ -15,7 +15,7 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class UndefinedPropertyEditorProvider implements WidgetPropertyEditorProvider<Pane>, DefaultService {
+public class UndefinedPropertyEditorProvider implements FXWidgetPropertyEditorProvider<Pane>, DefaultService {
 
 	private static final String UNDEFINED_EDITOR_NAME = "Undefined";
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
@@ -30,6 +30,14 @@ public class UndefinedPropertyEditorProvider implements WidgetPropertyEditorProv
 	 */
 	public Widget getModel() {
 		return widget;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXWidgetPropertyEditorProvider#columnsConsumption()
+	 */
+	public int columnsConsumption() {
+		return 1;
 	}
 
 	/**

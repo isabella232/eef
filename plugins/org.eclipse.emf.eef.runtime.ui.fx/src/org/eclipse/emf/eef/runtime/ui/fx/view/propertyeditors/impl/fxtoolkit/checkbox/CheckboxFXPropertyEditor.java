@@ -3,8 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.checkbox;
 
-import java.util.List;
-
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.CheckBox;
@@ -13,7 +11,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.ui.fx.services.view.FXViewService;
 import org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.FXPropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;

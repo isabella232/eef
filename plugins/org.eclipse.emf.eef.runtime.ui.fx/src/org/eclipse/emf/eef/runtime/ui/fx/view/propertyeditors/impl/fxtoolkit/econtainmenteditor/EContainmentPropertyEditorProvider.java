@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.combo;
+package org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.econtainmenteditor;
 
 import javafx.scene.layout.Pane;
 
@@ -15,12 +15,12 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ComboPropertyEditorProvider implements FXWidgetPropertyEditorProvider<Pane> {
+public class EContainmentPropertyEditorProvider implements FXWidgetPropertyEditorProvider<Pane> {
 
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
-
+	
 	static {
-		widget.setName("ComboBox");
+		widget.setName("EContainementEditor");
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class ComboPropertyEditorProvider implements FXWidgetPropertyEditorProvid
 	 * @see org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.FXWidgetPropertyEditorProvider#columnsConsumption()
 	 */
 	public int columnsConsumption() {
-		return 3;
+		return 2;
 	}
 
 	/**
@@ -49,10 +49,10 @@ public class ComboPropertyEditorProvider implements FXWidgetPropertyEditorProvid
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
+	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
 	 */
 	public PropertyEditor getPropertyEditor(PropertyEditorContext<Pane> editorContext) {
-		return new ComboPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new ComboFXPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new EContainmentPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new EContainmentFXPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 
 }

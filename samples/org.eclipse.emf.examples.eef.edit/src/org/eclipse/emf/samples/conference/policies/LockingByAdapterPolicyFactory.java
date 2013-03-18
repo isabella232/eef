@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.samples.conferences.policies;
+package org.eclipse.emf.samples.conference.policies;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;

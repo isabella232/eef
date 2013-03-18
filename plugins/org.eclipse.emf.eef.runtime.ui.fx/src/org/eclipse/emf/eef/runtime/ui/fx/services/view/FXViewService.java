@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
+import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ViewElement;
 
@@ -42,10 +43,11 @@ public interface FXViewService extends ViewService {
 	
 	/**
 	 * Returns the columns count of the given container.
+	 * @param view containing {@link PropertiesEditingView}.
 	 * @param container {@link Container} to process.
 	 * @return the columns count.
 	 */
-	int containerColumnsCount(Container container);
+	int containerColumnsCount(PropertiesEditingView<Pane> view, Container container);
 	
 	/**
 	 * Executes the given job in the best Thread UI in a synchronous way.

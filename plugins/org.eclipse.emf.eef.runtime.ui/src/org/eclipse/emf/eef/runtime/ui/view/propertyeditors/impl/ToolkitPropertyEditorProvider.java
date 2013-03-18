@@ -4,7 +4,6 @@
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.eef.runtime.services.EEFService;
@@ -13,6 +12,8 @@ import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorPro
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -26,7 +27,7 @@ public abstract class ToolkitPropertyEditorProvider<T> extends AbstractEEFServic
 	 * 
 	 */
 	public ToolkitPropertyEditorProvider() {
-		widgetProviders = new ArrayList<WidgetPropertyEditorProvider<T>>();
+		widgetProviders = Lists.newArrayList();
 	}
 
 	/**
@@ -56,6 +57,13 @@ public abstract class ToolkitPropertyEditorProvider<T> extends AbstractEEFServic
 		return null;
 	}
 	
+	/**
+	 * @return the widgetProviders
+	 */
+	public List<WidgetPropertyEditorProvider<T>> getWidgetProviders() {
+		return widgetProviders;
+	}
+
 	/**
 	 * @param provider
 	 */

@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 
 import org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.checkbox.CheckboxPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.combo.ComboPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.econtainmenteditor.EContainmentPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.group.GroupContainerProvider;
 import org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.text.TextPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.fx.view.propertyeditors.impl.fxtoolkit.textarea.TextareaPropertyEditorProvider;
@@ -39,7 +40,8 @@ public class FXToolkit extends ToolkitPropertyEditorProvider<Pane> {
 		.addPropertyEditorProvider(new CheckboxPropertyEditorProvider())
 		.addPropertyEditorProvider(new ComboPropertyEditorProvider())
 		.addPropertyEditorProvider(new TextareaPropertyEditorProvider())
-		.addPropertyEditorProvider(new GroupContainerProvider());
+		.addPropertyEditorProvider(new GroupContainerProvider())
+		.addPropertyEditorProvider(new EContainmentPropertyEditorProvider());
 	}
 
 	/**

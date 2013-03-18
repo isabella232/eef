@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.samples.conferences.providers;
+package org.eclipse.emf.samples.conference.providers;
 
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
 

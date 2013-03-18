@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.samples.conferences.policies;
+package org.eclipse.emf.samples.conference.policies;
 
 import java.util.ArrayList;
 import java.util.Collection;
