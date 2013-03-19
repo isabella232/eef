@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.fx.widgets;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -43,9 +45,12 @@ public class MultiLinePropertyViewer extends BorderPane  {
 	private Button upButton;
 	private Button downButton;
 
+	private AdapterFactory adapterFactory;
 	private Collection<MultiLinePropertyViewerListener> listeners;
 
-	private AdapterFactory adapterFactory;
+	private boolean locked;
+	private int lowerBound = 0;
+	private int upperBound = -1;
 
 	public MultiLinePropertyViewer() {
 		table = new TableView<Object>();
@@ -53,11 +58,23 @@ public class MultiLinePropertyViewer extends BorderPane  {
 		column.setPrefWidth(FXUIConstants.DEFAULT_COLUMN_WIDTH);
 		table.getColumns().add(column);
 		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		table.setOnMouseReleased(new EventHandler<MouseEvent>() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see javafx.event.EventHandler#handle(javafx.event.Event)
+			 */
+			public void handle(MouseEvent event) {
+				updateButtons();				
+			}
+			
+		});
 		setCenter(table);
 		VBox vbox = createControlPanel();
 		vbox.setPadding(new Insets(0, 10, 0, 10));
 		vbox.setSpacing(5);
 		setRight(vbox);
+		updateButtons();
 		listeners = Lists.newArrayList();
 	}
 
@@ -151,37 +168,42 @@ public class MultiLinePropertyViewer extends BorderPane  {
 		table.setItems(new AdapterFactoryFeatureObservableList<Object>(adapterFactory, input, feature));
 	}
 	
-	public void setLocked(boolean b) {
-		addButton.setDisable(b);
-		removeButton.setDisable(b);
-		upButton.setDisable(b);
-		downButton.setDisable(b);
-	}
-
 	protected void buildAdditionnalActionControls(Pane parent) {
 		//Do nothing
 	}
 
+	public void addColumn(String name, int defaultColumnWidth) {
+		TableColumn<Object, Object> column = new TableColumn<Object, Object>(name);
+		column.setPrefWidth(FXUIConstants.DEFAULT_COLUMN_WIDTH);
+		table.getColumns().add(column);
+	}	
+	
+	/**
+	 * @param lowerBound the lowerBound to set
+	 */
 	public void setLowerBound(int lowerBound) {
-		// TODO Auto-generated method stub
-		
+		this.lowerBound = lowerBound;
 	}
 
+	/**
+	 * @param upperBound the upperBound to set
+	 */
 	public void setUpperBound(int upperBound) {
-		// TODO Auto-generated method stub
-		
+		this.upperBound = upperBound;
+	}
+
+	/**
+	 * @param locked the locked to set
+	 */
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+		updateButtons();
 	}
 
 	public void refresh() {
-		// TODO Auto-generated method stub
-		
+		updateButtons();
 	}
 
-	public void addColumn(String name, int defaultColumnWidth) {
-		// TODO Auto-generated method stub
-		
-	}	
-	
 	/**
 	 * Add a {@link MultiLinePropertyViewerListener} to this instance.
 	 * @param listener {@link MultiLinePropertyViewerListener} to add.
@@ -198,6 +220,55 @@ public class MultiLinePropertyViewer extends BorderPane  {
 		listeners.remove(listener);
 	}
 	
+	/**
+	 * Update the list buttons.
+	 */
+	protected void updateButtons() {
+		TableViewSelectionModel<Object> selection = table.getSelectionModel();
+		addButton.setDisable(!shouldEnableAdd(selection));
+		if (selection.getSelectedItems().size() == 0) {
+			removeButton.setDisable(true);
+			upButton.setDisable(true);
+			downButton.setDisable(true);
+		} else if (selection.getSelectedItems().size() == 1) {
+			removeButton.setDisable(!shouldEnableRemove(selection));
+			upButton.setDisable(!shouldEnableUp(selection));
+			downButton.setDisable(!shouldEnableDown(selection));
+		} else {
+			removeButton.setDisable(!shouldEnableRemove(selection));
+			upButton.setDisable(true);
+			downButton.setDisable(true);
+		}
+	}
+
+	private boolean shouldEnableAdd(TableViewSelectionModel<Object> selection) {
+		List<Object> elements = table.getItems();
+		return !locked && ((upperBound == -1) || (elements.size() < upperBound));
+	}
+	
+	private boolean shouldEnableRemove(TableViewSelectionModel<Object> selection) {
+		List<Object> elements = table.getItems();
+		return !locked && ((lowerBound == 0) || (elements.size() > lowerBound));
+	}
+	
+	private boolean shouldEnableUp(TableViewSelectionModel<Object> selection) {
+		Object selectedElement = selection.getSelectedItem();
+		List<Object> elements = table.getItems();
+		if (elements != null) {
+			return !locked && (elements.size() > 1  && elements.indexOf(selectedElement) > 0);
+		}
+		return false;
+	}
+
+	private boolean shouldEnableDown(TableViewSelectionModel<Object> selection) {
+		Object selectedElement = selection.getSelectedItem();
+		List<Object> elements = table.getItems();
+		if (elements != null) {
+			return !locked && (elements.size() > 1)  && (elements.indexOf(selectedElement) < elements.size() - 1);
+		}
+		return false;
+	}
+
 	/**
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
 	 *

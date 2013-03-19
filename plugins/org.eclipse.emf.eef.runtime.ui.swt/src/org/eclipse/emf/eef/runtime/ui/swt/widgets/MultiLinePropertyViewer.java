@@ -53,23 +53,22 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	
 	private Composite parent;
 	private int style;
-	
-	private int lowerBound = 0;
-	private int upperBound = -1;
-	
-	private ImageManager imageManager;
-
+		
 	private Composite control;
 	private TableViewer table;
-	private Collection<MultiLinePropertyViewerListener> listeners;
 	private Button addButton;
 	private Button removeButton;
 	private Button upButton;
 	private Button downButton;
 	
-	private boolean locked;
-
+	private ImageManager imageManager;
+	private Collection<MultiLinePropertyViewerListener> listeners;
 	private List<ColumnSettings> columnsToInit = Lists.newArrayList();
+
+	private boolean locked;
+	private int lowerBound = 0;
+	private int upperBound = -1;
+
 	
 	/**
 	 * @param parent
