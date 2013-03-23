@@ -86,8 +86,11 @@ public class FXViewer {
 				 * @return
 				 */
 				public boolean apply(ViewHandler<?> handler) {
-					Object view = handler.getView();
-					return view instanceof View && isFiltered((View) view);
+					if (handler instanceof FXEditingViewHandler) {
+						Object view = ((FXEditingViewHandler) handler).getViewDescriptor();
+						return view instanceof View && isFiltered((View) view);
+					}
+					return false;
 				}
 			});
 			} else {

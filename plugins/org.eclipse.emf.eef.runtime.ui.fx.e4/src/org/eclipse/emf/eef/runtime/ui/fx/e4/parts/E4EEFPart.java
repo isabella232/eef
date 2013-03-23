@@ -3,6 +3,7 @@ package org.eclipse.emf.eef.runtime.ui.fx.e4.parts;
 
 
 import java.io.IOException;
+
 import java.io.InputStream;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ import org.eclipse.emf.eef.runtime.ui.fx.e4.utils.EditingInput;
 import org.eclipse.emf.eef.runtime.ui.fx.e4.utils.impl.EditingContextEditingInput;
 import org.eclipse.emf.eef.runtime.ui.fx.e4.utils.impl.URIEditingInput;
 import org.eclipse.emf.eef.runtime.ui.fx.viewer.FXViewer;
+import org.eclipse.emf.eef.runtime.ui.fx.viewer.filters.EEFViewerFilter;
 
 @SuppressWarnings("restriction")
 public class E4EEFPart {
@@ -98,21 +100,21 @@ public class E4EEFPart {
 		
 	}
 	
-//	/**
-//	 * Adds a new filter in the nested {@link EEFViewer}.
-//	 * @param filter 
-//	 */
-//	public void addFilter(EEFViewerFilter filter) {
-//		viewer.addFilter(filter);
-//	}
-//	
-//	/**
-//	 * Removes a new filter in the nested {@link EEFViewer}.
-//	 * @param filter 
-//	 */
-//	public void removeFilter(EEFViewerFilter filter) {
-//		viewer.removeFilter(filter);
-//	}
+	/**
+	 * Adds a new filter in the nested {@link EEFViewer}.
+	 * @param filter 
+	 */
+	public void addFilter(EEFViewerFilter filter) {
+		viewer.addFilter(filter);
+	}
+	
+	/**
+	 * Removes a new filter in the nested {@link EEFViewer}.
+	 * @param filter 
+	 */
+	public void removeFilter(EEFViewerFilter filter) {
+		viewer.removeFilter(filter);
+	}
 	
 
 	@Focus

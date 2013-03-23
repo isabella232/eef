@@ -58,4 +58,5 @@ Import-Package: at.bestsolution.efxclipse.runtime.emf.edit.ui,
 Service-Component: OSGI-INF/FXEditingViewHandlerProvider.xml,OSGI-INF/FXViewService.xml,OSGI-INF/UndefinedEditorsToolkit.xml,OSGI-INF/FXToolkit.xml 
 Export-Package: org.eclipse.emf.eef.runtime.ui.fx.services.view,
  org.eclipse.emf.eef.runtime.ui.fx.view.handlers.editingview,
- org.eclipse.emf.eef.runtime.ui.fx.viewer
+ org.eclipse.emf.eef.runtime.ui.fx.viewer,
+ org.eclipse.emf.eef.runtime.ui.fx.viewer.filters

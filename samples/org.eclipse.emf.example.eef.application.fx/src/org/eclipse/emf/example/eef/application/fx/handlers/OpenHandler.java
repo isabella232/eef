@@ -20,9 +20,10 @@ import org.eclipse.e4.ui.model.application.descriptor.basic.MPartDescriptor;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.emf.eef.runtime.ui.fx.e4.handlers.AbstractEEFOpenHandler;
-import org.eclipse.emf.example.eef.application.fx.ConferenceApplicationConstants;
-import org.eclipse.emf.eef.runtime.ui.fx.e4.parts.E4EEFPart;
 import org.eclipse.emf.eef.runtime.ui.fx.e4.model.utils.ApplicationModelBuilder;
+import org.eclipse.emf.eef.runtime.ui.fx.e4.parts.E4EEFPart;
+import org.eclipse.emf.example.eef.application.fx.ConferenceApplicationConstants;
+import org.eclipse.emf.eef.runtime.ui.fx.viewer.filters.ViewFilter;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -67,8 +68,8 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 		changePartCloseability(applicationModel, true);
 		E4EEFPart partImpl = (E4EEFPart) mPart.getObject();
 		Collection<String> selectedViews = new ArrayList<String>();
-		selectedViews.add("Conference::Conference");
-//		partImpl.addFilter(new ViewFilter(selectedViews));
+		selectedViews.add("ConferenceFX::Conference");
+		partImpl.addFilter(new ViewFilter(selectedViews));
 	}
 
 	private MPartDescriptor getEEFPartDescriptor(MApplication applicationModel) {
