@@ -69,6 +69,21 @@ public class MultiLinePropertyViewer extends BorderPane  {
 			}
 			
 		});
+		table.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see javafx.event.EventHandler#handle(javafx.event.Event)
+			 */
+			public void handle(MouseEvent arg0) {
+				if (arg0.getClickCount() == 2) {
+					for (MultiLinePropertyViewerListener listener : listeners) {
+						listener.edit(table.getSelectionModel().getSelectedItem());
+					}					
+				}
+			}
+			
+		});
 		setCenter(table);
 		VBox vbox = createControlPanel();
 		vbox.setPadding(new Insets(0, 10, 0, 10));

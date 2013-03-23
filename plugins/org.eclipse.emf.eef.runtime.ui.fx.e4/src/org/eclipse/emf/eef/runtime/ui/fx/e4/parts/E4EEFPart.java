@@ -93,10 +93,10 @@ public class E4EEFPart {
 			PropertiesEditingContextFactory contextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, root);
 			//TODO: is the ED always an AFED ?
 			PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext((AdapterFactoryEditingDomain)editingDomain, root);
-			editingContext.getOptions().setOption("ModelPart", mPart);
+			editingContext.getOptions().setOption(E4EEFSupportConstants.MODELPART_OPTION_KEY, mPart);
 			viewer.setInput(editingContext);
-			parent.setCenter(viewer.getControl());
 		}
+		parent.setCenter(viewer.getControl());
 		
 	}
 	

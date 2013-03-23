@@ -58,12 +58,20 @@ Import-Package: javafx.animation;version="2.0.0",
  org.eclipse.emf.edit.provider,
  org.eclipse.emf.eef.runtime.binding,
  org.eclipse.emf.eef.runtime.context,
+ org.eclipse.emf.eef.runtime.context.impl,
+ org.eclipse.emf.eef.runtime.internal.context,
  org.eclipse.emf.eef.runtime.notify,
+ org.eclipse.emf.eef.runtime.policies,
+ org.eclipse.emf.eef.runtime.policies.eobject,
+ org.eclipse.emf.eef.runtime.policies.processors,
  org.eclipse.emf.eef.runtime.services,
+ org.eclipse.emf.eef.runtime.services.editing,
  org.eclipse.emf.eef.runtime.services.editingProviding,
+ org.eclipse.emf.eef.runtime.services.impl,
  org.eclipse.emf.eef.runtime.services.logging,
  org.eclipse.emf.eef.runtime.services.viewhandler,
  org.eclipse.emf.eef.runtime.services.viewhandler.exceptions,
+ org.eclipse.emf.eef.runtime.ui.fx.e4,
  org.eclipse.emf.eef.runtime.ui.fx.e4.handlers,
  org.eclipse.emf.eef.runtime.ui.fx.e4.model.utils,
  org.eclipse.emf.eef.runtime.ui.fx.e4.parts,
@@ -76,6 +84,6 @@ Import-Package: javafx.animation;version="2.0.0",
  org.eclipse.emf.eef.views,
  org.eclipse.emf.samples.conference,
  org.osgi.service.component;version="1.2.0"
-Service-Component: OSGI-INF/ConferenceFXPropertiesEditingProvider.xml
+Service-Component: OSGI-INF/ConferenceFXPropertiesEditingProvider.xml,OSGI-INF/E4AppPropertiesEditingPolicyProvider.xml
 Bundle-Activator: org.eclipse.emf.example.eef.application.fx.ConferenceManagerActivator
 Bundle-ActivationPolicy: lazy

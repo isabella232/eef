@@ -29,6 +29,7 @@ import org.eclipse.emf.eef.runtime.ui.fx.viewer.filters.ViewFilter;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
+@SuppressWarnings("restriction")
 public class OpenHandler extends AbstractEEFOpenHandler {
 
 	/**

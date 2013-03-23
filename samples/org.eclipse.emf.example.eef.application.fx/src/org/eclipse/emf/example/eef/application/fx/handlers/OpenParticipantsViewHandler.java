@@ -20,12 +20,14 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.emf.eef.runtime.ui.fx.e4.handlers.AbstractEEFOpenViewHandler;
 import org.eclipse.emf.eef.runtime.ui.fx.e4.parts.E4EEFPart;
 import org.eclipse.emf.eef.runtime.ui.fx.e4.utils.EditingInput;
+import org.eclipse.emf.eef.runtime.ui.fx.viewer.filters.ViewFilter;
 import org.eclipse.emf.example.eef.application.fx.ConferenceApplicationConstants;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
+@SuppressWarnings("restriction")
 public class OpenParticipantsViewHandler extends AbstractEEFOpenViewHandler {
 
 	@Inject
@@ -63,8 +65,8 @@ public class OpenParticipantsViewHandler extends AbstractEEFOpenViewHandler {
 	protected void configureCreatedPart(EModelService modelService, MApplication applicationModel, MPart mPart) {
 		E4EEFPart partImpl = (E4EEFPart) mPart.getObject();
 		Collection<String> selectedViews = new ArrayList<String>();
-		selectedViews.add("Conference::Participants");
-//		partImpl.addFilter(new ViewFilter(selectedViews));
+		selectedViews.add("ConferenceFX::Participants");
+		partImpl.addFilter(new ViewFilter(selectedViews));
 		mPart.setLabel("Participants");
 	}
 
