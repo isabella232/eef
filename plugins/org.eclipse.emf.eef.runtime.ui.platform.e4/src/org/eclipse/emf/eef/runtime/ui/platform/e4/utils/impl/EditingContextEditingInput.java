@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.swt.e4.utils.impl;
+package org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;

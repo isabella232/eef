@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.swt.e4.handlers;
+package org.eclipse.emf.eef.runtime.ui.platform.e4.handlers;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -10,37 +10,31 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.utils.EditingInput;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.utils.impl.URIEditingInput;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.utils.impl.VoidEditingInput;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.EditingInput;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.URIEditingInput;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.VoidEditingInput;
+import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
+@SuppressWarnings("restriction")
 public abstract class AbstractEEFOpenHandler extends AbstractEEFOpenViewHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenViewHandler#getEditingInput(org.eclipse.e4.core.contexts.IEclipseContext, org.eclipse.e4.ui.model.application.ui.basic.MPart, org.eclipse.swt.widgets.Shell)
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler#getEditingInput(org.eclipse.e4.core.contexts.IEclipseContext, org.eclipse.e4.ui.model.application.ui.basic.MPart, org.eclipse.swt.widgets.Shell)
 	 */
-	protected EditingInput getEditingInput(IEclipseContext context, MPart mPart, Shell shell) {
+	protected EditingInput getEditingInput(IEclipseContext context, MPart mPart, PlatformRelatedUIUtils uiUtils) {
 		EditingInput editingInput = null;
-		FileDialog dialog = new FileDialog(shell);
 		String[] filterExtensions = getFilterExtensions();
-		if (filterExtensions != null && filterExtensions.length > 0) {
-			dialog.setFilterExtensions(filterExtensions);
-		}
-		String path = dialog.open();
+		String path = uiUtils.selectModelFile(filterExtensions);
 		if (path != null && !path.isEmpty()) {
 			URI fileURI = URI.createFileURI(path);
 			AdapterFactoryEditingDomain editingDomain = getOrCreateEditingDomain(context, fileURI);
 			Resource resource = editingDomain.getResourceSet().getResource(fileURI, true);
 			if (resource == null || resource.getContents().isEmpty()) {
-				MessageDialog.openError(shell, "Invalid conference data", "The application what unable to open the conference descriptor file");
 				editingInput = new VoidEditingInput();
 			} else {				
 				editingInput = new URIEditingInput(fileURI, editingDomain);

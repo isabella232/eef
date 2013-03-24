@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.swt.e4.utils;
+package org.eclipse.emf.eef.runtime.ui.platform.e4.utils;
 
 import org.eclipse.emf.edit.domain.EditingDomain;
 

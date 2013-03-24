@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.swt.e4.utils.impl;
+package org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.utils.EditingInput;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.EditingInput;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

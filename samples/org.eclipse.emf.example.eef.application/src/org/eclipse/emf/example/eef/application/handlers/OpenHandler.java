@@ -10,40 +10,38 @@
  *******************************************************************************/
 package org.eclipse.emf.example.eef.application.handlers;
 
-import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.core.di.annotations.CanExecute;
+import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.descriptor.basic.MPartDescriptor;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenHandler;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.model.utils.ApplicationModelBuilder;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.parts.E4EEFPart;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenHandler;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.model.utils.ApplicationModelBuilder;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.parts.E4EEFPart;
+import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewFilter;
-import org.eclipse.emf.eef.views.View;
-import org.eclipse.emf.eef.views.ViewsRepository;
 import org.eclipse.emf.example.eef.application.ConferenceApplicationConstants;
-import org.eclipse.emf.example.eef.application.ConferenceManagerActivator;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
+@SuppressWarnings("restriction")
 public class OpenHandler extends AbstractEEFOpenHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenHandler#getElementContainerID()
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenHandler#getElementContainerID()
 	 */
 	@Override
 	protected String getElementContainerID() {
@@ -52,7 +50,7 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenHandler#getFilterExtensions()
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenHandler#getFilterExtensions()
 	 */
 	@Override
 	protected String[] getFilterExtensions() {
@@ -61,7 +59,7 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenHandler#configurePart(org.eclipse.e4.ui.workbench.modeling.EModelService, org.eclipse.e4.ui.model.application.MApplication, org.eclipse.e4.ui.model.application.ui.basic.MPart)
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenHandler#configurePart(org.eclipse.e4.ui.workbench.modeling.EModelService, org.eclipse.e4.ui.model.application.MApplication, org.eclipse.e4.ui.model.application.ui.basic.MPart)
 	 */
 	@Override
 	protected void preparePartCreation(EModelService modelService, MApplication applicationModel) {
@@ -71,7 +69,7 @@ public class OpenHandler extends AbstractEEFOpenHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenHandler#configureCreatedPart(org.eclipse.e4.ui.workbench.modeling.EModelService, org.eclipse.e4.ui.model.application.MApplication, org.eclipse.e4.ui.model.application.ui.basic.MPart)
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenHandler#configureCreatedPart(org.eclipse.e4.ui.workbench.modeling.EModelService, org.eclipse.e4.ui.model.application.MApplication, org.eclipse.e4.ui.model.application.ui.basic.MPart)
 	 */
 	@Override
 	protected void configureCreatedPart(EModelService modelService, MApplication applicationModel, MPart mPart) {

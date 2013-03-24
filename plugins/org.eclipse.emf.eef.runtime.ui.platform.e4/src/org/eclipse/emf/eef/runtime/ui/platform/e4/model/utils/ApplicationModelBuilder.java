@@ -1,9 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.swt.e4.model.utils;
-
-import java.util.List;
+package org.eclipse.emf.eef.runtime.ui.platform.e4.model.utils;
 
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.descriptor.basic.MBasicFactory;
@@ -13,6 +11,7 @@ import org.eclipse.e4.ui.model.application.descriptor.basic.MPartDescriptor;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
+@SuppressWarnings("restriction")
 public class ApplicationModelBuilder {
 
 	public static final String EEF_PART_DESCRIPTOR = "org.eclipse.emf.example.eef.application.eefpartdescriptor";
@@ -51,7 +50,7 @@ public class ApplicationModelBuilder {
 			eefPartDescriptor.setDirtyable(true);
 			eefPartDescriptor.setAllowMultiple(true);		
 			eefPartDescriptor.setCloseable(true);
-			eefPartDescriptor.setContributionURI("bundleclass://org.eclipse.emf.eef.runtime.ui.swt.e4/org.eclipse.emf.eef.runtime.ui.swt.e4.parts.E4EEFPart");
+			eefPartDescriptor.setContributionURI("bundleclass://org.eclipse.emf.eef.runtime.ui.platform.e4/org.eclipse.emf.eef.runtime.ui.platform.e4.parts.E4EEFPart");
 		}
 	}
 

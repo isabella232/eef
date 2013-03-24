@@ -1,36 +1,34 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.swt.e4.handlers;
+package org.eclipse.emf.eef.runtime.ui.platform.e4.handlers;
 
 import java.lang.reflect.InvocationTargetException;
-
-import javax.inject.Named;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.MElementContainer;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
-import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.model.utils.ApplicationModelBuilder;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.parts.E4EEFPart;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.utils.EditingInput;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.utils.impl.URIEditingInput;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.model.utils.ApplicationModelBuilder;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.parts.E4EEFPart;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.EditingInput;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.URIEditingInput;
+import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
+@SuppressWarnings("restriction")
 public abstract class AbstractEEFOpenViewHandler {
 
 	@Execute
-	public void execute(IEclipseContext context, EModelService modelService, EPartService partService, EEFServiceRegistry serviceRegistry, MApplication applicationModel, @Named(IServiceConstants.ACTIVE_SHELL) Shell shell) throws InvocationTargetException, InterruptedException {
+	public void execute(IEclipseContext context, EModelService modelService, EPartService partService, EEFServiceRegistry serviceRegistry, PlatformRelatedUIUtils uiUtils, MApplication applicationModel) throws InvocationTargetException, InterruptedException {
 		ApplicationModelBuilder builder = new ApplicationModelBuilder(applicationModel);
 		builder.addPartDescriptorIfNeeded(ApplicationModelBuilder.EEF_PART_DESCRIPTOR);
 		MElementContainer partStack = (MElementContainer) modelService.find(getElementContainerID(), applicationModel);
@@ -38,7 +36,7 @@ public abstract class AbstractEEFOpenViewHandler {
 		MPart mPart = partService.createPart(ApplicationModelBuilder.EEF_PART_DESCRIPTOR);
 		partStack.getChildren().add(mPart);
 		partService.showPart(mPart, PartState.ACTIVATE);
-		EditingInput editingInput = getEditingInput(context, mPart, shell);
+		EditingInput editingInput = getEditingInput(context, mPart, uiUtils);
 		E4EEFPart partImpl = (E4EEFPart) mPart.getObject();
 		partImpl.setInput(editingInput);
 		if (editingInput instanceof URIEditingInput) {
@@ -50,10 +48,10 @@ public abstract class AbstractEEFOpenViewHandler {
 	/**
 	 * @param context
 	 * @param mPart
-	 * @param shell
-	 * @return 
+	 * @param uiUtils
+	 * @return
 	 */
-	protected abstract EditingInput getEditingInput(IEclipseContext context, MPart mPart, Shell shell);
+	protected abstract EditingInput getEditingInput(IEclipseContext context, MPart mPart, PlatformRelatedUIUtils uiUtils);
 
 	/**
 	 * Defines the element where to open the EEF part

@@ -8,7 +8,8 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/ViewServiceImpl.xml, OSGI-INF/StandardDoubleClickFactory.xml, OSGI-INF/PropertiesEditingViewHandlerProvider.xml, OSGI-INF/SWTViewHandlerProvider.xml, OSGI-INF/SWTToolkit.xml, OSGI-INF/EMFPropertiesToolkit.xml, OSGI-INF/EditingViewNotifier.xml, OSGI-INF/EditingViewLockManager.xml, OSGI-INF/UndefinedEditorsToolkit.xml, OSGI-INF/UIPropertiesEditingPolicyProvider.xml
+Service-Component: OSGI-INF/ViewServiceImpl.xml, OSGI-INF/StandardDoubleClickFactory.xml, OSGI-INF/PropertiesEditingViewHandlerProvider.xml, OSGI-INF/SWTViewHandlerProvider.xml, OSGI-INF/SWTToolkit.xml, OSGI-INF/EMFPropertiesToolkit.xml, OSGI-INF/EditingViewNotifier.xml, OSGI-INF/EditingViewLockManager.xml, OSGI-INF/UndefinedEditorsToolkit.xml, OSGI-INF/UIPropertiesEditingPolicyProvider.xml,
+ OSGI-INF/SWTRelatedUIUtils.xml
 Import-Package: com.google.common.base;version="10.0.1",
  com.google.common.collect;version="10.0.1",
  org.eclipse.core.commands.common,
@@ -50,6 +51,7 @@ Import-Package: com.google.common.base;version="10.0.1",
  org.eclipse.emf.eef.runtime.ui.internal.view.impl,
  org.eclipse.emf.eef.runtime.ui.services.propertyeditors,
  org.eclipse.emf.eef.runtime.ui.services.view,
+ org.eclipse.emf.eef.runtime.ui.services.viewer,
  org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl,
  org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors,
  org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl,
@@ -57,6 +59,8 @@ Import-Package: com.google.common.base;version="10.0.1",
  org.eclipse.emf.eef.runtime.ui.view.handlers.reflect,
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors,
  org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl,
+ org.eclipse.emf.eef.runtime.ui.viewer,
+ org.eclipse.emf.eef.runtime.ui.viewer.filters,
  org.eclipse.emf.eef.runtime.view.lock,
  org.eclipse.emf.eef.runtime.view.lock.impl,
  org.eclipse.emf.eef.runtime.view.lock.policies,

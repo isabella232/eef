@@ -16,9 +16,10 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.ui.swt.view.handlers.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.swt.view.handlers.swt.SWTViewHandler;
-import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.EEFViewerFilter;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewFilter;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
+import org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer;
+import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -44,7 +45,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  * TODO: ADD PartFilter management
  */
-public class EEFViewer extends ContentViewer {
+public class EEFViewer extends ContentViewer implements IEEFViewer {
 
 	private Composite control;
 	protected CTabFolder folder;

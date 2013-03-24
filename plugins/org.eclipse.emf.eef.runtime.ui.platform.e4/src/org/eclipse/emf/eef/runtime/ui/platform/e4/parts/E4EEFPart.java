@@ -1,8 +1,12 @@
-
-package org.eclipse.emf.eef.runtime.ui.swt.e4.parts;
+/**
+ * 
+ */
+package org.eclipse.emf.eef.runtime.ui.platform.e4.parts;
 
 
 import java.io.IOException;
+import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
+
 import java.io.InputStream;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -10,13 +14,18 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
+import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
+import org.eclipse.e4.ui.model.application.ui.MElementContainer;
+import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CommandStack;
@@ -29,21 +38,21 @@ import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.E4EEFSupportConstants;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.utils.EditingInput;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.utils.impl.EditingContextEditingInput;
-import org.eclipse.emf.eef.runtime.ui.swt.e4.utils.impl.URIEditingInput;
-import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
-import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.EEFViewerFilter;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.E4EEFSupportConstants;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.EditingInput;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.EditingContextEditingInput;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.URIEditingInput;
+import org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer;
 
+/**
+ * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
+ *
+ */
+@SuppressWarnings("restriction")
 public class E4EEFPart {
 
 	private EditingDomain editingDomain;
-	private EEFViewer viewer;
+	private IEEFViewer viewer;
 	
 	@Inject
 	private MDirtyable dirty;
@@ -51,6 +60,7 @@ public class E4EEFPart {
 	@Inject
 	private EEFServiceRegistry serviceRegistry;
 	private MPart mPart;
+	private UISynchronize uiSynchronize;
 
 
 	/**
@@ -58,11 +68,11 @@ public class E4EEFPart {
 	 * @param parent
 	 */
 	@Inject
-	public E4EEFPart(MPart mPart, EEFServiceRegistry serviceRegistry, Composite parent) {
+	public E4EEFPart(MPart mPart, EEFServiceRegistry serviceRegistry, PlatformRelatedUIUtils viewerFactory, UISynchronize uiSynchronize) {
 		this.mPart = mPart;
-		viewer = new EEFViewer(parent, SWT.NONE);
-		viewer.setContentProvider(new EEFContentProvider());
-
+		this.uiSynchronize = uiSynchronize;
+		Object widget = mPart.getWidget();
+		this.viewer = viewerFactory.createEEFViewer(widget);
 	}
 	
 	/**
@@ -80,7 +90,7 @@ public class E4EEFPart {
 		editingDomain = input.getEditingDomain();
 		CommandStack commandStack = editingDomain.getCommandStack();
 		if (commandStack instanceof BasicCommandStack) {
-			commandStack.addCommandStackListener(new EEFCommandStackListener((BasicCommandStack) commandStack, viewer.getControl(), dirty));
+			commandStack.addCommandStackListener(new EEFCommandStackListener((BasicCommandStack) commandStack, uiSynchronize, dirty));
 		}
 		if (input instanceof EditingContextEditingInput) {
 			DomainAwarePropertiesEditingContext context = ((EditingContextEditingInput) input).getEditingContext();
@@ -115,9 +125,7 @@ public class E4EEFPart {
 	
 
 	@Focus
-	public void onFocus() {
-		viewer.getControl().setFocus();
-	}
+	public void onFocus() {	}
 
 	@Persist
 	public void save() {
@@ -163,7 +171,7 @@ public class E4EEFPart {
 	private static class EEFCommandStackListener implements CommandStackListener {
 
 		private BasicCommandStack commandStack;
-		private Control control;
+		private UISynchronize uiSynchronize;
 		private MDirtyable dirty;
 
 
@@ -172,9 +180,9 @@ public class E4EEFPart {
 		 * @param control
 		 * @param dirty
 		 */
-		public EEFCommandStackListener(BasicCommandStack commandStack, Control control, MDirtyable dirty) {
+		public EEFCommandStackListener(BasicCommandStack commandStack, UISynchronize uiSynchronize, MDirtyable dirty) {
 			this.commandStack = commandStack;
-			this.control = control;
+			this.uiSynchronize = uiSynchronize;
 			this.dirty = dirty;
 		}
 
@@ -186,7 +194,7 @@ public class E4EEFPart {
 		 * @see org.eclipse.emf.common.command.CommandStackListener#commandStackChanged(java.util.EventObject)
 		 */
 		public void commandStackChanged(EventObject event) {
-			control.getDisplay().asyncExec(new Runnable() {
+			uiSynchronize.asyncExec(new Runnable() {
 				public void run() {
 					dirty.setDirty(commandStack.isSaveNeeded());
 				}
