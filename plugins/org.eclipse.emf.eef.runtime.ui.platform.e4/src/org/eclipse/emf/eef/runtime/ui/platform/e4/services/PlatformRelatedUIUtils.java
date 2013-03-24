@@ -1,14 +1,16 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.services.viewer;
+package org.eclipse.emf.eef.runtime.ui.platform.e4.services;
 
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
+@SuppressWarnings("restriction")
 public interface PlatformRelatedUIUtils {
 
 	/**
@@ -20,10 +22,11 @@ public interface PlatformRelatedUIUtils {
 	
 	/**
 	 * Opens a file selection dialog to choose a model.
+	 * @param context the current {@link IEclipseContext}.
 	 * @param fileExtensions filtered extension
 	 * @return the path of the selected file.
 	 */
-	String selectModelFile(String[] fileExtensions);
+	String selectModelFile(IEclipseContext context, String[] fileExtensions);
 	
 	/**
 	 * Opens a dialogbox to display a message.

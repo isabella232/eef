@@ -28,7 +28,7 @@ import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenHandler;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.model.utils.ApplicationModelBuilder;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.parts.E4EEFPart;
-import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewFilter;
 import org.eclipse.emf.example.eef.application.ConferenceApplicationConstants;
 

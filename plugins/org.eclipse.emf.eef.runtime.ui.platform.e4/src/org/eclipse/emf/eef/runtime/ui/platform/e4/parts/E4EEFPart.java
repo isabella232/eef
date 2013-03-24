@@ -33,10 +33,10 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.E4EEFSupportConstants;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.EditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.EditingContextEditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.URIEditingInput;
-import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer;
 import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter;
 

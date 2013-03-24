@@ -10,10 +10,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.EditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.URIEditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.VoidEditingInput;
-import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -29,7 +29,7 @@ public abstract class AbstractEEFOpenHandler extends AbstractEEFOpenViewHandler 
 	protected EditingInput getEditingInput(IEclipseContext context, MPart mPart, PlatformRelatedUIUtils uiUtils) {
 		EditingInput editingInput = null;
 		String[] filterExtensions = getFilterExtensions();
-		String path = uiUtils.selectModelFile(filterExtensions);
+		String path = uiUtils.selectModelFile(context, filterExtensions);
 		if (path != null && !path.isEmpty()) {
 			URI fileURI = URI.createFileURI(path);
 			AdapterFactoryEditingDomain editingDomain = getOrCreateEditingDomain(context, fileURI);

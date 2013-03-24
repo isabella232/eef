@@ -28,7 +28,6 @@ Export-Package: org.eclipse.emf.eef.runtime.ui,
    org.eclipse.emf.edit.domain,
    org.eclipse.emf.eef.runtime.services,
    org.eclipse.ui.forms.widgets",
- org.eclipse.emf.eef.runtime.ui.services.viewer,
  org.eclipse.emf.eef.runtime.ui.view;
   uses:="org.eclipse.emf.eef.runtime.notify,
    org.eclipse.emf.eef.runtime.ui.services.view,

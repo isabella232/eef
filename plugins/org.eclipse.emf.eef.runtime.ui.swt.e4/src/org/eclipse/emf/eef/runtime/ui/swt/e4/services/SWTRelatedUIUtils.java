@@ -1,9 +1,10 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.swt.services.viewer;
+package org.eclipse.emf.eef.runtime.ui.swt.e4.services;
 
-import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer;
@@ -17,11 +18,12 @@ import org.eclipse.swt.widgets.Shell;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
+@SuppressWarnings("restriction")
 public class SWTRelatedUIUtils implements PlatformRelatedUIUtils {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils#createEEFViewer(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils#createEEFViewer(java.lang.Object)
 	 */
 	public IEEFViewer createEEFViewer(Object parent) {
 		if (parent instanceof Composite) {
@@ -34,10 +36,16 @@ public class SWTRelatedUIUtils implements PlatformRelatedUIUtils {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils#selectModelFile(java.lang.String[])
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils#selectModelFile(org.eclipse.e4.core.contexts.IEclipseContext, java.lang.String[])
 	 */
-	public String selectModelFile(String[] fileExtensions) {
-		FileDialog dialog = new FileDialog(new Shell());
+	public String selectModelFile(IEclipseContext context, String[] fileExtensions) {
+		Shell shell;
+		if (context.get(Shell.class) != null) {
+			shell = context.get(Shell.class);
+		} else {
+			shell = new Shell();
+		}
+		FileDialog dialog = new FileDialog(shell);
 		if (fileExtensions != null && fileExtensions.length > 0) {
 			dialog.setFilterExtensions(fileExtensions);
 		}
@@ -46,7 +54,7 @@ public class SWTRelatedUIUtils implements PlatformRelatedUIUtils {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils#openDialogBox(org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils.MessageKind, java.lang.String)
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils#openDialogBox(org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils.MessageKind, java.lang.String)
 	 */
 	public void openDialogBox(MessageKind kind, String title, String message) {
 		switch (kind) {
