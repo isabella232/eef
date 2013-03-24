@@ -6,6 +6,8 @@ package org.eclipse.emf.eef.runtime.ui.fx.viewer.filters;
 import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.ui.fx.viewer.FXViewer;
+import org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer;
+import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter;
 import org.eclipse.emf.eef.views.View;
 
 /**
@@ -21,6 +23,15 @@ public class ViewFilter implements EEFViewerFilter {
 	 */
 	public ViewFilter(Collection<String> selectedViews) {
 		this.selectedViews = selectedViews;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter#select(org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer, java.lang.Object)
+	 */
+	public boolean select(IEEFViewer viewer, Object element) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	/**

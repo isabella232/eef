@@ -3,8 +3,6 @@
  */
 package org.eclipse.emf.example.eef.application.fx.handlers;
 
-import javafx.stage.Stage;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -23,10 +21,11 @@ import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.ui.fx.e4.handlers.AbstractEEFOpenViewHandler;
-import org.eclipse.emf.eef.runtime.ui.fx.e4.utils.EditingInput;
-import org.eclipse.emf.eef.runtime.ui.fx.e4.utils.impl.EditingContextEditingInput;
-import org.eclipse.emf.eef.runtime.ui.fx.e4.utils.impl.URIEditingInput;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.EditingInput;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.EditingContextEditingInput;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.URIEditingInput;
+import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
 import org.eclipse.emf.example.eef.application.fx.ConferenceApplicationConstants;
 import org.eclipse.emf.samples.conference.Conference;
 
@@ -34,6 +33,7 @@ import org.eclipse.emf.samples.conference.Conference;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
+@SuppressWarnings("restriction")
 public class OpenScheduleViewHandler extends AbstractEEFOpenViewHandler {
 
 	@Inject
@@ -50,10 +50,10 @@ public class OpenScheduleViewHandler extends AbstractEEFOpenViewHandler {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.fx.e4.handlers.AbstractEEFOpenViewHandler#getEditingInput(org.eclipse.e4.core.contexts.IEclipseContext, org.eclipse.e4.ui.model.application.ui.basic.MPart, javafx.stage.Stage)
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler#getEditingInput(org.eclipse.e4.core.contexts.IEclipseContext, org.eclipse.e4.ui.model.application.ui.basic.MPart, org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils)
 	 */
 	@Override
-	protected EditingInput getEditingInput(IEclipseContext context, MPart mPart, Stage stage) {
+	protected EditingInput getEditingInput(IEclipseContext context, MPart mPart, PlatformRelatedUIUtils uiUtils) {
 		EditingInput editingInput = activePart.getContext().get(EditingInput.class);
 		if (editingInput instanceof URIEditingInput) {
 			EditingDomain editingDomain = editingInput.getEditingDomain();
@@ -72,7 +72,7 @@ public class OpenScheduleViewHandler extends AbstractEEFOpenViewHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenViewHandler#getElementContainerID()
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler#getElementContainerID()
 	 */
 	@Override
 	protected String getElementContainerID() {
@@ -81,7 +81,7 @@ public class OpenScheduleViewHandler extends AbstractEEFOpenViewHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e4.handlers.AbstractEEFOpenHandler#configureCreatedPart(org.eclipse.e4.ui.workbench.modeling.EModelService, org.eclipse.e4.ui.model.application.MApplication, org.eclipse.e4.ui.model.application.ui.basic.MPart)
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenHandler#configureCreatedPart(org.eclipse.e4.ui.workbench.modeling.EModelService, org.eclipse.e4.ui.model.application.MApplication, org.eclipse.e4.ui.model.application.ui.basic.MPart)
 	 */
 	@Override
 	protected void configureCreatedPart(EModelService modelService, MApplication applicationModel, MPart mPart) {

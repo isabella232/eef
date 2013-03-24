@@ -5,16 +5,12 @@ package org.eclipse.emf.eef.runtime.ui.platform.e4.parts;
 
 
 import java.io.IOException;
-import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
-
 import java.io.InputStream;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
-
-import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -24,8 +20,6 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
-import org.eclipse.e4.ui.model.application.ui.MElementContainer;
-import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CommandStack;
@@ -42,7 +36,9 @@ import org.eclipse.emf.eef.runtime.ui.platform.e4.E4EEFSupportConstants;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.EditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.EditingContextEditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.URIEditingInput;
+import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer;
+import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

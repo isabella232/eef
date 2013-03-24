@@ -20,8 +20,9 @@ import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.ui.fx.view.handlers.editingview.FXEditingViewHandler;
-import org.eclipse.emf.eef.runtime.ui.fx.viewer.filters.EEFViewerFilter;
 import org.eclipse.emf.eef.runtime.ui.fx.viewer.filters.ViewFilter;
+import org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer;
+import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter;
 import org.eclipse.emf.eef.views.View;
 
 import com.google.common.base.Predicate;
@@ -32,7 +33,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class FXViewer {
+public class FXViewer implements IEEFViewer {
 
 	
 	private BorderPane container;
@@ -52,9 +53,11 @@ public class FXViewer {
 	 * Defines the {@link PropertiesEditingContext} to edit.
 	 * @param context  the input {@link PropertiesEditingContext}
 	 */
-	public void setInput(PropertiesEditingContext context) {
-		this.context = context;
-		refresh();
+	public void setInput(Object context) {
+		if (context instanceof PropertiesEditingContext) {
+			this.context = (PropertiesEditingContext) context;
+			refresh();
+		}
 	}
 	
 	/**
