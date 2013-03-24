@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.fx.services.viewer;
+package org.eclipse.emf.eef.runtime.ui.fx.e4.services;
 
 import java.io.File;
 
@@ -18,14 +18,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.emf.eef.runtime.ui.fx.viewer.FXViewer;
-import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
+@SuppressWarnings("restriction")
 public class FXRelatedUIUtils implements PlatformRelatedUIUtils {
 
 	/**
@@ -44,9 +46,9 @@ public class FXRelatedUIUtils implements PlatformRelatedUIUtils {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils#selectModelFile(java.lang.Object, java.lang.String[])
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils#selectModelFile(org.eclipse.e4.core.contexts.IEclipseContext, java.lang.String[])
 	 */
-	public String selectModelFile(Object graphicalOwner, String[] fileExtensions) {
+	public String selectModelFile(IEclipseContext context, String[] fileExtensions) {
 		FileChooser fileChooser = new FileChooser();
 		for (String ext : fileExtensions) {
 			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(ext + " files", ext);

@@ -44,4 +44,6 @@ Import-Package: javafx.application;version="2.2.0",
  org.eclipse.emf.eef.runtime.services.logging,
  org.eclipse.emf.eef.runtime.ui.fx.viewer,
  org.eclipse.emf.eef.runtime.ui.fx.viewer.filters,
+ org.eclipse.emf.eef.runtime.ui.platform.e4.services,
+ org.eclipse.emf.eef.runtime.ui.viewer,
  org.osgi.service.component;version="1.2.0"
