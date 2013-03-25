@@ -5,12 +5,14 @@ package org.eclipse.emf.eef.runtime.ui.platform.e4.parts;
 
 
 import java.io.IOException;
+
 import java.io.InputStream;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.annotation.PostConstruct;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -57,6 +59,7 @@ public class E4EEFPart {
 	private EEFServiceRegistry serviceRegistry;
 	private MPart mPart;
 	private UISynchronize uiSynchronize;
+	private PlatformRelatedUIUtils uiUtils;
 
 
 	/**
@@ -64,11 +67,16 @@ public class E4EEFPart {
 	 * @param parent
 	 */
 	@Inject
-	public E4EEFPart(MPart mPart, EEFServiceRegistry serviceRegistry, PlatformRelatedUIUtils viewerFactory, UISynchronize uiSynchronize) {
+	public E4EEFPart(MPart mPart, EEFServiceRegistry serviceRegistry, PlatformRelatedUIUtils uiUtils, UISynchronize uiSynchronize) {
 		this.mPart = mPart;
 		this.uiSynchronize = uiSynchronize;
+		this.uiUtils = uiUtils;
+	}
+	
+	@PostConstruct
+	public void postConstruct() {
 		Object widget = mPart.getWidget();
-		this.viewer = viewerFactory.createEEFViewer(widget);
+		this.viewer = uiUtils.createEEFViewer(widget);
 	}
 	
 	/**

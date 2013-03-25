@@ -30,8 +30,7 @@ public class ViewFilter implements EEFViewerFilter {
 	 * @see org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter#select(org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer, java.lang.Object)
 	 */
 	public boolean select(IEEFViewer viewer, Object element) {
-		// TODO Auto-generated method stub
-		return false;
+		return element instanceof View && selectedViews.contains(((View)element).getQualifiedIdentifier());
 	}
 
 	/**

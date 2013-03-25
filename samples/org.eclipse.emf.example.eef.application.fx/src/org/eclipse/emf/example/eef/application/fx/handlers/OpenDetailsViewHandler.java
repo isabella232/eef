@@ -22,10 +22,10 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler;
+import org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.EditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.EditingContextEditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.URIEditingInput;
-import org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils;
 import org.eclipse.emf.example.eef.application.fx.ConferenceApplicationConstants;
 
 /**
@@ -60,6 +60,7 @@ public class OpenDetailsViewHandler extends AbstractEEFOpenViewHandler {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler#getEditingInput(org.eclipse.e4.core.contexts.IEclipseContext, org.eclipse.e4.ui.model.application.ui.basic.MPart, org.eclipse.emf.eef.runtime.ui.services.viewer.PlatformRelatedUIUtils)
 	 */
+	@Override
 	protected EditingInput getEditingInput(IEclipseContext context, MPart mPart, PlatformRelatedUIUtils uiUtils) {
 		EditingInput editingInput = activePart.getContext().get(EditingInput.class);
 		if (editingInput instanceof URIEditingInput) {

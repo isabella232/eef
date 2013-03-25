@@ -10,18 +10,17 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.emf.eef.runtime.ui.fx.viewer.FXViewer;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer;
+import at.bestsolution.efxclipse.runtime.workbench.renderers.fx.DefPartRenderer.PartImpl;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -36,10 +35,10 @@ public class FXRelatedUIUtils implements PlatformRelatedUIUtils {
 	 */
 	public IEEFViewer createEEFViewer(Object parent) {
 		FXViewer result = new FXViewer();
-		if (parent instanceof BorderPane) {
-			((BorderPane) parent).setCenter(result.getControl());
-		} else if (parent instanceof GridPane) {
-			((GridPane) parent).getChildren().add(result.getControl());
+		if (parent instanceof PartImpl) {
+			PartImpl partImpl = (PartImpl)parent;
+			BorderPane widget = partImpl.getWidget();
+			widget.setCenter(result.getControl());
 		}
 		return result;
 	}
@@ -55,9 +54,14 @@ public class FXRelatedUIUtils implements PlatformRelatedUIUtils {
 			fileChooser.getExtensionFilters().add(extFilter);
 			
 		}
-        //Show save file dialog
-        File file = fileChooser.showOpenDialog((Window) graphicalOwner);
-        return file.getAbsolutePath();
+		Stage stage = context.get(Stage.class);
+		if (stage!= null) {
+			//Show save file dialog
+			File file = fileChooser.showOpenDialog(stage);
+			return file.getAbsolutePath();
+		} else {
+			return null;
+		}
 	}
 
 	/**
