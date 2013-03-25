@@ -19,7 +19,6 @@ public class LockingByAdapterPolicyFactory extends AbstractEEFService<EObject> i
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	@Override
 	public boolean serviceFor(EObject element) {
 		return ConferencePackage.eNS_URI.equals(element.eClass().getEPackage().getNsURI());
 	}
@@ -28,7 +27,6 @@ public class LockingByAdapterPolicyFactory extends AbstractEEFService<EObject> i
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory#createLockPolicy()
 	 */
-	@Override
 	public EEFLockPolicy createLockPolicy() {
 		return new LockingByAdapterPolicy();
 	}
