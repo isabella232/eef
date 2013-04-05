@@ -70,7 +70,7 @@ public class LockingByAdapterPolicy implements EEFLockPolicy {
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#isAdapterForType(java.lang.Object)
 		 */
-		@Override
+		
 		public boolean isAdapterForType(Object type) {
 			return type == LockAdapter.class || super.isAdapterForType(type);
 		}

@@ -15,9 +15,9 @@ public class ConferencePropertiesEditingProvider extends PropertiesEditingProvid
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl#getEditingModelPath()
 	 */
-	@Override
+	
 	protected String getEditingModelPath() {
-		return "platform:/plugin/org.eclipse.emf.examples.eef.edit/models/conference.editingmodel";
+		return "platform:/plugin/org.eclipse.emf.examples.eef.edit/models-final/conference.editingmodel";
 	}
 
 	

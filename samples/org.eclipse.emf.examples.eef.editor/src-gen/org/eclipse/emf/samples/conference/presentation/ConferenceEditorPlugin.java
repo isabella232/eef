@@ -54,7 +54,7 @@ public final class ConferenceEditorPlugin extends EMFPlugin {
 	 * @return the singleton instance.
 	 * @generated
 	 */
-	@Override
+	
 	public ResourceLocator getPluginResourceLocator() {
 		return plugin;
 	}

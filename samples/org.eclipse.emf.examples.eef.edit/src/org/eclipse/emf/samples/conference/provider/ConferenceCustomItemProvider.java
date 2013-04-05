@@ -23,7 +23,7 @@ public class ConferenceCustomItemProvider extends ConferenceItemProvider impleme
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getColumnImage(java.lang.Object, int)
 	 */
-	@Override
+	
 	public Object getColumnImage(Object object, int columnIndex) {
 		return getImage(object);
 	}
@@ -32,7 +32,7 @@ public class ConferenceCustomItemProvider extends ConferenceItemProvider impleme
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getColumnText(java.lang.Object, int)
 	 */
-	@Override
+	
 	public String getColumnText(Object object, int columnIndex) {
 		return getText(object);
 	}

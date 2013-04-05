@@ -75,7 +75,7 @@ public class ConferenceActionBarContributor
 	 */
 	protected IAction showPropertiesViewAction =
 		new Action(ConferenceEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item")) {
-			@Override
+			
 			public void run() {
 				try {
 					getPage().showView("org.eclipse.ui.views.PropertySheet");
@@ -95,12 +95,12 @@ public class ConferenceActionBarContributor
 	 */
 	protected IAction refreshViewerAction =
 		new Action(ConferenceEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item")) {
-			@Override
+			
 			public boolean isEnabled() {
 				return activeEditorPart instanceof IViewerProvider;
 			}
 
-			@Override
+			
 			public void run() {
 				if (activeEditorPart instanceof IViewerProvider) {
 					Viewer viewer = ((IViewerProvider)activeEditorPart).getViewer();
@@ -113,12 +113,12 @@ public class ConferenceActionBarContributor
 
 	protected IAction lockingObjectAction = new Action("Locking") {
 		
-		@Override
+		
 		public boolean isEnabled() {
 			return activeEditorPart instanceof ISelectionProvider;
 		}
 
-		@Override
+		
 		public void run() {
 			if (activeEditorPart instanceof ISelectionProvider) {
 				ISelection iSelection = ((ISelectionProvider)activeEditorPart).getSelection();
@@ -189,7 +189,7 @@ public class ConferenceActionBarContributor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
 		toolBarManager.add(new Separator("conference-settings"));
 		toolBarManager.add(new Separator("conference-additions"));
@@ -202,7 +202,7 @@ public class ConferenceActionBarContributor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public void contributeToMenu(IMenuManager menuManager) {
 		super.contributeToMenu(menuManager);
 
@@ -241,7 +241,7 @@ public class ConferenceActionBarContributor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public void setActiveEditor(IEditorPart part) {
 		super.setActiveEditor(part);
 		activeEditorPart = part;
@@ -406,7 +406,7 @@ public class ConferenceActionBarContributor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public void menuAboutToShow(IMenuManager menuManager) {
 		super.menuAboutToShow(menuManager);
 		MenuManager submenuManager = null;
@@ -426,7 +426,7 @@ public class ConferenceActionBarContributor
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@Override
+	
 	protected void addGlobalActions(IMenuManager menuManager) {
 		menuManager.insertAfter("additions-end", new Separator("ui-actions"));
 		menuManager.insertAfter("ui-actions", showPropertiesViewAction);
@@ -445,7 +445,7 @@ public class ConferenceActionBarContributor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	protected boolean removeAllReferencesOnDelete() {
 		return true;
 	}

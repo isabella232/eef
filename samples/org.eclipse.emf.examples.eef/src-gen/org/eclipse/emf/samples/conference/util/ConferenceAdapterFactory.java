@@ -52,7 +52,7 @@ public class ConferenceAdapterFactory extends AdapterFactoryImpl {
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
-	@Override
+	
 	public boolean isFactoryForType(Object object) {
 		if (object == modelPackage) {
 			return true;
@@ -71,35 +71,35 @@ public class ConferenceAdapterFactory extends AdapterFactoryImpl {
 	 */
 	protected ConferenceSwitch<Adapter> modelSwitch =
 		new ConferenceSwitch<Adapter>() {
-			@Override
+			
 			public Adapter caseConference(Conference object) {
 				return createConferenceAdapter();
 			}
-			@Override
+			
 			public Adapter caseParticipant(Participant object) {
 				return createParticipantAdapter();
 			}
-			@Override
+			
 			public Adapter caseSession(Session object) {
 				return createSessionAdapter();
 			}
-			@Override
+			
 			public Adapter caseVenue(Venue object) {
 				return createVenueAdapter();
 			}
-			@Override
+			
 			public Adapter caseRoom(Room object) {
 				return createRoomAdapter();
 			}
-			@Override
+			
 			public Adapter caseSchedule(Schedule object) {
 				return createScheduleAdapter();
 			}
-			@Override
+			
 			public Adapter caseSessionSchedule(SessionSchedule object) {
 				return createSessionScheduleAdapter();
 			}
-			@Override
+			
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -113,7 +113,7 @@ public class ConferenceAdapterFactory extends AdapterFactoryImpl {
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
-	@Override
+	
 	public Adapter createAdapter(Notifier target) {
 		return modelSwitch.doSwitch((EObject)target);
 	}

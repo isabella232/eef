@@ -89,7 +89,7 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public Adapter createConferenceAdapter() {
 		if (conferenceItemProvider == null) {
 			conferenceItemProvider = new ConferenceItemProvider(this);
@@ -112,7 +112,7 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public Adapter createParticipantAdapter() {
 		if (participantItemProvider == null) {
 			participantItemProvider = new ParticipantItemProvider(this);
@@ -135,7 +135,7 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public Adapter createSessionAdapter() {
 		if (sessionItemProvider == null) {
 			sessionItemProvider = new SessionItemProvider(this);
@@ -158,7 +158,7 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public Adapter createVenueAdapter() {
 		if (venueItemProvider == null) {
 			venueItemProvider = new VenueItemProvider(this);
@@ -181,7 +181,7 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public Adapter createRoomAdapter() {
 		if (roomItemProvider == null) {
 			roomItemProvider = new RoomItemProvider(this);
@@ -204,7 +204,7 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public Adapter createScheduleAdapter() {
 		if (scheduleItemProvider == null) {
 			scheduleItemProvider = new ScheduleItemProvider(this);
@@ -227,7 +227,7 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public Adapter createSessionScheduleAdapter() {
 		if (sessionScheduleItemProvider == null) {
 			sessionScheduleItemProvider = new SessionScheduleItemProvider(this);
@@ -261,7 +261,7 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public boolean isFactoryForType(Object type) {
 		return supportedTypes.contains(type) || super.isFactoryForType(type);
 	}
@@ -272,7 +272,7 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public Adapter adapt(Notifier notifier, Object type) {
 		return super.adapt(notifier, this);
 	}
@@ -282,7 +282,7 @@ public class ConferenceItemProviderAdapterFactory extends ConferenceAdapterFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	
 	public Object adapt(Object object, Object type) {
 		if (isFactoryForType(type)) {
 			Object adapter = super.adapt(object, type);

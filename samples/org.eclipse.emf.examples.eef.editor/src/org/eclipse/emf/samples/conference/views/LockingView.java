@@ -61,12 +61,12 @@ public class LockingView extends ViewPart {
 		viewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 		viewer.setCheckStateProvider(new ICheckStateProvider() {
 			
-			@Override
+			
 			public boolean isGrayed(Object element) {
 				return false;
 			}
 			
-			@Override
+			
 			public boolean isChecked(Object element) {
 				if (element instanceof EObject) {
 					if (element instanceof EStructuralFeature) {
@@ -92,7 +92,7 @@ public class LockingView extends ViewPart {
 		
 		viewer.addCheckStateListener(new ICheckStateListener() {
 			
-			@Override
+			
 			public void checkStateChanged(CheckStateChangedEvent event) {
 				if (event.getElement() instanceof EObject) {
 					if (event.getElement() instanceof EStructuralFeature) {
@@ -116,7 +116,7 @@ public class LockingView extends ViewPart {
 			
 			private Object lastSelection = null;
 			
-			@Override
+			
 			public void selectionChanged(IWorkbenchPart part, ISelection sSelection) {
 				if (sSelection instanceof StructuredSelection) {
 					Object selection = ((StructuredSelection)sSelection).getFirstElement();
@@ -151,7 +151,7 @@ public class LockingView extends ViewPart {
 		 * {@inheritDoc}
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
-		@Override
+		
 		public void dispose() {
 			
 		}
@@ -160,7 +160,7 @@ public class LockingView extends ViewPart {
 		 * {@inheritDoc}
 		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
-		@Override
+		
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			
 		}
@@ -169,7 +169,7 @@ public class LockingView extends ViewPart {
 		 * {@inheritDoc}
 		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.Object)
 		 */
-		@Override
+		
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof EObject[]) {
 				return new Object[] { ((EObject[])inputElement)[0] };
@@ -181,7 +181,7 @@ public class LockingView extends ViewPart {
 		 * {@inheritDoc}
 		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 		 */
-		@Override
+		
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof EObject) {
 				return ((EObject) parentElement).eClass().getEAllStructuralFeatures().toArray();
@@ -193,7 +193,7 @@ public class LockingView extends ViewPart {
 		 * {@inheritDoc}
 		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
 		 */
-		@Override
+		
 		public Object getParent(Object element) {
 			return null;
 		}
@@ -202,7 +202,7 @@ public class LockingView extends ViewPart {
 		 * {@inheritDoc}
 		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
 		 */
-		@Override
+		
 		public boolean hasChildren(Object element) {
 			return element instanceof EObject && !(element instanceof EStructuralFeature);
 		}

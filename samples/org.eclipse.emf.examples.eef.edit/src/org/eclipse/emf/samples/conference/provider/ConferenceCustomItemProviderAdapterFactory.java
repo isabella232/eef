@@ -23,7 +23,7 @@ public class ConferenceCustomItemProviderAdapterFactory extends ConferenceItemPr
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.samples.conference.provider.ConferenceItemProviderAdapterFactory#createConferenceAdapter()
 	 */
-	@Override
+	
 	public Adapter createConferenceAdapter() {
 		if (conferenceItemProvider == null) {
 			conferenceItemProvider = new ConferenceCustomItemProvider(this);
@@ -36,7 +36,7 @@ public class ConferenceCustomItemProviderAdapterFactory extends ConferenceItemPr
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.samples.conference.provider.ConferenceItemProviderAdapterFactory#createParticipantAdapter()
 	 */
-	@Override
+	
 	public Adapter createParticipantAdapter() {
 		if (participantItemProvider == null) {
 			participantItemProvider = new ParticipantCustomItemProvider(this);
@@ -49,7 +49,7 @@ public class ConferenceCustomItemProviderAdapterFactory extends ConferenceItemPr
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.samples.conference.provider.ConferenceItemProviderAdapterFactory#createSessionAdapter()
 	 */
-	@Override
+	
 	public Adapter createSessionAdapter() {
 		if (sessionItemProvider == null) {
 			sessionItemProvider = new SessionCustomItemProvider(this);
@@ -62,7 +62,7 @@ public class ConferenceCustomItemProviderAdapterFactory extends ConferenceItemPr
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.samples.conference.provider.ConferenceItemProviderAdapterFactory#createVenueAdapter()
 	 */
-	@Override
+	
 	public Adapter createVenueAdapter() {
 		if (venueItemProvider == null) {
 			venueItemProvider = new VenueCustomItemProvider(this);
@@ -75,7 +75,7 @@ public class ConferenceCustomItemProviderAdapterFactory extends ConferenceItemPr
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.samples.conference.provider.ConferenceItemProviderAdapterFactory#createRoomAdapter()
 	 */
-	@Override
+	
 	public Adapter createRoomAdapter() {
 		if (roomItemProvider == null) {
 			roomItemProvider = new RoomCustomItemProvider(this);
@@ -88,7 +88,7 @@ public class ConferenceCustomItemProviderAdapterFactory extends ConferenceItemPr
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.samples.conference.provider.ConferenceItemProviderAdapterFactory#createScheduleAdapter()
 	 */
-	@Override
+	
 	public Adapter createScheduleAdapter() {
 		if (scheduleItemProvider == null) {
 			scheduleItemProvider = new ScheduleItemProvider(this);
@@ -100,7 +100,7 @@ public class ConferenceCustomItemProviderAdapterFactory extends ConferenceItemPr
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.samples.conference.provider.ConferenceItemProviderAdapterFactory#createSessionScheduleAdapter()
 	 */
-	@Override
+	
 	public Adapter createSessionScheduleAdapter() {
 		if (sessionScheduleItemProvider == null) {
 			sessionScheduleItemProvider = new SessionScheduleCustomItemProvider(this);
