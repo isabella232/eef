@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.internal.view.impl;
+package org.eclipse.emf.eef.runtime.ui.view;
 
 import java.util.Collection;
 import java.util.Map;
@@ -14,8 +14,6 @@ import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewSettingsImpl;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
-import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.ViewSettings;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
@@ -61,7 +59,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewModel()
 	 */
-	public View getViewModel() {
+	public final View getViewModel() {
 		return viewDescriptor;
 	}
 
@@ -69,7 +67,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
 	 */
-	public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
+	public final void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
 		this.serviceRegistry = serviceRegistry;
 	}
 
@@ -77,7 +75,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getEditingComponent()
 	 */
-	public PropertiesEditingComponent getEditingComponent() {
+	public final PropertiesEditingComponent getEditingComponent() {
 		return editingComponent;
 	}
 
@@ -85,7 +83,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getPropertyEditor(org.eclipse.emf.eef.views.ViewElement)
 	 */
-	public PropertyEditor getPropertyEditor(ViewElement editor) {
+	public final PropertyEditor getPropertyEditor(ViewElement editor) {
 		return propertyEditors.get(editor);
 	}
 
@@ -93,7 +91,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewService()
 	 */
-	public ViewService getViewService() {
+	public final ViewService getViewService() {
 		if (service == null) {
 			service = serviceRegistry.getService(ViewService.class, viewDescriptor);
 		}
@@ -107,7 +105,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewSettings()
 	 */
-	public ViewSettings getViewSettings() {
+	public final ViewSettings getViewSettings() {
 		return new ViewSettingsImpl();
 	}
 
@@ -115,7 +113,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getContents()
 	 */
-	public T getContents() {
+	public final T getContents() {
 		return contentsComposite;
 	}
 
@@ -123,7 +121,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#init()
 	 */
-	public void init() {
+	public final void init() {
 		UnmodifiableIterator<ElementEditor> elementEditors = Iterators.filter(viewDescriptor.eAllContents(), ElementEditor.class);
 		while (elementEditors.hasNext()) {
 			ElementEditor elementEditor = elementEditors.next();
@@ -143,7 +141,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#lock()
 	 */
-	public void lock() {
+	public final void lock() {
 		for (PropertyEditor editor : propertyEditors.values()) {
 			editor.getPropertyEditorViewer().lock();
 		}
@@ -153,7 +151,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#unlock()
 	 */
-	public void unlock() {
+	public final void unlock() {
 		for (PropertyEditor editor : propertyEditors.values()) {
 			editor.getPropertyEditorViewer().unlock();
 		}
@@ -172,7 +170,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
-	public void firePropertiesChanged(PropertiesEditingEvent event) {
+	public final void firePropertiesChanged(PropertiesEditingEvent event) {
 		// Default : Do nothing
 	}
 
@@ -180,7 +178,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setValue(java.lang.Object, java.lang.Object)
 	 */
-	public void setValue(Object field, Object value) {
+	public final void setValue(Object field, Object value) {
 		if (field instanceof ElementEditor) {
 			PropertyEditor propertyEditor = propertyEditors.get(field);
 			if (propertyEditor instanceof MonovaluedPropertyEditor) {
@@ -193,7 +191,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#unsetValue(java.lang.Object)
 	 */
-	public void unsetValue(Object field) {
+	public final void unsetValue(Object field) {
 		if (field instanceof ElementEditor) {
 			PropertyEditor propertyEditor = propertyEditors.get(field);
 			if (propertyEditor instanceof MonovaluedPropertyEditor) {
@@ -206,7 +204,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#addValue(java.lang.Object, java.lang.Object)
 	 */
-	public void addValue(Object field, Object value) {
+	public final void addValue(Object field, Object value) {
 		if (field instanceof ElementEditor) {
 			PropertyEditor propertyEditor = propertyEditors.get(field);
 			if (propertyEditor instanceof MultivaluedPropertyEditor) {
@@ -219,7 +217,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#addAllValues(java.lang.Object, java.util.Collection)
 	 */
-	public void addAllValues(Object field, Collection<?> values) {
+	public final void addAllValues(Object field, Collection<?> values) {
 		if (field instanceof ElementEditor) {
 			PropertyEditor propertyEditor = propertyEditors.get(field);
 			if (propertyEditor instanceof MultivaluedPropertyEditor) {
@@ -232,7 +230,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#removeValue(java.lang.Object, java.lang.Object)
 	 */
-	public void removeValue(Object field, Object value) {
+	public final void removeValue(Object field, Object value) {
 		if (field instanceof ElementEditor) {
 			PropertyEditor propertyEditor = propertyEditors.get(field);
 			if (propertyEditor instanceof MultivaluedPropertyEditor) {
@@ -245,7 +243,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#removeAllValues(java.lang.Object, java.util.Collection)
 	 */
-	public void removeAllValues(Object field, Collection<?> values) {
+	public final void removeAllValues(Object field, Collection<?> values) {
 		if (field instanceof ElementEditor) {
 			PropertyEditor propertyEditor = propertyEditors.get(field);
 			if (propertyEditor instanceof MultivaluedPropertyEditor) {
@@ -258,7 +256,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#moveValue(java.lang.Object, java.lang.Object, int)
 	 */
-	public void moveValue(Object field, Object value, int newIndex) {
+	public final void moveValue(Object field, Object value, int newIndex) {
 		if (field instanceof ElementEditor) {
 			PropertyEditor propertyEditor = propertyEditors.get(field);
 			if (propertyEditor instanceof MultivaluedPropertyEditor) {
