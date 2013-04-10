@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.view.lock.impl;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;

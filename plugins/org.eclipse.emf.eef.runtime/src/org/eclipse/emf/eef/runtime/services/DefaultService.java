@@ -1,9 +1,8 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.services;
+package org.eclipse.emf.eef.runtime.services;
 
-import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
  * Marker interface for default {@link EEFService}.

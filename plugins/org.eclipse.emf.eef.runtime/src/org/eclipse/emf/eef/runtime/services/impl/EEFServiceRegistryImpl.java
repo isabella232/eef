@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
-import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 

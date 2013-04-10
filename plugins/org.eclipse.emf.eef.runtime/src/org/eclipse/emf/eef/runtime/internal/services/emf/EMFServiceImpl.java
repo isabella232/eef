@@ -19,7 +19,7 @@ import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 

@@ -10,9 +10,9 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
-import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
 /**

@@ -6,7 +6,6 @@ package org.eclipse.emf.eef.runtime.policies;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.eobject.EObjectBatchEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.eobject.EObjectDirectEditingPolicy;
@@ -14,6 +13,7 @@ import org.eclipse.emf.eef.runtime.policies.eobject.EObjectLiveEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceBatchEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceDirectEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceLiveEditingPolicy;
+import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 

@@ -25,7 +25,7 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
-import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;

@@ -12,7 +12,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.internal.services.view;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.internal.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.services.view.SWTViewService;
 import org.eclipse.jface.resource.JFaceResources;
