@@ -639,7 +639,7 @@ public class EEFTestEnvironment {
 
 		public Collection<EEFServiceDescriptor<ViewService>> createViewServices() {
 			Collection<EEFServiceDescriptor<ViewService>> result = new ArrayList<EEFServiceDescriptor<ViewService>>();
-			result.add(new EEFServiceDescriptor<ViewService>("viewservice.default", new PlatformAwareViewServiceImpl() {
+			PlatformAwareViewServiceImpl viewService = new PlatformAwareViewServiceImpl() {
 
 				/**
 				 * {@inheritDoc}
@@ -652,7 +652,9 @@ public class EEFTestEnvironment {
 					return result;
 				}
 
-			}));
+			};
+			viewService.setEMFServiceProvider(getEMFServiceProvider());
+			result.add(new EEFServiceDescriptor<ViewService>("viewservice.default", viewService));
 			return result;
 		}
 

@@ -27,6 +27,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.views.View;
@@ -35,13 +36,22 @@ import org.eclipse.emf.eef.views.View;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  */
 public class ViewServiceImpl extends AbstractEEFService<View> implements ViewService, DefaultService {
-		
+	
+	private EMFServiceProvider emfServiceProvider;
+	
 	private PropertiesEditingComponent editingComponent;
 	
 	/**
 	 * Creates a semanticless helper.
 	 */
 	public ViewServiceImpl() { }
+
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -76,7 +86,7 @@ public class ViewServiceImpl extends AbstractEEFService<View> implements ViewSer
 		EStructuralFeature associatedFeature = feature(editor);
 		EObject eObject = editingComponent.getEObject();
 		if (!eObject.eClass().getEAllStructuralFeatures().contains(associatedFeature)) {
-			EMFService service = editingComponent.getEditingContext().getServiceRegistry().getService(EMFService.class, eObject.eClass().getEPackage());
+			EMFService service = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 			associatedFeature = service.mapFeature(eObject, associatedFeature);
 		}
 		if (associatedFeature != null) {
