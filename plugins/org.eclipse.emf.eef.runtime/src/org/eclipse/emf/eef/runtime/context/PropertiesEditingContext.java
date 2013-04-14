@@ -17,6 +17,10 @@ import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
  */
 public interface PropertiesEditingContext {
 	
+	final String EOBJECT_PARAM = "EObject parameter"; 
+	final String ADAPTERFACTORY_PARAM = "AdapterFactory parameter"; 
+	final String PARENTCONTEXT_PARAM = "ParentContext parameter"; 
+	
 	/**
 	 * @return the {@link EEFServiceRegistry} of the current {@link PropertiesEditingContext}.
 	 */

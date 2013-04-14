@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
-import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;

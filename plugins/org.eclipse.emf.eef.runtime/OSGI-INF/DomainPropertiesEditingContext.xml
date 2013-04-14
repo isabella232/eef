@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="configure" enabled="true" factory="org.eclipse.emf.eef.runtime.internal.context.DomainPropertiesEditingContext" name="org.eclipse.emf.eef.runtime.internal.context.DomainPropertiesEditingContext">
+   <implementation class="org.eclipse.emf.eef.runtime.internal.context.DomainPropertiesEditingContext"/>
+   <service>
+      <provide interface="org.eclipse.emf.eef.runtime.context.PropertiesEditingContext"/>
+   </service>
+</scr:component>

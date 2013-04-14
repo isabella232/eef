@@ -6,4 +6,5 @@
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
    </service>
    <reference bind="setNotificationManager" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager" name="ModelChangesNotificationManager" policy="dynamic" unbind="unsetNotificationManager"/>
+   <reference bind="addChildFactory" cardinality="0..n" interface="org.osgi.service.component.ComponentFactory" name="ComponentFactory" policy="dynamic" unbind="removeChildFactory"/>
 </scr:component>

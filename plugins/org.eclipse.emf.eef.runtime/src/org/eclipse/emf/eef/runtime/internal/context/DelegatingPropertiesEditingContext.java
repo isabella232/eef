@@ -17,15 +17,8 @@ import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
  */
 public abstract class DelegatingPropertiesEditingContext implements PropertiesEditingContext {
 
-	private PropertiesEditingContext delegatingContext;
+	protected PropertiesEditingContext delegatingContext;
 	
-	/**
-	 * @param delegatingContext {@link PropertiesEditingContext} to use for delegation.
-	 */
-	public DelegatingPropertiesEditingContext(PropertiesEditingContext delegatingContext) {
-		this.delegatingContext = delegatingContext;
-	}
-
 	/**
 	 * @return the delegatingContext
 	 */

@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.tests.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +32,11 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.context.DomainPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.PropertiesEditingContextFactoryImpl;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
@@ -75,6 +80,12 @@ import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.swt.widgets.Composite;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.component.ComponentContext;
+import org.osgi.service.component.ComponentFactory;
+import org.osgi.service.component.ComponentInstance;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -815,7 +826,7 @@ public class EEFTestEnvironment {
 
 		public Collection<EEFServiceDescriptor<PropertiesEditingContextFactory>> createContextFactory() {
 			Collection<EEFServiceDescriptor<PropertiesEditingContextFactory>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<PropertiesEditingContextFactory>>();
-			EEFServiceDescriptor<PropertiesEditingContextFactory> desc = new EEFServiceDescriptor<PropertiesEditingContextFactory>("propertieseditingcontextfactory.default", new PropertiesEditingContextFactoryImpl() {
+			PropertiesEditingContextFactoryImpl contextFactory = new PropertiesEditingContextFactoryImpl() {
 
 				/**
 				 * {@inheritDoc}
@@ -828,7 +839,50 @@ public class EEFTestEnvironment {
 					return result;
 				}
 
-			});
+			};
+			Map<String, Object> properties = new HashMap<String, Object>();
+			properties.put("component.factory", EObjectPropertiesEditingContext.FACTORY_ID);
+			contextFactory.addChildFactory(new ComponentFactory() {
+				
+				public ComponentInstance newInstance(Dictionary properties) {
+					EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext();
+					context.configure(new ComponentContextMock(properties));
+					return new ContextInstance(context);
+				}
+			}, properties);
+			
+			properties.put("component.factory", DomainPropertiesEditingContext.FACTORY_ID);
+			contextFactory.addChildFactory(new ComponentFactory() {
+				
+				public ComponentInstance newInstance(Dictionary properties) {
+					DomainPropertiesEditingContext context = new DomainPropertiesEditingContext();
+					context.configure(new ComponentContextMock(properties));
+					return new ContextInstance(context);
+				}
+			}, properties);
+			
+			properties.put("component.factory", SemanticPropertiesEditingContext.FACTORY_ID);
+			contextFactory.addChildFactory(new ComponentFactory() {
+				
+				public ComponentInstance newInstance(Dictionary properties) {
+					SemanticPropertiesEditingContext context = new SemanticPropertiesEditingContext();
+					context.configure(new ComponentContextMock(properties));
+					return new ContextInstance(context);
+				}
+			}, properties);
+			
+			properties.put("component.factory", SemanticDomainPropertiesEditingContext.FACTORY_ID);
+			contextFactory.addChildFactory(new ComponentFactory() {
+				
+				public ComponentInstance newInstance(Dictionary properties) {
+					SemanticDomainPropertiesEditingContext context = new SemanticDomainPropertiesEditingContext();
+					context.configure(new ComponentContextMock(properties));
+					return new ContextInstance(context);
+				}
+			}, properties);
+			
+			
+			EEFServiceDescriptor<PropertiesEditingContextFactory> desc = new EEFServiceDescriptor<PropertiesEditingContextFactory>("propertieseditingcontextfactory.default", contextFactory);
 			result.add(desc);
 			return result;
 		}
@@ -918,7 +972,7 @@ public class EEFTestEnvironment {
 		}
 
 		public PropertiesEditingContextFactory createPropertiesEditingContextFactory() {
-			PropertiesEditingContextFactory factory = new PropertiesEditingContextFactoryImpl();
+			PropertiesEditingContextFactory factory = createContextFactory().iterator().next().service;
 			factory.setServiceRegistry(getServiceRegistry());
 			factory.setNotificationManager(getModelChangesNotificationManager());
 			return factory;
@@ -997,5 +1051,68 @@ public class EEFTestEnvironment {
 			this.hasPriorityOver = Arrays.asList(hasPriorityOver);
 		}
 
+	}
+
+	private final static class ComponentContextMock implements ComponentContext {
+
+		private Dictionary properties;
+		
+		/**
+		 * @param properties
+		 */
+		public ComponentContextMock(Dictionary properties) {
+			this.properties = properties;
+		}
+
+		public Dictionary getProperties() { return properties; }
+
+		public Object locateService(String name) { return null;	}
+
+		public Object locateService(String name, ServiceReference reference) { return null;	}
+
+		public Object[] locateServices(String name) { return null;	}
+
+		public BundleContext getBundleContext() { return null;	}
+
+		public Bundle getUsingBundle() { return null; 	}
+
+		public ComponentInstance getComponentInstance() { return null;	}
+
+		public void enableComponent(String name) {	}
+
+		public void disableComponent(String name) { }
+
+		public ServiceReference getServiceReference() {	return null; }
+		
+	}
+
+	
+	private static class ContextInstance implements ComponentInstance {
+
+		private PropertiesEditingContext context;
+		
+		/**
+		 * @param context
+		 */
+		public ContextInstance(PropertiesEditingContext context) {
+			this.context = context;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.osgi.service.component.ComponentInstance#getInstance()
+		 */
+		public Object getInstance() {
+			return context;
+		}
+		
+		/**
+		 * {@inheritDoc}
+		 * @see org.osgi.service.component.ComponentInstance#dispose()
+		 */
+		public void dispose() {
+			context.dispose();
+		}
+		
 	}
 }

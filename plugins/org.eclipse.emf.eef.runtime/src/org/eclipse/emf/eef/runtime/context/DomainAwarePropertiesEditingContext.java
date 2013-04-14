@@ -10,6 +10,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  *
  */
 public interface DomainAwarePropertiesEditingContext extends PropertiesEditingContext {
+	
+	final String EDITINGDOMAIN_PARAM = "EditingDomain Parameter";
 
 	/**
 	 * @return the {@link EditingDomain} owned by the current context.

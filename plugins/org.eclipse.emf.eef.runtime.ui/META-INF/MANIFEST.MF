@@ -11,6 +11,7 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.eef.runtime.ui,
  org.eclipse.emf.eef.runtime.ui.adapters;uses:="org.eclipse.emf.ecore",
  org.eclipse.emf.eef.runtime.ui.commands;uses:="org.eclipse.emf.eef.runtime.context,org.eclipse.emf.common.command",
+ org.eclipse.emf.eef.runtime.ui.internal.resources,
  org.eclipse.emf.eef.runtime.ui.internal.services.view,
  org.eclipse.emf.eef.runtime.ui.internal.view.util,
  org.eclipse.emf.eef.runtime.ui.services.propertyeditors;
