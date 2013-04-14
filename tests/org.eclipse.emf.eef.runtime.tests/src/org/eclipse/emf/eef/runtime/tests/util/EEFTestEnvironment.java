@@ -912,7 +912,7 @@ public class EEFTestEnvironment {
 
 		public Collection<EEFServiceDescriptor<EEFEditingService>> createEditingService() {
 			Collection<EEFServiceDescriptor<EEFEditingService>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EEFEditingService>>();
-			EEFServiceDescriptor<EEFEditingService> desc = new EEFServiceDescriptor<EEFEditingService>("eefeditingservice.default", new EEFEditingServiceImpl() {
+			EEFEditingServiceImpl service = new EEFEditingServiceImpl() {
 
 				/**
 				 * {@inheritDoc}
@@ -925,7 +925,9 @@ public class EEFTestEnvironment {
 					return result;
 				}
 
-			});
+			};
+			service.setEMFServiceProvider(getEMFServiceProvider());
+			EEFServiceDescriptor<EEFEditingService> desc = new EEFServiceDescriptor<EEFEditingService>("eefeditingservice.default", service);
 			result.add(desc);
 			return result;
 		}

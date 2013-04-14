@@ -12,6 +12,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
 /**
@@ -19,6 +20,15 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
  *
  */
 public class EEFEditingServiceImpl extends AbstractEEFService<EObject> implements EEFEditingService, DefaultService {
+
+	private EMFServiceProvider emfServiceProvider;
+	
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -43,7 +53,7 @@ public class EEFEditingServiceImpl extends AbstractEEFService<EObject> implement
 	 */
 	public EReference getReferenceToEdit(SemanticPropertiesEditingContext editingContext) {
 		EStructuralFeature feature = editingContext.getEditingComponent().getBinding().feature(editingContext.getEditingEvent().getAffectedEditor(), editingContext.getOptions().autowire());
-		EMFService service = editingContext.getServiceRegistry().getService(EMFService.class, editingContext.getEditingComponent().getEObject().eClass().getEPackage());
+		EMFService service = emfServiceProvider.getEMFService(editingContext.getEditingComponent().getEObject().eClass().getEPackage());
 		return (EReference) service.mapFeature(editingContext.getEditingComponent().getEObject(), feature);
 	}
 
