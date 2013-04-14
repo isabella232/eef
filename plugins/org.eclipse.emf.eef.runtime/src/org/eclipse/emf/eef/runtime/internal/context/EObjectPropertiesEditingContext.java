@@ -18,6 +18,7 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.osgi.service.component.ComponentContext;
 
 /**
@@ -32,7 +33,9 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	protected EObject eObject;
 	protected AdapterFactory adapterFactory;
 	protected ContextOptions options;
+
 	protected EEFServiceRegistry serviceRegistry;
+	private EMFServiceProvider emfServiceProvider;
 	
 	protected EditingRecorder editingRecorder;
 	private ModelChangesNotificationManager notificationManager;
@@ -91,6 +94,13 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	}
 
 	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setNotificationManager(ModelChangesNotificationManager)
 	 */
@@ -132,7 +142,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
 		if (component == null) {
-			EMFService emfService = serviceRegistry.getService(EMFService.class, eObject.eClass().getEPackage());
+			EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 			Notifier highestNotifier = emfService.highestNotifier(eObject);
 			notificationManager.initModelChangesNotifierIfNeeded(highestNotifier);
 			PropertiesEditingProvider provider = serviceRegistry.getService(PropertiesEditingProvider.class, eObject.eClass().getEPackage());

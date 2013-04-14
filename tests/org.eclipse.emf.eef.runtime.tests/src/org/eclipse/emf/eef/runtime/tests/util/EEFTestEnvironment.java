@@ -39,6 +39,7 @@ import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEdit
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
+import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceProviderImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.policies.StandardPropertiesEditingPolicyProvider;
@@ -48,6 +49,7 @@ import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
@@ -153,6 +155,14 @@ public class EEFTestEnvironment {
 
 	/**
 	 * @return
+	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getEMFServiceProvider()
+	 */
+	public EMFServiceProvider getEMFServiceProvider() {
+		return builder.getEMFServiceProvider();
+	}
+
+	/**
+	 * @return
 	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getModelChangesNotificationManager()
 	 */
 	public ModelChangesNotificationManager getModelChangesNotificationManager() {
@@ -187,10 +197,12 @@ public class EEFTestEnvironment {
 		private EEFServiceRegistry serviceRegistry;
 		private Collection<Class<? extends EEFService<?>>> preloadedServices;
 		private Collection<EEFServiceDescriptor<? extends EEFService<Object>>> eefServices;
+		private EMFServiceProvider emfServiceProvider;
 		private ModelChangesNotificationManager notificationManager;
 
 		private PropertiesEditingContextFactory editingContextFactory;
 		private PropertiesEditingContext editingContext;
+
 
 		public Builder() {
 			sampleModel = null;
@@ -245,6 +257,13 @@ public class EEFTestEnvironment {
 				serviceRegistry = createServiceRegistry();
 			}
 			return serviceRegistry;
+		}
+		
+		public EMFServiceProvider getEMFServiceProvider() {
+			if (emfServiceProvider == null) {
+				emfServiceProvider = createEMFServiceProvider();
+			}
+			return emfServiceProvider;
 		}
 
 		public ModelChangesNotificationManager getModelChangesNotificationManager() {
@@ -847,6 +866,8 @@ public class EEFTestEnvironment {
 				public ComponentInstance newInstance(Dictionary properties) {
 					EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext();
 					context.configure(new ComponentContextMock(properties));
+					context.setEMFServiceProvider(getEMFServiceProvider());
+					context.setNotificationManager(getModelChangesNotificationManager());
 					return new ContextInstance(context);
 				}
 			}, properties);
@@ -857,6 +878,8 @@ public class EEFTestEnvironment {
 				public ComponentInstance newInstance(Dictionary properties) {
 					DomainPropertiesEditingContext context = new DomainPropertiesEditingContext();
 					context.configure(new ComponentContextMock(properties));
+					context.setEMFServiceProvider(getEMFServiceProvider());
+					context.setNotificationManager(getModelChangesNotificationManager());
 					return new ContextInstance(context);
 				}
 			}, properties);
@@ -964,6 +987,20 @@ public class EEFTestEnvironment {
 
 			});
 			result.add(desc);
+			return result;
+		}
+
+		public EMFServiceProvider createEMFServiceProvider() {
+			EMFServiceProviderImpl result = new EMFServiceProviderImpl();
+			for (EEFServiceDescriptor<EMFService> eefServiceDescriptor : createEMFServices()) {
+				try {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					result.addService(eefServiceDescriptor.service, properties);
+				} catch (PriorityCircularityException e) {
+					e.printStackTrace();
+				}
+			}
 			return result;
 		}
 
