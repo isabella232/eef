@@ -152,7 +152,7 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 					public boolean select(Object toTest) {
 						EObject resolveSemanticObject = resolveSemanticObject(toTest);
 						if (resolveSemanticObject != null) {
-							EMFService emfService = E3EEFRuntimeUIPlatformPlugin.getPlugin().getServiceRegistry().getService(EMFService.class, resolveSemanticObject.eClass().getEPackage());
+							EMFService emfService = E3EEFRuntimeUIPlatformPlugin.getPlugin().getEMFServiceProvider().getEMFService(resolveSemanticObject.eClass().getEPackage());
 							return emfService.equals(binding.getEClass(), resolveSemanticObject.eClass());
 						}
 						return false;

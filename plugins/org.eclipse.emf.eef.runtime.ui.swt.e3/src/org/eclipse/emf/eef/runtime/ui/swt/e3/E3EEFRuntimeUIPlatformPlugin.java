@@ -5,6 +5,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
@@ -22,6 +23,7 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 
 	private AdapterFactory adapterFactory;
 	private ServiceTracker eefServiceRegistrytracker;
+	private ServiceTracker emfServiceProviderTracker;
 
 	
 	/**
@@ -39,6 +41,8 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 		plugin = this;
 		eefServiceRegistrytracker = new ServiceTracker(context, EEFServiceRegistry.class.getName(), null);
 		eefServiceRegistrytracker.open();
+		emfServiceProviderTracker = new ServiceTracker(context, EMFServiceProvider.class.getName(), null);
+		emfServiceProviderTracker.open();
 	}
 
 	/*
@@ -49,6 +53,7 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 		plugin = null;
 		super.stop(context);
 		eefServiceRegistrytracker.close();
+		emfServiceProviderTracker.close();
 	}
 
 	/**
@@ -83,6 +88,13 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	 */
 	public EEFServiceRegistry getServiceRegistry() {
 		return (EEFServiceRegistry) eefServiceRegistrytracker.getService();
+	}
+	
+	/**
+	 * @return
+	 */
+	public EMFServiceProvider getEMFServiceProvider() {
+		return (EMFServiceProvider) emfServiceProviderTracker.getService();
 	}
 	
 	public AdapterFactory getRegistryAdapterFactory() {

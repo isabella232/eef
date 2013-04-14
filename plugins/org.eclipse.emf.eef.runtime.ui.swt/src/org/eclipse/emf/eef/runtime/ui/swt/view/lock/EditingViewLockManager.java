@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
@@ -29,6 +30,15 @@ import org.eclipse.swt.widgets.Composite;
  *
  */
 public class EditingViewLockManager extends AbstractEEFService<Object> implements EEFLockManager {
+	
+	private EMFServiceProvider emfServiceProvider;
+
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -49,10 +59,9 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 			EObject editedEObject = editingComponent.getEObject();
 			Collection<EEFLockPolicy> policies = editingComponent.getLockPolicies();
 			boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
-			EMFService emfService = serviceRegistry.getService(EMFService.class, editedEObject.eClass().getEPackage());
 
 			checkViewLockingTowardsPolicies(editingView, editedEObject, policies);
-			checkEditorsLockingTowardPolicies(editingView, editingComponent, editedEObject, policies, autowire, emfService);
+			checkEditorsLockingTowardPolicies(editingView, editingComponent, editedEObject, policies, autowire);
 		}
 	}
 
@@ -65,8 +74,9 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	}
 
 	private void checkEditorsLockingTowardPolicies(PropertiesEditingView<Composite> editingView, PropertiesEditingComponent editingComponent,
-			EObject editedEObject, Collection<EEFLockPolicy> policies, boolean autowire, EMFService emfService) {
+			EObject editedEObject, Collection<EEFLockPolicy> policies, boolean autowire) {
 		TreeIterator<EObject> viewContents = editingView.getViewModel().eAllContents();
+		EMFService emfService = emfServiceProvider.getEMFService(editedEObject.eClass().getEPackage());
 		while (viewContents.hasNext()) {
 			EObject next = viewContents.next();
 			EStructuralFeature feature = emfService.mapFeature(editedEObject, editingComponent.getBinding().feature(next, autowire));
