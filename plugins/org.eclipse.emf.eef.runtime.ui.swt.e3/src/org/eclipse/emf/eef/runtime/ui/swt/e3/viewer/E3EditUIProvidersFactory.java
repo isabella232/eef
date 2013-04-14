@@ -8,6 +8,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.providers.PropertyBindingLabelProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
@@ -20,6 +21,8 @@ import org.eclipse.jface.viewers.ILabelProvider;
  */
 public class E3EditUIProvidersFactory extends AbstractEEFService<Object> implements EditUIProvidersFactory {
 
+	private EMFServiceProvider emfServiceProvider;
+	
 	private AdapterFactory adapterFactory;
 	
 	/**
@@ -39,6 +42,13 @@ public class E3EditUIProvidersFactory extends AbstractEEFService<Object> impleme
 			this.adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		}
 		return this.adapterFactory;
+	}
+
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
 	}
 
 	/**
@@ -67,7 +77,7 @@ public class E3EditUIProvidersFactory extends AbstractEEFService<Object> impleme
 	 */
 	public ILabelProvider createPropertyBindingLabelProvider(AdapterFactory adapterFactory, PropertyBinding binding) {
 		PropertyBindingLabelProvider propertyBindingLabelProvider = new PropertyBindingLabelProvider(adapterFactory, binding);
-		propertyBindingLabelProvider.setServiceRegistry(getServiceRegistry());
+		propertyBindingLabelProvider.setEMFServiceProvider(emfServiceProvider);
 		return propertyBindingLabelProvider;
 	}
 

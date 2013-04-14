@@ -4,14 +4,13 @@
 package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.providers;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -19,8 +18,9 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFService;
  */
 public class PropertyBindingLabelProvider extends AdapterFactoryLabelProvider {
 	
+	private EMFServiceProvider emfServiceProvider;
+	
 	private PropertyBinding propertyBinding;
-	private EEFServiceRegistry serviceRegistry;
 
 	/**
 	 * @param adapterFactory
@@ -32,10 +32,10 @@ public class PropertyBindingLabelProvider extends AdapterFactoryLabelProvider {
 	}
 
 	/**
-	 * @param serviceRegistry the serviceRegistry to set
+	 * @param emfServiceProvider the emfServiceProvider to set
 	 */
-	public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
 	}
 
 	/**
@@ -49,8 +49,8 @@ public class PropertyBindingLabelProvider extends AdapterFactoryLabelProvider {
 			EStructuralFeature feature = subBinding.getFeature();
 			if (feature != null) {
 				EObject src = (EObject) object;
-				if (!src.eClass().getEAllStructuralFeatures().contains(feature) && serviceRegistry != null) {
-					EMFService service = serviceRegistry.getService(EMFService.class, src.eClass().getEPackage());
+				if (!src.eClass().getEAllStructuralFeatures().contains(feature) && emfServiceProvider != null) {
+					EMFService service = emfServiceProvider.getEMFService(src.eClass().getEPackage());
 					feature = service.mapFeature(src, feature);
 				}
 				Object target = src.eGet(feature);
@@ -72,8 +72,8 @@ public class PropertyBindingLabelProvider extends AdapterFactoryLabelProvider {
 			EStructuralFeature feature = subBinding.getFeature();
 			if (feature != null) {
 				EObject src = (EObject) object;
-				if (!src.eClass().getEAllStructuralFeatures().contains(feature) && serviceRegistry != null) {
-					EMFService service = serviceRegistry.getService(EMFService.class, src.eClass().getEPackage());
+				if (!src.eClass().getEAllStructuralFeatures().contains(feature) && emfServiceProvider != null) {
+					EMFService service = emfServiceProvider.getEMFService(src.eClass().getEPackage());
 					feature = service.mapFeature(src, feature);
 				}
 				Object target = src.eGet(feature);
