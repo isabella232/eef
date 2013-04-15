@@ -96,7 +96,7 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 					 * @see com.google.common.base.Predicate#apply(java.lang.Object)
 					 */
 					public boolean apply(EPackage input) {
-						EMFService emfService = serviceRegistry.getService(EMFService.class, element);
+						EMFService emfService = emfServiceProvider.getEMFService(element);
 						return ((emfService != null && emfService.equals(element, input)) || element == input);
 					}
 
