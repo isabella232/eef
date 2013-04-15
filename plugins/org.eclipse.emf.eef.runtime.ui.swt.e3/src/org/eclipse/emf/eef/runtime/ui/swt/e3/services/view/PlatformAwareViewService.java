@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.e3.services.view;
 
-import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
-import org.eclipse.emf.eef.views.View;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -22,7 +20,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface PlatformAwareViewService extends ViewService, EEFService<View> {
+public interface PlatformAwareViewService extends ViewService {
 	
 	/**
 	 * Instantiates a new label to display the given feature.

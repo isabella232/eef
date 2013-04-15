@@ -9,6 +9,7 @@ import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
 
 /**
@@ -31,6 +32,11 @@ public interface PropertiesEditingContext {
 	 * @param serviceRegistry the {@link EEFServiceRegistryImpl}.
 	 */
 	void setServiceRegistry(EEFServiceRegistry serviceRegistry);
+	
+	/**
+	 * @return the {@link EMFServiceProvider} of the current {@link PropertiesEditingContext}.
+	 */
+	EMFServiceProvider getEMFServiceProvider();
 	
 	/**
 	 * Defines the {@link ModelChangesNotificationManager} to uses in the current {@link PropertiesEditingContext}

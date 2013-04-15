@@ -87,6 +87,21 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEMFServiceProvider()
+	 */
+	public EMFServiceProvider getEMFServiceProvider() {
+		if (emfServiceProvider != null) {
+			return emfServiceProvider;
+		} else {
+			if (parentContext != null) {
+				return parentContext.getEMFServiceProvider();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setServiceRegistry(EMFServiceProvider)
 	 */
 	public void setServiceRegistry(EEFServiceRegistry emfServiceProvider) {

@@ -63,7 +63,7 @@ public class EEFEditingWizard extends Wizard {
 		editingPage.setInput(context);
 		if (context instanceof SemanticPropertiesEditingContext) {
 			EEFEditingService editingService = context.getServiceRegistry().getService(EEFEditingService.class, context.getEditingComponent().getEObject());
-			EMFService emfService = context.getServiceRegistry().getService(EMFService.class, context.getEditingComponent().getEObject().eClass().getEPackage());
+			EMFService emfService = context.getEMFServiceProvider().getEMFService(context.getEditingComponent().getEObject().eClass().getEPackage());
 			if (editingService.isAddingInContainmentEvent(context, ((SemanticPropertiesEditingContext) context).getEditingEvent())) {
 				EReference editedReference = editingService.getReferenceToEdit((SemanticPropertiesEditingContext) context);	
 				Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(null, context.getEditingComponent().getEObject(), editedReference);

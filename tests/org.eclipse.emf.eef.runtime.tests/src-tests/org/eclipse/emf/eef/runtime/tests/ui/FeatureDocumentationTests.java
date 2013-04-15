@@ -8,6 +8,8 @@ import static org.junit.Assert.assertSame;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.common.util.URI;
@@ -27,9 +29,12 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
+import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceProviderImpl;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
+import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.EEFServiceDescriptor;
@@ -130,7 +135,7 @@ public class FeatureDocumentationTests {
 		ViewsRepository viewRepository = generateViewsRepository();
 		eclassView = viewRepository.getViews().get(0);
 		nameEditor = (ElementEditor)eclassView.getElements().get(0);
-		PropertiesEditingProvider editingProvider = new PropertiesEditingProviderImpl() {
+		PropertiesEditingProviderImpl editingProvider = new PropertiesEditingProviderImpl() {
 
 			/**
 			 * {@inheritDoc}
@@ -151,6 +156,15 @@ public class FeatureDocumentationTests {
 
 
 		};
+		EMFServiceProviderImpl emfServiceProvider = new EMFServiceProviderImpl();
+		try {
+			Map<String, String> properties = new HashMap<String, String>();
+			properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, EMFServiceImpl.class.getName());
+			emfServiceProvider.addService(new EMFServiceImpl(), properties);
+		} catch (PriorityCircularityException e) {
+			e.printStackTrace();
+		}
+		editingProvider.setEMFServiceProvider(emfServiceProvider);
 		Collection<PropertiesEditingProvider> providers = new ArrayList<PropertiesEditingProvider>();
 		providers.add(editingProvider);
 		Collection<EEFServiceDescriptor<? extends EEFService<Object>>> specificProviders = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<? extends EEFService<Object>>>();

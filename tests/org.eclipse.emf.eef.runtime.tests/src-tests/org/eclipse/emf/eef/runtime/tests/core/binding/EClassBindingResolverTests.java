@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.views.SampleTitleView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
@@ -31,13 +31,13 @@ public class EClassBindingResolverTests {
 	 */
 	private EClass sample;
 	
-	private EEFServiceRegistry registry;
+	private EMFServiceProvider emfServiceProvider;
 	
 	@Before
 	public void setUp() {
 		sample = EcoreFactory.eINSTANCE.createEClass();
 		EEFTestEnvironment build = new EEFTestEnvironment.Builder().build();
-		registry = build.getServiceRegistry();
+		emfServiceProvider = build.getEMFServiceProvider();
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class EClassBindingResolverTests {
 		.bindClass(EcorePackage.Literals.ECLASS)
 			.withView(SampleView.class)
 		.build();
-		editingModel.setServiceRegistry(registry);
+		editingModel.setEMFServiceProvider(emfServiceProvider);
 		assertEquals("name", editingModel.getBindings().get(0).propertyEditor(sample, EcorePackage.Literals.ENAMED_ELEMENT__NAME, true));		
 	}
 
@@ -98,7 +98,7 @@ public class EClassBindingResolverTests {
 				.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME)
 					.withEditor("title")
 			.build();
-		editingModel.setServiceRegistry(registry);
+		editingModel.setEMFServiceProvider(emfServiceProvider);
 		assertEquals("title", editingModel.getBindings().get(0).propertyEditor(sample, EcorePackage.Literals.ENAMED_ELEMENT__NAME, true));
 	}
 
@@ -137,7 +137,7 @@ public class EClassBindingResolverTests {
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(sampleView)
 			.build();
-		editingModel.setServiceRegistry(registry);
+		editingModel.setEMFServiceProvider(emfServiceProvider);
 		assertEquals(abstractEditor, editingModel.getBindings().get(0).propertyEditor(sample, EcorePackage.Literals.ECLASS__ABSTRACT, true));
 	}
 
@@ -180,7 +180,7 @@ public class EClassBindingResolverTests {
 			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT)
 				.withEditor(instanciableEditor)
 			.build();
-		editingModel.setServiceRegistry(registry);
+		editingModel.setEMFServiceProvider(emfServiceProvider);
 		assertEquals(instanciableEditor, editingModel.getBindings().get(0).propertyEditor(sample, EcorePackage.Literals.ECLASS__ABSTRACT, true));
 	}
 

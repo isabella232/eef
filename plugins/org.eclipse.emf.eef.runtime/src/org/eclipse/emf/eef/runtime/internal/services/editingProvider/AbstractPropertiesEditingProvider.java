@@ -18,6 +18,7 @@ import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironment
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
@@ -37,6 +38,7 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 	private List<PropertiesEditingModel> editingModels;
 	private EditingModelEnvironment editingModelEnvironment;
 	
+	private EMFServiceProvider emfServiceProvider;
 	private ModelChangesNotificationManager notificationManager;
 	
 	/**
@@ -47,6 +49,13 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 		this.notificationManager = notificationManager;
 	}
 	
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#getViewHandlerProvider(java.lang.Object)
@@ -139,8 +148,8 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 	 */
 	public final PropertiesEditingModel getEditingModel(EObject eObject) {
 		for (PropertiesEditingModel editingModel : getEditingModels()) {
-			if (editingModel.getServiceRegistry() == null) {
-				editingModel.setServiceRegistry(serviceRegistry);
+			if (editingModel.getEMFServiceProvider() == null) {
+				editingModel.setEMFServiceProvider(emfServiceProvider);
 			}
 			if (editingModel.binding(eObject) != null) {
 				return editingModel;

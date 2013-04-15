@@ -693,7 +693,7 @@ public class EEFTestEnvironment {
 
 		public Collection<EEFServiceDescriptor<PropertiesEditingProvider>> createEditingProviders() {
 			Collection<EEFServiceDescriptor<PropertiesEditingProvider>> result = new ArrayList<EEFServiceDescriptor<PropertiesEditingProvider>>();
-			result.add(new EEFServiceDescriptor<PropertiesEditingProvider>("propertieseditingprovider.default", new PropertiesEditingProviderImpl() {
+			PropertiesEditingProviderImpl editingProviderImpl = new PropertiesEditingProviderImpl() {
 
 				/**
 				 * {@inheritDoc}
@@ -716,7 +716,9 @@ public class EEFTestEnvironment {
 				}
 
 
-			}));
+			};
+			editingProviderImpl.setEMFServiceProvider(getEMFServiceProvider());
+			result.add(new EEFServiceDescriptor<PropertiesEditingProvider>("propertieseditingprovider.default", editingProviderImpl));
 			return result;
 		}
 
@@ -792,7 +794,7 @@ public class EEFTestEnvironment {
 
 		public Collection<EEFServiceDescriptor<EEFLockManager>> createLockManagers() {
 			Collection<EEFServiceDescriptor<EEFLockManager>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EEFLockManager>>();
-			EEFServiceDescriptor<EEFLockManager> desc = new EEFServiceDescriptor<EEFLockManager>("lockmanager.editingview", new EditingViewLockManager() {
+			EditingViewLockManager lockManager = new EditingViewLockManager() {
 
 				/**
 				 * {@inheritDoc}
@@ -805,7 +807,9 @@ public class EEFTestEnvironment {
 					return result;
 				}
 
-			});
+			};
+			lockManager.setEMFServiceProvider(getEMFServiceProvider());
+			EEFServiceDescriptor<EEFLockManager> desc = new EEFServiceDescriptor<EEFLockManager>("lockmanager.editingview", lockManager);
 			result.add(desc);
 			desc = new EEFServiceDescriptor<EEFLockManager>("lockmanager.default", new NullLockManager() {
 

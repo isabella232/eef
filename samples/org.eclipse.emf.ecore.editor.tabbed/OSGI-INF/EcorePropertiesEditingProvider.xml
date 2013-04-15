@@ -5,4 +5,5 @@
       <provide interface="org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider"/>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
    </service>
+   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="dynamic"/>
 </scr:component>

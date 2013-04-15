@@ -127,7 +127,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 			ElementEditor elementEditor = elementEditors.next();
 			EStructuralFeature bindingFeature = editingComponent.getBinding().feature(elementEditor, editingComponent.getEditingContext().getOptions().autowire());
 			EObject editedObject = editingComponent.getEObject();
-			EMFService emfService = editingComponent.getEditingContext().getServiceRegistry().getService(EMFService.class, editedObject.eClass().getEPackage());
+			EMFService emfService = editingComponent.getEditingContext().getEMFServiceProvider().getEMFService(editedObject.eClass().getEPackage());
 			EStructuralFeature feature = emfService.mapFeature(editedObject, bindingFeature);
 			if (feature != null) {
 				PropertyEditor propertyEditor = propertyEditors.get(elementEditor);

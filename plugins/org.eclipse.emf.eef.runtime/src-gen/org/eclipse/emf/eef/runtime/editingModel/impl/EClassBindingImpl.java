@@ -248,7 +248,7 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 * @generated NOT
 	 */
 	public Object propertyEditor(EObject eObject, EStructuralFeature feature, boolean autowire) {
-		EMFService emfService = ((PropertiesEditingModel)eContainer()).getServiceRegistry().getService(EMFService.class, eObject.eClass().getEPackage());
+		EMFService emfService = ((PropertiesEditingModel)eContainer()).getEMFServiceProvider().getEMFService(eObject.eClass().getEPackage());
 		for (PropertyBinding binding : getPropertyBindings()) {
 			if (emfService.equals(binding.getFeature(), feature)) {
 				Editor editor = binding.getEditor();

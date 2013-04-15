@@ -8,7 +8,7 @@ package org.eclipse.emf.eef.runtime.editingModel;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 
 /**
@@ -168,8 +168,8 @@ public interface PropertiesEditingModel extends EObject {
 	 */
 	ViewHandler<?> viewHandler(EObject eObject, Object view);
 	
-	EEFServiceRegistry getServiceRegistry();
+	EMFServiceProvider getEMFServiceProvider();
 	
-	void setServiceRegistry(EEFServiceRegistry registry);
+	void setEMFServiceProvider(EMFServiceProvider emfServiceProvider);
 
 } // PropertiesEditingModel
