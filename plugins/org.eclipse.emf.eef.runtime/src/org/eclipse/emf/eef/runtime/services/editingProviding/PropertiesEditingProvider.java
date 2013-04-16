@@ -10,6 +10,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
@@ -19,6 +20,11 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
  * 
  */
 public interface PropertiesEditingProvider extends EEFService<EPackage> {
+	
+	/**
+	 * @return the EMFServiceProvider in use in the current editing provider.
+	 */
+	EMFServiceProvider getEMFServiceProvider();
 
 	/**
 	 * Creates a new {@link PropertiesEditingComponent}.

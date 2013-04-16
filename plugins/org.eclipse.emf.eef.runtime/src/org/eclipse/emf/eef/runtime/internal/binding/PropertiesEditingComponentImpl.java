@@ -179,7 +179,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	public void notifyChanged(Notification msg) {
 		PropertiesEditingModel editingModel = getEditingModel();
 		if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
-			EMFService service = editingProvider.getServiceRegistry().getService(EMFService.class, source.eClass().getEPackage());
+			EMFService service = editingProvider.getEMFServiceProvider().getEMFService(source.eClass().getEPackage());
 			EStructuralFeature structuralFeature = service.mapFeature(source, (EStructuralFeature)msg.getFeature());
 			EClassBinding binding = editingModel.binding(source);
 			Object propertyEditor = binding.propertyEditor(source, structuralFeature, editingContext.getOptions().autowire());

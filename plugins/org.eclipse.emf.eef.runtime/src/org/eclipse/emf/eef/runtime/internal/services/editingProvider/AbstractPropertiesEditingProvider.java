@@ -50,6 +50,13 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 	}
 	
 	/**
+	 * @return the emfServiceProvider
+	 */
+	public EMFServiceProvider getEMFServiceProvider() {
+		return emfServiceProvider;
+	}
+
+	/**
 	 * @param emfServiceProvider the emfServiceProvider to set
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
