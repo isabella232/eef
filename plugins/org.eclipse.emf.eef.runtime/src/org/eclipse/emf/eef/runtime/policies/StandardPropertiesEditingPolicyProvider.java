@@ -5,7 +5,7 @@ package org.eclipse.emf.eef.runtime.policies;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContextImpl;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.eobject.EObjectBatchEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.eobject.EObjectDirectEditingPolicy;
@@ -38,8 +38,8 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context) {
-		if (context instanceof SemanticPropertiesEditingContext) {
-			PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContext) context).getEditingEvent();
+		if (context instanceof SemanticPropertiesEditingContextImpl) {
+			PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContextImpl) context).getEditingEvent();
 			EEFEditingService editingService = getServiceRegistry().getService(EEFEditingService.class, context.getEditingComponent().getEObject());
 			if (editingService.isAddingInContainmentEvent(context, editingEvent)) {
 				if (context instanceof SemanticDomainPropertiesEditingContext) {
@@ -50,7 +50,7 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 						return createEReferenceBatchEditingPolicy((SemanticDomainPropertiesEditingContext) context);
 					}				
 				} else {
-					return createEReferenceDirectEditingPolicy((SemanticPropertiesEditingContext) context);
+					return createEReferenceDirectEditingPolicy((SemanticPropertiesEditingContextImpl) context);
 				}
 			} else {
 				if (context instanceof SemanticDomainPropertiesEditingContext) {
@@ -61,7 +61,7 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 						return createEObjectBatchEditingPolicy((SemanticDomainPropertiesEditingContext) context);
 					}				
 				} else {
-					return createEObjectDirectEditingPolicy((SemanticPropertiesEditingContext) context);
+					return createEObjectDirectEditingPolicy((SemanticPropertiesEditingContextImpl) context);
 				}
 			}
 		}
@@ -80,7 +80,7 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 	 * @return
 	 */
 	public PropertiesEditingPolicy createEObjectDirectEditingPolicy(PropertiesEditingContext context) {
-		return new EObjectDirectEditingPolicy((SemanticPropertiesEditingContext) context);
+		return new EObjectDirectEditingPolicy();
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 	 * @return
 	 */
 	public PropertiesEditingPolicy createEObjectBatchEditingPolicy(PropertiesEditingContext context) {
-		return new EObjectBatchEditingPolicy((SemanticDomainPropertiesEditingContext) context);
+		return new EObjectBatchEditingPolicy();
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 	 * @return
 	 */
 	public PropertiesEditingPolicy createEObjectLiveEditingPolicy(PropertiesEditingContext context) {
-		return new EObjectLiveEditingPolicy((SemanticDomainPropertiesEditingContext) context);
+		return new EObjectLiveEditingPolicy();
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 	 * @return
 	 */
 	public PropertiesEditingPolicy createEReferenceDirectEditingPolicy(PropertiesEditingContext context) {
-		return new EReferenceDirectEditingPolicy((SemanticPropertiesEditingContext) context);
+		return new EReferenceDirectEditingPolicy();
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 	 * @return
 	 */
 	public PropertiesEditingPolicy createEReferenceBatchEditingPolicy(PropertiesEditingContext context) {
-		return new EReferenceBatchEditingPolicy((SemanticDomainPropertiesEditingContext) context);
+		return new EReferenceBatchEditingPolicy();
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 	 * @return
 	 */
 	public PropertiesEditingPolicy createEReferenceLiveEditingPolicy(PropertiesEditingContext context) {
-		return new EReferenceLiveEditingPolicy((SemanticDomainPropertiesEditingContext) context);
+		return new EReferenceLiveEditingPolicy();
 	}
 
 }

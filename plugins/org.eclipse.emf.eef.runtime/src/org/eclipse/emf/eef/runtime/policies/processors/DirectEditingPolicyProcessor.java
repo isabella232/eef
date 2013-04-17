@@ -14,7 +14,6 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 
 /**
@@ -23,17 +22,11 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
  */
 public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
-	private EditingPolicyWithProcessor editingPolicy;
-
-	public DirectEditingPolicyProcessor(EditingPolicyWithProcessor editingPolicy) {
-		this.editingPolicy = editingPolicy;
-	}
-
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing)
+	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing)
 	 */
-	public void process(EditingPolicyProcessing behavior) {
+	public void process(PropertiesEditingContext editingContext, EditingPolicyProcessing behavior) {
 		switch (behavior.processingKind) {
 		case SET:
 			performSet(behavior.target, behavior.feature, behavior.value);
@@ -42,7 +35,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 			performUnset(behavior.target, behavior.feature);
 			break;
 		case EDIT:
-			performEdit(behavior.target, behavior.feature, behavior.value);
+			performEdit(editingContext, behavior.target, behavior.feature, behavior.value);
 			break;
 		case ADD:
 			performAdd(behavior.target, behavior.feature, behavior.value);			
@@ -64,11 +57,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#performSet(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
-	 */
-	public void performSet(EObject eObject, EStructuralFeature feature, Object value) {
+	protected final void performSet(EObject eObject, EStructuralFeature feature, Object value) {
 		if (value != null) {
 			if (value instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
 				eObject.eSet(feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)value));
@@ -78,34 +67,22 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#performUnset(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
-	 */
-	public void performUnset(EObject eObject, EStructuralFeature feature) {
+	protected final void performUnset(EObject eObject, EStructuralFeature feature) {
 		eObject.eUnset(feature);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#performSet(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
-	 */
-	public void performEdit(EObject eObject, EStructuralFeature feature, Object value) {
+	protected final void performEdit(PropertiesEditingContext editingContext, EObject eObject, EStructuralFeature feature, Object value) {
 		if (value instanceof EObject) {
-			PropertiesEditingContext editingContext = editingPolicy.getEditingContext();
 			EObject editedElement = (EObject)value;
 			PropertiesEditingContextFactory factory = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, editedElement);
-			PropertiesEditingPolicy subElementEditingPolicy = editingContext.getEditingPolicy(factory.createPropertiesEditingContext(editingContext, editedElement));
-			editingPolicy.getEditingContext().getEditingComponent().execute(subElementEditingPolicy);			
+			PropertiesEditingContext subPropertiesEditingContext = factory.createPropertiesEditingContext(editingContext, editedElement);
+			PropertiesEditingPolicy subElementEditingPolicy = editingContext.getEditingPolicy(subPropertiesEditingContext);
+			editingContext.getEditingComponent().execute(subElementEditingPolicy, subPropertiesEditingContext);
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#performAdd(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
-	 */
 	@SuppressWarnings("unchecked")
-	public void performAdd(EObject eObject, EStructuralFeature feature, Object newValue) {
+	protected final void performAdd(EObject eObject, EStructuralFeature feature, Object newValue) {
 		if (newValue != null) {
 			if (feature.isMany()) {
 				if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
@@ -119,12 +96,8 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#performAddMany(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
-	 */
 	@SuppressWarnings("unchecked")
-	public void performAddMany(EObject eObject, EStructuralFeature feature, Collection<?> newValues) {
+	protected final void performAddMany(EObject eObject, EStructuralFeature feature, Collection<?> newValues) {
 		if (newValues != null) {
 			if (feature.isMany()) {
 				for (Object newValue : newValues) {
@@ -145,7 +118,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#performRemove(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
-	public void performRemove(EObject eObject, EStructuralFeature feature, Object oldValue) {
+	protected final void performRemove(EObject eObject, EStructuralFeature feature, Object oldValue) {
 		if (feature.isMany()) {
 			((Collection<Object>)eObject.eGet(feature)).remove(oldValue);
 		} else {
@@ -158,7 +131,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#performRemoveMany(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
 	 */
 	@SuppressWarnings("unchecked")
-	public void performRemoveMany(EObject eObject, EStructuralFeature feature, Collection<?> oldValues) {
+	protected final void performRemoveMany(EObject eObject, EStructuralFeature feature, Collection<?> oldValues) {
 		if (feature.isMany()) {
 			((Collection<Object>)eObject.eGet(feature)).removeAll(oldValues);
 		} else {
@@ -170,7 +143,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#performMove(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Integer, java.lang.Integer)
 	 */
-	public void performMove(EObject eObject, EStructuralFeature feature, Integer oldIndex, Integer newIndex) {
+	protected final void performMove(EObject eObject, EStructuralFeature feature, Integer oldIndex, Integer newIndex) {
 		Object currentValue = eObject.eGet(feature);
 		if (currentValue instanceof EList<?>) {
 			((EList<?>)eObject.eGet(feature)).move(newIndex, oldIndex);

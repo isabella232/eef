@@ -24,14 +24,13 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
-import org.eclipse.emf.eef.runtime.policies.AbstractEditingPolicyWithProcessor;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
+import org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
@@ -292,49 +291,52 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public synchronized void firePropertiesChanged(PropertiesEditingEvent editingEvent) {
-		PropertiesEditingPolicy editingPolicy = getEditingPolicy(editingEvent);
+		PropertiesEditingContextFactory service = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, source);
+		PropertiesEditingContext semanticEditingContext = service.createSemanticPropertiesEditingContext(getEditingContext(), editingEvent);
+		PropertiesEditingPolicy editingPolicy = getEditingPolicy(semanticEditingContext);
 		if (editingEvent.delayedChanges()) {
 			delayedApplyingPropertiesChanged(editingEvent);
 		} else {
-			if (editingPolicy.validateEditing().canPerform()) {
-				execute(editingPolicy);
+			if (editingPolicy.validateEditing(semanticEditingContext).canPerform()) {
+				execute(editingPolicy, semanticEditingContext);
 			}
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingPolicy(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
-	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingEvent editingEvent) {
-		PropertiesEditingContextFactory service = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, source);
-		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(service.createSemanticPropertiesEditingContext(editingContext, editingEvent));
+	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
+		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(editingContext);
 		return editingPolicy;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#execute(org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#execute(org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy, org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext)
 	 */
-	public void execute(PropertiesEditingPolicy editingPolicy) {
+	public void execute(PropertiesEditingPolicy editingPolicy, PropertiesEditingContext policyEditingContext) {
 		PropertiesEditingEvent editingEvent = null;
-		if (editingPolicy instanceof AbstractEditingPolicyWithProcessor) {
-			editingEvent = ((SemanticPropertiesEditingContext)((AbstractEditingPolicyWithProcessor) editingPolicy).getEditingContext()).getEditingEvent();
+		if (policyEditingContext instanceof SemanticPropertiesEditingContext) {
+			editingEvent = ((SemanticPropertiesEditingContext) policyEditingContext).getEditingEvent();
+			if (editingContext.getOptions().validateEditing()) {
+				Diagnostic valueDiagnostic = validateValue(editingEvent);
+				highlightNotificationResult(editingEvent, valueDiagnostic, true);
+				if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
+					propagateEvent(new PropertiesValidationEditingEvent(editingEvent, valueDiagnostic));
+					return;
+				} 
+			}
 		}
-		if (editingContext.getOptions().validateEditing()) {
-			Diagnostic valueDiagnostic = validateValue(editingEvent);
-			highlightNotificationResult(editingEvent, valueDiagnostic, true);
-			if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
-				propagateEvent(new PropertiesValidationEditingEvent(editingEvent, valueDiagnostic));
-				return;
-			} 
-		}
-		editingPolicy.execute();				
-		propagateEvent(editingEvent);
-		if (editingContext.getOptions().validateEditing()) {		
-			Diagnostic validate = validate();
-			highlightNotificationResult(editingEvent, validate, false);
-			propagateEvent(new PropertiesValidationEditingEvent(editingEvent, validate));
+		editingPolicy.execute(policyEditingContext);
+		if (editingEvent != null) {
+			propagateEvent(editingEvent);
+			if (editingContext.getOptions().validateEditing()) {		
+				Diagnostic validate = validate();
+				highlightNotificationResult(editingEvent, validate, false);
+				propagateEvent(new PropertiesValidationEditingEvent(editingEvent, validate));
+			}
 		}
 	}
 

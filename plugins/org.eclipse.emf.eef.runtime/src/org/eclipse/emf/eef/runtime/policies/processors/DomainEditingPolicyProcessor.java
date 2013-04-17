@@ -18,9 +18,10 @@ import org.eclipse.emf.edit.command.MoveCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -28,40 +29,33 @@ import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
  */
 public abstract class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
-	protected DomainAwarePropertiesEditingContext editingContext;
-
-	/**
-	 * @param editingContext
-	 */
-	public DomainEditingPolicyProcessor(EditingPolicyWithProcessor editingPolicy) {
-		assert editingPolicy.getEditingContext() instanceof DomainAwarePropertiesEditingContext:"Unable to process the EditingPolicy with the given EditingContext (unable to find an EditingDomain).";
-		this.editingContext = ((DomainAwarePropertiesEditingContext)editingPolicy.getEditingContext());
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing)
 	 */
-	public void process(EditingPolicyProcessing behavior) {
-		Command convertToCommand = convertToCommand(behavior);
+	public void process(PropertiesEditingContext editingContext, EditingPolicyProcessing behavior) {
+		DomainAwarePropertiesEditingContext domainEditingContext = (DomainAwarePropertiesEditingContext) editingContext;
+		Command convertToCommand = convertToCommand(domainEditingContext, behavior);
 		if (convertToCommand != null) {
-			executeCommand(convertToCommand);
+			executeCommand(domainEditingContext, convertToCommand);
 		}
 	}
 
 	/**
-	 * Executes the given command.
+	 * Executes the given command in the given context.
+	 * @param domainEditingContext {@link SemanticDomainPropertiesEditingContext} where to perform the command.
 	 * @param command {@link Command} to execute.
 	 */
-	protected abstract void executeCommand(Command command);
+	protected abstract void executeCommand(DomainAwarePropertiesEditingContext domainEditingContext, Command command);
 
 	/**
 	 * Converts a {@link EditingPolicyProcessing} to an EMF {@link Command}. The returned value can be <code>null</code>,
 	 * in this case the processing is cancelled.
+	 * @param domainEditingContext {@link SemanticDomainPropertiesEditingContext} where the command will be performed.
 	 * @param behavior {@link EditingPolicyProcessing} to process.
 	 * @return the {@link Command} to execute.
 	 */
-	protected Command convertToCommand(EditingPolicyProcessing behavior) {
+	protected Command convertToCommand(DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyProcessing behavior) {
 		EObject eObject = behavior.target;
 		EStructuralFeature feature = behavior.feature;
 		Object newValue = behavior.value;
@@ -71,25 +65,25 @@ public abstract class DomainEditingPolicyProcessor implements EditingPolicyProce
 				return null;
 			} else {
 				if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-					return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
+					return SetCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
 				} else {
-					return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, newValue);
+					return SetCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, newValue);
 				}
 			}
 		case UNSET:
 			if (feature.isMany()) {
-				return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, new BasicEList<Object>());
+				return SetCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, new BasicEList<Object>());
 			} else {
-				return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, null);
+				return SetCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, null);
 			}
 		case ADD:
 			if (newValue == null) {
 				return null;
 			} else {
 				if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-					return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
+					return AddCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
 				} else {
-					return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, newValue);
+					return AddCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, newValue);
 				}
 			}
 		case ADD_MANY:
@@ -99,19 +93,19 @@ public abstract class DomainEditingPolicyProcessor implements EditingPolicyProce
 				CompoundCommand cc = new CompoundCommand("EEF add many command");
 				for (Object newValue1 : (Collection<?>)newValue) {
 					if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-						cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue1)));
+						cc.append(AddCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue1)));
 					} else {
-						cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, newValue1));
+						cc.append(AddCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, newValue1));
 					}
 				}
 				return cc;
 			}
 		case REMOVE:
-			return RemoveCommand.create(editingContext.getEditingDomain(), eObject, feature, behavior.value);
+			return RemoveCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, behavior.value);
 		case REMOVE_MANY:
-			return RemoveCommand.create(editingContext.getEditingDomain(), eObject, feature, behavior.value);
+			return RemoveCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, behavior.value);
 		case MOVE:
-			return MoveCommand.create(editingContext.getEditingDomain(), eObject, feature, behavior.oldIndex, behavior.newIndex);
+			return MoveCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, behavior.oldIndex, behavior.newIndex);
 		}
 		return IdentityCommand.INSTANCE;
 	}

@@ -12,10 +12,10 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
+import org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
@@ -58,16 +58,17 @@ public interface PropertiesEditingComponent extends PropertiesEditingListener, E
 	EClassBinding getBinding();
 	
 	/**
-	 * @param editingEvent the {@link PropertiesEditingEvent} to process.
-	 * @return a {@link PropertiesEditingPolicy} able to process the given event.
+	 * @param editingContext the {@link SemanticPropertiesEditingContext} to process.
+	 * @return a {@link PropertiesEditingPolicy} able to process the given {@link SemanticPropertiesEditingContext}.
 	 */
-	PropertiesEditingPolicy getEditingPolicy(PropertiesEditingEvent editingEvent);
+	PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext);
 
 	/**
-	 * Executes a {@link PropertiesEditingPolicy}.
+	 * Executes a {@link PropertiesEditingPolicy} with a {@link SemanticPropertiesEditingContext}.
 	 * @param editingPolicy the {@link PropertiesEditingPolicy} to perform.
+	 * @param editingContext the {@link SemanticPropertiesEditingContext} to process.
 	 */
-	void execute(PropertiesEditingPolicy editingPolicy);
+	void execute(PropertiesEditingPolicy editingPolicy, PropertiesEditingContext editingContext);
 
 	/**
 	 * Returns the {@link ViewHandler} able to manage the given view.

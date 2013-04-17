@@ -8,15 +8,16 @@ import java.util.Dictionary;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext;
 import org.osgi.service.component.ComponentContext;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class SemanticPropertiesEditingContext extends DelegatingPropertiesEditingContext {
+public class SemanticPropertiesEditingContextImpl extends DelegatingPropertiesEditingContext implements SemanticPropertiesEditingContext {
 
-	public static final String FACTORY_ID = "org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext";
+	public static final String FACTORY_ID = "org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContextImpl";
 	
 	public static final String EDITINGEVENT_PARAM = "EditingEvent Parameter";
 	
@@ -37,7 +38,7 @@ public class SemanticPropertiesEditingContext extends DelegatingPropertiesEditin
 			this.editingEvent = (PropertiesEditingEvent) editingEventParam;
 			this.options = new ContextOptions(delegatingContext.getOptions());
 		} else {
-			throw new IllegalArgumentException("Unable to instanciate an SemanticPropertiesEditingContext with the given parameters.");
+			throw new IllegalArgumentException("Unable to instanciate an SemanticPropertiesEditingContextImpl with the given parameters.");
 		}
 	}
 

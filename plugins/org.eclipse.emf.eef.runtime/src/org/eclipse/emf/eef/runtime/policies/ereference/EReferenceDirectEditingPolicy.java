@@ -3,7 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.policies.ereference;
 
-import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.processors.DirectEditingPolicyProcessor;
 
@@ -14,18 +13,11 @@ import org.eclipse.emf.eef.runtime.policies.processors.DirectEditingPolicyProces
 public class EReferenceDirectEditingPolicy extends EReferenceEditingPolicy {
 
 	/**
-	 * @param context
-	 */
-	public EReferenceDirectEditingPolicy(SemanticPropertiesEditingContext context) {
-		super(context);
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor#getProcessor()
 	 */
 	public EditingPolicyProcessor getProcessor() {
-		return new DirectEditingPolicyProcessor(this);
+		return new DirectEditingPolicyProcessor();
 	}
 
 }

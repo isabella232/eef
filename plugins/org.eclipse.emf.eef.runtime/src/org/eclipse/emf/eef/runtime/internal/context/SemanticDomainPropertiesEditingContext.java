@@ -16,13 +16,13 @@ import org.osgi.service.component.ComponentContext;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class SemanticDomainPropertiesEditingContext extends SemanticPropertiesEditingContext implements DomainAwarePropertiesEditingContext {
+public class SemanticDomainPropertiesEditingContext extends SemanticPropertiesEditingContextImpl implements DomainAwarePropertiesEditingContext {
 
 	public static final String FACTORY_ID = "org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext";
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext#configure(org.osgi.service.component.ComponentContext)
+	 * @see org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContextImpl#configure(org.osgi.service.component.ComponentContext)
 	 */
 	@Override
 	public void configure(ComponentContext context) {
@@ -35,13 +35,13 @@ public class SemanticDomainPropertiesEditingContext extends SemanticPropertiesEd
 			this.editingEvent = (PropertiesEditingEvent) editingEventParam;
 			this.options = new ContextOptions(delegatingContext.getOptions());
 		} else {
-			throw new IllegalArgumentException("Unable to instanciate an SemanticPropertiesEditingContext with the given parameters.");
+			throw new IllegalArgumentException("Unable to instanciate an SemanticPropertiesEditingContextImpl with the given parameters.");
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext#getParentContext()
+	 * @see org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContextImpl#getParentContext()
 	 */
 	@Override
 	public DomainAwarePropertiesEditingContext getParentContext() {

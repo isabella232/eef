@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.policies;
 
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 
 /**
  * A null implementation of the {@link PropertiesEditingPolicy} interface.
@@ -12,34 +13,18 @@ public class NullEditingPolicy implements PropertiesEditingPolicy {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#validateEditing()
+	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#validateEditing(org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext)
 	 */
-	public EditingPolicyValidation validateEditing() {
+	public EditingPolicyValidation validateEditing(PropertiesEditingContext editingContext) {
 		return new EditingPolicyValidation(this, true);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#getBehavior()
+	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute(org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext)
 	 */
-	public EditingPolicyProcessing getBehavior() {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#getProcessor()
-	 */
-	public EditingPolicyProcessor getProcessor() {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute()
-	 */
-	public void execute() {
-		//Do nothing.
+	public void execute(PropertiesEditingContext editingContext) {
+		// Do nothing
 	}
 
 }

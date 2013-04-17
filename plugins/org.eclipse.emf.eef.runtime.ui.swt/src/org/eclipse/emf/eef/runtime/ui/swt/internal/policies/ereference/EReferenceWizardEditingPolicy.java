@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceEditingPolicy;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard;
@@ -22,22 +21,15 @@ import org.eclipse.swt.widgets.Shell;
 public abstract class EReferenceWizardEditingPolicy extends EReferenceEditingPolicy {
 
 	/**
-	 * @param context
-	 */
-	public EReferenceWizardEditingPolicy(SemanticPropertiesEditingContext context) {
-		super(context);
-	}
-
-	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.ereference.EReferenceEditingPolicy#defineEObjectToSet(org.eclipse.emf.ecore.EReference)
+	 * @see org.eclipse.emf.eef.runtime.policies.ereference.EReferenceEditingPolicy#defineEObjectToSet(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EReference)
 	 */
 	@Override
-	protected EObject defineEObjectToSet(EReference editedReference) {
-		return createObjectAndOpenWizard(getEditingContext(), editedReference);
+	protected EObject defineEObjectToSet(PropertiesEditingContext editingContext, EReference editedReference) {
+		return createObjectAndOpenWizard(editingContext, editedReference);
 	}
 
-	private EObject createObjectAndOpenWizard(PropertiesEditingContext editingContext, EReference editedReference) {
+	private EObject createObjectAndOpenWizard(final PropertiesEditingContext editingContext, EReference editedReference) {
 		editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
 		EEFEditingWizard wizard = new EEFEditingWizard(editingContext) {
 
@@ -47,7 +39,7 @@ public abstract class EReferenceWizardEditingPolicy extends EReferenceEditingPol
 			 */
 			@Override
 			protected void attachToResource(Resource resource, EObject eObject) {
-				EReferenceWizardEditingPolicy.this.attachToResource(resource, eObject);
+				EReferenceWizardEditingPolicy.this.attachToResource(editingContext, resource, eObject);
 			}
 
 			/**
@@ -56,7 +48,7 @@ public abstract class EReferenceWizardEditingPolicy extends EReferenceEditingPol
 			 */
 			@Override
 			protected void detachFromResource(EObject eObject) {
-				EReferenceWizardEditingPolicy.this.detachFromResource(eObject);
+				EReferenceWizardEditingPolicy.this.detachFromResource(editingContext, eObject);
 			}
 
 		};
@@ -75,11 +67,11 @@ public abstract class EReferenceWizardEditingPolicy extends EReferenceEditingPol
 	 * @param resource {@link Resource} to process.
 	 * @param createdEObject the {@link EObject} to attach.
 	 */
-	protected abstract void attachToResource(Resource resource, EObject createdEObject);
+	protected abstract void attachToResource(PropertiesEditingContext editingContext, Resource resource, EObject createdEObject);
 
 	/**
 	 * Detaches the given object from its resource if it is contained as a root element.
 	 * @param eObject the {@link EObject} to attach.
 	 */
-	protected abstract void detachFromResource(EObject eObject);
+	protected abstract void detachFromResource(PropertiesEditingContext editingContext, EObject eObject);
 }

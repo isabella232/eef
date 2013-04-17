@@ -36,7 +36,7 @@ import org.eclipse.emf.eef.runtime.internal.context.DomainPropertiesEditingConte
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.PropertiesEditingContextFactoryImpl;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContextImpl;
 import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceProviderImpl;
@@ -890,11 +890,11 @@ public class EEFTestEnvironment {
 				}
 			}, properties);
 			
-			properties.put("component.factory", SemanticPropertiesEditingContext.FACTORY_ID);
+			properties.put("component.factory", SemanticPropertiesEditingContextImpl.FACTORY_ID);
 			contextFactory.addChildFactory(new ComponentFactory() {
 				
 				public ComponentInstance newInstance(Dictionary properties) {
-					SemanticPropertiesEditingContext context = new SemanticPropertiesEditingContext();
+					SemanticPropertiesEditingContextImpl context = new SemanticPropertiesEditingContextImpl();
 					context.configure(new ComponentContextMock(properties));
 					return new ContextInstance(context);
 				}

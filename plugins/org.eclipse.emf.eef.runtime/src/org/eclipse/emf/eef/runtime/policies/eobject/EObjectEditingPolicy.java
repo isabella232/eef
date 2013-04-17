@@ -5,12 +5,13 @@ package org.eclipse.emf.eef.runtime.policies.eobject;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.AbstractEditingPolicyWithProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing.ProcessingKind;
+import org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 
 /**
@@ -20,24 +21,17 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 public abstract class EObjectEditingPolicy extends AbstractEditingPolicyWithProcessor {
 
 	/**
-	 * @param editingContext the {@link PropertiesEditingContext} which have generated the current policy.
-	 */
-	public EObjectEditingPolicy(SemanticPropertiesEditingContext editingContext) {
-		super(editingContext);
-	}
-
-	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.AbstractEditingPolicyWithProcessor#getPolicyProcessing()
+	 * @see org.eclipse.emf.eef.runtime.policies.AbstractEditingPolicyWithProcessor#getPolicyProcessing(org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext)
 	 */
 	@Override
-	protected EditingPolicyProcessing getPolicyProcessing() {
+	protected EditingPolicyProcessing getPolicyProcessing(PropertiesEditingContext editingContext) {
 		EditingPolicyProcessing processing = new EditingPolicyProcessing();
-		PropertiesEditingEvent editingEvent = editingContext.getEditingEvent();
+		PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContext) editingContext).getEditingEvent();
 		EClassBinding binding = editingContext.getEditingComponent().getBinding();
 		EStructuralFeature bindingFeature = binding.feature(editingEvent.getAffectedEditor(), editingContext.getEditingComponent().getEditingContext().getOptions().autowire());
 		EObject editedObject = (EObject)editingContext.getEditingComponent().getEObject();
-		EMFService emfService = editingContext.getServiceRegistry().getService(EMFService.class, editingContext.getEditingComponent().getEObject().eClass().getEPackage());
+		EMFService emfService = editingContext.getEMFServiceProvider().getEMFService(editingContext.getEditingComponent().getEObject().eClass().getEPackage());
 		EStructuralFeature feature = emfService.mapFeature(editedObject, bindingFeature);
 		if (feature != null) {
 			processing.target = editedObject;

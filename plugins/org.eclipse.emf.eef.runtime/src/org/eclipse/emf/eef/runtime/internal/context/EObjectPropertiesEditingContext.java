@@ -66,7 +66,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 			this.editingRecorder = new EditingRecorderImpl();
 			editingRecorder.initRecording(eObject);
 		} else {
-			throw new IllegalArgumentException("Unable to instanciate an SemanticPropertiesEditingContext with the given parameters.");
+			throw new IllegalArgumentException("Unable to instanciate an SemanticPropertiesEditingContextImpl with the given parameters.");
 		}
 	}
 	

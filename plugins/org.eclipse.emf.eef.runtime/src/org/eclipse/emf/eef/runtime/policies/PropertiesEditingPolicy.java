@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.policies;
 
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
@@ -10,13 +12,15 @@ package org.eclipse.emf.eef.runtime.policies;
 public interface PropertiesEditingPolicy {
 	
 	/**
-	 * @return an {@link EditingPolicyValidation} defining if the policy can be performed or not.
+	 * @param editingContext the {@link SemanticPropertiesEditingContext} to process.
+	 * @return an {@link EditingPolicyValidation} defining if the policy can be performed with the given {@link SemanticPropertiesEditingContext}.
 	 */
-	EditingPolicyValidation validateEditing();
+	EditingPolicyValidation validateEditing(PropertiesEditingContext editingContext);
 
 	/**
-	 * Executes the policy behavior with the good processor.
+	 * Executes the policy for the given {@link SemanticPropertiesEditingContext}.
+	 * @param editingContext the {@link SemanticPropertiesEditingContext} to process.
 	 */
-	void execute();
+	void execute(PropertiesEditingContext editingContext);
 	
 }

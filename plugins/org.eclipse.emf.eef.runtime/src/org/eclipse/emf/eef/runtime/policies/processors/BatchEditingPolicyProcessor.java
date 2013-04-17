@@ -7,7 +7,7 @@ import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.command.AbortExecutionException;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
+import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -16,18 +16,11 @@ import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
 public class BatchEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 
 	/**
-	 * @param editingPolicy
-	 */
-	public BatchEditingPolicyProcessor(EditingPolicyWithProcessor editingPolicy) {
-		super(editingPolicy);
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor#executeCommand(org.eclipse.emf.common.command.Command)
 	 */
 	@Override
-	protected void executeCommand(Command command) {
+	protected void executeCommand(DomainAwarePropertiesEditingContext editingContext, Command command) {
 	    // If the command is executable, record and execute it.
 	    //
 	    if (command != null)

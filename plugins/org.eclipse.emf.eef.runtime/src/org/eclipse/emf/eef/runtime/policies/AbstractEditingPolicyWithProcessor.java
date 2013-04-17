@@ -8,44 +8,36 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class AbstractEditingPolicyWithProcessor implements EditingPolicyWithProcessor {
-
-	protected SemanticPropertiesEditingContext editingContext;
-	
-	/**
-	 * @param editingContext the {@link SemanticPropertiesEditingContext} to process.
-	 */
-	public AbstractEditingPolicyWithProcessor(SemanticPropertiesEditingContext editingContext) {
-		this.editingContext = editingContext;
-	}
+public abstract class AbstractEditingPolicyWithProcessor extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyWithProcessor {
 
 	/**
-	 * @return the editingContext
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public PropertiesEditingContext getEditingContext() {
-		return editingContext;
+	public boolean serviceFor(PropertiesEditingContext element) {
+		return element instanceof SemanticPropertiesEditingContext;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#validateEditing()
+	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#validateEditing(org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext)
 	 */
-	public EditingPolicyValidation validateEditing() {
-		PropertiesEditingEvent editingEvent = editingContext.getEditingEvent();
+	public EditingPolicyValidation validateEditing(PropertiesEditingContext editingContext) {
+		PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContext)editingContext).getEditingEvent();
 		EObject eObject = editingContext.getEditingComponent().getEObject();
 		EStructuralFeature feature = editingContext.getEditingComponent().getBinding().feature(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
 		if (feature != null) {
 			if (!eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
-				EMFService emfService = editingContext.getServiceRegistry().getService(EMFService.class, eObject.eClass().getEPackage());
+				EMFService emfService = editingContext.getEMFServiceProvider().getEMFService(eObject.eClass().getEPackage());
 				feature = emfService.mapFeature(eObject, feature);
 			}
 			if (eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
@@ -74,13 +66,15 @@ public abstract class AbstractEditingPolicyWithProcessor implements EditingPolic
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute()
 	 */
-	public final void execute() {
-		getProcessor().process(getPolicyProcessing());
+	public final void execute(PropertiesEditingContext editingContext) {
+		getProcessor().process(editingContext, getPolicyProcessing(editingContext));
 	}
 
 	/**
+	 * Converts a {@link SemanticPropertiesEditingContext} into a {@link EditingPolicyProcessing} describing the model operation to perform.
+	 * @param editingContext the {@link PropertiesEditingContext} to convert.
 	 * @return the {@link EditingPolicyProcessing} to execute by this {@link PropertiesEditingPolicy}.
 	 */
-	protected abstract EditingPolicyProcessing getPolicyProcessing();
+	protected abstract EditingPolicyProcessing getPolicyProcessing(PropertiesEditingContext editingContext);
 
 }

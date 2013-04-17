@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.policies.processors;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
+import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -13,18 +13,11 @@ import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
 public class LiveEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 
 	/**
-	 * @param editingPolicy
-	 */
-	public LiveEditingPolicyProcessor(EditingPolicyWithProcessor editingPolicy) {
-		super(editingPolicy);
-	}
-
-	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor#executeCommand(org.eclipse.emf.common.command.Command)
+	 * @see org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor#executeCommand(org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext, org.eclipse.emf.common.command.Command)
 	 */
 	@Override
-	protected void executeCommand(Command command) {
+	protected void executeCommand(DomainAwarePropertiesEditingContext editingContext, Command command) {
 		editingContext.getEditingDomain().getCommandStack().execute(command);
 	}
 

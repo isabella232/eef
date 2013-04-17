@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContextImpl;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.util.PropertiesEditingMessageManagerImpl;
@@ -61,11 +61,11 @@ public class EEFEditingWizard extends Wizard {
 	public void addPages() {
 		editingPage = new PropertiesEditingWizardPage();
 		editingPage.setInput(context);
-		if (context instanceof SemanticPropertiesEditingContext) {
+		if (context instanceof SemanticPropertiesEditingContextImpl) {
 			EEFEditingService editingService = context.getServiceRegistry().getService(EEFEditingService.class, context.getEditingComponent().getEObject());
 			EMFService emfService = context.getEMFServiceProvider().getEMFService(context.getEditingComponent().getEObject().eClass().getEPackage());
-			if (editingService.isAddingInContainmentEvent(context, ((SemanticPropertiesEditingContext) context).getEditingEvent())) {
-				EReference editedReference = editingService.getReferenceToEdit((SemanticPropertiesEditingContext) context);	
+			if (editingService.isAddingInContainmentEvent(context, ((SemanticPropertiesEditingContextImpl) context).getEditingEvent())) {
+				EReference editedReference = editingService.getReferenceToEdit((SemanticPropertiesEditingContextImpl) context);	
 				Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(null, context.getEditingComponent().getEObject(), editedReference);
 				if (listOfInstanciableType.size() > 0) {
 					if (listOfInstanciableType.size() > 1) {

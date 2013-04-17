@@ -33,7 +33,7 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 	private final List<String> CONTEXT_ID = Lists.newArrayList(
 				EObjectPropertiesEditingContext.FACTORY_ID,
 				DomainPropertiesEditingContext.FACTORY_ID,
-				SemanticPropertiesEditingContext.FACTORY_ID,
+				SemanticPropertiesEditingContextImpl.FACTORY_ID,
 				SemanticDomainPropertiesEditingContext.FACTORY_ID
 			);
 	
@@ -179,22 +179,22 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createSemanticPropertiesEditingContext(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public PropertiesEditingContext createSemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent) {
-		SemanticPropertiesEditingContext context = null;
+		SemanticPropertiesEditingContextImpl context = null;
 		if (parentContext instanceof DomainAwarePropertiesEditingContext) {
 			ComponentFactory contextFactory = contextFactories.get(SemanticDomainPropertiesEditingContext.FACTORY_ID);
 			if (contextFactory != null) {
 				Dictionary<String, Object> params = new Hashtable<String, Object>();
 				params.put(PropertiesEditingContext.PARENTCONTEXT_PARAM, parentContext);
-				params.put(SemanticPropertiesEditingContext.EDITINGEVENT_PARAM, editingEvent);
-				context = (SemanticPropertiesEditingContext) contextFactory.newInstance(params).getInstance();
+				params.put(SemanticPropertiesEditingContextImpl.EDITINGEVENT_PARAM, editingEvent);
+				context = (SemanticPropertiesEditingContextImpl) contextFactory.newInstance(params).getInstance();
 			}
 		} else {
-			ComponentFactory contextFactory = contextFactories.get(SemanticPropertiesEditingContext.FACTORY_ID);
+			ComponentFactory contextFactory = contextFactories.get(SemanticPropertiesEditingContextImpl.FACTORY_ID);
 			if (contextFactory != null) {
 				Dictionary<String, Object> params = new Hashtable<String, Object>();
 				params.put(PropertiesEditingContext.PARENTCONTEXT_PARAM, parentContext);
-				params.put(SemanticPropertiesEditingContext.EDITINGEVENT_PARAM, editingEvent);
-				context = (SemanticPropertiesEditingContext) contextFactory.newInstance(params).getInstance();
+				params.put(SemanticPropertiesEditingContextImpl.EDITINGEVENT_PARAM, editingEvent);
+				context = (SemanticPropertiesEditingContextImpl) contextFactory.newInstance(params).getInstance();
 			}
 		}
 		return context;
