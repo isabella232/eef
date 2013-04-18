@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.policies.processors;
+package org.eclipse.emf.eef.runtime.internal.policies.processors;
 
 import java.util.Collection;
 
@@ -12,21 +12,31 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
+public class DirectEditingPolicyProcessor extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyProcessor {
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
+	 */
+	public boolean serviceFor(PropertiesEditingContext element) {
+		return element instanceof SemanticPropertiesEditingContext;
+	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing)
+	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent)
 	 */
-	public void process(PropertiesEditingContext editingContext, EditingPolicyProcessing behavior) {
+	public void process(PropertiesEditingContext editingContext, EditingPolicyIntent behavior) {
 		switch (behavior.processingKind) {
 		case SET:
 			performSet(behavior.target, behavior.feature, behavior.value);

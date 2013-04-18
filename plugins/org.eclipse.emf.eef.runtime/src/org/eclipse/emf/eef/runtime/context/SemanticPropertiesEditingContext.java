@@ -1,9 +1,8 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.policies;
+package org.eclipse.emf.eef.runtime.context;
 
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 
 /**

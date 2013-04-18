@@ -1,9 +1,11 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.policies;
+package org.eclipse.emf.eef.runtime.internal.policies;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyValidation;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 
 /**
  * A null implementation of the {@link PropertiesEditingPolicy} interface.

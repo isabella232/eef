@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.policies.processors;
+package org.eclipse.emf.eef.runtime.internal.policies.processors;
 
 import java.util.Collection;
 
@@ -20,20 +20,21 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
+public abstract class DomainEditingPolicyProcessor extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyProcessor {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing)
+	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent)
 	 */
-	public void process(PropertiesEditingContext editingContext, EditingPolicyProcessing behavior) {
+	public void process(PropertiesEditingContext editingContext, EditingPolicyIntent behavior) {
 		DomainAwarePropertiesEditingContext domainEditingContext = (DomainAwarePropertiesEditingContext) editingContext;
 		Command convertToCommand = convertToCommand(domainEditingContext, behavior);
 		if (convertToCommand != null) {
@@ -49,13 +50,13 @@ public abstract class DomainEditingPolicyProcessor implements EditingPolicyProce
 	protected abstract void executeCommand(DomainAwarePropertiesEditingContext domainEditingContext, Command command);
 
 	/**
-	 * Converts a {@link EditingPolicyProcessing} to an EMF {@link Command}. The returned value can be <code>null</code>,
+	 * Converts a {@link EditingPolicyIntent} to an EMF {@link Command}. The returned value can be <code>null</code>,
 	 * in this case the processing is cancelled.
 	 * @param domainEditingContext {@link SemanticDomainPropertiesEditingContext} where the command will be performed.
-	 * @param behavior {@link EditingPolicyProcessing} to process.
+	 * @param behavior {@link EditingPolicyIntent} to process.
 	 * @return the {@link Command} to execute.
 	 */
-	protected Command convertToCommand(DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyProcessing behavior) {
+	protected Command convertToCommand(DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyIntent behavior) {
 		EObject eObject = behavior.target;
 		EStructuralFeature feature = behavior.feature;
 		Object newValue = behavior.value;

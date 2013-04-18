@@ -7,8 +7,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
@@ -49,7 +49,7 @@ public class EEFEditingServiceImpl extends AbstractEEFService<EObject> implement
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editing.EEFEditingService#getReferenceToEdit(org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContext)
+	 * @see org.eclipse.emf.eef.runtime.services.editing.EEFEditingService#getReferenceToEdit(org.org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
 	public EReference getReferenceToEdit(SemanticPropertiesEditingContext editingContext) {
 		EStructuralFeature feature = editingContext.getEditingComponent().getBinding().feature(editingContext.getEditingEvent().getAffectedEditor(), editingContext.getOptions().autowire());

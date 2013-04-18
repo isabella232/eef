@@ -8,8 +8,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing;
-import org.eclipse.emf.eef.runtime.policies.processors.LiveEditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.internal.policies.processors.LiveEditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.commands.WizardEditingCommand;
 
@@ -21,10 +21,10 @@ public class LiveWizardEditingPolicyProcessor extends LiveEditingPolicyProcessor
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.internal.policies.processors.DomainEditingPolicyProcessor#convertToCommand(org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessing)
+	 * @see org.eclipse.emf.eef.runtime.ui.internal.policies.processors.DomainEditingPolicyProcessor#convertToCommand(org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent)
 	 */
 	@Override
-	protected Command convertToCommand(DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyProcessing behavior) {
+	protected Command convertToCommand(DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyIntent behavior) {
 		Object newValue = behavior.value;
 		switch (behavior.processingKind) {
 		case EDIT:

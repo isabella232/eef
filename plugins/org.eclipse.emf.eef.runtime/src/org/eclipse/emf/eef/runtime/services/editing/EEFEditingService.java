@@ -6,9 +6,8 @@ package org.eclipse.emf.eef.runtime.services.editing;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**

@@ -6,9 +6,9 @@ package org.eclipse.emf.eef.runtime.internal.context;
 import java.util.Dictionary;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext;
 import org.osgi.service.component.ComponentContext;
 
 /**

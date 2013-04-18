@@ -4,17 +4,10 @@
 package org.eclipse.emf.eef.runtime.policies;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContextImpl;
-import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.policies.eobject.EObjectBatchEditingPolicy;
-import org.eclipse.emf.eef.runtime.policies.eobject.EObjectDirectEditingPolicy;
-import org.eclipse.emf.eef.runtime.policies.eobject.EObjectLiveEditingPolicy;
-import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceBatchEditingPolicy;
-import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceDirectEditingPolicy;
-import org.eclipse.emf.eef.runtime.policies.ereference.EReferenceLiveEditingPolicy;
+import org.eclipse.emf.eef.runtime.internal.policies.NullEditingPolicy;
+import org.eclipse.emf.eef.runtime.internal.policies.intent.NullEditingProlicyIntentFactory;
+import org.eclipse.emf.eef.runtime.internal.policies.processors.NullEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
-import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
 /**
@@ -23,7 +16,24 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
  */
 public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<PropertiesEditingContext> implements PropertiesEditingPolicyProvider, DefaultService {
 
+	private EditingPolicyIntentFactoryProvider editingPolicyIntentFactoryProvider;
+	private EditingPolicyProcessorProvider editingPolicyProcessorProvider;
+	
 	private PropertiesEditingPolicy nullEditingPolicy;
+
+	/**
+	 * @param editingPolicyIntentFactoryProvider the editingPolicyIntentFactoryProvider to set
+	 */
+	public void setEditingPolicyIntentFactoryProvider(EditingPolicyIntentFactoryProvider editingPolicyIntentFactoryProvider) {
+		this.editingPolicyIntentFactoryProvider = editingPolicyIntentFactoryProvider;
+	}
+
+	/**
+	 * @param editingPolicyProcessorProvider the editingPolicyProcessorProvider to set
+	 */
+	public void setEditingPolicyProcessorProvider(EditingPolicyProcessorProvider editingPolicyProcessorProvider) {
+		this.editingPolicyProcessorProvider = editingPolicyProcessorProvider;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -38,31 +48,11 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context) {
-		if (context instanceof SemanticPropertiesEditingContextImpl) {
-			PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContextImpl) context).getEditingEvent();
-			EEFEditingService editingService = getServiceRegistry().getService(EEFEditingService.class, context.getEditingComponent().getEObject());
-			if (editingService.isAddingInContainmentEvent(context, editingEvent)) {
-				if (context instanceof SemanticDomainPropertiesEditingContext) {
-					if (((SemanticDomainPropertiesEditingContext) context).getOptions().liveMode()) {
-						return createEReferenceLiveEditingPolicy((SemanticDomainPropertiesEditingContext) context);
-					} 
-					if (((SemanticDomainPropertiesEditingContext) context).getOptions().batchMode()) {
-						return createEReferenceBatchEditingPolicy((SemanticDomainPropertiesEditingContext) context);
-					}				
-				} else {
-					return createEReferenceDirectEditingPolicy((SemanticPropertiesEditingContextImpl) context);
-				}
-			} else {
-				if (context instanceof SemanticDomainPropertiesEditingContext) {
-					if (((SemanticDomainPropertiesEditingContext) context).getOptions().liveMode()) {
-						return createEObjectLiveEditingPolicy((SemanticDomainPropertiesEditingContext) context);
-					} 
-					if (((SemanticDomainPropertiesEditingContext) context).getOptions().batchMode()) {
-						return createEObjectBatchEditingPolicy((SemanticDomainPropertiesEditingContext) context);
-					}				
-				} else {
-					return createEObjectDirectEditingPolicy((SemanticPropertiesEditingContextImpl) context);
-				}
+		EditingPolicyIntentFactory intentFactory = editingPolicyIntentFactoryProvider.getProcessingFactory(context);
+		if (!(intentFactory instanceof NullEditingProlicyIntentFactory)) {
+			EditingPolicyProcessor processor = editingPolicyProcessorProvider.getProcessor(context);
+			if (!(processor instanceof NullEditingPolicyProcessor)) {
+				processor.process(context, intentFactory.createProcessing(context));				
 			}
 		}
 		return getNullEditingPolicy();
@@ -73,54 +63,6 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 			nullEditingPolicy = new NullEditingPolicy();
 		}
 		return nullEditingPolicy;
-	}
-
-	/**
-	 * @param context
-	 * @return
-	 */
-	public PropertiesEditingPolicy createEObjectDirectEditingPolicy(PropertiesEditingContext context) {
-		return new EObjectDirectEditingPolicy();
-	}
-
-	/**
-	 * @param context
-	 * @return
-	 */
-	public PropertiesEditingPolicy createEObjectBatchEditingPolicy(PropertiesEditingContext context) {
-		return new EObjectBatchEditingPolicy();
-	}
-
-	/**
-	 * @param context
-	 * @return
-	 */
-	public PropertiesEditingPolicy createEObjectLiveEditingPolicy(PropertiesEditingContext context) {
-		return new EObjectLiveEditingPolicy();
-	}
-
-	/**
-	 * @param context
-	 * @return
-	 */
-	public PropertiesEditingPolicy createEReferenceDirectEditingPolicy(PropertiesEditingContext context) {
-		return new EReferenceDirectEditingPolicy();
-	}
-
-	/**
-	 * @param context
-	 * @return
-	 */
-	public PropertiesEditingPolicy createEReferenceBatchEditingPolicy(PropertiesEditingContext context) {
-		return new EReferenceBatchEditingPolicy();
-	}
-
-	/**
-	 * @param context
-	 * @return
-	 */
-	public PropertiesEditingPolicy createEReferenceLiveEditingPolicy(PropertiesEditingContext context) {
-		return new EReferenceLiveEditingPolicy();
 	}
 
 }

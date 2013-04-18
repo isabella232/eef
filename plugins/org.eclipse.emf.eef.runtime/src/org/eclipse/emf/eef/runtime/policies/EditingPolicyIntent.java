@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EditingPolicyProcessing {
+public class EditingPolicyIntent {
 
 	public ProcessingKind processingKind;
 	
