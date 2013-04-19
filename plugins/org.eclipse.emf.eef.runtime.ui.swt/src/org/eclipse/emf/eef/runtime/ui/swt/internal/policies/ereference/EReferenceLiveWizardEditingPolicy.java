@@ -5,22 +5,24 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.policies.ereference;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.processors.LiveWizardEditingPolicyProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceLiveWizardEditingPolicy extends EReferenceWizardEditingPolicy {
-
+public class EReferenceLiveWizardEditingPolicy extends EReferenceWizardEditingPolicyIntentFactory {
+	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor#getProcessor()
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.policies.ereference.EReferenceWizardEditingPolicyIntentFactory#serviceFor(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
-	public EditingPolicyProcessor getProcessor() {
-		return new LiveWizardEditingPolicyProcessor();
+	@Override
+	public boolean serviceFor(PropertiesEditingContext editingContext) {
+		return editingContext instanceof DomainAwarePropertiesEditingContext
+				&& editingContext.getOptions().liveMode()
+				&& super.serviceFor(editingContext);
 	}
 
 	/**

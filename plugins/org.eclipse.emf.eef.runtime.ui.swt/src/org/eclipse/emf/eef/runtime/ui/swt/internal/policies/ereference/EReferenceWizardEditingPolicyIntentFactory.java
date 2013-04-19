@@ -1,14 +1,11 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies.intent;
+package org.eclipse.emf.eef.runtime.ui.swt.internal.policies.ereference;
 
-import java.util.Collection;
-
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -17,25 +14,20 @@ import org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent.ProcessingKind;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyIntentFactory;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
-import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard;
+import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFWizardDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceEditingPolicyIntentFactory extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyIntentFactory {
+public abstract class EReferenceWizardEditingPolicyIntentFactory extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyIntentFactory {
 
-	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
-
-	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
-	 */
-	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
-	}
 
 	/**
 	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
@@ -84,19 +76,53 @@ public class EReferenceEditingPolicyIntentFactory extends AbstractEEFService<Pro
 	 * @param editedReference {@link EReference} to edit.
 	 * @return the {@link EObject} to set in thce given {@link EReference}.
 	 */
-	private EObject defineEObjectToSet(PropertiesEditingContext editingContext, EReference editedReference) {
-		EObject createdEObject = null;
-		if (editedReference.getEReferenceType() != null && !editedReference.getEReferenceType().isAbstract()) {
-			createdEObject  = EcoreUtil.create(editedReference.getEReferenceType());
-		} else {
-			EMFService emfService = emfServiceProvider.getEMFService(editingContext.getEditingComponent().getEObject().eClass().getEPackage());
-			Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(null, editingContext.getEditingComponent().getEObject(), editedReference);
-			if (listOfInstanciableType.size() > 0) {
-				createdEObject = EcoreUtil.create(listOfInstanciableType.iterator().next());
-			} else {
-				//TODO: logging ?
-			}
-		}
-		return createdEObject;
+	protected EObject defineEObjectToSet(PropertiesEditingContext editingContext, EReference editedReference) {
+		return createObjectAndOpenWizard(editingContext, editedReference);
 	}
+
+	private EObject createObjectAndOpenWizard(final PropertiesEditingContext editingContext, EReference editedReference) {
+		editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
+		EEFEditingWizard wizard = new EEFEditingWizard(editingContext) {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard#attachToResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.emf.ecore.EObject)
+			 */
+			@Override
+			protected void attachToResource(Resource resource, EObject eObject) {
+				EReferenceWizardEditingPolicyIntentFactory.this.attachToResource(editingContext, resource, eObject);
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard#detachFromResource(org.eclipse.emf.ecore.EObject)
+			 */
+			@Override
+			protected void detachFromResource(EObject eObject) {
+				EReferenceWizardEditingPolicyIntentFactory.this.detachFromResource(editingContext, eObject);
+			}
+
+		};
+		//TODO: use a UI helper for providing the shell 
+		EEFWizardDialog wDialog = new EEFWizardDialog(new Shell(), wizard);
+		int open = wDialog.open();
+		if (open == Window.CANCEL) {
+			return null;
+		}
+
+		return wizard.getCreatedObject();
+	}
+
+	/**
+	 * Attaches the created object to the given {@link Resource}.
+	 * @param resource {@link Resource} to process.
+	 * @param createdEObject the {@link EObject} to attach.
+	 */
+	protected abstract void attachToResource(PropertiesEditingContext editingContext, Resource resource, EObject createdEObject);
+
+	/**
+	 * Detaches the given object from its resource if it is contained as a root element.
+	 * @param eObject the {@link EObject} to attach.
+	 */
+	protected abstract void detachFromResource(PropertiesEditingContext editingContext, EObject eObject);
 }

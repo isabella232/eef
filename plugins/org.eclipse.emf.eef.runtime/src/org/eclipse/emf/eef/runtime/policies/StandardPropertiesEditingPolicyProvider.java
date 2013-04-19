@@ -52,7 +52,7 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 		if (!(intentFactory instanceof NullEditingProlicyIntentFactory)) {
 			EditingPolicyProcessor processor = editingPolicyProcessorProvider.getProcessor(context);
 			if (!(processor instanceof NullEditingPolicyProcessor)) {
-				processor.process(context, intentFactory.createProcessing(context));				
+				return new EditingPolicyWithProcessor(intentFactory.createProcessing(context), processor);
 			}
 		}
 		return getNullEditingPolicy();

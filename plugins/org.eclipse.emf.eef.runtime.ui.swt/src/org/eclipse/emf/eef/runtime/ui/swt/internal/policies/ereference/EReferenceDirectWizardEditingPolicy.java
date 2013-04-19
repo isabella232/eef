@@ -6,22 +6,12 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.policies.ereference;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.policies.processors.DirectEditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceDirectWizardEditingPolicy extends EReferenceWizardEditingPolicy {
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor#getProcessor()
-	 */
-	public EditingPolicyProcessor getProcessor() {
-		return new DirectEditingPolicyProcessor();
-	}
+public class EReferenceDirectWizardEditingPolicy extends EReferenceWizardEditingPolicyIntentFactory {
 
 	/**
 	 * {@inheritDoc}
