@@ -61,16 +61,17 @@ public class EReferenceEditingPolicyIntentFactory extends AbstractEEFService<Pro
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyIntentFactory#createProcessing(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public EditingPolicyIntent createProcessing(PropertiesEditingContext editingContext) {
-		EditingPolicyIntent processing = new EditingPolicyIntent();
-		processing.target = editingContext.getEditingComponent().getEObject();
-		processing.feature = getEditedReference((SemanticPropertiesEditingContext) editingContext);
-		processing.value = defineEObjectToSet(editingContext, (EReference) processing.feature);
-		if (processing.feature.isMany()) {
-			processing.processingKind = ProcessingKind.ADD;
+		EditingPolicyIntent.Builder requestBuilder = new EditingPolicyIntent.Builder();
+		requestBuilder.setTarget(editingContext.getEditingComponent().getEObject());
+		EReference feature = getEditedReference((SemanticPropertiesEditingContext) editingContext);
+		requestBuilder.setFeature(feature);
+		requestBuilder.setValue(defineEObjectToSet(editingContext, (EReference)feature));
+		if (feature.isMany()) {
+			requestBuilder.setProcessingKind(ProcessingKind.ADD);
 		} else {
-			processing.processingKind = ProcessingKind.SET;
+			requestBuilder.setProcessingKind(ProcessingKind.SET);
 		}
-		return processing;
+		return requestBuilder.build();
 	}
 
 	/**

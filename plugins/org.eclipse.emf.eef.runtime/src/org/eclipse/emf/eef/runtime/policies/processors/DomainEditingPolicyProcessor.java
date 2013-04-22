@@ -1,14 +1,17 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies.processors;
+package org.eclipse.emf.eef.runtime.policies.processors;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.command.AbortExecutionException;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.command.IdentityCommand;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -28,13 +31,21 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class DomainEditingPolicyProcessor extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyProcessor {
+public class DomainEditingPolicyProcessor extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyProcessor {
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
+	 */
+	public boolean serviceFor(PropertiesEditingContext element) {
+		return element instanceof SemanticDomainPropertiesEditingContext;
+	}
 
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent)
 	 */
-	public void process(PropertiesEditingContext editingContext, EditingPolicyIntent behavior) {
+	public final void process(PropertiesEditingContext editingContext, EditingPolicyIntent behavior) {
 		DomainAwarePropertiesEditingContext domainEditingContext = (DomainAwarePropertiesEditingContext) editingContext;
 		Command convertToCommand = convertToCommand(domainEditingContext, behavior);
 		if (convertToCommand != null) {
@@ -47,7 +58,37 @@ public abstract class DomainEditingPolicyProcessor extends AbstractEEFService<Pr
 	 * @param domainEditingContext {@link SemanticDomainPropertiesEditingContext} where to perform the command.
 	 * @param command {@link Command} to execute.
 	 */
-	protected abstract void executeCommand(DomainAwarePropertiesEditingContext domainEditingContext, Command command);
+	private void executeCommand(DomainAwarePropertiesEditingContext domainEditingContext, Command command) {
+		if (domainEditingContext.getOptions().liveMode()) {
+			domainEditingContext.getEditingDomain().getCommandStack().execute(command);
+		} else {
+		    // If the command is executable, record and execute it.
+		    //
+		    if (command != null)
+		    {
+		      if (command.canExecute())
+		      {
+		        try
+		        {
+		          command.execute();
+		        }
+		        catch (AbortExecutionException exception)
+		        {
+		          command.dispose();
+		        }
+		        catch (RuntimeException exception)
+		        {
+		          handleError(exception);  
+		          command.dispose();
+		        }
+		      }
+		      else
+		      {
+		        command.dispose();
+		      }
+		    }							
+		}
+	}
 
 	/**
 	 * Converts a {@link EditingPolicyIntent} to an EMF {@link Command}. The returned value can be <code>null</code>,
@@ -57,10 +98,10 @@ public abstract class DomainEditingPolicyProcessor extends AbstractEEFService<Pr
 	 * @return the {@link Command} to execute.
 	 */
 	protected Command convertToCommand(DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyIntent behavior) {
-		EObject eObject = behavior.target;
-		EStructuralFeature feature = behavior.feature;
-		Object newValue = behavior.value;
-		switch (behavior.processingKind) {
+		EObject eObject = behavior.getTarget();
+		EStructuralFeature feature = behavior.getFeature();
+		Object newValue = behavior.getValue();
+		switch (behavior.getProcessingKind()) {
 		case SET:
 			if (newValue == null) {
 				return null;
@@ -102,13 +143,20 @@ public abstract class DomainEditingPolicyProcessor extends AbstractEEFService<Pr
 				return cc;
 			}
 		case REMOVE:
-			return RemoveCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, behavior.value);
+			return RemoveCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, behavior.getValue());
 		case REMOVE_MANY:
-			return RemoveCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, behavior.value);
+			return RemoveCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, behavior.getValue());
 		case MOVE:
-			return MoveCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, behavior.oldIndex, behavior.newIndex);
+			return MoveCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, behavior.getOldIndex(), behavior.getNewIndex());
 		}
 		return IdentityCommand.INSTANCE;
 	}
 
+	/**
+	 * Handles an exception thrown during command execution by logging it with the plugin.
+	 */
+	private void handleError(Exception exception) {
+		//TODO: remove dependency to CommonPlugin
+		CommonPlugin.INSTANCE.log(new WrappedException(CommonPlugin.INSTANCE.getString("_UI_IgnoreException_exception"), exception).fillInStackTrace());
+	}
 }

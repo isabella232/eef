@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.policies.processors.BatchEditingPolicyProcessor">
-   <implementation class="org.eclipse.emf.eef.runtime.internal.policies.processors.BatchEditingPolicyProcessor"/>
-   <service>
-      <provide interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor"/>
-   </service>
-   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.policies.processors.DirectEditingPolicyProcessor"/>
-</scr:component>

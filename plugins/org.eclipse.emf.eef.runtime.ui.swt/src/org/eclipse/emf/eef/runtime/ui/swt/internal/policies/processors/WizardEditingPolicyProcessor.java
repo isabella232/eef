@@ -8,9 +8,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
+import org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.commands.WizardEditingCommand;
 
@@ -18,31 +19,26 @@ import org.eclipse.emf.eef.runtime.ui.swt.commands.WizardEditingCommand;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class AbstractWizardEditingPolicyProcessor extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyProcessor {
+public class WizardEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent)
+	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public void process(PropertiesEditingContext editingContext, EditingPolicyIntent behavior) {
-		DomainAwarePropertiesEditingContext domainEditingContext = (DomainAwarePropertiesEditingContext) editingContext;
-		Command convertToCommand = convertToCommand(domainEditingContext, behavior);
-		if (convertToCommand != null) {
-			executeCommand(domainEditingContext, convertToCommand);
-		}
+	public boolean serviceFor(PropertiesEditingContext element) {
+			return element instanceof SemanticPropertiesEditingContext
+				&& element instanceof DomainAwarePropertiesEditingContext
+				&& ((SemanticPropertiesEditingContext)element).getEditingEvent().getEventType() == PropertiesEditingEvent.EDIT;
 	}
 
 	/**
-	 * Executes the given command in the given context.
-	 * @param domainEditingContext {@link DomainAwarePropertiesEditingContext} where to perform the command.
-	 * @param command {@link Command} to execute.
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor#convertToCommand(org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext, org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent)
 	 */
-	protected abstract void executeCommand(DomainAwarePropertiesEditingContext domainEditingContext, Command command);
-
-
+	@Override
 	protected Command convertToCommand(DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyIntent behavior) {
-		Object newValue = behavior.value;
-		switch (behavior.processingKind) {
+		Object newValue = behavior.getNewIndex();
+		switch (behavior.getProcessingKind()) {
 		case EDIT:
 			if (newValue != null) {
 				PropertiesEditingContextFactory editingContextFactory = domainEditingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, (EObject)newValue);
@@ -55,4 +51,5 @@ public abstract class AbstractWizardEditingPolicyProcessor extends AbstractEEFSe
 		}
 		return null;
 	}
+	
 }

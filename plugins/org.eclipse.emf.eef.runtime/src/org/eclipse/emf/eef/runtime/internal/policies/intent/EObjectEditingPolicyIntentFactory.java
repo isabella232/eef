@@ -44,7 +44,7 @@ public class EObjectEditingPolicyIntentFactory extends AbstractEEFService<Proper
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyIntentFactory#createProcessing(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public EditingPolicyIntent createProcessing(PropertiesEditingContext editingContext) {
-		EditingPolicyIntent processing = new EditingPolicyIntent();
+		EditingPolicyIntent.Builder requestBuilder = new EditingPolicyIntent.Builder();
 		PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContext) editingContext).getEditingEvent();
 		EClassBinding binding = editingContext.getEditingComponent().getBinding();
 		EStructuralFeature bindingFeature = binding.feature(editingEvent.getAffectedEditor(), editingContext.getEditingComponent().getEditingContext().getOptions().autowire());
@@ -52,48 +52,48 @@ public class EObjectEditingPolicyIntentFactory extends AbstractEEFService<Proper
 		EMFService emfService = emfServiceProvider.getEMFService(editingContext.getEditingComponent().getEObject().eClass().getEPackage());
 		EStructuralFeature feature = emfService.mapFeature(editedObject, bindingFeature);
 		if (feature != null) {
-			processing.target = editedObject;
-			processing.feature = feature;
+			requestBuilder.setTarget(editedObject);
+			requestBuilder.setFeature(feature);
 			switch (editingEvent.getEventType()) {
 			case PropertiesEditingEvent.SET:
-				processing.processingKind = ProcessingKind.SET;
-				processing.value = editingEvent.getNewValue();
+				requestBuilder.setProcessingKind(ProcessingKind.SET);
+				requestBuilder.setValue(editingEvent.getNewValue());
 				break;
 			case PropertiesEditingEvent.UNSET:
-				processing.processingKind = ProcessingKind.UNSET;
+				requestBuilder.setProcessingKind(ProcessingKind.UNSET);
 				break;
 			case PropertiesEditingEvent.EDIT:
-				processing.processingKind = ProcessingKind.EDIT;
-				processing.value = editingEvent.getNewValue();
+				requestBuilder.setProcessingKind(ProcessingKind.EDIT);
+				requestBuilder.setValue(editingEvent.getNewValue());
 				break;
 			case PropertiesEditingEvent.ADD:
-				processing.processingKind = ProcessingKind.ADD;
-				processing.value = editingEvent.getNewValue();
+				requestBuilder.setProcessingKind(ProcessingKind.ADD);
+				requestBuilder.setValue(editingEvent.getNewValue());
 				break;
 			case PropertiesEditingEvent.ADD_MANY:
-				processing.processingKind = ProcessingKind.ADD_MANY;
-				processing.value = editingEvent.getNewValue();
+				requestBuilder.setProcessingKind(ProcessingKind.ADD_MANY);
+				requestBuilder.setValue(editingEvent.getNewValue());
 				break;	
 			case PropertiesEditingEvent.REMOVE:
-				processing.processingKind = ProcessingKind.REMOVE;
-				processing.value = editingEvent.getOldValue();
+				requestBuilder.setProcessingKind(ProcessingKind.REMOVE);
+				requestBuilder.setValue(editingEvent.getOldValue());
 				break;
 			case PropertiesEditingEvent.REMOVE_MANY:
-				processing.processingKind = ProcessingKind.REMOVE_MANY;
-				processing.value = editingEvent.getOldValue();
+				requestBuilder.setProcessingKind(ProcessingKind.REMOVE_MANY);
+				requestBuilder.setValue(editingEvent.getOldValue());
 				break;
 			case PropertiesEditingEvent.MOVE:
-				processing.processingKind = ProcessingKind.MOVE;
-				processing.oldIndex = (Integer)editingEvent.getOldValue();
-				processing.newIndex = (Integer)editingEvent.getNewValue();
+				requestBuilder.setProcessingKind(ProcessingKind.MOVE);
+				requestBuilder.setOldIndex((Integer)editingEvent.getOldValue());
+				requestBuilder.setNewIndex((Integer)editingEvent.getNewValue());
 				break;
 			default:
-				processing.processingKind = ProcessingKind.SET;
-				processing.value = editingEvent.getNewValue();
+				requestBuilder.setProcessingKind(ProcessingKind.SET);
+				requestBuilder.setValue(editingEvent.getNewValue());
 				break;
 			}
 		}
-		return processing;
+		return requestBuilder.build();
 	}
 
 }

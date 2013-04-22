@@ -37,30 +37,30 @@ public class DirectEditingPolicyProcessor extends AbstractEEFService<PropertiesE
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent)
 	 */
 	public void process(PropertiesEditingContext editingContext, EditingPolicyIntent behavior) {
-		switch (behavior.processingKind) {
+		switch (behavior.getProcessingKind()) {
 		case SET:
-			performSet(behavior.target, behavior.feature, behavior.value);
+			performSet(behavior.getTarget(), behavior.getFeature(), behavior.getValue());
 			break;
 		case UNSET:
-			performUnset(behavior.target, behavior.feature);
+			performUnset(behavior.getTarget(), behavior.getFeature());
 			break;
 		case EDIT:
-			performEdit(editingContext, behavior.target, behavior.feature, behavior.value);
+			performEdit(editingContext, behavior.getTarget(), behavior.getFeature(), behavior.getValue());
 			break;
 		case ADD:
-			performAdd(behavior.target, behavior.feature, behavior.value);			
+			performAdd(behavior.getTarget(), behavior.getFeature(), behavior.getValue());
 			break;
 		case ADD_MANY:
-			performAddMany(behavior.target, behavior.feature, (Collection<?>) behavior.value);
+			performAddMany(behavior.getTarget(), behavior.getFeature(), (Collection<?>) behavior.getValue());
 			break;
 		case REMOVE:
-			performRemove(behavior.target, behavior.feature, behavior.value);			
+			performRemove(behavior.getTarget(), behavior.getFeature(), behavior.getValue());
 			break;
 		case REMOVE_MANY:
-			performRemoveMany(behavior.target, behavior.feature, (Collection<?>) behavior.value);
+			performRemoveMany(behavior.getTarget(), behavior.getFeature(), (Collection<?>) behavior.getValue());
 			break;
 		case MOVE:
-			performMove(behavior.target, behavior.feature, behavior.oldIndex, behavior.newIndex);
+			performMove(behavior.getTarget(), behavior.getFeature(), behavior.getOldIndex(), behavior.getNewIndex());
 			break;
 		default:
 			break;
