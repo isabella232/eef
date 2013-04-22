@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies.intent;
+package org.eclipse.emf.eef.runtime.internal.policies.request;
 
 import java.util.Collection;
 
@@ -12,9 +12,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent.ProcessingKind;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyIntentFactory;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest.ProcessingKind;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
@@ -25,7 +25,7 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceEditingPolicyIntentFactory extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyIntentFactory {
+public class EReferenceEditingPolicyRequestFactory extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyRequestFactory {
 
 	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
@@ -58,10 +58,10 @@ public class EReferenceEditingPolicyIntentFactory extends AbstractEEFService<Pro
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyIntentFactory#createProcessing(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory#createProcessing(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
-	public EditingPolicyIntent createProcessing(PropertiesEditingContext editingContext) {
-		EditingPolicyIntent.Builder requestBuilder = new EditingPolicyIntent.Builder();
+	public EditingPolicyRequest createProcessing(PropertiesEditingContext editingContext) {
+		EditingPolicyRequest.Builder requestBuilder = new EditingPolicyRequest.Builder();
 		requestBuilder.setTarget(editingContext.getEditingComponent().getEObject());
 		EReference feature = getEditedReference((SemanticPropertiesEditingContext) editingContext);
 		requestBuilder.setFeature(feature);

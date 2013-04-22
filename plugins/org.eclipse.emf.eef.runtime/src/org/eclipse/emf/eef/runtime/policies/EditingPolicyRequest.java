@@ -5,13 +5,13 @@ package org.eclipse.emf.eef.runtime.policies;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.internal.policies.intent.EditingPolicyIntentImpl;
+import org.eclipse.emf.eef.runtime.internal.policies.request.EditingPolicyRequestImpl;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface EditingPolicyIntent {
+public interface EditingPolicyRequest {
 	
 	public enum ProcessingKind {
 		SET,
@@ -124,20 +124,20 @@ public interface EditingPolicyIntent {
 		}
 		
 		/**
-		 * Creates a new {@link EditingPolicyIntent}.
-		 * @return the built {@link EditingPolicyIntent}.
+		 * Creates a new {@link EditingPolicyRequest}.
+		 * @return the built {@link EditingPolicyRequest}.
 		 */
-		public EditingPolicyIntent build() {
+		public EditingPolicyRequest build() {
 			if (processingKind != null && target != null && feature != null) {
 				if (value != null) {
-					return new EditingPolicyIntentImpl(processingKind, target, feature, value);
+					return new EditingPolicyRequestImpl(processingKind, target, feature, value);
 				} if (oldIndex != null && newIndex != null) {
-					return new EditingPolicyIntentImpl(processingKind, target, feature, oldIndex, newIndex);
+					return new EditingPolicyRequestImpl(processingKind, target, feature, oldIndex, newIndex);
 				} else {
-					return new EditingPolicyIntentImpl(processingKind, target, feature);
+					return new EditingPolicyRequestImpl(processingKind, target, feature);
 				}
 			}
-			throw new IllegalArgumentException("Unable to build a EditPolicyIntent with the given arguments.");
+			throw new IllegalArgumentException("Unable to build a EditPolicyRequest with the given arguments.");
 		}
 		
 	}

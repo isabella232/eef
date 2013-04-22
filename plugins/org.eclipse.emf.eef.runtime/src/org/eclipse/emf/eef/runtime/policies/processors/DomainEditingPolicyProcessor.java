@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
@@ -43,9 +43,9 @@ public class DomainEditingPolicyProcessor extends AbstractEEFService<PropertiesE
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent)
+	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest)
 	 */
-	public final void process(PropertiesEditingContext editingContext, EditingPolicyIntent behavior) {
+	public final void process(PropertiesEditingContext editingContext, EditingPolicyRequest behavior) {
 		DomainAwarePropertiesEditingContext domainEditingContext = (DomainAwarePropertiesEditingContext) editingContext;
 		Command convertToCommand = convertToCommand(domainEditingContext, behavior);
 		if (convertToCommand != null) {
@@ -91,13 +91,13 @@ public class DomainEditingPolicyProcessor extends AbstractEEFService<PropertiesE
 	}
 
 	/**
-	 * Converts a {@link EditingPolicyIntent} to an EMF {@link Command}. The returned value can be <code>null</code>,
+	 * Converts a {@link EditingPolicyRequest} to an EMF {@link Command}. The returned value can be <code>null</code>,
 	 * in this case the processing is cancelled.
 	 * @param domainEditingContext {@link SemanticDomainPropertiesEditingContext} where the command will be performed.
-	 * @param behavior {@link EditingPolicyIntent} to process.
+	 * @param behavior {@link EditingPolicyRequest} to process.
 	 * @return the {@link Command} to execute.
 	 */
-	protected Command convertToCommand(DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyIntent behavior) {
+	protected Command convertToCommand(DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyRequest behavior) {
 		EObject eObject = behavior.getTarget();
 		EStructuralFeature feature = behavior.getFeature();
 		Object newValue = behavior.getValue();

@@ -14,10 +14,10 @@ import org.eclipse.emf.eef.runtime.services.EEFService;
 public interface EditingPolicyProcessor extends EEFService<PropertiesEditingContext> {
 
 	/**
-	 * Processes a {@link EditingPolicyIntent}.
+	 * Processes a {@link EditingPolicyRequest}.
 	 * @param editingContext the {@link PropertiesEditingContext} where to perform the editing.
 	 * @param behavior behavior to execute.
 	 */
-	void process(PropertiesEditingContext editingContext, EditingPolicyIntent behavior);
+	void process(PropertiesEditingContext editingContext, EditingPolicyRequest behavior);
 	
 }

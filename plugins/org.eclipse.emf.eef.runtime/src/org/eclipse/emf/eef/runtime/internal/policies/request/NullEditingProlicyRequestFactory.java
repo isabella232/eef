@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies.processors;
+package org.eclipse.emf.eef.runtime.internal.policies.request;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
@@ -13,7 +13,7 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class NullEditingPolicyProcessor extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyProcessor, DefaultService {
+public class NullEditingProlicyRequestFactory extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyRequestFactory, DefaultService {
 
 	/**
 	 * {@inheritDoc}
@@ -25,10 +25,10 @@ public class NullEditingPolicyProcessor extends AbstractEEFService<PropertiesEdi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest)
+	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory#createProcessing(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
-	public void process(PropertiesEditingContext editingContext, EditingPolicyRequest behavior) {
-		// Do
+	public EditingPolicyRequest createProcessing(PropertiesEditingContext editingContext) {
+ 		return null;
 	}
 
 }

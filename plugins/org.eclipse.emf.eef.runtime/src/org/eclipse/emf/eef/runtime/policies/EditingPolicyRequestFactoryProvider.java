@@ -9,12 +9,12 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface EditingPolicyIntentFactoryProvider {
+public interface EditingPolicyRequestFactoryProvider {
 	
 	/**
 	 * @param editingContext
 	 * @return
 	 */
-	EditingPolicyIntentFactory getProcessingFactory(PropertiesEditingContext editingContext);
+	EditingPolicyRequestFactory getProcessingFactory(PropertiesEditingContext editingContext);
 
 }

@@ -1,17 +1,17 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.policies.intent;
+package org.eclipse.emf.eef.runtime.internal.policies.request;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyIntent;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EditingPolicyIntentImpl implements EditingPolicyIntent {
+public class EditingPolicyRequestImpl implements EditingPolicyRequest {
 
 	private ProcessingKind processingKind;
 	
@@ -31,7 +31,7 @@ public class EditingPolicyIntentImpl implements EditingPolicyIntent {
 	 * @param feature
 	 * @param value
 	 */
-	public EditingPolicyIntentImpl(ProcessingKind processingKind, EObject target, EStructuralFeature feature, Object value) {
+	public EditingPolicyRequestImpl(ProcessingKind processingKind, EObject target, EStructuralFeature feature, Object value) {
 		this.processingKind = processingKind;
 		this.target = target;
 		this.feature = feature;
@@ -43,7 +43,7 @@ public class EditingPolicyIntentImpl implements EditingPolicyIntent {
 	 * @param target
 	 * @param feature
 	 */
-	public EditingPolicyIntentImpl(ProcessingKind processingKind, EObject target, EStructuralFeature feature) {
+	public EditingPolicyRequestImpl(ProcessingKind processingKind, EObject target, EStructuralFeature feature) {
 		this.processingKind = processingKind;
 		this.target = target;
 		this.feature = feature;
@@ -56,7 +56,7 @@ public class EditingPolicyIntentImpl implements EditingPolicyIntent {
 	 * @param newIndex
 	 * @param oldIndex
 	 */
-	public EditingPolicyIntentImpl(ProcessingKind processingKind, EObject target, EStructuralFeature feature, int newIndex, int oldIndex) {
+	public EditingPolicyRequestImpl(ProcessingKind processingKind, EObject target, EStructuralFeature feature, int newIndex, int oldIndex) {
 		this.processingKind = processingKind;
 		this.target = target;
 		this.feature = feature;

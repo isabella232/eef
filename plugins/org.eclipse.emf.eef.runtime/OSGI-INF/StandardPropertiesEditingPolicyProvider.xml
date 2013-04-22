@@ -5,6 +5,6 @@
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
       <provide interface="org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider"/>
    </service>
-   <reference bind="setEditingPolicyIntentFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyIntentFactoryProvider" name="EditingPolicyIntentFactoryProvider" policy="static"/>
+   <reference bind="setEditingPolicyRequestFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactoryProvider" name="EditingPolicyRequestFactoryProvider" policy="static"/>
    <reference bind="setEditingPolicyProcessorProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessorProvider" name="EditingPolicyProcessorProvider" policy="static"/>
 </scr:component>

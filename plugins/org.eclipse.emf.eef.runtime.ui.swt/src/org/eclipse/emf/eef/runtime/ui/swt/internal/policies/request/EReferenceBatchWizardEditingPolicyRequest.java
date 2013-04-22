@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.swt.internal.policies.ereference;
+package org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.ecore.EObject;
@@ -13,11 +13,11 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceBatchWizardEditingPolicy extends EReferenceWizardEditingPolicyIntentFactory {
+public class EReferenceBatchWizardEditingPolicyRequest extends EReferenceWizardEditingPolicyRequestFactory {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.policies.ereference.EReferenceWizardEditingPolicyIntentFactory#serviceFor(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceWizardEditingPolicyRequestFactory#serviceFor(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	@Override
 	public boolean serviceFor(PropertiesEditingContext editingContext) {
@@ -28,7 +28,7 @@ public class EReferenceBatchWizardEditingPolicy extends EReferenceWizardEditingP
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.policies.ereference.EReferenceWizardEditingPolicy#attachToResource(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.resource.Resource, org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceWizardEditingPolicy#attachToResource(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.resource.Resource, org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
 	protected void attachToResource(PropertiesEditingContext editingContext, final Resource resource, final EObject createdEObject) {
@@ -73,7 +73,7 @@ public class EReferenceBatchWizardEditingPolicy extends EReferenceWizardEditingP
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.policies.ereference.EReferenceWizardEditingPolicy#detachFromResource(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceWizardEditingPolicy#detachFromResource(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
 	protected void detachFromResource(PropertiesEditingContext editingContext, final EObject eObject) {

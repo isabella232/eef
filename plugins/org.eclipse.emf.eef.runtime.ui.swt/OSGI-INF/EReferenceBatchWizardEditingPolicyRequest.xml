@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.swt.policies.ereference.EReferenceBatchWizardEditingPolicy">
-   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.internal.policies.ereference.EReferenceBatchWizardEditingPolicy"/>
+   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceBatchWizardEditingPolicyRequest"/>
    <reference bind="setEEFEditingServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider" name="EEFEditingServiceProvider" policy="static"/>
    <service>
-      <provide interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyIntentFactory"/>
+      <provide interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory"/>
    </service>
    <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.swt.policies.ereference.EReferenceDirectWizardEditingPolicy"/>
 </scr:component>

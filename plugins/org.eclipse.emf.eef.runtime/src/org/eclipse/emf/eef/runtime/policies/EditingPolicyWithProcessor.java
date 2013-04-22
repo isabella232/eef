@@ -19,15 +19,15 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFService;
  */
 public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 	
-	private final EditingPolicyIntent intent;
+	private final EditingPolicyRequest request;
 	private final EditingPolicyProcessor processor;
 
 	/**
-	 * @param intent
+	 * @param request
 	 * @param processor
 	 */
-	public EditingPolicyWithProcessor(EditingPolicyIntent intent, EditingPolicyProcessor processor) {
-		this.intent = intent;
+	public EditingPolicyWithProcessor(EditingPolicyRequest request, EditingPolicyProcessor processor) {
+		this.request = request;
 		this.processor = processor;
 	}
 
@@ -70,7 +70,7 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute()
 	 */
 	public final void execute(PropertiesEditingContext editingContext) {
-		processor.process(editingContext, intent);
+		processor.process(editingContext, request);
 	}
 
 }

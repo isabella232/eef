@@ -5,8 +5,8 @@ package org.eclipse.emf.eef.runtime.policies;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.NullEditingPolicy;
-import org.eclipse.emf.eef.runtime.internal.policies.intent.NullEditingProlicyIntentFactory;
 import org.eclipse.emf.eef.runtime.internal.policies.processors.NullEditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.internal.policies.request.NullEditingProlicyRequestFactory;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
@@ -16,16 +16,16 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
  */
 public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<PropertiesEditingContext> implements PropertiesEditingPolicyProvider, DefaultService {
 
-	private EditingPolicyIntentFactoryProvider editingPolicyIntentFactoryProvider;
+	private EditingPolicyRequestFactoryProvider editingPolicyRequestFactoryProvider;
 	private EditingPolicyProcessorProvider editingPolicyProcessorProvider;
 	
 	private PropertiesEditingPolicy nullEditingPolicy;
 
 	/**
-	 * @param editingPolicyIntentFactoryProvider the editingPolicyIntentFactoryProvider to set
+	 * @param editingPolicyRequestFactoryProvider the editingPolicyRequestFactoryProvider to set
 	 */
-	public void setEditingPolicyIntentFactoryProvider(EditingPolicyIntentFactoryProvider editingPolicyIntentFactoryProvider) {
-		this.editingPolicyIntentFactoryProvider = editingPolicyIntentFactoryProvider;
+	public void setEditingPolicyRequestFactoryProvider(EditingPolicyRequestFactoryProvider editingPolicyRequestFactoryProvider) {
+		this.editingPolicyRequestFactoryProvider = editingPolicyRequestFactoryProvider;
 	}
 
 	/**
@@ -48,11 +48,11 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context) {
-		EditingPolicyIntentFactory intentFactory = editingPolicyIntentFactoryProvider.getProcessingFactory(context);
-		if (!(intentFactory instanceof NullEditingProlicyIntentFactory)) {
+		EditingPolicyRequestFactory requestFactory = editingPolicyRequestFactoryProvider.getProcessingFactory(context);
+		if (!(requestFactory instanceof NullEditingProlicyRequestFactory)) {
 			EditingPolicyProcessor processor = editingPolicyProcessorProvider.getProcessor(context);
 			if (!(processor instanceof NullEditingPolicyProcessor)) {
-				return new EditingPolicyWithProcessor(intentFactory.createProcessing(context), processor);
+				return new EditingPolicyWithProcessor(requestFactory.createProcessing(context), processor);
 			}
 		}
 		return getNullEditingPolicy();
