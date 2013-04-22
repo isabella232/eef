@@ -5,5 +5,5 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory"/>
    </service>
-   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.swt.policies.ereference.EReferenceDirectWizardEditingPolicy"/>
+   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.policies.request.EReferenceEditingPolicyRequestFactory"/>
 </scr:component>

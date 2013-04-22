@@ -13,7 +13,7 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class NullEditingProlicyRequestFactory extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyRequestFactory, DefaultService {
+public class NullEditingPolicyRequestFactory extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyRequestFactory, DefaultService {
 
 	/**
 	 * {@inheritDoc}

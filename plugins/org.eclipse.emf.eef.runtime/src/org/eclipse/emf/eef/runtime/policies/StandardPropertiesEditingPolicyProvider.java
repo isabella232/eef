@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.policies;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.NullEditingPolicy;
 import org.eclipse.emf.eef.runtime.internal.policies.processors.NullEditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.internal.policies.request.NullEditingProlicyRequestFactory;
+import org.eclipse.emf.eef.runtime.internal.policies.request.NullEditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
@@ -49,7 +49,7 @@ public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<
 	 */
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context) {
 		EditingPolicyRequestFactory requestFactory = editingPolicyRequestFactoryProvider.getProcessingFactory(context);
-		if (!(requestFactory instanceof NullEditingProlicyRequestFactory)) {
+		if (!(requestFactory instanceof NullEditingPolicyRequestFactory)) {
 			EditingPolicyProcessor processor = editingPolicyProcessorProvider.getProcessor(context);
 			if (!(processor instanceof NullEditingPolicyProcessor)) {
 				return new EditingPolicyWithProcessor(requestFactory.createProcessing(context), processor);

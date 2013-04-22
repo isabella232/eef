@@ -37,15 +37,27 @@ import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingCont
 import org.eclipse.emf.eef.runtime.internal.context.PropertiesEditingContextFactoryImpl;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContextImpl;
+import org.eclipse.emf.eef.runtime.internal.policies.processors.DirectEditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.internal.policies.processors.EditingPolicyProcessorProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.policies.request.EObjectEditingPolicyRequestFactory;
+import org.eclipse.emf.eef.runtime.internal.policies.request.EReferenceEditingPolicyRequestFactory;
+import org.eclipse.emf.eef.runtime.internal.policies.request.EditingPolicyRequestFactoryProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceImpl;
+import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceProviderImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessorProvider;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactoryProvider;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.policies.StandardPropertiesEditingPolicyProvider;
+import org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
+import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
@@ -65,6 +77,10 @@ import org.eclipse.emf.eef.runtime.ui.swt.e3.view.handlers.editingview.PlatformA
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesPlatformAwareToolkit;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.swttoolkit.SWTPlatformAwareToolkit;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.viewer.E3EditUIProvidersFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.processors.WizardEditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceBatchWizardEditingPolicyRequest;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceDirectWizardEditingPolicyRequest;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceLiveWizardEditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.ui.swt.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.view.handlers.swt.SWTViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.view.lock.EditingViewLockManager;
@@ -197,12 +213,16 @@ public class EEFTestEnvironment {
 		private EEFServiceRegistry serviceRegistry;
 		private Collection<Class<? extends EEFService<?>>> preloadedServices;
 		private Collection<EEFServiceDescriptor<? extends EEFService<Object>>> eefServices;
+
 		private EMFServiceProvider emfServiceProvider;
+		private EEFEditingServiceProvider eefEditingServiceProvider;
+		private EditingPolicyRequestFactoryProvider policyRequestFactoryProvider;
+		private EditingPolicyProcessorProvider policyProcessorProvider;
+		
 		private ModelChangesNotificationManager notificationManager;
 
 		private PropertiesEditingContextFactory editingContextFactory;
 		private PropertiesEditingContext editingContext;
-
 
 		public Builder() {
 			sampleModel = null;
@@ -265,7 +285,28 @@ public class EEFTestEnvironment {
 			}
 			return emfServiceProvider;
 		}
+		
+		public EEFEditingServiceProvider getEEFEditingServiceProvider() {
+			if (eefEditingServiceProvider == null) {
+				eefEditingServiceProvider = createEEFEditingServiceProvider();
+			}
+			return eefEditingServiceProvider;
+		}
+		
+		private EditingPolicyRequestFactoryProvider getPolicyRequestFactoryProvider() {
+			if (policyRequestFactoryProvider == null) {
+				policyRequestFactoryProvider = createPolicyRequestFactoryProvider();
+			}
+			return policyRequestFactoryProvider;
+		}
 
+		private EditingPolicyProcessorProvider getPolicyProcessorProvider() {
+			if (policyProcessorProvider == null) {
+				policyProcessorProvider = createPolicyProcessorProvider();
+			}
+			return policyProcessorProvider;
+		}
+		
 		public ModelChangesNotificationManager getModelChangesNotificationManager() {
 			if (notificationManager == null) {
 				notificationManager = createNotificationManager();
@@ -637,6 +678,169 @@ public class EEFTestEnvironment {
 			return services;
 		}
 
+		public Collection<EEFServiceDescriptor<EEFEditingService>> createEEFEditingServices() {
+			Collection<EEFServiceDescriptor<EEFEditingService>> services = new ArrayList<EEFServiceDescriptor<EEFEditingService>>();
+			EEFServiceDescriptor<EEFEditingService> descriptor = new EEFServiceDescriptor<EEFEditingService>(EEFEditingServiceImpl.class.getName(), new EEFEditingServiceImpl() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(EEFEditingService.class.getName());
+					return result;
+				}
+
+			});
+			services.add(descriptor);
+			return services;
+		}
+
+		
+		public Collection<EEFServiceDescriptor<EditingPolicyRequestFactory>> createPolicyRequestFactories() {
+			Collection<EEFServiceDescriptor<EditingPolicyRequestFactory>> services = new ArrayList<EEFServiceDescriptor<EditingPolicyRequestFactory>>();
+			EObjectEditingPolicyRequestFactory eObjectEditingPolicyRequestFactory = new EObjectEditingPolicyRequestFactory() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(EditingPolicyRequestFactory.class.getName());
+					return result;
+				}
+
+			};
+			eObjectEditingPolicyRequestFactory.setEMFServiceProvider(getEMFServiceProvider());
+			EEFServiceDescriptor<EditingPolicyRequestFactory> descriptor = new EEFServiceDescriptor<EditingPolicyRequestFactory>(EObjectEditingPolicyRequestFactory.class.getName(), eObjectEditingPolicyRequestFactory);
+			services.add(descriptor);
+			EReferenceEditingPolicyRequestFactory eReferenceEditingPolicyRequestFactory = new EReferenceEditingPolicyRequestFactory() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(EditingPolicyRequestFactory.class.getName());
+					return result;
+				}
+
+			};
+			eReferenceEditingPolicyRequestFactory.setEMFServiceProvider(getEMFServiceProvider());
+			eReferenceEditingPolicyRequestFactory.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
+			descriptor = new EEFServiceDescriptor<EditingPolicyRequestFactory>(EReferenceEditingPolicyRequestFactory.class.getName(), eReferenceEditingPolicyRequestFactory, EObjectEditingPolicyRequestFactory.class.getName());
+			services.add(descriptor);
+			EReferenceDirectWizardEditingPolicyRequest eReferenceDirectWizardEditingPolicyRequest = new EReferenceDirectWizardEditingPolicyRequest() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(EditingPolicyRequestFactory.class.getName());
+					return result;
+				}
+
+			};
+			eReferenceDirectWizardEditingPolicyRequest.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
+			descriptor = new EEFServiceDescriptor<EditingPolicyRequestFactory>(EReferenceDirectWizardEditingPolicyRequest.class.getName(), eReferenceDirectWizardEditingPolicyRequest, EReferenceEditingPolicyRequestFactory.class.getName());
+			services.add(descriptor);
+			EReferenceBatchWizardEditingPolicyRequest eReferenceBatchWizardEditingPolicyRequest = new EReferenceBatchWizardEditingPolicyRequest() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(EditingPolicyRequestFactory.class.getName());
+					return result;
+				}
+
+			};
+			eReferenceBatchWizardEditingPolicyRequest.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
+			descriptor = new EEFServiceDescriptor<EditingPolicyRequestFactory>(EReferenceBatchWizardEditingPolicyRequest.class.getName(), eReferenceBatchWizardEditingPolicyRequest, EReferenceEditingPolicyRequestFactory.class.getName());
+			services.add(descriptor);
+			EReferenceLiveWizardEditingPolicyRequest eReferenceLiveWizardEditingPolicyRequest = new EReferenceLiveWizardEditingPolicyRequest() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(EditingPolicyRequestFactory.class.getName());
+					return result;
+				}
+
+			};
+			eReferenceLiveWizardEditingPolicyRequest.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
+			descriptor = new EEFServiceDescriptor<EditingPolicyRequestFactory>(EReferenceLiveWizardEditingPolicyRequest.class.getName(), eReferenceLiveWizardEditingPolicyRequest, EReferenceEditingPolicyRequestFactory.class.getName());
+			services.add(descriptor);
+			return services;
+		}
+		
+		private Collection<EEFServiceDescriptor<EditingPolicyProcessor>> createPolicyProcessors() {
+			Collection<EEFServiceDescriptor<EditingPolicyProcessor>> services = new ArrayList<EEFServiceDescriptor<EditingPolicyProcessor>>();
+			EEFServiceDescriptor<EditingPolicyProcessor> descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(DirectEditingPolicyProcessor.class.getName(), new DirectEditingPolicyProcessor() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(EditingPolicyProcessor.class.getName());
+					return result;
+				}
+
+			});
+			services.add(descriptor);
+			descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(DomainEditingPolicyProcessor.class.getName(), new DomainEditingPolicyProcessor() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(EditingPolicyProcessor.class.getName());
+					return result;
+				}
+
+			}, DirectEditingPolicyProcessor.class.getName());
+			services.add(descriptor);
+			descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(WizardEditingPolicyProcessor.class.getName(), new WizardEditingPolicyProcessor() {
+
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(EditingPolicyProcessor.class.getName());
+					return result;
+				}
+
+			}, DomainEditingPolicyProcessor.class.getName());
+			services.add(descriptor);
+			return services;
+		}
+
+
 		public Collection<EEFServiceDescriptor<ViewService>> createViewServices() {
 			Collection<EEFServiceDescriptor<ViewService>> result = new ArrayList<EEFServiceDescriptor<ViewService>>();
 			PlatformAwareViewServiceImpl viewService = new PlatformAwareViewServiceImpl() {
@@ -831,7 +1035,7 @@ public class EEFTestEnvironment {
 
 		public Collection<EEFServiceDescriptor<PropertiesEditingPolicyProvider>> createPolicyProvider() {
 			Collection<EEFServiceDescriptor<PropertiesEditingPolicyProvider>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<PropertiesEditingPolicyProvider>>();
-			EEFServiceDescriptor<PropertiesEditingPolicyProvider> desc = new EEFServiceDescriptor<PropertiesEditingPolicyProvider>("propertieseditingpolicyprovider.default", new StandardPropertiesEditingPolicyProvider() {
+			StandardPropertiesEditingPolicyProvider policyProvider = new StandardPropertiesEditingPolicyProvider() {
 
 				/**
 				 * {@inheritDoc}
@@ -844,7 +1048,10 @@ public class EEFTestEnvironment {
 					return result;
 				}
 
-			});
+			};
+			policyProvider.setEditingPolicyRequestFactoryProvider(getPolicyRequestFactoryProvider());
+			policyProvider.setEditingPolicyProcessorProvider(getPolicyProcessorProvider());
+			EEFServiceDescriptor<PropertiesEditingPolicyProvider> desc = new EEFServiceDescriptor<PropertiesEditingPolicyProvider>("propertieseditingpolicyprovider.default", policyProvider);
 			result.add(desc);
 			return result;
 		}
@@ -1001,6 +1208,48 @@ public class EEFTestEnvironment {
 		public EMFServiceProvider createEMFServiceProvider() {
 			EMFServiceProviderImpl result = new EMFServiceProviderImpl();
 			for (EEFServiceDescriptor<EMFService> eefServiceDescriptor : createEMFServices()) {
+				try {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					result.addService(eefServiceDescriptor.service, properties);
+				} catch (PriorityCircularityException e) {
+					e.printStackTrace();
+				}
+			}
+			return result;
+		}
+		
+		public EEFEditingServiceProvider createEEFEditingServiceProvider() {
+			EEFEditingServiceProviderImpl result = new EEFEditingServiceProviderImpl();
+			for (EEFServiceDescriptor<EEFEditingService> eefServiceDescriptor : createEEFEditingServices()) {
+				try {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					result.addService(eefServiceDescriptor.service, properties);
+				} catch (PriorityCircularityException e) {
+					e.printStackTrace();
+				}
+			}
+			return result;
+		}
+		
+		public EditingPolicyRequestFactoryProvider createPolicyRequestFactoryProvider() {
+			EditingPolicyRequestFactoryProviderImpl result = new EditingPolicyRequestFactoryProviderImpl();
+			for (EEFServiceDescriptor<EditingPolicyRequestFactory> eefServiceDescriptor : createPolicyRequestFactories()) {
+				try {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					result.addService(eefServiceDescriptor.service, properties);
+				} catch (PriorityCircularityException e) {
+					e.printStackTrace();
+				}
+			}
+			return result;
+		}
+
+		public EditingPolicyProcessorProvider createPolicyProcessorProvider() {
+			EditingPolicyProcessorProviderImpl result = new EditingPolicyProcessorProviderImpl();
+			for (EEFServiceDescriptor<EditingPolicyProcessor> eefServiceDescriptor : createPolicyProcessors()) {
 				try {
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);

@@ -29,6 +29,7 @@ import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPro
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
+import org.eclipse.emf.eef.runtime.notify.UIPropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
@@ -45,6 +46,7 @@ import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedNotification;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedPropertyNotification;
 import org.osgi.service.event.Event;
+import org.w3c.dom.events.UIEvent;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -291,14 +293,16 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public synchronized void firePropertiesChanged(PropertiesEditingEvent editingEvent) {
-		PropertiesEditingContextFactory service = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, source);
-		PropertiesEditingContext semanticEditingContext = service.createSemanticPropertiesEditingContext(getEditingContext(), editingEvent);
-		PropertiesEditingPolicy editingPolicy = getEditingPolicy(semanticEditingContext);
-		if (editingEvent.delayedChanges()) {
-			delayedApplyingPropertiesChanged(editingEvent);
-		} else {
-			if (editingPolicy.validateEditing(semanticEditingContext).canPerform()) {
-				execute(editingPolicy, semanticEditingContext);
+		if (!(editingEvent instanceof UIPropertiesEditingEvent)) {
+			PropertiesEditingContextFactory service = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, source);
+			PropertiesEditingContext semanticEditingContext = service.createSemanticPropertiesEditingContext(getEditingContext(), editingEvent);
+			PropertiesEditingPolicy editingPolicy = getEditingPolicy(semanticEditingContext);
+			if (editingEvent.delayedChanges()) {
+				delayedApplyingPropertiesChanged(editingEvent);
+			} else {
+				if (editingPolicy.validateEditing(semanticEditingContext).canPerform()) {
+					execute(editingPolicy, semanticEditingContext);
+				}
 			}
 		}
 	}
