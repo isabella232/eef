@@ -9,8 +9,8 @@ import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.services.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.PropertyEditorImpl;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class CheckboxPropertyEditor implements PropertyEditor, MonovaluedPropertyEditor {
+public class CheckboxPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
@@ -89,7 +89,7 @@ public class CheckboxPropertyEditor implements PropertyEditor, MonovaluedPropert
 			 */
 			public void widgetSelected(SelectionEvent e) {
 				if (view.getEditingComponent() != null)
-					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, new Boolean(propertyEditorViewer.getViewer().getMainControl().getSelection())));
+					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, new Boolean(propertyEditorViewer.getViewer().getMainControl().getSelection())));
 			}
 
 		});

@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker;
 
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EDatePickerPropertyEditorProvider implements WidgetPropertyEditorProvider<Composite> {
+public class EDatePickerPropertyEditorProvider extends WidgetPropertyEditorProviderImpl<Composite> {
 
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
 	
@@ -32,7 +32,7 @@ public class EDatePickerPropertyEditorProvider implements WidgetPropertyEditorPr
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProvider#serviceFor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorProvider#serviceFor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
 	public boolean serviceFor(PropertyEditorContext<Composite> editorContext) {
 		return getModel() == editorContext.viewElement.getRepresentation();
@@ -42,7 +42,7 @@ public class EDatePickerPropertyEditorProvider implements WidgetPropertyEditorPr
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public PropertyEditor getPropertyEditor(PropertyEditorContext<Composite> editorContext) {
+	protected PropertyEditor createPropertyEditor(PropertyEditorContext<Composite> editorContext) {
 		return new EDatePackerPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new EDatePickerSWTPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 

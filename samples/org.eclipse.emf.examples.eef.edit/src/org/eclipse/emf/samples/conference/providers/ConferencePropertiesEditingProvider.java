@@ -17,7 +17,7 @@ public class ConferencePropertiesEditingProvider extends PropertiesEditingProvid
 	 */
 	
 	protected String getEditingModelPath() {
-		return "platform:/plugin/org.eclipse.emf.examples.eef.edit/models-final/conference.editingmodel";
+		return "platform:/plugin/org.eclipse.emf.examples.eef.edit/models/conference.editingmodel";
 	}
 
 	

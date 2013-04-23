@@ -14,8 +14,8 @@ import org.eclipse.emf.eef.runtime.ui.swt.widgets.SingleLinePropertyViewer.Singl
 import org.eclipse.emf.eef.runtime.ui.swt.widgets.util.EEFViewerInput;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.PropertyEditorImpl;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.layout.GridData;
@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EDatePackerPropertyEditor implements PropertyEditor, MonovaluedPropertyEditor {
+public class EDatePackerPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
@@ -101,7 +101,7 @@ public class EDatePackerPropertyEditor implements PropertyEditor, MonovaluedProp
 					dialog.setDate(date);
 					if (dialog.open() == Window.OK) {
 						if (dialog.getSelection() != null) {
-							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, dialog.getSelection()));
+							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, dialog.getSelection()));
 							propertyEditorViewer.getViewer().refresh();
 						}
 					}
@@ -112,7 +112,7 @@ public class EDatePackerPropertyEditor implements PropertyEditor, MonovaluedProp
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#clear()
 				 */
 				public void clear() {
-					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.UNSET, null, null));
+					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.UNSET, null, null));
 					propertyEditorViewer.getViewer().refresh();
 				}
 				

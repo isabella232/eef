@@ -19,14 +19,13 @@ public class EReferencePlaftormAwarePropertyEditorProvider extends EReferencePro
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorProvider#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public PropertyEditor getPropertyEditor(PropertyEditorContext<Composite> editorContext) {
-		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+	protected PropertyEditor createPropertyEditor(PropertyEditorContext<Composite> editorContext) {		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
 			return new EReferencePropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new EReferenceFormPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));			
 		} else {
-			return super.getPropertyEditor(editorContext);
+			return super.createPropertyEditor(editorContext);
 		}
 	}
 

@@ -76,9 +76,9 @@ public class PropertiesValidationEditingEvent implements PropertiesEditingEvent 
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent#addHolder(org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener)
+	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent#addHolder(java.lang.Object)
 	 */
-	public void addHolder(PropertiesEditingListener holder) {
+	public void addHolder(Object holder) {
 		editingEvent.addHolder(holder);
 	}
 

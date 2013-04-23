@@ -20,8 +20,8 @@ import org.eclipse.emf.eef.runtime.ui.swt.widgets.util.ArrayFeatureContentProvid
 import org.eclipse.emf.eef.runtime.ui.swt.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.PropertyEditorImpl;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.window.Window;
@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferencePropertyEditor implements PropertyEditor, MultivaluedPropertyEditor {
+public class EReferencePropertyEditor extends PropertyEditorImpl implements MultivaluedPropertyEditor {
 
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
@@ -137,7 +137,7 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#removeAll(java.util.Collection)
 				 */
 				public void removeAll(Collection<?> removedElements) {
-					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE_MANY, removedElements, null));
+					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE_MANY, removedElements, null));
 					propertyEditorViewer.getViewer().refresh();
 				}
 
@@ -146,7 +146,7 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#remove(java.lang.Object)
 				 */
 				public void remove(Object removedElement) {
-					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE, removedElement, null));
+					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE, removedElement, null));
 					propertyEditorViewer.getViewer().refresh();
 				}
 
@@ -160,7 +160,7 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 					if (currentValue instanceof List<?>) {
 						int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 						if (oldIndex > 0) {
-							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
+							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
 							propertyEditorViewer.getViewer().refresh();
 						}
 					}
@@ -176,7 +176,7 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 					if (currentValue instanceof List<?>) {
 						int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 						if (oldIndex < ((List<?>) currentValue).size()) {
-							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
+							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
 							propertyEditorViewer.getViewer().refresh();
 						}
 					}
@@ -209,9 +209,9 @@ public class EReferencePropertyEditor implements PropertyEditor, MultivaluedProp
 					if (dialog.open() == Window.OK) {
 						if (dialog.getSelection() != null) {
 							if (dialog.getSelection() instanceof Collection<?>) {
-								view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD_MANY, null, dialog.getSelection()));
+								firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD_MANY, null, dialog.getSelection()));
 							} else {
-								view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, dialog.getSelection()));
+								firePropertiesChanged(view.getEditingComponent(),new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, dialog.getSelection()));
 							}
 							propertyEditorViewer.getViewer().refresh();				
 						}

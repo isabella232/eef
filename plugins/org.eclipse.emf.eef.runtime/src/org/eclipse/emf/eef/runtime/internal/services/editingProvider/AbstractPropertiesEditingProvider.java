@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
@@ -35,12 +36,27 @@ import com.google.common.collect.Lists;
  */
 public abstract class AbstractPropertiesEditingProvider extends AbstractEEFService<EPackage> implements PropertiesEditingProvider {
 
+	private EMFServiceProvider emfServiceProvider;
+	private BindingManagerProvider bindingManagerProvider;
+	private ModelChangesNotificationManager notificationManager;
+
 	private List<PropertiesEditingModel> editingModels;
 	private EditingModelEnvironment editingModelEnvironment;
 	
-	private EMFServiceProvider emfServiceProvider;
-	private ModelChangesNotificationManager notificationManager;
-	
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @param bindingManagerProvider the bindingManagerProvider to set
+	 */
+	public void setBindingManagerProvider(BindingManagerProvider bindingManagerProvider) {
+		this.bindingManagerProvider = bindingManagerProvider;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#setNotificationManager(ModelChangesNotificationManager)
@@ -57,10 +73,10 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 	}
 
 	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
+	 * @return the bindingManagerProvider
 	 */
-	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
+	public BindingManagerProvider getBindingManagerProvider() {
+		return bindingManagerProvider;
 	}
 
 	/**

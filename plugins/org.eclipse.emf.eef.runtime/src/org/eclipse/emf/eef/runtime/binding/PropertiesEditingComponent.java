@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.binding;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -13,6 +14,7 @@ import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
@@ -27,7 +29,7 @@ import com.google.common.base.Function;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface PropertiesEditingComponent extends PropertiesEditingListener, EventHandler {
+public interface PropertiesEditingComponent extends EventHandler {
 
 	/**
 	 * @return the handled {@link EObject}.
@@ -62,13 +64,6 @@ public interface PropertiesEditingComponent extends PropertiesEditingListener, E
 	 * @return a {@link PropertiesEditingPolicy} able to process the given {@link SemanticPropertiesEditingContext}.
 	 */
 	PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext);
-
-	/**
-	 * Executes a {@link PropertiesEditingPolicy} with a {@link SemanticPropertiesEditingContext}.
-	 * @param editingPolicy the {@link PropertiesEditingPolicy} to perform.
-	 * @param editingContext the {@link SemanticPropertiesEditingContext} to process.
-	 */
-	void execute(PropertiesEditingPolicy editingPolicy, PropertiesEditingContext editingContext);
 
 	/**
 	 * Returns the {@link ViewHandler} able to manage the given view.
@@ -140,9 +135,13 @@ public interface PropertiesEditingComponent extends PropertiesEditingListener, E
 	 */
 	Diagnostic validate();
 	
+	void propagateEvent(PropertiesEditingEvent event);
+	
 	/**
 	 * Disposes this component. Main topic is to remove this adapter from its host.
 	 */
 	void dispose();
+
+	List<ViewHandler<?>> getViewHandlers();
 
 }

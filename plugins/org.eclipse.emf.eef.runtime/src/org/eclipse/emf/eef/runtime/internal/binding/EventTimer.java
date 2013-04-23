@@ -9,6 +9,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 
@@ -18,21 +19,21 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
  */
 public class EventTimer {
 
+	private PropertiesBindingManager bindingManager;
+	
 	private static Future<?> currentFuture;
 	private final ScheduledExecutorService executor;
 	
-	private PropertiesEditingComponent editingComponent;
-	
-	public EventTimer(PropertiesEditingComponent editingComponent) {
-		this.editingComponent = editingComponent;
+	public EventTimer(PropertiesBindingManager bindingManager) {
+		this.bindingManager = bindingManager;
 		executor = Executors.newSingleThreadScheduledExecutor();
 	}
 
-	public void schedule(final PropertiesEditingEvent editingEvent) {
+	public void schedule(final PropertiesEditingComponent editingComponent, final PropertiesEditingEvent editingEvent) {
 		if (currentFuture != null && !currentFuture.isDone()) {
 			currentFuture.cancel(true);
 		}
-		final ScheduledFuture<?> future = executor.schedule(new DelayFirePropertiesChange(editingComponent, editingEvent), editingComponent.getEditingContext().getOptions().delayedFirePropertiesChangedDelay(), TimeUnit.MILLISECONDS);
+		final ScheduledFuture<?> future = executor.schedule(new DelayFirePropertiesChange(bindingManager, editingComponent, editingEvent), editingComponent.getEditingContext().getOptions().delayedFirePropertiesChangedDelay(), TimeUnit.MILLISECONDS);
 		setCurrentExecutingFuture(future);
 	}
 	
@@ -43,14 +44,17 @@ public class EventTimer {
 
 	private static class DelayFirePropertiesChange implements Runnable {
 
+		private PropertiesBindingManager bindingManager;
 		private PropertiesEditingComponent editingComponent;
 		private PropertiesEditingEvent editingEvent;
 		
 		/**
+		 * @param bindingManager
 		 * @param editingComponent
 		 * @param editingEvent
 		 */
-		public DelayFirePropertiesChange(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
+		public DelayFirePropertiesChange(PropertiesBindingManager bindingManager, PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
+			this.bindingManager = bindingManager;
 			this.editingComponent = editingComponent;
 			this.editingEvent = editingEvent;
 		}
@@ -62,7 +66,7 @@ public class EventTimer {
 		 */
 		public void run() {
 			editingEvent.setDelayed(false);
-			editingComponent.firePropertiesChanged(editingEvent);
+			bindingManager.firePropertiesChanged(editingComponent, editingEvent);
 		}
 		
 		

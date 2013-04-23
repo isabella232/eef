@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.checkbox;
 
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
@@ -14,14 +14,14 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class CheckboxPropertyEditorProvider implements WidgetPropertyEditorProvider<Composite> {
+public class CheckboxPropertyEditorProvider extends WidgetPropertyEditorProviderImpl<Composite> {
 
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
 
 	static {
 		widget.setName("Checkbox");		
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
@@ -40,12 +40,9 @@ public class CheckboxPropertyEditorProvider implements WidgetPropertyEditorProvi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView, org.eclipse.emf.eef.views.ElementEditor)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public PropertyEditor getPropertyEditor(PropertyEditorContext<Composite> editorContext) {
+	protected PropertyEditor createPropertyEditor(PropertyEditorContext<Composite> editorContext) {
 		return new CheckboxPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new CheckboxSWTPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
-
-	
-	
 }

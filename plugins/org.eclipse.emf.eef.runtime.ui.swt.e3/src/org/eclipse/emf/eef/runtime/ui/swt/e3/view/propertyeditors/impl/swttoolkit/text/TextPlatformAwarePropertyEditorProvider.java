@@ -6,7 +6,6 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.swttoolk
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.text.TextSWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.widgets.Composite;
@@ -20,14 +19,13 @@ public class TextPlatformAwarePropertyEditorProvider extends TextPropertyEditorP
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorProvider#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public PropertyEditor getPropertyEditor(PropertyEditorContext<Composite> editorContext) {
-		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+	protected PropertyEditor createPropertyEditor(PropertyEditorContext<Composite> editorContext) {		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
 			return new TextPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new TextFormPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));			
 		} else {
-			return new TextPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new TextSWTPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));
+			return super.createPropertyEditor(editorContext);
 		}
 	}
 

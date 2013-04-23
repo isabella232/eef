@@ -17,8 +17,8 @@ import org.eclipse.emf.eef.runtime.ui.swt.widgets.MultiLinePropertyViewer.MultiL
 import org.eclipse.emf.eef.runtime.ui.swt.widgets.util.ArrayFeatureContentProvider;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.PropertyEditorImpl;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.layout.GridData;
@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EContainmentPropertyEditor implements PropertyEditor, MultivaluedPropertyEditor {
+public class EContainmentPropertyEditor extends PropertyEditorImpl implements MultivaluedPropertyEditor {
 
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
@@ -133,7 +133,7 @@ public class EContainmentPropertyEditor implements PropertyEditor, MultivaluedPr
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#removeAll(java.util.Collection)
 				 */
 				public void removeAll(Collection<?> removedElements) {
-					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE_MANY, removedElements, null));
+					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE_MANY, removedElements, null));
 					propertyEditorViewer.getViewer().refresh();
 				}
 
@@ -142,7 +142,7 @@ public class EContainmentPropertyEditor implements PropertyEditor, MultivaluedPr
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#remove(java.lang.Object)
 				 */
 				public void remove(Object removedElement) {
-					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE, removedElement, null));
+					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE, removedElement, null));
 					propertyEditorViewer.getViewer().refresh();
 				}
 
@@ -156,7 +156,7 @@ public class EContainmentPropertyEditor implements PropertyEditor, MultivaluedPr
 					if (currentValue instanceof List<?>) {
 						int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 						if (oldIndex > 0) {
-							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
+							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
 							propertyEditorViewer.getViewer().refresh();
 						}
 					}
@@ -172,7 +172,7 @@ public class EContainmentPropertyEditor implements PropertyEditor, MultivaluedPr
 					if (currentValue instanceof List<?>) {
 						int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 						if (oldIndex < ((List<?>) currentValue).size()) {
-							view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
+							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
 							propertyEditorViewer.getViewer().refresh();
 						}
 					}
@@ -183,7 +183,7 @@ public class EContainmentPropertyEditor implements PropertyEditor, MultivaluedPr
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#edit(java.lang.Object)
 				 */
 				public void edit(Object editedElement) {
-					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.EDIT, null, editedElement));
+					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.EDIT, null, editedElement));
 					propertyEditorViewer.getViewer().refresh();
 				}
 
@@ -192,7 +192,7 @@ public class EContainmentPropertyEditor implements PropertyEditor, MultivaluedPr
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#add()
 				 */
 				public void add() {
-					view.getEditingComponent().firePropertiesChanged(new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, null));
+					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, null));
 				}
 			};
 			propertyEditorViewer.getViewer().addReferenceEditorListener(listener);

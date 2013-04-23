@@ -20,7 +20,7 @@ public class PropertiesEditingEventImpl implements PropertiesEditingEvent {
 	private Object newValue;
 	private boolean delayed;
 	
-	private List<PropertiesEditingListener> holders;
+	private List<Object> holders;
 
 	/**
 	 * @param source the source of this event.
@@ -97,9 +97,9 @@ public class PropertiesEditingEventImpl implements PropertiesEditingEvent {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent#addHolder(org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener)
+	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent#addHolder(java.lang.Object)
 	 */
-	public void addHolder(PropertiesEditingListener holder) {
+	public void addHolder(Object holder) {
 		holders.add(holder);
 	}
 

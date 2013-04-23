@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
@@ -24,6 +26,15 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
  */
 public class DirectEditingPolicyProcessor extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyProcessor {
 	
+	private BindingManagerProvider bindingManagerProvider;
+	
+	/**
+	 * @param bindingManagerProvider the bindingManagerProvider to set
+	 */
+	public void setBindingManagerProvider(BindingManagerProvider bindingManagerProvider) {
+		this.bindingManagerProvider = bindingManagerProvider;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
@@ -87,7 +98,8 @@ public class DirectEditingPolicyProcessor extends AbstractEEFService<PropertiesE
 			PropertiesEditingContextFactory factory = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, editedElement);
 			PropertiesEditingContext subPropertiesEditingContext = factory.createPropertiesEditingContext(editingContext, editedElement);
 			PropertiesEditingPolicy subElementEditingPolicy = editingContext.getEditingPolicy(subPropertiesEditingContext);
-			editingContext.getEditingComponent().execute(subElementEditingPolicy, subPropertiesEditingContext);
+			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
+			bindingManagerProvider.getBindingManager(editingComponent).execute(editingComponent, subElementEditingPolicy, subPropertiesEditingContext);
 		}
 	}
 

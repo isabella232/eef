@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.binding.PropertiesBindingManagerImpl">
+   <implementation class="org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingManagerImpl"/>
+   <service>
+      <provide interface="org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager"/>
+   </service>
+   <reference bind="setEditingPolicyProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider" name="PropertiesEditingPolicyProvider" policy="static"/>
+   <reference bind="setEEFNotifierProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider" name="EEFNotifierProvider" policy="static"/>
+</scr:component>

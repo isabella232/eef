@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.undefined;
 
+import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
@@ -13,7 +14,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class UndefinedEditorsToolkit extends ToolkitPropertyEditorProvider<Composite> {
+public class UndefinedEditorsToolkit extends ToolkitPropertyEditorProvider<Composite> implements DefaultService {
 
 	/**
 	 * Undefined Editors Toolkit name.

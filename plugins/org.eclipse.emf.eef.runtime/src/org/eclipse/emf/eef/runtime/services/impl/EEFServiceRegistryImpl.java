@@ -393,7 +393,7 @@ public class EEFServiceRegistryImpl implements Cloneable, EEFServiceRegistry {
 		public List<EEFService<T>> getServicesFor(T element) {
 			List<EEFService<T>> result = Lists.newArrayList();
 			for (EEFService<?> service : services) {
-				if (((EEFService<T>)service).serviceFor(element)) {
+				if (((EEFService<T>)service).serviceFor(element) && !(service instanceof DefaultService)) {
 					result.add((EEFService<T>) service);
 				}
 			}

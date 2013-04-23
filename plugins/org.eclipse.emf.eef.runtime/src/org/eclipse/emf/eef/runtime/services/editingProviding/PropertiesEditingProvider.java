@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.services.editingProviding;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
@@ -25,6 +26,11 @@ public interface PropertiesEditingProvider extends EEFService<EPackage> {
 	 * @return the EMFServiceProvider in use in the current editing provider.
 	 */
 	EMFServiceProvider getEMFServiceProvider();
+
+	/**
+	 * @return the EMFServiceProvider in use in the current editing provider.
+	 */
+	BindingManagerProvider getBindingManagerProvider();
 
 	/**
 	 * Creates a new {@link PropertiesEditingComponent}.
