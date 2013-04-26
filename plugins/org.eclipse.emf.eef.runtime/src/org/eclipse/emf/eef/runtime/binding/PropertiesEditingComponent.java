@@ -13,6 +13,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
@@ -21,7 +22,6 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
-import org.osgi.service.event.EventHandler;
 
 import com.google.common.base.Function;
 
@@ -29,7 +29,7 @@ import com.google.common.base.Function;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface PropertiesEditingComponent extends EventHandler {
+public interface PropertiesEditingComponent {
 
 	/**
 	 * @return the handled {@link EObject}.
@@ -118,12 +118,6 @@ public interface PropertiesEditingComponent extends EventHandler {
 	Collection<EEFLockPolicy> getLockPolicies();
 	
 	/**
-	 * Notifies the current component of a model change.
-	 * @param msg {@link Notification} describing the model change.
-	 */
-	void notifyChanged(Notification msg);
-	
-	/**
 	 * Notifies the current component of a lock change.
 	 * @param lockEvent {@link EEFLockEvent} describing the lock change.
 	 */
@@ -143,5 +137,18 @@ public interface PropertiesEditingComponent extends EventHandler {
 	void dispose();
 
 	List<ViewHandler<?>> getViewHandlers();
+
+	/**
+	 * @return the {@link PropertiesEditingModel} describing the Editing Forms for the given {@link EObject}.
+	 * @processing
+	 */
+	PropertiesEditingModel getEditingModel();
+
+	/**
+	 * Defines if the given notification has impact on the current component.
+	 * @param notification the {@link Notification} to check.
+	 * @return <code>true</code> if the current component must be notified.
+	 */
+	boolean isAffectingEvent(Notification notification);
 
 }

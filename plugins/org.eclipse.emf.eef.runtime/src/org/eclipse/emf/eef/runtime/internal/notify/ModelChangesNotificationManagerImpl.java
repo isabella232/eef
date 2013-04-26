@@ -3,51 +3,40 @@
  */
 package org.eclipse.emf.eef.runtime.internal.notify;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotifierImpl;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.component.ComponentContext;
+import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
-import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ModelChangesNotificationManagerImpl implements ModelChangesNotificationManager {
+public class ModelChangesNotificationManagerImpl implements ModelChangesNotificationManager, EventHandler {
 
-	private BundleContext bundleContext;
 	private EventAdmin eventAdmin;
+	private PropertiesBindingManager bindingManager;
 	
-	private Map<PropertiesEditingComponent,ServiceRegistration> serviceRegistrations;
+	private List<PropertiesEditingComponent> editingComponents;
 	
 	/**
 	 * Default constructor.
 	 */
 	public ModelChangesNotificationManagerImpl() {
-		serviceRegistrations = Maps.newHashMap();
+		editingComponents = Lists.newArrayList();
 	}
 	
-	/**
-	 * Activation method for this component.
-	 * @param context {@link ComponentContext} of this component.
-	 */
-	public void activate(ComponentContext context) {
-		bundleContext = context.getBundleContext();
-	}
-
 	/**
 	 * @param eventAdmin the eventAdmin to set
 	 */
@@ -56,14 +45,18 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 	}
 
 	/**
+	 * @param bindingManager the bindingManager to set
+	 */
+	public void setBindingManager(PropertiesBindingManager bindingManager) {
+		this.bindingManager = bindingManager;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#registerEditingComponentAsEventHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void registerEditingComponentAsEventHandler(PropertiesEditingComponent editingComponent) {
-		Dictionary<String, Object> properties = new Hashtable<String, Object>(); 
-		properties.put(EventConstants.EVENT_TOPIC, ModelChangesNotifier.EEF_EVENT_BASE_TOPIC + ModelChangesNotifier.EEF_ECLASS_NOTIFICATION_TOPIC + editingComponent.getEObject().eClass().getEPackage().getName() + "_" + editingComponent.getEObject().eClass().getName());		
-		ServiceRegistration registerService = bundleContext.registerService(EventHandler.class.getName(), editingComponent, properties);
-		serviceRegistrations.put(editingComponent, registerService);
+		editingComponents.add(editingComponent);
 	}
 	
 	/**
@@ -71,9 +64,22 @@ public class ModelChangesNotificationManagerImpl implements ModelChangesNotifica
 	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unregisterEditingComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void unregisterEditingComponent(PropertiesEditingComponent editingComponent) {
-		if (serviceRegistrations.get(editingComponent) != null) {
-			serviceRegistrations.get(editingComponent).unregister();
-			serviceRegistrations.remove(editingComponent);
+		editingComponents.remove(editingComponent);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.osgi.service.event.EventHandler#handleEvent(org.osgi.service.event.Event)
+	 * @processing
+	 */
+	public void handleEvent(Event event) {
+		if (event.getProperty("notification") instanceof Notification) {
+			Notification notification = (Notification) event.getProperty("notification"); 
+			for (PropertiesEditingComponent editingComponent : editingComponents) {
+				if (editingComponent.isAffectingEvent(notification)) {
+					bindingManager.notifyChanged(editingComponent, notification);
+				}
+			}
 		}
 	}
 

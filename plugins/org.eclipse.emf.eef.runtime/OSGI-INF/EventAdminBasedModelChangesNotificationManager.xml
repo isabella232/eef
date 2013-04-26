@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" name="org.eclipse.emf.eef.runtime.EventAdminBasedModelChangesNotificationManager">
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.EventAdminBasedModelChangesNotificationManager">
    <implementation class="org.eclipse.emf.eef.runtime.internal.notify.ModelChangesNotificationManagerImpl"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager"/>
+      <provide interface="org.osgi.service.event.EventHandler"/>
    </service>
+   <property name="event.topics" value="org/eclipse/emf/eef/model/*"/>
    <reference bind="setEventAdmin" cardinality="1..1" interface="org.osgi.service.event.EventAdmin" name="EventAdmin" policy="static"/>
+   <reference bind="setBindingManager" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager" name="PropertiesBindingManager" policy="static"/>
 </scr:component>

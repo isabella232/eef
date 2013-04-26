@@ -1,5 +1,6 @@
 package org.eclipse.emf.eef.runtime.binding;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
@@ -10,15 +11,19 @@ public interface PropertiesBindingManager extends EEFService<PropertiesEditingCo
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
-	 * @processing
 	 */
 	void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent);
 
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#execute(org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy, org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
-	 * @processing
 	 */
 	void execute(PropertiesEditingComponent editingComponent, PropertiesEditingPolicy editingPolicy, PropertiesEditingContext policyEditingContext);
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#notifyChanged(Notification)
+	 */
+	void notifyChanged(PropertiesEditingComponent editingComponent, Notification msg);
 
 }

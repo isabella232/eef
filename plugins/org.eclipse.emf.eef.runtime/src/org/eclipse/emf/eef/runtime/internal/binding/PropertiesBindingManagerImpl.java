@@ -3,11 +3,15 @@
  */
 package org.eclipse.emf.eef.runtime.internal.binding;
 
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -17,14 +21,19 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.UIPropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedNotification;
@@ -37,6 +46,7 @@ import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedPropertyNotif
 public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesEditingComponent> implements PropertiesBindingManager, DefaultService {
 	
 	private PropertiesEditingPolicyProvider editingPolicyProvider;
+	private EMFServiceProvider emfServiceProvider;
 	private EEFNotifierProvider eefNotifierProvider;
 
 	private EventTimer eventTimer;
@@ -46,6 +56,13 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 	 */
 	public void setEditingPolicyProvider(PropertiesEditingPolicyProvider editingPolicyProvider) {
 		this.editingPolicyProvider = editingPolicyProvider;
+	}
+
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
 	}
 
 	/**
@@ -61,6 +78,78 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 	 */
 	public boolean serviceFor(PropertiesEditingComponent element) {
 		return true;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#notifyChanged(PropertiesEditingComponent, Notification)
+	 */
+	public void notifyChanged(PropertiesEditingComponent editingComponent, Notification msg) {
+		PropertiesEditingModel editingModel = editingComponent.getEditingModel();
+		if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
+			EObject source = editingComponent.getEObject();
+			EMFService service = emfServiceProvider.getEMFService(source.eClass().getEPackage());
+			EStructuralFeature structuralFeature = service.mapFeature(source, (EStructuralFeature)msg.getFeature());
+			EClassBinding binding = editingModel.binding(source);
+			Object propertyEditor = binding.propertyEditor(source, structuralFeature, editingComponent.getEditingContext().getOptions().autowire());
+			for (ViewHandler<?> viewHandler : editingComponent.getViewHandlers()) {
+				switch (msg.getEventType()) {
+				case Notification.SET:
+					try {
+						viewHandler.setValue(propertyEditor, msg.getNewValue());						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				case Notification.UNSET:
+					try {
+						viewHandler.unsetValue(propertyEditor);						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				case Notification.ADD:
+					try {
+						viewHandler.addValue(propertyEditor, msg.getNewValue());						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				case Notification.ADD_MANY:
+					try {
+						viewHandler.addAllValues(propertyEditor, (Collection<?>) msg.getNewValue());						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				case Notification.REMOVE:
+					try {
+						viewHandler.removeValue(propertyEditor, msg.getOldValue());						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				case Notification.REMOVE_MANY:
+					try {
+						viewHandler.removeAllValues(propertyEditor, (Collection<?>) msg.getOldValue());						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				case Notification.MOVE:
+					try {
+						//TODO: find the good index
+						int newIndex = 0;
+						viewHandler.moveValue(propertyEditor, msg.getNewValue(), newIndex );						
+					} catch (ViewHandlingException e) {
+						//NOTE: Silent catch
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}			
 	}
 
 	/**

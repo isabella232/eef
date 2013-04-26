@@ -10,7 +10,6 @@ import java.util.List;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -24,15 +23,12 @@ import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory;
-import org.osgi.service.event.Event;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -101,10 +97,10 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	}
 
 	/**
-	 * @return the {@link PropertiesEditingModel} describing the Editing Forms for the given {@link EObject}.
-	 * @processing
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingModel()
 	 */
-	private PropertiesEditingModel getEditingModel() {
+	public PropertiesEditingModel getEditingModel() {
 		if (editingModel == null) {
 			editingModel = editingProvider.getEditingModel(source);
 		}
@@ -143,7 +139,14 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		listeners.remove(listener);		
 	}
 	
-	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#isAffectingEvent(org.eclipse.emf.common.notify.Notification)
+	 */
+	public boolean isAffectingEvent(Notification notification) {
+		return notification.getNotifier() == source;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getLockPolicies()
@@ -151,90 +154,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 */
 	public Collection<EEFLockPolicy> getLockPolicies() {
 		return lockPolicies;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#notifyChanged(Notification)
-	 * @processing
-	 */
-	public void notifyChanged(Notification msg) {
-		PropertiesEditingModel editingModel = getEditingModel();
-		if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
-			EMFService service = editingProvider.getEMFServiceProvider().getEMFService(source.eClass().getEPackage());
-			EStructuralFeature structuralFeature = service.mapFeature(source, (EStructuralFeature)msg.getFeature());
-			EClassBinding binding = editingModel.binding(source);
-			Object propertyEditor = binding.propertyEditor(source, structuralFeature, editingContext.getOptions().autowire());
-			for (ViewHandler<?> viewHandler : viewHandlers) {
-				switch (msg.getEventType()) {
-				case Notification.SET:
-					try {
-						viewHandler.setValue(propertyEditor, msg.getNewValue());						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				case Notification.UNSET:
-					try {
-						viewHandler.unsetValue(propertyEditor);						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				case Notification.ADD:
-					try {
-						viewHandler.addValue(propertyEditor, msg.getNewValue());						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				case Notification.ADD_MANY:
-					try {
-						viewHandler.addAllValues(propertyEditor, (Collection<?>) msg.getNewValue());						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				case Notification.REMOVE:
-					try {
-						viewHandler.removeValue(propertyEditor, msg.getOldValue());						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				case Notification.REMOVE_MANY:
-					try {
-						viewHandler.removeAllValues(propertyEditor, (Collection<?>) msg.getOldValue());						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				case Notification.MOVE:
-					try {
-						//TODO: find the good index
-						int newIndex = 0;
-						viewHandler.moveValue(propertyEditor, msg.getNewValue(), newIndex );						
-					} catch (ViewHandlingException e) {
-						//NOTE: Silent catch
-					}
-					break;
-				default:
-					break;
-				}
-			}
-		}			
-	}
-
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.osgi.service.event.EventHandler#handleEvent(org.osgi.service.event.Event)
-	 * @processing
-	 */
-	public void handleEvent(Event event) {
-		if (event.getProperty("notification") instanceof Notification) {
-			this.notifyChanged((Notification) event.getProperty("notification"));
-		}
 	}
 
 	/**

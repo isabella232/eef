@@ -6,4 +6,5 @@
    </service>
    <reference bind="setEditingPolicyProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider" name="PropertiesEditingPolicyProvider" policy="static"/>
    <reference bind="setEEFNotifierProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider" name="EEFNotifierProvider" policy="static"/>
+   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
 </scr:component>
