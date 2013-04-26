@@ -27,11 +27,14 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.binding.BindingManagerProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingManagerImpl;
 import org.eclipse.emf.eef.runtime.internal.context.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.PropertiesEditingContextFactoryImpl;
@@ -46,6 +49,7 @@ import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceIm
 import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.view.notify.EEFNotifierProviderImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessorProvider;
@@ -91,6 +95,7 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyE
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
@@ -216,6 +221,8 @@ public class EEFTestEnvironment {
 
 		private EMFServiceProvider emfServiceProvider;
 		private EEFEditingServiceProvider eefEditingServiceProvider;
+		private EEFNotifierProvider eefNotifierProvider;
+		private PropertiesEditingPolicyProvider editingPolicyProvider;
 		private EditingPolicyRequestFactoryProvider policyRequestFactoryProvider;
 		private EditingPolicyProcessorProvider policyProcessorProvider;
 		
@@ -223,6 +230,10 @@ public class EEFTestEnvironment {
 
 		private PropertiesEditingContextFactory editingContextFactory;
 		private PropertiesEditingContext editingContext;
+
+		private BindingManagerProvider bindingManagerProvider;
+
+
 
 		public Builder() {
 			sampleModel = null;
@@ -293,18 +304,46 @@ public class EEFTestEnvironment {
 			return eefEditingServiceProvider;
 		}
 		
-		private EditingPolicyRequestFactoryProvider getPolicyRequestFactoryProvider() {
+		public EEFNotifierProvider getEEFNotifierProvider() {
+			if (eefNotifierProvider == null) {
+				eefNotifierProvider = createEEFNotifierProvider();
+			}
+			return eefNotifierProvider;
+		}
+		
+		/**
+		 * @param eefNotifierProvider the eefNotifierProvider to set
+		 */
+		public void setEEFNotifierProvider(EEFNotifierProvider eefNotifierProvider) {
+			this.eefNotifierProvider = eefNotifierProvider;
+		}
+
+		public PropertiesEditingPolicyProvider getEditingPolicyProvider() {
+			if (editingPolicyProvider == null) {
+				editingPolicyProvider = createPolicyProvider().iterator().next().service;
+			}
+			return editingPolicyProvider;
+		}
+		
+		public EditingPolicyRequestFactoryProvider getPolicyRequestFactoryProvider() {
 			if (policyRequestFactoryProvider == null) {
 				policyRequestFactoryProvider = createPolicyRequestFactoryProvider();
 			}
 			return policyRequestFactoryProvider;
 		}
 
-		private EditingPolicyProcessorProvider getPolicyProcessorProvider() {
+		public EditingPolicyProcessorProvider getPolicyProcessorProvider() {
 			if (policyProcessorProvider == null) {
 				policyProcessorProvider = createPolicyProcessorProvider();
 			}
 			return policyProcessorProvider;
+		}
+		
+		public BindingManagerProvider getBindingManagerProvider() {
+			if (bindingManagerProvider == null) {
+				bindingManagerProvider = createBindingManagerProvider();
+			}
+			return bindingManagerProvider;
 		}
 		
 		public ModelChangesNotificationManager getModelChangesNotificationManager() {
@@ -864,7 +903,7 @@ public class EEFTestEnvironment {
 
 		public Collection<EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>>> createEditorProviders() {
 			Collection<EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>>>();
-			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>>("toolkitservice.swt", new SWTPlatformAwareToolkit() {
+			SWTPlatformAwareToolkit swtToolkit = new SWTPlatformAwareToolkit() {
 
 				/**
 				 * {@inheritDoc}
@@ -877,8 +916,10 @@ public class EEFTestEnvironment {
 					return result;
 				}
 
-			}));
-			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>>("toolkitservice.emfproperties", new EMFPropertiesPlatformAwareToolkit() {
+			};
+			swtToolkit.setBindingManagerProvider(getBindingManagerProvider());
+			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>>("toolkitservice.swt", swtToolkit));
+			EMFPropertiesPlatformAwareToolkit emfPropertiesToolkit = new EMFPropertiesPlatformAwareToolkit() {
 
 				/**
 				 * {@inheritDoc}
@@ -891,7 +932,9 @@ public class EEFTestEnvironment {
 					return result;
 				}
 
-			}));
+			};
+			emfPropertiesToolkit.setBindingManagerProvider(getBindingManagerProvider());
+			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>>("toolkitservice.emfproperties", emfPropertiesToolkit));
 			return result;
 		}
 
@@ -922,6 +965,7 @@ public class EEFTestEnvironment {
 
 			};
 			editingProviderImpl.setEMFServiceProvider(getEMFServiceProvider());
+			editingProviderImpl.setBindingManagerProvider(getBindingManagerProvider());
 			result.add(new EEFServiceDescriptor<PropertiesEditingProvider>("propertieseditingprovider.default", editingProviderImpl));
 			return result;
 		}
@@ -1233,6 +1277,20 @@ public class EEFTestEnvironment {
 			return result;
 		}
 		
+		public EEFNotifierProvider createEEFNotifierProvider() {
+			EEFNotifierProviderImpl result = new EEFNotifierProviderImpl();
+			for (EEFServiceDescriptor<EEFNotifier> eefServiceDescriptor : createNotifiers()) {
+				try {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					result.addService(eefServiceDescriptor.service, properties);
+				} catch (PriorityCircularityException e) {
+					e.printStackTrace();
+				}
+			}
+			return result;
+		}
+
 		public EditingPolicyRequestFactoryProvider createPolicyRequestFactoryProvider() {
 			EditingPolicyRequestFactoryProviderImpl result = new EditingPolicyRequestFactoryProviderImpl();
 			for (EEFServiceDescriptor<EditingPolicyRequestFactory> eefServiceDescriptor : createPolicyRequestFactories()) {
@@ -1261,8 +1319,24 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
+		public BindingManagerProvider createBindingManagerProvider() {
+			BindingManagerProviderImpl result = new BindingManagerProviderImpl();
+			try {
+				Map<String, String> properties = new HashMap<String, String>();
+				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, PropertiesBindingManagerImpl.class.getName());
+					PropertiesBindingManagerImpl service = new PropertiesBindingManagerImpl();
+					service.setEMFServiceProvider(getEMFServiceProvider());
+					service.setEditingPolicyProvider(getEditingPolicyProvider());
+					service.setEEFNotifierProvider(getEEFNotifierProvider());
+					result.addService(service, properties);
+			} catch (PriorityCircularityException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+
 		public ModelChangesNotificationManager createNotificationManager() {
-			return new ModelChangesNotificationManagerTest();
+			return new ModelChangesNotificationManagerTest(getBindingManagerProvider());
 		}
 
 		public PropertiesEditingContextFactory createPropertiesEditingContextFactory() {
@@ -1292,9 +1366,11 @@ public class EEFTestEnvironment {
 	private static final class ModelChangesNotificationManagerTest implements ModelChangesNotificationManager {
 
 		private List<PropertiesEditingComponent> components;
+		private BindingManagerProvider bindingManagerProvider;
 
-		public ModelChangesNotificationManagerTest() {
+		public ModelChangesNotificationManagerTest(BindingManagerProvider bindingManagerProvider) {
 			components = new ArrayList<PropertiesEditingComponent>();
+			this.bindingManagerProvider = bindingManagerProvider;
 		}
 
 		public void unregisterEditingComponent(PropertiesEditingComponent editingComponent) {
@@ -1315,7 +1391,9 @@ public class EEFTestEnvironment {
 				@Override
 				public void notifyChanged(Notification notification) {
 					for (PropertiesEditingComponent component : components) {
-						component.notifyChanged(notification);
+						if (component.isAffectingEvent(notification)) {
+							bindingManagerProvider.getBindingManager(component).notifyChanged(component, notification);
+						}
 					}
 				}
 

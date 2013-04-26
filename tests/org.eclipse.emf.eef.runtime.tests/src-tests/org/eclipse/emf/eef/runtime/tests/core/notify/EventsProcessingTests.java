@@ -12,6 +12,7 @@ import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
@@ -80,7 +81,8 @@ public class EventsProcessingTests extends NonUIEditingTestCase {
 	@Test
 	public void testUIEventsNonProcessing() {
 		commandStack.saveIsDone();
-		editingContext.getEditingComponent().firePropertiesChanged(new MyEvent());
+		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
+		environmentBuilder.getBindingManagerProvider().getBindingManager(editingComponent).firePropertiesChanged(editingComponent, new MyEvent());
 		assertFalse("Command not performed but needed!", commandStack.isSaveNeeded());
 	}
 

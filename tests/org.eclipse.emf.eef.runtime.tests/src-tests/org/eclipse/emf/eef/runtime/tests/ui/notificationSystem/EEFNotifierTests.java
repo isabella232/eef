@@ -8,13 +8,17 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
+import org.eclipse.emf.eef.runtime.internal.view.notify.EEFNotifierProviderImpl;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
@@ -22,6 +26,7 @@ import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.EEFServiceDescr
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider;
 import org.eclipse.emf.eef.runtime.view.notify.EEFPropertyNotification;
 import org.junit.Test;
 
@@ -53,8 +58,22 @@ public class EEFNotifierTests extends UIEditingTestCase {
 									.bindClass(EcorePackage.Literals.ECLASS)
 										.withView(SampleView.class)
 									.build());
+		builder.setEEFNotifierProvider(createEEFNotifierProvider());
 		return builder;
 	}
+	
+	public EEFNotifierProvider createEEFNotifierProvider() {
+		EEFNotifierProviderImpl result = new EEFNotifierProviderImpl();
+		Map<String, String> properties = new HashMap<String, String>();
+		properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, "testNotifier");
+		try {
+			result.addService(testNotifier, properties);
+		} catch (PriorityCircularityException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	
 	/**
 	 * This test sets a inconvertible string in int value for the lower editor and checks that the {@link TestNotifier} has notified the editor.
@@ -87,7 +106,6 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		view.notifiedSetName("ValidEClassNames");
 		assertFalse("Bad notification broadcast.", testNotifier.isViewNotified());
 	}
-	
 	
 	private static final class TestNotifier implements EEFNotifier {
 
