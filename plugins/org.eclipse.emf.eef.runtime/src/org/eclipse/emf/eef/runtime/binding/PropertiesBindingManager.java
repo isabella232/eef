@@ -5,6 +5,10 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFService;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
+
+import com.google.common.base.Function;
 
 public interface PropertiesBindingManager extends EEFService<PropertiesEditingComponent> {
 
@@ -13,6 +17,13 @@ public interface PropertiesBindingManager extends EEFService<PropertiesEditingCo
 	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent);
+	
+	/**
+	 * Notifies the current component of a lock change.
+	 * @param editingComponent {@link PropertiesEditingComponent} the editingComponent to lock.
+	 * @param lockEvent {@link EEFLockEvent} describing the lock change.
+	 */
+	void fireLockChanged(PropertiesEditingComponent editingComponent, EEFLockEvent lockEvent);
 
 	/**
 	 * {@inheritDoc}
@@ -20,6 +31,12 @@ public interface PropertiesBindingManager extends EEFService<PropertiesEditingCo
 	 */
 	void execute(PropertiesEditingComponent editingComponent, PropertiesEditingPolicy editingPolicy, PropertiesEditingContext policyEditingContext);
 
+	/**
+	 * Executes a {@link Function} on all the created {@link ViewHandler} by the current {@link PropertiesEditingComponent}.
+	 * @param function the {@link Function} to execute. 
+	 */
+	void executeOnViewHandlers(PropertiesEditingComponent editingComponent, Function<ViewHandler<?>, Void> function);
+	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#notifyChanged(Notification)

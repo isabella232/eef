@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
@@ -18,10 +17,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
-
-import com.google.common.base.Function;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -81,12 +77,6 @@ public interface PropertiesEditingComponent {
 	void unregisterViewHandler(ViewHandler<?> handler);
 	
 	/**
-	 * Executes a {@link Function} on all the created {@link ViewHandler} by the current {@link PropertiesEditingComponent}.
-	 * @param function the {@link Function} to execute. 
-	 */
-	void executeOnViewHandlers(Function<ViewHandler<?>, Void> function);
-	
-	/**
 	 * @return the {@link ViewChangeNotifier} component.
 	 */
 	ViewChangeNotifier getViewChangeNotifier();
@@ -103,23 +93,11 @@ public interface PropertiesEditingComponent {
 	 */
 	void removeEditingListener(PropertiesEditingListener listener);
 	
-	/**
-	 * Returns all the {@link EEFLockPolicy} available in the context of the current component.
-	 * @return a collection of applicable policies.
-	 */
-	Collection<EEFLockPolicy> getLockPolicies();
-	
-	/**
-	 * Notifies the current component of a lock change.
-	 * @param lockEvent {@link EEFLockEvent} describing the lock change.
-	 */
-	void fireLockChanged(EEFLockEvent lockEvent);
-
-	/**
-	 * Validates the element edited by the current component.
-	 * @return a result {@link Diagnostic} for this validation. 
-	 */
-	Diagnostic validate();
+//	/**
+//	 * Returns all the {@link EEFLockPolicy} available in the context of the current component.
+//	 * @return a collection of applicable policies.
+//	 */
+//	Collection<EEFLockPolicy> getLockPolicies();
 	
 	void propagateEvent(PropertiesEditingEvent event);
 	

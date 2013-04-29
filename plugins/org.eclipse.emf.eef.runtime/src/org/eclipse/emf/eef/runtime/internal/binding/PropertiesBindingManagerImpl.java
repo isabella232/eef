@@ -34,10 +34,14 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedNotification;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedPropertyNotification;
+
+import com.google.common.base.Function;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -48,6 +52,7 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 	private PropertiesEditingPolicyProvider editingPolicyProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private EEFNotifierProvider eefNotifierProvider;
+	private EEFLockManager lockManager;
 
 	private EventTimer eventTimer;
 	
@@ -72,6 +77,13 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 		this.eefNotifierProvider = eefNotifierProvider;
 	}
 	
+	/**
+	 * @param lockManager the lockManager to set
+	 */
+	public void setLockManager(EEFLockManager lockManager) {
+		this.lockManager = lockManager;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
@@ -181,6 +193,27 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 		getEventTimer().schedule(editingComponent, event);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#fireLockChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
+	 */
+	public void fireLockChanged(final PropertiesEditingComponent editingComponent, final EEFLockEvent lockEvent) {
+		executeOnViewHandlers(editingComponent, new Function<ViewHandler<?>, Void>() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see com.google.common.base.Function#apply(java.lang.Object)
+			 */
+			public Void apply(ViewHandler<?> arg0) {
+				Object view = arg0.getView();
+				lockManager.fireLockChange(editingComponent, view, lockEvent);
+				return null;
+			}
+
+		});
+		
+	}
+
  	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#execute(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy, org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
@@ -206,6 +239,17 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 				highlightNotificationResult(editingComponent, editingEvent, validate, false);
 				editingComponent.propagateEvent(new PropertiesValidationEditingEvent(editingEvent, validate));
 			}
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#executeOnViewHandlers(com.google.common.base.Function)
+	 * @processing
+	 */
+	public void executeOnViewHandlers(PropertiesEditingComponent editingComponent, Function<ViewHandler<?>, Void> function) {
+		for (ViewHandler<?> handler : editingComponent.getViewHandlers()) {
+			function.apply(handler);
 		}
 	}
 

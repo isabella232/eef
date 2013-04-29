@@ -202,9 +202,9 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#validateLockPolicy(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#enableLockPolicy(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy)
 	 */
-	public boolean validateLockPolicy(EEFLockPolicy lockPolicy) {
+	public boolean enableLockPolicy(EEFLockPolicy lockPolicy) {
 		return true;
 	}
 

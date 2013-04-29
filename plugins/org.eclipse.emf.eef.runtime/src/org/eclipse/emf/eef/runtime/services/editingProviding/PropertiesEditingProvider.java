@@ -76,6 +76,6 @@ public interface PropertiesEditingProvider extends EEFService<EPackage> {
 	 * @param lockPolicy {@link EEFLockPolicy} to process.
 	 * @return <code>true</code> if the given policy must be applied on the edited elements.
 	 */
-	boolean validateLockPolicy(EEFLockPolicy lockPolicy);
+	boolean enableLockPolicy(EEFLockPolicy lockPolicy);
 
 }

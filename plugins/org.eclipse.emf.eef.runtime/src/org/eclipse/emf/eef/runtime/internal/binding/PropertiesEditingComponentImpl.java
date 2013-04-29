@@ -8,9 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
@@ -20,16 +18,12 @@ import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPro
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
-import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 /**
@@ -148,37 +142,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getLockPolicies()
-	 * @processing
-	 */
-	public Collection<EEFLockPolicy> getLockPolicies() {
-		return lockPolicies;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#fireLockChanged(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
-	 */
-	public void fireLockChanged(final EEFLockEvent lockEvent) {
-		final EEFServiceRegistry serviceRegistry = editingProvider.getServiceRegistry();
-		executeOnViewHandlers(new Function<ViewHandler<?>, Void>() {
-
-			/**
-			 * {@inheritDoc}
-			 * @see com.google.common.base.Function#apply(java.lang.Object)
-			 */
-			public Void apply(ViewHandler<?> arg0) {
-				Object view = arg0.getView();
-				EEFLockManager lockManager = serviceRegistry.getService(EEFLockManager.class, view);
-				lockManager.fireLockChange(PropertiesEditingComponentImpl.this, view, lockEvent);
-				return null;
-			}
-
-		});
-	}
-
-	/**
-	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewChangeNotifier()
 	 * @state
 	 */
@@ -255,17 +218,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#executeOnViewHandlers(com.google.common.base.Function)
-	 * @processing
-	 */
-	public void executeOnViewHandlers(Function<ViewHandler<?>, Void> function) {
-		for (ViewHandler<?> handler : viewHandlers) {
-			function.apply(handler);
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.emf.eef.runtime.api.notify.IPropertiesEditionListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.api.notify.IPropertiesEditionEvent)
 	 * @state
@@ -276,17 +228,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			if (!event.hold(listener))
 				listener.firePropertiesChanged(event);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#validate()
-	 * @processing
-	 */
-	public Diagnostic validate() {
-		Diagnostic validate = Diagnostic.OK_INSTANCE;
-		validate = EEFRuntime.getPlugin().getEEFValidator().validate(source);
-		return validate;
 	}
 
 	/**
@@ -320,7 +261,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		for (EEFLockPolicyFactory factory : factories) {
 			//TODO: can be optimized
 			EEFLockPolicy lockPolicy = factory.createLockPolicy();
-			if (editingProvider.validateLockPolicy(lockPolicy)) {
+			if (editingProvider.enableLockPolicy(lockPolicy)) {
 				result.add(lockPolicy);
 			}
 		}
