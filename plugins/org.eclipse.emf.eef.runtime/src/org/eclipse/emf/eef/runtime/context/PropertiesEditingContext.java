@@ -7,7 +7,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
@@ -50,13 +49,6 @@ public interface PropertiesEditingContext {
 	 */
 	PropertiesEditingComponent getEditingComponent();
 
-	/**
-	 * Return the {@link PropertiesEditingPolicy} to perform for the given {@link PropertiesEditingContext}.
-	 * @param context editing context.
-	 * @return {@link PropertiesEditingPolicy} to perform.
-	 */
-	PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context);
-	
 	/**
 	 * @return the {@link AdapterFactory} of the context.
 	 */

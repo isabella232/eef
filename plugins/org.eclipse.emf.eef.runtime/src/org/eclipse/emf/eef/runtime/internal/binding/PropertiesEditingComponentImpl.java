@@ -20,7 +20,6 @@ import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPro
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
-import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
@@ -188,15 +187,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			viewChangeNotifier = new ViewChangeNotifier(editingProvider.getBindingManagerProvider(), this);
 		}
 		return viewChangeNotifier;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
-	 */
-	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
-		PropertiesEditingPolicy editingPolicy = editingContext.getEditingPolicy(editingContext);
-		return editingPolicy;
 	}
 
 	/**

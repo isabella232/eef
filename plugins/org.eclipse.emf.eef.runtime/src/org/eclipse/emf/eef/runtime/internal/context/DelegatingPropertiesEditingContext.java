@@ -8,7 +8,6 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 
@@ -64,13 +63,6 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
 		return delegatingContext.getEditingComponent();
-	}
-
-	/**
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
-	 */
-	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context) {
-		return delegatingContext.getEditingPolicy(context);
 	}
 
 	/**

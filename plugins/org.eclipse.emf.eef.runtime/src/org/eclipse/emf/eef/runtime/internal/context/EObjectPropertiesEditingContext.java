@@ -13,8 +13,6 @@ import org.eclipse.emf.eef.runtime.context.EditingRecorder;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
-import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
@@ -181,14 +179,6 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
-	 */
-	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
-		return serviceRegistry.getService(PropertiesEditingPolicyProvider.class, editingContext).getEditingPolicy(editingContext);
 	}
 
 	/**

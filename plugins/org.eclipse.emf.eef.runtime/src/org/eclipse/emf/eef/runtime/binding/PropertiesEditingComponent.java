@@ -10,7 +10,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
@@ -18,7 +17,6 @@ import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPro
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
-import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
@@ -59,12 +57,6 @@ public interface PropertiesEditingComponent {
 	 */
 	EClassBinding getBinding();
 	
-	/**
-	 * @param editingContext the {@link SemanticPropertiesEditingContext} to process.
-	 * @return a {@link PropertiesEditingPolicy} able to process the given {@link SemanticPropertiesEditingContext}.
-	 */
-	PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext);
-
 	/**
 	 * Returns the {@link ViewHandler} able to manage the given view.
 	 * @param view the view to manage.
