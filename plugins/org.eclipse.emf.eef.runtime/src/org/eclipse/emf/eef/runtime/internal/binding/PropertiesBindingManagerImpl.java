@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.internal.binding;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -34,14 +35,18 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
-import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
+import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactoryProvider;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedNotification;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedPropertyNotification;
 
 import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -52,7 +57,8 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 	private PropertiesEditingPolicyProvider editingPolicyProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private EEFNotifierProvider eefNotifierProvider;
-	private EEFLockManager lockManager;
+	private EEFLockPolicyFactoryProvider lockPolicyFactoryProvider;
+	private EEFLockManagerProvider lockManagerProvider;
 
 	private EventTimer eventTimer;
 	
@@ -78,10 +84,17 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 	}
 	
 	/**
+	 * @param lockPolicyFactoryProvider the lockPolicyFactoryProvider to set
+	 */
+	public void setLockPolicyFactoryProvider(EEFLockPolicyFactoryProvider lockPolicyFactoryProvider) {
+		this.lockPolicyFactoryProvider = lockPolicyFactoryProvider;
+	}
+
+	/**
 	 * @param lockManager the lockManager to set
 	 */
-	public void setLockManager(EEFLockManager lockManager) {
-		this.lockManager = lockManager;
+	public void setLockManagerProvider(EEFLockManagerProvider lockManagerProvider) {
+		this.lockManagerProvider = lockManagerProvider;
 	}
 
 	/**
@@ -206,7 +219,7 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 			 */
 			public Void apply(ViewHandler<?> arg0) {
 				Object view = arg0.getView();
-				lockManager.fireLockChange(editingComponent, view, lockEvent);
+				lockManagerProvider.getLockManager(view).fireLockChange(editingComponent, view, lockEvent);
 				return null;
 			}
 
@@ -244,6 +257,22 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#initLockPolicies(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 */
+	public void initLockPolicies(PropertiesEditingComponent editingComponent) {
+		List<EEFLockPolicy> result = Lists.newArrayList();
+		Collection<EEFLockPolicyFactory> factories = lockPolicyFactoryProvider.getLockPolicyFactories(editingComponent.getEObject());
+		for (EEFLockPolicyFactory factory : factories) {
+			EEFLockPolicy lockPolicy = factory.createLockPolicy();
+			if (editingComponent.enableLockPolicy(lockPolicy)) {
+				result.add(lockPolicy);
+			}
+		}
+		editingComponent.setLockPolicies(result);
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#executeOnViewHandlers(com.google.common.base.Function)
 	 * @processing
 	 */
@@ -257,7 +286,7 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
-	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
+	private PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
 		return editingPolicyProvider.getEditingPolicy(editingContext);
 	}
 
@@ -267,7 +296,7 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 	 * @param notifyEditor
 	 * @processing
 	 */
-	public final void highlightNotificationResult(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent, Diagnostic valueDiagnostic, boolean notifyEditor) {
+	private final void highlightNotificationResult(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent, Diagnostic valueDiagnostic, boolean notifyEditor) {
 		if (valueDiagnostic.getSeverity() != Diagnostic.OK) {
 			ValidationBasedNotification notification = null;
 			if (notifyEditor) {

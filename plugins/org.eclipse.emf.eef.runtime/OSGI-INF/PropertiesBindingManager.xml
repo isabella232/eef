@@ -7,4 +7,6 @@
    <reference bind="setEditingPolicyProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider" name="PropertiesEditingPolicyProvider" policy="static"/>
    <reference bind="setEEFNotifierProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider" name="EEFNotifierProvider" policy="static"/>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
+   <reference bind="setLockPolicyFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactoryProvider" name="EEFLockPolicyFactoryProvider" policy="static"/>
+   <reference bind="setLockManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider" name="EEFLockManagerProvider" policy="static"/>
 </scr:component>

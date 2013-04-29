@@ -142,6 +142,7 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 	 */
 	public PropertiesEditingComponent createComponent(EObject target) {
 		PropertiesEditingComponent component = new PropertiesEditingComponentImpl(this, target);
+		bindingManagerProvider.getBindingManager(component).initLockPolicies(component);
 		notificationManager.registerEditingComponentAsEventHandler(component);
 		return component;
 	}

@@ -93,11 +93,17 @@ public interface PropertiesEditingComponent {
 	 */
 	void removeEditingListener(PropertiesEditingListener listener);
 	
-//	/**
-//	 * Returns all the {@link EEFLockPolicy} available in the context of the current component.
-//	 * @return a collection of applicable policies.
-//	 */
-//	Collection<EEFLockPolicy> getLockPolicies();
+	/**
+	 * Returns all the {@link EEFLockPolicy} available in the context of the current component.
+	 * @return a collection of applicable policies.
+	 */
+	Collection<EEFLockPolicy> getLockPolicies();
+	
+	/**
+	 * Defines the valid {@link EEFLockPolicy} to use in the current component.
+	 * @param lockPolicies a {@link Collection} of {@link EEFLockPolicy} to use.
+	 */
+	void setLockPolicies(Collection<EEFLockPolicy> lockPolicies);
 	
 	void propagateEvent(PropertiesEditingEvent event);
 	
@@ -120,5 +126,12 @@ public interface PropertiesEditingComponent {
 	 * @return <code>true</code> if the current component must be notified.
 	 */
 	boolean isAffectingEvent(Notification notification);
+
+	/**
+	 * Defines if the given lockPolicy should be enabled for the current component. 
+	 * @param lockPolicy the {@link EEFLockPolicy} to check.
+	 * @return <code>true</code> if the given lockPolicy should be enable.
+	 */
+	boolean enableLockPolicy(EEFLockPolicy lockPolicy);
 
 }

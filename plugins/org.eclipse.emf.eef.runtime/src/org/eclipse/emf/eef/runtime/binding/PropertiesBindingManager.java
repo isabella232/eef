@@ -7,6 +7,7 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 import com.google.common.base.Function;
 
@@ -42,5 +43,11 @@ public interface PropertiesBindingManager extends EEFService<PropertiesEditingCo
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#notifyChanged(Notification)
 	 */
 	void notifyChanged(PropertiesEditingComponent editingComponent, Notification msg);
+	
+	/**
+	 * Initializes the {@link EEFLockPolicy} to use in the given component.
+	 * @param editingComponent the {@link PropertiesEditingComponent} to initialize.
+	 */
+	void initLockPolicies(PropertiesEditingComponent editingComponent);
 
 }

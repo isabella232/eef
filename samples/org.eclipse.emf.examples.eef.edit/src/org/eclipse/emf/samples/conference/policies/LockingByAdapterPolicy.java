@@ -22,6 +22,15 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.impl.EEFPropertyLockEventI
  *
  */
 public class LockingByAdapterPolicy implements EEFLockPolicy {
+	
+	private LockingByAdapterPolicyFactory policyFactory;
+	
+	/**
+	 * @param policyFactory
+	 */
+	public LockingByAdapterPolicy(LockingByAdapterPolicyFactory policyFactory) {
+		this.policyFactory = policyFactory;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -30,7 +39,7 @@ public class LockingByAdapterPolicy implements EEFLockPolicy {
 	public boolean isLocked(PropertiesEditingContext editingContext, EObject object) {
 		LockAdapter existingAdapter = (LockAdapter) EcoreUtil.getExistingAdapter(object, LockAdapter.class);
 		if (existingAdapter == null) {
-			existingAdapter = new LockAdapter(editingContext.getEditingComponent());
+			existingAdapter = new LockAdapter(policyFactory, editingContext.getEditingComponent());
 			object.eAdapters().add(existingAdapter);
 		} else {
 			if (existingAdapter.editingComponent.getEditingContext() == null) {
@@ -57,11 +66,13 @@ public class LockingByAdapterPolicy implements EEFLockPolicy {
 
 	public static final class LockAdapter extends AdapterImpl {
 
+		private LockingByAdapterPolicyFactory policyFactory;
 		private PropertiesEditingComponent editingComponent;
 		private boolean locked = false;
 		private Collection<EStructuralFeature> lockedFeatures;
 		
-		public LockAdapter(PropertiesEditingComponent editingComponent) {
+		public LockAdapter(LockingByAdapterPolicyFactory policyFactory, PropertiesEditingComponent editingComponent) {
+			this.policyFactory = policyFactory;
 			this.editingComponent = editingComponent;
 			lockedFeatures = new ArrayList<EStructuralFeature>();
 		}
@@ -70,7 +81,6 @@ public class LockingByAdapterPolicy implements EEFLockPolicy {
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#isAdapterForType(java.lang.Object)
 		 */
-		
 		public boolean isAdapterForType(Object type) {
 			return type == LockAdapter.class || super.isAdapterForType(type);
 		}
@@ -107,7 +117,7 @@ public class LockingByAdapterPolicy implements EEFLockPolicy {
 				this.getTarget().eAdapters().remove(this);
 			} else {
 				this.locked = locked;
-				editingComponent.fireLockChanged(new EEFLockEventImpl((EObject) getTarget(), this.locked?EEFLockEvent.LockState.LOCKED:EEFLockEvent.LockState.UNLOCKED));
+				policyFactory.fireLockChanged(editingComponent, new EEFLockEventImpl((EObject) getTarget(), this.locked?EEFLockEvent.LockState.LOCKED:EEFLockEvent.LockState.UNLOCKED));
 			}
 		}
 		
@@ -121,10 +131,10 @@ public class LockingByAdapterPolicy implements EEFLockPolicy {
 			} else {
 				if (locked) {
 					lockedFeatures.add(feature);
-					editingComponent.fireLockChanged(new EEFPropertyLockEventImpl((EObject) getTarget(), feature, EEFLockEvent.LockState.LOCKED));
+					policyFactory.fireLockChanged(editingComponent, new EEFPropertyLockEventImpl((EObject) getTarget(), feature, EEFLockEvent.LockState.LOCKED));
 				} else {
 					lockedFeatures.remove(feature);
-					editingComponent.fireLockChanged(new EEFPropertyLockEventImpl((EObject) getTarget(), feature, EEFLockEvent.LockState.UNLOCKED));					
+					policyFactory.fireLockChanged(editingComponent, new EEFPropertyLockEventImpl((EObject) getTarget(), feature, EEFLockEvent.LockState.UNLOCKED));
 				}
 			}
 		}

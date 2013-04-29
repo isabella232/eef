@@ -22,7 +22,6 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
-import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory;
 
 import com.google.common.collect.Lists;
 
@@ -37,7 +36,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	private PropertiesEditingContext editingContext;
 	private PropertiesEditingModel editingModel;
 	private List<ViewHandler<?>> viewHandlers;
-	private List<EEFLockPolicy> lockPolicies;
+	private Collection<EEFLockPolicy> lockPolicies;
 	private ViewChangeNotifier viewChangeNotifier;
 	private List<PropertiesEditingListener> listeners;
 	
@@ -50,7 +49,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		this.source = source;
 		this.listeners = Lists.newArrayList();
 		this.viewHandlers = Lists.newArrayList();
-		this.lockPolicies = initLockPolicies();
 	}
 
 	/**
@@ -134,10 +132,34 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getLockPolicies()
+	 */
+	public Collection<EEFLockPolicy> getLockPolicies() {
+		return lockPolicies;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#setLockPolicies(java.util.Collection)
+	 */
+	public void setLockPolicies(Collection<EEFLockPolicy> lockPolicies) {
+		this.lockPolicies = lockPolicies;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#isAffectingEvent(org.eclipse.emf.common.notify.Notification)
 	 */
 	public boolean isAffectingEvent(Notification notification) {
 		return notification.getNotifier() == source;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#enableLockPolicy(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy)
+	 */
+	public boolean enableLockPolicy(EEFLockPolicy lockPolicy) {
+		return editingProvider.enableLockPolicy(lockPolicy);
 	}
 
 	/**
@@ -251,21 +273,4 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		listeners.clear();
 	}
 
-	/**
-	 * @return
-	 * @processing
-	 */
-	private List<EEFLockPolicy> initLockPolicies() {
-		List<EEFLockPolicy> result = Lists.newArrayList();
-		Collection<EEFLockPolicyFactory> factories = editingProvider.getServiceRegistry().getAllServices(EEFLockPolicyFactory.class, source);
-		for (EEFLockPolicyFactory factory : factories) {
-			//TODO: can be optimized
-			EEFLockPolicy lockPolicy = factory.createLockPolicy();
-			if (editingProvider.enableLockPolicy(lockPolicy)) {
-				result.add(lockPolicy);
-			}
-		}
-		return result;
-	}
-	
 }
