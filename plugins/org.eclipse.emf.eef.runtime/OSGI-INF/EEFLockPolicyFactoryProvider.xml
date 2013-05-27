@@ -4,5 +4,5 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactoryProvider"/>
    </service>
-   <reference bind="addService" cardinality="0..n" interface="org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory" name="EEFLockPolicyFactory" policy="dynamic"/>
+   <reference bind="addService" cardinality="0..n" interface="org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory" name="EEFLockPolicyFactory" policy="dynamic" unbind="removeService"/>
 </scr:component>

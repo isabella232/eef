@@ -19,6 +19,7 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFPropertyLockEvent;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider;
 import org.eclipse.emf.eef.runtime.view.notify.impl.LockNotification;
 import org.eclipse.emf.eef.runtime.view.notify.impl.PropertyLockNotification;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -32,12 +33,20 @@ import org.eclipse.swt.widgets.Composite;
 public class EditingViewLockManager extends AbstractEEFService<Object> implements EEFLockManager {
 	
 	private EMFServiceProvider emfServiceProvider;
+	private EEFNotifierProvider eefNotifierProvider;
 
 	/**
 	 * @param emfServiceProvider the emfServiceProvider to set
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @param eefNotifierProvider the eefNotifierProvider to set
+	 */
+	public void setEEFNotifierProvider(EEFNotifierProvider eefNotifierProvider) {
+		this.eefNotifierProvider = eefNotifierProvider;
 	}
 
 	/**
@@ -97,7 +106,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	public void lockView(Object view) {
 		if (view instanceof PropertiesEditingView) {
 			((PropertiesEditingView<Composite>) view).lock();
-			EEFNotifier notifier = getServiceRegistry().getService(EEFNotifier.class, view);
+			EEFNotifier notifier = eefNotifierProvider.getNotifier(view);
 			notifier.notify(view, new LockNotification("This view is locked."));
 		}
 	}
@@ -111,7 +120,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 			PropertyEditor propertyEditor = ((PropertiesEditingView<Composite>) view).getPropertyEditor((ViewElement) editor);
 			if (propertyEditor != null) {
 				propertyEditor.getPropertyEditorViewer().lock();
-				EEFNotifier notifier = getServiceRegistry().getService(EEFNotifier.class, view);
+				EEFNotifier notifier = eefNotifierProvider.getNotifier(view);
 				notifier.notify(view, new PropertyLockNotification(editor, "This editor is locked."));
 			}
 		}
@@ -124,7 +133,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	public void clearViewLock(Object view) {
 		if (view instanceof PropertiesEditingView) {
 			((PropertiesEditingView<Composite>) view).unlock();
-			EEFNotifier notifier = getServiceRegistry().getService(EEFNotifier.class, view);
+			EEFNotifier notifier = eefNotifierProvider.getNotifier(view);
 			notifier.clearViewNotification(view);
 		}		
 	}
@@ -138,7 +147,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 			PropertyEditor propertyEditor = ((PropertiesEditingView<Composite>) view).getPropertyEditor((ViewElement) editor);
 			if (propertyEditor != null) {
 				propertyEditor.getPropertyEditorViewer().unlock();
-				EEFNotifier notifier = getServiceRegistry().getService(EEFNotifier.class, view);
+				EEFNotifier notifier = eefNotifierProvider.getNotifier(view);
 				notifier.clearEditorNotification(view, editor);
 			}
 		}

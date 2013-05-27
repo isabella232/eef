@@ -49,6 +49,9 @@ import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceIm
 import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.view.lock.impl.EEFLockManagerProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EEFLockPolicyFactoryProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EMFEditAwareLockPolicyFactory;
 import org.eclipse.emf.eef.runtime.internal.view.notify.EEFNotifierProviderImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
@@ -93,7 +96,10 @@ import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
+import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactoryProvider;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider;
 import org.eclipse.emf.eef.views.Container;
@@ -222,6 +228,8 @@ public class EEFTestEnvironment {
 		private EMFServiceProvider emfServiceProvider;
 		private EEFEditingServiceProvider eefEditingServiceProvider;
 		private EEFNotifierProvider eefNotifierProvider;
+		private EEFLockPolicyFactoryProvider lockPolicyFactoryProvider;
+		private EEFLockManagerProvider lockManagerProvider;
 		private PropertiesEditingPolicyProvider editingPolicyProvider;
 		private EditingPolicyRequestFactoryProvider policyRequestFactoryProvider;
 		private EditingPolicyProcessorProvider policyProcessorProvider;
@@ -232,8 +240,6 @@ public class EEFTestEnvironment {
 		private PropertiesEditingContext editingContext;
 
 		private BindingManagerProvider bindingManagerProvider;
-
-
 
 		public Builder() {
 			sampleModel = null;
@@ -311,6 +317,20 @@ public class EEFTestEnvironment {
 			return eefNotifierProvider;
 		}
 		
+		public EEFLockPolicyFactoryProvider getLockPolicyFactoryProvider() {
+			if (lockPolicyFactoryProvider == null) {
+				lockPolicyFactoryProvider = createLockPolicyFactoryProvider(); 
+			}
+			return lockPolicyFactoryProvider;
+		}
+
+		public EEFLockManagerProvider getLockManagerProvider() {
+			if (lockManagerProvider == null) {
+				lockManagerProvider = createLockManagerProvider();
+			}
+			return lockManagerProvider;
+		}
+
 		/**
 		 * @param eefNotifierProvider the eefNotifierProvider to set
 		 */
@@ -418,6 +438,19 @@ public class EEFTestEnvironment {
 		 */
 		public Builder setNotificationManager(ModelChangesNotificationManager notificationManager) {
 			this.notificationManager = notificationManager;
+			return this;
+		}
+		
+		/**
+		 * @param factoryProvider
+		 */
+		public Builder setLockPoliciesFactoryProvider(EEFLockPolicyFactoryProvider factoryProvider) {
+			this.lockPolicyFactoryProvider = factoryProvider;
+			return this;
+		}
+
+		public Builder setLockManagerProvider(EEFLockManagerProvider lockManagerProvider) {
+			this.lockManagerProvider = lockManagerProvider;
 			return this;
 		}
 
@@ -829,7 +862,7 @@ public class EEFTestEnvironment {
 			return services;
 		}
 		
-		private Collection<EEFServiceDescriptor<EditingPolicyProcessor>> createPolicyProcessors() {
+		public Collection<EEFServiceDescriptor<EditingPolicyProcessor>> createPolicyProcessors() {
 			Collection<EEFServiceDescriptor<EditingPolicyProcessor>> services = new ArrayList<EEFServiceDescriptor<EditingPolicyProcessor>>();
 			EEFServiceDescriptor<EditingPolicyProcessor> descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(DirectEditingPolicyProcessor.class.getName(), new DirectEditingPolicyProcessor() {
 
@@ -878,7 +911,26 @@ public class EEFTestEnvironment {
 			services.add(descriptor);
 			return services;
 		}
+		
+		public Collection<EEFServiceDescriptor<EEFLockPolicyFactory>> createLockPolicyFactories() {
+			Collection<EEFServiceDescriptor<EEFLockPolicyFactory>> services = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EEFLockPolicyFactory>>();
+			EEFServiceDescriptor<EEFLockPolicyFactory> descriptor = new EEFServiceDescriptor<EEFLockPolicyFactory>(EMFEditAwareLockPolicyFactory.class.getName(), new EMFEditAwareLockPolicyFactory() {
 
+				/**
+				 * {@inheritDoc}
+				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
+				 */
+				@Override
+				public Collection<String> providedServices() {
+					List<String> result = new ArrayList<String>();
+					result.add(EMFEditAwareLockPolicyFactory.class.getName());
+					return result;
+				}
+
+			});
+			services.add(descriptor);
+			return services;
+		}
 
 		public Collection<EEFServiceDescriptor<ViewService>> createViewServices() {
 			Collection<EEFServiceDescriptor<ViewService>> result = new ArrayList<EEFServiceDescriptor<ViewService>>();
@@ -972,7 +1024,7 @@ public class EEFTestEnvironment {
 
 		public Collection<EEFServiceDescriptor<ViewHandlerProvider>> createVHandlerProviders() {
 			Collection<EEFServiceDescriptor<ViewHandlerProvider>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ViewHandlerProvider>>();
-			EEFServiceDescriptor<ViewHandlerProvider> desc = new EEFServiceDescriptor<ViewHandlerProvider>(REFLECT_VIEW_HANDLER_PROVIDER_NAME, new ReflectViewHandlerProvider() {
+			ReflectViewHandlerProvider service = new ReflectViewHandlerProvider() {
 
 				/**
 				 * {@inheritDoc}
@@ -985,9 +1037,11 @@ public class EEFTestEnvironment {
 					return result;
 				}
 
-			});
+			};
+			service.setBindingManagerProvider(getBindingManagerProvider());
+			EEFServiceDescriptor<ViewHandlerProvider> desc = new EEFServiceDescriptor<ViewHandlerProvider>(REFLECT_VIEW_HANDLER_PROVIDER_NAME, service);
 			result.add(desc);
-			desc = new EEFServiceDescriptor<ViewHandlerProvider>(SWT_VIEW_HANDLER_PROVIDER_NAME,new SWTViewHandlerProvider() {
+			SWTViewHandlerProvider service2 = new SWTViewHandlerProvider() {
 
 				/**
 				 * {@inheritDoc}
@@ -1000,9 +1054,11 @@ public class EEFTestEnvironment {
 					return result;
 				}
 
-			}, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
+			};
+			service2.setBindingManagerProvider(getBindingManagerProvider());
+			desc = new EEFServiceDescriptor<ViewHandlerProvider>(SWT_VIEW_HANDLER_PROVIDER_NAME, service2, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
 			result.add(desc);
-			desc = new EEFServiceDescriptor<ViewHandlerProvider>(PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME, new PlatformAwarePropertiesEditingViewHandlerProvider() {
+			PlatformAwarePropertiesEditingViewHandlerProvider service3 = new PlatformAwarePropertiesEditingViewHandlerProvider() {
 
 				/**
 				 * {@inheritDoc}
@@ -1015,7 +1071,9 @@ public class EEFTestEnvironment {
 					return result;
 				}
 
-			}, SWT_VIEW_HANDLER_PROVIDER_NAME);
+			};
+			service3.setBindingManagerProvider(getBindingManagerProvider());
+			desc = new EEFServiceDescriptor<ViewHandlerProvider>(PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME, service3, SWT_VIEW_HANDLER_PROVIDER_NAME);
 			result.add(desc);
 			return result;
 		}
@@ -1057,6 +1115,7 @@ public class EEFTestEnvironment {
 
 			};
 			lockManager.setEMFServiceProvider(getEMFServiceProvider());
+			lockManager.setEEFNotifierProvider(getEEFNotifierProvider());
 			EEFServiceDescriptor<EEFLockManager> desc = new EEFServiceDescriptor<EEFLockManager>("lockmanager.editingview", lockManager);
 			result.add(desc);
 			desc = new EEFServiceDescriptor<EEFLockManager>("lockmanager.default", new NullLockManager() {
@@ -1291,6 +1350,34 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
+		public EEFLockPolicyFactoryProvider createLockPolicyFactoryProvider() {
+			EEFLockPolicyFactoryProviderImpl factory = new EEFLockPolicyFactoryProviderImpl();
+			for (EEFServiceDescriptor<EEFLockPolicyFactory> eefServiceDescriptor : createLockPolicyFactories()) {
+				try {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					factory.addService(eefServiceDescriptor.service, properties);
+				} catch (PriorityCircularityException e) {
+					//Shouldn't occur
+				}
+			}
+			return factory;
+		}
+
+		public EEFLockManagerProvider createLockManagerProvider() {
+			EEFLockManagerProviderImpl managerProvider = new EEFLockManagerProviderImpl(); 
+			for (EEFServiceDescriptor<EEFLockManager> eefServiceDescriptor : createLockManagers()) {
+				try {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					managerProvider.addService(eefServiceDescriptor.service, properties);
+				} catch (PriorityCircularityException e) {
+					//Shouldn't occur
+				}
+			}
+			return managerProvider;
+		}
+
 		public EditingPolicyRequestFactoryProvider createPolicyRequestFactoryProvider() {
 			EditingPolicyRequestFactoryProviderImpl result = new EditingPolicyRequestFactoryProviderImpl();
 			for (EEFServiceDescriptor<EditingPolicyRequestFactory> eefServiceDescriptor : createPolicyRequestFactories()) {
@@ -1328,6 +1415,8 @@ public class EEFTestEnvironment {
 					service.setEMFServiceProvider(getEMFServiceProvider());
 					service.setEditingPolicyProvider(getEditingPolicyProvider());
 					service.setEEFNotifierProvider(getEEFNotifierProvider());
+					service.setLockPolicyFactoryProvider(getLockPolicyFactoryProvider());
+					service.setLockManagerProvider(getLockManagerProvider());
 					result.addService(service, properties);
 			} catch (PriorityCircularityException e) {
 				e.printStackTrace();

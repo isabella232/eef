@@ -35,6 +35,7 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
+import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
@@ -105,6 +106,14 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 		return true;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#getLockManager(java.lang.Object)
+	 */
+	public EEFLockManager getLockManager(Object view) {
+		return lockManagerProvider.getLockManager(view);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#notifyChanged(PropertiesEditingComponent, Notification)

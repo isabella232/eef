@@ -17,18 +17,21 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.services.EEFService;
+import org.eclipse.emf.eef.runtime.internal.view.lock.impl.EEFLockManagerProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EEFLockPolicyFactoryProviderImpl;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
-import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.EEFServiceDescriptor;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
+import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent.LockState;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory;
+import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactoryProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFPropertyLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.impl.EEFPropertyLockEventImpl;
 import org.junit.Test;
@@ -42,6 +45,7 @@ public class EEFLockTests extends UIEditingTestCase {
 
 	private TestLockManager testLockManager;
 	private LockPolicy1Factory policy1Factory;
+	private Builder myBuilder;
 
 
 	/**
@@ -50,19 +54,40 @@ public class EEFLockTests extends UIEditingTestCase {
 	 */
 	@Override
 	protected Builder initEnvironmentBuilder() {
-		Builder builder = super.initEnvironmentBuilder();
-		Collection<EEFServiceDescriptor<? extends EEFService<Object>>> notifiers = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<? extends EEFService<Object>>>();
-		testLockManager = new TestLockManager();
-		notifiers.add(new EEFServiceDescriptor<EEFLockManager>("testLockManager", testLockManager));
-		builder.setPreloadedService(EEFLockManager.class, notifiers);
-		Collection<EEFServiceDescriptor<? extends EEFService<Object>>> lockPolicyFactory = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<? extends EEFService<Object>>>();
-		policy1Factory = new LockPolicy1Factory();
-		lockPolicyFactory.add((EEFServiceDescriptor<? extends EEFService<Object>>) new EEFServiceDescriptor<LockPolicy1Factory>("factory1", policy1Factory));
-		builder.setPreloadedService(EEFLockPolicyFactory.class, lockPolicyFactory);
-		return builder;
+		myBuilder = super.initEnvironmentBuilder();
+		myBuilder.setLockManagerProvider(createLockManagerProvider());		
+		myBuilder.setLockPoliciesFactoryProvider(createLockPoliciesFactoryProvider());
+		return myBuilder;
 	}
 	
- 	/**
+ 	private EEFLockPolicyFactoryProvider createLockPoliciesFactoryProvider() {
+ 		EEFLockPolicyFactoryProviderImpl factoryProvider = new EEFLockPolicyFactoryProviderImpl();
+ 		
+		policy1Factory = new LockPolicy1Factory();
+		Map<String, String> properties = new HashMap<String, String>();
+		properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, policy1Factory.getClass().getName());
+		try {
+			factoryProvider.addService(policy1Factory, properties);
+		} catch (PriorityCircularityException e) {
+			//SHOULDN'T OCCUR
+		}
+		return factoryProvider;
+	}
+
+	private EEFLockManagerProvider createLockManagerProvider() {
+		EEFLockManagerProviderImpl managerProvider = new EEFLockManagerProviderImpl();
+		testLockManager = new TestLockManager();
+		Map<String, String> properties = new HashMap<String, String>();
+		properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, testLockManager.getClass().getName());
+		try {
+			managerProvider.addService(testLockManager, properties);
+		} catch (PriorityCircularityException e) {
+			//SHOULDN'T OCCUR
+		}
+		return managerProvider;
+	}
+
+	/**
 	 * This test ensures that the lockPolicy is called at view initialization. The LockManager should have lock the SampleView.
 	 */
 	@Test
@@ -302,8 +327,8 @@ public class EEFLockTests extends UIEditingTestCase {
 			}
 			
 			public void fireFeatureLock(EStructuralFeature feature, LockState state ) {
-				EEFLockTests.this.editingContext.getEditingComponent()
-						.fireLockChanged(new EEFPropertyLockEventImpl(EEFLockTests.this.editedObject, feature, state));
+				PropertiesEditingComponent editingComponent = EEFLockTests.this.editingContext.getEditingComponent();
+				myBuilder.getBindingManagerProvider().getBindingManager(editingComponent).fireLockChanged(editingComponent, new EEFPropertyLockEventImpl(EEFLockTests.this.editedObject, feature, state));
 			}
 			
 		}

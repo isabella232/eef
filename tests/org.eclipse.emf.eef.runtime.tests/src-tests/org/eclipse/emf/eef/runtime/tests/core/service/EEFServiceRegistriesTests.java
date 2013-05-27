@@ -32,6 +32,7 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
+import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.junit.Test;
 
 /**
@@ -162,6 +163,14 @@ public class EEFServiceRegistriesTests {
 
 	private final class VHPTest implements ViewHandlerProvider {
 		
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getLockManager(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+		 */
+		public EEFLockManager getLockManager(PropertiesEditingComponent component, Object view) {
+			return null;
+		}
+
 		/**
 		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)

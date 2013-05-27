@@ -3,10 +3,12 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.view.handlers.editingview;
 
+import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.views.View;
 
 /**
@@ -14,6 +16,15 @@ import org.eclipse.emf.eef.views.View;
  *
  */
 public class PropertiesEditingViewHandlerProvider extends AbstractEEFService<Object> implements ViewHandlerProvider {
+
+	private BindingManagerProvider bindingManagerProvider;
+
+	/**
+	 * @param bindingManagerProvider the bindingManagerProvider to set
+	 */
+	public void setBindingManagerProvider(BindingManagerProvider bindingManagerProvider) {
+		this.bindingManagerProvider = bindingManagerProvider;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -29,6 +40,14 @@ public class PropertiesEditingViewHandlerProvider extends AbstractEEFService<Obj
 	 */
 	public ViewHandler<?> getHandler(PropertiesEditingComponent editingComponent, Object view) {
 		return new PropertiesEditingViewHandler(this, editingComponent, (View) view);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getLockManager(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 */
+	public EEFLockManager getLockManager(PropertiesEditingComponent component, Object view) {
+		return bindingManagerProvider.getBindingManager(component).getLockManager(view);
 	}
 
 }
