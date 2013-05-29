@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.swt.policies.ereference.EReferenceBatchWizardEditingPolicy">
    <implementation class="org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceBatchWizardEditingPolicyRequest"/>
+   <reference bind="setContextFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider" name="EditingContextFactoryProvider" policy="static"/>
+   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
    <reference bind="setEEFEditingServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider" name="EEFEditingServiceProvider" policy="static"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory"/>

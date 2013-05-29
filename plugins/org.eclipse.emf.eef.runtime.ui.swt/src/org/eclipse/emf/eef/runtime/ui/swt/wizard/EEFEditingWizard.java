@@ -10,11 +10,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
+import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
@@ -39,6 +42,9 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EEFEditingWizard extends Wizard {
 
+	private EditingContextFactoryProvider contextFactoryProvider;
+	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private PropertiesEditingContext context;
 	private PropertiesEditingWizardPage editingPage;
 	private ElementCreationWizardPage creationPage;
@@ -48,7 +54,10 @@ public class EEFEditingWizard extends Wizard {
 	/**
 	 * @param context {@link PropertiesEditingContext} to use in this wizard.
 	 */
-	public EEFEditingWizard(PropertiesEditingContext context) {
+	public EEFEditingWizard(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext context) {
+		this.contextFactoryProvider = contextFactoryProvider;
+		this.emfServiceProvider = emfServiceProvider;
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.context = context;
 		this.setWindowTitle(context.getEditingComponent().getEObject().eClass().getName());
 		context.getOptions().setMessageManager(initMessageManager());
@@ -62,8 +71,8 @@ public class EEFEditingWizard extends Wizard {
 		editingPage = new PropertiesEditingWizardPage();
 		editingPage.setInput(context);
 		if (context instanceof SemanticPropertiesEditingContext) {
-			EEFEditingService editingService = context.getServiceRegistry().getService(EEFEditingService.class, context.getEditingComponent().getEObject());
-			EMFService emfService = context.getEMFServiceProvider().getEMFService(context.getEditingComponent().getEObject().eClass().getEPackage());
+			EMFService emfService = emfServiceProvider.getEMFService(context.getEditingComponent().getEObject().eClass().getEPackage());
+			EEFEditingService editingService = eefEditingServiceProvider.getEditingService(context.getEditingComponent().getEObject());
 			if (editingService.isAddingInContainmentEvent(context, ((SemanticPropertiesEditingContext) context).getEditingEvent())) {
 				EReference editedReference = editingService.getReferenceToEdit((SemanticPropertiesEditingContext) context);	
 				Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(null, context.getEditingComponent().getEObject(), editedReference);
@@ -178,7 +187,7 @@ public class EEFEditingWizard extends Wizard {
 		if (eResource != null) {
 			attachToResource(eResource, createdObject);
 		}
-		PropertiesEditingContextFactory contextFactory = context.getServiceRegistry().getService(PropertiesEditingContextFactory.class, createdObject);
+		PropertiesEditingContextFactory contextFactory = contextFactoryProvider.getEditingContextFactory(createdObject);
 		subContext = contextFactory.createPropertiesEditingContext(context, createdObject);
 		editingPage.setInput(subContext);
 	}

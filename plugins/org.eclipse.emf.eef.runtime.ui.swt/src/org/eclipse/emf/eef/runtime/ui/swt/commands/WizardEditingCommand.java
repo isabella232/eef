@@ -11,7 +11,10 @@
 package org.eclipse.emf.eef.runtime.ui.swt.commands;
 
 
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.commands.AbstractBatchEditingCommand;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFWizardDialog;
@@ -23,8 +26,15 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class WizardEditingCommand extends AbstractBatchEditingCommand {
 
-	public WizardEditingCommand(PropertiesEditingContext editionContext) {
+	private EditingContextFactoryProvider contextFactoryProvider;
+	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
+
+	public WizardEditingCommand(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editionContext) {
 		super(editionContext);
+		this.contextFactoryProvider = contextFactoryProvider;
+		this.emfServiceProvider = emfServiceProvider;
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
@@ -33,7 +43,7 @@ public class WizardEditingCommand extends AbstractBatchEditingCommand {
 	 */
 	@Override
 	protected boolean prepareBatchEditing() {
-		EEFEditingWizard wizard = new EEFEditingWizard(editingContext);
+		EEFEditingWizard wizard = new EEFEditingWizard(contextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, editingContext);
 		//TODO: use a UI helper for providing the shell 
 		EEFWizardDialog wDialog = new EEFWizardDialog(new Shell(), wizard);
 		int open = wDialog.open();

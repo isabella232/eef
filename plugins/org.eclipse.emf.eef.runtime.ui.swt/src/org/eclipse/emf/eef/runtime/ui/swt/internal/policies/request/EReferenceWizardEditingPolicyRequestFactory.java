@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -14,6 +15,7 @@ import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest.ProcessingKind;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard;
@@ -27,7 +29,23 @@ import org.eclipse.swt.widgets.Shell;
  */
 public abstract class EReferenceWizardEditingPolicyRequestFactory extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyRequestFactory {
 
+	private EditingContextFactoryProvider editingContextFactoryProvider;
+	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
+
+	/**
+	 * @param editingContextFactoryProvider the editingContextFactoryProvider to set
+	 */
+	public void setContextFactoryProvider(EditingContextFactoryProvider editingContextFactoryProvider) {
+		this.editingContextFactoryProvider = editingContextFactoryProvider;
+	}
+
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
 
 	/**
 	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
@@ -83,7 +101,7 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory extends Abstra
 
 	private EObject createObjectAndOpenWizard(final PropertiesEditingContext editingContext, EReference editedReference) {
 		editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
-		EEFEditingWizard wizard = new EEFEditingWizard(editingContext) {
+		EEFEditingWizard wizard = new EEFEditingWizard(editingContextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, editingContext) {
 
 			/**
 			 * {@inheritDoc}

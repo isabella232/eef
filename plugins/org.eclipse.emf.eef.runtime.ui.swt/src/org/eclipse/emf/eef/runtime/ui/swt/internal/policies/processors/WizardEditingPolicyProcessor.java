@@ -13,6 +13,8 @@ import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.commands.WizardEditingCommand;
 
@@ -23,12 +25,28 @@ import org.eclipse.emf.eef.runtime.ui.swt.commands.WizardEditingCommand;
 public class WizardEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 
 	private EditingContextFactoryProvider contextFactoryProvider;
+	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	
 	/**
 	 * @param contextFactoryProvider the contextFactoryProvider to set
 	 */
 	public void setContextFactoryProvider(EditingContextFactoryProvider contextFactoryProvider) {
 		this.contextFactoryProvider = contextFactoryProvider;
+	}
+
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
@@ -55,7 +73,7 @@ public class WizardEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 				PropertiesEditingContext context = editingContextFactory.createPropertiesEditingContext(domainEditingContext, (EObject)newValue);
 				context.getOptions().setBatchMode(true);
 				context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
-				WizardEditingCommand wizardEditingCommand = new WizardEditingCommand(context);
+				WizardEditingCommand wizardEditingCommand = new WizardEditingCommand(contextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, context);
 				return wizardEditingCommand;
 			}
 		}
