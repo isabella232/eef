@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.notify;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 
 /**
@@ -16,11 +16,11 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 public interface EEFDoubleClickFactory {
 
 	/**
-	 * Defines the {@link EEFServiceRegistry} to use in the {@link IDoubleClickListener}.
-	 * @param serviceRegistry {@link EEFServiceRegistry} to set.
+	 * Defines the {@link EditingContextFactoryProvider} to use in the created EEF DoubleClick Listeners.
+	 * @param contextFactoryProvider the {@link EditingContextFactoryProvider} to use.
 	 */
-	void setServiceRegistry(EEFServiceRegistry serviceRegistry);
-
+	void setContextFactoryProvider(EditingContextFactoryProvider contextFactoryProvider);
+	
 	/**
 	 * Creates a {@link IDoubleClickListener} that open an EEF wizard to 
 	 * @param domain {@link EditingDomain} to use to edit the obkects.

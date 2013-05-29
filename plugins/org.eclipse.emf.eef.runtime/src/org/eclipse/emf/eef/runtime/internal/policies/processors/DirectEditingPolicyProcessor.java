@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
@@ -28,6 +29,7 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 public class DirectEditingPolicyProcessor extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyProcessor {
 	
 	private BindingManagerProvider bindingManagerProvider;
+	private EditingContextFactoryProvider contextFactoryProvider;
 	private PropertiesEditingPolicyProvider editingPolicyProvider;
 	
 	/**
@@ -35,6 +37,13 @@ public class DirectEditingPolicyProcessor extends AbstractEEFService<PropertiesE
 	 */
 	public void setBindingManagerProvider(BindingManagerProvider bindingManagerProvider) {
 		this.bindingManagerProvider = bindingManagerProvider;
+	}
+
+	/**
+	 * @param contextFactoryProvider the contextFactoryProvider to set
+	 */
+	public void setContextFactoryProvider(EditingContextFactoryProvider contextFactoryProvider) {
+		this.contextFactoryProvider = contextFactoryProvider;
 	}
 
 	/**
@@ -104,7 +113,7 @@ public class DirectEditingPolicyProcessor extends AbstractEEFService<PropertiesE
 	protected final void performEdit(PropertiesEditingContext editingContext, EObject eObject, EStructuralFeature feature, Object value) {
 		if (value instanceof EObject) {
 			EObject editedElement = (EObject)value;
-			PropertiesEditingContextFactory factory = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, editedElement);
+			PropertiesEditingContextFactory factory = contextFactoryProvider.getEditingContextFactory(editedElement);
 			PropertiesEditingContext subPropertiesEditingContext = factory.createPropertiesEditingContext(editingContext, editedElement);
 			PropertiesEditingPolicy subElementEditingPolicy = editingPolicyProvider.getEditingPolicy(subPropertiesEditingContext);
 			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();

@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.policies.processors;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
@@ -20,6 +21,15 @@ import org.eclipse.emf.eef.runtime.ui.swt.commands.WizardEditingCommand;
  *
  */
 public class WizardEditingPolicyProcessor extends DomainEditingPolicyProcessor {
+
+	private EditingContextFactoryProvider contextFactoryProvider;
+	
+	/**
+	 * @param contextFactoryProvider the contextFactoryProvider to set
+	 */
+	public void setContextFactoryProvider(EditingContextFactoryProvider contextFactoryProvider) {
+		this.contextFactoryProvider = contextFactoryProvider;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -41,7 +51,7 @@ public class WizardEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 		switch (behavior.getProcessingKind()) {
 		case EDIT:
 			if (newValue != null) {
-				PropertiesEditingContextFactory editingContextFactory = domainEditingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, (EObject)newValue);
+				PropertiesEditingContextFactory editingContextFactory = contextFactoryProvider.getEditingContextFactory((EObject)newValue);
 				PropertiesEditingContext context = editingContextFactory.createPropertiesEditingContext(domainEditingContext, (EObject)newValue);
 				context.getOptions().setBatchMode(true);
 				context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);

@@ -5,7 +5,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.notify;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.notify.EEFDoubleClickFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.notify.OpenWizardOnDoubleClick;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -16,14 +16,13 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
  */
 public class EEFDoubleClickFactoryImpl implements EEFDoubleClickFactory {
 
-	private EEFServiceRegistry serviceRegistry;
-	
+	private EditingContextFactoryProvider contextFactoryProvider;
+
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.notify.EEFDoubleClickFactory#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
+	 * @param contextFactoryProvider the contextFactoryProvider to set
 	 */
-	public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
+	public void setContextFactoryProvider(EditingContextFactoryProvider contextFactoryProvider) {
+		this.contextFactoryProvider = contextFactoryProvider;
 	}
 
 	/**
@@ -32,7 +31,7 @@ public class EEFDoubleClickFactoryImpl implements EEFDoubleClickFactory {
 	 */
 	public IDoubleClickListener createListener(EditingDomain domain, AdapterFactory adapterFactory) {
 		OpenWizardOnDoubleClick openWizardOnDoubleClick = new OpenWizardOnDoubleClick(domain, adapterFactory);
-		openWizardOnDoubleClick.setServiceRegistry(serviceRegistry);
+		openWizardOnDoubleClick.setContextFactoryProvider(contextFactoryProvider);
 		return openWizardOnDoubleClick;
 		
 	}

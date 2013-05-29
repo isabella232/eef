@@ -4,6 +4,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -22,7 +23,8 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	private static E3EEFRuntimeUIPlatformPlugin plugin;
 
 	private AdapterFactory adapterFactory;
-	private ServiceTracker eefServiceRegistrytracker;
+	private ServiceTracker eefServiceRegistryTracker;
+	private ServiceTracker editingContextFactoryProviderTracker;
 	private ServiceTracker emfServiceProviderTracker;
 
 	
@@ -39,8 +41,10 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		eefServiceRegistrytracker = new ServiceTracker(context, EEFServiceRegistry.class.getName(), null);
-		eefServiceRegistrytracker.open();
+		eefServiceRegistryTracker = new ServiceTracker(context, EEFServiceRegistry.class.getName(), null);
+		eefServiceRegistryTracker.open();
+		editingContextFactoryProviderTracker = new ServiceTracker(context, EditingContextFactoryProvider.class.getName(), null);
+		editingContextFactoryProviderTracker.open();
 		emfServiceProviderTracker = new ServiceTracker(context, EMFServiceProvider.class.getName(), null);
 		emfServiceProviderTracker.open();
 	}
@@ -52,7 +56,8 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-		eefServiceRegistrytracker.close();
+		eefServiceRegistryTracker.close();
+		editingContextFactoryProviderTracker.close();
 		emfServiceProviderTracker.close();
 	}
 
@@ -87,7 +92,14 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	 * @return
 	 */
 	public EEFServiceRegistry getServiceRegistry() {
-		return (EEFServiceRegistry) eefServiceRegistrytracker.getService();
+		return (EEFServiceRegistry) eefServiceRegistryTracker.getService();
+	}
+	
+	/**
+	 * @return
+	 */
+	public EditingContextFactoryProvider getContextFactoryProvider() {
+		return (EditingContextFactoryProvider)editingContextFactoryProviderTracker.getService();
 	}
 	
 	/**

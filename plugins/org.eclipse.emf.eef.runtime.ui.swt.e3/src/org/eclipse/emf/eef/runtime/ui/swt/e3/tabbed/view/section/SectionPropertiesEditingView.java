@@ -118,7 +118,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 				eObject = newEObject;
 				if (eObject != null) {
 					disposeComponentIfExist();
-					PropertiesEditingContextFactory contextFactory = E3EEFRuntimeUIPlatformPlugin.getPlugin().getServiceRegistry().getService(PropertiesEditingContextFactory.class, eObject);
+					PropertiesEditingContextFactory contextFactory = E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider().getEditingContextFactory(eObject);
 					PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext(editingDomain, adapterFactory, eObject);
 					editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, tabbedPropertySheetPage.getWidgetFactory());
 					editingContext.getOptions().setMessageManager(initMessageManager());

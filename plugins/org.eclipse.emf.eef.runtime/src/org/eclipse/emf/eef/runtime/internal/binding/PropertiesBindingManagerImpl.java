@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
@@ -55,6 +56,7 @@ import com.google.common.collect.Lists;
  */
 public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesEditingComponent> implements PropertiesBindingManager, DefaultService {
 	
+	private EditingContextFactoryProvider contextFactoryProvider;
 	private PropertiesEditingPolicyProvider editingPolicyProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private EEFNotifierProvider eefNotifierProvider;
@@ -63,6 +65,13 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 
 	private EventTimer eventTimer;
 	
+	/**
+	 * @param contextFactoryProvider the contextFactoryProvider to set
+	 */
+	public void setContextFactoryProvider(EditingContextFactoryProvider contextFactoryProvider) {
+		this.contextFactoryProvider = contextFactoryProvider;
+	}
+
 	/**
 	 * @param editingPolicyProvider the editingPolicyProvider to set
 	 */
@@ -193,7 +202,7 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 	public synchronized void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		if (!(editingEvent instanceof UIPropertiesEditingEvent)) {
 			PropertiesEditingContext editingContext = editingComponent.getEditingContext();
-			PropertiesEditingContextFactory service = editingContext.getServiceRegistry().getService(PropertiesEditingContextFactory.class, editingComponent.getEObject());
+			PropertiesEditingContextFactory service = contextFactoryProvider.getEditingContextFactory(editingComponent.getEObject());
 			PropertiesEditingContext semanticEditingContext = service.createSemanticPropertiesEditingContext(editingContext, editingEvent);
 			PropertiesEditingPolicy editingPolicy = getEditingPolicy(semanticEditingContext);
 			if (editingEvent.delayedChanges()) {
