@@ -3,8 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.internal.context;
 
-import java.util.Dictionary;
-
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
@@ -17,10 +15,6 @@ import org.osgi.service.component.ComponentContext;
  */
 public class SemanticPropertiesEditingContextImpl extends DelegatingPropertiesEditingContext implements SemanticPropertiesEditingContext {
 
-	public static final String FACTORY_ID = "org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContextImpl";
-	
-	public static final String EDITINGEVENT_PARAM = "EditingEvent Parameter";
-	
 	protected PropertiesEditingEvent editingEvent;
 	protected ContextOptions options;
 	
@@ -28,18 +22,10 @@ public class SemanticPropertiesEditingContextImpl extends DelegatingPropertiesEd
 	 * Configure the current component instance with the given properties.
 	 * @param context {@link ComponentContext} to use to configure the current instance.
 	 */
-	public void configure(ComponentContext context) {
-		@SuppressWarnings("rawtypes")
-		Dictionary properties = context.getProperties();
-		Object parentContextParam = properties.get(PARENTCONTEXT_PARAM);
-		Object editingEventParam = properties.get(EDITINGEVENT_PARAM);
-		if (parentContextParam instanceof PropertiesEditingContext && editingEventParam instanceof PropertiesEditingEvent) {
-			this.delegatingContext = (PropertiesEditingContext) parentContextParam;
-			this.editingEvent = (PropertiesEditingEvent) editingEventParam;
-			this.options = new ContextOptions(delegatingContext.getOptions());
-		} else {
-			throw new IllegalArgumentException("Unable to instanciate an SemanticPropertiesEditingContextImpl with the given parameters.");
-		}
+	SemanticPropertiesEditingContextImpl(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent) {
+		super(parentContext);
+		this.editingEvent = editingEvent;
+		this.options = new ContextOptions(parentContext.getOptions());
 	}
 
 	/**

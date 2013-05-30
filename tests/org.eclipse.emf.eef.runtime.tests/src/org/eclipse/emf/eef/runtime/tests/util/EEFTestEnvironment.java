@@ -36,12 +36,8 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.binding.BindingManagerProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingManagerImpl;
-import org.eclipse.emf.eef.runtime.internal.context.DomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.EditingContextFactoryProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.context.PropertiesEditingContextFactoryImpl;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContextImpl;
 import org.eclipse.emf.eef.runtime.internal.policies.processors.DirectEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.internal.policies.processors.EditingPolicyProcessorProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.policies.request.EObjectEditingPolicyRequestFactory;
@@ -115,7 +111,6 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.ComponentContext;
-import org.osgi.service.component.ComponentFactory;
 import org.osgi.service.component.ComponentInstance;
 
 /**
@@ -1186,52 +1181,8 @@ public class EEFTestEnvironment {
 				}
 
 			};
-			Map<String, Object> properties = new HashMap<String, Object>();
-			properties.put("component.factory", EObjectPropertiesEditingContext.FACTORY_ID);
-			contextFactory.addChildFactory(new ComponentFactory() {
-				
-				public ComponentInstance newInstance(Dictionary properties) {
-					EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext();
-					context.configure(new ComponentContextMock(properties));
-					context.setEMFServiceProvider(getEMFServiceProvider());
-					context.setNotificationManager(getModelChangesNotificationManager());
-					return new ContextInstance(context);
-				}
-			}, properties);
-			
-			properties.put("component.factory", DomainPropertiesEditingContext.FACTORY_ID);
-			contextFactory.addChildFactory(new ComponentFactory() {
-				
-				public ComponentInstance newInstance(Dictionary properties) {
-					DomainPropertiesEditingContext context = new DomainPropertiesEditingContext();
-					context.configure(new ComponentContextMock(properties));
-					context.setEMFServiceProvider(getEMFServiceProvider());
-					context.setNotificationManager(getModelChangesNotificationManager());
-					return new ContextInstance(context);
-				}
-			}, properties);
-			
-			properties.put("component.factory", SemanticPropertiesEditingContextImpl.FACTORY_ID);
-			contextFactory.addChildFactory(new ComponentFactory() {
-				
-				public ComponentInstance newInstance(Dictionary properties) {
-					SemanticPropertiesEditingContextImpl context = new SemanticPropertiesEditingContextImpl();
-					context.configure(new ComponentContextMock(properties));
-					return new ContextInstance(context);
-				}
-			}, properties);
-			
-			properties.put("component.factory", SemanticDomainPropertiesEditingContext.FACTORY_ID);
-			contextFactory.addChildFactory(new ComponentFactory() {
-				
-				public ComponentInstance newInstance(Dictionary properties) {
-					SemanticDomainPropertiesEditingContext context = new SemanticDomainPropertiesEditingContext();
-					context.configure(new ComponentContextMock(properties));
-					return new ContextInstance(context);
-				}
-			}, properties);
-			
-			
+			contextFactory.setNotificationManager(getModelChangesNotificationManager());
+			contextFactory.setEMFServiceProvider(getEMFServiceProvider());
 			EEFServiceDescriptor<PropertiesEditingContextFactory> desc = new EEFServiceDescriptor<PropertiesEditingContextFactory>("propertieseditingcontextfactory.default", contextFactory);
 			result.add(desc);
 			return result;

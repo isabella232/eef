@@ -22,8 +22,6 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
  */
 public class EObjectPropertiesEditingContext implements PropertiesEditingContext {
 
-	public static final String FACTORY_ID = "org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext";
-	
 	protected PropertiesEditingContext parentContext;
 	protected EObject eObject;
 	protected AdapterFactory adapterFactory;

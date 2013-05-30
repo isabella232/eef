@@ -20,6 +20,13 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	protected PropertiesEditingContext delegatingContext;
 	
 	/**
+	 * @param delegatingContext {@link PropertiesEditingContext} to use for delegation.
+	 */
+	public DelegatingPropertiesEditingContext(PropertiesEditingContext delegatingContext) {
+		this.delegatingContext = delegatingContext;
+	}
+
+	/**
 	 * @return the delegatingContext
 	 */
 	public final PropertiesEditingContext getDelegatingContext() {

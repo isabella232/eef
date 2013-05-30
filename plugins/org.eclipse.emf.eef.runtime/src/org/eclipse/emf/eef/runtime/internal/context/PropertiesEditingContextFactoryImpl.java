@@ -120,7 +120,7 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 		if (parentContext instanceof DomainAwarePropertiesEditingContext) {
 			context = new SemanticDomainPropertiesEditingContext((DomainAwarePropertiesEditingContext) parentContext, editingEvent);			
 		} else {
-			context = new SemanticPropertiesEditingContext(parentContext, editingEvent);
+			context = new SemanticPropertiesEditingContextImpl(parentContext, editingEvent);
 		}
 		return context;
 	}
