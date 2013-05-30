@@ -3,8 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.internal.context;
 
-import java.util.Dictionary;
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
@@ -17,7 +15,6 @@ import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.osgi.service.component.ComponentContext;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -41,31 +38,27 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	private PropertiesEditingComponent component;
 	
 	/**
-	 * Configure the current component instance with the given {@link ComponentContext}.
-	 * @param context {@link ComponentContext} to use to configure the current instance.
+	 * @param adapterFactory the {@link AdapterFactory} to use in the current context.
+	 * @param eObject the edited {@link EObject}.
 	 */
-	public void configure(ComponentContext context) {
-		@SuppressWarnings("rawtypes")
-		Dictionary properties = context.getProperties();
-		Object eObjectParam = properties.get(EOBJECT_PARAM);
-		if (eObjectParam instanceof EObject) {
-			this.eObject = (EObject) eObjectParam;
-			Object adapterFactoryParam = properties.get(ADAPTERFACTORY_PARAM);
-			if (adapterFactoryParam instanceof AdapterFactory) {
-				this.adapterFactory = (AdapterFactory) adapterFactoryParam;
-				this.options = new ContextOptions();
-			} else {
-				Object parentContextParam = properties.get(PARENTCONTEXT_PARAM);
-				if (parentContextParam instanceof PropertiesEditingContext) {
-					this.parentContext = (PropertiesEditingContext) parentContextParam;
-					this.options = new ContextOptions(parentContext.getOptions());
-				}
-			}			
-			this.editingRecorder = new EditingRecorderImpl();
-			editingRecorder.initRecording(eObject);
-		} else {
-			throw new IllegalArgumentException("Unable to instanciate an SemanticPropertiesEditingContextImpl with the given parameters.");
-		}
+	EObjectPropertiesEditingContext(AdapterFactory adapterFactory, EObject eObject) {
+		this.adapterFactory = adapterFactory;
+		this.eObject = eObject;
+		this.options = new ContextOptions();
+		this.editingRecorder = new EditingRecorderImpl();
+		editingRecorder.initRecording(eObject);
+	}
+
+	/**
+	 * @param parentContext the parent {@link PropertiesEditingContext}.
+	 * @param eObject the edited {@link EObject}.
+	 */
+	EObjectPropertiesEditingContext(PropertiesEditingContext parentContext, EObject eObject) {
+		this.eObject = eObject;
+		this.options = new ContextOptions(parentContext.getOptions());
+		this.editingRecorder = new EditingRecorderImpl();
+		editingRecorder.initRecording(eObject);
+		this.parentContext = parentContext;
 	}
 	
 	/**

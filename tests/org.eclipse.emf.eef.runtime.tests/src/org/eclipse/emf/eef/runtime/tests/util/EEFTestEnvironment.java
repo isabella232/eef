@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
@@ -37,6 +38,7 @@ import org.eclipse.emf.eef.runtime.internal.binding.BindingManagerProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingManagerImpl;
 import org.eclipse.emf.eef.runtime.internal.context.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.EditingContextFactoryProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.context.PropertiesEditingContextFactoryImpl;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticPropertiesEditingContextImpl;
@@ -225,6 +227,7 @@ public class EEFTestEnvironment {
 		private Collection<Class<? extends EEFService<?>>> preloadedServices;
 		private Collection<EEFServiceDescriptor<? extends EEFService<Object>>> eefServices;
 
+		private EditingContextFactoryProvider contextFactoryProvider;
 		private EMFServiceProvider emfServiceProvider;
 		private EEFEditingServiceProvider eefEditingServiceProvider;
 		private EEFNotifierProvider eefNotifierProvider;
@@ -240,6 +243,7 @@ public class EEFTestEnvironment {
 		private PropertiesEditingContext editingContext;
 
 		private BindingManagerProvider bindingManagerProvider;
+
 
 		public Builder() {
 			sampleModel = null;
@@ -294,6 +298,13 @@ public class EEFTestEnvironment {
 				serviceRegistry = createServiceRegistry();
 			}
 			return serviceRegistry;
+		}
+		
+		private EditingContextFactoryProvider getContextFactoryProvider() {
+			if (contextFactoryProvider == null) {
+				contextFactoryProvider = createContextFactoryProvider();
+			}
+			return contextFactoryProvider;
 		}
 		
 		public EMFServiceProvider getEMFServiceProvider() {
@@ -1307,6 +1318,18 @@ public class EEFTestEnvironment {
 			result.add(desc);
 			return result;
 		}
+		
+		public EditingContextFactoryProvider createContextFactoryProvider() {
+			EditingContextFactoryProviderImpl contextFactoryProvider = new EditingContextFactoryProviderImpl();
+			try {
+				Map<String, String> properties = new HashMap<String, String>();
+				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, PropertiesEditingContextFactoryImpl.class.getName());
+				contextFactoryProvider.addService(new PropertiesEditingContextFactoryImpl(), properties);
+			} catch (PriorityCircularityException e) {
+				e.printStackTrace();
+			}
+			return contextFactoryProvider;
+		}
 
 		public EMFServiceProvider createEMFServiceProvider() {
 			EMFServiceProviderImpl result = new EMFServiceProviderImpl();
@@ -1412,6 +1435,7 @@ public class EEFTestEnvironment {
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, PropertiesBindingManagerImpl.class.getName());
 					PropertiesBindingManagerImpl service = new PropertiesBindingManagerImpl();
+					service.setContextFactoryProvider(getContextFactoryProvider());
 					service.setEMFServiceProvider(getEMFServiceProvider());
 					service.setEditingPolicyProvider(getEditingPolicyProvider());
 					service.setEEFNotifierProvider(getEEFNotifierProvider());

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="configure" enabled="true" factory="org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext" name="org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext">
-   <implementation class="org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext"/>
-   <service>
-      <provide interface="org.eclipse.emf.eef.runtime.context.PropertiesEditingContext"/>
-   </service>
-   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="dynamic"/>
-   <reference bind="setNotificationManager" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager" name="ModelChangesNotificationManager" policy="dynamic"/>
-</scr:component>
