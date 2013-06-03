@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.combo;
 
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl;
@@ -23,6 +24,15 @@ public class ComboPropertyEditorProvider extends WidgetPropertyEditorProviderImp
 		widget.setName("Combo");
 	}
 	
+	protected final SWTToolkit swtToolkit;
+	
+	/**
+	 * @param swtToolkit
+	 */
+	public ComboPropertyEditorProvider(SWTToolkit swtToolkit) {
+		this.swtToolkit = swtToolkit;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
@@ -45,7 +55,7 @@ public class ComboPropertyEditorProvider extends WidgetPropertyEditorProviderImp
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new ComboPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new ComboSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new ComboPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new ComboSWTPropertyEditor(swtToolkit.getEditUIProvidersFactory(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 
 }

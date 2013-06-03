@@ -24,10 +24,10 @@ public class EMFPropertiesPlatformAwareToolkit extends EMFPropertiesToolkit {
 	 */
 	public EMFPropertiesPlatformAwareToolkit() {
 		clearEditorProviders();
-		addPropertyEditorProvider(new EReferencePlaftormAwarePropertyEditorProvider())
-		.addPropertyEditorProvider(new EComboPlatformAwarePropertyEditorProvider())
-		.addPropertyEditorProvider(new EContainmentPlatformAwarePropertyEditorProvider())
-		.addPropertyEditorProvider(new EDatePickerPlatformAwarePropertyEditorProvider());
+		addPropertyEditorProvider(new EReferencePlaftormAwarePropertyEditorProvider(this))
+		.addPropertyEditorProvider(new EComboPlatformAwarePropertyEditorProvider(this))
+		.addPropertyEditorProvider(new EContainmentPlatformAwarePropertyEditorProvider(this))
+		.addPropertyEditorProvider(new EDatePickerPlatformAwarePropertyEditorProvider(this));
 	}
 	
 	

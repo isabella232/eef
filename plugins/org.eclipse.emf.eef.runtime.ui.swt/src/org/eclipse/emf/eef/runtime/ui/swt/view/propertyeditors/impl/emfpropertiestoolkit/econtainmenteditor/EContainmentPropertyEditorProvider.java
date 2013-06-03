@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor;
 
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl;
@@ -23,6 +24,15 @@ public class EContainmentPropertyEditorProvider extends WidgetPropertyEditorProv
 		widget.setName("EContainementEditor");
 	}
 	
+	protected final EMFPropertiesToolkit emfPropertiesToolkit;
+	
+	/**
+	 * @param emfPropertiesToolkit
+	 */
+	public EContainmentPropertyEditorProvider(EMFPropertiesToolkit emfPropertiesToolkit) {
+		this.emfPropertiesToolkit = emfPropertiesToolkit;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
@@ -45,7 +55,7 @@ public class EContainmentPropertyEditorProvider extends WidgetPropertyEditorProv
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new EContainmentPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EContainmentSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new EContainmentPropertyEditor(emfPropertiesToolkit.getEditUIProvidersFactory(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EContainmentSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 
 }

@@ -10,6 +10,7 @@ import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.notify.EEFDoubleClickFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.notify.OpenWizardOnDoubleClick;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 
 /**
@@ -21,6 +22,7 @@ public class EEFDoubleClickFactoryImpl implements EEFDoubleClickFactory {
 	private EditingContextFactoryProvider contextFactoryProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
+	private EditUIProvidersFactory editUIProvidersFactory;
 
 	/**
 	 * @param contextFactoryProvider the contextFactoryProvider to set
@@ -44,6 +46,13 @@ public class EEFDoubleClickFactoryImpl implements EEFDoubleClickFactory {
 	}
 
 	/**
+	 * @param editUIProvidersFactory the editUIProvidersFactory to set
+	 */
+	public void setEditUIProvidersFactory(EditUIProvidersFactory editUIProvidersFactory) {
+		this.editUIProvidersFactory = editUIProvidersFactory;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.notify.EEFDoubleClickFactory#createListener(org.eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.common.notify.AdapterFactory)
 	 */
@@ -52,6 +61,7 @@ public class EEFDoubleClickFactoryImpl implements EEFDoubleClickFactory {
 		openWizardOnDoubleClick.setContextFactoryProvider(contextFactoryProvider);
 		openWizardOnDoubleClick.setEMFServiceProvider(emfServiceProvider);
 		openWizardOnDoubleClick.setEEFEditingServiceProvider(eefEditingServiceProvider);
+		openWizardOnDoubleClick.setEditUIProvidersFactory(editUIProvidersFactory);
 		return openWizardOnDoubleClick;
 		
 	}

@@ -28,6 +28,8 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EComboPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
+	private EditUIProvidersFactory editUIProvidersFactory;
+
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
@@ -35,11 +37,13 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	private SingleLinePropertyViewerListener listener;
 
 	/**
+	 * @param editUIProvidersFactory
 	 * @param view
 	 * @param elementEditor
 	 * @param propertyEditorViewer
 	 */
-	public EComboPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+	public EComboPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+		this.editUIProvidersFactory = editUIProvidersFactory;
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
@@ -99,7 +103,7 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 					EEFSelectionDialog dialog = new EEFSelectionDialog(propertyEditorViewer.getViewer().getControl().getShell(), true);
 					dialog.setTitle("Choose the element to set to the " + feature.getName() + " reference:");
 					dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
-					dialog.setEditUIProvidersFactory(view.getEditingComponent().getEditingContext().getServiceRegistry().getService(EditUIProvidersFactory.class, this));
+					dialog.setEditUIProvidersFactory(editUIProvidersFactory);
 					dialog.addFilter(
 							new ChoiceOfValuesFilter(
 									view.getEditingComponent().getEditingContext().getAdapterFactory(), 

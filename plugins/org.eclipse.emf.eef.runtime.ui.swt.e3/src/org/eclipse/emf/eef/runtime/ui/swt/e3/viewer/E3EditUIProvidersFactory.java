@@ -9,7 +9,6 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.providers.PropertyBindingLabelProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -19,7 +18,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class E3EditUIProvidersFactory extends AbstractEEFService<Object> implements EditUIProvidersFactory {
+public class E3EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	private EMFServiceProvider emfServiceProvider;
 	

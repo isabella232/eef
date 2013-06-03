@@ -24,13 +24,17 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleLinePropertyViewer> {
 
 	private FormSingleLinePropertyViewer eComboEditor;
+	
+	private EditUIProvidersFactory editUIProvidersFactory;
 
 	/**
+	 * @param editUIProvidersFactory 
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EComboFormPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+	public EComboFormPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
+		this.editUIProvidersFactory = editUIProvidersFactory;
 	}
 
 	/**
@@ -50,8 +54,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 		eComboEditor = new FormSingleLinePropertyViewer(toolkit, parent, SWT.BORDER);
 		PropertiesEditingContext editingContext = view.getEditingComponent().getEditingContext();
 		EEFServiceRegistry serviceRegistry = editingContext.getServiceRegistry();
-		EditUIProvidersFactory providersFactory = serviceRegistry.getService(EditUIProvidersFactory.class, this);
-		eComboEditor.setLabelProvider(providersFactory.createLabelProvider(editingContext.getAdapterFactory()));
+		eComboEditor.setLabelProvider(editUIProvidersFactory.createLabelProvider(editingContext.getAdapterFactory()));
 		ImageManager imageManager = serviceRegistry.getService(ImageManager.class, this);
 		eComboEditor.setImageManager(imageManager);
 		eComboEditor.createContents();

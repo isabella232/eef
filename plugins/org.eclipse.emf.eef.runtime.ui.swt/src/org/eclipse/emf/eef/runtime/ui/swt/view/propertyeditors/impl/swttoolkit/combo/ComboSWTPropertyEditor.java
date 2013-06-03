@@ -4,7 +4,6 @@
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.combo;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.swt.services.view.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.StandardSWTPropertyEditor;
@@ -22,14 +21,16 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class ComboSWTPropertyEditor extends StandardSWTPropertyEditor<ComboViewer> implements ComboUIPropertyEditor {
 
+	private EditUIProvidersFactory editUIProvidersFactory;
 	protected ComboViewer combo;
 
 	/**
 	 * @param view
 	 * @param viewElement
 	 */
-	public ComboSWTPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+	public ComboSWTPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
+		this.editUIProvidersFactory = editUIProvidersFactory;
 	}
 
 	/**
@@ -41,9 +42,7 @@ public class ComboSWTPropertyEditor extends StandardSWTPropertyEditor<ComboViewe
 		GridData comboData = new GridData(GridData.FILL_HORIZONTAL);
 		combo.getCombo().setLayoutData(comboData);
 		PropertiesEditingContext editingContext = view.getEditingComponent().getEditingContext();
-		EEFServiceRegistry serviceRegistry = editingContext.getServiceRegistry();
-		EditUIProvidersFactory providersFactory = serviceRegistry.getService(EditUIProvidersFactory.class, this);
-		combo.setLabelProvider(providersFactory.createLabelProvider(editingContext.getAdapterFactory()));
+		combo.setLabelProvider(editUIProvidersFactory.createLabelProvider(editingContext.getAdapterFactory()));
 		combo.setContentProvider(new ComboContentProvider());
 		ViewService viewService = view.getViewService();
 		if (viewService instanceof SWTViewService) {

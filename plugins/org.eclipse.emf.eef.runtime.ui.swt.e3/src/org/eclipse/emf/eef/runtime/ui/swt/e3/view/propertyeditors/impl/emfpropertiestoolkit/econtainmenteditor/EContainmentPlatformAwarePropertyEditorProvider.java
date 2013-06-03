@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor;
 
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor.EContainmentPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor.EContainmentPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -17,6 +18,14 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  *
  */
 public class EContainmentPlatformAwarePropertyEditorProvider extends EContainmentPropertyEditorProvider {
+	
+	/**
+	 * @param emfPropertiesToolkit
+	 */
+	public EContainmentPlatformAwarePropertyEditorProvider(EMFPropertiesToolkit emfPropertiesToolkit) {
+		super(emfPropertiesToolkit);
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -26,7 +35,7 @@ public class EContainmentPlatformAwarePropertyEditorProvider extends EContainmen
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
 		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
-			return new EContainmentPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EContainmentFormPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));			
+			return new EContainmentPropertyEditor(emfPropertiesToolkit.getEditUIProvidersFactory(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EContainmentFormPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));			
 		} else {
 			return super.createPropertyEditor(editorContext);
 		}

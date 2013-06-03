@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker;
 
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl;
@@ -23,6 +24,15 @@ public class EDatePickerPropertyEditorProvider extends WidgetPropertyEditorProvi
 		widget.setName("EDatePickerEditor");
 	}
 	
+	protected final EMFPropertiesToolkit emfPropertiesToolkit;
+	
+	/**
+	 * @param emfPropertiesToolkit
+	 */
+	public EDatePickerPropertyEditorProvider(EMFPropertiesToolkit emfPropertiesToolkit) {
+		this.emfPropertiesToolkit = emfPropertiesToolkit;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
@@ -45,7 +55,7 @@ public class EDatePickerPropertyEditorProvider extends WidgetPropertyEditorProvi
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new EDatePackerPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EDatePickerSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new EDatePackerPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EDatePickerSWTPropertyEditor(emfPropertiesToolkit.getEditUIProvidersFactory(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 
 }

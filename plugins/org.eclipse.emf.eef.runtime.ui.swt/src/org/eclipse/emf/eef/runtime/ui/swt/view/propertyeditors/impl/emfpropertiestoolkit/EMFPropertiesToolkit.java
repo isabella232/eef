@@ -7,6 +7,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertie
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor.EContainmentPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker.EDatePickerPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor.EReferencePropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorImpl;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
@@ -28,14 +29,30 @@ public class EMFPropertiesToolkit extends ToolkitPropertyEditorImpl<Composite> {
 		toolkit.setName(EMF_PROPERTIES);
 	}
 	
+	private EditUIProvidersFactory editUIProvidersFactory;
+	
+	/**
+	 * @return the editUIProvidersFactory
+	 */
+	public final EditUIProvidersFactory getEditUIProvidersFactory() {
+		return editUIProvidersFactory;
+	}
+
+	/**
+	 * @param editUIProvidersFactory the editUIProvidersFactory to set
+	 */
+	public final void setEditUIProvidersFactory(EditUIProvidersFactory editUIProvidersFactory) {
+		this.editUIProvidersFactory = editUIProvidersFactory;
+	}
+
 	/**
 	 * 
 	 */
 	public EMFPropertiesToolkit() {
-		addPropertyEditorProvider(new EReferencePropertyEditorProvider())
-			.addPropertyEditorProvider(new EComboPropertyEditorProvider())
-			.addPropertyEditorProvider(new EContainmentPropertyEditorProvider())
-			.addPropertyEditorProvider(new EDatePickerPropertyEditorProvider());
+		addPropertyEditorProvider(new EReferencePropertyEditorProvider(this))
+			.addPropertyEditorProvider(new EComboPropertyEditorProvider(this))
+			.addPropertyEditorProvider(new EContainmentPropertyEditorProvider(this))
+			.addPropertyEditorProvider(new EDatePickerPropertyEditorProvider(this));
 	}
 
 	/**

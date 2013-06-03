@@ -13,6 +13,8 @@ import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorPro
  *
  */
 public interface ModelPropertyEditorProvider<T extends EObject,U> extends PropertyEditorProvider<U> {
+	
+	
 
 	/**
 	 * @return the model for this provider.
@@ -24,5 +26,5 @@ public interface ModelPropertyEditorProvider<T extends EObject,U> extends Proper
 	 * @param editingEvent
 	 */
 	void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent);
-		
+
 }

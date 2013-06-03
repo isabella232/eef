@@ -45,6 +45,8 @@ public class EEFEditingWizard extends Wizard {
 	private EditingContextFactoryProvider contextFactoryProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
+	private EditUIProvidersFactory editUIProvidersFactory;
+	
 	private PropertiesEditingContext context;
 	private PropertiesEditingWizardPage editingPage;
 	private ElementCreationWizardPage creationPage;
@@ -54,10 +56,11 @@ public class EEFEditingWizard extends Wizard {
 	/**
 	 * @param context {@link PropertiesEditingContext} to use in this wizard.
 	 */
-	public EEFEditingWizard(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext context) {
+	public EEFEditingWizard(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingContext context) {
 		this.contextFactoryProvider = contextFactoryProvider;
 		this.emfServiceProvider = emfServiceProvider;
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
+		this.editUIProvidersFactory = editUIProvidersFactory;
 		this.context = context;
 		this.setWindowTitle(context.getEditingComponent().getEObject().eClass().getName());
 		context.getOptions().setMessageManager(initMessageManager());
@@ -220,8 +223,7 @@ public class EEFEditingWizard extends Wizard {
 			control.setLayout(new GridLayout(1, false));
 			radio = new ERadioEditor(control, SWT.NONE);
 			radio.setContentProvide(new ArrayContentProvider());
-			EditUIProvidersFactory providersFactory = context.getServiceRegistry().getService(EditUIProvidersFactory.class, this);
-			radio.setLabelProvider(providersFactory.createLabelProvider(context.getAdapterFactory()));
+			radio.setLabelProvider(editUIProvidersFactory.createLabelProvider(context.getAdapterFactory()));
 			radio.setInput(instanciableTypes);
 			radio.addSelectionChangedListener(new ISelectionChangedListener() {
 				

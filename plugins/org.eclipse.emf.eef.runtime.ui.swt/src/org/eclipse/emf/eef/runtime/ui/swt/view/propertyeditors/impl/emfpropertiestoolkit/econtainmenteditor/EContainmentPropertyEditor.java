@@ -30,6 +30,8 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EContainmentPropertyEditor extends PropertyEditorImpl implements MultivaluedPropertyEditor {
 
+	private EditUIProvidersFactory editUIProvidersFactory;
+	
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer;
@@ -38,10 +40,13 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 	private MultiLinePropertyViewerListener listener;
 
 	/**
+	 * @param editUIProvidersFactory
 	 * @param view
-	 * @param viewElement
+	 * @param elementEditor
+	 * @param propertyEditorViewer
 	 */
-	public EContainmentPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
+	public EContainmentPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
+		this.editUIProvidersFactory = editUIProvidersFactory;
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
@@ -54,13 +59,12 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 	public void init(EStructuralFeature feature) {
 		this.feature = feature;
 		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(this.feature));
-		EditUIProvidersFactory providersFactory = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(EditUIProvidersFactory.class, this);
 		PropertyBinding propertyBinding = view.getEditingComponent().getBinding().propertyBinding(elementEditor, view.getEditingComponent().getEditingContext().getOptions().autowire());
 		ILabelProvider labelProvider;
 		if (propertyBinding != null) {
-			labelProvider = providersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory(), propertyBinding);
+			labelProvider = editUIProvidersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory(), propertyBinding);
 		} else {
-			labelProvider = providersFactory.createLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory());
+			labelProvider = editUIProvidersFactory.createLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory());
 		}
 		propertyEditorViewer.getViewer().setLabelProvider(labelProvider);
 		propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());

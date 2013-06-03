@@ -17,6 +17,7 @@ import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.commands.WizardEditingCommand;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -27,6 +28,7 @@ public class WizardEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 	private EditingContextFactoryProvider contextFactoryProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
+	private EditUIProvidersFactory editUIProvidersFactory;
 	
 	/**
 	 * @param contextFactoryProvider the contextFactoryProvider to set
@@ -47,6 +49,13 @@ public class WizardEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 	 */
 	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
+	}
+
+	/**
+	 * @param editUIProvidersFactory the editUIProvidersFactory to set
+	 */
+	public void setEditUIProvidersFactory(EditUIProvidersFactory editUIProvidersFactory) {
+		this.editUIProvidersFactory = editUIProvidersFactory;
 	}
 
 	/**
@@ -73,7 +82,7 @@ public class WizardEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 				PropertiesEditingContext context = editingContextFactory.createPropertiesEditingContext(domainEditingContext, (EObject)newValue);
 				context.getOptions().setBatchMode(true);
 				context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
-				WizardEditingCommand wizardEditingCommand = new WizardEditingCommand(contextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, context);
+				WizardEditingCommand wizardEditingCommand = new WizardEditingCommand(contextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, context);
 				return wizardEditingCommand;
 			}
 		}

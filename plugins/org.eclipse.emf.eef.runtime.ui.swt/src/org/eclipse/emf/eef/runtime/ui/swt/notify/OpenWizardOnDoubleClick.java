@@ -12,6 +12,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.commands.WizardEditingCommand;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -25,6 +26,7 @@ public class OpenWizardOnDoubleClick implements IDoubleClickListener {
 	private EditingContextFactoryProvider contextFactoryProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
+	private EditUIProvidersFactory editUIProvidersFactory;
 	
 	private EditingDomain domain;
 	private AdapterFactory adapterFactory;
@@ -60,6 +62,13 @@ public class OpenWizardOnDoubleClick implements IDoubleClickListener {
 	}
 
 	/**
+	 * @param editUIProvidersFactory the editUIProvidersFactory to set
+	 */
+	public void setEditUIProvidersFactory(EditUIProvidersFactory editUIProvidersFactory) {
+		this.editUIProvidersFactory = editUIProvidersFactory;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.viewers.DoubleClickEvent)
 	 */
@@ -71,7 +80,7 @@ public class OpenWizardOnDoubleClick implements IDoubleClickListener {
 			PropertiesEditingContextFactory editingContextFactory = contextFactoryProvider.getEditingContextFactory(eObject);
 			context = editingContextFactory.createPropertiesEditingContext(domain, adapterFactory, eObject);
 			context.getOptions().setBatchMode(true);
-			WizardEditingCommand wizardEditingCommand = new WizardEditingCommand(contextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, context);
+			WizardEditingCommand wizardEditingCommand = new WizardEditingCommand(contextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, context);
 			domain.getCommandStack().execute(wizardEditingCommand);
 			context.dispose();			
 		}

@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor;
 
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl;
@@ -23,12 +24,21 @@ public class EComboPropertyEditorProvider extends WidgetPropertyEditorProviderIm
 		widget.setName("EComboEditor");
 	}
 	
+	protected final EMFPropertiesToolkit emfPropertiesToolkit;
+	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
 	 */
 	public Widget getModel() {
 		return widget;
+	}
+
+	/**
+	 * @param emfPropertiesToolkit
+	 */
+	public EComboPropertyEditorProvider(EMFPropertiesToolkit emfPropertiesToolkit) {
+		this.emfPropertiesToolkit = emfPropertiesToolkit;
 	}
 
 	/**
@@ -45,7 +55,7 @@ public class EComboPropertyEditorProvider extends WidgetPropertyEditorProviderIm
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new EComboPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EComboSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new EComboPropertyEditor(emfPropertiesToolkit.getEditUIProvidersFactory(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EComboSWTPropertyEditor(emfPropertiesToolkit.getEditUIProvidersFactory(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 
 }

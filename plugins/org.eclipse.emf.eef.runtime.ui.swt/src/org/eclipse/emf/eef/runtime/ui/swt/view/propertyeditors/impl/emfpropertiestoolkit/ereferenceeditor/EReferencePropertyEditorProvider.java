@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor;
 
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl;
@@ -23,6 +24,15 @@ public class EReferencePropertyEditorProvider extends WidgetPropertyEditorProvid
 		widget.setName("MultiLinePropertyViewer");
 	}
 	
+	protected final EMFPropertiesToolkit emfPropertiesToolkit;
+	
+	/**
+	 * @param emfPropertiesToolkit
+	 */
+	public EReferencePropertyEditorProvider(EMFPropertiesToolkit emfPropertiesToolkit) {
+		this.emfPropertiesToolkit = emfPropertiesToolkit;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
@@ -45,7 +55,7 @@ public class EReferencePropertyEditorProvider extends WidgetPropertyEditorProvid
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new EReferencePropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EReferenceSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new EReferencePropertyEditor(emfPropertiesToolkit.getEditUIProvidersFactory(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EReferenceSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 
 }

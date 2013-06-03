@@ -5,7 +5,6 @@ package org.eclipse.emf.eef.runtime.ui.swt.viewer;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
-import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 
@@ -13,7 +12,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface EditUIProvidersFactory extends EEFService<Object> {
+public interface EditUIProvidersFactory {
 	
 	/**
 	 * @return an instance of an {@link AdapterFactory}.

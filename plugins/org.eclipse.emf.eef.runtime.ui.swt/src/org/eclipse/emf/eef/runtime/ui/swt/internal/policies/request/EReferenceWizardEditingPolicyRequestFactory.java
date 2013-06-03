@@ -18,6 +18,7 @@ import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFWizardDialog;
 import org.eclipse.jface.window.Window;
@@ -32,6 +33,7 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory extends Abstra
 	private EditingContextFactoryProvider editingContextFactoryProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
+	private EditUIProvidersFactory editUIProvidersFactory;
 
 	/**
 	 * @param editingContextFactoryProvider the editingContextFactoryProvider to set
@@ -52,6 +54,13 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory extends Abstra
 	 */
 	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
+	}
+
+	/**
+	 * @param editUIProvidersFactory the editUIProvidersFactory to set
+	 */
+	public void setEditUIProvidersFactory(EditUIProvidersFactory editUIProvidersFactory) {
+		this.editUIProvidersFactory = editUIProvidersFactory;
 	}
 
 	/**
@@ -101,7 +110,7 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory extends Abstra
 
 	private EObject createObjectAndOpenWizard(final PropertiesEditingContext editingContext, EReference editedReference) {
 		editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
-		EEFEditingWizard wizard = new EEFEditingWizard(editingContextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, editingContext) {
+		EEFEditingWizard wizard = new EEFEditingWizard(editingContextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, editingContext) {
 
 			/**
 			 * {@inheritDoc}

@@ -16,6 +16,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.commands.AbstractBatchEditingCommand;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFWizardDialog;
 import org.eclipse.jface.window.Window;
@@ -29,12 +30,21 @@ public class WizardEditingCommand extends AbstractBatchEditingCommand {
 	private EditingContextFactoryProvider contextFactoryProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
+	private EditUIProvidersFactory editUIProvidersFactory;
 
-	public WizardEditingCommand(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editionContext) {
+	/**
+	 * @param contextFactoryProvider
+	 * @param emfServiceProvider
+	 * @param eefEditingServiceProvider
+	 * @param editUIProvidersFactory
+	 * @param editionContext
+	 */
+	public WizardEditingCommand(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingContext editionContext) {
 		super(editionContext);
 		this.contextFactoryProvider = contextFactoryProvider;
 		this.emfServiceProvider = emfServiceProvider;
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
+		this.editUIProvidersFactory = editUIProvidersFactory;
 	}
 
 	/**
@@ -43,7 +53,7 @@ public class WizardEditingCommand extends AbstractBatchEditingCommand {
 	 */
 	@Override
 	protected boolean prepareBatchEditing() {
-		EEFEditingWizard wizard = new EEFEditingWizard(contextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, editingContext);
+		EEFEditingWizard wizard = new EEFEditingWizard(contextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, editingContext);
 		//TODO: use a UI helper for providing the shell 
 		EEFWizardDialog wDialog = new EEFWizardDialog(new Shell(), wizard);
 		int open = wDialog.open();

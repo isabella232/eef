@@ -34,6 +34,8 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EReferencePropertyEditor extends PropertyEditorImpl implements MultivaluedPropertyEditor {
 
+	private EditUIProvidersFactory editUIProvidersFactory;
+
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer;
@@ -42,13 +44,16 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 	private MultiLinePropertyViewerListener listener;
 
 	/**
+	 * @param editUIProvidersFactory
 	 * @param view
-	 * @param viewElement
+	 * @param elementEditor
+	 * @param propertyEditorViewer
 	 */
-	public EReferencePropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
+	public EReferencePropertyEditor(EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
+		this.editUIProvidersFactory = editUIProvidersFactory;
 	}
 
 	/**
@@ -58,13 +63,12 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 	public void init(EStructuralFeature feature) {
 		this.feature = feature;
 		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(this.feature));
-		EditUIProvidersFactory providersFactory = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(EditUIProvidersFactory.class, this);
 		PropertyBinding propertyBinding = view.getEditingComponent().getBinding().propertyBinding(elementEditor, view.getEditingComponent().getEditingContext().getOptions().autowire());
 		ILabelProvider labelProvider;
 		if (propertyBinding != null) {
-			labelProvider = providersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory(), propertyBinding);
+			labelProvider = editUIProvidersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory(), propertyBinding);
 		} else {
-			labelProvider = providersFactory.createLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory());
+			labelProvider = editUIProvidersFactory.createLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory());
 		}
 		propertyEditorViewer.getViewer().setLabelProvider(labelProvider);
 		propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());
@@ -198,7 +202,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 					EEFSelectionDialog dialog = new EEFSelectionDialog(propertyEditorViewer.getViewer().getControl().getShell(), true);
 					dialog.setTitle("Choose the element to add to the " + feature.getName() + " reference:");
 					dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
-					dialog.setEditUIProvidersFactory(view.getEditingComponent().getEditingContext().getServiceRegistry().getService(EditUIProvidersFactory.class, this));
+					dialog.setEditUIProvidersFactory(editUIProvidersFactory);
 					dialog.addFilter(
 							new ChoiceOfValuesFilter(
 									view.getEditingComponent().getEditingContext().getAdapterFactory(), 

@@ -6,7 +6,6 @@ package org.eclipse.emf.eef.runtime.tests.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -112,11 +111,6 @@ import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.swt.widgets.Composite;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
-import org.osgi.service.component.ComponentContext;
-import org.osgi.service.component.ComponentInstance;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -246,6 +240,8 @@ public class EEFTestEnvironment {
 		private PropertiesEditingContext editingContext;
 
 		private BindingManagerProvider bindingManagerProvider;
+
+		private EditUIProvidersFactory editUIProvidersFactory;
 
 
 
@@ -396,6 +392,13 @@ public class EEFTestEnvironment {
 			return bindingManagerProvider;
 		}
 		
+		public EditUIProvidersFactory getEditUIProvidersFactory() {
+			if (editUIProvidersFactory == null) {
+				editUIProvidersFactory = createProviderFactory();
+			}
+			return editUIProvidersFactory;
+		}
+
 		public ModelChangesNotificationManager getModelChangesNotificationManager() {
 			if (notificationManager == null) {
 				notificationManager = createNotificationManager();
@@ -742,11 +745,6 @@ public class EEFTestEnvironment {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
 				}
 			}
-			if (!preloadedServices.contains(EditUIProvidersFactory.class)) {
-				for (EEFServiceDescriptor<EditUIProvidersFactory> desc : createProviderFactory()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
 			if (!preloadedServices.contains(ImageManager.class)) {
 				for (EEFServiceDescriptor<ImageManager> desc : createImageManager()) {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
@@ -1000,6 +998,7 @@ public class EEFTestEnvironment {
 
 			};
 			swtToolkit.setBindingManagerProvider(getBindingManagerProvider());
+			swtToolkit.setEditUIProvidersFactory(getEditUIProvidersFactory());
 			result.add(new EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>("toolkitservice.swt", swtToolkit));
 			EMFPropertiesPlatformAwareToolkit emfPropertiesToolkit = new EMFPropertiesPlatformAwareToolkit() {
 
@@ -1016,6 +1015,7 @@ public class EEFTestEnvironment {
 
 			};
 			emfPropertiesToolkit.setBindingManagerProvider(getBindingManagerProvider());
+			emfPropertiesToolkit.setEditUIProvidersFactory(getEditUIProvidersFactory());
 			result.add(new EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>("toolkitservice.emfproperties", emfPropertiesToolkit));
 			return result;
 		}
@@ -1236,24 +1236,8 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
-		public Collection<EEFServiceDescriptor<EditUIProvidersFactory>> createProviderFactory() {
-			Collection<EEFServiceDescriptor<EditUIProvidersFactory>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EditUIProvidersFactory>>();
-			EEFServiceDescriptor<EditUIProvidersFactory> desc = new EEFServiceDescriptor<EditUIProvidersFactory>("edituiprovidersfactory.default", new E3EditUIProvidersFactory() { 
-
-				/**
-				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
-				 */
-				@Override
-				public Collection<String> providedServices() {
-					Collection<String> result = new ArrayList<String>();
-					result.add(EditUIProvidersFactory.class.getName());
-					return result;
-				}
-
-			});
-			result.add(desc);
-			return result;
+		public EditUIProvidersFactory createProviderFactory() {
+			return new E3EditUIProvidersFactory();
 		}
 
 		public Collection<EEFServiceDescriptor<ImageManager>> createImageManager() {
@@ -1543,39 +1527,6 @@ public class EEFTestEnvironment {
 			this.hasPriorityOver = Arrays.asList(hasPriorityOver);
 		}
 
-	}
-
-	private final static class ComponentContextMock implements ComponentContext {
-
-		private Dictionary properties;
-		
-		/**
-		 * @param properties
-		 */
-		public ComponentContextMock(Dictionary properties) {
-			this.properties = properties;
-		}
-
-		public Dictionary getProperties() { return properties; }
-
-		public Object locateService(String name) { return null;	}
-
-		public Object locateService(String name, ServiceReference reference) { return null;	}
-
-		public Object[] locateServices(String name) { return null;	}
-
-		public BundleContext getBundleContext() { return null;	}
-
-		public Bundle getUsingBundle() { return null; 	}
-
-		public ComponentInstance getComponentInstance() { return null;	}
-
-		public void enableComponent(String name) {	}
-
-		public void disableComponent(String name) { }
-
-		public ServiceReference getServiceReference() {	return null; }
-		
 	}
 
 }

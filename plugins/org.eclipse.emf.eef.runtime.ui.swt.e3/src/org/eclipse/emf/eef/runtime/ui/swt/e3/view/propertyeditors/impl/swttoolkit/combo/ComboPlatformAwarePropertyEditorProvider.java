@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.swttoolkit.combo;
 
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.combo.ComboPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.combo.ComboPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -19,13 +20,21 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 public class ComboPlatformAwarePropertyEditorProvider extends ComboPropertyEditorProvider {
 
 	/**
+	 * @param swtToolkit
+	 */
+	public ComboPlatformAwarePropertyEditorProvider(SWTToolkit swtToolkit) {
+		super(swtToolkit);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorProvider#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
 	@SuppressWarnings("unchecked")
-	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
+		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
-			return new ComboPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new ComboFormPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+			return new ComboPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new ComboFormPropertyEditor(swtToolkit.getEditUIProvidersFactory(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 		} else {
 			return super.createPropertyEditor(editorContext);
 		}

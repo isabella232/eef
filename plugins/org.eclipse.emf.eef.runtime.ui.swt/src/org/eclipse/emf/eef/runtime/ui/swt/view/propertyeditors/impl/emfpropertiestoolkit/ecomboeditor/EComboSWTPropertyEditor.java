@@ -22,13 +22,15 @@ import org.eclipse.swt.widgets.Composite;
 public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLinePropertyViewer> {
 
 	private SingleLinePropertyViewer eComboEditor;
+	private EditUIProvidersFactory editUIProvidersFactory;
 
 	/**
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EComboSWTPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+	public EComboSWTPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
+		this.editUIProvidersFactory = editUIProvidersFactory;
 	}
 
 	/**
@@ -48,8 +50,7 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLin
 		eComboEditor = new SingleLinePropertyViewer(parent, SWT.BORDER);
 		PropertiesEditingContext editingContext = view.getEditingComponent().getEditingContext();
 		EEFServiceRegistry serviceRegistry = editingContext.getServiceRegistry();
-		EditUIProvidersFactory providersFactory = serviceRegistry.getService(EditUIProvidersFactory.class, this);
-		eComboEditor.setLabelProvider(providersFactory.createLabelProvider(editingContext.getAdapterFactory()));
+		eComboEditor.setLabelProvider(editUIProvidersFactory.createLabelProvider(editingContext.getAdapterFactory()));
 		ImageManager imageManager = serviceRegistry.getService(ImageManager.class, this);
 		eComboEditor.setImageManager(imageManager);
 		eComboEditor.createContents();

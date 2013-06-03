@@ -4,6 +4,7 @@
    <reference bind="setContextFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider" name="EditingContextFactoryProvider" policy="static"/>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
    <reference bind="setEEFEditingServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider" name="EEFEditingServiceProvider" policy="static"/>
+   <reference bind="setEditUIProvidersFactory" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory" name="EditUIProvidersFactory" policy="static"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory"/>
    </service>

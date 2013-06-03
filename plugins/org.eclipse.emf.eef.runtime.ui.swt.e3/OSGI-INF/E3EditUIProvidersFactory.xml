@@ -2,7 +2,6 @@
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.swt.e3.E3EditUIProvidersFactory">
    <implementation class="org.eclipse.emf.eef.runtime.ui.swt.e3.viewer.E3EditUIProvidersFactory"/>
    <service>
-      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
       <provide interface="org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory"/>
    </service>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="dynamic"/>

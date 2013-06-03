@@ -31,7 +31,7 @@ public class SWTPlatformAwareToolkit extends SWTToolkit {
 		.addPropertyEditorProvider(new GroupPlatformAwareContainerProvider())
 		.addPropertyEditorProvider(new HBoxPlatformAwareContainerProvider())
 		.addPropertyEditorProvider(new TextareaPlatformAwarePropertyEditorProvider())
-		.addPropertyEditorProvider(new ComboPlatformAwarePropertyEditorProvider());
+		.addPropertyEditorProvider(new ComboPlatformAwarePropertyEditorProvider(this));
 	}
 
 }

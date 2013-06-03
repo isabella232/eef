@@ -23,14 +23,18 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  */
 public class EDatePickerFormPropertyEditor extends StandardFormPropertyEditor<SingleLinePropertyViewer> {
 
+	private EditUIProvidersFactory editUIProvidersFactory;
+	
 	private FormSingleLinePropertyViewer eDatePickerEditor;
 
 	/**
+	 * @param editUIProvidersFactory
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EDatePickerFormPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+	public EDatePickerFormPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
+		this.editUIProvidersFactory = editUIProvidersFactory;
 	}
 
 	/**
@@ -50,8 +54,7 @@ public class EDatePickerFormPropertyEditor extends StandardFormPropertyEditor<Si
 		eDatePickerEditor = new FormSingleLinePropertyViewer(toolkit, parent, SWT.BORDER);
 		PropertiesEditingContext editingContext = view.getEditingComponent().getEditingContext();
 		EEFServiceRegistry serviceRegistry = editingContext.getServiceRegistry();
-		EditUIProvidersFactory providersFactory = serviceRegistry.getService(EditUIProvidersFactory.class, this);
-		eDatePickerEditor.setLabelProvider(providersFactory.createLabelProvider(editingContext.getAdapterFactory()));
+		eDatePickerEditor.setLabelProvider(editUIProvidersFactory.createLabelProvider(editingContext.getAdapterFactory()));
 		ImageManager imageManager = serviceRegistry.getService(ImageManager.class, this);
 		eDatePickerEditor.setImageManager(imageManager);
 		eDatePickerEditor.createContents();

@@ -9,6 +9,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.g
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.hbox.HBoxContainerProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorImpl;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
@@ -28,9 +29,25 @@ public class SWTToolkit extends ToolkitPropertyEditorImpl<Composite> {
 	private static final Toolkit toolkit = ToolkitsFactory.eINSTANCE.createToolkit();
 	
 	static {
-		toolkit.setName(SWT_TOOLKIT_NAME);		
+		toolkit.setName(SWT_TOOLKIT_NAME);
 	}
 	
+	private EditUIProvidersFactory editUIProvidersFactory;
+	
+	/**
+	 * @return the editUIProvidersFactory
+	 */
+	public final EditUIProvidersFactory getEditUIProvidersFactory() {
+		return editUIProvidersFactory;
+	}
+
+	/**
+	 * @param editUIProvidersFactory the editUIProvidersFactory to set
+	 */
+	public final void setEditUIProvidersFactory(EditUIProvidersFactory editUIProvidersFactory) {
+		this.editUIProvidersFactory = editUIProvidersFactory;
+	}
+
 	/**
 	 * 
 	 */
@@ -40,7 +57,7 @@ public class SWTToolkit extends ToolkitPropertyEditorImpl<Composite> {
 		.addPropertyEditorProvider(new GroupContainerProvider())
 		.addPropertyEditorProvider(new HBoxContainerProvider())
 		.addPropertyEditorProvider(new TextareaPropertyEditorProvider())
-		.addPropertyEditorProvider(new ComboPropertyEditorProvider());
+		.addPropertyEditorProvider(new ComboPropertyEditorProvider(this));
 	}
 
 	/**
