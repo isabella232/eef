@@ -21,6 +21,8 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLinePropertyViewer> {
 
+	private ImageManager imageManager;
+
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	private MultiLinePropertyViewer multiLinePropertyViewer;
@@ -29,7 +31,8 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLin
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EContainmentSWTPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+	public EContainmentSWTPropertyEditor(ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+		this.imageManager = imageManager;
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}
@@ -69,7 +72,6 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLin
 				multiLinePropertyViewer.addColumn(((ElementEditor) subEditor).getName(), UIConstants.DEFAULT_COLUMN_WIDTH);
 			}
 		}
-		ImageManager imageManager = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(ImageManager.class, this);
 		multiLinePropertyViewer.setImageManager(imageManager);
 		multiLinePropertyViewer.createContents();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);

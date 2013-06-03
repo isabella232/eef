@@ -242,6 +242,8 @@ public class EEFTestEnvironment {
 		private BindingManagerProvider bindingManagerProvider;
 
 		private EditUIProvidersFactory editUIProvidersFactory;
+		private ImageManager imageManager;
+
 
 
 
@@ -397,6 +399,13 @@ public class EEFTestEnvironment {
 				editUIProvidersFactory = createProviderFactory();
 			}
 			return editUIProvidersFactory;
+		}
+		
+		public ImageManager getImageManager() {
+			if (imageManager == null) {
+				imageManager = createImageManager();
+			}
+			return imageManager;
 		}
 
 		public ModelChangesNotificationManager getModelChangesNotificationManager() {
@@ -745,11 +754,6 @@ public class EEFTestEnvironment {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
 				}
 			}
-			if (!preloadedServices.contains(ImageManager.class)) {
-				for (EEFServiceDescriptor<ImageManager> desc : createImageManager()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
 			if (!preloadedServices.contains(EEFLogger.class)) {
 				for (EEFServiceDescriptor<EEFLogger> desc : createEEFLogger()) {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
@@ -1016,6 +1020,7 @@ public class EEFTestEnvironment {
 			};
 			emfPropertiesToolkit.setBindingManagerProvider(getBindingManagerProvider());
 			emfPropertiesToolkit.setEditUIProvidersFactory(getEditUIProvidersFactory());
+			emfPropertiesToolkit.setImageManager(getImageManager());
 			result.add(new EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>("toolkitservice.emfproperties", emfPropertiesToolkit));
 			return result;
 		}
@@ -1240,24 +1245,8 @@ public class EEFTestEnvironment {
 			return new E3EditUIProvidersFactory();
 		}
 
-		public Collection<EEFServiceDescriptor<ImageManager>> createImageManager() {
-			Collection<EEFServiceDescriptor<ImageManager>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ImageManager>>();
-			EEFServiceDescriptor<ImageManager> desc = new EEFServiceDescriptor<ImageManager>("imagemanager.default", new E3ImageManager() { 
-
-				/**
-				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
-				 */
-				@Override
-				public Collection<String> providedServices() {
-					Collection<String> result = new ArrayList<String>();
-					result.add(ImageManager.class.getName());
-					return result;
-				}
-
-			});
-			result.add(desc);
-			return result;
+		public ImageManager createImageManager() {
+			return new E3ImageManager();
 		}
 
 		public Collection<EEFServiceDescriptor<EEFLogger>> createEEFLogger() {

@@ -3,6 +3,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfproperti
  * 
  */
 
+import org.eclipse.emf.eef.runtime.ui.swt.services.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor.EContainmentPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker.EDatePickerPropertyEditorProvider;
@@ -30,6 +31,7 @@ public class EMFPropertiesToolkit extends ToolkitPropertyEditorImpl<Composite> {
 	}
 	
 	private EditUIProvidersFactory editUIProvidersFactory;
+	private ImageManager imageManager; 
 	
 	/**
 	 * @return the editUIProvidersFactory
@@ -43,6 +45,20 @@ public class EMFPropertiesToolkit extends ToolkitPropertyEditorImpl<Composite> {
 	 */
 	public final void setEditUIProvidersFactory(EditUIProvidersFactory editUIProvidersFactory) {
 		this.editUIProvidersFactory = editUIProvidersFactory;
+	}
+
+	/**
+	 * @return the imageManager
+	 */
+	public ImageManager getImageManager() {
+		return imageManager;
+	}
+
+	/**
+	 * @param imageManager the imageManager to set
+	 */
+	public void setImageManager(ImageManager imageManager) {
+		this.imageManager = imageManager;
 	}
 
 	/**

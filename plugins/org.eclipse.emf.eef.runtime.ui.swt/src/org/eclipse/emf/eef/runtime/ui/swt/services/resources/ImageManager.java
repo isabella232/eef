@@ -4,14 +4,13 @@
 package org.eclipse.emf.eef.runtime.ui.swt.services.resources;
 
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.swt.graphics.Image;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface ImageManager extends EEFService<Object> {
+public interface ImageManager {
 	
 	/**
 	 * Return an embedded image of the runtime.

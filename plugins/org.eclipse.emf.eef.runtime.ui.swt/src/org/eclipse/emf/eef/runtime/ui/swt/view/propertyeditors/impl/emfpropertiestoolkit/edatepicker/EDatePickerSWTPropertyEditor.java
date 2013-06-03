@@ -22,17 +22,21 @@ import org.eclipse.swt.widgets.Composite;
 public class EDatePickerSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLinePropertyViewer> {
 	
 	private EditUIProvidersFactory editUIProvidersFactory;
+	private ImageManager imageManager;
 
 	private SingleLinePropertyViewer eDatePicker;
 
+
 	/**
-	 * @param editUIProvidersFactory 
+	 * @param editUIProvidersFactory
+	 * @param imageManager
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EDatePickerSWTPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+	public EDatePickerSWTPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
 		this.editUIProvidersFactory = editUIProvidersFactory;
+		this.imageManager = imageManager;
 	}
 
 	/**
@@ -53,7 +57,6 @@ public class EDatePickerSWTPropertyEditor extends StandardSWTPropertyEditor<Sing
 		PropertiesEditingContext editingContext = view.getEditingComponent().getEditingContext();
 		EEFServiceRegistry serviceRegistry = editingContext.getServiceRegistry();
 		eDatePicker.setLabelProvider(editUIProvidersFactory.createLabelProvider(editingContext.getAdapterFactory()));
-		ImageManager imageManager = serviceRegistry.getService(ImageManager.class, this);
 		eDatePicker.setImageManager(imageManager);
 		eDatePicker.createContents();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);

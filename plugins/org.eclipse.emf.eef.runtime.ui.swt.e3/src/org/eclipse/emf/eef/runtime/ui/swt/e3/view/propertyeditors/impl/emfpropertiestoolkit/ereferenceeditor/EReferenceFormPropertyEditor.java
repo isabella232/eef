@@ -25,15 +25,19 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  */
 public class EReferenceFormPropertyEditor implements FormPropertyEditor<MultiLinePropertyViewer> {
 
+	private ImageManager imageManager;
+
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	private MultiLinePropertyViewer multiLinePropertyViewer;
 
 	/**
+	 * @param imageManager
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EReferenceFormPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+	public EReferenceFormPropertyEditor(ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+		this.imageManager = imageManager;
 		this.view = view;
 		this.elementEditor = elementEditor;
 	}
@@ -78,7 +82,6 @@ public class EReferenceFormPropertyEditor implements FormPropertyEditor<MultiLin
 				multiLinePropertyViewer.addColumn(((ElementEditor) subEditor).getName(), UIConstants.DEFAULT_COLUMN_WIDTH);
 			}
 		}
-		ImageManager imageManager = view.getEditingComponent().getEditingContext().getServiceRegistry().getService(ImageManager.class, this);
 		multiLinePropertyViewer.setImageManager(imageManager);
 		multiLinePropertyViewer.createContents();
 		toolkit.adapt((Composite) multiLinePropertyViewer.getControl());
