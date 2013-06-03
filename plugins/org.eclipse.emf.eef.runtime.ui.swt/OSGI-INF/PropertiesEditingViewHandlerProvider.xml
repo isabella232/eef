@@ -7,7 +7,7 @@
    </service>
    <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.SWTViewHandlerProvider"/>
    <reference bind="setViewServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider" name="ViewServiceProvider" policy="static"/>
-   <reference bind="setToolkitPropertyEditorProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider" name="ToolkitPropertyEditorProvider" policy="static"/>
+   <reference bind="setEEFToolkitProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider" name="EEFToolkitProvider" policy="static"/>
    <reference bind="setLockManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider" name="EEFLockManagerProvider" policy="static"/>
    <reference bind="setLogger" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.logging.EEFLogger" name="EEFLogger" policy="static"/>
 </scr:component>

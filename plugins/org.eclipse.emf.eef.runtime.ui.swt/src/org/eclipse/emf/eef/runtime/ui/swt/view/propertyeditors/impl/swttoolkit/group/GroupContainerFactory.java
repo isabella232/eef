@@ -1,10 +1,10 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.hbox;
+package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.group;
 
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
@@ -14,17 +14,17 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class HBoxContainerProvider extends WidgetPropertyEditorProviderImpl<Composite> {
+public class GroupContainerFactory extends WidgetPropertyEditorFactoryImpl<Composite> {
 
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
 
 	static {
-		widget.setName("HorizontalBox");		
+		widget.setName("Group");		
 	}
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
 	 */
 	public Widget getModel() {
 		return widget;
@@ -40,10 +40,10 @@ public class HBoxContainerProvider extends WidgetPropertyEditorProviderImpl<Comp
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new HBoxPropertyEditor(new HBoxSWTPropertyEditor((Container) editorContext.viewElement));			 
+		return new GroupPropertyEditor(new GroupSWTPropertyEditor((Container) editorContext.viewElement));			 
 	}
 
 }

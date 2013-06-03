@@ -5,7 +5,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.impl;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
+import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.section.SectionPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor;
@@ -13,7 +13,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.AbstractPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
@@ -58,7 +58,7 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;
 			PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
-			ToolkitPropertyEditor<Composite> propertyEditorProvider = toolkitPropertyEditorProvider.getToolkit(editorContext);
+			EEFToolkit<Composite> propertyEditorProvider = eefToolkitProvider.getToolkit(editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
@@ -71,7 +71,7 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
 			PropertyEditorContext editorContext = new PropertyEditorContext(this, container);
-			ToolkitPropertyEditor<Composite> propertyEditorProvider = toolkitPropertyEditorProvider.getToolkit(editorContext);
+			EEFToolkit<Composite> propertyEditorProvider = eefToolkitProvider.getToolkit(editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {

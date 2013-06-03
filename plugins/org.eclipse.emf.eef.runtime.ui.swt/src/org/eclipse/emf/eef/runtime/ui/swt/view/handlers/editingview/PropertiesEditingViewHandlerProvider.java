@@ -9,7 +9,7 @@ import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.views.View;
@@ -21,7 +21,7 @@ import org.eclipse.emf.eef.views.View;
 public class PropertiesEditingViewHandlerProvider extends AbstractEEFService<Object> implements ViewHandlerProvider {
 
 	private ViewServiceProvider viewServiceProvider;
-	private ToolkitPropertyEditorProvider toolkitPropertyEditorProvider;
+	private EEFToolkitProvider eefToolkitProvider;
 	private EEFLockManagerProvider lockManagerProvider;
 	private EEFLogger logger;
 
@@ -33,10 +33,10 @@ public class PropertiesEditingViewHandlerProvider extends AbstractEEFService<Obj
 	}
 
 	/**
-	 * @param toolkitPropertyEditorProvider the toolkitPropertyEditorProvider to set
+	 * @param eefToolkitProvider the eefToolkitProvider to set
 	 */
-	public void setToolkitPropertyEditorProvider(ToolkitPropertyEditorProvider toolkitPropertyEditorProvider) {
-		this.toolkitPropertyEditorProvider = toolkitPropertyEditorProvider;
+	public void setEEFToolkitProvider(EEFToolkitProvider eefToolkitProvider) {
+		this.eefToolkitProvider = eefToolkitProvider;
 	}
 
 	/**
@@ -77,10 +77,10 @@ public class PropertiesEditingViewHandlerProvider extends AbstractEEFService<Obj
 	}
 
 	/**
-	 * @return the {@link ToolkitPropertyEditorProvider}
+	 * @return the {@link EEFToolkitProvider}
 	 */
-	public ToolkitPropertyEditorProvider getToolkitPropertyEditorProvider() {
-		return toolkitPropertyEditorProvider;
+	public EEFToolkitProvider getEEFToolkitProvider() {
+		return eefToolkitProvider;
 	}
 
 	/**

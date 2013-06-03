@@ -10,7 +10,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewElement;
 
@@ -26,9 +26,9 @@ public interface PropertiesEditingView<T> extends PropertiesEditingListener {
 	void setViewServiceProvider(ViewServiceProvider viewServiceProvider);
 	
 	/**
-	 * @param toolkitPropertyEditorProvider
+	 * @param eefToolkitProvider
 	 */
-	void setToolkitPropertyEditorProvider(ToolkitPropertyEditorProvider toolkitPropertyEditorProvider);
+	void setToolkitPropertyEditorFactory(EEFToolkitProvider eEFToolkitProvider);
 	
 	/**
 	 * @return a {@link View} describing the current view.

@@ -3,7 +3,7 @@
    <implementation class="org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesPlatformAwareToolkit"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
-      <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditor"/>
+      <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit"/>
    </service>
    <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.EMFPropertiesToolkit"/>
    <reference bind="setBindingManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.binding.BindingManagerProvider" name="BindingManagerProvider" policy="static"/>

@@ -74,7 +74,7 @@ import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
 import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceProviderImpl;
-import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.ToolkitPropertyEditorProviderImpl;
+import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.EEFToolkitProviderImpl;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.services.view.PlatformAwareViewServiceImpl;
@@ -94,9 +94,9 @@ import org.eclipse.emf.eef.runtime.ui.swt.view.lock.EditingViewLockManager;
 import org.eclipse.emf.eef.runtime.ui.swt.view.notify.EditingViewNotifier;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorImpl;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager;
@@ -232,7 +232,7 @@ public class EEFTestEnvironment {
 		private EditingPolicyRequestFactoryProvider policyRequestFactoryProvider;
 		private EditingPolicyProcessorProvider policyProcessorProvider;
 
-		private ToolkitPropertyEditorProvider toolkitPropertyEditorProvider;
+		private EEFToolkitProvider eefToolkitProvider;
 		
 		private ModelChangesNotificationManager notificationManager;
 
@@ -357,11 +357,11 @@ public class EEFTestEnvironment {
 			return logger;
 		}
 
-		public ToolkitPropertyEditorProvider getToolkitPropertyEditorProvider() {
-			if (toolkitPropertyEditorProvider == null) {
-				toolkitPropertyEditorProvider = createToolkitPropertyEditorProvider();
+		public EEFToolkitProvider getEEFToolkitProvider() {
+			if (eefToolkitProvider == null) {
+				eefToolkitProvider = createEEFToolkitProvider();
 			}
-			return toolkitPropertyEditorProvider;
+			return eefToolkitProvider;
 		}
 
 		/**
@@ -719,8 +719,8 @@ public class EEFTestEnvironment {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
 				}
 			}
-			if (!preloadedServices.contains(ToolkitPropertyEditorImpl.class)) {
-				for (EEFServiceDescriptor<ToolkitPropertyEditor<Composite>> desc : createEditorProviders()) {
+			if (!preloadedServices.contains(EEFToolkitImpl.class)) {
+				for (EEFServiceDescriptor<EEFToolkit<Composite>> desc : createEditorProviders()) {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
 				}
 			}
@@ -985,8 +985,8 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
-		public Collection<EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>> createEditorProviders() {
-			Collection<EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>>();
+		public Collection<EEFServiceDescriptor<EEFToolkit<Composite>>> createEditorProviders() {
+			Collection<EEFServiceDescriptor<EEFToolkit<Composite>>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EEFToolkit<Composite>>>();
 			SWTPlatformAwareToolkit swtToolkit = new SWTPlatformAwareToolkit() {
 
 				/**
@@ -996,14 +996,14 @@ public class EEFTestEnvironment {
 				@Override
 				public Collection<String> providedServices() {
 					List<String> result = new ArrayList<String>();
-					result.add(ToolkitPropertyEditorImpl.class.getName());
+					result.add(EEFToolkitImpl.class.getName());
 					return result;
 				}
 
 			};
 			swtToolkit.setBindingManagerProvider(getBindingManagerProvider());
 			swtToolkit.setEditUIProvidersFactory(getEditUIProvidersFactory());
-			result.add(new EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>("toolkitservice.swt", swtToolkit));
+			result.add(new EEFServiceDescriptor<EEFToolkit<Composite>>("toolkitservice.swt", swtToolkit));
 			EMFPropertiesPlatformAwareToolkit emfPropertiesToolkit = new EMFPropertiesPlatformAwareToolkit() {
 
 				/**
@@ -1013,7 +1013,7 @@ public class EEFTestEnvironment {
 				@Override
 				public Collection<String> providedServices() {
 					List<String> result = new ArrayList<String>();
-					result.add(ToolkitPropertyEditorImpl.class.getName());
+					result.add(EEFToolkitImpl.class.getName());
 					return result;
 				}
 
@@ -1021,7 +1021,7 @@ public class EEFTestEnvironment {
 			emfPropertiesToolkit.setBindingManagerProvider(getBindingManagerProvider());
 			emfPropertiesToolkit.setEditUIProvidersFactory(getEditUIProvidersFactory());
 			emfPropertiesToolkit.setImageManager(getImageManager());
-			result.add(new EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>("toolkitservice.emfproperties", emfPropertiesToolkit));
+			result.add(new EEFServiceDescriptor<EEFToolkit<Composite>>("toolkitservice.emfproperties", emfPropertiesToolkit));
 			return result;
 		}
 
@@ -1110,7 +1110,7 @@ public class EEFTestEnvironment {
 
 			};
 			service3.setViewServiceProvider(getViewServiceProvider());
-			service3.setToolkitPropertyEditorProvider(getToolkitPropertyEditorProvider());
+			service3.setEEFToolkitProvider(getEEFToolkitProvider());
 			service3.setLockManagerProvider(getLockManagerProvider());
 			service3.setLogger(getLogger());
 			desc = new EEFServiceDescriptor<ViewHandlerProvider>(PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME, service3, SWT_VIEW_HANDLER_PROVIDER_NAME);
@@ -1352,10 +1352,10 @@ public class EEFTestEnvironment {
 			return new E3EEFLogger();
 		}
 
-		public ToolkitPropertyEditorProvider createToolkitPropertyEditorProvider() {
-			ToolkitPropertyEditorProviderImpl result = new ToolkitPropertyEditorProviderImpl();
+		public EEFToolkitProvider createEEFToolkitProvider() {
+			EEFToolkitProviderImpl result = new EEFToolkitProviderImpl();
 
-			for (EEFServiceDescriptor<ToolkitPropertyEditor<Composite>> eefServiceDescriptor : createEditorProviders()) {
+			for (EEFServiceDescriptor<EEFToolkit<Composite>> eefServiceDescriptor : createEditorProviders()) {
 				try {
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);

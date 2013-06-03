@@ -3,6 +3,6 @@
    <implementation class="org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.undefined.UndefinedEditorsToolkit"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
-      <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditor"/>
+      <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit"/>
    </service>
 </scr:component>

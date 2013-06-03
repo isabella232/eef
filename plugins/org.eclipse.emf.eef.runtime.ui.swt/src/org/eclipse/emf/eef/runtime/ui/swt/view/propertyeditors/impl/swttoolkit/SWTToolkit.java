@@ -3,14 +3,14 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit;
 
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.checkbox.CheckboxPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.combo.ComboPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.group.GroupContainerProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.hbox.HBoxContainerProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.checkbox.CheckboxPropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.combo.ComboPropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.group.GroupContainerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.hbox.HBoxContainerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorImpl;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.swt.widgets.Composite;
@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class SWTToolkit extends ToolkitPropertyEditorImpl<Composite> {
+public class SWTToolkit extends EEFToolkitImpl<Composite> {
 
 	/**
 	 * SWT Toolkit name.
@@ -52,17 +52,17 @@ public class SWTToolkit extends ToolkitPropertyEditorImpl<Composite> {
 	 * 
 	 */
 	public SWTToolkit() {
-		addPropertyEditorProvider(new TextPropertyEditorProvider())
-		.addPropertyEditorProvider(new CheckboxPropertyEditorProvider())
-		.addPropertyEditorProvider(new GroupContainerProvider())
-		.addPropertyEditorProvider(new HBoxContainerProvider())
-		.addPropertyEditorProvider(new TextareaPropertyEditorProvider())
-		.addPropertyEditorProvider(new ComboPropertyEditorProvider(this));
+		addPropertyEditorFactory(new TextPropertyEditorFactory())
+		.addPropertyEditorFactory(new CheckboxPropertyEditorFactory())
+		.addPropertyEditorFactory(new GroupContainerFactory())
+		.addPropertyEditorFactory(new HBoxContainerFactory())
+		.addPropertyEditorFactory(new TextareaPropertyEditorFactory())
+		.addPropertyEditorFactory(new ComboPropertyEditorFactory(this));
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
 	 */
 	public Toolkit getModel() {
 		return toolkit;

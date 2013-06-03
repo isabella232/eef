@@ -25,9 +25,9 @@ public class AbstractUndefinedPropertyEditor {
 		} else {
 			Widget representation = element.getRepresentation();
 			if (representation.getName() != null) {
-				sb.append("no PropertyEditorProvider can handle a editor using the widget ").append(representation.getName()).append('.');
+				sb.append("no PropertyEditorFactory can handle a editor using the widget ").append(representation.getName()).append('.');
 			} else {
-				sb.append("no PropertyEditorProvider can handle the widget associated to this editor");
+				sb.append("no PropertyEditorFactory can handle the widget associated to this editor");
 			}
 			if (representation.eContainer() instanceof Toolkit) {
 				Toolkit tk = (Toolkit) representation.eContainer();

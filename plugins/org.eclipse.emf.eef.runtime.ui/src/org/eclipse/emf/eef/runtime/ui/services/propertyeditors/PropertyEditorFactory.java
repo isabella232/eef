@@ -12,7 +12,7 @@ import org.eclipse.emf.eef.views.ViewElement;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface PropertyEditorProvider<T> {
+public interface PropertyEditorFactory<T> {
 	
 	/**
 	 * Return the PropertyEditor for this ElementEditor

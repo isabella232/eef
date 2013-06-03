@@ -41,12 +41,12 @@ public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditing
 				if (toolkit != null) {
 					view = new FormImplPropertiesEditingView(editingComponent, viewDescriptor);
 					view.setViewServiceProvider(handlerProvider.getViewServiceProvider());
-					view.setToolkitPropertyEditorProvider(handlerProvider.getToolkitPropertyEditorProvider());
+					view.setToolkitPropertyEditorFactory(handlerProvider.getEEFToolkitProvider());
 					((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[1]);
 				} else {
 					view = new SWTImplPropertiesEditingView(editingComponent, viewDescriptor);					
 					view.setViewServiceProvider(handlerProvider.getViewServiceProvider());
-					view.setToolkitPropertyEditorProvider(handlerProvider.getToolkitPropertyEditorProvider());
+					view.setToolkitPropertyEditorFactory(handlerProvider.getEEFToolkitProvider());
 					((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);
 				}
 			}

@@ -8,7 +8,7 @@ import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
@@ -29,7 +29,7 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	private ServiceTracker editingContextFactoryProviderTracker;
 	private ServiceTracker emfServiceProviderTracker;
 	private ServiceTracker viewServiceProviderTracker;
-	private ServiceTracker toolkitPropertyEditorProviderTracker;
+	private ServiceTracker eefToolkitProviderTracker;
 
 	
 	/**
@@ -53,8 +53,8 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 		emfServiceProviderTracker.open();
 		viewServiceProviderTracker = new ServiceTracker(context, ViewServiceProvider.class.getName(), null);
 		viewServiceProviderTracker.open();
-		toolkitPropertyEditorProviderTracker = new ServiceTracker(context, ToolkitPropertyEditorProvider.class.getName(), null);
-		toolkitPropertyEditorProviderTracker.open();
+		eefToolkitProviderTracker = new ServiceTracker(context, EEFToolkitProvider.class.getName(), null);
+		eefToolkitProviderTracker.open();
 	}
 
 	/*
@@ -68,7 +68,7 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 		editingContextFactoryProviderTracker.close();
 		emfServiceProviderTracker.close();
 		viewServiceProviderTracker.close();
-		toolkitPropertyEditorProviderTracker.close();
+		eefToolkitProviderTracker.close();
 	}
 
 	/**
@@ -126,8 +126,8 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 		return (ViewServiceProvider) viewServiceProviderTracker.getService();
 	}
 	
-	public ToolkitPropertyEditorProvider getToolkitPropertyEditorProvider() {
-		return (ToolkitPropertyEditorProvider) toolkitPropertyEditorProviderTracker.getService();
+	public EEFToolkitProvider getEEFToolkitProvider() {
+		return (EEFToolkitProvider) eefToolkitProviderTracker.getService();
 	}
 	
 	public AdapterFactory getRegistryAdapterFactory() {

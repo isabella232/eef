@@ -3,7 +3,7 @@
    <implementation class="org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.undefined.UndefinedEditorsPlatformAwareToolkit"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
-      <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditor"/>
+      <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit"/>
    </service>
   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.UndefinedEditorsToolkit"/>   
 </scr:component>

@@ -4,12 +4,12 @@ package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfproperti
  */
 
 import org.eclipse.emf.eef.runtime.ui.swt.services.resources.ImageManager;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor.EContainmentPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker.EDatePickerPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor.EReferencePropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor.EContainmentPropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker.EDatePickerPropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor.EReferencePropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorImpl;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.swt.widgets.Composite;
@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EMFPropertiesToolkit extends ToolkitPropertyEditorImpl<Composite> {
+public class EMFPropertiesToolkit extends EEFToolkitImpl<Composite> {
 
 	/**
 	 * EMFProperties toolkit name.
@@ -65,15 +65,15 @@ public class EMFPropertiesToolkit extends ToolkitPropertyEditorImpl<Composite> {
 	 * 
 	 */
 	public EMFPropertiesToolkit() {
-		addPropertyEditorProvider(new EReferencePropertyEditorProvider(this))
-			.addPropertyEditorProvider(new EComboPropertyEditorProvider(this))
-			.addPropertyEditorProvider(new EContainmentPropertyEditorProvider(this))
-			.addPropertyEditorProvider(new EDatePickerPropertyEditorProvider(this));
+		addPropertyEditorFactory(new EReferencePropertyEditorFactory(this))
+			.addPropertyEditorFactory(new EComboPropertyEditorFactory(this))
+			.addPropertyEditorFactory(new EContainmentPropertyEditorFactory(this))
+			.addPropertyEditorFactory(new EDatePickerPropertyEditorFactory(this));
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider#getModel()
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
 	 */
 	public Toolkit getModel() {
 		return toolkit;

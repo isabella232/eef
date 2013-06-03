@@ -57,7 +57,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 				PropertiesEditingComponent editingComponent = (PropertiesEditingComponent) args[0];
 				view = new SWTImplPropertiesEditingView(editingComponent, viewDescriptor);					
 				view.setViewServiceProvider(handlerProvider.getViewServiceProvider());
-				view.setToolkitPropertyEditorProvider(handlerProvider.getToolkitPropertyEditorProvider());
+				view.setToolkitPropertyEditorFactory(handlerProvider.getEEFToolkitProvider());
 				((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);
 			}
 		}

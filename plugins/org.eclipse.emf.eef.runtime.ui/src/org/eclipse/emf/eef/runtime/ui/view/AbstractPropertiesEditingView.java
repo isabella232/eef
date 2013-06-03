@@ -17,7 +17,7 @@ import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewElement;
@@ -33,7 +33,7 @@ import com.google.common.collect.UnmodifiableIterator;
 public abstract class AbstractPropertiesEditingView<T> implements PropertiesEditingView<T> {
 	
 	private ViewServiceProvider viewServiceProvider;
-	protected ToolkitPropertyEditorProvider toolkitPropertyEditorProvider;
+	protected EEFToolkitProvider eefToolkitProvider;
 	
 	protected PropertiesEditingComponent editingComponent;
 	protected View viewDescriptor;
@@ -66,10 +66,10 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	}
 
 	/**
-	 * @param toolkitPropertyEditorProvider the toolkitPropertyEditorProvider to set
+	 * @param eefToolkitProvider the eefToolkitProvider to set
 	 */
-	public void setToolkitPropertyEditorProvider(ToolkitPropertyEditorProvider toolkitPropertyEditorProvider) {
-		this.toolkitPropertyEditorProvider = toolkitPropertyEditorProvider;
+	public void setToolkitPropertyEditorFactory(EEFToolkitProvider eefToolkitProvider) {
+		this.eefToolkitProvider = eefToolkitProvider;
 	}
 
 	/**
