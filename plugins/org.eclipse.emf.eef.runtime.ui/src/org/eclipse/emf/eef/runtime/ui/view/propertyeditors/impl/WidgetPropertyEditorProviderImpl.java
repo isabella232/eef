@@ -14,13 +14,13 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorP
  */
 public abstract class WidgetPropertyEditorProviderImpl<T> implements WidgetPropertyEditorProvider<T> {
 
-	private ToolkitPropertyEditorProvider<T> toolkit;
+	private ToolkitPropertyEditorImpl<T> toolkit;
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorProvider#setToolkit(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorProvider#setToolkit(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorImpl)
 	 */
-	public final void setToolkit(ToolkitPropertyEditorProvider<T> toolkit) {
+	public final void setToolkit(ToolkitPropertyEditorImpl<T> toolkit) {
 		this.toolkit = toolkit;
 	}
 
@@ -36,7 +36,7 @@ public abstract class WidgetPropertyEditorProviderImpl<T> implements WidgetPrope
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public final PropertyEditor getPropertyEditor(PropertyEditorContext<T> editorContext) {
+	public final PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
 		PropertyEditor propertyEditor = createPropertyEditor(editorContext);
 		if (propertyEditor instanceof PropertyEditorImpl) {
 			((PropertyEditorImpl) propertyEditor).setPropertyEditorProvider(this);
@@ -44,6 +44,6 @@ public abstract class WidgetPropertyEditorProviderImpl<T> implements WidgetPrope
 		return propertyEditor;
 	}
 	
-	protected abstract PropertyEditor createPropertyEditor(PropertyEditorContext<T> editorContext);
+	protected abstract PropertyEditor createPropertyEditor(PropertyEditorContext editorContext);
 
 }

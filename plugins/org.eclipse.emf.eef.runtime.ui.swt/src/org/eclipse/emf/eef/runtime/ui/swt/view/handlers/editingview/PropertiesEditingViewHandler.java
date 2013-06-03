@@ -56,7 +56,8 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 			if (args.length > 1 && args[0] instanceof PropertiesEditingComponent && args[1] instanceof Composite) {
 				PropertiesEditingComponent editingComponent = (PropertiesEditingComponent) args[0];
 				view = new SWTImplPropertiesEditingView(editingComponent, viewDescriptor);					
-				view.setServiceRegistry(handlerProvider.getServiceRegistry());
+				view.setViewServiceProvider(handlerProvider.getViewServiceProvider());
+				view.setToolkitPropertyEditorProvider(handlerProvider.getToolkitPropertyEditorProvider());
 				((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);
 			}
 		}

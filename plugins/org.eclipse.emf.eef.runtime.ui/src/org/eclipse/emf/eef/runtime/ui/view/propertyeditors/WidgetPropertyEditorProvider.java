@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
 
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorImpl;
 import org.eclipse.emf.eef.views.toolkits.Widget;
 
 /**
@@ -18,11 +18,11 @@ public interface WidgetPropertyEditorProvider<T> extends ModelPropertyEditorProv
 	 * @param editorContext context to process.
 	 * @return <code>true</code> if the current provider can handle this context.
 	 */
-	boolean serviceFor(PropertyEditorContext<T> editorContext);
+	boolean serviceFor(PropertyEditorContext editorContext);
 	
 	/**
-	 * @param toolkit the {@link ToolkitPropertyEditorProvider} owning the current property editor
+	 * @param toolkit the {@link ToolkitPropertyEditorImpl} owning the current property editor
 	 */
-	void setToolkit(ToolkitPropertyEditorProvider<T> toolkit);
+	void setToolkit(ToolkitPropertyEditorImpl<T> toolkit);
 
 }

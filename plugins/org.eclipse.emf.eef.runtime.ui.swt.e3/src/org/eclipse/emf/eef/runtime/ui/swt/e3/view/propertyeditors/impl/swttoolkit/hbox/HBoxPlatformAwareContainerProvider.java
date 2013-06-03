@@ -8,7 +8,6 @@ import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.h
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.hbox.HBoxPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.Container;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
@@ -21,7 +20,8 @@ public class HBoxPlatformAwareContainerProvider extends HBoxContainerProvider {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorProvider#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	protected PropertyEditor createPropertyEditor(PropertyEditorContext<Composite> editorContext) {		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
+		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
 			return new HBoxPropertyEditor(new HBoxFormPropertyEditor((Container) editorContext.viewElement));			 
 		} else {

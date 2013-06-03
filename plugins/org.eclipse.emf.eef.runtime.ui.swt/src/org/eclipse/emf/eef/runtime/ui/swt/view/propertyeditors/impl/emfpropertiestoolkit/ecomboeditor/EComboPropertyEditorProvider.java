@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor;
 
+import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -34,16 +35,17 @@ public class EComboPropertyEditorProvider extends WidgetPropertyEditorProviderIm
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorProvider#serviceFor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public boolean serviceFor(PropertyEditorContext<Composite> editorContext) {
-		return getModel() == editorContext.viewElement.getRepresentation();
+	public boolean serviceFor(PropertyEditorContext editorContext) {
+		return getModel() == editorContext.viewElement.getRepresentation() && editorContext.view.getContents() instanceof Composite;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	protected PropertyEditor createPropertyEditor(PropertyEditorContext<Composite> editorContext) {
-		return new EComboPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new EComboSWTPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));
+	@SuppressWarnings("unchecked")
+	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
+		return new EComboPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EComboSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 
 }

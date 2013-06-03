@@ -39,7 +39,7 @@ public class EEFServiceRegistryImpl implements Cloneable, EEFServiceRegistry {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceRegistry#getService(java.lang.Class, java.lang.Object)
 	 */
-	@SuppressWarnings("unchecked")
+//	@SuppressWarnings("unchecked")
 	public final <SERVICETYPE, ANY_SUBTYPE_OF_SERVICETYPE extends SERVICETYPE, ANY_SUBTYPE_OF_SERVICE extends EEFService<SERVICETYPE>> ANY_SUBTYPE_OF_SERVICE getService(Class<? extends ANY_SUBTYPE_OF_SERVICE> type, ANY_SUBTYPE_OF_SERVICETYPE element) {
 		List<EEFService<?>> availableProviders = Lists.newArrayList();
 		@SuppressWarnings("rawtypes")

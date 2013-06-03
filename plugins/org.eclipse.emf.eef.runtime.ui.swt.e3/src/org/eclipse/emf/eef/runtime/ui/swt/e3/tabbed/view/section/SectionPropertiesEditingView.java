@@ -89,7 +89,8 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	public SectionPropertiesEditingView() {
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		this.propertyEditors = Maps.newHashMap();
-		setServiceRegistry(E3EEFRuntimeUIPlatformPlugin.getPlugin().getServiceRegistry());
+		setViewServiceProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getViewServiceProvider());
+		setToolkitPropertyEditorProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getToolkitPropertyEditorProvider());
 	}
 
 
@@ -239,7 +240,8 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 						control.dispose();
 					}
 				}
-				setServiceRegistry(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getServiceRegistry());
+				setViewServiceProvider(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getViewServiceProvider());
+				setToolkitPropertyEditorProvider(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getToolkitPropertyEditorProvider());
 				createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
 				parentComposite.layout();
 				viewHandler.initView(editingComponent);

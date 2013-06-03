@@ -63,6 +63,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	 */
 	public void initView(Object view) {
 		if (view instanceof PropertiesEditingView) {
+			@SuppressWarnings("unchecked")
 			PropertiesEditingView<Composite> editingView = (PropertiesEditingView<Composite>) view;
 			PropertiesEditingComponent editingComponent = editingView.getEditingComponent();
 			EObject editedEObject = editingComponent.getEObject();
@@ -103,6 +104,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#lockView(java.lang.Object)
 	 */
+	@SuppressWarnings("unchecked")
 	public void lockView(Object view) {
 		if (view instanceof PropertiesEditingView) {
 			((PropertiesEditingView<Composite>) view).lock();
@@ -117,6 +119,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	 */
 	public void lockEditor(Object view, Object editor) {
 		if (view instanceof PropertiesEditingView && editor instanceof ViewElement) {
+			@SuppressWarnings("unchecked")
 			PropertyEditor propertyEditor = ((PropertiesEditingView<Composite>) view).getPropertyEditor((ViewElement) editor);
 			if (propertyEditor != null) {
 				propertyEditor.getPropertyEditorViewer().lock();
@@ -130,6 +133,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#clearViewLock(java.lang.Object)
 	 */
+	@SuppressWarnings("unchecked")
 	public void clearViewLock(Object view) {
 		if (view instanceof PropertiesEditingView) {
 			((PropertiesEditingView<Composite>) view).unlock();
@@ -144,6 +148,7 @@ public class EditingViewLockManager extends AbstractEEFService<Object> implement
 	 */
 	public void clearEditorLock(Object view, Object editor) {
 		if (view instanceof PropertiesEditingView && editor instanceof ViewElement) {
+			@SuppressWarnings("unchecked")
 			PropertyEditor propertyEditor = ((PropertiesEditingView<Composite>) view).getPropertyEditor((ViewElement) editor);
 			if (propertyEditor != null) {
 				propertyEditor.getPropertyEditorViewer().unlock();

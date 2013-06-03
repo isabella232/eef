@@ -7,4 +7,6 @@
    </service>
    <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.PropertiesEditingViewHandlerProvider"/>
    <reference bind="setBindingManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.binding.BindingManagerProvider" name="BindingManagerProvider" policy="static"/>
+   <reference bind="setViewServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider" name="ViewServiceProvider" policy="static"/>
+   <reference bind="setToolkitPropertyEditorProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider" name="ToolkitPropertyEditorProvider" policy="static"/>
 </scr:component>

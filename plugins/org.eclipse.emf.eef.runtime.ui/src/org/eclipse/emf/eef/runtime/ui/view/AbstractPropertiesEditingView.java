@@ -10,13 +10,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewSettingsImpl;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewElement;
@@ -31,7 +32,9 @@ import com.google.common.collect.UnmodifiableIterator;
  */
 public abstract class AbstractPropertiesEditingView<T> implements PropertiesEditingView<T> {
 	
-	protected EEFServiceRegistry serviceRegistry;
+	private ViewServiceProvider viewServiceProvider;
+	protected ToolkitPropertyEditorProvider toolkitPropertyEditorProvider;
+	
 	protected PropertiesEditingComponent editingComponent;
 	protected View viewDescriptor;
 	
@@ -56,19 +59,25 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	}
 
 	/**
+	 * @param viewServiceProvider the viewServiceProvider to set
+	 */
+	public void setViewServiceProvider(ViewServiceProvider viewServiceProvider) {
+		this.viewServiceProvider = viewServiceProvider;
+	}
+
+	/**
+	 * @param toolkitPropertyEditorProvider the toolkitPropertyEditorProvider to set
+	 */
+	public void setToolkitPropertyEditorProvider(ToolkitPropertyEditorProvider toolkitPropertyEditorProvider) {
+		this.toolkitPropertyEditorProvider = toolkitPropertyEditorProvider;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewModel()
 	 */
 	public final View getViewModel() {
 		return viewDescriptor;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
-	 */
-	public final void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
 	}
 
 	/**
@@ -93,7 +102,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	 */
 	public final ViewService getViewService() {
 		if (service == null) {
-			service = serviceRegistry.getService(ViewService.class, viewDescriptor);
+			service = viewServiceProvider.getViewService(viewDescriptor);
 		}
 		if (editingComponent != null && editingComponent != service.getEditingComponent()) {
 			service.setEditingComponent(editingComponent);

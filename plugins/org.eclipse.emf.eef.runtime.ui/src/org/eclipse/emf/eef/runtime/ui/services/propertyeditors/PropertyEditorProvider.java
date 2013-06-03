@@ -19,7 +19,7 @@ public interface PropertyEditorProvider<T> {
 	 * @param editorContext {@link PropertyEditorContext} to process.
 	 * @return the {@link PropertyEditor} for the given {@link ElementEditor}. 
 	 */
-	PropertyEditor getPropertyEditor(PropertyEditorContext<T> editorContext);
+	PropertyEditor getPropertyEditor(PropertyEditorContext editorContext);
 	
 	/**
 	 * Represents a context for a {@link PropertyEditor} composed of:
@@ -28,16 +28,16 @@ public interface PropertyEditorProvider<T> {
 	 *  
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
 	 */
-	public final class PropertyEditorContext<T> {
+	public final class PropertyEditorContext {
 		
-		public PropertiesEditingView<T> view;
+		public PropertiesEditingView<?> view;
 		public ViewElement viewElement;
 		
 		/**
 		 * @param view
 		 * @param viewElement
 		 */
-		public PropertyEditorContext(PropertiesEditingView<T> view, ViewElement viewElement) {
+		public PropertyEditorContext(PropertiesEditingView<?> view, ViewElement viewElement) {
 			this.view = view;
 			this.viewElement = viewElement;
 		}

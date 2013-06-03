@@ -12,7 +12,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.AbstractPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditor;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
@@ -50,8 +50,8 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 	private void buildElement(Composite currentContainer, EObject content) {
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;
-			PropertyEditorContext<Composite> editorContext = new PropertyEditorContext<Composite>(this, elementEditor);
-			ToolkitPropertyEditorProvider<Composite> propertyEditorProvider = serviceRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
+			PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
+			ToolkitPropertyEditor<Composite> propertyEditorProvider = toolkitPropertyEditorProvider.getToolkit(editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof SWTPropertyEditor) {
@@ -61,8 +61,8 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 			}
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
-			PropertyEditorContext<Composite> editorContext = new PropertyEditorContext<Composite>(this, container);
-			ToolkitPropertyEditorProvider<Composite> propertyEditorProvider = serviceRegistry.getService(ToolkitPropertyEditorProvider.class, editorContext);
+			PropertyEditorContext editorContext = new PropertyEditorContext(this, container);
+			ToolkitPropertyEditor<Composite> propertyEditorProvider = toolkitPropertyEditorProvider.getToolkit(editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof SWTPropertyEditor) {

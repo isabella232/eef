@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.swttoolk
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.widgets.Composite;
@@ -21,9 +22,11 @@ public class TextareaPlatformAwarePropertyEditorProvider extends TextareaPropert
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorProvider#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	protected PropertyEditor createPropertyEditor(PropertyEditorContext<Composite> editorContext) {		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+	@SuppressWarnings("unchecked")
+	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
+		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 		if (toolkit != null) {
-			return new TextareaPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new TextareaFormPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));			
+			return new TextareaPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new TextareaFormPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));			
 		} else {
 			return super.createPropertyEditor(editorContext);
 		}

@@ -258,8 +258,8 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 			return input;
 		}
 		List<SERVICE_TYPE> result = Lists.newArrayList(input);
-		for (SERVICE_TYPE vhpMetadata : input) {
-			result.removeAll(connexity(vhpMetadata));
+		for (SERVICE_TYPE service : input) {
+			result.removeAll(connexity(service));
 		}
 		return result;
 	}

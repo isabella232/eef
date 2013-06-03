@@ -92,7 +92,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.view.lock.EditingViewLockManager;
 import org.eclipse.emf.eef.runtime.ui.swt.view.notify.EditingViewNotifier;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorImpl;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager;
@@ -678,8 +678,8 @@ public class EEFTestEnvironment {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
 				}
 			}
-			if (!preloadedServices.contains(ToolkitPropertyEditorProvider.class)) {
-				for (EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>> desc : createEditorProviders()) {
+			if (!preloadedServices.contains(ToolkitPropertyEditorImpl.class)) {
+				for (EEFServiceDescriptor<ToolkitPropertyEditorImpl<Composite>> desc : createEditorProviders()) {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
 				}
 			}
@@ -959,8 +959,8 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
-		public Collection<EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>>> createEditorProviders() {
-			Collection<EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>>>();
+		public Collection<EEFServiceDescriptor<ToolkitPropertyEditorImpl<Composite>>> createEditorProviders() {
+			Collection<EEFServiceDescriptor<ToolkitPropertyEditorImpl<Composite>>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ToolkitPropertyEditorImpl<Composite>>>();
 			SWTPlatformAwareToolkit swtToolkit = new SWTPlatformAwareToolkit() {
 
 				/**
@@ -970,13 +970,13 @@ public class EEFTestEnvironment {
 				@Override
 				public Collection<String> providedServices() {
 					List<String> result = new ArrayList<String>();
-					result.add(ToolkitPropertyEditorProvider.class.getName());
+					result.add(ToolkitPropertyEditorImpl.class.getName());
 					return result;
 				}
 
 			};
 			swtToolkit.setBindingManagerProvider(getBindingManagerProvider());
-			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>>("toolkitservice.swt", swtToolkit));
+			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorImpl<Composite>>("toolkitservice.swt", swtToolkit));
 			EMFPropertiesPlatformAwareToolkit emfPropertiesToolkit = new EMFPropertiesPlatformAwareToolkit() {
 
 				/**
@@ -986,13 +986,13 @@ public class EEFTestEnvironment {
 				@Override
 				public Collection<String> providedServices() {
 					List<String> result = new ArrayList<String>();
-					result.add(ToolkitPropertyEditorProvider.class.getName());
+					result.add(ToolkitPropertyEditorImpl.class.getName());
 					return result;
 				}
 
 			};
 			emfPropertiesToolkit.setBindingManagerProvider(getBindingManagerProvider());
-			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorProvider<Composite>>("toolkitservice.emfproperties", emfPropertiesToolkit));
+			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorImpl<Composite>>("toolkitservice.emfproperties", emfPropertiesToolkit));
 			return result;
 		}
 

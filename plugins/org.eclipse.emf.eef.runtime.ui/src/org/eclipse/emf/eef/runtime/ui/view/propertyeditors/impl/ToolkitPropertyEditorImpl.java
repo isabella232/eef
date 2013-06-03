@@ -9,11 +9,11 @@ import java.util.List;
 import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 
@@ -23,7 +23,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class ToolkitPropertyEditorProvider<T> extends AbstractEEFService<PropertyEditorContext<T>> implements ModelPropertyEditorProvider<Toolkit,T>, EEFService<PropertyEditorContext<T>> {
+public abstract class ToolkitPropertyEditorImpl<T> extends AbstractEEFService<PropertyEditorContext> implements ModelPropertyEditorProvider<Toolkit,T>, ToolkitPropertyEditor<T> {
 	
 	private BindingManagerProvider bindingManagerProvider;
 
@@ -39,7 +39,7 @@ public abstract class ToolkitPropertyEditorProvider<T> extends AbstractEEFServic
 	/**
 	 * 
 	 */
-	public ToolkitPropertyEditorProvider() {
+	public ToolkitPropertyEditorImpl() {
 		widgetProviders = Lists.newArrayList();
 	}
 
@@ -47,7 +47,7 @@ public abstract class ToolkitPropertyEditorProvider<T> extends AbstractEEFServic
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#serviceFor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public final boolean serviceFor(PropertyEditorContext<T> editorContext) {
+	public final boolean serviceFor(PropertyEditorContext editorContext) {
 		for (WidgetPropertyEditorProvider<T> provider : widgetProviders) {
 			if (provider.serviceFor(editorContext)) {
 				return true;
@@ -61,7 +61,7 @@ public abstract class ToolkitPropertyEditorProvider<T> extends AbstractEEFServic
 	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 * TODO: need cache
 	 */
-	public final PropertyEditor getPropertyEditor(PropertyEditorContext<T> editorContext) {
+	public final PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
 		for (WidgetPropertyEditorProvider<T> provider : widgetProviders) {
 			if (provider.serviceFor(editorContext)) {
 				return provider.getPropertyEditor(editorContext);
@@ -80,7 +80,7 @@ public abstract class ToolkitPropertyEditorProvider<T> extends AbstractEEFServic
 	/**
 	 * @param provider
 	 */
-	public final ToolkitPropertyEditorProvider<T> addPropertyEditorProvider(WidgetPropertyEditorProvider<T> provider) {
+	public final ToolkitPropertyEditorImpl<T> addPropertyEditorProvider(WidgetPropertyEditorProvider<T> provider) {
 		widgetProviders.add(provider);
 		provider.setToolkit(this);
 		getModel().getWidgets().add(provider.getModel());

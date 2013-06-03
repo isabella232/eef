@@ -7,6 +7,8 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
@@ -26,6 +28,8 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	private ServiceTracker eefServiceRegistryTracker;
 	private ServiceTracker editingContextFactoryProviderTracker;
 	private ServiceTracker emfServiceProviderTracker;
+	private ServiceTracker viewServiceProviderTracker;
+	private ServiceTracker toolkitPropertyEditorProviderTracker;
 
 	
 	/**
@@ -47,6 +51,10 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 		editingContextFactoryProviderTracker.open();
 		emfServiceProviderTracker = new ServiceTracker(context, EMFServiceProvider.class.getName(), null);
 		emfServiceProviderTracker.open();
+		viewServiceProviderTracker = new ServiceTracker(context, ViewServiceProvider.class.getName(), null);
+		viewServiceProviderTracker.open();
+		toolkitPropertyEditorProviderTracker = new ServiceTracker(context, ToolkitPropertyEditorProvider.class.getName(), null);
+		toolkitPropertyEditorProviderTracker.open();
 	}
 
 	/*
@@ -59,6 +67,8 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 		eefServiceRegistryTracker.close();
 		editingContextFactoryProviderTracker.close();
 		emfServiceProviderTracker.close();
+		viewServiceProviderTracker.close();
+		toolkitPropertyEditorProviderTracker.close();
 	}
 
 	/**
@@ -107,6 +117,17 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	 */
 	public EMFServiceProvider getEMFServiceProvider() {
 		return (EMFServiceProvider) emfServiceProviderTracker.getService();
+	}
+	
+	/**
+	 * @return
+	 */
+	public ViewServiceProvider getViewServiceProvider() {
+		return (ViewServiceProvider) viewServiceProviderTracker.getService();
+	}
+	
+	public ToolkitPropertyEditorProvider getToolkitPropertyEditorProvider() {
+		return (ToolkitPropertyEditorProvider) toolkitPropertyEditorProviderTracker.getService();
 	}
 	
 	public AdapterFactory getRegistryAdapterFactory() {

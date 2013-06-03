@@ -10,7 +10,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.eef.runtime.ui.EEFRuntimeUI;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorImpl;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -58,8 +58,8 @@ public class ToolkitResource extends ResourceImpl {
 				} 
 				if (toManage != null) {
 					@SuppressWarnings("unchecked")
-					Class<org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider<?>> toolkitClass = (Class<ToolkitPropertyEditorProvider<?>>) toManage.loadClass(uri.lastSegment());
-					ToolkitPropertyEditorProvider<?> toolkitProvider = toolkitClass.newInstance();
+					Class<org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorImpl<?>> toolkitClass = (Class<ToolkitPropertyEditorImpl<?>>) toManage.loadClass(uri.lastSegment());
+					ToolkitPropertyEditorImpl<?> toolkitProvider = toolkitClass.newInstance();
 					Toolkit model = toolkitProvider.getModel();
 					getContents().add(model);
 				}

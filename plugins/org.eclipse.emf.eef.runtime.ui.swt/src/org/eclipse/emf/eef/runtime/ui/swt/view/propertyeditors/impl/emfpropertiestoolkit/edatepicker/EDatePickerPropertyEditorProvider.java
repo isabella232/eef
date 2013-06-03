@@ -3,6 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker;
 
+import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -34,16 +35,17 @@ public class EDatePickerPropertyEditorProvider extends WidgetPropertyEditorProvi
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorProvider#serviceFor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public boolean serviceFor(PropertyEditorContext<Composite> editorContext) {
-		return getModel() == editorContext.viewElement.getRepresentation();
+	public boolean serviceFor(PropertyEditorContext editorContext) {
+		return getModel() == editorContext.viewElement.getRepresentation() && editorContext.view.getContents() instanceof Composite;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	protected PropertyEditor createPropertyEditor(PropertyEditorContext<Composite> editorContext) {
-		return new EDatePackerPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement, new EDatePickerSWTPropertyEditor(editorContext.view, (ElementEditor) editorContext.viewElement));
+	@SuppressWarnings("unchecked")
+	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
+		return new EDatePackerPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EDatePickerSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 
 }

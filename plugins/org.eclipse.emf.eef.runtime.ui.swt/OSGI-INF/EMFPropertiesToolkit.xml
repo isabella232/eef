@@ -3,7 +3,7 @@
    <implementation class="org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
-      <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider"/>
+      <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditor"/>
    </service>
    <reference bind="setBindingManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.binding.BindingManagerProvider" name="BindingManagerProvider" policy="static"/>
 </scr:component>

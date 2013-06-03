@@ -34,15 +34,15 @@ public class HBoxContainerProvider extends WidgetPropertyEditorProviderImpl<Comp
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public boolean serviceFor(PropertyEditorContext<Composite> element) {
-		return getModel() == element.viewElement.getRepresentation();
+	public boolean serviceFor(PropertyEditorContext editorContext) {
+		return getModel() == editorContext.viewElement.getRepresentation() && editorContext.view.getContents() instanceof Composite;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	protected PropertyEditor createPropertyEditor(PropertyEditorContext<Composite> editorContext) {
+	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
 		return new HBoxPropertyEditor(new HBoxSWTPropertyEditor((Container) editorContext.viewElement));			 
 	}
 

@@ -9,7 +9,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.g
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.hbox.HBoxContainerProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditorProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorImpl;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.swt.widgets.Composite;
@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class SWTToolkit extends ToolkitPropertyEditorProvider<Composite> {
+public class SWTToolkit extends ToolkitPropertyEditorImpl<Composite> {
 
 	/**
 	 * SWT Toolkit name.

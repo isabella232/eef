@@ -35,15 +35,15 @@ public class UndefinedPropertyEditorProvider extends WidgetPropertyEditorProvide
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorProvider#serviceFor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	public boolean serviceFor(PropertyEditorContext<Composite> editorContext) {
-		return true;
+	public boolean serviceFor(PropertyEditorContext editorContext) {
+		return editorContext.view.getContents() instanceof Composite;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorProviderImpl#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorProvider.PropertyEditorContext)
 	 */
-	protected PropertyEditor createPropertyEditor(PropertyEditorContext<Composite> editorContext) {
+	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
 		return new UndefinedPropertyEditor(new UndefinedSWTPropertyEditor(editorContext.viewElement));			 
 	}
 

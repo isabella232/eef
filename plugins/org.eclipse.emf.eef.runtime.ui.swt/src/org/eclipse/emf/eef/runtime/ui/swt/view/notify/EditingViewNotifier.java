@@ -50,6 +50,7 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 	 */
 	public void notify(Object view, final EEFNotification notification) {
 		if (view instanceof PropertiesEditingView) {
+			@SuppressWarnings("unchecked")
 			PropertiesEditingView<Composite> editingView = (PropertiesEditingView<Composite>) view;
 			if (notification instanceof EEFPropertyNotification) {
 				if (editingView.getViewService() instanceof SWTViewService) {
@@ -69,6 +70,7 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 	 */
 	public void clearViewNotification(Object view) {
 		if (view instanceof PropertiesEditingView) {
+			@SuppressWarnings("unchecked")
 			PropertiesEditingView<Composite> editingView = (PropertiesEditingView<Composite>) view;
 			if (editingView.getViewService() instanceof SWTViewService) {
 				((SWTViewService) editingView.getViewService()).executeAsyncUIRunnable(editingView.getContents().getDisplay(), new RemoveDecorationOnView(editingView));
@@ -82,6 +84,7 @@ public class EditingViewNotifier extends AbstractEEFService<Object> implements E
 	 */
 	public void clearEditorNotification(Object view, Object editor) {
 		if (view instanceof PropertiesEditingView) {
+			@SuppressWarnings("unchecked")
 			PropertiesEditingView<Composite> editingView = (PropertiesEditingView<Composite>) view;
 			if (editor instanceof ViewElement) {
 				if (editingView.getViewService() instanceof SWTViewService) {
