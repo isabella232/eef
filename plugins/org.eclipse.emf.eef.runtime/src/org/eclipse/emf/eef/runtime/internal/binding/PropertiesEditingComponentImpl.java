@@ -20,7 +20,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
 import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 import com.google.common.collect.Lists;
@@ -184,9 +184,9 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			registerViewHandler(specifiedHandler);
 			return specifiedHandler;
 		} else {
-			ViewHandlerProvider viewHandlerProvider = editingProvider.getViewHandlerProvider(view);
-			if (viewHandlerProvider != null) {
-				ViewHandler<?> handler = viewHandlerProvider.getHandler(this, view);
+			ViewHandlerFactory viewHandlerFactory = editingProvider.getViewHandlerFactory(view);
+			if (viewHandlerFactory != null) {
+				ViewHandler<?> handler = viewHandlerFactory.getHandler(this, view);
 				if (handler != null) {
 					registerViewHandler(handler);
 					return handler;

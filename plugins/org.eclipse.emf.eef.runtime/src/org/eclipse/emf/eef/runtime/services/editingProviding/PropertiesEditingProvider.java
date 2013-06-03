@@ -13,7 +13,7 @@ import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 /**
@@ -59,11 +59,11 @@ public interface PropertiesEditingProvider extends EEFService<EPackage> {
 	PropertiesEditingModel getEditingModel(EObject eObject);
 
 	/**
-	 * @return a {@link ViewHandlerProvider} able to provide {@link ViewHandler} for the given view.
+	 * @return a {@link ViewHandlerFactory} able to provide {@link ViewHandler} for the given view.
 	 * @param view view to process.
-	 * @return a applicable {@link ViewHandlerProvider} if exists, <code>null</code> otherwise.
+	 * @return a applicable {@link ViewHandlerFactory} if exists, <code>null</code> otherwise.
 	 */
-	ViewHandlerProvider getViewHandlerProvider(Object view);
+	ViewHandlerFactory getViewHandlerFactory(Object view);
 
 	/**
 	 * Defines the {@link ModelChangesNotificationManager} to use in the current {@link PropertiesEditingProviderRegistry}

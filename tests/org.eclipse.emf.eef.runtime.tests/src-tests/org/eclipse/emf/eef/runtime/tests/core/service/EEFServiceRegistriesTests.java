@@ -29,7 +29,7 @@ import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
@@ -81,8 +81,8 @@ public class EEFServiceRegistriesTests {
 		final Object obj2 = "Object 2";
 		
 		// this adds sequence test many case of the graph creation algorithm (using proxies or not, ...)
-		ViewHandlerProvider result1 = addToRegistry(vhpRegistry, component1, obj1, component3);
-		ViewHandlerProvider result2 = addToRegistry(vhpRegistry, component2, obj1, component3);
+		ViewHandlerFactory result1 = addToRegistry(vhpRegistry, component1, obj1, component3);
+		ViewHandlerFactory result2 = addToRegistry(vhpRegistry, component2, obj1, component3);
 		addToRegistry(vhpRegistry, component4, obj1, component5);
 		addToRegistry(vhpRegistry, component3, obj1, component4, component6);
 		addToRegistry(vhpRegistry, component6, obj1);
@@ -90,8 +90,8 @@ public class EEFServiceRegistriesTests {
 		addToRegistry(vhpRegistry, component8, obj2, component4);		
 		
 		addToRegistry(vhpRegistry, component5, obj1);
-		ViewHandlerProvider viewHandlerProvider = vhpRegistry.getService(ViewHandlerProvider.class, obj1);
-		assertTrue("Bad comparison algorithm.", viewHandlerProvider == result1 || viewHandlerProvider == result2);
+		ViewHandlerFactory viewHandlerFactory = vhpRegistry.getService(ViewHandlerFactory.class, obj1);
+		assertTrue("Bad comparison algorithm.", viewHandlerFactory == result1 || viewHandlerFactory == result2);
 		
 	}
 
@@ -108,11 +108,11 @@ public class EEFServiceRegistriesTests {
 		addToRegistry(vhpRegistry, component2, obj1, component3);
 
 		// this phase ensure that we can't create circularity in priority graph
-		ViewHandlerProvider result3 = addToRegistry(vhpRegistry, component3, obj1, component2);
+		ViewHandlerFactory result3 = addToRegistry(vhpRegistry, component3, obj1, component2);
 		assertNull("Bad circularity check", result3);		
 	}
 
-	protected ViewHandlerProvider addToRegistry(EEFServiceRegistry registry, String componentName, final Object obj, final String... priorityOver) {
+	protected ViewHandlerFactory addToRegistry(EEFServiceRegistry registry, String componentName, final Object obj, final String... priorityOver) {
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, componentName);
 		if (priorityOver != null && priorityOver.length > 0) {
@@ -131,7 +131,7 @@ public class EEFServiceRegistriesTests {
 
 			public Object getView() { return null;	}
 
-			public ViewHandlerProvider getProvider() { return null;	}
+			public ViewHandlerFactory getProvider() { return null;	}
 
 			public void initView(PropertiesEditingComponent component) { }
  
@@ -152,7 +152,7 @@ public class EEFServiceRegistriesTests {
 			public void dispose() { }
 			
 		};
-		ViewHandlerProvider handler = new VHPTest(viewHandler, obj);
+		ViewHandlerFactory handler = new VHPTest(viewHandler, obj);
 		
 		try {
 			registry.addService(handler, properties);
@@ -162,11 +162,11 @@ public class EEFServiceRegistriesTests {
 		return handler;
 	}
 
-	private final class VHPTest implements ViewHandlerProvider {
+	private final class VHPTest implements ViewHandlerFactory {
 		
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getLockManager(java.lang.Object)
+		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory#getLockManager(java.lang.Object)
 		 */
 		public EEFLockManager getLockManager(Object view) {
 			return null;
@@ -174,7 +174,7 @@ public class EEFServiceRegistriesTests {
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getLogger()
+		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory#getLogger()
 		 */
 		public EEFLogger getLogger() {
 			return null;
@@ -202,7 +202,7 @@ public class EEFServiceRegistriesTests {
 		 */
 		public Collection<String> providedServices() {
 			List<String> result = new ArrayList<String>();
-			result.add(ViewHandlerProvider.class.getName());
+			result.add(ViewHandlerFactory.class.getName());
 			return result;
 		}
 

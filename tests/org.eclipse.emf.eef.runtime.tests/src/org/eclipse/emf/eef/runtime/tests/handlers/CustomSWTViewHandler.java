@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.tests.views.SampleCustomView;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ReflectHelper;
@@ -28,7 +28,7 @@ public class CustomSWTViewHandler extends SWTViewHandler {
 	 * @param editingComponent
 	 * @param viewClass
 	 */
-	public CustomSWTViewHandler(ViewHandlerProvider handlerProvider, PropertiesEditingComponent editingComponent, Class<? extends Composite> viewClass) {
+	public CustomSWTViewHandler(ViewHandlerFactory handlerProvider, PropertiesEditingComponent editingComponent, Class<? extends Composite> viewClass) {
 		super(handlerProvider, editingComponent, viewClass);
 	}
 

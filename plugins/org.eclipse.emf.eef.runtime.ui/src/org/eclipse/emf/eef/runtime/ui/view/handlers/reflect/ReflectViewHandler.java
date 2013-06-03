@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ReflectHelper;
@@ -26,7 +26,7 @@ import org.eclipse.emf.eef.runtime.view.notify.impl.NullNotifier;
 public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	protected Class<? extends T> viewClass;
-	protected ViewHandlerProvider handlerProvider;
+	protected ViewHandlerFactory handlerProvider;
 	protected PropertiesEditingComponent editingComponent;
 
 	protected T view;
@@ -37,7 +37,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	 * @param editingComponent the {@link PropertiesEditingComponent} requesting this handler.
 	 * @param viewClass View class to handle.
 	 */
-	public ReflectViewHandler(ViewHandlerProvider handlerProvider, PropertiesEditingComponent editingComponent, final Class<? extends T> viewClass) {
+	public ReflectViewHandler(ViewHandlerFactory handlerProvider, PropertiesEditingComponent editingComponent, final Class<? extends T> viewClass) {
 		this.viewClass = viewClass;
 		this.editingComponent = editingComponent;
 		this.handlerProvider = handlerProvider;
@@ -117,7 +117,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getProvider()
 	 */
-	public ViewHandlerProvider getProvider() {
+	public ViewHandlerFactory getProvider() {
 		return handlerProvider;
 	}
 

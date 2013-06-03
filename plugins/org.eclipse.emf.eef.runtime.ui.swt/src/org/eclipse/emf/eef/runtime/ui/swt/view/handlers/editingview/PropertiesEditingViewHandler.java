@@ -9,7 +9,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl.SWTImplPropertiesEditingView;
@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditingView<Composite>> {
 
 	protected View viewDescriptor;
-	protected PropertiesEditingViewHandlerProvider handlerProvider;
+	protected PropertiesEditingViewHandlerFactory handlerProvider;
 	protected PropertiesEditingComponent editingComponent;
 	protected PropertiesEditingView<Composite> view;
 	
@@ -34,7 +34,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @param handlerProvider 
 	 * @param viewDescriptor {@link View} to handle.
 	 */
-	public PropertiesEditingViewHandler(PropertiesEditingViewHandlerProvider handlerProvider, PropertiesEditingComponent editingComponent, View viewDescriptor) {
+	public PropertiesEditingViewHandler(PropertiesEditingViewHandlerFactory handlerProvider, PropertiesEditingComponent editingComponent, View viewDescriptor) {
 		this.handlerProvider = handlerProvider;
 		this.editingComponent = editingComponent;
 		this.viewDescriptor = viewDescriptor;
@@ -110,7 +110,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getProvider()
 	 */
-	public ViewHandlerProvider getProvider() {
+	public ViewHandlerFactory getProvider() {
 		return handlerProvider;
 	}
 

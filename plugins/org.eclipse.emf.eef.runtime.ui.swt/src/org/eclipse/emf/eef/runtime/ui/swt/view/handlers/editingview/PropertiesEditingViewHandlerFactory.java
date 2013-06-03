@@ -7,7 +7,7 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
@@ -18,7 +18,7 @@ import org.eclipse.emf.eef.views.View;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingViewHandlerProvider extends AbstractEEFService<Object> implements ViewHandlerProvider {
+public class PropertiesEditingViewHandlerFactory extends AbstractEEFService<Object> implements ViewHandlerFactory {
 
 	private ViewServiceProvider viewServiceProvider;
 	private EEFToolkitProvider eefToolkitProvider;
@@ -63,7 +63,7 @@ public class PropertiesEditingViewHandlerProvider extends AbstractEEFService<Obj
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory#getHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
 	public ViewHandler<?> getHandler(PropertiesEditingComponent editingComponent, Object view) {
 		return new PropertiesEditingViewHandler(this, editingComponent, (View) view);
@@ -85,7 +85,7 @@ public class PropertiesEditingViewHandlerProvider extends AbstractEEFService<Obj
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getLockManager(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory#getLockManager(java.lang.Object)
 	 */
 	public EEFLockManager getLockManager(Object view) {
 		return lockManagerProvider.getLockManager(view);

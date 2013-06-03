@@ -21,7 +21,7 @@ import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingPr
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 import com.google.common.base.Function;
@@ -81,10 +81,10 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#getViewHandlerProvider(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#getViewHandlerFactory(java.lang.Object)
 	 */
-	public ViewHandlerProvider getViewHandlerProvider(Object view) {
-		return serviceRegistry.getService(ViewHandlerProvider.class, view);
+	public ViewHandlerFactory getViewHandlerFactory(Object view) {
+		return serviceRegistry.getService(ViewHandlerFactory.class, view);
 	}
 
 	/**

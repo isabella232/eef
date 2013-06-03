@@ -10,8 +10,8 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/ViewServiceImpl.xml,
  OSGI-INF/StandardDoubleClickFactory.xml,
- OSGI-INF/PropertiesEditingViewHandlerProvider.xml,
- OSGI-INF/SWTViewHandlerProvider.xml,
+ OSGI-INF/PropertiesEditingViewHandlerFactory.xml,
+ OSGI-INF/SWTViewHandlerFactory.xml,
  OSGI-INF/SWTToolkit.xml,
  OSGI-INF/EMFPropertiesToolkit.xml,
  OSGI-INF/EditingViewNotifier.xml,

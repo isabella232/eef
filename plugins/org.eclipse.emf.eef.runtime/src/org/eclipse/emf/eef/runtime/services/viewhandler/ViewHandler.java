@@ -29,9 +29,9 @@ public interface ViewHandler<T> {
 	T getView();
 	
 	/**
-	 * @return the {@link ViewHandlerProvider} that created the current {@link ViewHandlerProvider};
+	 * @return the {@link ViewHandlerFactory} that created the current {@link ViewHandlerFactory};
 	 */
-	ViewHandlerProvider getProvider();
+	ViewHandlerFactory getProvider();
 	
 	/**
 	 * Initializes a view with the current EObject properties.

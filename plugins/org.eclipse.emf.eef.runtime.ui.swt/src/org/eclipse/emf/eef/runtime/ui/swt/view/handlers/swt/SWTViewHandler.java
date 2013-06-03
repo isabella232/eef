@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.view.handlers.swt;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandler;
 import org.eclipse.swt.widgets.Composite;
 
@@ -19,7 +19,7 @@ public class SWTViewHandler extends ReflectViewHandler<Composite> {
 	 * @param editingComponent 
 	 * @param viewClass
 	 */
-	public SWTViewHandler(ViewHandlerProvider handlerProvider, PropertiesEditingComponent editingComponent, Class<? extends Composite> viewClass) {
+	public SWTViewHandler(ViewHandlerFactory handlerProvider, PropertiesEditingComponent editingComponent, Class<? extends Composite> viewClass) {
 		super(handlerProvider, editingComponent, viewClass);
 	}
 

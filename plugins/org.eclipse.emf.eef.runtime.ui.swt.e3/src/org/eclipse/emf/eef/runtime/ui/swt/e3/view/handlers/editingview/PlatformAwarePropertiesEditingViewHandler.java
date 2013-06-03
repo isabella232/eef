@@ -25,7 +25,7 @@ public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditing
 	 * @param editingComponent
 	 * @param viewDescriptor
 	 */
-	public PlatformAwarePropertiesEditingViewHandler(PlatformAwarePropertiesEditingViewHandlerProvider handlerProvider, PropertiesEditingComponent editingComponent, View viewDescriptor) {
+	public PlatformAwarePropertiesEditingViewHandler(PlatformAwarePropertiesEditingViewHandlerFactory handlerProvider, PropertiesEditingComponent editingComponent, View viewDescriptor) {
 		super(handlerProvider, editingComponent, viewDescriptor);
 	}
 	

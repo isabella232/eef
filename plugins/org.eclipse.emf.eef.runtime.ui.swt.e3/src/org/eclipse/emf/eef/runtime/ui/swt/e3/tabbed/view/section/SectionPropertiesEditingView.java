@@ -23,7 +23,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.internal.view.util.Descripto
 import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.internal.view.util.ValidationMessageInjector;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.view.handlers.editingview.PropertiesEditingViewHandler;
-import org.eclipse.emf.eef.runtime.ui.swt.view.handlers.editingview.PropertiesEditingViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.ui.swt.view.handlers.editingview.PropertiesEditingViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.views.View;
@@ -240,8 +240,8 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 						control.dispose();
 					}
 				}
-				setViewServiceProvider(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getViewServiceProvider());
-				setToolkitPropertyEditorFactory(((PropertiesEditingViewHandlerProvider) viewHandler.getProvider()).getEEFToolkitProvider());
+				setViewServiceProvider(((PropertiesEditingViewHandlerFactory) viewHandler.getProvider()).getViewServiceProvider());
+				setToolkitPropertyEditorFactory(((PropertiesEditingViewHandlerFactory) viewHandler.getProvider()).getEEFToolkitProvider());
 				createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
 				parentComposite.layout();
 				viewHandler.initView(editingComponent);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.ReflectViewHandlerProvider">
-   <implementation class="org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider"/>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.ReflectViewHandlerFactory">
+   <implementation class="org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerFactory"/>
    <service>
-      <provide interface="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider"/>
+      <provide interface="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory"/>
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
    </service>
    <reference bind="setLockManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider" name="EEFLockManagerProvider" policy="static"/>
