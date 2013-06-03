@@ -74,7 +74,10 @@ import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
+import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceProviderImpl;
+import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.ToolkitPropertyEditorProviderImpl;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
+import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.services.view.PlatformAwareViewServiceImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.services.logging.E3EEFLogger;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.services.resources.E3ImageManager;
@@ -92,6 +95,8 @@ import org.eclipse.emf.eef.runtime.ui.swt.view.lock.EditingViewLockManager;
 import org.eclipse.emf.eef.runtime.ui.swt.view.notify.EditingViewNotifier;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitPropertyEditorProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.ToolkitPropertyEditorImpl;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
@@ -224,6 +229,7 @@ public class EEFTestEnvironment {
 
 		private EditingContextFactoryProvider contextFactoryProvider;
 		private EMFServiceProvider emfServiceProvider;
+		private ViewServiceProvider viewServiceProvider;
 		private EEFEditingServiceProvider eefEditingServiceProvider;
 		private EEFNotifierProvider eefNotifierProvider;
 		private EEFLockPolicyFactoryProvider lockPolicyFactoryProvider;
@@ -231,6 +237,8 @@ public class EEFTestEnvironment {
 		private PropertiesEditingPolicyProvider editingPolicyProvider;
 		private EditingPolicyRequestFactoryProvider policyRequestFactoryProvider;
 		private EditingPolicyProcessorProvider policyProcessorProvider;
+
+		private ToolkitPropertyEditorProvider toolkitPropertyEditorProvider;
 		
 		private ModelChangesNotificationManager notificationManager;
 
@@ -238,6 +246,8 @@ public class EEFTestEnvironment {
 		private PropertiesEditingContext editingContext;
 
 		private BindingManagerProvider bindingManagerProvider;
+
+
 
 
 		public Builder() {
@@ -315,6 +325,13 @@ public class EEFTestEnvironment {
 			}
 			return eefEditingServiceProvider;
 		}
+
+		public ViewServiceProvider getViewServiceProvider() {
+			if (viewServiceProvider == null) {
+				viewServiceProvider = createViewServiceProvider();
+			}
+			return viewServiceProvider;
+		}
 		
 		public EEFNotifierProvider getEEFNotifierProvider() {
 			if (eefNotifierProvider == null) {
@@ -335,6 +352,13 @@ public class EEFTestEnvironment {
 				lockManagerProvider = createLockManagerProvider();
 			}
 			return lockManagerProvider;
+		}
+
+		public ToolkitPropertyEditorProvider getToolkitPropertyEditorProvider() {
+			if (toolkitPropertyEditorProvider == null) {
+				toolkitPropertyEditorProvider = createToolkitPropertyEditorProvider();
+			}
+			return toolkitPropertyEditorProvider;
 		}
 
 		/**
@@ -679,7 +703,7 @@ public class EEFTestEnvironment {
 				}
 			}
 			if (!preloadedServices.contains(ToolkitPropertyEditorImpl.class)) {
-				for (EEFServiceDescriptor<ToolkitPropertyEditorImpl<Composite>> desc : createEditorProviders()) {
+				for (EEFServiceDescriptor<ToolkitPropertyEditor<Composite>> desc : createEditorProviders()) {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
 				}
 			}
@@ -959,8 +983,8 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
-		public Collection<EEFServiceDescriptor<ToolkitPropertyEditorImpl<Composite>>> createEditorProviders() {
-			Collection<EEFServiceDescriptor<ToolkitPropertyEditorImpl<Composite>>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ToolkitPropertyEditorImpl<Composite>>>();
+		public Collection<EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>> createEditorProviders() {
+			Collection<EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>>();
 			SWTPlatformAwareToolkit swtToolkit = new SWTPlatformAwareToolkit() {
 
 				/**
@@ -976,7 +1000,7 @@ public class EEFTestEnvironment {
 
 			};
 			swtToolkit.setBindingManagerProvider(getBindingManagerProvider());
-			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorImpl<Composite>>("toolkitservice.swt", swtToolkit));
+			result.add(new EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>("toolkitservice.swt", swtToolkit));
 			EMFPropertiesPlatformAwareToolkit emfPropertiesToolkit = new EMFPropertiesPlatformAwareToolkit() {
 
 				/**
@@ -992,7 +1016,7 @@ public class EEFTestEnvironment {
 
 			};
 			emfPropertiesToolkit.setBindingManagerProvider(getBindingManagerProvider());
-			result.add(new EEFServiceDescriptor<ToolkitPropertyEditorImpl<Composite>>("toolkitservice.emfproperties", emfPropertiesToolkit));
+			result.add(new EEFServiceDescriptor<ToolkitPropertyEditor<Composite>>("toolkitservice.emfproperties", emfPropertiesToolkit));
 			return result;
 		}
 
@@ -1079,6 +1103,8 @@ public class EEFTestEnvironment {
 
 			};
 			service3.setBindingManagerProvider(getBindingManagerProvider());
+			service3.setViewServiceProvider(getViewServiceProvider());
+			service3.setToolkitPropertyEditorProvider(getToolkitPropertyEditorProvider());
 			desc = new EEFServiceDescriptor<ViewHandlerProvider>(PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME, service3, SWT_VIEW_HANDLER_PROVIDER_NAME);
 			result.add(desc);
 			return result;
@@ -1296,6 +1322,20 @@ public class EEFTestEnvironment {
 			return result;
 		}
 		
+		private ViewServiceProvider createViewServiceProvider() {
+			ViewServiceProviderImpl result = new ViewServiceProviderImpl();
+			for (EEFServiceDescriptor<ViewService> eefServiceDescriptor : createViewServices()) {
+				try {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					result.addService(eefServiceDescriptor.service, properties);
+				} catch (PriorityCircularityException e) {
+					e.printStackTrace();
+				}
+			}
+			return result;
+		}
+		
 		public EEFEditingServiceProvider createEEFEditingServiceProvider() {
 			EEFEditingServiceProviderImpl result = new EEFEditingServiceProviderImpl();
 			for (EEFServiceDescriptor<EEFEditingService> eefServiceDescriptor : createEEFEditingServices()) {
@@ -1351,6 +1391,22 @@ public class EEFTestEnvironment {
 			}
 			return managerProvider;
 		}
+
+		public ToolkitPropertyEditorProvider createToolkitPropertyEditorProvider() {
+			ToolkitPropertyEditorProviderImpl result = new ToolkitPropertyEditorProviderImpl();
+
+			for (EEFServiceDescriptor<ToolkitPropertyEditor<Composite>> eefServiceDescriptor : createEditorProviders()) {
+				try {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					result.addService(eefServiceDescriptor.service, properties);
+				} catch (PriorityCircularityException e) {
+					//Shouldn't occur
+				}
+			}
+			return result;
+		}
+
 
 		public EditingPolicyRequestFactoryProvider createPolicyRequestFactoryProvider() {
 			EditingPolicyRequestFactoryProviderImpl result = new EditingPolicyRequestFactoryProviderImpl();
@@ -1522,33 +1578,4 @@ public class EEFTestEnvironment {
 		
 	}
 
-	
-	private static class ContextInstance implements ComponentInstance {
-
-		private PropertiesEditingContext context;
-		
-		/**
-		 * @param context
-		 */
-		public ContextInstance(PropertiesEditingContext context) {
-			this.context = context;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * @see org.osgi.service.component.ComponentInstance#getInstance()
-		 */
-		public Object getInstance() {
-			return context;
-		}
-		
-		/**
-		 * {@inheritDoc}
-		 * @see org.osgi.service.component.ComponentInstance#dispose()
-		 */
-		public void dispose() {
-			context.dispose();
-		}
-		
-	}
 }
