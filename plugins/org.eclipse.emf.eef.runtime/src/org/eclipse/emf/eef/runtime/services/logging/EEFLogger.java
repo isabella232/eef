@@ -3,13 +3,12 @@
  */
 package org.eclipse.emf.eef.runtime.services.logging;
 
-import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface EEFLogger extends EEFService<Object> {
+public interface EEFLogger {
 	
 	/**
 	 * Logs a warning.

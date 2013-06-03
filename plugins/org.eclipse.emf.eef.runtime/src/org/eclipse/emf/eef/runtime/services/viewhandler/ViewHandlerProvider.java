@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.services.viewhandler;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
+import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 
 /**
@@ -22,12 +23,14 @@ public interface ViewHandlerProvider extends EEFService<Object> {
 	ViewHandler<?> getHandler(PropertiesEditingComponent component, Object view);
 	
 	/**
-	 * Returns the best {@link EEFLockManager} for the given view.
-	 * @param component {@link PropertiesEditingComponent} requests the {@link ViewHandler}. 
-	 * @param view the view to manage.
-	 * @return the {@link EEFLockManager} to use.
+	 * Returns a LockManager able to manage the given view.
+	 * @param view the View to manager.
+	 * @return the {@link EEFLockManager} able to manager the given view. 
 	 */
-	EEFLockManager getLockManager(PropertiesEditingComponent component, Object view);
+	EEFLockManager getLockManager(Object view);
 
-	
+	/**
+	 * @return the {@link EEFLogger} in the current configuration. 
+	 */
+	EEFLogger getLogger();
 }

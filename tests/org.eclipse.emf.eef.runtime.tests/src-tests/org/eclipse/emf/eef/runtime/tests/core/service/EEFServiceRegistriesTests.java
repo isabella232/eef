@@ -27,6 +27,7 @@ import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
+import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewConstructionException;
@@ -165,9 +166,17 @@ public class EEFServiceRegistriesTests {
 		
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getLockManager(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getLockManager(java.lang.Object)
 		 */
-		public EEFLockManager getLockManager(PropertiesEditingComponent component, Object view) {
+		public EEFLockManager getLockManager(Object view) {
+			return null;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getLogger()
+		 */
+		public EEFLogger getLogger() {
 			return null;
 		}
 

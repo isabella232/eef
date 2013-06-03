@@ -51,11 +51,4 @@ public interface PropertiesBindingManager extends EEFService<PropertiesEditingCo
 	 */
 	void initLockPolicies(PropertiesEditingComponent editingComponent);
 	
-	/**
-	 * Returns a LockManager able to manage the given view.
-	 * @param view the View to manager.
-	 * @return the {@link EEFLockManager} able to manager the given view. 
-	 */
-	EEFLockManager getLockManager(Object view);
-
 }

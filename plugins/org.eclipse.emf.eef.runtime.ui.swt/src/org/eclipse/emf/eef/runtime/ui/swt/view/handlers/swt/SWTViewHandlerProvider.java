@@ -3,12 +3,13 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.view.handlers.swt;
 
-import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
+import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
+import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -17,13 +18,21 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class SWTViewHandlerProvider extends AbstractEEFService<Object> implements ViewHandlerProvider {
 	
-	private BindingManagerProvider bindingManagerProvider;
+	private EEFLockManagerProvider lockManagerProvider;
+	private EEFLogger logger;
+	
+	/**
+	 * @param lockManagerProvider the lockManagerProvider to set
+	 */
+	public void setLockManagerProvider(EEFLockManagerProvider lockManagerProvider) {
+		this.lockManagerProvider = lockManagerProvider;
+	}
 
 	/**
-	 * @param bindingManagerProvider the bindingManagerProvider to set
+	 * @param logger the logger to set
 	 */
-	public void setBindingManagerProvider(BindingManagerProvider bindingManagerProvider) {
-		this.bindingManagerProvider = bindingManagerProvider;
+	public void setLogger(EEFLogger logger) {
+		this.logger = logger;
 	}
 
 	/**
@@ -62,10 +71,18 @@ public class SWTViewHandlerProvider extends AbstractEEFService<Object> implement
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getLockManager(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getLockManager(java.lang.Object)
 	 */
-	public EEFLockManager getLockManager(PropertiesEditingComponent component, Object view) {
-		return bindingManagerProvider.getBindingManager(component).getLockManager(view);
+	public EEFLockManager getLockManager(Object view) {
+		return lockManagerProvider.getLockManager(view);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerProvider#getLogger()
+	 */
+	public EEFLogger getLogger() {
+		return logger;
 	}
 
 }

@@ -244,9 +244,7 @@ public class EEFTestEnvironment {
 		private EditUIProvidersFactory editUIProvidersFactory;
 		private ImageManager imageManager;
 
-
-
-
+		private EEFLogger logger;
 
 		public Builder() {
 			sampleModel = null;
@@ -350,6 +348,13 @@ public class EEFTestEnvironment {
 				lockManagerProvider = createLockManagerProvider();
 			}
 			return lockManagerProvider;
+		}
+		
+		public EEFLogger getLogger() {
+			if (logger == null) {
+				logger = createLogger();
+			}
+			return logger;
 		}
 
 		public ToolkitPropertyEditorProvider getToolkitPropertyEditorProvider() {
@@ -754,11 +759,6 @@ public class EEFTestEnvironment {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
 				}
 			}
-			if (!preloadedServices.contains(EEFLogger.class)) {
-				for (EEFServiceDescriptor<EEFLogger> desc : createEEFLogger()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
 			return eefServices;
 		}
 
@@ -1073,7 +1073,8 @@ public class EEFTestEnvironment {
 				}
 
 			};
-			service.setBindingManagerProvider(getBindingManagerProvider());
+			service.setLockManagerProvider(getLockManagerProvider());
+			service.setLogger(getLogger());
 			EEFServiceDescriptor<ViewHandlerProvider> desc = new EEFServiceDescriptor<ViewHandlerProvider>(REFLECT_VIEW_HANDLER_PROVIDER_NAME, service);
 			result.add(desc);
 			SWTViewHandlerProvider service2 = new SWTViewHandlerProvider() {
@@ -1090,7 +1091,8 @@ public class EEFTestEnvironment {
 				}
 
 			};
-			service2.setBindingManagerProvider(getBindingManagerProvider());
+			service2.setLockManagerProvider(getLockManagerProvider());
+			service2.setLogger(getLogger());
 			desc = new EEFServiceDescriptor<ViewHandlerProvider>(SWT_VIEW_HANDLER_PROVIDER_NAME, service2, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
 			result.add(desc);
 			PlatformAwarePropertiesEditingViewHandlerProvider service3 = new PlatformAwarePropertiesEditingViewHandlerProvider() {
@@ -1107,9 +1109,10 @@ public class EEFTestEnvironment {
 				}
 
 			};
-			service3.setBindingManagerProvider(getBindingManagerProvider());
 			service3.setViewServiceProvider(getViewServiceProvider());
 			service3.setToolkitPropertyEditorProvider(getToolkitPropertyEditorProvider());
+			service3.setLockManagerProvider(getLockManagerProvider());
+			service3.setLogger(getLogger());
 			desc = new EEFServiceDescriptor<ViewHandlerProvider>(PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME, service3, SWT_VIEW_HANDLER_PROVIDER_NAME);
 			result.add(desc);
 			return result;
@@ -1249,26 +1252,6 @@ public class EEFTestEnvironment {
 			return new E3ImageManager();
 		}
 
-		public Collection<EEFServiceDescriptor<EEFLogger>> createEEFLogger() {
-			Collection<EEFServiceDescriptor<EEFLogger>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EEFLogger>>();
-			EEFServiceDescriptor<EEFLogger> desc = new EEFServiceDescriptor<EEFLogger>("eeflogger.e3", new E3EEFLogger() { 
-
-				/**
-				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
-				 */
-				@Override
-				public Collection<String> providedServices() {
-					Collection<String> result = new ArrayList<String>();
-					result.add(EEFLogger.class.getName());
-					return result;
-				}
-
-			});
-			result.add(desc);
-			return result;
-		}
-		
 		public EditingContextFactoryProvider createContextFactoryProvider() {
 			EditingContextFactoryProviderImpl contextFactoryProvider = new EditingContextFactoryProviderImpl();
 			try {
@@ -1363,6 +1346,10 @@ public class EEFTestEnvironment {
 				}
 			}
 			return managerProvider;
+		}
+		
+		public EEFLogger createLogger() {
+			return new E3EEFLogger();
 		}
 
 		public ToolkitPropertyEditorProvider createToolkitPropertyEditorProvider() {

@@ -84,7 +84,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 				//NOTE: Silent catch
 			}
 		}
-		EEFLockManager lockManager = handlerProvider.getLockManager(component, view);
+		EEFLockManager lockManager = handlerProvider.getLockManager(view);
 		lockManager.initView(view);
 	}
 

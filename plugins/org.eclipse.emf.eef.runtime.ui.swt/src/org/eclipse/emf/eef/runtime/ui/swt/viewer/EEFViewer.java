@@ -141,7 +141,7 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 						handler.initView(component);
 						item.setControl(view.getContents());
 					} catch (ViewConstructionException e) {
-						EEFLogger logger = handler.getProvider().getServiceRegistry().getService(EEFLogger.class, this);
+						EEFLogger logger = handler.getProvider().getLogger();
 						logger.logError("org.eclipse.emf.eef.runtime.ui.swt", "An error occured during view creation.", e);
 					}
 				}
@@ -155,7 +155,7 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 					swtViewHandler.createView(viewComposite);
 					handler.initView(component);
 				} catch (ViewConstructionException e) {
-					EEFLogger logger = handler.getProvider().getServiceRegistry().getService(EEFLogger.class, this);
+					EEFLogger logger = handler.getProvider().getLogger();
 					logger.logError("org.eclipse.emf.eef.runtime.ui.swt", "An error occured during view creation.", e);
 				}
 				item.setControl(viewComposite);
