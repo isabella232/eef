@@ -74,7 +74,7 @@ public class WizardEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 	 */
 	@Override
 	protected Command convertToCommand(DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyRequest behavior) {
-		Object newValue = behavior.getNewIndex();
+		Object newValue = behavior.getValue();
 		switch (behavior.getProcessingKind()) {
 		case EDIT:
 			if (newValue != null) {
