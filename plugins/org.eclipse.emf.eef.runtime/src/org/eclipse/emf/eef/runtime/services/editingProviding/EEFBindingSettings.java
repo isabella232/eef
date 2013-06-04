@@ -20,7 +20,7 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  * 
  */
-public interface PropertiesEditingProvider extends EEFService<EPackage> {
+public interface EEFBindingSettings extends EEFService<EPackage> {
 	
 	/**
 	 * @return the EMFServiceProvider in use in the current editing provider.
@@ -66,7 +66,7 @@ public interface PropertiesEditingProvider extends EEFService<EPackage> {
 	ViewHandlerFactory getViewHandlerFactory(Object view);
 
 	/**
-	 * Defines the {@link ModelChangesNotificationManager} to use in the current {@link PropertiesEditingProviderRegistry}
+	 * Defines the {@link ModelChangesNotificationManager} to use in the current {@link EEFBindingSettings}
 	 * @param notificationManager {@link ModelChangesNotificationManager} to set.
 	 */
 	void setNotificationManager(ModelChangesNotificationManager notificationManager);

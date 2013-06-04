@@ -39,8 +39,8 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
+import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettingsImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
@@ -147,11 +147,11 @@ public class FeatureDocumentationTests {
 		ViewsRepository viewRepository = generateViewsRepository();
 		eclassView = viewRepository.getViews().get(0);
 		nameEditor = (ElementEditor)eclassView.getElements().get(0);
-		PropertiesEditingProviderImpl editingProvider = new PropertiesEditingProviderImpl() {
+		EEFBindingSettingsImpl bindingSettings = new EEFBindingSettingsImpl() {
 			
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl#getEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettingsImpl#getEditingModel()
 			 */
 			@Override
 			protected PropertiesEditingModel getEditingModel() {
@@ -168,7 +168,7 @@ public class FeatureDocumentationTests {
 
 
 		};
-		editingProvider.setBindingManagerProvider(createBindingManagerProvider());
+		bindingSettings.setBindingManagerProvider(createBindingManagerProvider());
 		EMFServiceProviderImpl emfServiceProvider = new EMFServiceProviderImpl();
 		try {
 			Map<String, String> properties = new HashMap<String, String>();
@@ -177,15 +177,15 @@ public class FeatureDocumentationTests {
 		} catch (PriorityCircularityException e) {
 			e.printStackTrace();
 		}
-		editingProvider.setEMFServiceProvider(emfServiceProvider);
-		Collection<PropertiesEditingProvider> providers = new ArrayList<PropertiesEditingProvider>();
-		providers.add(editingProvider);
+		bindingSettings.setEMFServiceProvider(emfServiceProvider);
+		Collection<EEFBindingSettings> providers = new ArrayList<EEFBindingSettings>();
+		providers.add(bindingSettings);
 		Collection<EEFServiceDescriptor<? extends EEFService<Object>>> specificProviders = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<? extends EEFService<Object>>>();
 		
-		specificProviders.add((EEFServiceDescriptor<? extends EEFService<Object>>) new EEFServiceDescriptor<PropertiesEditingProvider>("specificEditingProvider", editingProvider));
+		specificProviders.add((EEFServiceDescriptor<? extends EEFService<Object>>) new EEFServiceDescriptor<EEFBindingSettings>("specificBindingSettings", bindingSettings));
 
 		Builder builder = new EEFTestEnvironment.Builder()
-													.setPreloadedService(PropertiesEditingProvider.class, specificProviders)
+													.setPreloadedService(EEFBindingSettings.class, specificProviders)
 													.setEditedObject(EcoreFactory.eINSTANCE.createEClass());
 		return builder.build();
 	}

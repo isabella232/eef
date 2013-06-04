@@ -14,11 +14,11 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.internal.services.bindingSettings.AbstractEEFBindingSettings;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
@@ -31,7 +31,7 @@ import com.google.common.collect.Lists;
  */
 public class PropertiesEditingComponentImpl implements PropertiesEditingComponent {
 
-	private PropertiesEditingProvider editingProvider;
+	private EEFBindingSettings bindingSettings;
 	private EObject source;
 	private PropertiesEditingContext editingContext;
 	private PropertiesEditingModel editingModel;
@@ -41,11 +41,11 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	private List<PropertiesEditingListener> listeners;
 	
 	/**
-	 * @param editingProvider {@link AbstractPropertiesEditingProvider} providing this component.
+	 * @param bindingSettings {@link AbstractEEFBindingSettings} providing this component.
 	 * @param source
 	 */
-	public PropertiesEditingComponentImpl(PropertiesEditingProvider editingProvider, EObject source) {
-		this.editingProvider = editingProvider;
+	public PropertiesEditingComponentImpl(EEFBindingSettings bindingSettings, EObject source) {
+		this.bindingSettings = bindingSettings;
 		this.source = source;
 		this.listeners = Lists.newArrayList();
 		this.viewHandlers = Lists.newArrayList();
@@ -84,7 +84,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @processing
 	 */
 	public EditingModelEnvironment getEditingModelEnvironment() {
-		return editingProvider.getEditingModelEnvironment();
+		return bindingSettings.getEditingModelEnvironment();
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 */
 	public PropertiesEditingModel getEditingModel() {
 		if (editingModel == null) {
-			editingModel = editingProvider.getEditingModel(source);
+			editingModel = bindingSettings.getEditingModel(source);
 		}
 		return editingModel;
 	}
@@ -159,7 +159,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#enableLockPolicy(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy)
 	 */
 	public boolean enableLockPolicy(EEFLockPolicy lockPolicy) {
-		return editingProvider.enableLockPolicy(lockPolicy);
+		return bindingSettings.enableLockPolicy(lockPolicy);
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 */
 	public ViewChangeNotifier getViewChangeNotifier() {
 		if (viewChangeNotifier == null) {
-			viewChangeNotifier = new ViewChangeNotifier(editingProvider.getBindingManagerProvider(), this);
+			viewChangeNotifier = new ViewChangeNotifier(bindingSettings.getBindingManagerProvider(), this);
 		}
 		return viewChangeNotifier;
 	}
@@ -184,7 +184,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 			registerViewHandler(specifiedHandler);
 			return specifiedHandler;
 		} else {
-			ViewHandlerFactory viewHandlerFactory = editingProvider.getViewHandlerFactory(view);
+			ViewHandlerFactory viewHandlerFactory = bindingSettings.getViewHandlerFactory(view);
 			if (viewHandlerFactory != null) {
 				ViewHandler<?> handler = viewHandlerFactory.getHandler(this, view);
 				if (handler != null) {
@@ -262,9 +262,9 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		for (ViewHandler<?> handler : handlers) {
 			handler.dispose();
 		}
-		editingProvider.disposeComponent(this);
+		bindingSettings.disposeComponent(this);
 		// Making a blank component to be sure to not reuse it!
-		editingProvider = null;
+		bindingSettings = null;
 		source = null;
 		editingContext = null;
 		editingModel = null;

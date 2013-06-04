@@ -12,7 +12,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 
@@ -149,7 +149,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 			EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 			Notifier highestNotifier = emfService.highestNotifier(eObject);
 			notificationManager.initModelChangesNotifierIfNeeded(highestNotifier);
-			PropertiesEditingProvider provider = serviceRegistry.getService(PropertiesEditingProvider.class, eObject.eClass().getEPackage());
+			EEFBindingSettings provider = serviceRegistry.getService(EEFBindingSettings.class, eObject.eClass().getEPackage());
 			provider.setNotificationManager(notificationManager);
 			component = provider.createComponent(eObject);
 			component.setEditingContext(this);

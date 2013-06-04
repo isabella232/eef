@@ -3,17 +3,17 @@
  */
 package org.eclipse.emf.samples.conference.providers;
 
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
+import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettingsImpl;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ConferencePropertiesEditingProvider extends PropertiesEditingProviderImpl {
+public class ConferenceEEFBindingSettings extends EEFBindingSettingsImpl {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl#getEditingModelPath()
+	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettingsImpl#getEditingModelPath()
 	 */
 	
 	protected String getEditingModelPath() {

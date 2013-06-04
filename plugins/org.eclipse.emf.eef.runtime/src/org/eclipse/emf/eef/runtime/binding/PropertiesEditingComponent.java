@@ -12,7 +12,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.internal.services.editingProvider.AbstractPropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.internal.services.bindingSettings.AbstractEEFBindingSettings;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
@@ -43,7 +43,7 @@ public interface PropertiesEditingComponent {
 	void setEditingContext(PropertiesEditingContext editingContext);
 	
 	/**
-	 * @return the {@link EditingModelEnvironment} of the {@link AbstractPropertiesEditingProvider} that provided this component.
+	 * @return the {@link EditingModelEnvironment} of the {@link AbstractEEFBindingSettings} that provided this component.
 	 * 
 	 */
 	EditingModelEnvironment getEditingModelEnvironment();

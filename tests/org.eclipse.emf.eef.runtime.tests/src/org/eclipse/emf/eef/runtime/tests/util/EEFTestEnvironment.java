@@ -63,8 +63,8 @@ import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl;
+import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettingsImpl;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
@@ -735,8 +735,8 @@ public class EEFTestEnvironment {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
 				}
 			}
-			if (!preloadedServices.contains(PropertiesEditingProvider.class)) {
-				for (EEFServiceDescriptor<PropertiesEditingProvider> desc : createEditingProviders()) {
+			if (!preloadedServices.contains(EEFBindingSettings.class)) {
+				for (EEFServiceDescriptor<EEFBindingSettings> desc : createBindingSettings()) {
 					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
 				}
 			}
@@ -1036,13 +1036,13 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
-		public Collection<EEFServiceDescriptor<PropertiesEditingProvider>> createEditingProviders() {
-			Collection<EEFServiceDescriptor<PropertiesEditingProvider>> result = new ArrayList<EEFServiceDescriptor<PropertiesEditingProvider>>();
-			PropertiesEditingProviderImpl editingProviderImpl = new PropertiesEditingProviderImpl() {
+		public Collection<EEFServiceDescriptor<EEFBindingSettings>> createBindingSettings() {
+			Collection<EEFServiceDescriptor<EEFBindingSettings>> result = new ArrayList<EEFServiceDescriptor<EEFBindingSettings>>();
+			EEFBindingSettingsImpl bindingSettings = new EEFBindingSettingsImpl() {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProviderImpl#getEditingModel()
+				 * @see org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettingsImpl#getEditingModel()
 				 */
 				@Override
 				protected PropertiesEditingModel getEditingModel() {
@@ -1056,16 +1056,16 @@ public class EEFTestEnvironment {
 				@Override
 				public Collection<String> providedServices() {
 					List<String> result = new ArrayList<String>();
-					result.add(PropertiesEditingProvider.class.getName());
+					result.add(EEFBindingSettings.class.getName());
 					return result;
 				}
 
 
 			};
-			editingProviderImpl.setEMFServiceProvider(getEMFServiceProvider());
-			editingProviderImpl.setBindingManagerProvider(getBindingManagerProvider());
-			editingProviderImpl.setViewHandlerFactoryProvider(getViewHandlerFactoryProvider());
-			result.add(new EEFServiceDescriptor<PropertiesEditingProvider>("propertieseditingprovider.default", editingProviderImpl));
+			bindingSettings.setEMFServiceProvider(getEMFServiceProvider());
+			bindingSettings.setBindingManagerProvider(getBindingManagerProvider());
+			bindingSettings.setViewHandlerFactoryProvider(getViewHandlerFactoryProvider());
+			result.add(new EEFServiceDescriptor<EEFBindingSettings>("propertieseditingprovider.default", bindingSettings));
 			return result;
 		}
 

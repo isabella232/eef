@@ -11,7 +11,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider;
+import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
@@ -47,9 +47,9 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 			Object firstElement = ((StructuredSelection) selection).getFirstElement();
 			if (firstElement instanceof EObject) {
 				EObject editedEObject = (EObject)firstElement;
-				PropertiesEditingProvider editingProvider = serviceRegistry.getService(PropertiesEditingProvider.class, editedEObject.eClass().getEPackage());
-				if (editingProvider != null) {
-					PropertiesEditingModel editingModel = editingProvider.getEditingModel(editedEObject);
+				EEFBindingSettings bindingSettings = serviceRegistry.getService(EEFBindingSettings.class, editedEObject.eClass().getEPackage());
+				if (bindingSettings != null) {
+					PropertiesEditingModel editingModel = bindingSettings.getEditingModel(editedEObject);
 					if (editingModel != null) {
 						binding = editingModel.binding(editedEObject);
 						if (binding != null) {
