@@ -15,12 +15,12 @@ import org.eclipse.swt.widgets.Composite;
 public class SWTViewHandler extends ReflectViewHandler<Composite> {
 
 	/**
-	 * @param handlerProvider
+	 * @param handlerFactory
 	 * @param editingComponent 
 	 * @param viewClass
 	 */
-	public SWTViewHandler(ViewHandlerFactory handlerProvider, PropertiesEditingComponent editingComponent, Class<? extends Composite> viewClass) {
-		super(handlerProvider, editingComponent, viewClass);
+	public SWTViewHandler(ViewHandlerFactory handlerFactory, PropertiesEditingComponent editingComponent, Class<? extends Composite> viewClass) {
+		super(handlerFactory, editingComponent, viewClass);
 	}
 
 	/**

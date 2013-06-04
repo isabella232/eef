@@ -24,12 +24,12 @@ public class CustomSWTViewHandler extends SWTViewHandler {
 	private ReflectHelper<Composite> helper;
 
 	/**
-	 * @param handlerProvider
+	 * @param handlerFactory
 	 * @param editingComponent
 	 * @param viewClass
 	 */
-	public CustomSWTViewHandler(ViewHandlerFactory handlerProvider, PropertiesEditingComponent editingComponent, Class<? extends Composite> viewClass) {
-		super(handlerProvider, editingComponent, viewClass);
+	public CustomSWTViewHandler(ViewHandlerFactory handlerFactory, PropertiesEditingComponent editingComponent, Class<? extends Composite> viewClass) {
+		super(handlerFactory, editingComponent, viewClass);
 	}
 
 	/**

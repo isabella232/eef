@@ -21,12 +21,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditingViewHandler {
 
 	/**
-	 * @param handlerProvider
+	 * @param handlerFactory
 	 * @param editingComponent
 	 * @param viewDescriptor
 	 */
-	public PlatformAwarePropertiesEditingViewHandler(PlatformAwarePropertiesEditingViewHandlerFactory handlerProvider, PropertiesEditingComponent editingComponent, View viewDescriptor) {
-		super(handlerProvider, editingComponent, viewDescriptor);
+	public PlatformAwarePropertiesEditingViewHandler(PlatformAwarePropertiesEditingViewHandlerFactory handlerFactory, PropertiesEditingComponent editingComponent, View viewDescriptor) {
+		super(handlerFactory, editingComponent, viewDescriptor);
 	}
 	
 	/**
@@ -40,13 +40,13 @@ public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditing
 				FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 				if (toolkit != null) {
 					view = new FormImplPropertiesEditingView(editingComponent, viewDescriptor);
-					view.setViewServiceProvider(handlerProvider.getViewServiceProvider());
-					view.setToolkitPropertyEditorFactory(handlerProvider.getEEFToolkitProvider());
+					view.setViewServiceProvider(handlerFactory.getViewServiceProvider());
+					view.setToolkitPropertyEditorFactory(handlerFactory.getEEFToolkitProvider());
 					((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[1]);
 				} else {
 					view = new SWTImplPropertiesEditingView(editingComponent, viewDescriptor);					
-					view.setViewServiceProvider(handlerProvider.getViewServiceProvider());
-					view.setToolkitPropertyEditorFactory(handlerProvider.getEEFToolkitProvider());
+					view.setViewServiceProvider(handlerFactory.getViewServiceProvider());
+					view.setToolkitPropertyEditorFactory(handlerFactory.getEEFToolkitProvider());
 					((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);
 				}
 			}

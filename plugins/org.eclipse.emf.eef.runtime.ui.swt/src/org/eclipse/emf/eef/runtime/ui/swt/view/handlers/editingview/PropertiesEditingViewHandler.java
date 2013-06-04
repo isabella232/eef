@@ -26,16 +26,16 @@ import org.eclipse.swt.widgets.Composite;
 public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditingView<Composite>> {
 
 	protected View viewDescriptor;
-	protected PropertiesEditingViewHandlerFactory handlerProvider;
+	protected PropertiesEditingViewHandlerFactory handlerFactory;
 	protected PropertiesEditingComponent editingComponent;
 	protected PropertiesEditingView<Composite> view;
 	
 	/**
-	 * @param handlerProvider 
+	 * @param handlerFactory 
 	 * @param viewDescriptor {@link View} to handle.
 	 */
-	public PropertiesEditingViewHandler(PropertiesEditingViewHandlerFactory handlerProvider, PropertiesEditingComponent editingComponent, View viewDescriptor) {
-		this.handlerProvider = handlerProvider;
+	public PropertiesEditingViewHandler(PropertiesEditingViewHandlerFactory handlerFactory, PropertiesEditingComponent editingComponent, View viewDescriptor) {
+		this.handlerFactory = handlerFactory;
 		this.editingComponent = editingComponent;
 		this.viewDescriptor = viewDescriptor;
 	}
@@ -56,8 +56,8 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 			if (args.length > 1 && args[0] instanceof PropertiesEditingComponent && args[1] instanceof Composite) {
 				PropertiesEditingComponent editingComponent = (PropertiesEditingComponent) args[0];
 				view = new SWTImplPropertiesEditingView(editingComponent, viewDescriptor);					
-				view.setViewServiceProvider(handlerProvider.getViewServiceProvider());
-				view.setToolkitPropertyEditorFactory(handlerProvider.getEEFToolkitProvider());
+				view.setViewServiceProvider(handlerFactory.getViewServiceProvider());
+				view.setToolkitPropertyEditorFactory(handlerFactory.getEEFToolkitProvider());
 				((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);
 			}
 		}
@@ -71,7 +71,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public void initView(PropertiesEditingComponent component) {
 		if (view != null) {
 			view.init();
-			EEFLockManager lockManager = handlerProvider.getLockManager(view);
+			EEFLockManager lockManager = handlerFactory.getLockManager(view);
 			lockManager.initView(view);
 		}
 	}
@@ -111,7 +111,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getProvider()
 	 */
 	public ViewHandlerFactory getProvider() {
-		return handlerProvider;
+		return handlerFactory;
 	}
 
 	/**

@@ -26,7 +26,7 @@ import org.eclipse.emf.eef.runtime.view.notify.impl.NullNotifier;
 public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	protected Class<? extends T> viewClass;
-	protected ViewHandlerFactory handlerProvider;
+	protected ViewHandlerFactory handlerFactory;
 	protected PropertiesEditingComponent editingComponent;
 
 	protected T view;
@@ -37,10 +37,10 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	 * @param editingComponent the {@link PropertiesEditingComponent} requesting this handler.
 	 * @param viewClass View class to handle.
 	 */
-	public ReflectViewHandler(ViewHandlerFactory handlerProvider, PropertiesEditingComponent editingComponent, final Class<? extends T> viewClass) {
+	public ReflectViewHandler(ViewHandlerFactory handlerFactory, PropertiesEditingComponent editingComponent, final Class<? extends T> viewClass) {
 		this.viewClass = viewClass;
 		this.editingComponent = editingComponent;
-		this.handlerProvider = handlerProvider;
+		this.handlerFactory = handlerFactory;
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 				//NOTE: Silent catch
 			}
 		}
-		EEFLockManager lockManager = handlerProvider.getLockManager(view);
+		EEFLockManager lockManager = handlerFactory.getLockManager(view);
 		lockManager.initView(view);
 	}
 
@@ -118,7 +118,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler#getProvider()
 	 */
 	public ViewHandlerFactory getProvider() {
-		return handlerProvider;
+		return handlerFactory;
 	}
 
 	/**
