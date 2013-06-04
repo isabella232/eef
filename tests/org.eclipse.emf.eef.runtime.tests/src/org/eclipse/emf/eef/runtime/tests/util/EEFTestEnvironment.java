@@ -46,6 +46,7 @@ import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceIm
 import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.services.viewhandler.ViewHandlerFactoryProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.view.lock.impl.EEFLockManagerProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EEFLockPolicyFactoryProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EMFEditAwareLockPolicyFactory;
@@ -70,6 +71,7 @@ import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactoryProvider;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
@@ -240,11 +242,13 @@ public class EEFTestEnvironment {
 		private PropertiesEditingContext editingContext;
 
 		private BindingManagerProvider bindingManagerProvider;
+		private ViewHandlerFactoryProvider viewHandlerFactoryProvider;
 
 		private EditUIProvidersFactory editUIProvidersFactory;
 		private ImageManager imageManager;
 
 		private EEFLogger logger;
+
 
 		public Builder() {
 			sampleModel = null;
@@ -306,6 +310,13 @@ public class EEFTestEnvironment {
 				contextFactoryProvider = createContextFactoryProvider();
 			}
 			return contextFactoryProvider;
+		}
+		
+		public ViewHandlerFactoryProvider getViewHandlerFactoryProvider() {
+			if (viewHandlerFactoryProvider == null) {
+				viewHandlerFactoryProvider = createViewHandlerFactoryProvider();
+			}
+			return viewHandlerFactoryProvider;
 		}
 		
 		public EMFServiceProvider getEMFServiceProvider() {
@@ -1053,7 +1064,22 @@ public class EEFTestEnvironment {
 			};
 			editingProviderImpl.setEMFServiceProvider(getEMFServiceProvider());
 			editingProviderImpl.setBindingManagerProvider(getBindingManagerProvider());
+			editingProviderImpl.setViewHandlerFactoryProvider(getViewHandlerFactoryProvider());
 			result.add(new EEFServiceDescriptor<PropertiesEditingProvider>("propertieseditingprovider.default", editingProviderImpl));
+			return result;
+		}
+
+		public ViewHandlerFactoryProvider createViewHandlerFactoryProvider() {
+			ViewHandlerFactoryProviderImpl result = new ViewHandlerFactoryProviderImpl();
+			for (EEFServiceDescriptor<ViewHandlerFactory> eefServiceDescriptor : createVHandlerFactories()) {
+				try {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					result.addService(eefServiceDescriptor.service, properties);
+				} catch (PriorityCircularityException e) {
+					e.printStackTrace();
+				}
+			}
 			return result;
 		}
 

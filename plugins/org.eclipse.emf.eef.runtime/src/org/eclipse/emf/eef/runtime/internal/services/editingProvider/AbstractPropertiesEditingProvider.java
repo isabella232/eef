@@ -22,6 +22,7 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactoryProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 import com.google.common.base.Function;
@@ -39,6 +40,7 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 	private EMFServiceProvider emfServiceProvider;
 	private BindingManagerProvider bindingManagerProvider;
 	private ModelChangesNotificationManager notificationManager;
+	private ViewHandlerFactoryProvider viewHandlerFactoryProvider;
 
 	private List<PropertiesEditingModel> editingModels;
 	private EditingModelEnvironment editingModelEnvironment;
@@ -66,6 +68,13 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 	}
 	
 	/**
+	 * @param viewHandlerFactoryProvider the viewHandlerFactoryProvider to set
+	 */
+	public void setViewHandlerFactoryProvider(ViewHandlerFactoryProvider viewHandlerFactoryProvider) {
+		this.viewHandlerFactoryProvider = viewHandlerFactoryProvider;
+	}
+
+	/**
 	 * @return the emfServiceProvider
 	 */
 	public EMFServiceProvider getEMFServiceProvider() {
@@ -84,7 +93,7 @@ public abstract class AbstractPropertiesEditingProvider extends AbstractEEFServi
 	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.PropertiesEditingProvider#getViewHandlerFactory(java.lang.Object)
 	 */
 	public ViewHandlerFactory getViewHandlerFactory(Object view) {
-		return serviceRegistry.getService(ViewHandlerFactory.class, view);
+		return viewHandlerFactoryProvider.getHandlerFactory(view);
 	}
 
 	/**
