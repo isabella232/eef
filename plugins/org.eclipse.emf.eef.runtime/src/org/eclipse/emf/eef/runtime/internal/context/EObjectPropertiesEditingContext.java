@@ -12,7 +12,8 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 
@@ -22,16 +23,18 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
  */
 public class EObjectPropertiesEditingContext implements PropertiesEditingContext {
 
+	protected EEFServiceRegistry serviceRegistry;
+	
+	private EMFServiceProvider emfServiceProvider;
+	private ModelChangesNotificationManager notificationManager;
+	private EEFBindingSettingsProvider bindingSettingsProvider;
+	
 	protected PropertiesEditingContext parentContext;
 	protected EObject eObject;
 	protected AdapterFactory adapterFactory;
 	protected ContextOptions options;
 
-	protected EEFServiceRegistry serviceRegistry;
-	private EMFServiceProvider emfServiceProvider;
-	
 	protected EditingRecorder editingRecorder;
-	private ModelChangesNotificationManager notificationManager;
 
 	private PropertiesEditingComponent component;
 	
@@ -61,6 +64,36 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setServiceRegistry(EMFServiceProvider)
+	 */
+	public void setServiceRegistry(EEFServiceRegistry emfServiceProvider) {
+		this.serviceRegistry = emfServiceProvider;
+	}
+
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setNotificationManager(ModelChangesNotificationManager)
+	 */
+	public void setNotificationManager(ModelChangesNotificationManager notificationManager) {
+		this.notificationManager = notificationManager;
+	}
+
+	/**
+	 * @param bindingSettingsProvider the bindingSettingsProvider to set
+	 */
+	public void setBindingSettingsProvider(EEFBindingSettingsProvider bindingSettingsProvider) {
+		this.bindingSettingsProvider = bindingSettingsProvider;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getServiceRegistry()
 	 */
 	public EEFServiceRegistry getServiceRegistry() {
@@ -87,29 +120,6 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setServiceRegistry(EMFServiceProvider)
-	 */
-	public void setServiceRegistry(EEFServiceRegistry emfServiceProvider) {
-		this.serviceRegistry = emfServiceProvider;
-	}
-
-	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
-	 */
-	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setNotificationManager(ModelChangesNotificationManager)
-	 */
-	public void setNotificationManager(ModelChangesNotificationManager notificationManager) {
-		this.notificationManager = notificationManager;
 	}
 
 	/**
@@ -149,7 +159,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 			EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 			Notifier highestNotifier = emfService.highestNotifier(eObject);
 			notificationManager.initModelChangesNotifierIfNeeded(highestNotifier);
-			EEFBindingSettings provider = serviceRegistry.getService(EEFBindingSettings.class, eObject.eClass().getEPackage());
+			EEFBindingSettings provider = bindingSettingsProvider.getBindingSettings(eObject.eClass().getEPackage());
 			provider.setNotificationManager(notificationManager);
 			component = provider.createComponent(eObject);
 			component.setEditingContext(this);

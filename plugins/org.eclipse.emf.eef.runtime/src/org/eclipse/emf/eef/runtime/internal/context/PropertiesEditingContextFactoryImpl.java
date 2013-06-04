@@ -14,6 +14,7 @@ import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
@@ -25,6 +26,7 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 
 	private EMFServiceProvider emfServiceProvider;
 	private ModelChangesNotificationManager notificationManager;
+	private EEFBindingSettingsProvider bindingSettingsProvider;
 
 	/**
 	 * @param emfServiceProvider the emfServiceProvider to set
@@ -52,6 +54,13 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 	}
 
 	/**
+	 * @param bindingSettingsProvider the bindingSettingsProvider to set
+	 */
+	public void setBindingSettingsProvider(EEFBindingSettingsProvider bindingSettingsProvider) {
+		this.bindingSettingsProvider = bindingSettingsProvider;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
@@ -65,7 +74,6 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 	 */
 	public PropertiesEditingContext createPropertiesEditingContext(AdapterFactory adapterFactory, EObject eObject) {
 		EObjectPropertiesEditingContext context = new EObjectPropertiesEditingContext(adapterFactory, eObject);
-		context.setEMFServiceProvider(emfServiceProvider);
 		configureEditingContext(context);
 		return context;
 	}
@@ -75,13 +83,11 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createPropertiesEditingContext(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject)
 	 */
 	public PropertiesEditingContext createPropertiesEditingContext(PropertiesEditingContext parentContext, EObject eObject) {
-		PropertiesEditingContext context;
+		EObjectPropertiesEditingContext context;
 		if (parentContext instanceof DomainAwarePropertiesEditingContext) {
 			context = new DomainPropertiesEditingContext(parentContext, eObject);
-			((EObjectPropertiesEditingContext) context).setEMFServiceProvider(emfServiceProvider);
 		} else if (parentContext instanceof EObjectPropertiesEditingContext) {
 			context = new EObjectPropertiesEditingContext(parentContext, eObject);
-			((EObjectPropertiesEditingContext) context).setEMFServiceProvider(emfServiceProvider);
 		} else {
 			throw new IllegalArgumentException("Unable to process this context as a parent");
 		}
@@ -95,7 +101,6 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 	 */
 	public PropertiesEditingContext createPropertiesEditingContext(AdapterFactoryEditingDomain domain, EObject eObject) {
 		DomainPropertiesEditingContext context = new DomainPropertiesEditingContext(domain, eObject);
-		((EObjectPropertiesEditingContext) context).setEMFServiceProvider(emfServiceProvider);
 		configureEditingContext(context);
 		return context;
 	}
@@ -106,7 +111,6 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 	 */
 	public PropertiesEditingContext createPropertiesEditingContext(EditingDomain domain, AdapterFactory adapterFactory, EObject eObject) {
 		DomainPropertiesEditingContext context = new DomainPropertiesEditingContext(domain, adapterFactory, eObject);
-		((EObjectPropertiesEditingContext) context).setEMFServiceProvider(emfServiceProvider);
 		configureEditingContext(context);
 		return context;
 	}
@@ -125,9 +129,11 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 		return context;
 	}
 
-	private void configureEditingContext(PropertiesEditingContext context) {
+	private void configureEditingContext(EObjectPropertiesEditingContext context) {
 		context.setServiceRegistry(serviceRegistry);
 		context.setNotificationManager(notificationManager);
+		context.setEMFServiceProvider(emfServiceProvider);
+		context.setBindingSettingsProvider(bindingSettingsProvider);
 	}
 
 }

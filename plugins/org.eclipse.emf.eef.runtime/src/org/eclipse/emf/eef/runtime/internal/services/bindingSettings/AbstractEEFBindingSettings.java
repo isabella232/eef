@@ -17,7 +17,7 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
@@ -61,7 +61,7 @@ public abstract class AbstractEEFBindingSettings extends AbstractEEFService<EPac
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings#setNotificationManager(ModelChangesNotificationManager)
+	 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings#setNotificationManager(ModelChangesNotificationManager)
 	 */
 	public void setNotificationManager(ModelChangesNotificationManager notificationManager) {
 		this.notificationManager = notificationManager;
@@ -90,7 +90,7 @@ public abstract class AbstractEEFBindingSettings extends AbstractEEFService<EPac
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings#getViewHandlerFactory(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings#getViewHandlerFactory(java.lang.Object)
 	 */
 	public ViewHandlerFactory getViewHandlerFactory(Object view) {
 		return viewHandlerFactoryProvider.getHandlerFactory(view);
@@ -147,7 +147,7 @@ public abstract class AbstractEEFBindingSettings extends AbstractEEFService<EPac
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings#createComponent(org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings#createComponent(org.eclipse.emf.ecore.EObject)
 	 */
 	public PropertiesEditingComponent createComponent(EObject target) {
 		PropertiesEditingComponent component = new PropertiesEditingComponentImpl(this, target);
@@ -158,7 +158,7 @@ public abstract class AbstractEEFBindingSettings extends AbstractEEFService<EPac
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void disposeComponent(PropertiesEditingComponent component) {
 		notificationManager.unregisterEditingComponent(component);
@@ -166,7 +166,7 @@ public abstract class AbstractEEFBindingSettings extends AbstractEEFService<EPac
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings#getEditingModelEnvironment()
+	 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings#getEditingModelEnvironment()
 	 */
 	public EditingModelEnvironment getEditingModelEnvironment() {
 		if (editingModelEnvironment == null) {
@@ -177,7 +177,7 @@ public abstract class AbstractEEFBindingSettings extends AbstractEEFService<EPac
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings#getEditingModel(org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings#getEditingModel(org.eclipse.emf.ecore.EObject)
 	 */
 	public final PropertiesEditingModel getEditingModel(EObject eObject) {
 		for (PropertiesEditingModel editingModel : getEditingModels()) {
@@ -212,7 +212,7 @@ public abstract class AbstractEEFBindingSettings extends AbstractEEFService<EPac
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings#enableLockPolicy(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy)
+	 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings#enableLockPolicy(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy)
 	 */
 	public boolean enableLockPolicy(EEFLockPolicy lockPolicy) {
 		return true;

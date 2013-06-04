@@ -61,10 +61,10 @@ import org.eclipse.emf.eef.runtime.policies.StandardPropertiesEditingPolicyProvi
 import org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsImpl;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
-import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings;
-import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettingsImpl;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
@@ -1042,7 +1042,7 @@ public class EEFTestEnvironment {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettingsImpl#getEditingModel()
+				 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsImpl#getEditingModel()
 				 */
 				@Override
 				protected PropertiesEditingModel getEditingModel() {

@@ -5,7 +5,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
@@ -25,8 +25,8 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	private static E3EEFRuntimeUIPlatformPlugin plugin;
 
 	private AdapterFactory adapterFactory;
-	private ServiceTracker eefServiceRegistryTracker;
 	private ServiceTracker editingContextFactoryProviderTracker;
+	private ServiceTracker bindingSettingsProviderTracker;
 	private ServiceTracker emfServiceProviderTracker;
 	private ServiceTracker viewServiceProviderTracker;
 	private ServiceTracker eefToolkitProviderTracker;
@@ -45,10 +45,10 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		eefServiceRegistryTracker = new ServiceTracker(context, EEFServiceRegistry.class.getName(), null);
-		eefServiceRegistryTracker.open();
 		editingContextFactoryProviderTracker = new ServiceTracker(context, EditingContextFactoryProvider.class.getName(), null);
 		editingContextFactoryProviderTracker.open();
+		bindingSettingsProviderTracker = new ServiceTracker(context, EEFBindingSettingsProvider.class.getName(), null);
+		bindingSettingsProviderTracker.open();
 		emfServiceProviderTracker = new ServiceTracker(context, EMFServiceProvider.class.getName(), null);
 		emfServiceProviderTracker.open();
 		viewServiceProviderTracker = new ServiceTracker(context, ViewServiceProvider.class.getName(), null);
@@ -64,8 +64,8 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-		eefServiceRegistryTracker.close();
 		editingContextFactoryProviderTracker.close();
+		bindingSettingsProviderTracker.close();
 		emfServiceProviderTracker.close();
 		viewServiceProviderTracker.close();
 		eefToolkitProviderTracker.close();
@@ -101,15 +101,15 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	/**
 	 * @return
 	 */
-	public EEFServiceRegistry getServiceRegistry() {
-		return (EEFServiceRegistry) eefServiceRegistryTracker.getService();
+	public EditingContextFactoryProvider getContextFactoryProvider() {
+		return (EditingContextFactoryProvider)editingContextFactoryProviderTracker.getService();
 	}
 	
 	/**
 	 * @return
 	 */
-	public EditingContextFactoryProvider getContextFactoryProvider() {
-		return (EditingContextFactoryProvider)editingContextFactoryProviderTracker.getService();
+	public EEFBindingSettingsProvider getBindingSettingsProvider() {
+		return (EEFBindingSettingsProvider) bindingSettingsProviderTracker.getService();
 	}
 	
 	/**

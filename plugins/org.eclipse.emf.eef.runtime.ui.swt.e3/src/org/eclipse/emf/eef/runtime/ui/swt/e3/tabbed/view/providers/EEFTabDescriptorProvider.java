@@ -10,8 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.editingProviding.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
@@ -42,12 +41,11 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 	 * @see org.eclipse.ui.views.properties.tabbed.ITabDescriptorProvider#getTabDescriptors(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
 	public ITabDescriptor[] getTabDescriptors(IWorkbenchPart part, ISelection selection) {
-		EEFServiceRegistry serviceRegistry = E3EEFRuntimeUIPlatformPlugin.getPlugin().getServiceRegistry();
 		if (selection instanceof StructuredSelection) {
 			Object firstElement = ((StructuredSelection) selection).getFirstElement();
 			if (firstElement instanceof EObject) {
 				EObject editedEObject = (EObject)firstElement;
-				EEFBindingSettings bindingSettings = serviceRegistry.getService(EEFBindingSettings.class, editedEObject.eClass().getEPackage());
+				EEFBindingSettings bindingSettings = E3EEFRuntimeUIPlatformPlugin.getPlugin().getBindingSettingsProvider().getBindingSettings(editedEObject.eClass().getEPackage());
 				if (bindingSettings != null) {
 					PropertiesEditingModel editingModel = bindingSettings.getEditingModel(editedEObject);
 					if (editingModel != null) {

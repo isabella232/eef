@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.services.editingProviding;
+package org.eclipse.emf.eef.runtime.services.bindingSettings;
 
 import java.util.Collection;
 
