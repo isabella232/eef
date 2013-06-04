@@ -35,6 +35,7 @@ public class PlatformResourceRegistryResourceBinding {
 
 	private PropertiesEditingContext editingContext;
 	private Resource platformEcoreResource;
+	private EEFTestEnvironment env;
 	
 	@Before
 	public void setUp() throws PriorityCircularityException {
@@ -44,7 +45,7 @@ public class PlatformResourceRegistryResourceBinding {
 		EClassBinding binding = EditingModelFactory.eINSTANCE.createEClassBinding();
 		binding.setEClass(getEClassFromEcoreFile());
 		pem.getBindings().add(binding);
-		EEFTestEnvironment env = new EEFTestEnvironment.Builder()
+		env = new EEFTestEnvironment.Builder()
 																.setEditingModel(pem)
 																.setEditedObject(EcoreFactory.eINSTANCE.createEClass())
 															.build();
@@ -57,7 +58,7 @@ public class PlatformResourceRegistryResourceBinding {
 	 */
 	@Test
 	public void testPlatformRegistryMapper() {
-		EMFService emfService = editingContext.getServiceRegistry().getService(EMFService.class, getEClassFromEcoreFile().eClass().getEPackage());
+		EMFService emfService = env.getEMFServiceProvider().getEMFService(getEClassFromEcoreFile().eClass().getEPackage());
 		EClass eClassifier = getEClassFromEcoreFile();
 		EClass eClass = ((EObject)editingContext.getEditingComponent().getEObject()).eClass();
 		boolean equals = emfService.equals(eClassifier, eClass);

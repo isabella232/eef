@@ -38,7 +38,6 @@ import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceProviderImpl;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFService;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
@@ -47,7 +46,6 @@ import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.EEFServiceDescriptor;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
-import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
@@ -83,7 +81,7 @@ public class FeatureDocumentationTests {
 	public void testEcoreDocumentation() {
 		EEFTestEnvironment env = buildEcoreSampleEditingContext();
 		PropertiesEditingComponent editingComponent = env.getEditingContext().getEditingComponent();
-		ViewService viewService = env.getServiceRegistry().getService(ViewService.class, eclassView);
+		ViewService viewService = env.getViewServiceProvider().getViewService(eclassView);
 		viewService.setEditingComponent(editingComponent);
 		assertSame("Invalid documentation", ECORE_DOCUMENTATION, viewService.getHelpContent(nameEditor));
 	}
@@ -130,7 +128,7 @@ public class FeatureDocumentationTests {
 	public void testGenmodelDocumentation() {
 		EEFTestEnvironment testenv = buildGenmodelEditingContext();
 		PropertiesEditingComponent editingComponent = testenv.getEditingContext().getEditingComponent();
-		ViewService viewService = testenv.getServiceRegistry().getService(ViewService.class, eclassView);
+		ViewService viewService = testenv.getViewServiceProvider().getViewService(eclassView);
 		viewService.setEditingComponent(editingComponent);
 		String helpContent = viewService.getHelpContent(nameEditor);
 		EditingModelEnvironment env = editingComponent.getEditingModelEnvironment();
@@ -196,9 +194,6 @@ public class FeatureDocumentationTests {
 			public PropertiesBindingManager getBindingManager(PropertiesEditingComponent editingComponent) {
 				return new PropertiesBindingManager() {
 					
-					public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-					}
-					
 					public boolean serviceFor(PropertiesEditingComponent element) {
 						return true;
 					}
@@ -207,19 +202,11 @@ public class FeatureDocumentationTests {
 						return null;
 					}
 					
-					public EEFServiceRegistry getServiceRegistry() {
-						return null;
-					}
-					
 					public void notifyChanged(PropertiesEditingComponent editingComponent, Notification msg) {
 						
 					}
 					
 					public void initLockPolicies(PropertiesEditingComponent editingComponent) {
-					}
-					
-					public EEFLockManager getLockManager(Object view) {
-						return null;
 					}
 					
 					public void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {

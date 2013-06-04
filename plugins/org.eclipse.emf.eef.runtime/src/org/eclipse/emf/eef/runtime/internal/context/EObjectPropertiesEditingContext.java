@@ -11,7 +11,6 @@ import org.eclipse.emf.eef.runtime.context.EditingRecorder;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
@@ -23,8 +22,6 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
  */
 public class EObjectPropertiesEditingContext implements PropertiesEditingContext {
 
-	protected EEFServiceRegistry serviceRegistry;
-	
 	private EMFServiceProvider emfServiceProvider;
 	private ModelChangesNotificationManager notificationManager;
 	private EEFBindingSettingsProvider bindingSettingsProvider;
@@ -63,14 +60,6 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	}
 	
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setServiceRegistry(EMFServiceProvider)
-	 */
-	public void setServiceRegistry(EEFServiceRegistry emfServiceProvider) {
-		this.serviceRegistry = emfServiceProvider;
-	}
-
-	/**
 	 * @param emfServiceProvider the emfServiceProvider to set
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
@@ -90,21 +79,6 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public void setBindingSettingsProvider(EEFBindingSettingsProvider bindingSettingsProvider) {
 		this.bindingSettingsProvider = bindingSettingsProvider;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getServiceRegistry()
-	 */
-	public EEFServiceRegistry getServiceRegistry() {
-		if (this.serviceRegistry != null) {
-			return serviceRegistry;
-		} else {
-			if (parentContext != null) {
-				return parentContext.getServiceRegistry();
-			}
-		}
-		return null;
 	}
 
 	/**

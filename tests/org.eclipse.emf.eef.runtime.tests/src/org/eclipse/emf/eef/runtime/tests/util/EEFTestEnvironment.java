@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +41,7 @@ import org.eclipse.emf.eef.runtime.internal.policies.processors.EditingPolicyPro
 import org.eclipse.emf.eef.runtime.internal.policies.request.EObjectEditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.internal.policies.request.EReferenceEditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.internal.policies.request.EditingPolicyRequestFactoryProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.services.bindingSettings.EEFBindingSettingsProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
@@ -60,14 +60,13 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.policies.StandardPropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.services.EEFService;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsImpl;
+import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
@@ -174,14 +173,6 @@ public class EEFTestEnvironment {
 	 * @return
 	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getEMFServiceProvider()
 	 */
-	public EEFServiceRegistry getServiceRegistry() {
-		return builder.getServiceRegistry();
-	}
-
-	/**
-	 * @return
-	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getEMFServiceProvider()
-	 */
 	public EMFServiceProvider getEMFServiceProvider() {
 		return builder.getEMFServiceProvider();
 	}
@@ -209,6 +200,10 @@ public class EEFTestEnvironment {
 	public PropertiesEditingContext getEditingContext() {
 		return builder.getEditingContext();
 	}
+	
+	public ViewServiceProvider getViewServiceProvider() {
+		return builder.getViewServiceProvider();
+	}
 
 	public final static class Builder {
 
@@ -219,7 +214,6 @@ public class EEFTestEnvironment {
 		private PropertiesEditingModel editingModel;
 		private AdapterFactory adapterFactory;
 
-		private EEFServiceRegistry serviceRegistry;
 		private Collection<Class<? extends EEFService<?>>> preloadedServices;
 		private Collection<EEFServiceDescriptor<? extends EEFService<Object>>> eefServices;
 
@@ -241,6 +235,7 @@ public class EEFTestEnvironment {
 		private PropertiesEditingContextFactory editingContextFactory;
 		private PropertiesEditingContext editingContext;
 
+		private EEFBindingSettingsProvider bindingSettingsProvider;
 		private BindingManagerProvider bindingManagerProvider;
 		private ViewHandlerFactoryProvider viewHandlerFactoryProvider;
 
@@ -250,6 +245,7 @@ public class EEFTestEnvironment {
 		private EEFLogger logger;
 
 
+
 		public Builder() {
 			sampleModel = null;
 			editedObject = null;
@@ -257,7 +253,6 @@ public class EEFTestEnvironment {
 			adapterFactory = null;
 			preloadedServices = new ArrayList<Class<? extends EEFService<?>>>();
 			eefServices = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<? extends EEFService<Object>>>();
-			serviceRegistry = null;
 			notificationManager = null;
 			editingContextFactory = null;
 			editingContext = null;
@@ -296,13 +291,6 @@ public class EEFTestEnvironment {
 				editingModel = createEditingModel();
 			}
 			return editingModel;
-		}
-
-		public EEFServiceRegistry getServiceRegistry() {
-			if (serviceRegistry == null) {
-				serviceRegistry = createServiceRegistry();
-			}
-			return serviceRegistry;
 		}
 		
 		private EditingContextFactoryProvider getContextFactoryProvider() {
@@ -403,6 +391,13 @@ public class EEFTestEnvironment {
 			return policyProcessorProvider;
 		}
 		
+		public EEFBindingSettingsProvider getBindingSettingsProvider() {
+			if (bindingSettingsProvider == null) {
+				bindingSettingsProvider = createBindingSettingsProvider();
+			}
+			return bindingSettingsProvider;
+		}
+		
 		public BindingManagerProvider getBindingManagerProvider() {
 			if (bindingManagerProvider == null) {
 				bindingManagerProvider = createBindingManagerProvider();
@@ -473,15 +468,6 @@ public class EEFTestEnvironment {
 		 */
 		public Builder setAdapterFactory(AdapterFactory adapterFactory) {
 			this.adapterFactory = adapterFactory;
-			return this;
-		}
-
-		/**
-		 * @param serviceRegistry
-		 * @return
-		 */
-		public Builder setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-			this.serviceRegistry= serviceRegistry;
 			return this;
 		}
 
@@ -690,32 +676,6 @@ public class EEFTestEnvironment {
 			eClassInstanceView.getElements().add(instanceTypeName);
 			result.add(eClassInstanceView);
 			return result;
-		}
-
-		public EEFServiceRegistry createServiceRegistry() {
-			EEFServiceRegistry serviceRegistry = new EEFServiceRegistryImpl();
-			eefServices = populateEEFServices();
-			try {
-				for (EEFServiceDescriptor<? extends EEFService<Object>> service : eefServices) {
-					Map<String, String> properties = new HashMap<String, String>();
-					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, service.name);
-					if (service.hasPriorityOver != null && !service.hasPriorityOver.isEmpty()) {
-						StringBuilder priority = new StringBuilder();
-						for (Iterator<String> iterator = service.hasPriorityOver.iterator(); iterator.hasNext();) {
-							String next = iterator.next();
-							priority.append(next);
-							if (iterator.hasNext()) {
-								priority.append(',');
-							}
-						}
-						properties.put(PRIORITY_OVER_KEY, priority.toString());
-					}
-					serviceRegistry.addService(service.service, properties);					
-				}
-			} catch (PriorityCircularityException e) {
-				//TODO: can't happen!
-			}
-			return serviceRegistry;
 		}
 
 		@SuppressWarnings({ "unchecked" })
@@ -1283,7 +1243,9 @@ public class EEFTestEnvironment {
 			try {
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, PropertiesEditingContextFactoryImpl.class.getName());
-				contextFactoryProvider.addService(new PropertiesEditingContextFactoryImpl(), properties);
+				PropertiesEditingContextFactoryImpl service = new PropertiesEditingContextFactoryImpl();
+				service.setBindingSettingsProvider(getBindingSettingsProvider());
+				contextFactoryProvider.addService(service, properties);
 			} catch (PriorityCircularityException e) {
 				e.printStackTrace();
 			}
@@ -1422,6 +1384,22 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
+		private EEFBindingSettingsProvider createBindingSettingsProvider() {
+			EEFBindingSettingsProviderImpl result = new EEFBindingSettingsProviderImpl();
+			createBindingSettings();
+//			for (EEFServiceDescriptor<EEFBindingSettings> eefServiceDescriptor : createBindingSettings()) {
+//				try {
+//					Map<String, String> properties = new HashMap<String, String>();
+//					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+//					result.addService(eefServiceDescriptor.service, properties);
+//				} catch (PriorityCircularityException e) {
+//					e.printStackTrace();
+//				}
+//			}
+			return result;
+		}
+
+		
 		public BindingManagerProvider createBindingManagerProvider() {
 			BindingManagerProviderImpl result = new BindingManagerProviderImpl();
 			try {
@@ -1447,7 +1425,6 @@ public class EEFTestEnvironment {
 
 		public PropertiesEditingContextFactory createPropertiesEditingContextFactory() {
 			PropertiesEditingContextFactory factory = createContextFactory().iterator().next().service;
-			factory.setServiceRegistry(getServiceRegistry());
 			factory.setNotificationManager(getModelChangesNotificationManager());
 			return factory;
 		}

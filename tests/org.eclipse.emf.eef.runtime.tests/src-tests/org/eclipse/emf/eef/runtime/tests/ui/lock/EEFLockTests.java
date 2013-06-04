@@ -19,7 +19,6 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.view.lock.impl.EEFLockManagerProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EEFLockPolicyFactoryProviderImpl;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
@@ -179,21 +178,6 @@ public class EEFLockTests extends UIEditingTestCase {
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#getServiceRegistry()
-		 */
-		public EEFServiceRegistry getServiceRegistry() {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
-		 */
-		public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-		}
-
-		/**
-		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#fireLockChange(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object, org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
 		 */
 		public void fireLockChange(PropertiesEditingComponent editingComponent, Object view, EEFLockEvent lockEvent) {
@@ -234,12 +218,12 @@ public class EEFLockTests extends UIEditingTestCase {
 
 		private class LockViewConfig {
 			
-			private Object view;
+//			private Object visew;
 			private boolean locked;
 			private Set<Object> lockedEditors;
 			
 			public LockViewConfig(Object view) {
-				this.view = view;
+//				this.view = view;
 				this.lockedEditors = new HashSet<Object>();
 			}
 			
@@ -257,20 +241,6 @@ public class EEFLockTests extends UIEditingTestCase {
 		 */
 		public boolean serviceFor(EObject element) {
 			return true;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFService#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
-		 */
-		public void setServiceRegistry(EEFServiceRegistry serviceRegistry) { }
-
-		/**
-		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFService#getServiceRegistry()
-		 */
-		public EEFServiceRegistry getServiceRegistry() {
-			return null;
 		}
 
 		/**

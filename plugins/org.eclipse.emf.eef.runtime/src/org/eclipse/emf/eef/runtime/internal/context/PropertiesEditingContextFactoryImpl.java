@@ -130,7 +130,6 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 	}
 
 	private void configureEditingContext(EObjectPropertiesEditingContext context) {
-		context.setServiceRegistry(serviceRegistry);
 		context.setNotificationManager(notificationManager);
 		context.setEMFServiceProvider(emfServiceProvider);
 		context.setBindingSettingsProvider(bindingSettingsProvider);

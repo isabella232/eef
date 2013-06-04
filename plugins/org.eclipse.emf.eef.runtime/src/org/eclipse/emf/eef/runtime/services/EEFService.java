@@ -19,17 +19,6 @@ public interface EEFService<Element> {
 	boolean serviceFor(Element element);
 	
 	/**
-	 * Sets the {@link EEFServiceRegistry} referencing the current service.
-	 * @param serviceRegistry the referencing service registry
-	 */
-	void setServiceRegistry(EEFServiceRegistry serviceRegistry);
-	
-	/**
-	 * @return the {@link EEFServiceRegistry} referencing the current service.
-	 */
-	EEFServiceRegistry getServiceRegistry();
-	
-	/**
 	 * @return a collection of {@link Class} describing all the services provided by this component.  
 	 */
 	Collection<String> providedServices();

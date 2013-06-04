@@ -7,7 +7,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 
 /**
@@ -19,18 +18,7 @@ public interface PropertiesEditingContext {
 	final String EOBJECT_PARAM = "EObject parameter"; 
 	final String ADAPTERFACTORY_PARAM = "AdapterFactory parameter"; 
 	final String PARENTCONTEXT_PARAM = "ParentContext parameter"; 
-	
-	/**
-	 * @return the {@link EEFServiceRegistry} of the current {@link PropertiesEditingContext}.
-	 */
-	EEFServiceRegistry getServiceRegistry();
-	
-	/**
-	 * Defines the {@link EEFServiceRegistry} of the current {@link PropertiesEditingContext}.
-	 * @param serviceRegistry the {@link EEFServiceRegistryImpl}.
-	 */
-	void setServiceRegistry(EEFServiceRegistry serviceRegistry);
-	
+		
 	/**
 	 * @return the {@link EMFServiceProvider} of the current {@link PropertiesEditingContext}.
 	 */

@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.internal.view.notify.EEFNotifierProviderImpl;
 import org.eclipse.emf.eef.runtime.services.EEFService;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
@@ -133,14 +132,6 @@ public class EEFNotifierTests extends UIEditingTestCase {
 
 		/**
 		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#getServiceRegistry()
-		 */
-		public EEFServiceRegistry getServiceRegistry() {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
 		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#providedServices()
 		 */
 		public Collection<String> providedServices() {
@@ -155,14 +146,6 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		 */
 		public boolean serviceFor(Object element) {
 			return true;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#setServiceRegistry(org.eclipse.emf.eef.runtime.services.EEFServiceRegistry)
-		 */
-		public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-			
 		}
 
 		/**

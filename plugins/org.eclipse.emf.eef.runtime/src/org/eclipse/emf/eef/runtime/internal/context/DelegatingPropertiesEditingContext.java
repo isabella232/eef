@@ -8,7 +8,6 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 
 /**
@@ -31,21 +30,6 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	 */
 	public final PropertiesEditingContext getDelegatingContext() {
 		return delegatingContext;
-	}
-
-	/**
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getServiceRegistry()
-	 */
-	public EEFServiceRegistry getServiceRegistry() {
-		return delegatingContext.getServiceRegistry();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setServiceRegistry(org.eclipse.emf.eef.runtime.services.impl.EEFServiceRegistryImpl)
-	 */
-	public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-		delegatingContext.setServiceRegistry(serviceRegistry);		
 	}
 
 	/**

@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Dictionary;
 
 import org.eclipse.emf.eef.runtime.services.EEFService;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.osgi.service.component.ComponentContext;
 
 import com.google.common.collect.Lists;
@@ -20,26 +19,10 @@ import com.google.common.collect.Lists;
 public abstract class AbstractEEFService<T> implements EEFService<T> {
 
 	private Collection<String> providedServices;
-	protected EEFServiceRegistry serviceRegistry;
 	
 	public AbstractEEFService() {
 		providedServices = Lists.newArrayList();
 	}
-
-	/**
-	 * @return the serviceRegistry
-	 */
-	public EEFServiceRegistry getServiceRegistry() {
-		return serviceRegistry;
-	}
-
-	/**
-	 * @param serviceRegistry the serviceRegistry to set
-	 */
-	public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
-
 
 	public void activate(ComponentContext context) {
 		@SuppressWarnings("rawtypes")
