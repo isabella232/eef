@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.view.handlers.editingview;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
@@ -20,10 +21,18 @@ import org.eclipse.emf.eef.views.View;
  */
 public class PropertiesEditingViewHandlerFactory extends AbstractEEFService<Object> implements ViewHandlerFactory {
 
+	private EMFServiceProvider emfServiceProvider;
 	private ViewServiceProvider viewServiceProvider;
 	private EEFToolkitProvider eefToolkitProvider;
 	private EEFLockManagerProvider lockManagerProvider;
 	private EEFLogger logger;
+
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
 
 	/**
 	 * @param viewServiceProvider the viewServiceProvider to set
@@ -67,6 +76,10 @@ public class PropertiesEditingViewHandlerFactory extends AbstractEEFService<Obje
 	 */
 	public ViewHandler<?> getHandler(PropertiesEditingComponent editingComponent, Object view) {
 		return new PropertiesEditingViewHandler(this, editingComponent, (View) view);
+	}
+
+	public EMFServiceProvider getEMFServiceProvider() {
+		return emfServiceProvider;
 	}
 
 	/**

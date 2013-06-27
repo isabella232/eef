@@ -169,7 +169,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 */
 	public ViewChangeNotifier getViewChangeNotifier() {
 		if (viewChangeNotifier == null) {
-			viewChangeNotifier = new ViewChangeNotifier(bindingSettings.getBindingManagerProvider(), this);
+			viewChangeNotifier = new ViewChangeNotifier(editingContext.getBindingManagerProvider(), this);
 		}
 		return viewChangeNotifier;
 	}
@@ -262,7 +262,8 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		for (ViewHandler<?> handler : handlers) {
 			handler.dispose();
 		}
-		bindingSettings.disposeComponent(this);
+		editingContext.disposeComponent(this);
+		
 		// Making a blank component to be sure to not reuse it!
 		bindingSettings = null;
 		source = null;

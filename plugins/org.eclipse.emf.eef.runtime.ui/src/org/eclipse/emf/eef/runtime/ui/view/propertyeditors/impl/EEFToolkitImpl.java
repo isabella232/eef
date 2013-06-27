@@ -91,7 +91,7 @@ public abstract class EEFToolkitImpl<T> extends AbstractEEFService<PropertyEdito
 	 * @param editingEvent
 	 */
 	public final void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
-		bindingManagerProvider.getBindingManager(editingComponent).firePropertiesChanged(editingComponent, editingEvent);
+		bindingManagerProvider.getBindingManager(editingComponent.getEObject()).firePropertiesChanged(editingComponent, editingEvent);
 	}
 	
 	/**

@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.binding;
 
+import org.eclipse.emf.ecore.EObject;
+
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
@@ -10,10 +12,10 @@ package org.eclipse.emf.eef.runtime.binding;
 public interface BindingManagerProvider {
 
 	/**
-	 * Returns a {@link PropertiesBindingManager} able to handle the given component.
-	 * @param editingComponent the {@link PropertiesEditingComponent} to manage.
-	 * @return a {@link PropertiesBindingManager}.
+	 * Returns a {@link PropertiesBindingManager} able to handle the given type of EObject.
+	 * @param target the {@link EObject} to manage.
+	 * @return the most appropriate {@link PropertiesBindingManager}.
 	 */
-	PropertiesBindingManager getBindingManager(PropertiesEditingComponent editingComponent);
+	PropertiesBindingManager getBindingManager(EObject target);
 	
 }

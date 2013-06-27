@@ -6,6 +6,5 @@
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
    </service>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
-   <reference bind="setNotificationManager" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager" name="ModelChangesNotificationManager" policy="dynamic" unbind="unsetNotificationManager"/>
-   <reference bind="setBindingSettingsProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider" name="EEFBindingSettingsProvider" policy="static"/>
+   <reference bind="setBindingManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.binding.BindingManagerProvider" name="BindingManagerProvider" policy="static"/>
 </scr:component>

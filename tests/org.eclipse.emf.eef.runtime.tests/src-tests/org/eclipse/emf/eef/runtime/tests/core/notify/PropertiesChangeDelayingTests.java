@@ -67,7 +67,7 @@ public class PropertiesChangeDelayingTests extends NonUIEditingTestCase {
 		
 		// T0: We send an editingEvent
 		long timing = 0;
-		environmentBuilder.getBindingManagerProvider().getBindingManager(editingComponent).firePropertiesChanged(editingComponent, new PropertiesEditingEventImpl(view1, "name", PropertiesEditingEvent.SET, null, NEW_CLASS_NAME, true));
+		environmentBuilder.getBindingManagerProvider().getBindingManager(editingComponent.getEObject()).firePropertiesChanged(editingComponent, new PropertiesEditingEventImpl(view1, "name", PropertiesEditingEvent.SET, null, NEW_CLASS_NAME, true));
 		assertFalse("Command performed too soon.", commandStack.isSaveNeeded());
 		final long delay = 30;
 		editingContext.getOptions().setDelayedFirePropertiesChangedDelay(delay);
@@ -153,7 +153,7 @@ public class PropertiesChangeDelayingTests extends NonUIEditingTestCase {
 		 * @see java.lang.Runnable#run()
 		 */
 		public void run() {
-			environmentBuilder.getBindingManagerProvider().getBindingManager(editingComponent).firePropertiesChanged(editingComponent, new PropertiesEditingEventImpl(view, "name", PropertiesEditingEvent.SET, null, newValue, true));			
+			environmentBuilder.getBindingManagerProvider().getBindingManager(editingComponent.getEObject()).firePropertiesChanged(editingComponent, new PropertiesEditingEventImpl(view, "name", PropertiesEditingEvent.SET, null, newValue, true));			
 		}
 		
 	}

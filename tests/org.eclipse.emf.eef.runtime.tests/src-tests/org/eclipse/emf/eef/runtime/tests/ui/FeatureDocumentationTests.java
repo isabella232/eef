@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -25,28 +24,21 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
-import org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceProviderImpl;
-import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.EEFServiceDescriptor;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
-import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewsFactory;
@@ -54,8 +46,6 @@ import org.eclipse.emf.eef.views.ViewsRepository;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.junit.Test;
-
-import com.google.common.base.Function;
 
 
 /**
@@ -166,7 +156,6 @@ public class FeatureDocumentationTests {
 
 
 		};
-		bindingSettings.setBindingManagerProvider(createBindingManagerProvider());
 		EMFServiceProviderImpl emfServiceProvider = new EMFServiceProviderImpl();
 		try {
 			Map<String, String> properties = new HashMap<String, String>();
@@ -188,47 +177,54 @@ public class FeatureDocumentationTests {
 		return builder.build();
 	}
 	
-	private BindingManagerProvider createBindingManagerProvider() {
-		return new BindingManagerProvider() {
-			
-			public PropertiesBindingManager getBindingManager(PropertiesEditingComponent editingComponent) {
-				return new PropertiesBindingManager() {
-					
-					public boolean serviceFor(PropertiesEditingComponent element) {
-						return true;
-					}
-					
-					public Collection<String> providedServices() {
-						return null;
-					}
-					
-					public void notifyChanged(PropertiesEditingComponent editingComponent, Notification msg) {
-						
-					}
-					
-					public void initLockPolicies(PropertiesEditingComponent editingComponent) {
-					}
-					
-					public void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
-						
-					}
-					
-					public void fireLockChanged(PropertiesEditingComponent editingComponent, EEFLockEvent lockEvent) {
-						
-					}
-					
-					public void execute(PropertiesEditingComponent editingComponent, PropertiesEditingPolicy editingPolicy, PropertiesEditingContext policyEditingContext) {
-						
-					}
-
-					public void executeOnViewHandlers(PropertiesEditingComponent editingComponent, Function<ViewHandler<?>, Void> function) {
-						
-					}
-				};
-			}
-		};
-		
-	}
+//	private BindingManagerProvider createBindingManagerProvider() {
+//		return new BindingManagerProvider() {
+//			
+//			public PropertiesBindingManager getBindingManager(EObject source) {
+//				return new PropertiesBindingManager() {
+//					
+//					public boolean serviceFor(EObject source) {
+//						return true;
+//					}
+//					
+//					public PropertiesEditingComponent createComponent(EObjectPropertiesEditingContext editingContext) {
+//						return null;
+//					}
+//
+//					public void disposeComponent(PropertiesEditingComponent component) {
+//					}
+//
+//					public Collection<String> providedServices() {
+//						return null;
+//					}
+//					
+//					public void notifyChanged(PropertiesEditingComponent editingComponent, Notification msg) {
+//						
+//					}
+//					
+//					public void initLockPolicies(PropertiesEditingComponent editingComponent) {
+//					}
+//					
+//					public void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
+//						
+//					}
+//					
+//					public void fireLockChanged(PropertiesEditingComponent editingComponent, EEFLockEvent lockEvent) {
+//						
+//					}
+//					
+//					public void execute(PropertiesEditingComponent editingComponent, PropertiesEditingPolicy editingPolicy, PropertiesEditingContext policyEditingContext) {
+//						
+//					}
+//
+//					public void executeOnViewHandlers(PropertiesEditingComponent editingComponent, Function<ViewHandler<?>, Void> function) {
+//						
+//					}
+//				};
+//			}
+//		};
+//		
+//	}
 	
 
 	private EClass getEClassEClassFromResourceSet(ResourceSet rset) {

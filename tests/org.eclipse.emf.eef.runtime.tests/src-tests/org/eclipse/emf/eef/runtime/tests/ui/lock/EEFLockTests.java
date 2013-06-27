@@ -298,7 +298,7 @@ public class EEFLockTests extends UIEditingTestCase {
 			
 			public void fireFeatureLock(EStructuralFeature feature, LockState state ) {
 				PropertiesEditingComponent editingComponent = EEFLockTests.this.editingContext.getEditingComponent();
-				myBuilder.getBindingManagerProvider().getBindingManager(editingComponent).fireLockChanged(editingComponent, new EEFPropertyLockEventImpl(EEFLockTests.this.editedObject, feature, state));
+				myBuilder.getBindingManagerProvider().getBindingManager(editingComponent.getEObject()).fireLockChanged(editingComponent, new EEFPropertyLockEventImpl(EEFLockTests.this.editedObject, feature, state));
 			}
 			
 		}

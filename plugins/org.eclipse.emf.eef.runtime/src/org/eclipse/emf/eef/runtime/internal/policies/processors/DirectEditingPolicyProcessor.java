@@ -117,7 +117,7 @@ public class DirectEditingPolicyProcessor extends AbstractEEFService<PropertiesE
 			PropertiesEditingContext subPropertiesEditingContext = factory.createPropertiesEditingContext(editingContext, editedElement);
 			PropertiesEditingPolicy subElementEditingPolicy = editingPolicyProvider.getEditingPolicy(subPropertiesEditingContext);
 			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
-			bindingManagerProvider.getBindingManager(editingComponent).execute(editingComponent, subElementEditingPolicy, subPropertiesEditingContext);
+			bindingManagerProvider.getBindingManager(editingComponent.getEObject()).execute(editingComponent, subElementEditingPolicy, subPropertiesEditingContext);
 		}
 	}
 

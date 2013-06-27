@@ -7,7 +7,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
@@ -58,16 +57,4 @@ public interface PropertiesEditingContextFactory extends EEFService<EObject> {
 	 */
 	PropertiesEditingContext createSemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent);
 	
-	/**
-	 * Defines the {@link ModelChangesNotificationManager} to uses in the current {@link PropertiesEditingContextFactory}.
-	 * @param notificationManager the {@link ModelChangesNotificationManager} to set.
-	 */
-	void setNotificationManager(ModelChangesNotificationManager notificationManager);
-
-	/**
-	 * Unsets the {@link ModelChangesNotificationManager} to uses in the current {@link PropertiesEditingContextFactory}.
-	 * @param notificationManager the {@link ModelChangesNotificationManager} to unset.
-	 */
-	void unsetNotificationManager(ModelChangesNotificationManager notificationManager);
-
 }

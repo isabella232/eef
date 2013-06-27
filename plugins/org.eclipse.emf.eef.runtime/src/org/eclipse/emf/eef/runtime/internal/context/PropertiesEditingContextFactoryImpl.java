@@ -7,14 +7,13 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
-import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
@@ -25,8 +24,7 @@ import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObject> implements PropertiesEditingContextFactory, DefaultService {
 
 	private EMFServiceProvider emfServiceProvider;
-	private ModelChangesNotificationManager notificationManager;
-	private EEFBindingSettingsProvider bindingSettingsProvider;
+	private BindingManagerProvider bindingManagerProvider;
 
 	/**
 	 * @param emfServiceProvider the emfServiceProvider to set
@@ -36,28 +34,10 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setNotificationManager(org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager)
+	 * @param bindingManagerProvider the bindingManagerProvider to set
 	 */
-	public void setNotificationManager(ModelChangesNotificationManager notificationManager) {
-		this.notificationManager = notificationManager;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#unsetNotificationManager(org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager)
-	 */
-	public void unsetNotificationManager(ModelChangesNotificationManager notificationManager) {
-		if (notificationManager == this.notificationManager) {
-			this.notificationManager = null;
-		}
-	}
-
-	/**
-	 * @param bindingSettingsProvider the bindingSettingsProvider to set
-	 */
-	public void setBindingSettingsProvider(EEFBindingSettingsProvider bindingSettingsProvider) {
-		this.bindingSettingsProvider = bindingSettingsProvider;
+	public void setBindingManagerProvider(BindingManagerProvider bindingManagerProvider) {
+		this.bindingManagerProvider = bindingManagerProvider;
 	}
 
 	/**
@@ -130,9 +110,8 @@ public class PropertiesEditingContextFactoryImpl extends AbstractEEFService<EObj
 	}
 
 	private void configureEditingContext(EObjectPropertiesEditingContext context) {
-		context.setNotificationManager(notificationManager);
 		context.setEMFServiceProvider(emfServiceProvider);
-		context.setBindingSettingsProvider(bindingSettingsProvider);
+		context.setBindingManagerProvider(bindingManagerProvider);
 	}
 
 }

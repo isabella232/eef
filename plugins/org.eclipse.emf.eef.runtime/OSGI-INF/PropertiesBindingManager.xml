@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.binding.PropertiesBindingManagerImpl">
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager">
    <implementation class="org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingManagerImpl"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager"/>
    </service>
    <reference bind="setContextFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider" name="EditingContextFactoryProvider" policy="static"/>
+   <reference bind="setBindingSettingsProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider" name="EEFBindingSettingsProvider" policy="static"/>
    <reference bind="setEditingPolicyProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider" name="PropertiesEditingPolicyProvider" policy="static"/>
-   <reference bind="setEEFNotifierProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider" name="EEFNotifierProvider" policy="static"/>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
+   <reference bind="setEEFNotifierProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider" name="EEFNotifierProvider" policy="static"/>
    <reference bind="setLockPolicyFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactoryProvider" name="EEFLockPolicyFactoryProvider" policy="static"/>
    <reference bind="setLockManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider" name="EEFLockManagerProvider" policy="static"/>
+   <reference bind="setNotificationManager" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager" name="ModelChangesNotificationManager" policy="static"/>
 </scr:component>

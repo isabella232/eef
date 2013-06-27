@@ -4,10 +4,10 @@
 package org.eclipse.emf.eef.runtime.internal.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
-import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 
 /**
@@ -41,11 +41,11 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	}
 
 	/**
-	 * @param notificationManager
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#setNotificationManager(org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager)
+	 * @return
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getBindingManagerProvider()
 	 */
-	public void setNotificationManager(ModelChangesNotificationManager notificationManager) {
-		delegatingContext.setNotificationManager(notificationManager);
+	public BindingManagerProvider getBindingManagerProvider() {
+		return delegatingContext.getBindingManagerProvider();
 	}
 
 	/**
@@ -70,6 +70,14 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	 */
 	public ContextOptions getOptions() {
 		return delegatingContext.getOptions();
+	}
+
+	/**
+	 * @param editingComponent
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 */
+	public void disposeComponent(PropertiesEditingComponent editingComponent) {
+		delegatingContext.disposeComponent(editingComponent);
 	}
 
 	/**

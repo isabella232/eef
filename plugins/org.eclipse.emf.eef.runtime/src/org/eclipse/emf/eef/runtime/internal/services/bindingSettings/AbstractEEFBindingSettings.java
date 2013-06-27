@@ -9,14 +9,11 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.internal.binding.PropertiesEditingComponentImpl;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
-import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
@@ -38,8 +35,6 @@ import com.google.common.collect.Lists;
 public abstract class AbstractEEFBindingSettings extends AbstractEEFService<EPackage> implements EEFBindingSettings {
 
 	private EMFServiceProvider emfServiceProvider;
-	private BindingManagerProvider bindingManagerProvider;
-	private ModelChangesNotificationManager notificationManager;
 	private ViewHandlerFactoryProvider viewHandlerFactoryProvider;
 
 	private List<PropertiesEditingModel> editingModels;
@@ -53,21 +48,6 @@ public abstract class AbstractEEFBindingSettings extends AbstractEEFService<EPac
 	}
 
 	/**
-	 * @param bindingManagerProvider the bindingManagerProvider to set
-	 */
-	public void setBindingManagerProvider(BindingManagerProvider bindingManagerProvider) {
-		this.bindingManagerProvider = bindingManagerProvider;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings#setNotificationManager(ModelChangesNotificationManager)
-	 */
-	public void setNotificationManager(ModelChangesNotificationManager notificationManager) {
-		this.notificationManager = notificationManager;
-	}
-	
-	/**
 	 * @param viewHandlerFactoryProvider the viewHandlerFactoryProvider to set
 	 */
 	public void setViewHandlerFactoryProvider(ViewHandlerFactoryProvider viewHandlerFactoryProvider) {
@@ -79,13 +59,6 @@ public abstract class AbstractEEFBindingSettings extends AbstractEEFService<EPac
 	 */
 	public EMFServiceProvider getEMFServiceProvider() {
 		return emfServiceProvider;
-	}
-
-	/**
-	 * @return the bindingManagerProvider
-	 */
-	public BindingManagerProvider getBindingManagerProvider() {
-		return bindingManagerProvider;
 	}
 
 	/**
@@ -143,25 +116,6 @@ public abstract class AbstractEEFBindingSettings extends AbstractEEFService<EPac
 					}
 				}));
 		return filter.size() > 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings#createComponent(org.eclipse.emf.ecore.EObject)
-	 */
-	public PropertiesEditingComponent createComponent(EObject target) {
-		PropertiesEditingComponent component = new PropertiesEditingComponentImpl(this, target);
-		bindingManagerProvider.getBindingManager(component).initLockPolicies(component);
-		notificationManager.registerEditingComponentAsEventHandler(component);
-		return component;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
-	 */
-	public void disposeComponent(PropertiesEditingComponent component) {
-		notificationManager.unregisterEditingComponent(component);
 	}
 
 	/**

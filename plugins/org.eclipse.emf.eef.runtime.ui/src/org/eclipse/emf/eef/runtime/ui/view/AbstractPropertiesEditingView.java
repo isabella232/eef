@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
+import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ViewSettingsImpl;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
 import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider;
@@ -32,6 +33,7 @@ import com.google.common.collect.UnmodifiableIterator;
  */
 public abstract class AbstractPropertiesEditingView<T> implements PropertiesEditingView<T> {
 	
+	private EMFServiceProvider emfServiceProvider;
 	private ViewServiceProvider viewServiceProvider;
 	protected EEFToolkitProvider eefToolkitProvider;
 	
@@ -56,6 +58,13 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 		this.editingComponent = editingComponent;
 		this.propertyEditors = Maps.newHashMap();
 		editingComponent.addEditingListener(this);
+	}
+
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
 	}
 
 	/**
@@ -136,7 +145,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 			ElementEditor elementEditor = elementEditors.next();
 			EStructuralFeature bindingFeature = editingComponent.getBinding().feature(elementEditor, editingComponent.getEditingContext().getOptions().autowire());
 			EObject editedObject = editingComponent.getEObject();
-			EMFService emfService = editingComponent.getEditingContext().getEMFServiceProvider().getEMFService(editedObject.eClass().getEPackage());
+			EMFService emfService = emfServiceProvider.getEMFService(editedObject.eClass().getEPackage());
 			EStructuralFeature feature = emfService.mapFeature(editedObject, bindingFeature);
 			if (feature != null) {
 				PropertyEditor propertyEditor = propertyEditors.get(elementEditor);

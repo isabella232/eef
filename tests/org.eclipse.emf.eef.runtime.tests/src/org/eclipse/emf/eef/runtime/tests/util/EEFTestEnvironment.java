@@ -1023,7 +1023,6 @@ public class EEFTestEnvironment {
 
 			};
 			bindingSettings.setEMFServiceProvider(getEMFServiceProvider());
-			bindingSettings.setBindingManagerProvider(getBindingManagerProvider());
 			bindingSettings.setViewHandlerFactoryProvider(getViewHandlerFactoryProvider());
 			result.add(new EEFServiceDescriptor<EEFBindingSettings>("propertieseditingprovider.default", bindingSettings));
 			return result;
@@ -1201,8 +1200,8 @@ public class EEFTestEnvironment {
 				}
 
 			};
-			contextFactory.setNotificationManager(getModelChangesNotificationManager());
 			contextFactory.setEMFServiceProvider(getEMFServiceProvider());
+			contextFactory.setBindingManagerProvider(getBindingManagerProvider());
 			EEFServiceDescriptor<PropertiesEditingContextFactory> desc = new EEFServiceDescriptor<PropertiesEditingContextFactory>("propertieseditingcontextfactory.default", contextFactory);
 			result.add(desc);
 			return result;
@@ -1244,7 +1243,6 @@ public class EEFTestEnvironment {
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, PropertiesEditingContextFactoryImpl.class.getName());
 				PropertiesEditingContextFactoryImpl service = new PropertiesEditingContextFactoryImpl();
-				service.setBindingSettingsProvider(getBindingSettingsProvider());
 				contextFactoryProvider.addService(service, properties);
 			} catch (PriorityCircularityException e) {
 				e.printStackTrace();
@@ -1386,16 +1384,15 @@ public class EEFTestEnvironment {
 
 		private EEFBindingSettingsProvider createBindingSettingsProvider() {
 			EEFBindingSettingsProviderImpl result = new EEFBindingSettingsProviderImpl();
-			createBindingSettings();
-//			for (EEFServiceDescriptor<EEFBindingSettings> eefServiceDescriptor : createBindingSettings()) {
-//				try {
-//					Map<String, String> properties = new HashMap<String, String>();
-//					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
-//					result.addService(eefServiceDescriptor.service, properties);
-//				} catch (PriorityCircularityException e) {
-//					e.printStackTrace();
-//				}
-//			}
+			for (EEFServiceDescriptor<EEFBindingSettings> eefServiceDescriptor : createBindingSettings()) {
+				try {
+					Map<String, String> properties = new HashMap<String, String>();
+					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					result.addService(eefServiceDescriptor.service, properties);
+				} catch (PriorityCircularityException e) {
+					e.printStackTrace();
+				}
+			}
 			return result;
 		}
 
@@ -1412,6 +1409,7 @@ public class EEFTestEnvironment {
 					service.setEEFNotifierProvider(getEEFNotifierProvider());
 					service.setLockPolicyFactoryProvider(getLockPolicyFactoryProvider());
 					service.setLockManagerProvider(getLockManagerProvider());
+					service.setNotificationManager(getModelChangesNotificationManager());
 					result.addService(service, properties);
 			} catch (PriorityCircularityException e) {
 				e.printStackTrace();
@@ -1425,7 +1423,6 @@ public class EEFTestEnvironment {
 
 		public PropertiesEditingContextFactory createPropertiesEditingContextFactory() {
 			PropertiesEditingContextFactory factory = createContextFactory().iterator().next().service;
-			factory.setNotificationManager(getModelChangesNotificationManager());
 			return factory;
 		}
 
@@ -1475,7 +1472,7 @@ public class EEFTestEnvironment {
 				public void notifyChanged(Notification notification) {
 					for (PropertiesEditingComponent component : components) {
 						if (component.isAffectingEvent(notification)) {
-							bindingManagerProvider.getBindingManager(component).notifyChanged(component, notification);
+							bindingManagerProvider.getBindingManager(component.getEObject()).notifyChanged(component, notification);
 						}
 					}
 				}

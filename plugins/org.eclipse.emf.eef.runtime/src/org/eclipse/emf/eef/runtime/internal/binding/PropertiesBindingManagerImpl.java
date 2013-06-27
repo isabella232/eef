@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.WrappedException;
@@ -25,12 +26,16 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.UIPropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
@@ -54,14 +59,17 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesEditingComponent> implements PropertiesBindingManager, DefaultService {
+public class PropertiesBindingManagerImpl extends AbstractEEFService<EObject> implements PropertiesBindingManager, DefaultService {
 	
 	private EditingContextFactoryProvider contextFactoryProvider;
+	private EEFBindingSettingsProvider bindingSettingsProvider;
 	private PropertiesEditingPolicyProvider editingPolicyProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private EEFNotifierProvider eefNotifierProvider;
 	private EEFLockPolicyFactoryProvider lockPolicyFactoryProvider;
 	private EEFLockManagerProvider lockManagerProvider;
+
+	private ModelChangesNotificationManager notificationManager;
 
 	private EventTimer eventTimer;
 	
@@ -70,6 +78,13 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 	 */
 	public void setContextFactoryProvider(EditingContextFactoryProvider contextFactoryProvider) {
 		this.contextFactoryProvider = contextFactoryProvider;
+	}
+
+	/**
+	 * @param bindingSettingsProvider the bindingSettingsProvider to set
+	 */
+	public void setBindingSettingsProvider(EEFBindingSettingsProvider bindingSettingsProvider) {
+		this.bindingSettingsProvider = bindingSettingsProvider;
 	}
 
 	/**
@@ -108,13 +123,45 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<PropertiesE
 	}
 
 	/**
+	 * @param notificationManager the notificationManager to set
+	 */
+	public void setNotificationManager(ModelChangesNotificationManager notificationManager) {
+		this.notificationManager = notificationManager;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
-	public boolean serviceFor(PropertiesEditingComponent element) {
+	public boolean serviceFor(EObject element) {
 		return true;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#createComponent(org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext)
+	 */
+	public PropertiesEditingComponent createComponent(EObjectPropertiesEditingContext editingContext) {
+		EObject eObject = editingContext.getEObject();
+		EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
+		Notifier highestNotifier = emfService.highestNotifier(eObject);
+		notificationManager.initModelChangesNotifierIfNeeded(highestNotifier);
+		EEFBindingSettings provider = bindingSettingsProvider.getBindingSettings(eObject.eClass().getEPackage());
+		PropertiesEditingComponent component = new PropertiesEditingComponentImpl(provider, eObject);
+		component.setEditingContext(editingContext);
+		initLockPolicies(component);
+		notificationManager.registerEditingComponentAsEventHandler(component);
+		return component;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 */
+	public void disposeComponent(PropertiesEditingComponent component) {
+		notificationManager.unregisterEditingComponent(component);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#getLockManager(java.lang.Object)

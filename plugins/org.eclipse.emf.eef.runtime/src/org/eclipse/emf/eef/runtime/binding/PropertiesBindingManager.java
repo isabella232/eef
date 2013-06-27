@@ -1,7 +1,9 @@
 package org.eclipse.emf.eef.runtime.binding;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.services.EEFService;
@@ -11,7 +13,20 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 import com.google.common.base.Function;
 
-public interface PropertiesBindingManager extends EEFService<PropertiesEditingComponent> {
+public interface PropertiesBindingManager extends EEFService<EObject> {
+	
+	/**
+	 * Creates a new {@link PropertiesEditingComponent}.
+	 * @param editingContext the {@link EObjectPropertiesEditingContext} asking the component. 
+	 * @return the created {@link PropertiesEditingComponent}.
+	 */
+	PropertiesEditingComponent createComponent(EObjectPropertiesEditingContext editingContext);
+	
+	/**
+	 * Executes operations to be done to dispose the given {@link PropertiesEditingComponent}.
+	 * @param component {@link PropertiesEditingComponent} to dispose.
+	 */
+	void disposeComponent(PropertiesEditingComponent component);
 
 	/**
 	 * {@inheritDoc}

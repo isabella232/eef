@@ -5,11 +5,9 @@ package org.eclipse.emf.eef.runtime.services.bindingSettings;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
@@ -26,25 +24,6 @@ public interface EEFBindingSettings extends EEFService<EPackage> {
 	 * @return the EMFServiceProvider in use in the current editing provider.
 	 */
 	EMFServiceProvider getEMFServiceProvider();
-
-	/**
-	 * @return the EMFServiceProvider in use in the current editing provider.
-	 */
-	BindingManagerProvider getBindingManagerProvider();
-
-	/**
-	 * Creates a new {@link PropertiesEditingComponent}.
-	 * 
-	 * @param target the {@link EObject} to handle.
-	 * @return the created {@link PropertiesEditingComponent}.
-	 */
-	PropertiesEditingComponent createComponent(EObject target);
-	
-	/**
-	 * Executes operations to be done to dispose the given {@link PropertiesEditingComponent}.
-	 * @param component {@link PropertiesEditingComponent} to dispose.
-	 */
-	void disposeComponent(PropertiesEditingComponent component);
 
 	/**
 	 * @return the editingModelEnvironment of this provider.
@@ -64,12 +43,6 @@ public interface EEFBindingSettings extends EEFService<EPackage> {
 	 * @return a applicable {@link ViewHandlerFactory} if exists, <code>null</code> otherwise.
 	 */
 	ViewHandlerFactory getViewHandlerFactory(Object view);
-
-	/**
-	 * Defines the {@link ModelChangesNotificationManager} to use in the current {@link EEFBindingSettings}
-	 * @param notificationManager {@link ModelChangesNotificationManager} to set.
-	 */
-	void setNotificationManager(ModelChangesNotificationManager notificationManager);
 
 	/**
 	 * Method allowing users to filter the {@link EEFLockPolicy}s applied on a {@link PropertiesEditingComponent}. 

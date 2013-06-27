@@ -41,7 +41,7 @@ public class LockingByAdapterPolicyFactory extends AbstractEEFService<EObject> i
 	 * @param lockEvent the {@link EEFLockEvent} to send.
 	 */
 	public void fireLockChanged(PropertiesEditingComponent editingComponent, EEFLockEvent lockEvent) {
-		bindingManagerProvider.getBindingManager(editingComponent).fireLockChanged(editingComponent, lockEvent);
+		bindingManagerProvider.getBindingManager(editingComponent.getEObject()).fireLockChanged(editingComponent, lockEvent);
 	}
 
 	/**

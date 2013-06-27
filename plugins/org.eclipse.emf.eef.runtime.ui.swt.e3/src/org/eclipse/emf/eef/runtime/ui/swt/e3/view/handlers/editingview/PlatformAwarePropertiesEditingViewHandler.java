@@ -40,6 +40,7 @@ public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditing
 				FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 				if (toolkit != null) {
 					view = new FormImplPropertiesEditingView(editingComponent, viewDescriptor);
+					view.setEMFServiceProvider(handlerFactory.getEMFServiceProvider());
 					view.setViewServiceProvider(handlerFactory.getViewServiceProvider());
 					view.setToolkitPropertyEditorFactory(handlerFactory.getEEFToolkitProvider());
 					((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[1]);
