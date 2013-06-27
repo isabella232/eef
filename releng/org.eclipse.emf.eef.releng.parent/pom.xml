@@ -85,7 +85,7 @@
 				<repository>
 					<id>cdo</id>
 					<layout>p2</layout>
-					<url>http://download.eclipse.org/modeling/emf/cdo/updates/releases/4.0/</url>
+					<url>http://download.eclipse.org/modeling/emf/cdo/updates/releases/4.2/</url>
 				</repository>
 			</repositories>
 		</profile>
@@ -135,7 +135,7 @@
 				<repository>
 					<id>cdo</id>
 					<layout>p2</layout>
-					<url>http://download.eclipse.org/modeling/emf/cdo/updates/releases/4.0/</url>
+					<url>http://download.eclipse.org/modeling/emf/cdo/updates/releases/4.2/</url>
 				</repository>
 			</repositories>
 		</profile>
