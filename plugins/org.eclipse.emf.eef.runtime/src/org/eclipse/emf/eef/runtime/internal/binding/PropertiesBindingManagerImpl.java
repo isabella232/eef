@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.runtime.internal.binding;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -27,7 +28,8 @@ import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager;
+import org.eclipse.emf.eef.runtime.internal.notify.ModelChangesNotifier;
+import org.eclipse.emf.eef.runtime.notify.ModelChangesNotifierImpl;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.UIPropertiesEditingEvent;
@@ -51,6 +53,9 @@ import org.eclipse.emf.eef.runtime.view.notify.EEFNotifier;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedNotification;
 import org.eclipse.emf.eef.runtime.view.notify.impl.ValidationBasedPropertyNotification;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventAdmin;
+import org.osgi.service.event.EventHandler;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -59,8 +64,10 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesBindingManagerImpl extends AbstractEEFService<EObject> implements PropertiesBindingManager, DefaultService {
+public class PropertiesBindingManagerImpl extends AbstractEEFService<EObject> implements PropertiesBindingManager, EventHandler, DefaultService {
 	
+	private EventAdmin eventAdmin;
+
 	private EditingContextFactoryProvider contextFactoryProvider;
 	private EEFBindingSettingsProvider bindingSettingsProvider;
 	private PropertiesEditingPolicyProvider editingPolicyProvider;
@@ -69,10 +76,24 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<EObject> im
 	private EEFLockPolicyFactoryProvider lockPolicyFactoryProvider;
 	private EEFLockManagerProvider lockManagerProvider;
 
-	private ModelChangesNotificationManager notificationManager;
-
 	private EventTimer eventTimer;
 	
+	private List<PropertiesEditingComponent> editingComponents;
+	
+	/**
+	 * 
+	 */
+	public PropertiesBindingManagerImpl() {
+		editingComponents = Lists.newArrayList();
+	}
+
+	/**
+	 * @param eventAdmin the eventAdmin to set
+	 */
+	public void setEventAdmin(EventAdmin eventAdmin) {
+		this.eventAdmin = eventAdmin;
+	}
+
 	/**
 	 * @param contextFactoryProvider the contextFactoryProvider to set
 	 */
@@ -123,13 +144,6 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<EObject> im
 	}
 
 	/**
-	 * @param notificationManager the notificationManager to set
-	 */
-	public void setNotificationManager(ModelChangesNotificationManager notificationManager) {
-		this.notificationManager = notificationManager;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
@@ -145,12 +159,12 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<EObject> im
 		EObject eObject = editingContext.getEObject();
 		EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 		Notifier highestNotifier = emfService.highestNotifier(eObject);
-		notificationManager.initModelChangesNotifierIfNeeded(highestNotifier);
+		initModelChangesNotifierIfNeeded(highestNotifier);
 		EEFBindingSettings provider = bindingSettingsProvider.getBindingSettings(eObject.eClass().getEPackage());
 		PropertiesEditingComponent component = new PropertiesEditingComponentImpl(provider, eObject);
 		component.setEditingContext(editingContext);
 		initLockPolicies(component);
-		notificationManager.registerEditingComponentAsEventHandler(component);
+		registerEditingComponentAsEventHandler(component);
 		return component;
 	}
 
@@ -159,7 +173,7 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<EObject> im
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void disposeComponent(PropertiesEditingComponent component) {
-		notificationManager.unregisterEditingComponent(component);
+		unregisterEditingComponent(component);
 	}
 
 	/**
@@ -443,6 +457,50 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<EObject> im
 			eventTimer = new EventTimer(this);
 		}
 		return eventTimer;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.osgi.service.event.EventHandler#handleEvent(org.osgi.service.event.Event)
+	 * @processing
+	 */
+	public void handleEvent(Event event) {
+		if (event.getProperty("notification") instanceof Notification) {
+			Notification notification = (Notification) event.getProperty("notification"); 
+			for (PropertiesEditingComponent editingComponent : editingComponents) {
+				if (editingComponent.isAffectingEvent(notification)) {
+					notifyChanged(editingComponent, notification);
+				}
+			}
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#initModelChangesNotifierIfNeeded(org.eclipse.emf.common.notify.Notifier)
+	 */
+	public void initModelChangesNotifierIfNeeded(Notifier notifier) {
+		Adapter existingAdapter = EcoreUtil.getExistingAdapter(notifier, ModelChangesNotifier.class);
+		if (existingAdapter == null) {
+			notifier.eAdapters().add(new ModelChangesNotifierImpl(eventAdmin));
+		}
+		
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#registerEditingComponentAsEventHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 */
+	public void registerEditingComponentAsEventHandler(PropertiesEditingComponent editingComponent) {
+		editingComponents.add(editingComponent);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unregisterEditingComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 */
+	public void unregisterEditingComponent(PropertiesEditingComponent editingComponent) {
+		editingComponents.remove(editingComponent);
 	}
 
 }

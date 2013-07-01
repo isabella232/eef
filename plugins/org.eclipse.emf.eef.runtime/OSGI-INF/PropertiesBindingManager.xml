@@ -3,7 +3,9 @@
    <implementation class="org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingManagerImpl"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager"/>
+      <provide interface="org.osgi.service.event.EventHandler"/>
    </service>
+   <property name="event.topics" value="org/eclipse/emf/eef/model/*"/>
    <reference bind="setContextFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider" name="EditingContextFactoryProvider" policy="static"/>
    <reference bind="setBindingSettingsProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider" name="EEFBindingSettingsProvider" policy="static"/>
    <reference bind="setEditingPolicyProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider" name="PropertiesEditingPolicyProvider" policy="static"/>
@@ -11,5 +13,5 @@
    <reference bind="setEEFNotifierProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider" name="EEFNotifierProvider" policy="static"/>
    <reference bind="setLockPolicyFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactoryProvider" name="EEFLockPolicyFactoryProvider" policy="static"/>
    <reference bind="setLockManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider" name="EEFLockManagerProvider" policy="static"/>
-   <reference bind="setNotificationManager" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager" name="ModelChangesNotificationManager" policy="static"/>
+   <reference bind="setEventAdmin" cardinality="1..1" interface="org.osgi.service.event.EventAdmin" name="EventAdmin" policy="static"/>
 </scr:component>
