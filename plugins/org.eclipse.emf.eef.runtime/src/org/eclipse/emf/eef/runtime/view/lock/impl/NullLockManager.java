@@ -5,7 +5,6 @@ package org.eclipse.emf.eef.runtime.view.lock.impl;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 
@@ -14,7 +13,7 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
  * 
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  */
-public class NullLockManager extends AbstractEEFService<Object> implements EEFLockManager, DefaultService {
+public class NullLockManager implements EEFLockManager, DefaultService {
 
 	/**
 	 * {@inheritDoc}

@@ -44,7 +44,6 @@ Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.eef.runtime.EEFRuntime$Plugin
 Service-Component: OSGI-INF/EMFServiceImpl.xml,
  OSGI-INF/StandardPropertiesEditingContextFactory.xml,
- OSGI-INF/EEFServiceRegistry.xml,
  OSGI-INF/NullNotifier.xml,
  OSGI-INF/NullLockManager.xml,
  OSGI-INF/EMFEditAwareLockPolicyFactory.xml,

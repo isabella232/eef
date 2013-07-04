@@ -46,6 +46,7 @@ public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditing
 					((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[1]);
 				} else {
 					view = new SWTImplPropertiesEditingView(editingComponent, viewDescriptor);					
+					view.setEMFServiceProvider(handlerFactory.getEMFServiceProvider());
 					view.setViewServiceProvider(handlerFactory.getViewServiceProvider());
 					view.setToolkitPropertyEditorFactory(handlerFactory.getEEFToolkitProvider());
 					((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);

@@ -5,7 +5,6 @@ package org.eclipse.emf.eef.runtime.ui.swt.view.handlers.editingview;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
@@ -19,7 +18,7 @@ import org.eclipse.emf.eef.views.View;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingViewHandlerFactory extends AbstractEEFService<Object> implements ViewHandlerFactory {
+public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory {
 
 	private EMFServiceProvider emfServiceProvider;
 	private ViewServiceProvider viewServiceProvider;

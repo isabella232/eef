@@ -8,13 +8,12 @@ import org.eclipse.emf.eef.runtime.internal.policies.NullEditingPolicy;
 import org.eclipse.emf.eef.runtime.internal.policies.processors.NullEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.internal.policies.request.NullEditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class StandardPropertiesEditingPolicyProvider extends AbstractEEFService<PropertiesEditingContext> implements PropertiesEditingPolicyProvider, DefaultService {
+public class StandardPropertiesEditingPolicyProvider implements PropertiesEditingPolicyProvider, DefaultService {
 
 	private EditingPolicyRequestFactoryProvider editingPolicyRequestFactoryProvider;
 	private EditingPolicyProcessorProvider editingPolicyProcessorProvider;

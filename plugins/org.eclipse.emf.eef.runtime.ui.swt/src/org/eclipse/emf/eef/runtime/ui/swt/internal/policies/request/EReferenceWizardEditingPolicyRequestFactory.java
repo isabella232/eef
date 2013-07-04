@@ -16,7 +16,6 @@ import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard;
@@ -28,7 +27,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class EReferenceWizardEditingPolicyRequestFactory extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyRequestFactory {
+public abstract class EReferenceWizardEditingPolicyRequestFactory implements EditingPolicyRequestFactory {
 
 	private EditingContextFactoryProvider editingContextFactoryProvider;
 	private EMFServiceProvider emfServiceProvider;

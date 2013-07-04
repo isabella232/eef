@@ -4,7 +4,6 @@
 package org.eclipse.emf.eef.runtime.ui.swt.view.handlers.swt;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
@@ -16,7 +15,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class SWTViewHandlerFactory extends AbstractEEFService<Object> implements ViewHandlerFactory {
+public class SWTViewHandlerFactory implements ViewHandlerFactory {
 	
 	private EEFLockManagerProvider lockManagerProvider;
 	private EEFLogger logger;

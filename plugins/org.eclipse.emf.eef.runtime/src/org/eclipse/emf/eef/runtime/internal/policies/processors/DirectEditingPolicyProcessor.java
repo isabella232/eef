@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -20,25 +19,16 @@ import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class DirectEditingPolicyProcessor extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyProcessor {
+public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	
-	private BindingManagerProvider bindingManagerProvider;
 	private EditingContextFactoryProvider contextFactoryProvider;
 	private PropertiesEditingPolicyProvider editingPolicyProvider;
 	
-	/**
-	 * @param bindingManagerProvider the bindingManagerProvider to set
-	 */
-	public void setBindingManagerProvider(BindingManagerProvider bindingManagerProvider) {
-		this.bindingManagerProvider = bindingManagerProvider;
-	}
-
 	/**
 	 * @param contextFactoryProvider the contextFactoryProvider to set
 	 */
@@ -117,7 +107,7 @@ public class DirectEditingPolicyProcessor extends AbstractEEFService<PropertiesE
 			PropertiesEditingContext subPropertiesEditingContext = factory.createPropertiesEditingContext(editingContext, editedElement);
 			PropertiesEditingPolicy subElementEditingPolicy = editingPolicyProvider.getEditingPolicy(subPropertiesEditingContext);
 			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
-			bindingManagerProvider.getBindingManager(editingComponent.getEObject()).execute(editingComponent, subElementEditingPolicy, subPropertiesEditingContext);
+			editingContext.getBindingManagerProvider().getBindingManager(editingComponent.getEObject()).execute(editingComponent, subElementEditingPolicy, subPropertiesEditingContext);
 		}
 	}
 

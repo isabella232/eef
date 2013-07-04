@@ -40,7 +40,6 @@ import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
@@ -64,7 +63,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesBindingManagerImpl extends AbstractEEFService<EObject> implements PropertiesBindingManager, EventHandler, DefaultService {
+public class PropertiesBindingManagerImpl implements PropertiesBindingManager, EventHandler, DefaultService {
 	
 	private EventAdmin eventAdmin;
 
@@ -265,7 +264,7 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<EObject> im
 			PropertiesEditingContext editingContext = editingComponent.getEditingContext();
 			PropertiesEditingContextFactory service = contextFactoryProvider.getEditingContextFactory(editingComponent.getEObject());
 			PropertiesEditingContext semanticEditingContext = service.createSemanticPropertiesEditingContext(editingContext, editingEvent);
-			PropertiesEditingPolicy editingPolicy = getEditingPolicy(semanticEditingContext);
+			PropertiesEditingPolicy editingPolicy = editingPolicyProvider.getEditingPolicy(semanticEditingContext);
 			if (editingEvent.delayedChanges()) {
 				delayedApplyingPropertiesChanged(editingComponent, editingEvent);
 			} else {
@@ -359,14 +358,6 @@ public class PropertiesBindingManagerImpl extends AbstractEEFService<EObject> im
 		for (ViewHandler<?> handler : editingComponent.getViewHandlers()) {
 			function.apply(handler);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
-	 */
-	private PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext editingContext) {
-		return editingPolicyProvider.getEditingPolicy(editingContext);
 	}
 
 	/**

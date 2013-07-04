@@ -3,7 +3,6 @@
    <implementation class="org.eclipse.emf.eef.runtime.ui.swt.e3.view.handlers.editingview.PlatformAwarePropertiesEditingViewHandlerFactory"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory"/>
-      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
    </service>
    <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.PropertiesEditingViewHandlerFactory"/>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>

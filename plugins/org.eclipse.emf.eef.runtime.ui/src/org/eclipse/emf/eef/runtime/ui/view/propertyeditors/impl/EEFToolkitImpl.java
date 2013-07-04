@@ -6,13 +6,10 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl;
 
 import java.util.List;
 
-import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
-import org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory;
 
 import com.google.common.collect.Lists;
@@ -21,17 +18,8 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class EEFToolkitImpl<T> extends AbstractEEFService<PropertyEditorContext> implements EEFToolkit<T> {
+public abstract class EEFToolkitImpl<T> implements EEFToolkit<T> {
 	
-	private BindingManagerProvider bindingManagerProvider;
-
-	/**
-	 * @param bindingManagerProvider the bindingManagerProvider to set
-	 */
-	public final void setBindingManagerProvider(BindingManagerProvider bindingManagerProvider) {
-		this.bindingManagerProvider = bindingManagerProvider;
-	}
-
 	private List<WidgetPropertyEditorFactory<T>> widgetProviders;
 	
 	/**
@@ -91,7 +79,7 @@ public abstract class EEFToolkitImpl<T> extends AbstractEEFService<PropertyEdito
 	 * @param editingEvent
 	 */
 	public final void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
-		bindingManagerProvider.getBindingManager(editingComponent.getEObject()).firePropertiesChanged(editingComponent, editingEvent);
+		editingComponent.getEditingContext().getBindingManagerProvider().getBindingManager(editingComponent.getEObject()).firePropertiesChanged(editingComponent, editingEvent);
 	}
 	
 	/**

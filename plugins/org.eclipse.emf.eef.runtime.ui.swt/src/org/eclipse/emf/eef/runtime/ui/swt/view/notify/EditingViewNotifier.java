@@ -6,7 +6,6 @@ package org.eclipse.emf.eef.runtime.ui.swt.view.notify;
 import java.util.Map;
 
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.services.view.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -28,7 +27,7 @@ import com.google.common.collect.Maps;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EditingViewNotifier extends AbstractEEFService<Object> implements EEFNotifier {
+public class EditingViewNotifier implements EEFNotifier {
 
 	private Map<PropertiesEditingView<Composite>, DecorationSettings> decorationSettings;
 

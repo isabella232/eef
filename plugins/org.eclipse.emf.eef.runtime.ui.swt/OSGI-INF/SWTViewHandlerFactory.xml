@@ -3,7 +3,6 @@
    <implementation class="org.eclipse.emf.eef.runtime.ui.swt.view.handlers.swt.SWTViewHandlerFactory"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory"/>
-      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
    </service>
    <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.ReflectViewHandlerFactory"/>
    <reference bind="setLockManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider" name="EEFLockManagerProvider" policy="static"/>

@@ -13,13 +13,12 @@ import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFService;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EEFEditingServiceImpl extends AbstractEEFService<EObject> implements EEFEditingService, DefaultService {
+public class EEFEditingServiceImpl implements EEFEditingService, DefaultService {
 
 	private EMFServiceProvider emfServiceProvider;
 	

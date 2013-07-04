@@ -23,15 +23,14 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
+import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class DomainEditingPolicyProcessor extends AbstractEEFService<PropertiesEditingContext> implements EditingPolicyProcessor {
+public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	/**
 	 * {@inheritDoc}
