@@ -25,15 +25,6 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
  */
 public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	
-	private PropertiesEditingPolicyProvider editingPolicyProvider;
-	
-	/**
-	 * @param editingPolicyProvider the editingPolicyProvider to set
-	 */
-	public void setEditingPolicyProvider(PropertiesEditingPolicyProvider editingPolicyProvider) {
-		this.editingPolicyProvider = editingPolicyProvider;
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
@@ -96,6 +87,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 			EObject editedElement = (EObject)value;
 			PropertiesEditingContextFactory factory = editingContext.getContextFactoryProvider().getEditingContextFactory(editedElement);
 			PropertiesEditingContext subPropertiesEditingContext = factory.createPropertiesEditingContext(editingContext, editedElement);
+			PropertiesEditingPolicyProvider editingPolicyProvider = editingContext.getBindingManagerProvider().getBindingManager(editedElement).getPolicyProvider();
 			PropertiesEditingPolicy subElementEditingPolicy = editingPolicyProvider.getEditingPolicy(subPropertiesEditingContext);
 			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
 			editingContext.getBindingManagerProvider().getBindingManager(editingComponent.getEObject()).execute(editingComponent, subElementEditingPolicy, subPropertiesEditingContext);

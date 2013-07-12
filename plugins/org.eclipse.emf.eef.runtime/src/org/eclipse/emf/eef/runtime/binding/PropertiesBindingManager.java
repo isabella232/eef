@@ -6,6 +6,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
@@ -14,6 +15,11 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import com.google.common.base.Function;
 
 public interface PropertiesBindingManager extends EEFService<EObject> {
+	
+	/**
+	 * @return the current {@link PropertiesEditingPolicyProvider}.
+	 */
+	PropertiesEditingPolicyProvider getPolicyProvider();
 	
 	/**
 	 * Creates a new {@link PropertiesEditingComponent}.

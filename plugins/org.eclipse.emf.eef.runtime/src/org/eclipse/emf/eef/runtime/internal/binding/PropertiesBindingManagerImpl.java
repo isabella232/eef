@@ -144,6 +144,14 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#getPolicyProvider()
+	 */
+	public PropertiesEditingPolicyProvider getPolicyProvider() {
+		return editingPolicyProvider;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#createComponent(org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext)
 	 */
 	public PropertiesEditingComponent createComponent(EObjectPropertiesEditingContext editingContext) {
