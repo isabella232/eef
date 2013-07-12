@@ -68,7 +68,7 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	}
 
 	private PropertiesEditingContext createEditingContext(Builder builder) {
-		return builder.createPropertiesEditingContextFactory().createPropertiesEditingContext(new TestEditingDomain(builder.getAdapterFactory(), new BasicCommandStack()), builder.getEditedObject());
+		return builder.getContextFactoryProvider().getEditingContextFactory(builder.getEditedObject()).createPropertiesEditingContext(new TestEditingDomain(builder.getAdapterFactory(), new BasicCommandStack()), builder.getEditedObject());
 	}
 
 	private EClass editedEClass() {

@@ -65,7 +65,7 @@ public class EditingModesTests extends NonUIEditingTestCase {
 	protected PropertiesEditingContext createEditingContext(EEFTestEnvironment.Builder builder) {
 		commandStack = new TrackingCommandStack();
 		AdapterFactoryEditingDomain domain = new AdapterFactoryEditingDomain(builder.getAdapterFactory() , commandStack);
-		return builder.createPropertiesEditingContextFactory().createPropertiesEditingContext(domain, builder.getEditedObject());
+		return builder.getContextFactoryProvider().getEditingContextFactory(builder.getEditedObject()).createPropertiesEditingContext(domain, builder.getEditedObject());
 	}
 
 

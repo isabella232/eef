@@ -53,7 +53,7 @@ public class PropertiesChangeDelayingTests extends NonUIEditingTestCase {
 	
 	private PropertiesEditingContext createEditingContext(Builder builder) {
 		commandStack = new BasicCommandStack();
-		return builder.createPropertiesEditingContextFactory().createPropertiesEditingContext(new AdapterFactoryEditingDomain(builder.getAdapterFactory(), commandStack), builder.getEditedObject());
+		return builder.getContextFactoryProvider().getEditingContextFactory(builder.getEditedObject()).createPropertiesEditingContext(new AdapterFactoryEditingDomain(builder.getAdapterFactory(), commandStack), builder.getEditedObject());
 	}
 
 	/**

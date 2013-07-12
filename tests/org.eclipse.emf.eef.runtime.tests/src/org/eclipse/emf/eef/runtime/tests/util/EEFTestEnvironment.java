@@ -176,14 +176,6 @@ public class EEFTestEnvironment {
 
 	/**
 	 * @return
-	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getEditingContextFactory()
-	 */
-	public PropertiesEditingContextFactory getEditingContextFactory() {
-		return builder.getEditingContextFactory();
-	}
-
-	/**
-	 * @return
 	 * @see org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder#getEditingContext()
 	 */
 	public PropertiesEditingContext getEditingContext() {
@@ -219,7 +211,6 @@ public class EEFTestEnvironment {
 
 		private EEFToolkitProvider eefToolkitProvider;
 		
-		private PropertiesEditingContextFactory editingContextFactory;
 		private PropertiesEditingContext editingContext;
 
 		private EEFBindingSettingsProvider bindingSettingsProvider;
@@ -240,7 +231,6 @@ public class EEFTestEnvironment {
 			adapterFactory = null;
 			preloadedServices = new ArrayList<Class<? extends EEFService<?>>>();
 			eefServices = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<? extends EEFService<Object>>>();
-			editingContextFactory = null;
 			editingContext = null;
 		}
 
@@ -279,9 +269,9 @@ public class EEFTestEnvironment {
 			return editingModel;
 		}
 		
-		private EditingContextFactoryProvider getContextFactoryProvider() {
+		public EditingContextFactoryProvider getContextFactoryProvider() {
 			if (contextFactoryProvider == null) {
-				contextFactoryProvider = createContextFactoryProvider();
+				contextFactoryProvider = createEditingContextFactoryProvider();
 			}
 			return contextFactoryProvider;
 		}
@@ -405,13 +395,6 @@ public class EEFTestEnvironment {
 			return imageManager;
 		}
 
-		public PropertiesEditingContextFactory getEditingContextFactory() {
-			if (editingContextFactory == null) {
-				editingContextFactory = createPropertiesEditingContextFactory();
-			}
-			return editingContextFactory;
-		}
-
 		public PropertiesEditingContext getEditingContext() {
 			if (editingContext == null) {
 				editingContext = createEditingContext();
@@ -469,13 +452,6 @@ public class EEFTestEnvironment {
 			return this;
 		}
 
-		/**
-		 * @param editingContextFactory the editingContextFactory to set
-		 */
-		public Builder setEditingContextFactory(PropertiesEditingContextFactory editingContextFactory) {
-			this.editingContextFactory = editingContextFactory;
-			return this;
-		}
 		/**
 		 * @param editingContext the editingContext to set
 		 */
@@ -896,19 +872,6 @@ public class EEFTestEnvironment {
 			return new E3ImageManager();
 		}
 
-		public EditingContextFactoryProvider createContextFactoryProvider() {
-			EditingContextFactoryProviderImpl contextFactoryProvider = new EditingContextFactoryProviderImpl();
-			try {
-				Map<String, String> properties = new HashMap<String, String>();
-				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, PropertiesEditingContextFactoryImpl.class.getName());
-				PropertiesEditingContextFactoryImpl service = new PropertiesEditingContextFactoryImpl();
-				contextFactoryProvider.addService(service, properties);
-			} catch (PriorityCircularityException e) {
-				e.printStackTrace();
-			}
-			return contextFactoryProvider;
-		}
-
 		public EMFServiceProvider createEMFServiceProvider() {
 			EMFServiceProviderImpl result = new EMFServiceProviderImpl();
 			for (EEFServiceDescriptor<EMFService> eefServiceDescriptor : createEMFServices()) {
@@ -1062,7 +1025,6 @@ public class EEFTestEnvironment {
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, PropertiesBindingManagerImpl.class.getName());
 					PropertiesBindingManagerImpl service = new PropertiesBindingManagerImpl();
-					service.setContextFactoryProvider(getContextFactoryProvider());
 					service.setEMFServiceProvider(getEMFServiceProvider());
 					service.setEditingPolicyProvider(getEditingPolicyProvider());
 					service.setEEFNotifierProvider(getEEFNotifierProvider());
@@ -1077,13 +1039,24 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
-		public PropertiesEditingContextFactory createPropertiesEditingContextFactory() {
-			PropertiesEditingContextFactory factory = createContextFactory().iterator().next().service;
-			return factory;
+		
+		public EditingContextFactoryProvider createEditingContextFactoryProvider() {
+			EditingContextFactoryProviderImpl result = new EditingContextFactoryProviderImpl();
+			for (EEFServiceDescriptor<PropertiesEditingContextFactory> eefServiceDescriptor : createContextFactory()) {
+				Map<String, String> properties = new HashMap<String, String>();
+				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+				try {
+					result.addContextFactory(eefServiceDescriptor.service, properties);
+				} catch (PriorityCircularityException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			return result;
 		}
-
+		
 		public PropertiesEditingContext createEditingContext() {
-			return getEditingContextFactory().createPropertiesEditingContext(getAdapterFactory(), getEditedObject());
+			return getContextFactoryProvider().getEditingContextFactory(getEditedObject()).createPropertiesEditingContext(getAdapterFactory(), getEditedObject());
 		}
 
 		private Widget searchWidget(Toolkit toolkit, String name) {
