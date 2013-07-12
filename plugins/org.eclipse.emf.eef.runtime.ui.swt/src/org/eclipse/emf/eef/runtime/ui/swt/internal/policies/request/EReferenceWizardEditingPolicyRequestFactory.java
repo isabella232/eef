@@ -6,7 +6,6 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -29,17 +28,9 @@ import org.eclipse.swt.widgets.Shell;
  */
 public abstract class EReferenceWizardEditingPolicyRequestFactory implements EditingPolicyRequestFactory {
 
-	private EditingContextFactoryProvider editingContextFactoryProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private EditUIProvidersFactory editUIProvidersFactory;
-
-	/**
-	 * @param editingContextFactoryProvider the editingContextFactoryProvider to set
-	 */
-	public void setContextFactoryProvider(EditingContextFactoryProvider editingContextFactoryProvider) {
-		this.editingContextFactoryProvider = editingContextFactoryProvider;
-	}
 
 	/**
 	 * @param emfServiceProvider the emfServiceProvider to set
@@ -109,7 +100,7 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory implements Edi
 
 	private EObject createObjectAndOpenWizard(final PropertiesEditingContext editingContext, EReference editedReference) {
 		editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
-		EEFEditingWizard wizard = new EEFEditingWizard(editingContextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, editingContext) {
+		EEFEditingWizard wizard = new EEFEditingWizard(editingContext.getContextFactoryProvider(), emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, editingContext) {
 
 			/**
 			 * {@inheritDoc}
