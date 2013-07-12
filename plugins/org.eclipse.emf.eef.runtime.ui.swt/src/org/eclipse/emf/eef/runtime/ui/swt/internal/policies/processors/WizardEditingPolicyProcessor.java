@@ -25,18 +25,10 @@ import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
  */
 public class WizardEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 
-	private EditingContextFactoryProvider contextFactoryProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private EditUIProvidersFactory editUIProvidersFactory;
 	
-	/**
-	 * @param contextFactoryProvider the contextFactoryProvider to set
-	 */
-	public void setContextFactoryProvider(EditingContextFactoryProvider contextFactoryProvider) {
-		this.contextFactoryProvider = contextFactoryProvider;
-	}
-
 	/**
 	 * @param emfServiceProvider the emfServiceProvider to set
 	 */
@@ -78,11 +70,11 @@ public class WizardEditingPolicyProcessor extends DomainEditingPolicyProcessor {
 		switch (behavior.getProcessingKind()) {
 		case EDIT:
 			if (newValue != null) {
-				PropertiesEditingContextFactory editingContextFactory = contextFactoryProvider.getEditingContextFactory((EObject)newValue);
+				PropertiesEditingContextFactory editingContextFactory = domainEditingContext.getContextFactoryProvider().getEditingContextFactory((EObject)newValue);
 				PropertiesEditingContext context = editingContextFactory.createPropertiesEditingContext(domainEditingContext, (EObject)newValue);
 				context.getOptions().setBatchMode(true);
 				context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
-				WizardEditingCommand wizardEditingCommand = new WizardEditingCommand(contextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, context);
+				WizardEditingCommand wizardEditingCommand = new WizardEditingCommand(domainEditingContext.getContextFactoryProvider(), emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, context);
 				return wizardEditingCommand;
 			}
 		}

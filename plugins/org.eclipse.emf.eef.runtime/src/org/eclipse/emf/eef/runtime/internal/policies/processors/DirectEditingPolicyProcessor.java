@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
@@ -26,16 +25,8 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
  */
 public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	
-	private EditingContextFactoryProvider contextFactoryProvider;
 	private PropertiesEditingPolicyProvider editingPolicyProvider;
 	
-	/**
-	 * @param contextFactoryProvider the contextFactoryProvider to set
-	 */
-	public void setContextFactoryProvider(EditingContextFactoryProvider contextFactoryProvider) {
-		this.contextFactoryProvider = contextFactoryProvider;
-	}
-
 	/**
 	 * @param editingPolicyProvider the editingPolicyProvider to set
 	 */
@@ -103,7 +94,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	protected final void performEdit(PropertiesEditingContext editingContext, EObject eObject, EStructuralFeature feature, Object value) {
 		if (value instanceof EObject) {
 			EObject editedElement = (EObject)value;
-			PropertiesEditingContextFactory factory = contextFactoryProvider.getEditingContextFactory(editedElement);
+			PropertiesEditingContextFactory factory = editingContext.getContextFactoryProvider().getEditingContextFactory(editedElement);
 			PropertiesEditingContext subPropertiesEditingContext = factory.createPropertiesEditingContext(editingContext, editedElement);
 			PropertiesEditingPolicy subElementEditingPolicy = editingPolicyProvider.getEditingPolicy(subPropertiesEditingContext);
 			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
