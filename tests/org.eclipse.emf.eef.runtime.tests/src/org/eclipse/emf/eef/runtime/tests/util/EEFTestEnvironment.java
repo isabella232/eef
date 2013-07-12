@@ -92,7 +92,6 @@ import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager;
@@ -195,9 +194,6 @@ public class EEFTestEnvironment {
 		private PropertiesEditingModel editingModel;
 		private AdapterFactory adapterFactory;
 
-		private Collection<Class<? extends EEFService<?>>> preloadedServices;
-		private Collection<EEFServiceDescriptor<? extends EEFService<Object>>> eefServices;
-
 		private EditingContextFactoryProvider contextFactoryProvider;
 		private EMFServiceProvider emfServiceProvider;
 		private ViewServiceProvider viewServiceProvider;
@@ -214,6 +210,8 @@ public class EEFTestEnvironment {
 		private PropertiesEditingContext editingContext;
 
 		private EEFBindingSettingsProvider bindingSettingsProvider;
+		private Collection<EEFServiceDescriptor<EEFBindingSettings>> bindingSettings;
+		
 		private BindingManagerProvider bindingManagerProvider;
 		private ViewHandlerFactoryProvider viewHandlerFactoryProvider;
 
@@ -224,13 +222,12 @@ public class EEFTestEnvironment {
 
 
 
+
 		public Builder() {
 			sampleModel = null;
 			editedObject = null;
 			editingModel = null;
 			adapterFactory = null;
-			preloadedServices = new ArrayList<Class<? extends EEFService<?>>>();
-			eefServices = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<? extends EEFService<Object>>>();
 			editingContext = null;
 		}
 
@@ -295,6 +292,13 @@ public class EEFTestEnvironment {
 				eefEditingServiceProvider = createEEFEditingServiceProvider();
 			}
 			return eefEditingServiceProvider;
+		}
+		
+		public Collection<EEFServiceDescriptor<EEFBindingSettings>> getBindingSettings() {
+			if (bindingSettings == null) {
+				bindingSettings = createBindingSettings();
+			}
+			return bindingSettings;
 		}
 
 		public ViewServiceProvider getViewServiceProvider() {
@@ -432,10 +436,12 @@ public class EEFTestEnvironment {
 			this.adapterFactory = adapterFactory;
 			return this;
 		}
-
-		public Builder setPreloadedService(Class<? extends EEFService<?>> serviceKind, Collection<EEFServiceDescriptor<? extends EEFService<Object>>> descriptors) {
-			preloadedServices.add(serviceKind);
-			eefServices.addAll(descriptors);
+		
+		/**
+		 * @param bindingSettings the bindingSettings to set
+		 */
+		public Builder setBindingSettings(Collection<EEFServiceDescriptor<EEFBindingSettings>> bindingSettings) {
+			this.bindingSettings = bindingSettings;
 			return this;
 		}
 
@@ -625,61 +631,6 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
-		@SuppressWarnings({ "unchecked" })
-		protected Collection<EEFServiceDescriptor<? extends EEFService<Object>>> populateEEFServices() {
-			if (!preloadedServices.contains(EMFService.class)) {
-				for (EEFServiceDescriptor<EMFService> desc : createEMFServices()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
-			if (!preloadedServices.contains(ViewService.class)) {
-				for (EEFServiceDescriptor<ViewService> desc : createViewServices()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
-			if (!preloadedServices.contains(EEFToolkitImpl.class)) {
-				for (EEFServiceDescriptor<EEFToolkit<Composite>> desc : createEditorProviders()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
-			if (!preloadedServices.contains(EEFBindingSettings.class)) {
-				for (EEFServiceDescriptor<EEFBindingSettings> desc : createBindingSettings()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
-			if (!preloadedServices.contains(ViewHandlerFactory.class)) {
-				for (EEFServiceDescriptor<ViewHandlerFactory> desc : createVHandlerFactories()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
-			if (!preloadedServices.contains(EEFNotifier.class)) {
-				for (EEFServiceDescriptor<EEFNotifier> desc : createNotifiers()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
-			if (!preloadedServices.contains(EEFLockManager.class)) {
-				for (EEFServiceDescriptor<EEFLockManager> desc : createLockManagers()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
-			if (!preloadedServices.contains(PropertiesEditingPolicyProvider.class)) {
-				for (EEFServiceDescriptor<PropertiesEditingPolicyProvider> desc : createPolicyProvider()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
-			if (!preloadedServices.contains(PropertiesEditingContextFactory.class)) {
-				for (EEFServiceDescriptor<PropertiesEditingContextFactory> desc : createContextFactory()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
-			if (!preloadedServices.contains(EEFEditingService.class)) {
-				for (EEFServiceDescriptor<EEFEditingService> desc : createEditingService()) {
-					eefServices.add((EEFServiceDescriptor<? extends EEFService<Object>>) desc);
-				}
-			}
-			return eefServices;
-		}
-
 		public Collection<EEFServiceDescriptor<EMFService>> createEMFServices() {
 			Collection<EEFServiceDescriptor<EMFService>> services = new ArrayList<EEFServiceDescriptor<EMFService>>();
 			EEFServiceDescriptor<EMFService> descriptor = new EEFServiceDescriptor<EMFService>("emfservice.default", new EMFServiceImpl());
@@ -769,7 +720,10 @@ public class EEFTestEnvironment {
 				 */
 				@Override
 				protected PropertiesEditingModel getEditingModel() {
-					return Builder.this.getEditingModel();
+					PropertiesEditingModel editingModel = Builder.this.getEditingModel();
+					Resource resource = getResourceSet().createResource(URI.createURI("file://model.editingModel"));
+					resource.getContents().add(editingModel);
+					return editingModel;
 				}
 
 			};
@@ -1006,7 +960,7 @@ public class EEFTestEnvironment {
 
 		private EEFBindingSettingsProvider createBindingSettingsProvider() {
 			EEFBindingSettingsProviderImpl result = new EEFBindingSettingsProviderImpl();
-			for (EEFServiceDescriptor<EEFBindingSettings> eefServiceDescriptor : createBindingSettings()) {
+			for (EEFServiceDescriptor<EEFBindingSettings> eefServiceDescriptor : getBindingSettings()) {
 				try {
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);

@@ -31,7 +31,6 @@ import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
 import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceProviderImpl;
-import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsImpl;
 import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
@@ -167,65 +166,16 @@ public class FeatureDocumentationTests {
 		bindingSettings.setEMFServiceProvider(emfServiceProvider);
 		Collection<EEFBindingSettings> providers = new ArrayList<EEFBindingSettings>();
 		providers.add(bindingSettings);
-		Collection<EEFServiceDescriptor<? extends EEFService<Object>>> specificProviders = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<? extends EEFService<Object>>>();
+		Collection<EEFServiceDescriptor<EEFBindingSettings>> specificProviders = new ArrayList<EEFServiceDescriptor<EEFBindingSettings>>();
 		
-		specificProviders.add((EEFServiceDescriptor<? extends EEFService<Object>>) new EEFServiceDescriptor<EEFBindingSettings>("specificBindingSettings", bindingSettings));
+		specificProviders.add(new EEFServiceDescriptor<EEFBindingSettings>("specificBindingSettings", bindingSettings));
 
 		Builder builder = new EEFTestEnvironment.Builder()
-													.setPreloadedService(EEFBindingSettings.class, specificProviders)
+													.setBindingSettings(specificProviders)
 													.setEditedObject(EcoreFactory.eINSTANCE.createEClass());
 		return builder.build();
 	}
-	
-//	private BindingManagerProvider createBindingManagerProvider() {
-//		return new BindingManagerProvider() {
-//			
-//			public PropertiesBindingManager getBindingManager(EObject source) {
-//				return new PropertiesBindingManager() {
-//					
-//					public boolean serviceFor(EObject source) {
-//						return true;
-//					}
-//					
-//					public PropertiesEditingComponent createComponent(EObjectPropertiesEditingContext editingContext) {
-//						return null;
-//					}
-//
-//					public void disposeComponent(PropertiesEditingComponent component) {
-//					}
-//
-//					public Collection<String> providedServices() {
-//						return null;
-//					}
-//					
-//					public void notifyChanged(PropertiesEditingComponent editingComponent, Notification msg) {
-//						
-//					}
-//					
-//					public void initLockPolicies(PropertiesEditingComponent editingComponent) {
-//					}
-//					
-//					public void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
-//						
-//					}
-//					
-//					public void fireLockChanged(PropertiesEditingComponent editingComponent, EEFLockEvent lockEvent) {
-//						
-//					}
-//					
-//					public void execute(PropertiesEditingComponent editingComponent, PropertiesEditingPolicy editingPolicy, PropertiesEditingContext policyEditingContext) {
-//						
-//					}
-//
-//					public void executeOnViewHandlers(PropertiesEditingComponent editingComponent, Function<ViewHandler<?>, Void> function) {
-//						
-//					}
-//				};
-//			}
-//		};
-//		
-//	}
-	
+		
 
 	private EClass getEClassEClassFromResourceSet(ResourceSet rset) {
 		final Resource ecoreResource = rset.getResource(URI.createPlatformPluginURI(ECORE_ECORE_URI, true), true);

@@ -48,7 +48,6 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		Collection<EEFServiceDescriptor<? extends EEFService<Object>>> notifiers = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<? extends EEFService<Object>>>();
 		testNotifier = new TestNotifier();
 		notifiers.add(new EEFServiceDescriptor<EEFNotifier>("testNotifier", testNotifier));
-		builder.setPreloadedService(EEFNotifier.class, notifiers);
 		builder.setEditingModel(new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
 									.bindClass(EcorePackage.Literals.EREFERENCE)
 										.withView(SampleView.class)
