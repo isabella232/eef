@@ -9,6 +9,7 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
+import org.eclipse.emf.eef.runtime.services.EEFServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -16,6 +17,18 @@ import org.eclipse.emf.eef.runtime.services.EEFService;
  */
 public interface PropertiesEditingContextFactory extends EEFService<EObject> {
 
+	/**
+	 * Defines the provider owning the current context factory
+	 * @param serviceProvider the {@link EditingContextFactoryProvider} owing the current {@link PropertiesEditingContextFactory}.
+	 */
+	void setProvider(EEFServiceProvider<EObject, PropertiesEditingContextFactory> serviceProvider);
+	
+	/**
+	 * Returns the {@link EditingContextFactoryProvider} providing the current context factory.
+	 * @return the {@link EditingContextFactoryProvider} providing the current {@link PropertiesEditingContextFactory}.
+	 */
+	EditingContextFactoryProvider getContextFactoryProvider();
+	
 	/**
 	 * Creates a standard {@link PropertiesEditingContext} with an {@link AdapterFactory} and an {@link EObject}.
 	 * @param adapterFactory {@link AdapterFactory} for the context.

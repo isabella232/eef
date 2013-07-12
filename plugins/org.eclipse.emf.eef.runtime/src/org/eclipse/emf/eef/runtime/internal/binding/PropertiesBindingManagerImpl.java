@@ -67,7 +67,6 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 	
 	private EventAdmin eventAdmin;
 
-	private EditingContextFactoryProvider contextFactoryProvider;
 	private EEFBindingSettingsProvider bindingSettingsProvider;
 	private PropertiesEditingPolicyProvider editingPolicyProvider;
 	private EMFServiceProvider emfServiceProvider;
@@ -91,13 +90,6 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 	 */
 	public void setEventAdmin(EventAdmin eventAdmin) {
 		this.eventAdmin = eventAdmin;
-	}
-
-	/**
-	 * @param contextFactoryProvider the contextFactoryProvider to set
-	 */
-	public void setContextFactoryProvider(EditingContextFactoryProvider contextFactoryProvider) {
-		this.contextFactoryProvider = contextFactoryProvider;
 	}
 
 	/**
@@ -262,6 +254,7 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 	public synchronized void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		if (!(editingEvent instanceof UIPropertiesEditingEvent)) {
 			PropertiesEditingContext editingContext = editingComponent.getEditingContext();
+			EditingContextFactoryProvider contextFactoryProvider = editingContext.getContextFactoryProvider();
 			PropertiesEditingContextFactory service = contextFactoryProvider.getEditingContextFactory(editingComponent.getEObject());
 			PropertiesEditingContext semanticEditingContext = service.createSemanticPropertiesEditingContext(editingContext, editingEvent);
 			PropertiesEditingPolicy editingPolicy = editingPolicyProvider.getEditingPolicy(semanticEditingContext);

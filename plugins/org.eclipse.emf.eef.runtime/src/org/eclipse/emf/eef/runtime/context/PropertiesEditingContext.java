@@ -24,6 +24,11 @@ public interface PropertiesEditingContext {
 	 * @return the {@link BindingManagerProvider} to use in the current context.
 	 */
 	BindingManagerProvider getBindingManagerProvider();
+	
+	/**
+	 * @return the {@link EditingContextFactoryProvider} to use in the current context.
+	 */
+	EditingContextFactoryProvider getContextFactoryProvider();
 
 	/**
 	 * Returns a {@link PropertiesEditingComponent} binding the edited model element.
@@ -65,6 +70,5 @@ public interface PropertiesEditingContext {
 	 * Dispose the current context. 
 	 */
 	void dispose();
-
 
 }

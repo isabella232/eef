@@ -9,11 +9,13 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
+import org.eclipse.emf.eef.runtime.services.EEFServiceProvider;
 import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 
 /**
@@ -22,8 +24,25 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
  */
 public class PropertiesEditingContextFactoryImpl implements PropertiesEditingContextFactory, DefaultService {
 
+	private EEFServiceProvider<EObject, PropertiesEditingContextFactory> serviceProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private BindingManagerProvider bindingManagerProvider;
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setProvider(org.eclipse.emf.eef.runtime.services.EEFServiceProvider)
+	 */
+	public void setProvider(EEFServiceProvider<EObject, PropertiesEditingContextFactory> serviceProvider) {
+		this.serviceProvider = serviceProvider;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#getContextFactoryProvider()
+	 */
+	public EditingContextFactoryProvider getContextFactoryProvider() {
+		return (EditingContextFactoryProvider) serviceProvider;
+	}
 
 	/**
 	 * @param emfServiceProvider the emfServiceProvider to set
@@ -111,6 +130,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	private void configureEditingContext(EObjectPropertiesEditingContext context) {
 		context.setEMFServiceProvider(emfServiceProvider);
 		context.setBindingManagerProvider(bindingManagerProvider);
+		context.setContextFactoryProvider(getContextFactoryProvider());
 	}
 
 }

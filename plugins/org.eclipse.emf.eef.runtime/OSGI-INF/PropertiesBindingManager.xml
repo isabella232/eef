@@ -6,7 +6,6 @@
       <provide interface="org.osgi.service.event.EventHandler"/>
    </service>
    <property name="event.topics" value="org/eclipse/emf/eef/model/*"/>
-   <reference bind="setContextFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider" name="EditingContextFactoryProvider" policy="static"/>
    <reference bind="setBindingSettingsProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider" name="EEFBindingSettingsProvider" policy="static"/>
    <reference bind="setEditingPolicyProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider" name="PropertiesEditingPolicyProvider" policy="static"/>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>

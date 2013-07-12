@@ -7,6 +7,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.EditingRecorder;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
@@ -18,9 +19,9 @@ import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
  */
 public class EObjectPropertiesEditingContext implements PropertiesEditingContext {
 
-	
 	private EMFServiceProvider emfServiceProvider;
 	private BindingManagerProvider bindingManagerProvider;
+	private EditingContextFactoryProvider contextFactoryProvider;
 	
 	protected PropertiesEditingContext parentContext;
 	protected EObject eObject;
@@ -70,6 +71,13 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	}
 
 	/**
+	 * @param contextFactoryProvider the contextFactoryProvider to set
+	 */
+	public void setContextFactoryProvider(EditingContextFactoryProvider contextFactoryProvider) {
+		this.contextFactoryProvider = contextFactoryProvider;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEMFServiceProvider()
 	 */
@@ -89,6 +97,13 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public BindingManagerProvider getBindingManagerProvider() {
 		return bindingManagerProvider;
+	}
+
+	/**
+	 * @return the contextFactoryProvider
+	 */
+	public EditingContextFactoryProvider getContextFactoryProvider() {
+		return contextFactoryProvider;
 	}
 
 	/**
