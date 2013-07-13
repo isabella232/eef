@@ -25,19 +25,19 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
-import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceProviderImpl;
-import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
-import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsImpl;
-import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
+import org.eclipse.emf.eef.runtime.internal.util.EMFServiceImpl;
+import org.eclipse.emf.eef.runtime.internal.util.EMFServiceProviderImpl;
+import org.eclipse.emf.eef.runtime.services.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.EEFServiceDescriptor;
-import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
+import org.eclipse.emf.eef.runtime.ui.util.ViewService;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewsFactory;
@@ -138,7 +138,7 @@ public class FeatureDocumentationTests {
 			
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsImpl#getEditingModel()
+			 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl#getEditingModel()
 			 */
 			@Override
 			protected PropertiesEditingModel getEditingModel() {

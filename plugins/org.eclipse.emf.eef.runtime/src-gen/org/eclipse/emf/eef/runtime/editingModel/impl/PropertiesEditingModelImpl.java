@@ -27,9 +27,9 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
-import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
+import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 
 /**
  * <!-- begin-user-doc -->
@@ -465,7 +465,7 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#setEMFServiceProvider(org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider)
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#setEMFServiceProvider(org.eclipse.emf.eef.runtime.util.EMFServiceProvider)
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;

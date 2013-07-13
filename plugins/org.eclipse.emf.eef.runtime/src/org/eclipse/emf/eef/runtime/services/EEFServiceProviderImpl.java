@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
-import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.BiMap;

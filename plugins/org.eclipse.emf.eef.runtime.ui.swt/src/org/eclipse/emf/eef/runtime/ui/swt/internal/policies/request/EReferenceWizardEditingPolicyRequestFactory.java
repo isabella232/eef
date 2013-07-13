@@ -12,13 +12,13 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest.ProcessingKind;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory;
-import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
-import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFWizardDialog;
+import org.eclipse.emf.eef.runtime.util.EEFEditingService;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 

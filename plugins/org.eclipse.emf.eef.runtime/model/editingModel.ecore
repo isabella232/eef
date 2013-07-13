@@ -50,7 +50,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="propertyBindings" upperBound="-1"
         eType="#//PropertyBinding" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="ViewHandler" instanceClassName="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler">
+  <eClassifiers xsi:type="ecore:EDataType" name="ViewHandler" instanceClassName="org.eclipse.emf.eef.runtime.view.handle.ViewHandler">
     <eTypeParameters name="T"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="View" abstract="true">

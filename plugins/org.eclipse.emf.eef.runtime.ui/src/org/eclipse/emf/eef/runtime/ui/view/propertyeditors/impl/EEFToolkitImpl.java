@@ -31,7 +31,7 @@ public abstract class EEFToolkitImpl<T> implements EEFToolkit<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorFactory#serviceFor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
+	 * @see org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory#serviceFor(org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	public final boolean serviceFor(PropertyEditorContext editorContext) {
 		for (WidgetPropertyEditorFactory<T> provider : widgetProviders) {
@@ -44,7 +44,7 @@ public abstract class EEFToolkitImpl<T> implements EEFToolkit<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorFactory#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
+	 * @see org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 * TODO: need cache
 	 */
 	public final PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {

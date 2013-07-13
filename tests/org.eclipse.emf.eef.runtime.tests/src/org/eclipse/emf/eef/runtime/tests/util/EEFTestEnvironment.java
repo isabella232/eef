@@ -23,6 +23,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
@@ -30,53 +33,42 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.binding.BindingManagerProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingManagerImpl;
+import org.eclipse.emf.eef.runtime.internal.binding.settings.EEFBindingSettingsProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.context.EditingContextFactoryProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.context.PropertiesEditingContextFactoryImpl;
+import org.eclipse.emf.eef.runtime.internal.policies.PropertiesEditingPolicyProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.policies.processors.DirectEditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.internal.policies.processors.DomainEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.internal.policies.processors.EditingPolicyProcessorProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.policies.request.EObjectEditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.internal.policies.request.EReferenceEditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.internal.policies.request.EditingPolicyRequestFactoryProviderImpl;
-import org.eclipse.emf.eef.runtime.internal.services.bindingSettings.EEFBindingSettingsProviderImpl;
-import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceImpl;
-import org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceProviderImpl;
-import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceImpl;
-import org.eclipse.emf.eef.runtime.internal.services.emf.EMFServiceProviderImpl;
-import org.eclipse.emf.eef.runtime.internal.services.viewhandler.ViewHandlerFactoryProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.util.EEFEditingServiceImpl;
+import org.eclipse.emf.eef.runtime.internal.util.EEFEditingServiceProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.util.EMFServiceImpl;
+import org.eclipse.emf.eef.runtime.internal.util.EMFServiceProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.view.handle.ViewHandlerFactoryProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.view.lock.impl.EEFLockManagerProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EEFLockPolicyFactoryProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EMFEditAwareLockPolicyFactory;
 import org.eclipse.emf.eef.runtime.internal.view.notify.EEFNotifierProviderImpl;
+import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessorProvider;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactoryProvider;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
-import org.eclipse.emf.eef.runtime.policies.StandardPropertiesEditingPolicyProvider;
-import org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.services.EEFService;
-import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettings;
-import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsImpl;
-import org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsProvider;
-import org.eclipse.emf.eef.runtime.services.editing.EEFEditingService;
-import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
-import org.eclipse.emf.eef.runtime.services.emf.EMFService;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
-import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactoryProvider;
+import org.eclipse.emf.eef.runtime.services.PriorityCircularityException;
 import org.eclipse.emf.eef.runtime.tests.views.EClassMockView;
 import org.eclipse.emf.eef.runtime.tests.views.RootView;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
-import org.eclipse.emf.eef.runtime.ui.internal.services.view.ViewServiceProviderImpl;
+import org.eclipse.emf.eef.runtime.ui.internal.util.ViewServiceProviderImpl;
 import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.EEFToolkitProviderImpl;
-import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
-import org.eclipse.emf.eef.runtime.ui.services.view.ViewServiceProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.services.view.PlatformAwareViewServiceImpl;
-import org.eclipse.emf.eef.runtime.ui.swt.e3.services.logging.E3EEFLogger;
-import org.eclipse.emf.eef.runtime.ui.swt.e3.services.resources.E3ImageManager;
-import org.eclipse.emf.eef.runtime.ui.swt.e3.view.handlers.editingview.PlatformAwarePropertiesEditingViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.logging.E3EEFLogger;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.resources.E3ImageManager;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.util.PlatformAwareViewServiceImpl;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.handle.editingview.PlatformAwarePropertiesEditingViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesPlatformAwareToolkit;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.swttoolkit.SWTPlatformAwareToolkit;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.viewer.E3EditUIProvidersFactory;
@@ -84,14 +76,20 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.processors.WizardEdi
 import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceBatchWizardEditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceDirectWizardEditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceLiveWizardEditingPolicyRequest;
-import org.eclipse.emf.eef.runtime.ui.swt.services.resources.ImageManager;
-import org.eclipse.emf.eef.runtime.ui.swt.view.handlers.swt.SWTViewHandlerFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.view.lock.EditingViewLockManager;
-import org.eclipse.emf.eef.runtime.ui.swt.view.notify.EditingViewNotifier;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
-import org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.ui.util.ViewService;
+import org.eclipse.emf.eef.runtime.ui.util.ViewServiceProvider;
+import org.eclipse.emf.eef.runtime.ui.view.handle.reflect.ReflectViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
+import org.eclipse.emf.eef.runtime.util.EEFEditingService;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactoryProvider;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.impl.NullLockManager;
@@ -108,6 +106,9 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.swt.widgets.Composite;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
+
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.notify.EditingViewNotifier;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.lock.EditingViewLockManager;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -716,7 +717,7 @@ public class EEFTestEnvironment {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.services.bindingSettings.EEFBindingSettingsImpl#getEditingModel()
+				 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl#getEditingModel()
 				 */
 				@Override
 				protected PropertiesEditingModel getEditingModel() {
@@ -791,7 +792,7 @@ public class EEFTestEnvironment {
 
 		public Collection<EEFServiceDescriptor<PropertiesEditingPolicyProvider>> createPolicyProvider() {
 			Collection<EEFServiceDescriptor<PropertiesEditingPolicyProvider>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<PropertiesEditingPolicyProvider>>();
-			StandardPropertiesEditingPolicyProvider policyProvider = new StandardPropertiesEditingPolicyProvider();
+			PropertiesEditingPolicyProviderImpl policyProvider = new PropertiesEditingPolicyProviderImpl();
 			policyProvider.setEditingPolicyRequestFactoryProvider(getPolicyRequestFactoryProvider());
 			policyProvider.setEditingPolicyProcessorProvider(getPolicyProcessorProvider());
 			EEFServiceDescriptor<PropertiesEditingPolicyProvider> desc = new EEFServiceDescriptor<PropertiesEditingPolicyProvider>("propertieseditingpolicyprovider.default", policyProvider);

@@ -5,13 +5,13 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.emfprope
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
-import org.eclipse.emf.eef.runtime.ui.services.view.ViewService;
-import org.eclipse.emf.eef.runtime.ui.swt.e3.services.view.PlatformAwareViewService;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.widgets.FormEReferenceEditor;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.util.view.PlatformAwareViewService;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.swt.e3.widgets.FormEReferenceEditor;
-import org.eclipse.emf.eef.runtime.ui.swt.services.resources.ImageManager;
-import org.eclipse.emf.eef.runtime.ui.swt.services.view.SWTViewService;
-import org.eclipse.emf.eef.runtime.ui.swt.widgets.MultiLinePropertyViewer;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer;
+import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
+import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
+import org.eclipse.emf.eef.runtime.ui.util.ViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;

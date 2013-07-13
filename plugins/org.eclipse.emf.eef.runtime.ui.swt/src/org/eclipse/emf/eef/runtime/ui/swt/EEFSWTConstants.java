@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt;
 
-import org.eclipse.emf.eef.runtime.ui.swt.widgets.util.SelectionMode;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.SelectionMode;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;

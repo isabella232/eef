@@ -446,7 +446,7 @@ public interface EditingModelPackage extends EPackage {
 	 * The meta object id for the '<em>View Handler</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getViewHandler()
 	 * @generated
 	 */
@@ -762,12 +762,12 @@ public interface EditingModelPackage extends EPackage {
 	EEnum getFeatureDocumentationProvider();
 
 	/**
-	 * Returns the meta object for data type '{@link org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler <em>View Handler</em>}'.
+	 * Returns the meta object for data type '{@link org.eclipse.emf.eef.runtime.view.handle.ViewHandler <em>View Handler</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>View Handler</em>'.
-	 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler
-	 * @model instanceClass="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler" typeParameters="T"
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler
+	 * @model instanceClass="org.eclipse.emf.eef.runtime.view.handle.ViewHandler" typeParameters="T"
 	 * @generated
 	 */
 	EDataType getViewHandler();
@@ -1052,7 +1052,7 @@ public interface EditingModelPackage extends EPackage {
 		 * The meta object literal for the '<em>View Handler</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler
+		 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler
 		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getViewHandler()
 		 * @generated
 		 */

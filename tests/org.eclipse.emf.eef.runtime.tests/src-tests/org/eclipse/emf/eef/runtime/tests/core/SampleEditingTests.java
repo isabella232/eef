@@ -8,10 +8,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandler;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
-import org.eclipse.emf.eef.runtime.ui.swt.view.handlers.swt.SWTViewHandler;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandler;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.junit.Test;
 
 /**

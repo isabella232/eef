@@ -5,7 +5,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.swttoolk
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.services.propertyeditors.util.EEFControlWrapperViewer;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.swt.layout.GridData;
@@ -44,7 +44,7 @@ public class HBoxFormPropertyEditor implements FormPropertyEditor<EEFControlWrap
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
+				 * @see org.eclipse.emf.eef.runtime.ui.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
 				 */
 				@Override
 				public Composite getMainControl() {

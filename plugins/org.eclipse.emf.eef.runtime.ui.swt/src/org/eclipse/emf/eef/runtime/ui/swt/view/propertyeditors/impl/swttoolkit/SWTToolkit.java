@@ -3,12 +3,12 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit;
 
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.checkbox.CheckboxPropertyEditorFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.combo.ComboPropertyEditorFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.group.GroupContainerFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.hbox.HBoxContainerFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditorFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.checkbox.CheckboxPropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.combo.ComboPropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.group.GroupContainerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.hbox.HBoxContainerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.text.TextPropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;

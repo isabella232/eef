@@ -5,8 +5,8 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.swttoolk
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.StandardFormPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.swt.services.view.SWTViewService;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.combo.ComboUIPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.combo.ComboUIPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;

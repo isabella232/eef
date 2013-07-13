@@ -34,7 +34,7 @@ public abstract class WidgetPropertyEditorFactoryImpl<T> implements WidgetProper
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorFactory#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.services.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
+	 * @see org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	public final PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
 		PropertyEditor propertyEditor = createPropertyEditor(editorContext);

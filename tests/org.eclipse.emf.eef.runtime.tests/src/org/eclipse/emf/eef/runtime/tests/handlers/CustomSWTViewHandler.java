@@ -8,11 +8,11 @@ import java.lang.reflect.Method;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory;
-import org.eclipse.emf.eef.runtime.services.viewhandler.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.tests.views.SampleCustomView;
 import org.eclipse.emf.eef.runtime.ui.internal.view.util.ReflectHelper;
-import org.eclipse.emf.eef.runtime.ui.swt.view.handlers.swt.SWTViewHandler;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandler;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewHandlingException;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -44,7 +44,7 @@ public class CustomSWTViewHandler extends SWTViewHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.handle.reflect.ReflectViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	@Override
 	public void initView(PropertiesEditingComponent component) {
@@ -68,7 +68,7 @@ public class CustomSWTViewHandler extends SWTViewHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandler#setValue(java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.handle.reflect.ReflectViewHandler#setValue(java.lang.Object, java.lang.Object)
 	 */
 	public void setValue(Object field, Object value) throws ViewHandlingException {
 		if (view != null && value instanceof Boolean) {
@@ -81,7 +81,7 @@ public class CustomSWTViewHandler extends SWTViewHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.handlers.reflect.ReflectViewHandler#dispose()
+	 * @see org.eclipse.emf.eef.runtime.ui.view.handle.reflect.ReflectViewHandler#dispose()
 	 */
 	@Override
 	public void dispose() {

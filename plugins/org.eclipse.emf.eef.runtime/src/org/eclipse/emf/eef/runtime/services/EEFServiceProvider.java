@@ -5,7 +5,6 @@ package org.eclipse.emf.eef.runtime.services;
 
 import java.util.Map;
 
-import org.eclipse.emf.eef.runtime.services.impl.PriorityCircularityException;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

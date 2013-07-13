@@ -14,7 +14,7 @@ import org.osgi.framework.ServiceReference;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EEFDoubleClickFactoryUtil {
+public final class EEFDoubleClickFactoryUtil {
 
 	/**
 	 * @param bundle

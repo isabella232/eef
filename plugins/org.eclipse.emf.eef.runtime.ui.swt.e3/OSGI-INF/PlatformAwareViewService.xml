@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.swt.e3.PlatformAwareViewService">
-   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.e3.internal.services.view.PlatformAwareViewServiceImpl"/>
+   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.e3.internal.util.PlatformAwareViewServiceImpl"/>
    <service>
-      <provide interface="org.eclipse.emf.eef.runtime.ui.swt.e3.services.view.PlatformAwareViewService"/>
-      <provide interface="org.eclipse.emf.eef.runtime.ui.services.view.ViewService"/>
+      <provide interface="org.eclipse.emf.eef.runtime.ui.swt.e3.util.view.PlatformAwareViewService"/>
+      <provide interface="org.eclipse.emf.eef.runtime.ui.util.ViewService"/>
    </service>
-   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider" name="EMFServiceProvider" policy="dynamic"/>
-   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.StandardViewService"/>
+   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="dynamic"/>
+   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.swt.SWTViewService"/>
 </scr:component>

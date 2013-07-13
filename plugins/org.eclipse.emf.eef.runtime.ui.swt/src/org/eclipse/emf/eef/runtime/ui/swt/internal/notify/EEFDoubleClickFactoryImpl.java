@@ -6,11 +6,11 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.notify;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
-import org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider;
-import org.eclipse.emf.eef.runtime.services.emf.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.notify.EEFDoubleClickFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.notify.OpenWizardOnDoubleClick;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 
 /**

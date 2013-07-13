@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.swttoolkit.textarea;
 
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.StandardFormControlPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.swt.services.view.SWTViewService;
+import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;

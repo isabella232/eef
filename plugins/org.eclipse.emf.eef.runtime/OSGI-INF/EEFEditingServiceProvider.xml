@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider">
-   <implementation class="org.eclipse.emf.eef.runtime.internal.services.editing.EEFEditingServiceProviderImpl"/>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider">
+   <implementation class="org.eclipse.emf.eef.runtime.internal.util.EEFEditingServiceProviderImpl"/>
    <service>
-      <provide interface="org.eclipse.emf.eef.runtime.services.editing.EEFEditingServiceProvider"/>
+      <provide interface="org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider"/>
    </service>
-   <reference bind="addService" cardinality="0..n" interface="org.eclipse.emf.eef.runtime.services.editing.EEFEditingService" name="EEFEditingService" policy="dynamic" unbind="removeService"/>
+   <reference bind="addService" cardinality="0..n" interface="org.eclipse.emf.eef.runtime.util.EEFEditingService" name="EEFEditingService" policy="dynamic" unbind="removeService"/>
 </scr:component>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.SWTViewHandlerFactory">
-   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.view.handlers.swt.SWTViewHandlerFactory"/>
+   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandlerFactory"/>
    <service>
-      <provide interface="org.eclipse.emf.eef.runtime.services.viewhandler.ViewHandlerFactory"/>
+      <provide interface="org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory"/>
    </service>
    <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.ReflectViewHandlerFactory"/>
    <reference bind="setLockManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider" name="EEFLockManagerProvider" policy="static"/>
-   <reference bind="setLogger" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.services.logging.EEFLogger" name="EEFLogger" policy="static"/>
+   <reference bind="setLogger" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.logging.EEFLogger" name="EEFLogger" policy="static"/>
 </scr:component>
