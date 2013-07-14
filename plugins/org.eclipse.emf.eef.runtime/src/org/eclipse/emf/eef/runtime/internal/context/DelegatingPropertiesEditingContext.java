@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.internal.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
+import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -45,7 +45,7 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	 * @return
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getBindingManagerProvider()
 	 */
-	public BindingManagerProvider getBindingManagerProvider() {
+	public BindingHandlerProvider getBindingManagerProvider() {
 		return delegatingContext.getBindingManagerProvider();
 	}
 

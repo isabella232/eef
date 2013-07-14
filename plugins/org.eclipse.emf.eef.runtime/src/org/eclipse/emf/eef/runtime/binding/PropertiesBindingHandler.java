@@ -14,7 +14,7 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 import com.google.common.base.Function;
 
-public interface PropertiesBindingManager extends EEFService<EObject> {
+public interface PropertiesBindingHandler extends EEFService<EObject> {
 	
 	/**
 	 * @return the current {@link PropertiesEditingPolicyProvider}.

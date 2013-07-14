@@ -7,7 +7,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
+import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -26,7 +26,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 
 	private EEFServiceProvider<EObject, PropertiesEditingContextFactory> serviceProvider;
 	private EMFServiceProvider emfServiceProvider;
-	private BindingManagerProvider bindingManagerProvider;
+	private BindingHandlerProvider bindingHandlerProvider;
 
 	/**
 	 * {@inheritDoc}
@@ -52,10 +52,10 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	}
 
 	/**
-	 * @param bindingManagerProvider the bindingManagerProvider to set
+	 * @param bindingHandlerProvider the bindingHandlerProvider to set
 	 */
-	public void setBindingManagerProvider(BindingManagerProvider bindingManagerProvider) {
-		this.bindingManagerProvider = bindingManagerProvider;
+	public void setBindingManagerProvider(BindingHandlerProvider bindingHandlerProvider) {
+		this.bindingHandlerProvider = bindingHandlerProvider;
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 
 	private void configureEditingContext(EObjectPropertiesEditingContext context) {
 		context.setEMFServiceProvider(emfServiceProvider);
-		context.setBindingManagerProvider(bindingManagerProvider);
+		context.setBindingManagerProvider(bindingHandlerProvider);
 		context.setContextFactoryProvider(getContextFactoryProvider());
 	}
 

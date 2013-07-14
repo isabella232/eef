@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
+import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
@@ -31,8 +31,8 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.internal.binding.BindingManagerProviderImpl;
-import org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingManagerImpl;
+import org.eclipse.emf.eef.runtime.internal.binding.BindingHandlerProviderImpl;
+import org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingHandlerImpl;
 import org.eclipse.emf.eef.runtime.internal.binding.settings.EEFBindingSettingsProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.context.EditingContextFactoryProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.context.PropertiesEditingContextFactoryImpl;
@@ -213,7 +213,7 @@ public class EEFTestEnvironment {
 		private EEFBindingSettingsProvider bindingSettingsProvider;
 		private Collection<EEFServiceDescriptor<EEFBindingSettings>> bindingSettings;
 		
-		private BindingManagerProvider bindingManagerProvider;
+		private BindingHandlerProvider bindingHandlerProvider;
 		private ViewHandlerFactoryProvider viewHandlerFactoryProvider;
 
 		private EditUIProvidersFactory editUIProvidersFactory;
@@ -379,11 +379,11 @@ public class EEFTestEnvironment {
 			return bindingSettingsProvider;
 		}
 		
-		public BindingManagerProvider getBindingManagerProvider() {
-			if (bindingManagerProvider == null) {
-				bindingManagerProvider = createBindingManagerProvider();
+		public BindingHandlerProvider getBindingManagerProvider() {
+			if (bindingHandlerProvider == null) {
+				bindingHandlerProvider = createBindingManagerProvider();
 			}
-			return bindingManagerProvider;
+			return bindingHandlerProvider;
 		}
 		
 		public EditUIProvidersFactory getEditUIProvidersFactory() {
@@ -974,12 +974,12 @@ public class EEFTestEnvironment {
 		}
 
 		
-		public BindingManagerProvider createBindingManagerProvider() {
-			BindingManagerProviderImpl result = new BindingManagerProviderImpl();
+		public BindingHandlerProvider createBindingManagerProvider() {
+			BindingHandlerProviderImpl result = new BindingHandlerProviderImpl();
 			try {
 				Map<String, String> properties = new HashMap<String, String>();
-				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, PropertiesBindingManagerImpl.class.getName());
-					PropertiesBindingManagerImpl service = new PropertiesBindingManagerImpl();
+				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, PropertiesBindingHandlerImpl.class.getName());
+					PropertiesBindingHandlerImpl service = new PropertiesBindingHandlerImpl();
 					service.setEMFServiceProvider(getEMFServiceProvider());
 					service.setEditingPolicyProvider(getEditingPolicyProvider());
 					service.setEEFNotifierProvider(getEEFNotifierProvider());
@@ -1053,12 +1053,12 @@ public class EEFTestEnvironment {
 	
 	public static final class EEFTestsEventAdmin implements EventAdmin {
 		
-		private PropertiesBindingManagerImpl owner;
+		private PropertiesBindingHandlerImpl owner;
 		
 		/**
 		 * @param owner
 		 */
-		public EEFTestsEventAdmin(PropertiesBindingManagerImpl owner) {
+		public EEFTestsEventAdmin(PropertiesBindingHandlerImpl owner) {
 			this.owner = owner;
 		}
 

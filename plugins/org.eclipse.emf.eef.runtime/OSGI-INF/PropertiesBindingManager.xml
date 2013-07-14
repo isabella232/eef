@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager">
-   <implementation class="org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingManagerImpl"/>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler">
+   <implementation class="org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingHandlerImpl"/>
    <service>
-      <provide interface="org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager"/>
+      <provide interface="org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler"/>
       <provide interface="org.osgi.service.event.EventHandler"/>
    </service>
    <property name="event.topics" value="org/eclipse/emf/eef/model/*"/>

@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.EEFRuntime;
-import org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager;
+import org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
@@ -30,7 +30,7 @@ import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.notify.ModelChangesNotifier;
+import org.eclipse.emf.eef.runtime.notify.ModelChangesNotifier;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotifierImpl;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
@@ -63,7 +63,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesBindingManagerImpl implements PropertiesBindingManager, EventHandler, DefaultService {
+public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, EventHandler, DefaultService {
 	
 	private EventAdmin eventAdmin;
 
@@ -81,7 +81,7 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 	/**
 	 * 
 	 */
-	public PropertiesBindingManagerImpl() {
+	public PropertiesBindingHandlerImpl() {
 		editingComponents = Lists.newArrayList();
 	}
 
@@ -144,7 +144,7 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#getPolicyProvider()
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#getPolicyProvider()
 	 */
 	public PropertiesEditingPolicyProvider getPolicyProvider() {
 		return editingPolicyProvider;
@@ -152,7 +152,7 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#createComponent(org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#createComponent(org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext)
 	 */
 	public PropertiesEditingComponent createComponent(EObjectPropertiesEditingContext editingContext) {
 		EObject eObject = editingContext.getEObject();
@@ -169,7 +169,7 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void disposeComponent(PropertiesEditingComponent component) {
 		unregisterEditingComponent(component);
@@ -177,7 +177,7 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#getLockManager(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#getLockManager(java.lang.Object)
 	 */
 	public EEFLockManager getLockManager(Object view) {
 		return lockManagerProvider.getLockManager(view);
@@ -185,7 +185,7 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#notifyChanged(PropertiesEditingComponent, Notification)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#notifyChanged(PropertiesEditingComponent, Notification)
 	 */
 	public void notifyChanged(PropertiesEditingComponent editingComponent, Notification msg) {
 		PropertiesEditingModel editingModel = editingComponent.getEditingModel();
@@ -257,7 +257,7 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#firePropertiesChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#firePropertiesChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public synchronized void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		if (!(editingEvent instanceof UIPropertiesEditingEvent)) {
@@ -287,7 +287,7 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#fireLockChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#fireLockChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
 	 */
 	public void fireLockChanged(final PropertiesEditingComponent editingComponent, final EEFLockEvent lockEvent) {
 		executeOnViewHandlers(editingComponent, new Function<ViewHandler<?>, Void>() {
@@ -308,7 +308,7 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 
  	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#execute(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy, org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#execute(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy, org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public void execute(PropertiesEditingComponent editingComponent, PropertiesEditingPolicy editingPolicy, PropertiesEditingContext policyEditingContext) {
 		PropertiesEditingEvent editingEvent = null;
@@ -336,7 +336,7 @@ public class PropertiesBindingManagerImpl implements PropertiesBindingManager, E
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager#initLockPolicies(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#initLockPolicies(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void initLockPolicies(PropertiesEditingComponent editingComponent) {
 		List<EEFLockPolicy> result = Lists.newArrayList();

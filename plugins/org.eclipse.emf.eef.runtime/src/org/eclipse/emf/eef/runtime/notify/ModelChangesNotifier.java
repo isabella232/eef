@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.internal.notify;
+package org.eclipse.emf.eef.runtime.notify;
 
 import org.eclipse.emf.common.notify.Adapter;
 

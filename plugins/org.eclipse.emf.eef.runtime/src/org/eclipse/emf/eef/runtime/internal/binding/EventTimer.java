@@ -9,7 +9,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.emf.eef.runtime.binding.PropertiesBindingManager;
+import org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 
@@ -19,12 +19,12 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
  */
 public class EventTimer {
 
-	private PropertiesBindingManager bindingManager;
+	private PropertiesBindingHandler bindingManager;
 	
 	private static Future<?> currentFuture;
 	private final ScheduledExecutorService executor;
 	
-	public EventTimer(PropertiesBindingManager bindingManager) {
+	public EventTimer(PropertiesBindingHandler bindingManager) {
 		this.bindingManager = bindingManager;
 		executor = Executors.newSingleThreadScheduledExecutor();
 	}
@@ -44,7 +44,7 @@ public class EventTimer {
 
 	private static class DelayFirePropertiesChange implements Runnable {
 
-		private PropertiesBindingManager bindingManager;
+		private PropertiesBindingHandler bindingManager;
 		private PropertiesEditingComponent editingComponent;
 		private PropertiesEditingEvent editingEvent;
 		
@@ -53,7 +53,7 @@ public class EventTimer {
 		 * @param editingComponent
 		 * @param editingEvent
 		 */
-		public DelayFirePropertiesChange(PropertiesBindingManager bindingManager, PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
+		public DelayFirePropertiesChange(PropertiesBindingHandler bindingManager, PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 			this.bindingManager = bindingManager;
 			this.editingComponent = editingComponent;
 			this.editingEvent = editingEvent;

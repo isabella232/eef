@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
+import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
@@ -21,9 +21,9 @@ public interface PropertiesEditingContext {
 	EMFServiceProvider getEMFServiceProvider();
 	
 	/**
-	 * @return the {@link BindingManagerProvider} to use in the current context.
+	 * @return the {@link BindingHandlerProvider} to use in the current context.
 	 */
-	BindingManagerProvider getBindingManagerProvider();
+	BindingHandlerProvider getBindingManagerProvider();
 	
 	/**
 	 * @return the {@link EditingContextFactoryProvider} to use in the current context.

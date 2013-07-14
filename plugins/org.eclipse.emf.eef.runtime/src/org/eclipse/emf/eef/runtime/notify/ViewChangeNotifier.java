@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.notify;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
+import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 
 /**
@@ -15,15 +15,15 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
  */
 public class ViewChangeNotifier implements PropertyChangeListener {
 
-	private BindingManagerProvider bindingManagerProvider;
+	private BindingHandlerProvider bindingHandlerProvider;
 	private PropertiesEditingComponent component;
 	
 	/**
-	 * @param bindingManagerProvider
+	 * @param bindingHandlerProvider
 	 * @param component
 	 */
-	public ViewChangeNotifier(BindingManagerProvider bindingManagerProvider, PropertiesEditingComponent component) {
-		this.bindingManagerProvider = bindingManagerProvider;
+	public ViewChangeNotifier(BindingHandlerProvider bindingHandlerProvider, PropertiesEditingComponent component) {
+		this.bindingHandlerProvider = bindingHandlerProvider;
 		this.component = component;
 	}
 
@@ -32,7 +32,7 @@ public class ViewChangeNotifier implements PropertyChangeListener {
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
-		bindingManagerProvider.getBindingManager(component.getEObject()).firePropertiesChanged(component, new PropertiesEditingEventImpl(
+		bindingHandlerProvider.getBindingManager(component.getEObject()).firePropertiesChanged(component, new PropertiesEditingEventImpl(
 				evt.getSource(), evt.getPropertyName(), 
 				((evt instanceof TypedPropertyChangedEvent)?((TypedPropertyChangedEvent)evt).getEventType():PropertiesEditingEvent.SET), 
 				evt.getOldValue(), evt.getNewValue()));

@@ -5,7 +5,7 @@ package org.eclipse.emf.eef.runtime.internal.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.binding.BindingManagerProvider;
+import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.EditingRecorder;
@@ -20,7 +20,7 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 public class EObjectPropertiesEditingContext implements PropertiesEditingContext {
 
 	private EMFServiceProvider emfServiceProvider;
-	private BindingManagerProvider bindingManagerProvider;
+	private BindingHandlerProvider bindingHandlerProvider;
 	private EditingContextFactoryProvider contextFactoryProvider;
 	
 	protected PropertiesEditingContext parentContext;
@@ -64,10 +64,10 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	}
 
 	/**
-	 * @param bindingManagerProvider the bindingManagerProvider to set
+	 * @param bindingHandlerProvider the bindingHandlerProvider to set
 	 */
-	public void setBindingManagerProvider(BindingManagerProvider bindingManagerProvider) {
-		this.bindingManagerProvider = bindingManagerProvider;
+	public void setBindingManagerProvider(BindingHandlerProvider bindingHandlerProvider) {
+		this.bindingHandlerProvider = bindingHandlerProvider;
 	}
 
 	/**
@@ -93,10 +93,10 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	}
 
 	/**
-	 * @return the bindingManagerProvider
+	 * @return the bindingHandlerProvider
 	 */
-	public BindingManagerProvider getBindingManagerProvider() {
-		return bindingManagerProvider;
+	public BindingHandlerProvider getBindingManagerProvider() {
+		return bindingHandlerProvider;
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
 		if (component == null) {
-			component = bindingManagerProvider.getBindingManager(eObject).createComponent(this);
+			component = bindingHandlerProvider.getBindingManager(eObject).createComponent(this);
 		}
 		return component;
 	}
@@ -165,7 +165,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void disposeComponent(PropertiesEditingComponent editingComponent) {
-		bindingManagerProvider.getBindingManager(editingComponent.getEObject()).disposeComponent(editingComponent);
+		bindingHandlerProvider.getBindingManager(editingComponent.getEObject()).disposeComponent(editingComponent);
 	}
 
 	/**
