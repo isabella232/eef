@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.swt.e3.EMFPropertiesPlatformAwareToolkit">
-   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesPlatformAwareToolkit"/>
+   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesPlatformAwareToolkit"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit"/>
    </service>
-   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.EMFPropertiesToolkit"/>
+   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit"/>
    <reference bind="setEditUIProvidersFactory" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory" name="EditUIProvidersFactory" policy="static"/>
    <reference bind="setImageManager" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager" name="ImageManager" policy="static"/>
 </scr:component>

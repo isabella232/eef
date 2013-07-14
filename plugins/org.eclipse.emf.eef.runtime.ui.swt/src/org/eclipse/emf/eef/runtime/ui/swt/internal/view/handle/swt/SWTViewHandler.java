@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.ui.view.handle.reflect.ReflectViewHandler;
+import org.eclipse.emf.eef.runtime.ui.internal.view.handle.reflect.ReflectViewHandler;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
 import org.eclipse.swt.widgets.Composite;
 
@@ -25,7 +25,7 @@ public class SWTViewHandler extends ReflectViewHandler<Composite> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.handle.reflect.ReflectViewHandler#dispose()
+	 * @see org.eclipse.emf.eef.runtime.ui.internal.view.handle.reflect.ReflectViewHandler#dispose()
 	 */
 	@Override
 	public void dispose() {

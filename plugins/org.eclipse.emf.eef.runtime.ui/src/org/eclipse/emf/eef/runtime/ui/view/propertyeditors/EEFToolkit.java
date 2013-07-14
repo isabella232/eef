@@ -4,7 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
 import org.eclipse.emf.eef.runtime.services.EEFService;
-import org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 
 /**

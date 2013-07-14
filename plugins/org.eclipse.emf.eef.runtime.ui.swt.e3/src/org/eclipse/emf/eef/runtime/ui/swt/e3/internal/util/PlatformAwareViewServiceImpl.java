@@ -12,8 +12,8 @@
 package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.util;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.ui.swt.e3.util.view.PlatformAwareViewService;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.SWTViewServiceImpl;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.util.PlatformAwareViewService;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.util.SWTViewServiceImpl;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -31,7 +31,7 @@ public class PlatformAwareViewServiceImpl extends SWTViewServiceImpl implements 
 		
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.util.view.PlatformAwareViewService#createLabel(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite, java.lang.Object, java.lang.String)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.util.PlatformAwareViewService#createLabel(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite, java.lang.Object, java.lang.String)
 	 */
 	public Label createLabel(FormToolkit toolkit, Composite parent, Object editor, String alternate) {
 		String text = getDescription(editor, alternate);
@@ -54,7 +54,7 @@ public class PlatformAwareViewServiceImpl extends SWTViewServiceImpl implements 
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.util.view.PlatformAwareViewService#createHelpButton(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.util.PlatformAwareViewService#createHelpButton(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite, java.lang.Object)
 	 */
 	public Control createHelpButton(FormToolkit toolkit, Composite parent, Object editor ) {
 		//To manage in future

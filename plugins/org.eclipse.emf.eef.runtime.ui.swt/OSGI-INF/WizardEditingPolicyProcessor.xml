@@ -4,7 +4,7 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor"/>
    </service>
-   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.internal.policies.processors.DomainEditingPolicyProcessor"/>
+   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.policies.processors.DomainEditingPolicyProcessor"/>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
    <reference bind="setEEFEditingServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider" name="EEFEditingServiceProvider" policy="static"/>
    <reference bind="setEditUIProvidersFactory" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory" name="EditUIProvidersFactory" policy="static"/>

@@ -6,13 +6,13 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.view.SWTPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.AbstractPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;

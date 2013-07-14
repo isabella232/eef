@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.PropertiesEditingViewHandlerFactory">
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandlerFactory">
    <implementation class="org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandlerFactory"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory"/>
    </service>
-   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.SWTViewHandlerFactory"/>
+   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.swt.view.handle.swt.SWTViewHandlerFactory"/>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
    <reference bind="setViewServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.util.ViewServiceProvider" name="ViewServiceProvider" policy="static"/>
    <reference bind="setEEFToolkitProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider" name="EEFToolkitProvider" policy="static"/>

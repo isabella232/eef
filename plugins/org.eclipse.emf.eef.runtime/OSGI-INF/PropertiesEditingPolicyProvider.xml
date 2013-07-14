@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.?olicies.PropertiesEditingPolicyProvider">
+   <implementation class="org.eclipse.emf.eef.runtime.internal.policies.PropertiesEditingPolicyProviderImpl"/>
+   <service>
+      <provide interface="org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider"/>
+   </service>
+   <reference bind="setEditingPolicyRequestFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactoryProvider" name="EditingPolicyRequestFactoryProvider" policy="static"/>
+   <reference bind="setEditingPolicyProcessorProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessorProvider" name="EditingPolicyProcessorProvider" policy="static"/>
+</scr:component>

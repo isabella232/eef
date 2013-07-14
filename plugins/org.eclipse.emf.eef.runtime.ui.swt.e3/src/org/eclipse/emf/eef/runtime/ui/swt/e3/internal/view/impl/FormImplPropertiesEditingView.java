@@ -5,7 +5,6 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.impl;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.section.SectionPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor;
@@ -14,6 +13,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.und
 import org.eclipse.emf.eef.runtime.ui.view.AbstractPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
