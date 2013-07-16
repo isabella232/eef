@@ -20,10 +20,8 @@ import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.tabbed.view.util.DescriptorHelper;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.tabbed.view.util.ValidationMessageInjector;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.impl.FormImplPropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.swt.view.util.PropertiesEditingMessageManagerImpl;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandlerFactory;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
+import org.eclipse.emf.eef.runtime.ui.swt.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.views.View;
@@ -81,7 +79,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 
 	private DescriptorHelper descriptorHelper;
 
-	private ViewHandler<?> viewHandler;
+	private EObjectView rawDescriptor;
 
 	/**
 	 * 
@@ -164,10 +162,11 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 			injector.dispose();
 			injector = null;
 		}
-		if (viewHandler != null) {
-			viewHandler.dispose();
+		if (editingComponent != null) {
+			PropertiesEditingViewHandlerFactory handlerFactory = (PropertiesEditingViewHandlerFactory) editingComponent.getEditingContext().getViewHandlerFactoryProvider().getHandlerFactory(rawDescriptor);
+			handlerFactory.dispose(editingComponent, this);
+			disposeComponentIfExist();
 		}
-		disposeComponentIfExist();
 	}
 
 
@@ -231,22 +230,21 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 
 	private void refreshComponent() {
 		injector = new ValidationMessageInjector(tabbedPropertySheetPage);
-		viewDescriptor = searchViewFromDescriptor();
+		rawDescriptor = searchViewFromDescriptor();
+		viewDescriptor = (View) rawDescriptor.getDefinition();
 		if (this.viewDescriptor != null) {
-			viewHandler = editingComponent.createViewHandler(viewDescriptor);
-			if (viewHandler instanceof PropertiesEditingViewHandler) {
-				((PropertiesEditingViewHandler)viewHandler).setView(this);
-				if (parentComposite != null) {
-					for (Control control : parentComposite.getChildren()) {
-						control.dispose();
-					}
+			editingComponent.setViewForDescriptor(rawDescriptor, this);
+			if (parentComposite != null) {
+				for (Control control : parentComposite.getChildren()) {
+					control.dispose();
 				}
-				setViewServiceProvider(((PropertiesEditingViewHandlerFactory) viewHandler.getProvider()).getViewServiceProvider());
-				setToolkitPropertyEditorFactory(((PropertiesEditingViewHandlerFactory) viewHandler.getProvider()).getEEFToolkitProvider());
-				createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
-				parentComposite.layout();
-				viewHandler.initView(editingComponent);
 			}
+			PropertiesEditingViewHandlerFactory handlerFactory = (PropertiesEditingViewHandlerFactory) editingComponent.getEditingContext().getViewHandlerFactoryProvider().getHandlerFactory(rawDescriptor);
+			setViewServiceProvider(handlerFactory.getViewServiceProvider());
+			setToolkitPropertyEditorFactory(handlerFactory.getEEFToolkitProvider());
+			createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
+			parentComposite.layout();
+			handlerFactory.initView(editingComponent, this);
 		}
 	}
 
@@ -290,7 +288,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 		return messageManager;
 	}
 
-	private View searchViewFromDescriptor() {
+	private EObjectView searchViewFromDescriptor() {
 		String descriptor = getDescriptorHelper().getDescriptor();
 		for (Object view : editingComponent.getBinding().getViews()) {
 			if (view instanceof EObjectView) {
@@ -298,7 +296,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 				if (definition instanceof View) {
 					String viewName = ((View) definition).getName();
 					if (descriptor.equals(viewName)) {
-						return (View) definition;
+						return (EObjectView) view;
 					}
 				}
 			}

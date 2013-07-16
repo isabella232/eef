@@ -14,6 +14,7 @@ import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
@@ -64,7 +65,7 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getViewHandlerFactory(java.lang.Object)
 	 */
-	public ViewHandlerFactory getViewHandlerFactory(Object view) {
+	public ViewHandlerFactory<?> getViewHandlerFactory(View view) {
 		return viewHandlerFactoryProvider.getHandlerFactory(view);
 	}
 

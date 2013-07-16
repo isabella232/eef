@@ -12,11 +12,11 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.internal.binding.settings.AbstractEEFBindingSettings;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 /**
@@ -54,27 +54,9 @@ public interface PropertiesEditingComponent {
 	EClassBinding getBinding();
 	
 	/**
-	 * Returns the {@link ViewHandler} able to manage the given view.
-	 * @param view the view to manage.
-	 * @return a list of {@link ViewHandler} editing the model element.
+	 * TODO
 	 */
-	ViewHandler<?> createViewHandler(Object view);
-
-	/**
-	 * Returns all {@link ViewHandler}s able to manage the views for the edited model element.
-	 * @return a list of {@link ViewHandler} editing the model element.
-	 */
-	Collection<ViewHandler<?>> createViewHandlers();
-	
-	/**
-	 * @param handler register a handler in the component.
-	 */
-	void registerViewHandler(ViewHandler<?> handler);
-
-	/**
-	 * @param handler unregister a handler in the component.
-	 */
-	void unregisterViewHandler(ViewHandler<?> handler);
+	List<View> getViewDescriptors();
 	
 	/**
 	 * @return the {@link ViewChangeNotifier} component.
@@ -112,7 +94,30 @@ public interface PropertiesEditingComponent {
 	 */
 	void dispose();
 
-	List<ViewHandler<?>> getViewHandlers();
+	/**
+	 * Associates a view for the given descriptor.
+	 * @param descriptor the referenced descriptor.
+	 * @param view the associated view.
+	 */
+	void setViewForDescriptor(View descriptor, Object view);
+	
+	/**
+	 * Returns the descriptor associated to the given view.
+	 * @param view the view to process.
+	 * @return the descriptor of the view.
+	 */
+	View getDescriptorForView(Object view);
+	
+	/**
+	 * @return all the views of the current {@link PropertiesEditingComponent}.
+	 */
+	List<Object> getViews();
+	
+	/**
+	 * Removes a view from this component.
+	 * @param view the view to remove.
+	 */
+	void removeView(Object view);
 
 	/**
 	 * @return the {@link PropertiesEditingModel} describing the Editing Forms for the given {@link EObject}.

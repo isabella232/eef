@@ -20,9 +20,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.views.View;
 
 import com.google.common.base.Predicate;
@@ -133,11 +131,7 @@ public class EObjectViewItemProvider
 	@SuppressWarnings("rawtypes")
 	@Override
 	public String getText(Object object) {
-		ViewHandler labelValue = ((EObjectView)object).getHandler();
-		String label = labelValue == null ? null : labelValue.toString();
-		return label == null || label.length() == 0 ?
-			getString("_UI_EObjectView_type") :
-			getString("_UI_EObjectView_type") + " " + label;
+		return getString("_UI_EObjectView_type");
 	}
 
 	/**

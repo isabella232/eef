@@ -8,7 +8,6 @@ package org.eclipse.emf.eef.runtime.editingModel;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -192,22 +191,13 @@ public interface EditingModelPackage extends EPackage {
 	int VIEW = 2;
 
 	/**
-	 * The feature id for the '<em><b>Handler</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VIEW__HANDLER = 0;
-
-	/**
 	 * The number of structural features of the '<em>View</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VIEW_FEATURE_COUNT = 1;
+	int VIEW_FEATURE_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EditorImpl <em>Editor</em>}' class.
@@ -285,15 +275,6 @@ public interface EditingModelPackage extends EPackage {
 	int PROPERTY_BINDING_FEATURE_COUNT = 3;
 
 	/**
-	 * The feature id for the '<em><b>Handler</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JAVA_VIEW__HANDLER = VIEW__HANDLER;
-
-	/**
 	 * The feature id for the '<em><b>Definition</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -320,15 +301,6 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 */
 	int EOBJECT_VIEW = 6;
-
-	/**
-	 * The feature id for the '<em><b>Handler</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EOBJECT_VIEW__HANDLER = VIEW__HANDLER;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' reference.
@@ -441,17 +413,6 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 */
 	int FEATURE_DOCUMENTATION_PROVIDER = 10;
-
-	/**
-	 * The meta object id for the '<em>View Handler</em>' data type.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler
-	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getViewHandler()
-	 * @generated
-	 */
-	int VIEW_HANDLER = 11;
-
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel <em>Properties Editing Model</em>}'.
@@ -581,17 +542,6 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getView();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.eef.runtime.editingModel.View#getHandler <em>Handler</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Handler</em>'.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.View#getHandler()
-	 * @see #getView()
-	 * @generated
-	 */
-	EAttribute getView_Handler();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.Editor <em>Editor</em>}'.
@@ -762,17 +712,6 @@ public interface EditingModelPackage extends EPackage {
 	EEnum getFeatureDocumentationProvider();
 
 	/**
-	 * Returns the meta object for data type '{@link org.eclipse.emf.eef.runtime.view.handle.ViewHandler <em>View Handler</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>View Handler</em>'.
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler
-	 * @model instanceClass="org.eclipse.emf.eef.runtime.view.handle.ViewHandler" typeParameters="T"
-	 * @generated
-	 */
-	EDataType getViewHandler();
-
-	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -895,14 +834,6 @@ public interface EditingModelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass VIEW = eINSTANCE.getView();
-
-		/**
-		 * The meta object literal for the '<em><b>Handler</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute VIEW__HANDLER = eINSTANCE.getView_Handler();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EditorImpl <em>Editor</em>}' class.
@@ -1047,16 +978,6 @@ public interface EditingModelPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum FEATURE_DOCUMENTATION_PROVIDER = eINSTANCE.getFeatureDocumentationProvider();
-
-		/**
-		 * The meta object literal for the '<em>View Handler</em>' data type.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler
-		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getViewHandler()
-		 * @generated
-		 */
-		EDataType VIEW_HANDLER = eINSTANCE.getViewHandler();
 
 	}
 

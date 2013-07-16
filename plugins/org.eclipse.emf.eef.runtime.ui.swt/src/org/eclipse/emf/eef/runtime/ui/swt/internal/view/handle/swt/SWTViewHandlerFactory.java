@@ -4,9 +4,10 @@
 package org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.editingModel.JavaView;
+import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.logging.EEFLogger;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.ui.internal.view.handle.reflect.ReflectViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.swt.widgets.Composite;
@@ -15,7 +16,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class SWTViewHandlerFactory implements ViewHandlerFactory {
+public class SWTViewHandlerFactory extends ReflectViewHandlerFactory<Composite> {
 	
 	private EEFLockManagerProvider lockManagerProvider;
 	private EEFLogger logger;
@@ -36,22 +37,10 @@ public class SWTViewHandlerFactory implements ViewHandlerFactory {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.internal.view.handle.reflect.ReflectViewHandlerFactory#serviceFor(org.eclipse.emf.eef.runtime.editingModel.View)
 	 */
-	public boolean serviceFor(Object view) {
-		if (view instanceof Class<?> ) {
-			return isCompositeClass((Class<?>) view);
-		}
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#getHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
-	 */
-	@SuppressWarnings("unchecked")
-	public ViewHandler<? extends Composite> getHandler(PropertiesEditingComponent editingComponent, Object view) {
-		return new SWTViewHandler(this, editingComponent, (Class<? extends Composite>) view);
+	public boolean serviceFor(View view) {
+		return super.serviceFor(view) && isCompositeClass((Class<?>) ((JavaView)view).getDefinition());
 	}
 
 	/**
@@ -82,6 +71,18 @@ public class SWTViewHandlerFactory implements ViewHandlerFactory {
 	 */
 	public EEFLogger getLogger() {
 		return logger;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.internal.view.handle.reflect.ReflectViewHandlerFactory#dispose(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 */
+	@Override
+	public void dispose(PropertiesEditingComponent editingComponent, Object view) {
+		if (view instanceof Composite) {
+			((Composite)view).dispose();
+		}
+		super.dispose(editingComponent, view);
 	}
 
 }

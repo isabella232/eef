@@ -47,7 +47,7 @@ public class PropertiesEditingViewEditingTestCase extends UIEditingTestCase {
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayout(new GridLayout(1, false));
 
-		viewHandlers = editingContext.getEditingComponent().createViewHandlers();
+		viewHandlers = editingContext.getEditingComponent().getViewDescriptors();
 
 		viewer = new EEFViewer(composite, SWT.NONE);
 		viewer.setContentProvider(new EEFContentProvider());

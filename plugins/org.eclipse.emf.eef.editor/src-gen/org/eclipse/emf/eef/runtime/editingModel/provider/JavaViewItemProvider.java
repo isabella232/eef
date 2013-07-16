@@ -23,7 +23,6 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.JavaView} object.
@@ -107,7 +106,7 @@ public class JavaViewItemProvider
 	@SuppressWarnings("rawtypes")
 	@Override
 	public String getText(Object object) {
-		ViewHandler labelValue = ((JavaView)object).getHandler();
+		Object labelValue = ((JavaView)object).getDefinition();
 		String label = labelValue == null ? null : labelValue.toString();
 		return label == null || label.length() == 0 ?
 			getString("_UI_JavaView_type") :

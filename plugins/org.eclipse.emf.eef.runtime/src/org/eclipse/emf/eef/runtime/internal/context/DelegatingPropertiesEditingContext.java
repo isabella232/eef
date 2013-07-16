@@ -10,6 +10,7 @@ import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactoryProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -55,6 +56,14 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	 */
 	public EditingContextFactoryProvider getContextFactoryProvider() {
 		return delegatingContext.getContextFactoryProvider();
+	}
+
+	/**
+	 * @return
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getViewHandlerFactoryProvider()
+	 */
+	public ViewHandlerFactoryProvider getViewHandlerFactoryProvider() {
+		return delegatingContext.getViewHandlerFactoryProvider();
 	}
 
 	/**

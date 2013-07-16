@@ -7,15 +7,8 @@
     <eOperations name="binding" eType="#//EClassBinding">
       <eParameters name="eObject" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
     </eOperations>
-    <eOperations name="views" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
+    <eOperations name="views" upperBound="-1" eType="#//View">
       <eParameters name="eObject" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-    </eOperations>
-    <eOperations name="viewHandler">
-      <eGenericType eClassifier="#//ViewHandler">
-        <eTypeArguments/>
-      </eGenericType>
-      <eParameters name="eObject" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-      <eParameters name="view" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" upperBound="-1"
@@ -50,16 +43,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="propertyBindings" upperBound="-1"
         eType="#//PropertyBinding" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="ViewHandler" instanceClassName="org.eclipse.emf.eef.runtime.view.handle.ViewHandler">
-    <eTypeParameters name="T"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="View" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="handler">
-      <eGenericType eClassifier="#//ViewHandler">
-        <eTypeArguments/>
-      </eGenericType>
-    </eStructuralFeatures>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="View" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="Editor" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="PropertyBinding">
     <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"

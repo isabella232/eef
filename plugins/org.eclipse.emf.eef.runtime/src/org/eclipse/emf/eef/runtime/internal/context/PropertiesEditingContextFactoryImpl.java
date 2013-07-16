@@ -17,6 +17,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.services.EEFServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactoryProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -27,6 +28,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	private EEFServiceProvider<EObject, PropertiesEditingContextFactory> serviceProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private BindingHandlerProvider bindingHandlerProvider;
+	private ViewHandlerFactoryProvider viewHandlerFactoryProvider;
 
 	/**
 	 * {@inheritDoc}
@@ -56,6 +58,13 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	 */
 	public void setBindingManagerProvider(BindingHandlerProvider bindingHandlerProvider) {
 		this.bindingHandlerProvider = bindingHandlerProvider;
+	}
+
+	/**
+	 * @param viewHandlerFactoryProvider the viewHandlerFactoryProvider to set
+	 */
+	public void setViewHandlerFactoryProvider(ViewHandlerFactoryProvider viewHandlerFactoryProvider) {
+		this.viewHandlerFactoryProvider = viewHandlerFactoryProvider;
 	}
 
 	/**
@@ -131,6 +140,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 		context.setEMFServiceProvider(emfServiceProvider);
 		context.setBindingManagerProvider(bindingHandlerProvider);
 		context.setContextFactoryProvider(getContextFactoryProvider());
+		context.setViewHandlerFactoryProvider(viewHandlerFactoryProvider);
 	}
 
 }

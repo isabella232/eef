@@ -15,14 +15,15 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.internal.binding.settings.AbstractEEFBindingSettings;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Lists;
 
 /**
@@ -35,10 +36,11 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	private EObject source;
 	private PropertiesEditingContext editingContext;
 	private PropertiesEditingModel editingModel;
-	private List<ViewHandler<?>> viewHandlers;
 	private Collection<EEFLockPolicy> lockPolicies;
 	private ViewChangeNotifier viewChangeNotifier;
 	private List<PropertiesEditingListener> listeners;
+	
+	private BiMap<View, Object> descriptorsToViews;
 	
 	/**
 	 * @param bindingSettings {@link AbstractEEFBindingSettings} providing this component.
@@ -48,7 +50,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		this.bindingSettings = bindingSettings;
 		this.source = source;
 		this.listeners = Lists.newArrayList();
-		this.viewHandlers = Lists.newArrayList();
+		this.descriptorsToViews = HashBiMap.create();
 	}
 
 	/**
@@ -176,66 +178,51 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#createViewHandler(java.lang.Object)
-	 */
-	public ViewHandler<?> createViewHandler(Object view) {
-		ViewHandler<?> specifiedHandler = getEditingModel().viewHandler(source, view);
-		if (specifiedHandler != null) {
-			registerViewHandler(specifiedHandler);
-			return specifiedHandler;
-		} else {
-			ViewHandlerFactory viewHandlerFactory = bindingSettings.getViewHandlerFactory(view);
-			if (viewHandlerFactory != null) {
-				ViewHandler<?> handler = viewHandlerFactory.getHandler(this, view);
-				if (handler != null) {
-					registerViewHandler(handler);
-					return handler;
-				}
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#createViewHandlers()
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewDescriptors()
 	 * @processing
 	 */
-	public Collection<ViewHandler<?>> createViewHandlers() {
+	public List<View> getViewDescriptors() {
 		PropertiesEditingModel editingModel = getEditingModel();
 		if (editingModel != null) {
-			List<ViewHandler<?>> result = Lists.newArrayList();
-			for (Object view : editingModel.views(source)) {
-				result.add(createViewHandler(view));
-			}
-			return result;
+			return editingModel.views(source);
 		}
 		return Collections.emptyList();
 	}
 
 	/**
-	 * @return the viewHandlers
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#setViewForDescriptor(java.lang.Object, org.eclipse.emf.eef.runtime.editingModel.View)
 	 */
-	public List<ViewHandler<?>> getViewHandlers() {
-		return viewHandlers;
+	public void setViewForDescriptor(View descriptor, Object view) {
+		descriptorsToViews.put(descriptor, view);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#registerViewHandler(org.eclipse.emf.eef.runtime.view.handle.ViewHandler)
-	 * @state
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getDescriptorForView(java.lang.Object)
 	 */
-	public void registerViewHandler(ViewHandler<?> handler) {
-		viewHandlers.add(handler);
+	public View getDescriptorForView(Object view) {
+		return descriptorsToViews.inverse().get(view);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#unregisterViewHandler(org.eclipse.emf.eef.runtime.view.handle.ViewHandler)
-	 * @state
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViews()
 	 */
-	public void unregisterViewHandler(ViewHandler<?> handler) {
-		viewHandlers.remove(handler);
+	public List<Object> getViews() {
+		List<Object> result = Lists.newArrayList();
+		for (Object descriptor : getViewDescriptors()) {
+			result.add(descriptorsToViews.get(descriptor));
+		}
+		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#removeView(java.lang.Object)
+	 */
+	public void removeView(Object view) {
+		this.descriptorsToViews.remove(view);
 	}
 
 	/**
@@ -258,10 +245,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @state
 	 */
 	public void dispose() {
-		List<ViewHandler<?>> handlers = Lists.newArrayList(viewHandlers);
-		for (ViewHandler<?> handler : handlers) {
-			handler.dispose();
-		}
 		editingContext.disposeComponent(this);
 		
 		// Making a blank component to be sure to not reuse it!
@@ -269,7 +252,6 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 		source = null;
 		editingContext = null;
 		editingModel = null;
-		viewHandlers.clear();
 		viewChangeNotifier = null;
 		listeners.clear();
 	}

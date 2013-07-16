@@ -50,7 +50,7 @@ public class NonUIEditingTestCase {
 	}
 
 	protected void offScreenViewsInitialization() throws ViewConstructionException {
-		viewHandlers = editingContext.getEditingComponent().createViewHandlers();
+		viewHandlers = editingContext.getEditingComponent().getViewDescriptors();
 		views = new ArrayList<Object>();
 		for (ViewHandler<?> viewHandler : viewHandlers) {
 			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();

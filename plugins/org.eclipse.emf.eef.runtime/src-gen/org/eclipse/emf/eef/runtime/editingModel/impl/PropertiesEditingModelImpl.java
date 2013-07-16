@@ -10,7 +10,6 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -21,15 +20,12 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
-import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
-import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 
 /**
  * <!-- begin-user-doc -->
@@ -268,39 +264,8 @@ public class PropertiesEditingModelImpl extends EObjectImpl implements Propertie
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList<Object> views(EObject eObject) {
-		EList<Object> result = new BasicEList<Object>();
-		EClassBinding binding = binding(eObject);
-		if (binding != null) {
-			for (View view : binding.getViews()) {
-				if (view instanceof JavaView) {
-					result.add(((JavaView) view).getDefinition());					
-				} else if (view instanceof EObjectView) {
-					result.add(((EObjectView) view).getDefinition());					
-				}
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public ViewHandler<?> viewHandler(EObject eObject, Object view) {
-		EClassBinding binding = binding(eObject);
-		if (binding != null) {
-			//TODO: I think this part of code should be an EOperation
-			for (View viewDefinition : binding.getViews()) {
-				if (viewDefinition instanceof JavaView) {
-					if (view.equals(((JavaView) viewDefinition).getDefinition())) {
-						return viewDefinition.getHandler();
-					}
-				}
-			}
-		}
-		return null;
+	public EList<View> views(EObject eObject) {
+		return binding(eObject).getViews();
 	}
 
 	/**

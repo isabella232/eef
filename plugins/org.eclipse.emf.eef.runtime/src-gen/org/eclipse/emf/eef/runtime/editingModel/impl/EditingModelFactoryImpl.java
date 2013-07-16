@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.eef.runtime.editingModel.*;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
@@ -23,7 +24,6 @@ import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 
 /**
  * <!-- begin-user-doc -->
@@ -92,8 +92,6 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 		switch (eDataType.getClassifierID()) {
 			case EditingModelPackage.FEATURE_DOCUMENTATION_PROVIDER:
 				return createFeatureDocumentationProviderFromString(eDataType, initialValue);
-			case EditingModelPackage.VIEW_HANDLER:
-				return createViewHandlerFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -109,8 +107,6 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 		switch (eDataType.getClassifierID()) {
 			case EditingModelPackage.FEATURE_DOCUMENTATION_PROVIDER:
 				return convertFeatureDocumentationProviderToString(eDataType, instanceValue);
-			case EditingModelPackage.VIEW_HANDLER:
-				return convertViewHandlerToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -214,24 +210,6 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 	 */
 	public String convertFeatureDocumentationProviderToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ViewHandler<?> createViewHandlerFromString(EDataType eDataType, String initialValue) {
-		return (ViewHandler<?>)super.createFromString(initialValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertViewHandlerToString(EDataType eDataType, Object instanceValue) {
-		return super.convertToString(instanceValue);
 	}
 
 	/**

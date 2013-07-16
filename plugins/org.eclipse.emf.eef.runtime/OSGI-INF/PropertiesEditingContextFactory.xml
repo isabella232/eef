@@ -6,4 +6,5 @@
    </service>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
    <reference bind="setBindingManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider" name="BindingManagerProvider" policy="static"/>
+   <reference bind="setViewHandlerFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactoryProvider" name="ViewHandlerFactoryProvider" policy="static"/>
 </scr:component>

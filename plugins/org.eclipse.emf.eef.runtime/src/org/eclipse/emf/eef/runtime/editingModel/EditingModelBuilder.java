@@ -9,7 +9,6 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 
 import com.google.common.collect.Lists;
 
@@ -215,7 +214,6 @@ public class EditingModelBuilder {
 
 		private EClassBindingBuilder parentBuilder;
 		private Object view;
-		private ViewHandler<?> handler;
 
 		/**
 		 * @param parentBuilder
@@ -226,15 +224,6 @@ public class EditingModelBuilder {
 			this.view = view;
 		}
 
-		/**
-		 * @param handler the handler to set
-		 * @return 
-		 */
-		public EClassViewBindingBuilder handler(ViewHandler<?> handler) {
-			this.handler = handler;
-			return this;
-		}
-
 		private View buildView() {
 			View modelView = null;
 			if (view instanceof EObject) {
@@ -243,9 +232,6 @@ public class EditingModelBuilder {
 			} else  {
 				modelView = EditingModelFactory.eINSTANCE.createJavaView();
 				((JavaView) modelView).setDefinition(view);				
-			}
-			if (view != null && handler != null) {
-				modelView.setHandler(handler);
 			}
 			return modelView;
 		}

@@ -8,7 +8,6 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.services.EEFService;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
@@ -57,7 +56,7 @@ public interface PropertiesBindingHandler extends EEFService<EObject> {
 	 * Executes a {@link Function} on all the created {@link ViewHandler} by the current {@link PropertiesEditingComponent}.
 	 * @param function the {@link Function} to execute. 
 	 */
-	void executeOnViewHandlers(PropertiesEditingComponent editingComponent, Function<ViewHandler<?>, Void> function);
+	void executeOnViews(PropertiesEditingComponent editingComponent, Function<Object, Void> function);
 	
 	/**
 	 * {@inheritDoc}

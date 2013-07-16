@@ -8,6 +8,7 @@ import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactoryProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -29,6 +30,11 @@ public interface PropertiesEditingContext {
 	 * @return the {@link EditingContextFactoryProvider} to use in the current context.
 	 */
 	EditingContextFactoryProvider getContextFactoryProvider();
+	
+	/**
+	 * @return the {@link ViewHandlerFactoryProvider} to use in the current context.
+	 */
+	ViewHandlerFactoryProvider getViewHandlerFactoryProvider();
 
 	/**
 	 * Returns a {@link PropertiesEditingComponent} binding the edited model element.
