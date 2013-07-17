@@ -82,7 +82,7 @@ public class EventsProcessingTests extends NonUIEditingTestCase {
 	public void testUIEventsNonProcessing() {
 		commandStack.saveIsDone();
 		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
-		environmentBuilder.getBindingManagerProvider().getBindingManager(editingComponent.getEObject()).firePropertiesChanged(editingComponent, new MyEvent());
+		environmentBuilder.getBindingHandlerProvider().getBindingManager(editingComponent.getEObject()).firePropertiesChanged(editingComponent, new MyEvent());
 		assertFalse("Command not performed but needed!", commandStack.isSaveNeeded());
 	}
 

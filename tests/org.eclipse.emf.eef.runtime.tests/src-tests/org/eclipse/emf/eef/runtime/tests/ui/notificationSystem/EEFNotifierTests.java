@@ -9,7 +9,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -127,16 +126,6 @@ public class EEFNotifierTests extends UIEditingTestCase {
 		 */
 		public boolean isViewNotified() {
 			return viewNotified;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFComponent#providedServices()
-		 */
-		public Collection<String> providedServices() {
-			List<String> result = new ArrayList<String>();
-			result.add(EEFNotifier.class.getName());
-			return result;
 		}
 
 		/**

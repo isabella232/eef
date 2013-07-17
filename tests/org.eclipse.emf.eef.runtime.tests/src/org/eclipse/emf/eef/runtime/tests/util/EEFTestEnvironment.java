@@ -78,6 +78,8 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceBa
 import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceDirectWizardEditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceLiveWizardEditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.lock.EditingViewLockManager;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.notify.EditingViewNotifier;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.util.ViewService;
@@ -106,9 +108,6 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.swt.widgets.Composite;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
-
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.notify.EditingViewNotifier;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.lock.EditingViewLockManager;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -379,9 +378,9 @@ public class EEFTestEnvironment {
 			return bindingSettingsProvider;
 		}
 		
-		public BindingHandlerProvider getBindingManagerProvider() {
+		public BindingHandlerProvider getBindingHandlerProvider() {
 			if (bindingHandlerProvider == null) {
-				bindingHandlerProvider = createBindingManagerProvider();
+				bindingHandlerProvider = createBindingHandlerProvider();
 			}
 			return bindingHandlerProvider;
 		}
@@ -736,7 +735,7 @@ public class EEFTestEnvironment {
 
 		public ViewHandlerFactoryProvider createViewHandlerFactoryProvider() {
 			ViewHandlerFactoryProviderImpl result = new ViewHandlerFactoryProviderImpl();
-			for (EEFServiceDescriptor<ViewHandlerFactory> eefServiceDescriptor : createVHandlerFactories()) {
+			for (EEFServiceDescriptor<ViewHandlerFactory<?>> eefServiceDescriptor : createVHandlerFactories()) {
 				try {
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
@@ -748,17 +747,17 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
-		public Collection<EEFServiceDescriptor<ViewHandlerFactory>> createVHandlerFactories() {
-			Collection<EEFServiceDescriptor<ViewHandlerFactory>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ViewHandlerFactory>>();
-			ReflectViewHandlerFactory service = new ReflectViewHandlerFactory();
+		public Collection<EEFServiceDescriptor<ViewHandlerFactory<?>>> createVHandlerFactories() {
+			Collection<EEFServiceDescriptor<ViewHandlerFactory<?>>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<ViewHandlerFactory<?>>>();
+			ReflectViewHandlerFactory<?> service = new ReflectViewHandlerFactory<Object>();
 			service.setLockManagerProvider(getLockManagerProvider());
 			service.setLogger(getLogger());
-			EEFServiceDescriptor<ViewHandlerFactory> desc = new EEFServiceDescriptor<ViewHandlerFactory>(REFLECT_VIEW_HANDLER_PROVIDER_NAME, service);
+			EEFServiceDescriptor<ViewHandlerFactory<?>> desc = new EEFServiceDescriptor<ViewHandlerFactory<?>>(REFLECT_VIEW_HANDLER_PROVIDER_NAME, service);
 			result.add(desc);
 			SWTViewHandlerFactory service2 = new SWTViewHandlerFactory();
 			service2.setLockManagerProvider(getLockManagerProvider());
 			service2.setLogger(getLogger());
-			desc = new EEFServiceDescriptor<ViewHandlerFactory>(SWT_VIEW_HANDLER_PROVIDER_NAME, service2, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
+			desc = new EEFServiceDescriptor<ViewHandlerFactory<?>>(SWT_VIEW_HANDLER_PROVIDER_NAME, service2, REFLECT_VIEW_HANDLER_PROVIDER_NAME);
 			result.add(desc);
 			PlatformAwarePropertiesEditingViewHandlerFactory service3 = new PlatformAwarePropertiesEditingViewHandlerFactory();
 			service3.setViewServiceProvider(getViewServiceProvider());
@@ -766,7 +765,7 @@ public class EEFTestEnvironment {
 			service3.setLockManagerProvider(getLockManagerProvider());
 			service3.setLogger(getLogger());
 			service3.setEMFServiceProvider(getEMFServiceProvider());
-			desc = new EEFServiceDescriptor<ViewHandlerFactory>(PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME, service3, SWT_VIEW_HANDLER_PROVIDER_NAME);
+			desc = new EEFServiceDescriptor<ViewHandlerFactory<?>>(PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME, service3, SWT_VIEW_HANDLER_PROVIDER_NAME);
 			result.add(desc);
 			return result;
 		}
@@ -804,7 +803,8 @@ public class EEFTestEnvironment {
 			Collection<EEFServiceDescriptor<PropertiesEditingContextFactory>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<PropertiesEditingContextFactory>>();
 			PropertiesEditingContextFactoryImpl contextFactory = new PropertiesEditingContextFactoryImpl();
 			contextFactory.setEMFServiceProvider(getEMFServiceProvider());
-			contextFactory.setBindingManagerProvider(getBindingManagerProvider());
+			contextFactory.setBindingManagerProvider(getBindingHandlerProvider());
+			contextFactory.setViewHandlerFactoryProvider(getViewHandlerFactoryProvider());
 			EEFServiceDescriptor<PropertiesEditingContextFactory> desc = new EEFServiceDescriptor<PropertiesEditingContextFactory>("propertieseditingcontextfactory.default", contextFactory);
 			result.add(desc);
 			return result;
@@ -974,7 +974,7 @@ public class EEFTestEnvironment {
 		}
 
 		
-		public BindingHandlerProvider createBindingManagerProvider() {
+		public BindingHandlerProvider createBindingHandlerProvider() {
 			BindingHandlerProviderImpl result = new BindingHandlerProviderImpl();
 			try {
 				Map<String, String> properties = new HashMap<String, String>();

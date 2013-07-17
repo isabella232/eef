@@ -77,7 +77,7 @@ public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
 		T view = null;
 		if (descriptor instanceof JavaView && ((JavaView) descriptor).getDefinition() instanceof Class) {
 			// I can't ensure this ... ViewHandlerFactory should have 2 parameterized types ...
-			Constructor<? extends T> availableConstructor = getHelper((Class<? extends T>) descriptor).searchAvailableConstructor(viewConstructArgs);
+			Constructor<? extends T> availableConstructor = getHelper((Class<? extends T>) ((JavaView) descriptor).getDefinition()).searchAvailableConstructor(viewConstructArgs);
 			if (availableConstructor != null) {
 				try {
 					view  = availableConstructor.newInstance(viewConstructArgs);

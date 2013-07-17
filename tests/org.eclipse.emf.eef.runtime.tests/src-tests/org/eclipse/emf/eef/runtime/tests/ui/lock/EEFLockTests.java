@@ -5,7 +5,6 @@ package org.eclipse.emf.eef.runtime.tests.ui.lock;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -197,16 +196,6 @@ public class EEFLockTests extends UIEditingTestCase {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService#providedServices()
-		 */
-		public Collection<String> providedServices() {
-			Collection<String> result = new ArrayList<String>();
-			result.add(EEFLockManager.class.getName());
-			return result;
-		}
-
 		private LockViewConfig getOrCreateLockConfig(Object view) {
 			LockViewConfig config = lockConfigs.get(view);
 			if (config == null) {
@@ -218,7 +207,6 @@ public class EEFLockTests extends UIEditingTestCase {
 
 		private class LockViewConfig {
 			
-//			private Object visew;
 			private boolean locked;
 			private Set<Object> lockedEditors;
 			
@@ -241,16 +229,6 @@ public class EEFLockTests extends UIEditingTestCase {
 		 */
 		public boolean serviceFor(EObject element) {
 			return true;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * @see org.eclipse.emf.eef.runtime.services.EEFService#providedServices()
-		 */
-		public Collection<String> providedServices() {
-			Collection<String> result = new ArrayList<String>();
-			result.add(EEFLockPolicyFactory.class.getName());
-			return result;
 		}
 
 		/**
@@ -298,7 +276,7 @@ public class EEFLockTests extends UIEditingTestCase {
 			
 			public void fireFeatureLock(EStructuralFeature feature, LockState state ) {
 				PropertiesEditingComponent editingComponent = EEFLockTests.this.editingContext.getEditingComponent();
-				myBuilder.getBindingManagerProvider().getBindingManager(editingComponent.getEObject()).fireLockChanged(editingComponent, new EEFPropertyLockEventImpl(EEFLockTests.this.editedObject, feature, state));
+				myBuilder.getBindingHandlerProvider().getBindingManager(editingComponent.getEObject()).fireLockChanged(editingComponent, new EEFPropertyLockEventImpl(EEFLockTests.this.editedObject, feature, state));
 			}
 			
 		}
