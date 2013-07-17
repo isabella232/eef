@@ -10,7 +10,7 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -90,8 +90,8 @@ public class PropertiesEditingViewEditingTestCase extends UIEditingTestCase {
 		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
 		List<Object> views = editingComponent.getViews();
 		for (Object view : views) {
-			ViewHandlerFactory<?> handlerFactory = editingContext.getViewHandlerFactoryProvider().getHandlerFactory(editingComponent.getDescriptorForView(view));
-			handlerFactory.dispose(editingComponent, view);
+			ViewHandler<?> viewHandler = editingContext.getViewHandlerProvider().getViewHandler(editingComponent.getDescriptorForView(view));
+			viewHandler.dispose(editingComponent, view);
 		}
 		shell.dispose();
 		if (compositeViews != null)

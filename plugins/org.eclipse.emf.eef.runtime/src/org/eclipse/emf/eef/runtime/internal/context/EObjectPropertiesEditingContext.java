@@ -12,7 +12,7 @@ import org.eclipse.emf.eef.runtime.context.EditingRecorder;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactoryProvider;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -23,7 +23,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	private EMFServiceProvider emfServiceProvider;
 	private BindingHandlerProvider bindingHandlerProvider;
 	private EditingContextFactoryProvider contextFactoryProvider;
-	private ViewHandlerFactoryProvider viewHandlerFactoryProvider;
+	private ViewHandlerProvider viewHandlerProvider;
 	
 	protected PropertiesEditingContext parentContext;
 	protected EObject eObject;
@@ -80,10 +80,10 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	}
 
 	/**
-	 * @param viewHandlerFactoryProvider the viewHandlerFactoryProvider to set
+	 * @param viewHandlerProvider the viewHandlerProvider to set
 	 */
-	public void setViewHandlerFactoryProvider(ViewHandlerFactoryProvider viewHandlerFactoryProvider) {
-		this.viewHandlerFactoryProvider = viewHandlerFactoryProvider;
+	public void setViewHandlerProvider(ViewHandlerProvider viewHandlerProvider) {
+		this.viewHandlerProvider = viewHandlerProvider;
 	}
 
 	/**
@@ -116,10 +116,10 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	}
 
 	/**
-	 * @return the viewHandlerFactoryProvider
+	 * @return the viewHandlerProvider
 	 */
-	public ViewHandlerFactoryProvider getViewHandlerFactoryProvider() {
-		return viewHandlerFactoryProvider;
+	public ViewHandlerProvider getViewHandlerProvider() {
+		return viewHandlerProvider;
 	}
 
 	/**

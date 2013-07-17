@@ -8,9 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.StringTokenizer;
-
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.BiMap;
@@ -135,13 +133,6 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 		List<SERVICE_TYPE> result = Lists.newArrayList();
 		// First we're looking for an appropriate service which isn't a default service. 
 		for (Node<ELEMENT_TYPE, SERVICE_TYPE> node : services.values()) {
-			if (node.getTarget() == null) {
-				Set<Entry<String, Node<ELEMENT_TYPE, SERVICE_TYPE>>> entrySet = services.entrySet();
-				for (Entry<String, Node<ELEMENT_TYPE, SERVICE_TYPE>> entry : entrySet) {
-					System.out.println("id: " + entry.getKey() + " - target: " + entry.getValue().getTarget());
-				}
-				System.out.println();
-			}
 			SERVICE_TYPE service = node.getTarget();
 			if (service.serviceFor(element) && !(service instanceof DefaultService)) {
 				result.add(service);

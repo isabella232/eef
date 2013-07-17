@@ -18,7 +18,7 @@ import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  * FIXME: the set/add/remove contracts are too weak. How to handle this problem in the {@link PropertiesEditingComponentImpl} ?
  */
-public interface ViewHandlerFactory<T> extends EEFService<View> {
+public interface ViewHandler<T> extends EEFService<View> {
 
 	/**
 	 * Returns a LockManager able to manage the given view.

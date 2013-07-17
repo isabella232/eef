@@ -14,7 +14,7 @@ import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.ui.internal.util.ReflectHelper;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
@@ -24,7 +24,7 @@ import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
+public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	private EEFLockManagerProvider lockManagerProvider;
 	private EEFLogger logger;
@@ -56,7 +56,7 @@ public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#getLockManager(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#getLockManager(java.lang.Object)
 	 */
 	public EEFLockManager getLockManager(Object view) {
 		return lockManagerProvider.getLockManager(view);
@@ -71,12 +71,12 @@ public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#createView(java.lang.Object, java.lang.Object[])
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#createView(java.lang.Object, java.lang.Object[])
 	 */
 	public T createView(Object descriptor, Object... viewConstructArgs) throws ViewConstructionException {
 		T view = null;
 		if (descriptor instanceof JavaView && ((JavaView) descriptor).getDefinition() instanceof Class) {
-			// I can't ensure this ... ViewHandlerFactory should have 2 parameterized types ...
+			// I can't ensure this ... ViewHandler should have 2 parameterized types ...
 			Constructor<? extends T> availableConstructor = getHelper((Class<? extends T>) ((JavaView) descriptor).getDefinition()).searchAvailableConstructor(viewConstructArgs);
 			if (availableConstructor != null) {
 				try {
@@ -93,7 +93,7 @@ public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
 	public void initView(PropertiesEditingComponent component, T view) {
 		EObject eObject = component.getEObject();
@@ -119,7 +119,7 @@ public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#setValue(java.lang.Object, java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#setValue(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
 	public void setValue(Object view, Object field, Object value) throws ViewHandlingException {
 		if (field instanceof String && value != null) {
@@ -137,7 +137,7 @@ public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#unsetValue(java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#unsetValue(java.lang.Object, java.lang.Object)
 	 */
 	public void unsetValue(Object view, Object field) throws ViewHandlingException {
 		if (field instanceof String) {
@@ -155,7 +155,7 @@ public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#addValue(java.lang.Object, java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#addValue(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
 	public void addValue(Object view, Object field, Object newValue) throws ViewHandlingException {
 		if (field instanceof String) {
@@ -173,7 +173,7 @@ public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#addAllValues(java.lang.Object, java.lang.Object, java.util.Collection)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#addAllValues(java.lang.Object, java.lang.Object, java.util.Collection)
 	 */
 	public void addAllValues(Object view, Object field, Collection<?> values) throws ViewHandlingException {
 		for (Object value : values) {
@@ -183,7 +183,7 @@ public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#removeValue(java.lang.Object, java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#removeValue(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
 	public void removeValue(Object view, Object field, Object newValue) throws ViewHandlingException {
 		if (field instanceof String) {
@@ -201,7 +201,7 @@ public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#removeAllValues(java.lang.Object, java.lang.Object, java.util.Collection)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#removeAllValues(java.lang.Object, java.lang.Object, java.util.Collection)
 	 */
 	public void removeAllValues(Object view, Object field, Collection<?> values) throws ViewHandlingException {
 		for (Object value : values) {
@@ -211,7 +211,7 @@ public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#moveValue(java.lang.Object, java.lang.Object, java.lang.Object, int)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#moveValue(java.lang.Object, java.lang.Object, java.lang.Object, int)
 	 */
 	public void moveValue(Object view, Object field, Object value, int newIndex) throws ViewHandlingException {
 		// TODO not handle for the moment.
@@ -219,7 +219,7 @@ public class ReflectViewHandlerFactory<T> implements ViewHandlerFactory<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#dispose(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#dispose(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
 	public void dispose(PropertiesEditingComponent editingComponent, Object view) {
 		editingComponent.removeView(view);

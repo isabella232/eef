@@ -20,9 +20,9 @@ import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.tabbed.view.util.DescriptorHelper;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.tabbed.view.util.ValidationMessageInjector;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.impl.FormImplPropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.swt.view.util.PropertiesEditingMessageManagerImpl;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.views.View;
@@ -137,9 +137,9 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	 */
 	public void refresh() {
 		if (editingComponent != null) {
-			ViewHandlerFactory<?> handlerFactory = editingComponent.getEditingContext().getViewHandlerFactoryProvider().getHandlerFactory(rawDescriptor);
-			if (handlerFactory instanceof PropertiesEditingViewHandlerFactory) {
-				((PropertiesEditingViewHandlerFactory)handlerFactory).initView(editingComponent, this);
+			ViewHandler<?> viewHandler = editingComponent.getEditingContext().getViewHandlerProvider().getViewHandler(rawDescriptor);
+			if (viewHandler instanceof PropertiesEditingViewHandler) {
+				((PropertiesEditingViewHandler)viewHandler).initView(editingComponent, this);
 			}
 		}
 	}
@@ -166,8 +166,8 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 			injector = null;
 		}
 		if (editingComponent != null) {
-			PropertiesEditingViewHandlerFactory handlerFactory = (PropertiesEditingViewHandlerFactory) editingComponent.getEditingContext().getViewHandlerFactoryProvider().getHandlerFactory(rawDescriptor);
-			handlerFactory.dispose(editingComponent, this);
+			PropertiesEditingViewHandler viewHandler = (PropertiesEditingViewHandler) editingComponent.getEditingContext().getViewHandlerProvider().getViewHandler(rawDescriptor);
+			viewHandler.dispose(editingComponent, this);
 			disposeComponentIfExist();
 		}
 	}
@@ -242,12 +242,12 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 					control.dispose();
 				}
 			}
-			PropertiesEditingViewHandlerFactory handlerFactory = (PropertiesEditingViewHandlerFactory) editingComponent.getEditingContext().getViewHandlerFactoryProvider().getHandlerFactory(rawDescriptor);
-			setViewServiceProvider(handlerFactory.getViewServiceProvider());
-			setToolkitPropertyEditorFactory(handlerFactory.getEEFToolkitProvider());
+			PropertiesEditingViewHandler viewHandler = (PropertiesEditingViewHandler) editingComponent.getEditingContext().getViewHandlerProvider().getViewHandler(rawDescriptor);
+			setViewServiceProvider(viewHandler.getViewServiceProvider());
+			setToolkitPropertyEditorFactory(viewHandler.getEEFToolkitProvider());
 			createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
 			parentComposite.layout();
-			handlerFactory.initView(editingComponent, this);
+			viewHandler.initView(editingComponent, this);
 		}
 	}
 

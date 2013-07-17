@@ -12,10 +12,10 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandlerFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewConstructionException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -101,18 +101,18 @@ public abstract class UIEditingTestCase extends NonUIEditingTestCase {
 		group.setLayout(new FillLayout());
 		Composite container = new Composite(group, SWT.NONE);
 		container.setLayout(new FillLayout());
-		ViewHandlerFactory<?> handlerFactory = editingContext.getViewHandlerFactoryProvider().getHandlerFactory(viewDescriptor);
-		if (handlerFactory instanceof SWTViewHandlerFactory) {
+		ViewHandler<?> viewHandler = editingContext.getViewHandlerProvider().getViewHandler(viewDescriptor);
+		if (viewHandler instanceof SWTViewHandler) {
 			try {
-				view = ((SWTViewHandlerFactory)handlerFactory).createView(viewDescriptor, container);
-				((SWTViewHandlerFactory)handlerFactory).initView(editingContext.getEditingComponent(), (Composite)view);
+				view = ((SWTViewHandler)viewHandler).createView(viewDescriptor, container);
+				((SWTViewHandler)viewHandler).initView(editingContext.getEditingComponent(), (Composite)view);
 			} catch (ViewConstructionException e) {
 				fail("An error occured during view creation");
 			}
-		} else if (handlerFactory instanceof PropertiesEditingViewHandlerFactory) {
+		} else if (viewHandler instanceof PropertiesEditingViewHandler) {
 			try {
-				view = ((PropertiesEditingViewHandlerFactory)handlerFactory).createView(viewDescriptor, editingContext.getEditingComponent(), container);
-				((PropertiesEditingViewHandlerFactory)handlerFactory).initView(editingContext.getEditingComponent(), (PropertiesEditingView<Composite>) view);
+				view = ((PropertiesEditingViewHandler)viewHandler).createView(viewDescriptor, editingContext.getEditingComponent(), container);
+				((PropertiesEditingViewHandler)viewHandler).initView(editingContext.getEditingComponent(), (PropertiesEditingView<Composite>) view);
 			} catch (ViewConstructionException e) {
 				fail("An error occured during view creation");
 			}
@@ -129,8 +129,8 @@ public abstract class UIEditingTestCase extends NonUIEditingTestCase {
 		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
 		List<Object> views = editingComponent.getViews();
 		for (Object view : views) {
-			ViewHandlerFactory<?> handlerFactory = editingContext.getViewHandlerFactoryProvider().getHandlerFactory(editingComponent.getDescriptorForView(view));
-			handlerFactory.dispose(editingComponent, view);
+			ViewHandler<?> viewHandler = editingContext.getViewHandlerProvider().getViewHandler(editingComponent.getDescriptorForView(view));
+			viewHandler.dispose(editingComponent, view);
 		}
 		shell.dispose();
 		this.views.clear();

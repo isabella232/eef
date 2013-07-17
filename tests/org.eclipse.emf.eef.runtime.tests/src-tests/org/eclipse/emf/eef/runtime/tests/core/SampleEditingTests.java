@@ -12,8 +12,8 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.tests.ui.cases.UIEditingTestCase;
 import org.eclipse.emf.eef.runtime.tests.views.SampleView;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandlerFactory;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandler;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.junit.Test;
 
 /**
@@ -25,14 +25,14 @@ public class SampleEditingTests extends UIEditingTestCase {
 	@Test
 	public void testViewHandling() {
 		List<View> viewDescriptors = editingContext.getEditingComponent().getViewDescriptors();
-		ViewHandlerFactory<?> handlerFactory = editingContext.getViewHandlerFactoryProvider().getHandlerFactory(viewDescriptors.get(1));
+		ViewHandler<?> viewHandler = editingContext.getViewHandlerProvider().getViewHandler(viewDescriptors.get(1));
 		assertEquals("ViewHandler not initialized", viewDescriptors.size(), 1);
-		assertTrue("Bad ViewHandler selection", handlerFactory instanceof SWTViewHandlerFactory);
+		assertTrue("Bad ViewHandler selection", viewHandler instanceof SWTViewHandler);
 		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
 		List<Object> views = editingComponent.getViews();
 		for (Object view : views) {
-			ViewHandlerFactory<?> handlerFactory2 = editingContext.getViewHandlerFactoryProvider().getHandlerFactory(editingComponent.getDescriptorForView(view));
-			handlerFactory2.dispose(editingComponent, view);
+			ViewHandler<?> handler = editingContext.getViewHandlerProvider().getViewHandler(editingComponent.getDescriptorForView(view));
+			handler.dispose(editingComponent, view);
 		}
 	}
 	

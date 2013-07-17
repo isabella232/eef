@@ -21,7 +21,7 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEd
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
@@ -38,7 +38,7 @@ import com.google.common.collect.UnmodifiableIterator;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<PropertiesEditingView<Composite>> {
+public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditingView<Composite>> {
 
 	private EMFServiceProvider emfServiceProvider;
 	private ViewServiceProvider viewServiceProvider;
@@ -112,7 +112,7 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#getLockManager(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#getLockManager(java.lang.Object)
 	 */
 	public EEFLockManager getLockManager(Object view) {
 		return lockManagerProvider.getLockManager(view);
@@ -127,7 +127,7 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#createView(java.lang.Object, java.lang.Object[])
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#createView(java.lang.Object, java.lang.Object[])
 	 */
 	public PropertiesEditingView<Composite> createView(Object viewDescriptor, Object... args) throws ViewConstructionException {
 		if (viewDescriptor instanceof View && args.length > 1 && args[0] instanceof PropertiesEditingComponent && args[1] instanceof Composite) {
@@ -143,7 +143,7 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
 	public void initView(PropertiesEditingComponent editingComponent, PropertiesEditingView<Composite> view) {
 		if (view != null) {
@@ -166,7 +166,7 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#setValue(java.lang.Object, java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#setValue(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
 	public void setValue(final Object view, final Object field, final Object value) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
@@ -188,7 +188,7 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#unsetValue(java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#unsetValue(java.lang.Object, java.lang.Object)
 	 */
 	public void unsetValue(final Object view, final Object field) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
@@ -210,7 +210,7 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#addValue(java.lang.Object, java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#addValue(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
 	public void addValue(final Object view, final Object field, final Object newValue) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
@@ -232,7 +232,7 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#addAllValues(java.lang.Object, java.lang.Object, java.util.Collection)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#addAllValues(java.lang.Object, java.lang.Object, java.util.Collection)
 	 */
 	public void addAllValues(final Object view, final Object field, final Collection<?> values) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
@@ -254,7 +254,7 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#removeValue(java.lang.Object, java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#removeValue(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
 	public void removeValue(final Object view, final Object field, final Object value) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
@@ -276,7 +276,7 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#removeAllValues(java.lang.Object, java.lang.Object, java.util.Collection)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#removeAllValues(java.lang.Object, java.lang.Object, java.util.Collection)
 	 */
 	public void removeAllValues(final Object view, final Object field, final Collection<?> values) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
@@ -298,7 +298,7 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#moveValue(java.lang.Object, java.lang.Object, java.lang.Object, int)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#moveValue(java.lang.Object, java.lang.Object, java.lang.Object, int)
 	 */
 	public void moveValue(final Object view, final Object field, final Object value, final int newIndex) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
@@ -320,7 +320,7 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#dispose(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#dispose(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
 	public void dispose(PropertiesEditingComponent editingComponent, Object view) {
 		if (view instanceof PropertiesEditingView<?>) {

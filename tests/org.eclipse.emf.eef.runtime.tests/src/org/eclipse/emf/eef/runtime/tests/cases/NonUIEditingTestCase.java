@@ -12,10 +12,10 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandlerFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewConstructionException;
 import org.eclipse.swt.widgets.Composite;
 import org.junit.Before;
@@ -58,12 +58,12 @@ public class NonUIEditingTestCase {
 		views = new ArrayList<Object>();
 		for (View viewDescriptor : viewDescriptors) {
 			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
-			ViewHandlerFactory<?> handlerFactory = editingContext.getViewHandlerFactoryProvider().getHandlerFactory(viewDescriptor);
-			Object view = handlerFactory.createView(viewDescriptor, editingComponent);
-			if (handlerFactory instanceof PropertiesEditingViewHandlerFactory && view instanceof PropertiesEditingView) {
-				((PropertiesEditingViewHandlerFactory)handlerFactory).initView(editingComponent, (PropertiesEditingView<Composite>) view);
-			} else if (handlerFactory instanceof SWTViewHandlerFactory && view instanceof Composite) {
-				((SWTViewHandlerFactory)handlerFactory).initView(editingComponent, (Composite) view);
+			ViewHandler<?> viewHandler = editingContext.getViewHandlerProvider().getViewHandler(viewDescriptor);
+			Object view = viewHandler.createView(viewDescriptor, editingComponent);
+			if (viewHandler instanceof PropertiesEditingViewHandler && view instanceof PropertiesEditingView) {
+				((PropertiesEditingViewHandler)viewHandler).initView(editingComponent, (PropertiesEditingView<Composite>) view);
+			} else if (viewHandler instanceof SWTViewHandler && view instanceof Composite) {
+				((SWTViewHandler)viewHandler).initView(editingComponent, (Composite) view);
 			}
 			views.add(view);
 		}

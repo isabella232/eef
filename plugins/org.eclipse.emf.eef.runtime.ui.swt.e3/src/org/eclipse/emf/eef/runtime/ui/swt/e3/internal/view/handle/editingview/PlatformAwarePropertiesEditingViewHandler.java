@@ -7,7 +7,7 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.impl.FormImplPropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl.SWTImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewConstructionException;
@@ -19,11 +19,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PlatformAwarePropertiesEditingViewHandlerFactory extends PropertiesEditingViewHandlerFactory {
+public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditingViewHandler {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandlerFactory#serviceFor(org.eclipse.emf.eef.runtime.editingModel.View)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler#serviceFor(org.eclipse.emf.eef.runtime.editingModel.View)
 	 */
 	@Override
 	public boolean serviceFor(org.eclipse.emf.eef.runtime.editingModel.View view) {
@@ -32,7 +32,7 @@ public class PlatformAwarePropertiesEditingViewHandlerFactory extends Properties
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandlerFactory#createView(java.lang.Object, java.lang.Object[])
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler#createView(java.lang.Object, java.lang.Object[])
 	 */
 	@Override
 	public PropertiesEditingView<Composite> createView(Object viewDescriptor, Object... args) throws ViewConstructionException {

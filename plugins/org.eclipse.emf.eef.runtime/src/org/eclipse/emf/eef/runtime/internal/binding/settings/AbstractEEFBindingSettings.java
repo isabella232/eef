@@ -18,8 +18,8 @@ import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactoryProvider;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 import com.google.common.base.Function;
@@ -35,7 +35,7 @@ import com.google.common.collect.Lists;
 public abstract class AbstractEEFBindingSettings implements EEFBindingSettings {
 
 	private EMFServiceProvider emfServiceProvider;
-	private ViewHandlerFactoryProvider viewHandlerFactoryProvider;
+	private ViewHandlerProvider viewHandlerProvider;
 
 	private List<PropertiesEditingModel> editingModels;
 	private EditingModelEnvironment editingModelEnvironment;
@@ -48,10 +48,10 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings {
 	}
 
 	/**
-	 * @param viewHandlerFactoryProvider the viewHandlerFactoryProvider to set
+	 * @param viewHandlerProvider the viewHandlerProvider to set
 	 */
-	public void setViewHandlerFactoryProvider(ViewHandlerFactoryProvider viewHandlerFactoryProvider) {
-		this.viewHandlerFactoryProvider = viewHandlerFactoryProvider;
+	public void setViewHandlerProvider(ViewHandlerProvider viewHandlerProvider) {
+		this.viewHandlerProvider = viewHandlerProvider;
 	}
 
 	/**
@@ -63,10 +63,10 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getViewHandlerFactory(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getViewHandler(java.lang.Object)
 	 */
-	public ViewHandlerFactory<?> getViewHandlerFactory(View view) {
-		return viewHandlerFactoryProvider.getHandlerFactory(view);
+	public ViewHandler<?> getViewHandler(View view) {
+		return viewHandlerProvider.getViewHandler(view);
 	}
 
 	/**

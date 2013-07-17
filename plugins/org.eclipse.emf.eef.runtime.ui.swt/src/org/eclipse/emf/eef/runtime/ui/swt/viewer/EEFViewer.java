@@ -10,17 +10,16 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
-import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandlerFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewFilter;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.viewer.IEEFViewer;
 import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewConstructionException;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -129,35 +128,35 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 		viewDescriptors = component.getViewDescriptors();
 		int i = 1;
 		for (org.eclipse.emf.eef.runtime.editingModel.View descriptor : viewDescriptors) {
-			ViewHandlerFactory<?> handlerFactory = context.getViewHandlerFactoryProvider().getHandlerFactory(descriptor);
-			if (handlerFactory instanceof PropertiesEditingViewHandlerFactory) {
-				PropertiesEditingViewHandlerFactory propertiesEditingViewHandlerFactory = (PropertiesEditingViewHandlerFactory) handlerFactory;
+			ViewHandler<?> viewHandler = context.getViewHandlerProvider().getViewHandler(descriptor);
+			if (viewHandler instanceof PropertiesEditingViewHandler) {
+				PropertiesEditingViewHandler propertiesEditingViewHandler = (PropertiesEditingViewHandler) viewHandler;
 				org.eclipse.emf.eef.views.View viewDescriptor = (org.eclipse.emf.eef.views.View) ((EObjectView)descriptor).getDefinition();
 				boolean filtered = isFiltered(viewDescriptor);
 				if (filtered) {
 					try {
 						CTabItem item = new CTabItem(folder, SWT.NONE);
 						item.setText(viewDescriptor.getName());
-						PropertiesEditingView<Composite> view = propertiesEditingViewHandlerFactory.createView(descriptor, component, folder);
+						PropertiesEditingView<Composite> view = propertiesEditingViewHandler.createView(descriptor, component, folder);
 						view.getContents().setLayoutData(new GridData(GridData.FILL_BOTH));
-						propertiesEditingViewHandlerFactory.initView(component, view);
+						propertiesEditingViewHandler.initView(component, view);
 						item.setControl(view.getContents());
 					} catch (ViewConstructionException e) {
-						EEFLogger logger = propertiesEditingViewHandlerFactory.getLogger();
+						EEFLogger logger = propertiesEditingViewHandler.getLogger();
 						logger.logError("org.eclipse.emf.eef.runtime.ui.swt", "An error occured during view creation.", e);
 					}
 				}
-			} else if (handlerFactory instanceof SWTViewHandlerFactory) {
-				SWTViewHandlerFactory swtViewHandlerFactory = (SWTViewHandlerFactory) handlerFactory;
+			} else if (viewHandler instanceof SWTViewHandler) {
+				SWTViewHandler swtViewHandler = (SWTViewHandler) viewHandler;
 				CTabItem item = new CTabItem(folder, SWT.NONE);
 				item.setText("View " + i);
 				Composite viewComposite = new Composite(folder, SWT.NONE);
 				viewComposite.setLayout(new FillLayout());
 				try {
-					Composite view = swtViewHandlerFactory.createView(descriptor, viewComposite);
-					swtViewHandlerFactory.initView(component, view);
+					Composite view = swtViewHandler.createView(descriptor, viewComposite);
+					swtViewHandler.initView(component, view);
 				} catch (ViewConstructionException e) {
-					EEFLogger logger = swtViewHandlerFactory.getLogger();
+					EEFLogger logger = swtViewHandler.getLogger();
 					logger.logError("org.eclipse.emf.eef.runtime.ui.swt", "An error occured during view creation.", e);
 				}
 				item.setControl(viewComposite);
@@ -212,8 +211,8 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 		for (Object view : views) {
 			View descriptor = editingComponent.getDescriptorForView(view);
 			if (descriptor != null) {
-				ViewHandlerFactory<?> handlerFactory = context.getViewHandlerFactoryProvider().getHandlerFactory(descriptor);
-				handlerFactory.dispose(editingComponent, view);
+				ViewHandler<?> viewHandler = context.getViewHandlerProvider().getViewHandler(descriptor);
+				viewHandler.dispose(editingComponent, view);
 			}
 		}
 	}

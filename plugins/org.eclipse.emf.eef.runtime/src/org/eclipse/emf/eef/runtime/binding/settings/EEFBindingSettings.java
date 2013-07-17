@@ -11,7 +11,7 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 /**
@@ -38,11 +38,11 @@ public interface EEFBindingSettings extends EEFService<EPackage> {
 	PropertiesEditingModel getEditingModel(EObject eObject);
 
 	/**
-	 * @return a {@link ViewHandlerFactory} able to provide {@link ViewHandler} for the given view.
+	 * @return a {@link ViewHandler} able to provide {@link ViewHandler} for the given view.
 	 * @param view view to process.
-	 * @return a applicable {@link ViewHandlerFactory} if exists, <code>null</code> otherwise.
+	 * @return a applicable {@link ViewHandler} if exists, <code>null</code> otherwise.
 	 */
-	ViewHandlerFactory<?> getViewHandlerFactory(View view);
+	ViewHandler<?> getViewHandler(View view);
 
 	/**
 	 * Method allowing users to filter the {@link EEFLockPolicy}s applied on a {@link PropertiesEditingComponent}. 

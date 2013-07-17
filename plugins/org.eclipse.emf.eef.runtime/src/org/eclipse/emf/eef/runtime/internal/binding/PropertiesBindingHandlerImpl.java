@@ -40,8 +40,8 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactoryProvider;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
@@ -199,47 +199,47 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 			for (Object view : editingComponent.getViews()) {
 				if (view != null) {
 					//FIXME: inject this ??
-					ViewHandlerFactoryProvider viewHandlerFactoryProvider = editingComponent.getEditingContext().getViewHandlerFactoryProvider();
-					ViewHandlerFactory<?> handlerFactory = viewHandlerFactoryProvider.getHandlerFactory(editingComponent.getDescriptorForView(view));
+					ViewHandlerProvider viewHandlerProvider = editingComponent.getEditingContext().getViewHandlerProvider();
+					ViewHandler<?> viewHandler = viewHandlerProvider.getViewHandler(editingComponent.getDescriptorForView(view));
 					switch (msg.getEventType()) {
 					case Notification.SET:
 						try {
-							handlerFactory.setValue(view, propertyEditor, msg.getNewValue());
+							viewHandler.setValue(view, propertyEditor, msg.getNewValue());
 						} catch (ViewHandlingException e) {
 							//NOTE: Silent catch
 						}
 						break;
 					case Notification.UNSET:
 						try {
-							handlerFactory.unsetValue(view, propertyEditor);						
+							viewHandler.unsetValue(view, propertyEditor);						
 						} catch (ViewHandlingException e) {
 							//NOTE: Silent catch
 						}
 						break;
 					case Notification.ADD:
 						try {
-							handlerFactory.addValue(view, propertyEditor, msg.getNewValue());						
+							viewHandler.addValue(view, propertyEditor, msg.getNewValue());						
 						} catch (ViewHandlingException e) {
 							//NOTE: Silent catch
 						}
 						break;
 					case Notification.ADD_MANY:
 						try {
-							handlerFactory.addAllValues(view, propertyEditor, (Collection<?>) msg.getNewValue());						
+							viewHandler.addAllValues(view, propertyEditor, (Collection<?>) msg.getNewValue());						
 						} catch (ViewHandlingException e) {
 							//NOTE: Silent catch
 						}
 						break;
 					case Notification.REMOVE:
 						try {
-							handlerFactory.removeValue(view, propertyEditor, msg.getOldValue());						
+							viewHandler.removeValue(view, propertyEditor, msg.getOldValue());						
 						} catch (ViewHandlingException e) {
 							//NOTE: Silent catch
 						}
 						break;
 					case Notification.REMOVE_MANY:
 						try {
-							handlerFactory.removeAllValues(view, propertyEditor, (Collection<?>) msg.getOldValue());						
+							viewHandler.removeAllValues(view, propertyEditor, (Collection<?>) msg.getOldValue());						
 						} catch (ViewHandlingException e) {
 							//NOTE: Silent catch
 						}
@@ -248,7 +248,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 						try {
 							//TODO: find the good index
 							int newIndex = 0;
-							handlerFactory.moveValue(view, propertyEditor, msg.getNewValue(), newIndex );						
+							viewHandler.moveValue(view, propertyEditor, msg.getNewValue(), newIndex );						
 						} catch (ViewHandlingException e) {
 							//NOTE: Silent catch
 						}
