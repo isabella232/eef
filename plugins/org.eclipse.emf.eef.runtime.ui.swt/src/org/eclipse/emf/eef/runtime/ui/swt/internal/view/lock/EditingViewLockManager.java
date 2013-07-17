@@ -106,7 +106,9 @@ public class EditingViewLockManager implements EEFLockManager {
 	@SuppressWarnings("unchecked")
 	public void lockView(Object view) {
 		if (view instanceof PropertiesEditingView) {
-			((PropertiesEditingView<Composite>) view).lock();
+			for (PropertyEditor editor : ((PropertiesEditingView<Composite>) view).getAllPropertyEditors()) {
+				editor.getPropertyEditorViewer().lock();
+			}
 			EEFNotifier notifier = eefNotifierProvider.getNotifier(view);
 			notifier.notify(view, new LockNotification("This view is locked."));
 		}
@@ -135,7 +137,9 @@ public class EditingViewLockManager implements EEFLockManager {
 	@SuppressWarnings("unchecked")
 	public void clearViewLock(Object view) {
 		if (view instanceof PropertiesEditingView) {
-			((PropertiesEditingView<Composite>) view).unlock();
+			for (PropertyEditor editor : ((PropertiesEditingView<Composite>) view).getAllPropertyEditors()) {
+				editor.getPropertyEditorViewer().unlock();
+			}
 			EEFNotifier notifier = eefNotifierProvider.getNotifier(view);
 			notifier.clearViewNotification(view);
 		}		

@@ -43,15 +43,13 @@ public class PlatformAwarePropertiesEditingViewHandlerFactory extends Properties
 			FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 			if (toolkit != null) {
 				view = new FormImplPropertiesEditingView(editingComponent, eObjectViewDescriptor);
-				view.setEMFServiceProvider(getEMFServiceProvider());
-				view.setViewServiceProvider(getViewServiceProvider());
-				view.setToolkitPropertyEditorFactory(getEEFToolkitProvider());
+				((FormImplPropertiesEditingView) view).setViewServiceProvider(getViewServiceProvider());
+				((FormImplPropertiesEditingView) view).setToolkitPropertyEditorFactory(getEEFToolkitProvider());
 				((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[1]);
 			} else {
 				view = new SWTImplPropertiesEditingView(editingComponent, eObjectViewDescriptor);					
-				view.setEMFServiceProvider(getEMFServiceProvider());
-				view.setViewServiceProvider(getViewServiceProvider());
-				view.setToolkitPropertyEditorFactory(getEEFToolkitProvider());
+				((SWTImplPropertiesEditingView) view).setViewServiceProvider(getViewServiceProvider());
+				((SWTImplPropertiesEditingView) view).setToolkitPropertyEditorFactory(getEEFToolkitProvider());
 				((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);
 			}
 			return view;

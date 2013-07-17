@@ -8,10 +8,7 @@ import java.util.Collection;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.ui.util.ViewService;
-import org.eclipse.emf.eef.runtime.ui.util.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewElement;
 
@@ -20,21 +17,6 @@ import org.eclipse.emf.eef.views.ViewElement;
  *
  */
 public interface PropertiesEditingView<T> extends PropertiesEditingListener {
-
-	/**
-	 * @param emfServiceProvider
-	 */
-	void setEMFServiceProvider(EMFServiceProvider emfServiceProvider);
-	
-	/**
-	 * @param viewServiceProvider
-	 */
-	void setViewServiceProvider(ViewServiceProvider viewServiceProvider);
-	
-	/**
-	 * @param eefToolkitProvider
-	 */
-	void setToolkitPropertyEditorFactory(EEFToolkitProvider eEFToolkitProvider);
 	
 	/**
 	 * @return a {@link View} describing the current view.
@@ -54,6 +36,12 @@ public interface PropertiesEditingView<T> extends PropertiesEditingListener {
 	PropertyEditor getPropertyEditor(ViewElement editor);
 	
 	/**
+	 * Returns all the {@link PropertyEditor} owned by the current view.
+	 * @return a collection of {@link PropertyEditor} owned by the view.
+	 */
+	Collection<PropertyEditor> getAllPropertyEditors();
+	
+	/**
 	 * @return the {@link ViewService} for the view.
 	 */
 	ViewService getViewService();
@@ -68,73 +56,4 @@ public interface PropertiesEditingView<T> extends PropertiesEditingListener {
 	 */
 	T getContents();
 	
-	/**
-	 * Initializes the view.
-	 */
-	void init();
-	
-	/**
-	 * Locks all the editors of the view.
-	 */
-	void lock();
-	
-	/**
-	 * Unlocks all the editors of the view.
-	 */
-	void unlock();
-		
-	/**
-	 * Dispose the view.
-	 */
-	void dispose();
-
-	/**
-	 * Sets the value to the given field.
-	 * @param field field to modify.
-	 * @param value new value.
-	 */
-	void setValue(Object field, Object value);
-
-	/**
-	 * Unsets the value of the given field.
-	 * @param field field to unset.
-	 */
-	void unsetValue(Object field);
-	
-	/**
-	 * Add the value to given field.
-	 * @param field field to modify.
-	 * @param value new value.
-	 */
-	void addValue(Object field, Object value);
-	
-	/**
-	 * Add all the values to given field.
-	 * @param field field to modify.
-	 * @param values new values.
-	 */
-	void addAllValues(Object field, Collection<?> values);
-	
-	/**
-	 * Removes the value to given field.
-	 * @param field field to modify.
-	 * @param value value to remove.
-	 */
-	void removeValue(Object field, Object value);
-	
-	/**
-	 * Removes all the values to given field.
-	 * @param field field to modify.
-	 * @param value values to remove.
-	 */
-	void removeAllValues(Object field, Collection<?> values);
-	
-	/**
-	 * Moves the value at the given index to given field.
-	 * @param field field to modify.
-	 * @param value value to remove.
-	 * @param newIndex new value index.
-	 */
-	void moveValue(Object field, Object value, int newIndex);
-
 }

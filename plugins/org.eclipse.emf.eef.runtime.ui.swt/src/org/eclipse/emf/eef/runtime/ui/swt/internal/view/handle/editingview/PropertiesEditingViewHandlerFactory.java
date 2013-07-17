@@ -5,22 +5,34 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview;
 
 import java.util.Collection;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.logging.EEFLogger;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl.SWTImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.util.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewHandlingException;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
+import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
+import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.swt.widgets.Composite;
+
+import com.google.common.collect.Iterators;
+import com.google.common.collect.UnmodifiableIterator;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -121,8 +133,8 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 		if (viewDescriptor instanceof View && args.length > 1 && args[0] instanceof PropertiesEditingComponent && args[1] instanceof Composite) {
 			PropertiesEditingComponent editingComponent = (PropertiesEditingComponent) args[0];
 			PropertiesEditingView<Composite> view = new SWTImplPropertiesEditingView(editingComponent, (View) viewDescriptor);					
-			view.setViewServiceProvider(viewServiceProvider);
-			view.setToolkitPropertyEditorFactory(eefToolkitProvider);
+			((SWTImplPropertiesEditingView)view).setViewServiceProvider(viewServiceProvider);
+			((SWTImplPropertiesEditingView)view).setToolkitPropertyEditorFactory(getEEFToolkitProvider());
 			((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);
 			return view;
 		}
@@ -133,9 +145,20 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
-	public void initView(PropertiesEditingComponent component, PropertiesEditingView<Composite> view) {
+	public void initView(PropertiesEditingComponent editingComponent, PropertiesEditingView<Composite> view) {
 		if (view != null) {
-			view.init();
+			UnmodifiableIterator<ElementEditor> elementEditors = Iterators.filter(view.getViewModel().eAllContents(), ElementEditor.class);
+			while (elementEditors.hasNext()) {
+				ElementEditor elementEditor = elementEditors.next();
+				EStructuralFeature bindingFeature = editingComponent.getBinding().feature(elementEditor, editingComponent.getEditingContext().getOptions().autowire());
+				EObject editedObject = editingComponent.getEObject();
+				EMFService emfService = emfServiceProvider.getEMFService(editedObject.eClass().getEPackage());
+				EStructuralFeature feature = emfService.mapFeature(editedObject, bindingFeature);
+				if (feature != null) {
+					PropertyEditor propertyEditor = view.getPropertyEditor(elementEditor);
+					propertyEditor.init(feature);
+				}
+			}
 			EEFLockManager lockManager = lockManagerProvider.getLockManager(view);
 			lockManager.initView(view);
 		}
@@ -151,7 +174,12 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
-						editingView.setValue(field, value);
+						if (field instanceof ElementEditor) {
+							PropertyEditor propertyEditor = editingView.getPropertyEditor((ViewElement) field);
+							if (propertyEditor instanceof MonovaluedPropertyEditor) {
+								((MonovaluedPropertyEditor) propertyEditor).setValue(value);
+							}
+						}
 					}
 				});
 			}
@@ -168,7 +196,12 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
-						editingView.unsetValue(field);
+						if (field instanceof ElementEditor) {
+							PropertyEditor propertyEditor = editingView.getPropertyEditor((ViewElement) field);
+							if (propertyEditor instanceof MonovaluedPropertyEditor) {
+								((MonovaluedPropertyEditor) propertyEditor).unsetValue();
+							}
+						}
 					}
 				});
 			}
@@ -185,7 +218,12 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
-						editingView.addValue(field, newValue);
+						if (field instanceof ElementEditor) {
+							PropertyEditor propertyEditor = editingView.getPropertyEditor((ViewElement) field);
+							if (propertyEditor instanceof MultivaluedPropertyEditor) {
+								((MultivaluedPropertyEditor) propertyEditor).addValue(newValue);
+							}
+						}
 					}
 				});
 			}
@@ -202,7 +240,12 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
-						editingView.addAllValues(field, values);
+						if (field instanceof ElementEditor) {
+							PropertyEditor propertyEditor = editingView.getPropertyEditor((ViewElement)field);
+							if (propertyEditor instanceof MultivaluedPropertyEditor) {
+								((MultivaluedPropertyEditor) propertyEditor).addAllValues(values);
+							}
+						}
 					}
 				});
 			}
@@ -219,7 +262,12 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
-						editingView.removeValue(field, value);
+						if (field instanceof ElementEditor) {
+							PropertyEditor propertyEditor = editingView.getPropertyEditor((ViewElement) field);
+							if (propertyEditor instanceof MultivaluedPropertyEditor) {
+								((MultivaluedPropertyEditor) propertyEditor).removeValue(value);
+							}
+						}
 					}
 				});
 			}
@@ -236,7 +284,12 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
-						editingView.removeAllValues(field, values);
+						if (field instanceof ElementEditor) {
+							PropertyEditor propertyEditor = editingView.getPropertyEditor((ViewElement) field);
+							if (propertyEditor instanceof MultivaluedPropertyEditor) {
+								((MultivaluedPropertyEditor) propertyEditor).removeAllValues(values);
+							}
+						}
 					}
 				});
 			}
@@ -253,7 +306,12 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
-						editingView.moveValue(field, value, newIndex);
+						if (field instanceof ElementEditor) {
+							PropertyEditor propertyEditor = editingView.getPropertyEditor((ViewElement) field);
+							if (propertyEditor instanceof MultivaluedPropertyEditor) {
+								((MultivaluedPropertyEditor) propertyEditor).moveValue(value, newIndex);
+							}
+						}
 					}
 				});
 			}
@@ -265,7 +323,10 @@ public class PropertiesEditingViewHandlerFactory implements ViewHandlerFactory<P
 	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory#dispose(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
 	public void dispose(PropertiesEditingComponent editingComponent, Object view) {
-		editingComponent.removeView(view);		
+		if (view instanceof PropertiesEditingView<?>) {
+			editingComponent.removeEditingListener((PropertiesEditingListener) view);
+		}
+		editingComponent.removeView(view);
 	}
 
 }

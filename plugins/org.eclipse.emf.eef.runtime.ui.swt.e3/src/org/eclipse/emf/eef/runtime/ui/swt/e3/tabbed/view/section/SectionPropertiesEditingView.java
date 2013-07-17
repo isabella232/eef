@@ -22,6 +22,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.tabbed.view.util.Validatio
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.impl.FormImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.view.util.PropertiesEditingMessageManagerImpl;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerFactory;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
 import org.eclipse.emf.eef.views.View;
@@ -87,7 +88,6 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	public SectionPropertiesEditingView() {
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		this.propertyEditors = Maps.newHashMap();
-		setEMFServiceProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getEMFServiceProvider());
 		setViewServiceProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getViewServiceProvider());
 		setToolkitPropertyEditorFactory(E3EEFRuntimeUIPlatformPlugin.getPlugin().getEEFToolkitProvider());
 	}
@@ -137,7 +137,10 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	 */
 	public void refresh() {
 		if (editingComponent != null) {
-			init();
+			ViewHandlerFactory<?> handlerFactory = editingComponent.getEditingContext().getViewHandlerFactoryProvider().getHandlerFactory(rawDescriptor);
+			if (handlerFactory instanceof PropertiesEditingViewHandlerFactory) {
+				((PropertiesEditingViewHandlerFactory)handlerFactory).initView(editingComponent, this);
+			}
 		}
 	}
 
