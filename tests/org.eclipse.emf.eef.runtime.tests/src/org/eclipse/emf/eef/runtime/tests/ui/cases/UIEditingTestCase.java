@@ -104,14 +104,14 @@ public abstract class UIEditingTestCase extends NonUIEditingTestCase {
 		ViewHandler<?> viewHandler = editingContext.getViewHandlerProvider().getViewHandler(viewDescriptor);
 		if (viewHandler instanceof SWTViewHandler) {
 			try {
-				view = ((SWTViewHandler)viewHandler).createView(viewDescriptor, container);
+				view = ((SWTViewHandler)viewHandler).createView(editingContext.getEditingComponent(), viewDescriptor, container);
 				((SWTViewHandler)viewHandler).initView(editingContext.getEditingComponent(), (Composite)view);
 			} catch (ViewConstructionException e) {
 				fail("An error occured during view creation");
 			}
 		} else if (viewHandler instanceof PropertiesEditingViewHandler) {
 			try {
-				view = ((PropertiesEditingViewHandler)viewHandler).createView(viewDescriptor, editingContext.getEditingComponent(), container);
+				view = ((PropertiesEditingViewHandler)viewHandler).createView(editingContext.getEditingComponent(), viewDescriptor, container);
 				((PropertiesEditingViewHandler)viewHandler).initView(editingContext.getEditingComponent(), (PropertiesEditingView<Composite>) view);
 			} catch (ViewConstructionException e) {
 				fail("An error occured during view creation");
@@ -129,8 +129,10 @@ public abstract class UIEditingTestCase extends NonUIEditingTestCase {
 		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
 		List<Object> views = editingComponent.getViews();
 		for (Object view : views) {
-			ViewHandler<?> viewHandler = editingContext.getViewHandlerProvider().getViewHandler(editingComponent.getDescriptorForView(view));
-			viewHandler.dispose(editingComponent, view);
+			if (view != null) {
+				ViewHandler<?> viewHandler = editingContext.getViewHandlerProvider().getViewHandler(editingComponent.getDescriptorForView(view));
+				viewHandler.dispose(editingComponent, view);
+			}
 		}
 		shell.dispose();
 		this.views.clear();

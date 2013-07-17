@@ -38,7 +38,7 @@ public interface ViewHandler<T> extends EEFService<View> {
 	 * @throws ViewConstructionException An error occured during view construction.
 	 * @return the handled view.
 	 */
-	T createView(Object descriptor, Object... args) throws ViewConstructionException;
+	T createView(PropertiesEditingComponent component, View descriptor, Object... args) throws ViewConstructionException;
 
 
 	/**

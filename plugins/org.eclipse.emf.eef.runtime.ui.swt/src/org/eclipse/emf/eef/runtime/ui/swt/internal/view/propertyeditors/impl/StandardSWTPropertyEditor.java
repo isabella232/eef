@@ -41,11 +41,11 @@ public abstract class StandardSWTPropertyEditor<VIEWER extends Viewer> implement
 			swtViewService = (SWTViewService) viewService;
 		}
 		if (swtViewService != null) {
-			swtViewService.createLabel(parent, elementEditor, elementEditor.getName());
+			swtViewService.createLabel(view.getEditingComponent(), parent, elementEditor, elementEditor.getName());
 		}
 		createEditorContents(parent);
 		if (swtViewService != null) {
-			swtViewService.createHelpButton(parent, elementEditor);
+			swtViewService.createHelpButton(view.getEditingComponent(), parent, elementEditor);
 		}
 	}
 

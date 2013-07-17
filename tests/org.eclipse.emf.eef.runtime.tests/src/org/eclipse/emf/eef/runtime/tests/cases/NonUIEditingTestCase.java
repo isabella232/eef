@@ -12,6 +12,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment.Builder;
+import org.eclipse.emf.eef.runtime.ui.internal.view.handle.reflect.ReflectViewHandler;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -59,11 +60,13 @@ public class NonUIEditingTestCase {
 		for (View viewDescriptor : viewDescriptors) {
 			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
 			ViewHandler<?> viewHandler = editingContext.getViewHandlerProvider().getViewHandler(viewDescriptor);
-			Object view = viewHandler.createView(viewDescriptor, editingComponent);
+			Object view = viewHandler.createView(editingComponent, viewDescriptor, editingComponent);
 			if (viewHandler instanceof PropertiesEditingViewHandler && view instanceof PropertiesEditingView) {
 				((PropertiesEditingViewHandler)viewHandler).initView(editingComponent, (PropertiesEditingView<Composite>) view);
 			} else if (viewHandler instanceof SWTViewHandler && view instanceof Composite) {
 				((SWTViewHandler)viewHandler).initView(editingComponent, (Composite) view);
+			} else if (viewHandler instanceof ReflectViewHandler<?>) {
+				((ReflectViewHandler<Object>)viewHandler).initView(editingComponent, view);
 			}
 			views.add(view);
 		}

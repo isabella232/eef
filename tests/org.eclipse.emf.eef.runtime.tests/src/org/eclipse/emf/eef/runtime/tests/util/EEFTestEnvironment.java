@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -739,6 +740,15 @@ public class EEFTestEnvironment {
 				try {
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					if (eefServiceDescriptor.hasPriorityOver != null && !eefServiceDescriptor.hasPriorityOver.isEmpty()) {
+						Iterator<String> iterator = eefServiceDescriptor.hasPriorityOver.iterator();
+						StringBuilder sb = new StringBuilder(iterator.next());
+						while (iterator.hasNext()) {
+							sb.append(',');
+							sb.append(iterator.next());
+						}
+						properties.put(EEFTestEnvironment.PRIORITY_OVER_KEY, sb.toString());
+					}
 					result.addService(eefServiceDescriptor.service, properties);
 				} catch (PriorityCircularityException e) {
 					e.printStackTrace();

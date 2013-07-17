@@ -12,6 +12,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.util;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.util.PlatformAwareViewService;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.util.SWTViewServiceImpl;
 import org.eclipse.jface.resource.JFaceResources;
@@ -31,10 +32,10 @@ public class PlatformAwareViewServiceImpl extends SWTViewServiceImpl implements 
 		
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.util.PlatformAwareViewService#createLabel(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite, java.lang.Object, java.lang.String)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.util.PlatformAwareViewService#createLabel(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite, java.lang.Object, java.lang.String)
 	 */
-	public Label createLabel(FormToolkit toolkit, Composite parent, Object editor, String alternate) {
-		String text = getDescription(editor, alternate);
+	public Label createLabel(PropertiesEditingComponent editingComponent, FormToolkit toolkit, Composite parent, Object editor, String alternate) {
+		String text = getDescription(editingComponent, editor, alternate);
 		if (!text.endsWith(": ") && !text.endsWith(":")) {
 			text += ": ";
 		}
@@ -45,7 +46,7 @@ public class PlatformAwareViewServiceImpl extends SWTViewServiceImpl implements 
 			label = new Label(parent, SWT.NONE);
 			label.setText(text);
 		}
-		EStructuralFeature associatedFeature = feature(editor);
+		EStructuralFeature associatedFeature = feature(editingComponent, editor);
 		if (associatedFeature != null && associatedFeature.isRequired()) {
 			label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
 		}
@@ -54,12 +55,12 @@ public class PlatformAwareViewServiceImpl extends SWTViewServiceImpl implements 
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.util.PlatformAwareViewService#createHelpButton(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite, java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.util.PlatformAwareViewService#createHelpButton(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite, java.lang.Object)
 	 */
-	public Control createHelpButton(FormToolkit toolkit, Composite parent, Object editor ) {
+	public Control createHelpButton(PropertiesEditingComponent editingComponent, FormToolkit toolkit, Composite parent, Object editor ) {
 		//To manage in future
 //		String helpID = null;
-		String alternate = getHelpContent(editor);
+		String alternate = getHelpContent(editingComponent, editor);
 		Image image = JFaceResources.getImage(DLG_IMG_HELP);
 //		if (helpID != null && !EMPTY_STRING.equals(helpID)) { //$NON-NLS-1$
 //			ToolBar result = new ToolBar(parent, SWT.FLAT | SWT.NO_FOCUS);

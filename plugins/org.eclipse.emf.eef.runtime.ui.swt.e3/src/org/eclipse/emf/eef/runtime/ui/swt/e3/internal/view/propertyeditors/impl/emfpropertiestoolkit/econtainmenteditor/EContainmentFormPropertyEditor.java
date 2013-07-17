@@ -57,9 +57,9 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<MultiL
 	public void build(final FormToolkit toolkit, final Composite parent) {
 		final ViewService viewService = view.getViewService();
 		if (viewService instanceof PlatformAwareViewService) {
-			((PlatformAwareViewService)viewService).createLabel(toolkit, parent, elementEditor, elementEditor.getName());
+			((PlatformAwareViewService)viewService).createLabel(view.getEditingComponent(), toolkit, parent, elementEditor, elementEditor.getName());
 		} else if (viewService instanceof SWTViewService) {
-			((SWTViewService) viewService).createLabel(parent, elementEditor, elementEditor.getName());
+			((SWTViewService) viewService).createLabel(view.getEditingComponent(), parent, elementEditor, elementEditor.getName());
 		}
 		multiLinePropertyViewer = new FormEReferenceEditor(toolkit, parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) {
 
@@ -70,9 +70,9 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<MultiL
 			@Override
 			protected void buildAdditionnalActionControls(Composite parent) {
 				if (viewService instanceof PlatformAwareViewService) {
-					((PlatformAwareViewService)viewService).createHelpButton(toolkit, parent, elementEditor);
+					((PlatformAwareViewService)viewService).createHelpButton(view.getEditingComponent(), toolkit, parent, elementEditor);
 				} else if (viewService instanceof SWTViewService) {
-					((SWTViewService) viewService).createHelpButton(parent, elementEditor);
+					((SWTViewService) viewService).createHelpButton(view.getEditingComponent(), parent, elementEditor);
 				}
 			}
 			

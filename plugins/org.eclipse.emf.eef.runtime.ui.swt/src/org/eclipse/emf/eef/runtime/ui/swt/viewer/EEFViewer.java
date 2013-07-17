@@ -137,7 +137,7 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 					try {
 						CTabItem item = new CTabItem(folder, SWT.NONE);
 						item.setText(viewDescriptor.getName());
-						PropertiesEditingView<Composite> view = propertiesEditingViewHandler.createView(descriptor, component, folder);
+						PropertiesEditingView<Composite> view = propertiesEditingViewHandler.createView(component, descriptor,  folder);
 						view.getContents().setLayoutData(new GridData(GridData.FILL_BOTH));
 						propertiesEditingViewHandler.initView(component, view);
 						item.setControl(view.getContents());
@@ -153,7 +153,7 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 				Composite viewComposite = new Composite(folder, SWT.NONE);
 				viewComposite.setLayout(new FillLayout());
 				try {
-					Composite view = swtViewHandler.createView(descriptor, viewComposite);
+					Composite view = swtViewHandler.createView(component, descriptor, viewComposite);
 					swtViewHandler.initView(component, view);
 				} catch (ViewConstructionException e) {
 					EEFLogger logger = swtViewHandler.getLogger();

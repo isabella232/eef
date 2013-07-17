@@ -71,9 +71,9 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#createView(java.lang.Object, java.lang.Object[])
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#createView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.editingModel.View, java.lang.Object[])
 	 */
-	public T createView(Object descriptor, Object... viewConstructArgs) throws ViewConstructionException {
+	public T createView(PropertiesEditingComponent editingComponent, View descriptor, Object... viewConstructArgs) throws ViewConstructionException {
 		T view = null;
 		if (descriptor instanceof JavaView && ((JavaView) descriptor).getDefinition() instanceof Class) {
 			// I can't ensure this ... ViewHandler should have 2 parameterized types ...
@@ -88,6 +88,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 				throw new ViewConstructionException("Invalid arguments for view construction.");				
 			}
 		}
+		editingComponent.setViewForDescriptor(descriptor, view);
 		return view;
 	}
 	

@@ -127,15 +127,16 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#createView(java.lang.Object, java.lang.Object[])
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#createView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.editingModel.View, java.lang.Object[])
 	 */
-	public PropertiesEditingView<Composite> createView(Object viewDescriptor, Object... args) throws ViewConstructionException {
-		if (viewDescriptor instanceof View && args.length > 1 && args[0] instanceof PropertiesEditingComponent && args[1] instanceof Composite) {
-			PropertiesEditingComponent editingComponent = (PropertiesEditingComponent) args[0];
-			PropertiesEditingView<Composite> view = new SWTImplPropertiesEditingView(editingComponent, (View) viewDescriptor);					
+	public PropertiesEditingView<Composite> createView(PropertiesEditingComponent editingComponent, org.eclipse.emf.eef.runtime.editingModel.View viewDescriptor, Object... args) throws ViewConstructionException {
+		if (viewDescriptor instanceof EObjectView && ((EObjectView)viewDescriptor).getDefinition() instanceof View  
+				&& args.length > 0 && args[0] instanceof Composite) {
+			PropertiesEditingView<Composite> view = new SWTImplPropertiesEditingView(editingComponent, (View) ((EObjectView)viewDescriptor).getDefinition());					
 			((SWTImplPropertiesEditingView)view).setViewServiceProvider(viewServiceProvider);
 			((SWTImplPropertiesEditingView)view).setToolkitPropertyEditorFactory(getEEFToolkitProvider());
-			((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);
+			((SWTImplPropertiesEditingView) view).createContents((Composite)args[0]);
+			editingComponent.setViewForDescriptor(viewDescriptor, view);	
 			return view;
 		}
 		return null;

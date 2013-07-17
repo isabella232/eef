@@ -29,23 +29,13 @@ import org.eclipse.emf.eef.views.View;
 public interface ViewService extends EEFService<View> {
 	
 	/**
-	 * @return the {@link PropertiesEditingComponent} of this helper.
-	 */
-	PropertiesEditingComponent getEditingComponent();
-	
-	/**
-	 * Sets the {@link PropertiesEditingComponent} for this helper.
-	 * @param editingComponent {@link PropertiesEditingModel} of the helper.
-	 */
-	void setEditingComponent(PropertiesEditingComponent editingComponent);
-	
-	/**
 	 * Returns the label text for a given editor.
+	 * @param editingComponent the current editingComponent.
 	 * @param editor key of editor to process
 	 * @param alternate alternative text
 	 * @return the text
 	 */
-	String getDescription(Object editor, String alternate);
+	String getDescription(PropertiesEditingComponent editingComponent, Object editor, String alternate);
 
 	/**
 	 * Returns documentation about the feature binded to the given editor. There is two strategies for getting this documentation:
@@ -54,10 +44,11 @@ public interface ViewService extends EEFService<View> {
 	 * The choice of strategy is defined by the {@link EditingOptions} of the {@link PropertiesEditingModel}:
 	 * 	- if the options are null or the {@link FeatureDocumentationProvider#GENMODEL_PROPERTY_DESCRIPTION} value is set, the first strategy is chosen
 	 *  - if the {@link FeatureDocumentationProvider#ECORE_DOCUMENTATION} value is set, the second strategy is chosen
+	 * @param editingComponent the current {@link PropertiesEditingComponent}.
 	 * @param editor which to get the documentation.
 	 * @return the found documentation if exists, <code>null</code> otherwise.
 	 */
-	String getHelpContent(Object editor);
+	String getHelpContent(PropertiesEditingComponent editingComponent, Object editor);
 	
 	/**
 	 * Computes the 'best' input from the given source. Searching the {@link Resource} or

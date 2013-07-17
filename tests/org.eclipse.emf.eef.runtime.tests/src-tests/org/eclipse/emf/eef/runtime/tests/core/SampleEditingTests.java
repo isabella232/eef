@@ -25,7 +25,7 @@ public class SampleEditingTests extends UIEditingTestCase {
 	@Test
 	public void testViewHandling() {
 		List<View> viewDescriptors = editingContext.getEditingComponent().getViewDescriptors();
-		ViewHandler<?> viewHandler = editingContext.getViewHandlerProvider().getViewHandler(viewDescriptors.get(1));
+		ViewHandler<?> viewHandler = editingContext.getViewHandlerProvider().getViewHandler(viewDescriptors.get(0));
 		assertEquals("ViewHandler not initialized", viewDescriptors.size(), 1);
 		assertTrue("Bad ViewHandler selection", viewHandler instanceof SWTViewHandler);
 		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();

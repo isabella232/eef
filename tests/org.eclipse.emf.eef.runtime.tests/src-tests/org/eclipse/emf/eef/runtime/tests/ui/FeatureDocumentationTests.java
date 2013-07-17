@@ -71,8 +71,7 @@ public class FeatureDocumentationTests {
 		EEFTestEnvironment env = buildEcoreSampleEditingContext();
 		PropertiesEditingComponent editingComponent = env.getEditingContext().getEditingComponent();
 		ViewService viewService = env.getViewServiceProvider().getViewService(eclassView);
-		viewService.setEditingComponent(editingComponent);
-		assertSame("Invalid documentation", ECORE_DOCUMENTATION, viewService.getHelpContent(nameEditor));
+		assertSame("Invalid documentation", ECORE_DOCUMENTATION, viewService.getHelpContent(editingComponent, nameEditor));
 	}
 
 	protected EEFTestEnvironment buildEcoreSampleEditingContext() {
@@ -118,8 +117,7 @@ public class FeatureDocumentationTests {
 		EEFTestEnvironment testenv = buildGenmodelEditingContext();
 		PropertiesEditingComponent editingComponent = testenv.getEditingContext().getEditingComponent();
 		ViewService viewService = testenv.getViewServiceProvider().getViewService(eclassView);
-		viewService.setEditingComponent(editingComponent);
-		String helpContent = viewService.getHelpContent(nameEditor);
+		String helpContent = viewService.getHelpContent(editingComponent, nameEditor);
 		EditingModelEnvironment env = editingComponent.getEditingModelEnvironment();
 		EClass eClassEClassFromResourceSet = getEClassEClassFromResourceSet(env.getResourceSet());
 		EStructuralFeature eStructuralFeature = eClassEClassFromResourceSet.getEStructuralFeature("name");

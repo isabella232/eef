@@ -66,7 +66,7 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 	 */
 	public void build(FormToolkit toolkit, Composite parent) {
 		ViewService viewService = view.getViewService();
-		checkbox = toolkit.createButton(parent, viewService.getDescription(elementEditor, elementEditor.getName()), SWT.CHECK);
+		checkbox = toolkit.createButton(parent, viewService.getDescription(view.getEditingComponent(), elementEditor, elementEditor.getName()), SWT.CHECK);
 		GridData checkboxData = new GridData(GridData.FILL_HORIZONTAL);
 		checkboxData.horizontalSpan = 2;
 		checkbox.setLayoutData(checkboxData);
@@ -75,9 +75,9 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 			swtViewService.setID(checkbox, elementEditor.getQualifiedIdentifier());
 			swtViewService.setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
 			if (viewService instanceof PlatformAwareViewService) {
-				((PlatformAwareViewService)viewService).createHelpButton(toolkit, parent, elementEditor);
+				((PlatformAwareViewService)viewService).createHelpButton(view.getEditingComponent(), toolkit, parent, elementEditor);
 			} else {
-				swtViewService.createHelpButton(parent, elementEditor);
+				swtViewService.createHelpButton(view.getEditingComponent(), parent, elementEditor);
 			}
 		}
 	}

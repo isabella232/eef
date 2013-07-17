@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.e3.util;
 
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.util.ViewService;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -30,7 +31,7 @@ public interface PlatformAwareViewService extends ViewService {
 	 * @param alternate alternative text.
 	 * @return created label.
 	 */
-	Label createLabel(FormToolkit toolkit, Composite parent, Object editor, String alternate);
+	Label createLabel(PropertiesEditingComponent editingComponent, FormToolkit toolkit, Composite parent, Object editor, String alternate);
 	
 	/**
 	 * Instantiates a help button for the given feature.
@@ -41,6 +42,6 @@ public interface PlatformAwareViewService extends ViewService {
 	 * @param helpID help ID
 	 * @return created control.
 	 */
-	Control createHelpButton(FormToolkit toolkit, final Composite parent, Object editor);
+	Control createHelpButton(PropertiesEditingComponent editingComponent, FormToolkit toolkit, final Composite parent, Object editor);
 	
 }

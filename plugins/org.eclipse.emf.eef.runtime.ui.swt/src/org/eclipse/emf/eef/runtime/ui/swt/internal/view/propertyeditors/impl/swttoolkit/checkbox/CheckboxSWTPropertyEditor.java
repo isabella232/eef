@@ -66,7 +66,7 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 	public void build(Composite parent) {
 		checkbox = new Button(parent, SWT.CHECK);
 		ViewService viewService = view.getViewService();
-		checkbox.setText(viewService.getDescription(elementEditor, elementEditor.getName()));
+		checkbox.setText(viewService.getDescription(view.getEditingComponent(), elementEditor, elementEditor.getName()));
 		GridData checkboxData = new GridData(GridData.FILL_HORIZONTAL);
 		checkboxData.horizontalSpan = 2;
 		checkbox.setLayoutData(checkboxData);
@@ -74,7 +74,7 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 			SWTViewService swtViewService = (SWTViewService)viewService;
 			swtViewService.setID(checkbox, elementEditor.getQualifiedIdentifier());
 			swtViewService.setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
-			swtViewService.createHelpButton(parent, elementEditor);
+			swtViewService.createHelpButton(view.getEditingComponent(), parent, elementEditor);
 		}
 	}
 

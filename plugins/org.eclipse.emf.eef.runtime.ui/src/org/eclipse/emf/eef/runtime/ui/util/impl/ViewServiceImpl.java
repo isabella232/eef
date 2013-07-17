@@ -37,13 +37,6 @@ public abstract class ViewServiceImpl implements ViewService {
 	
 	private EMFServiceProvider emfServiceProvider;
 	
-	private PropertiesEditingComponent editingComponent;
-	
-	/**
-	 * Creates a semanticless helper.
-	 */
-	public ViewServiceImpl() { }
-
 	/**
 	 * @param emfServiceProvider the emfServiceProvider to set
 	 */
@@ -61,27 +54,11 @@ public abstract class ViewServiceImpl implements ViewService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.util.ViewService#getEditingComponent()
+	 * @see org.eclipse.emf.eef.runtime.ui.util.ViewService#getDescription(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object, java.lang.String)
 	 */
-	public PropertiesEditingComponent getEditingComponent() {
-		return editingComponent;
-	}
- 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.util.ViewService#setEditingComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
-	 */
-	public void setEditingComponent(PropertiesEditingComponent editingComponent) {
-		this.editingComponent = editingComponent;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.util.ViewService#getDescription(java.lang.Object, java.lang.String)
-	 */
-	public final String getDescription(Object editor, String alternate) {
+	public final String getDescription(PropertiesEditingComponent editingComponent, Object editor, String alternate) {
 		String text = alternate;
-		EStructuralFeature associatedFeature = feature(editor);
+		EStructuralFeature associatedFeature = feature(editingComponent, editor);
 		EObject eObject = editingComponent.getEObject();
 		if (!eObject.eClass().getEAllStructuralFeatures().contains(associatedFeature)) {
 			EMFService service = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
@@ -100,19 +77,20 @@ public abstract class ViewServiceImpl implements ViewService {
 	}
 
 	/**
+	 * @param editingComponent
 	 * @param editor
 	 * @return
 	 */
-	protected final EStructuralFeature feature(Object editor) {
+	protected final EStructuralFeature feature(PropertiesEditingComponent editingComponent, Object editor) {
 		return editingComponent.getBinding().feature(editor, editingComponent.getEditingContext().getOptions().autowire());
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.util.ViewService#getHelpContent(java.lang.Object)
+	 * @see org.eclipse.emf.eef.runtime.ui.util.ViewService#getHelpContent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
-	public final String getHelpContent(Object editor) {
-		EStructuralFeature feature = editingComponent.getBinding().feature(editor, editingComponent.getEditingContext().getOptions().autowire());
+	public final String getHelpContent(PropertiesEditingComponent editingComponent, Object editor) {
+		EStructuralFeature feature = feature(editingComponent, editor);
 		if (feature != null) {
 			EditingOptions options = editingComponent.getBinding().getEditingModel().getOptions();
 			if (options == null || options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.GENMODEL_PROPERTY_DESCRIPTION) {

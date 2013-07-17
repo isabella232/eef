@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.util;
 
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.util.ViewService;
 
 import org.eclipse.swt.widgets.Composite;
@@ -41,12 +42,13 @@ public interface SWTViewService extends ViewService {
 
 	/**
 	 * Instantiates a new label to display the given feature.
+	 * @param editingComponent the current {@link PropertiesEditingComponent}.
 	 * @param parent label container.
 	 * @param editor feature to display.
 	 * @param alternate alternative text.
 	 * @return created label.
 	 */
-	Label createLabel(Composite parent, Object editor, String alternate);
+	Label createLabel(PropertiesEditingComponent editingComponent, Composite parent, Object editor, String alternate);
 	
 	/**
 	 * Instantiates a help button for the given feature.
@@ -54,7 +56,7 @@ public interface SWTViewService extends ViewService {
 	 * @param editor feature to process.
 	 * @return created control.
 	 */
-	Control createHelpButton(final Composite parent, Object editor);
+	Control createHelpButton(PropertiesEditingComponent editingComponent, final Composite parent, Object editor);
 	
 	/**
 	 * Creates a Text with smart scrollbars.

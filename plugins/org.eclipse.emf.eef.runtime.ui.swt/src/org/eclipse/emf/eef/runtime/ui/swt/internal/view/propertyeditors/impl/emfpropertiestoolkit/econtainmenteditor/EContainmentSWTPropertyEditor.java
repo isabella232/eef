@@ -51,7 +51,7 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLin
 	 */
 	public void build(final Composite parent) {
 		if (view.getViewService() instanceof SWTViewService) {
-			((SWTViewService) view.getViewService()).createLabel(parent, elementEditor, elementEditor.getName());
+			((SWTViewService) view.getViewService()).createLabel(view.getEditingComponent(), parent, elementEditor, elementEditor.getName());
 		}
 		multiLinePropertyViewer = new MultiLinePropertyViewer(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) {
 
@@ -62,7 +62,7 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLin
 			@Override
 			protected void buildAdditionnalActionControls(Composite parent) {
 				if (view.getViewService() instanceof SWTViewService) {
-					((SWTViewService) view.getViewService()).createHelpButton(parent, elementEditor);
+					((SWTViewService) view.getViewService()).createHelpButton(view.getEditingComponent(), parent, elementEditor);
 				}
 			}
 			

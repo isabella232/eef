@@ -35,26 +35,27 @@ public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditing
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler#createView(java.lang.Object, java.lang.Object[])
 	 */
 	@Override
-	public PropertiesEditingView<Composite> createView(Object viewDescriptor, Object... args) throws ViewConstructionException {
+	public PropertiesEditingView<Composite> createView(PropertiesEditingComponent editingComponent, org.eclipse.emf.eef.runtime.editingModel.View viewDescriptor, Object... args) throws ViewConstructionException {
 		PropertiesEditingView<Composite> view;
-		if (viewDescriptor instanceof EObjectView && ((EObjectView)viewDescriptor).getDefinition() instanceof View && args.length > 1 && args[0] instanceof PropertiesEditingComponent && args[1] instanceof Composite) {
+		if (viewDescriptor instanceof EObjectView && ((EObjectView)viewDescriptor).getDefinition() instanceof View 
+				&& args.length > 0 && args[0] instanceof Composite) {
 			View eObjectViewDescriptor = (View) ((EObjectView)viewDescriptor).getDefinition();
-			PropertiesEditingComponent editingComponent = (PropertiesEditingComponent) args[0];
 			FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 			if (toolkit != null) {
 				view = new FormImplPropertiesEditingView(editingComponent, eObjectViewDescriptor);
 				((FormImplPropertiesEditingView) view).setViewServiceProvider(getViewServiceProvider());
 				((FormImplPropertiesEditingView) view).setToolkitPropertyEditorFactory(getEEFToolkitProvider());
-				((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[1]);
+				((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[0]);
 			} else {
 				view = new SWTImplPropertiesEditingView(editingComponent, eObjectViewDescriptor);					
 				((SWTImplPropertiesEditingView) view).setViewServiceProvider(getViewServiceProvider());
 				((SWTImplPropertiesEditingView) view).setToolkitPropertyEditorFactory(getEEFToolkitProvider());
-				((SWTImplPropertiesEditingView) view).createContents((Composite)args[1]);
+				((SWTImplPropertiesEditingView) view).createContents((Composite)args[0]);
 			}
+			editingComponent.setViewForDescriptor(viewDescriptor, view);
 			return view;
 		}
-		return super.createView(viewDescriptor, args);
+		return super.createView(editingComponent, viewDescriptor, args);
 	}
 
 	
