@@ -28,13 +28,6 @@ public class EEFContentProvider implements IContentProvider {
 			context = (PropertiesEditingContext)newInput;
 		}
 	}
-	
-	/**
-	 * @return the viewer {@link PropertiesEditingContext}.
-	 */
-	public PropertiesEditingContext getContext() {
-		return context;
-	}
 
 	/**
 	 * {@inheritDoc}
