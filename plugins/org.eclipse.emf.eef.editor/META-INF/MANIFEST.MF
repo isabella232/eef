@@ -28,3 +28,4 @@ Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.ui.forms,
  org.eclipse.ui.forms.editor,
  org.eclipse.ui.forms.widgets
+Service-Component: OSGI-INF/EditingModelBindingSettings.xml
