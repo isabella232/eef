@@ -27,6 +27,9 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -46,6 +49,9 @@ import com.google.common.collect.Lists;
  *
  */
 public class BindingsEditingPage extends FormPage {
+
+	private static final int MODELS_SECTION_WIDTH = 30;
+	private static final int BINDING_SETTINGS_HEIGHT = 40;
 
 	private EMFService emfService;
 	
@@ -100,47 +106,64 @@ public class BindingsEditingPage extends FormPage {
 		Composite parent = form.getBody();
 		parent.setLayout(new FillLayout());
 		Composite container = toolkit.createComposite(parent, SWT.BORDER);
-		container.setLayout(new GridLayout(2, false));
-		createModelSection(toolkit, container);
-		createBindingSettingsSection(toolkit, container);
-		createPreviewSection(toolkit, container);
+		container.setLayout(new FormLayout());
+		Composite modelSection = createModelSection(toolkit, container);
+		Composite bindingSettingsSection = createBindingSettingsSection(toolkit, container);
+		Composite previewSection = createPreviewSection(toolkit, container);
+		layoutPage(modelSection, bindingSettingsSection, previewSection);
 		initSelectionBroker();
 		metamodelViewer.addSelectionChangedListener(selectionBroker);
 	}
 
-	private void createModelSection(FormToolkit toolkit, Composite container) {
+	private Composite createModelSection(FormToolkit toolkit, Composite container) {
 		Section modelSection = toolkit.createSection(container, Section.TITLE_BAR);
 		modelSection.setText("Models");
-		GridData layoutData = new GridData(GridData.FILL_VERTICAL);
-		layoutData.verticalSpan = 2;
-		modelSection.setLayoutData(layoutData);
 		Composite modelContainer = toolkit.createComposite(modelSection);
 		modelContainer.setLayout(new GridLayout(1, false));
 		createModelSectionContents(toolkit, modelContainer);
 		modelSection.setClient(modelContainer);
+		return modelSection;
 	}
 
-	private void createBindingSettingsSection(FormToolkit toolkit, Composite container) {
+	private Composite createBindingSettingsSection(FormToolkit toolkit, Composite container) {
 		Section bindingSettingsSection = toolkit.createSection(container, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		bindingSettingsSection.setText("Binding Settings");
-		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
-		layoutData.heightHint = 500;
-		bindingSettingsSection.setLayoutData(layoutData);
 		Composite bindingSettingsContainer = toolkit.createComposite(bindingSettingsSection);
 		bindingSettingsContainer.setLayout(new GridLayout(1, false));
 		createBindingSettingsSectionContents(toolkit, bindingSettingsContainer);
 		bindingSettingsSection.setClient(bindingSettingsContainer);
+		return bindingSettingsSection;
 	}
 
-	private void createPreviewSection(FormToolkit toolkit, Composite container) {
+	private Composite createPreviewSection(FormToolkit toolkit, Composite container) {
 		Section previewSection = toolkit.createSection(container, Section.TITLE_BAR);
 		previewSection.setText("Preview");
-		GridData layoutData = new GridData(GridData.FILL_BOTH);
-		previewSection.setLayoutData(layoutData);
 		Composite previewContainer = toolkit.createComposite(previewSection);
 		previewContainer.setLayout(new GridLayout(1, false));
 		createPreviewSectionContents(toolkit, previewContainer);
 		previewSection.setClient(previewContainer);
+		return previewSection;
+	}
+
+	private void layoutPage(Composite modelSection, Composite bindingSettingsSection, Composite previewSection) {
+		FormData modelData = new FormData();
+		modelData.top = new FormAttachment(0, 10);
+		modelData.bottom = new FormAttachment(100, 10);
+		modelData.left = new FormAttachment(0, 10);
+		modelData.right = new FormAttachment(MODELS_SECTION_WIDTH, 5);
+		modelSection.setLayoutData(modelData);
+		FormData bindingSettingsData = new FormData();
+		bindingSettingsData.top = new FormAttachment(0, 10);
+		bindingSettingsData.bottom = new FormAttachment(BINDING_SETTINGS_HEIGHT, 5);
+		bindingSettingsData.left = new FormAttachment(modelSection, 5);
+		bindingSettingsData.right = new FormAttachment(100, 10);
+		bindingSettingsSection.setLayoutData(bindingSettingsData);
+		FormData previewData = new FormData();
+		previewData.top = new FormAttachment(bindingSettingsSection, 5);
+		previewData.bottom = new FormAttachment(100, 10);
+		previewData.left = new FormAttachment(modelSection, 5);
+		previewData.right = new FormAttachment(100, 10);
+		previewSection.setLayoutData(previewData);
 	}
 
 	private void createModelSectionContents(FormToolkit toolkit, Composite modelContainer) {
