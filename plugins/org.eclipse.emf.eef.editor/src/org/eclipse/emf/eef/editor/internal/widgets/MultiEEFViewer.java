@@ -4,18 +4,17 @@
 package org.eclipse.emf.eef.editor.internal.widgets;
 
 import org.eclipse.emf.eef.UIConstants;
+import org.eclipse.emf.eef.editor.internal.widgets.util.SelectionMEEFVContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ContentViewer;
+import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.ListViewer;
-import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -25,20 +24,20 @@ import org.eclipse.swt.widgets.Control;
  */
 public class MultiEEFViewer extends ContentViewer {
 
-	private Composite control;
-	private ListViewer selection;
+	private SashForm control;
+	private TreeViewer selection;
 	private EEFViewer viewer;
 	
 	public MultiEEFViewer(Composite parent, int style) {
-		control = new Composite(parent, SWT.NONE);
-		control.setLayout(new GridLayout(2, false));
+		control = new SashForm(parent, SWT.HORIZONTAL);
 		control.setLayoutData(new GridData(GridData.FILL_BOTH));
-		selection = new ListViewer(control, SWT.BORDER);
+		selection = new TreeViewer(control, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		GridData layoutData = new GridData(GridData.FILL_VERTICAL);
 		layoutData.widthHint = UIConstants.WIDTH_HINT;
 		selection.getControl().setLayoutData(layoutData);
 		viewer = new EEFViewer(control, SWT.NONE);
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+		control.setWeights(new int[] { 35, 65});
 		
 	}
 	
@@ -94,28 +93,18 @@ public class MultiEEFViewer extends ContentViewer {
 	public void setContentProvider(IContentProvider contentProvider) {
 		assert contentProvider instanceof EEFContentProvider:"Bad ContentProvider type. Expected EEFMultiContentProvider";
 		super.setContentProvider(contentProvider);
-		selection.setContentProvider(new IStructuredContentProvider() {
-			
-			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
-			
-			public void dispose() {	}
-			
-			public Object[] getElements(Object inputElement) {
-				System.out.println();
-				return null;
-			}
-		});
+		selection.setContentProvider(new SelectionMEEFVContentProvider());
 		viewer.setContentProvider(contentProvider);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.jface.viewers.ContentViewer#labelProviderChanged()
+	 * @see org.eclipse.jface.viewers.ContentViewer#setLabelProvider(org.eclipse.jface.viewers.IBaseLabelProvider)
 	 */
 	@Override
-	protected void labelProviderChanged() {
+	public void setLabelProvider(IBaseLabelProvider labelProvider) {
+		super.setLabelProvider(labelProvider);
 		selection.setLabelProvider(getLabelProvider());
-		super.labelProviderChanged();
 	}
 
 }

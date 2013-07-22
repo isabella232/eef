@@ -124,6 +124,7 @@ public class BindingsEditingPage extends FormPage {
 		Section bindingSettingsSection = toolkit.createSection(container, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		bindingSettingsSection.setText("Binding Settings");
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
+		layoutData.heightHint = 500;
 		bindingSettingsSection.setLayoutData(layoutData);
 		Composite bindingSettingsContainer = toolkit.createComposite(bindingSettingsSection);
 		bindingSettingsContainer.setLayout(new GridLayout(1, false));
@@ -209,6 +210,7 @@ public class BindingsEditingPage extends FormPage {
 	private void createBindingSettingsSectionContents(FormToolkit toolkit, Composite bindingSettingsContainer) {
 		bindingSettingsViewer = new MultiEEFViewer(bindingSettingsContainer, SWT.NONE);
 		bindingSettingsViewer.setContentProvider(new EEFContentProvider());
+		bindingSettingsViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 	}
 
 	private void createPreviewSectionContents(FormToolkit toolkit, Composite previewContainer) {
