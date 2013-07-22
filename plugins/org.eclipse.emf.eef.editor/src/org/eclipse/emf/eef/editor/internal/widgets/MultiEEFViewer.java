@@ -5,12 +5,15 @@ package org.eclipse.emf.eef.editor.internal.widgets;
 
 import org.eclipse.emf.eef.UIConstants;
 import org.eclipse.emf.eef.editor.internal.widgets.util.SelectionMEEFVContentProvider;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -27,6 +30,7 @@ public class MultiEEFViewer extends ContentViewer {
 	private SashForm control;
 	private TreeViewer selection;
 	private EEFViewer viewer;
+	private SelectionSynchronizer selectionSynchronizer;
 	
 	public MultiEEFViewer(Composite parent, int style) {
 		control = new SashForm(parent, SWT.HORIZONTAL);
@@ -107,4 +111,54 @@ public class MultiEEFViewer extends ContentViewer {
 		selection.setLabelProvider(getLabelProvider());
 	}
 
+	/**
+	 * @param selectionInterpreter the selectionInterpreter to set
+	 */
+	public void setSelectionInterpreter(SelectionInterpreter selectionInterpreter) {
+		if (selection != null) {
+			if (selectionSynchronizer != null) {
+				selection.removeSelectionChangedListener(selectionSynchronizer);
+			}
+			selectionSynchronizer = new SelectionSynchronizer(selectionInterpreter, viewer);
+			selection.addSelectionChangedListener(selectionSynchronizer);
+		}
+	}
+
+	private static class SelectionSynchronizer implements ISelectionChangedListener {
+		
+		private SelectionInterpreter selectionInterpreter;
+		private EEFViewer viewer;
+		
+		public SelectionSynchronizer(SelectionInterpreter selectionInterpreter, EEFViewer viewer) {
+			this.selectionInterpreter = selectionInterpreter;
+			this.viewer = viewer;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+		 */
+		public void selectionChanged(SelectionChangedEvent event) {
+			if (event.getSelection() != null) {
+				PropertiesEditingContext context = selectionInterpreter.createContextFromSelection(event.getSelection());
+				if (context != null) {
+					viewer.setInput(context);
+				}
+			}
+		}
+		
+	}
+	
+	public interface SelectionInterpreter {
+		
+		/**
+		 * Creates a {@link PropertiesEditingContext} from the given JFace Selection.
+		 * @param selection the selected element.
+		 * @return the {@link PropertiesEditingContext} to set as input of the EEF Viewer.
+		 */
+		public PropertiesEditingContext createContextFromSelection(ISelection selection);
+		
+	}
+	
+	
 }

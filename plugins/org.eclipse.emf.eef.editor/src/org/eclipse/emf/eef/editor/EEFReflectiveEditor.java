@@ -65,8 +65,10 @@ import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.emf.eef.editor.internal.pages.BindingsEditingPage;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
+import org.eclipse.emf.eef.editor.internal.services.SelectionService;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.util.EditingModelEditorResourceSet;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -633,6 +635,8 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 			if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
 				BindingsEditingPage page = new BindingsEditingPage(this, adapterFactory);
 				page.setEMFService(new EMFService());
+				page.setSelectionService(new SelectionService());
+				page.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
 				page.setInput(editingDomain.getResourceSet());
 				addPage(page);
 			}

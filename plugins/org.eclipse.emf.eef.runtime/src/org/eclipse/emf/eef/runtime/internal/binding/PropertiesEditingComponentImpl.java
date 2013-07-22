@@ -94,7 +94,7 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingModel()
 	 */
 	public PropertiesEditingModel getEditingModel() {
-		if (editingModel == null) {
+		if (editingModel == null && bindingSettings != null) {
 			editingModel = bindingSettings.getEditingModel(source);
 		}
 		return editingModel;
@@ -161,7 +161,11 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#enableLockPolicy(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy)
 	 */
 	public boolean enableLockPolicy(EEFLockPolicy lockPolicy) {
-		return bindingSettings.enableLockPolicy(lockPolicy);
+		if (bindingSettings != null) {
+			return bindingSettings.enableLockPolicy(lockPolicy);
+		} else {
+			return false;
+		}
 	}
 
 	/**

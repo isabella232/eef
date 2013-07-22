@@ -11,16 +11,21 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.UIConstants;
+import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
+import org.eclipse.emf.eef.editor.internal.services.SelectionService;
 import org.eclipse.emf.eef.editor.internal.widgets.MultiEEFViewer;
+import org.eclipse.emf.eef.editor.internal.widgets.MultiEEFViewer.SelectionInterpreter;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -54,6 +59,8 @@ public class BindingsEditingPage extends FormPage {
 	private static final int BINDING_SETTINGS_HEIGHT = 40;
 
 	private EMFService emfService;
+	private SelectionService selectionService;
+	private EditingContextFactoryProvider contextFactoryProvider;
 	
 	private AdapterFactory adapterFactory;
 	private ResourceSet input;
@@ -78,6 +85,20 @@ public class BindingsEditingPage extends FormPage {
 	 */
 	public void setEMFService(EMFService emfService) {
 		this.emfService = emfService;
+	}
+
+	/**
+	 * @param selectionService the selectionService to set
+	 */
+	public void setSelectionService(SelectionService selectionService) {
+		this.selectionService = selectionService;
+	}
+
+	/**
+	 * @param editingContextFactoryProvider the contextFactoryProvider to set
+	 */
+	public void setContextFactoryProvider(EditingContextFactoryProvider editingContextFactoryProvider) {
+		this.contextFactoryProvider = editingContextFactoryProvider;
 	}
 
 	/**
@@ -234,6 +255,18 @@ public class BindingsEditingPage extends FormPage {
 		bindingSettingsViewer = new MultiEEFViewer(bindingSettingsContainer, SWT.NONE);
 		bindingSettingsViewer.setContentProvider(new EEFContentProvider());
 		bindingSettingsViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+		bindingSettingsViewer.setSelectionInterpreter(new SelectionInterpreter() {
+			
+			public PropertiesEditingContext createContextFromSelection(ISelection selection) {
+				EObject selectedElement = selectionService.unwrapSelection(selection);
+				if (selectedElement != null) {
+					EditingDomain editingDomain = ((EEFReflectiveEditor)getEditor()).getEditingDomain();
+					PropertiesEditingContext context = contextFactoryProvider.getEditingContextFactory(selectedElement).createPropertiesEditingContext(editingDomain, adapterFactory, selectedElement);
+					return context;
+				}
+				return null;
+			}
+		});
 	}
 
 	private void createPreviewSectionContents(FormToolkit toolkit, Composite previewContainer) {
@@ -244,17 +277,19 @@ public class BindingsEditingPage extends FormPage {
 	 * @return the selectionBroker
 	 */
 	public void initSelectionBroker() {
-		selectionBroker = new SelectionBroker(metamodelViewer, bindingSettingsViewer);
+		selectionBroker = new SelectionBroker(metamodelViewer, bindingSettingsViewer, selectionService);
 	}
 
 	private static final class SelectionBroker implements ISelectionChangedListener {
 
 		private TreeViewer metamodelViewer;
 		private MultiEEFViewer bindingSettingsViewer;
+		private SelectionService selectionService;
 		
-		public SelectionBroker(TreeViewer metamodelViewer, MultiEEFViewer bindingSettingsViewer) {
+		public SelectionBroker(TreeViewer metamodelViewer, MultiEEFViewer bindingSettingsViewer, SelectionService selectionService) {
 			this.metamodelViewer = metamodelViewer;
 			this.bindingSettingsViewer = bindingSettingsViewer;
+			this.selectionService = selectionService;
 		}
 
 		/**
@@ -263,22 +298,10 @@ public class BindingsEditingPage extends FormPage {
 		 */
 		public void selectionChanged(SelectionChangedEvent event) {
 			if (event.getSource() == metamodelViewer) {
-				EObject selection = unwrapSelection(event.getSelection());
+				EObject selection = selectionService.unwrapSelection(event.getSelection());
 				bindingSettingsViewer.setInput(selection);
 			}
 			
-		}
-		
-		private <T> T unwrapSelection(ISelection selection) {
-			if (selection instanceof StructuredSelection) {
-				StructuredSelection sSel = (StructuredSelection)selection;
-				if (sSel.size() > 1) {
-					return (T) sSel.toList();
-				} else {
-					return (T) sSel.getFirstElement();
-				}
-			}
-			return null;
 		}
 		
 	}

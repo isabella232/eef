@@ -19,7 +19,7 @@ import org.osgi.util.tracker.ServiceTracker;
 public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "runtime.ui.platform"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.eclipse.emf.eef.runtime.ui.swt.e3"; //$NON-NLS-1$
 
 	// The shared instance
 	private static E3EEFRuntimeUIPlatformPlugin plugin;
