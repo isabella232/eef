@@ -13,7 +13,9 @@ import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -79,6 +81,18 @@ public class MultiEEFViewer extends ContentViewer {
 	@Override
 	protected void inputChanged(Object input, Object oldInput) {
 		selection.setInput(input);
+		Object[] elements = ((IStructuredContentProvider)selection.getContentProvider()).getElements(input);
+		// If there is no binding or only one binding available for the selected element, 
+		// the selection list is useless, we hide it.
+		if (elements.length < 2) {
+			control.setWeights(new int[] { 0, 100});
+		} else {
+			// Else we display it
+			control.setWeights(new int[] { 35, 65});
+		}
+		if (elements.length > 0) {
+			selection.setSelection(new StructuredSelection(elements[0]));
+		}
 	}
 
 	/**
