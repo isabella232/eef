@@ -21,5 +21,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.edit.ui;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
  org.eclipse.emf.eef.runtime.ui,
- com.google.guava;bundle-version="10.0.1"
+ com.google.guava;bundle-version="10.0.1",
+ org.eclipse.emf.eef.runtime.ui.swt;bundle-version="2.0.0"
 Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.ui.forms,
+ org.eclipse.ui.forms.editor,
+ org.eclipse.ui.forms.widgets

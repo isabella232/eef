@@ -47,6 +47,8 @@ import com.google.common.collect.Lists;
  */
 public class EEFViewer extends ContentViewer implements IEEFViewer {
 
+	private PropertiesEditingContext input;
+
 	private Composite control;
 	protected CTabFolder folder;
 	protected ScrolledComposite scroll;
@@ -114,6 +116,8 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	 * @see org.eclipse.jface.viewers.Viewer#inputChanged(java.lang.Object, java.lang.Object)
 	 */
 	protected void inputChanged(Object input, Object oldInput) {
+		assert input instanceof PropertiesEditingContext:"Bad input type for EEFViewer. Expecting PropertiesEditingContext.";
+		this.input = (PropertiesEditingContext)input;
 		refresh();
 	}
 
@@ -123,12 +127,11 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	 */
 	public void refresh() {
 		clear();
-		PropertiesEditingContext context = ((EEFContentProvider) getContentProvider()).getContext();
-		PropertiesEditingComponent component = context.getEditingComponent();
+		PropertiesEditingComponent component = input.getEditingComponent();
 		viewDescriptors = component.getViewDescriptors();
 		int i = 1;
 		for (org.eclipse.emf.eef.runtime.editingModel.View descriptor : viewDescriptors) {
-			ViewHandler<?> viewHandler = context.getViewHandlerProvider().getViewHandler(descriptor);
+			ViewHandler<?> viewHandler = input.getViewHandlerProvider().getViewHandler(descriptor);
 			if (viewHandler instanceof PropertiesEditingViewHandler) {
 				PropertiesEditingViewHandler propertiesEditingViewHandler = (PropertiesEditingViewHandler) viewHandler;
 				org.eclipse.emf.eef.views.View viewDescriptor = (org.eclipse.emf.eef.views.View) ((EObjectView)descriptor).getDefinition();
@@ -205,13 +208,12 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 					cTabItem.dispose();
 			}
 		}
-		PropertiesEditingContext context = ((EEFContentProvider) getContentProvider()).getContext();
-		PropertiesEditingComponent editingComponent = context.getEditingComponent();
+		PropertiesEditingComponent editingComponent = input.getEditingComponent();
 		List<Object> views = editingComponent.getViews();
 		for (Object view : views) {
 			View descriptor = editingComponent.getDescriptorForView(view);
 			if (descriptor != null) {
-				ViewHandler<?> viewHandler = context.getViewHandlerProvider().getViewHandler(descriptor);
+				ViewHandler<?> viewHandler = input.getViewHandlerProvider().getViewHandler(descriptor);
 				viewHandler.dispose(editingComponent, view);
 			}
 		}

@@ -61,7 +61,7 @@
             name="%_UI_EditingModelEditor_label"
             icon="icons/full/obj16/EditingModelModelFile.gif"
             extensions="editingmodel,views"
-            class="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelEditor"
+            class="org.eclipse.emf.eef.editor.EEFReflectiveEditor"
             contributorClass="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelActionBarContributor">
       </editor>
    </extension>
