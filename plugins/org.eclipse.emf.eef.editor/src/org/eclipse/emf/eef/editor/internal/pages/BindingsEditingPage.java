@@ -22,6 +22,7 @@ import org.eclipse.emf.eef.editor.internal.widgets.MultiEEFViewer;
 import org.eclipse.emf.eef.editor.internal.widgets.MultiEEFViewer.SelectionInterpreter;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -56,7 +57,6 @@ import com.google.common.collect.Lists;
 public class BindingsEditingPage extends FormPage {
 
 	private static final int MODELS_SECTION_WIDTH = 30;
-	private static final int BINDING_SETTINGS_HEIGHT = 40;
 
 	private EMFService emfService;
 	private SelectionService selectionService;
@@ -70,6 +70,7 @@ public class BindingsEditingPage extends FormPage {
 	private MultiEEFViewer bindingSettingsViewer;
 
 	private SelectionBroker selectionBroker;
+	private FormToolkit toolkit;
 
 	/**
 	 * @param editor
@@ -121,12 +122,12 @@ public class BindingsEditingPage extends FormPage {
 	 */
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
-		FormToolkit toolkit = managedForm.getToolkit();
+		toolkit = managedForm.getToolkit();
 		Form form = managedForm.getForm().getForm();
 		toolkit.decorateFormHeading(form);
 		Composite parent = form.getBody();
 		parent.setLayout(new FillLayout());
-		Composite container = toolkit.createComposite(parent, SWT.BORDER);
+		final Composite container = toolkit.createComposite(parent);
 		container.setLayout(new FormLayout());
 		Composite modelSection = createModelSection(toolkit, container);
 		Composite bindingSettingsSection = createBindingSettingsSection(toolkit, container);
@@ -134,6 +135,13 @@ public class BindingsEditingPage extends FormPage {
 		layoutPage(modelSection, bindingSettingsSection, previewSection);
 		initSelectionBroker();
 		metamodelViewer.addSelectionChangedListener(selectionBroker);
+		metamodelViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			public void selectionChanged(SelectionChangedEvent event) {
+				container.layout(true);
+				container.getParent().layout(true);
+			}
+		});
 	}
 
 	private Composite createModelSection(FormToolkit toolkit, Composite container) {
@@ -175,7 +183,6 @@ public class BindingsEditingPage extends FormPage {
 		modelSection.setLayoutData(modelData);
 		FormData bindingSettingsData = new FormData();
 		bindingSettingsData.top = new FormAttachment(0, 10);
-		bindingSettingsData.bottom = new FormAttachment(BINDING_SETTINGS_HEIGHT, 5);
 		bindingSettingsData.left = new FormAttachment(modelSection, 5);
 		bindingSettingsData.right = new FormAttachment(100, 10);
 		bindingSettingsSection.setLayoutData(bindingSettingsData);
@@ -188,7 +195,7 @@ public class BindingsEditingPage extends FormPage {
 	}
 
 	private void createModelSectionContents(FormToolkit toolkit, Composite modelContainer) {
-		CTabFolder tabFolder = new CTabFolder(modelContainer, SWT.NONE);
+		CTabFolder tabFolder = new CTabFolder(modelContainer, SWT.BORDER);
 		tabFolder.setSimple(false);
 		toolkit.adapt(tabFolder);
 		toolkit.getColors().initializeSectionToolBarColors();
@@ -206,7 +213,7 @@ public class BindingsEditingPage extends FormPage {
 	}
 
 	private void createMetamodelViewer(FormToolkit toolkit, CTabFolder tabFolder) {
-		Tree metamodelTree = toolkit.createTree(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER | SWT.SINGLE);
+		Tree metamodelTree = toolkit.createTree(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE);
 		metamodelViewer = new TreeViewer(metamodelTree);
 		metamodelViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory) {
 
@@ -244,7 +251,7 @@ public class BindingsEditingPage extends FormPage {
 	}
 
 	private void createModelViewer(FormToolkit toolkit, CTabFolder tabFolder) {
-		Tree modelTree = toolkit.createTree(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
+		Tree modelTree = toolkit.createTree(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
 		modelViewer = new TreeViewer(modelTree);
 		CTabItem modelItem = new CTabItem(tabFolder, SWT.NONE);
 		modelItem.setControl(modelTree);
@@ -262,6 +269,7 @@ public class BindingsEditingPage extends FormPage {
 				if (selectedElement != null) {
 					EditingDomain editingDomain = ((EEFReflectiveEditor)getEditor()).getEditingDomain();
 					PropertiesEditingContext context = contextFactoryProvider.getEditingContextFactory(selectedElement).createPropertiesEditingContext(editingDomain, adapterFactory, selectedElement);
+					context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, BindingsEditingPage.this.toolkit);
 					return context;
 				}
 				return null;

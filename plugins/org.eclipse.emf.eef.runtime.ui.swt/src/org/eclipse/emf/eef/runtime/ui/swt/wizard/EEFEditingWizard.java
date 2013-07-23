@@ -283,7 +283,7 @@ public class EEFEditingWizard extends Wizard {
 			Composite control = new Composite(parent, SWT.NONE);
 			control.setLayoutData(new GridData(GridData.FILL_BOTH));
 			control.setLayout(new GridLayout(1, false));
-			viewer = new EEFViewer(control, SWT.NONE);
+			viewer = new EEFViewer(control, SWT.BORDER);
 			viewer.setContentProvider(new EEFContentProvider());
 			viewer.setInput(context);
 			this.setControl(control);
