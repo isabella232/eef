@@ -54,7 +54,6 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	protected ScrolledComposite scroll;
 	private ItemListener listener;
 	private boolean dynamicTabHeader = true;
-	private List<View> viewDescriptors;
 	private List<EEFViewerFilter> filters;
 
 	/**
@@ -128,9 +127,8 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	public void refresh() {
 		clear();
 		PropertiesEditingComponent component = input.getEditingComponent();
-		viewDescriptors = component.getViewDescriptors();
 		int i = 1;
-		for (org.eclipse.emf.eef.runtime.editingModel.View descriptor : viewDescriptors) {
+		for (org.eclipse.emf.eef.runtime.editingModel.View descriptor : component.getViewDescriptors()) {
 			ViewHandler<?> viewHandler = input.getViewHandlerProvider().getViewHandler(descriptor);
 			if (viewHandler instanceof PropertiesEditingViewHandler) {
 				PropertiesEditingViewHandler propertiesEditingViewHandler = (PropertiesEditingViewHandler) viewHandler;

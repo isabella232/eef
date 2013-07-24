@@ -18,12 +18,16 @@ import org.eclipse.emf.eef.UIConstants;
 import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
 import org.eclipse.emf.eef.editor.internal.services.SelectionService;
+import org.eclipse.emf.eef.editor.internal.services.ViewerService;
+import org.eclipse.emf.eef.editor.internal.services.util.ViewLockingSettings;
 import org.eclipse.emf.eef.editor.internal.widgets.MultiEEFViewer;
 import org.eclipse.emf.eef.editor.internal.widgets.MultiEEFViewer.SelectionInterpreter;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -60,6 +64,7 @@ public class BindingsEditingPage extends FormPage {
 
 	private EMFService emfService;
 	private SelectionService selectionService;
+	private ViewerService viewerService;
 	private EditingContextFactoryProvider contextFactoryProvider;
 	
 	private AdapterFactory adapterFactory;
@@ -103,6 +108,13 @@ public class BindingsEditingPage extends FormPage {
 	}
 
 	/**
+	 * @param viewerService the viewerService to set
+	 */
+	public void setViewerService(ViewerService viewerService) {
+		this.viewerService = viewerService;
+	}
+
+	/**
 	 * Defines the page input.
 	 * @param input page input.
 	 */
@@ -140,8 +152,10 @@ public class BindingsEditingPage extends FormPage {
 			public void selectionChanged(SelectionChangedEvent event) {
 				container.layout(true);
 				container.getParent().layout(true);
+				
 			}
 		});
+		metamodelViewer.addSelectionChangedListener(new FieldLocker(viewerService, bindingSettingsViewer));
 	}
 
 	private Composite createModelSection(FormToolkit toolkit, Composite container) {
@@ -312,6 +326,40 @@ public class BindingsEditingPage extends FormPage {
 			
 		}
 		
+	}
+	
+	private static final class FieldLocker implements ISelectionChangedListener {
+		
+		private static final String BINDING_VIEW_ID = "editingModel::Binding";
+		private static final String BINDING_E_CLASS_EDITOR_ID = "editingModel::Binding::eClass";
+		
+		private ViewerService viewerService;
+		private MultiEEFViewer multiEEFViewer;
+
+		/**
+		 * @param lockManagerProvider
+		 */
+		public FieldLocker(ViewerService viewerService, MultiEEFViewer multiEEFViewer) {
+			this.viewerService = viewerService;
+			this.multiEEFViewer = multiEEFViewer;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+		 */
+		public void selectionChanged(SelectionChangedEvent event) {
+			EEFViewer subViewer = multiEEFViewer.getSubViewer();
+			Object input = subViewer.getInput();
+			if (input instanceof PropertiesEditingContext) {
+				PropertiesEditingComponent editingComponent = ((PropertiesEditingContext) input).getEditingComponent();
+				ViewLockingSettings lockingSettings = ViewLockingSettings.builder()
+															.addLockSettings(BINDING_VIEW_ID, BINDING_E_CLASS_EDITOR_ID)
+																.build();
+				viewerService.lockEditors(editingComponent, lockingSettings);
+			}
+		}
+				
 	}
 
 }

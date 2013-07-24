@@ -56,6 +56,10 @@ public class MultiEEFViewer extends ContentViewer {
 		return control;
 	}
 
+	public EEFViewer getSubViewer() {
+		return viewer;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.jface.viewers.Viewer#getSelection()
@@ -172,7 +176,5 @@ public class MultiEEFViewer extends ContentViewer {
 		 */
 		public PropertiesEditingContext createContextFromSelection(ISelection selection);
 		
-	}
-	
-	
+	}	
 }
