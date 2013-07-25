@@ -152,7 +152,7 @@ public class BindingsEditingPage extends FormPage {
 			public void selectionChanged(SelectionChangedEvent event) {
 				container.layout(true);
 				container.getParent().layout(true);
-				
+				System.out.println(container.getSize());
 			}
 		});
 		metamodelViewer.addSelectionChangedListener(new FieldLocker(viewerService, bindingSettingsViewer));
@@ -191,20 +191,20 @@ public class BindingsEditingPage extends FormPage {
 	private void layoutPage(Composite modelSection, Composite bindingSettingsSection, Composite previewSection) {
 		FormData modelData = new FormData();
 		modelData.top = new FormAttachment(0, 10);
-		modelData.bottom = new FormAttachment(100, 10);
+		modelData.bottom = new FormAttachment(100, -10);
 		modelData.left = new FormAttachment(0, 10);
-		modelData.right = new FormAttachment(MODELS_SECTION_WIDTH, 5);
+		modelData.right = new FormAttachment(MODELS_SECTION_WIDTH, -5);
 		modelSection.setLayoutData(modelData);
 		FormData bindingSettingsData = new FormData();
 		bindingSettingsData.top = new FormAttachment(0, 10);
 		bindingSettingsData.left = new FormAttachment(modelSection, 5);
-		bindingSettingsData.right = new FormAttachment(100, 10);
+		bindingSettingsData.right = new FormAttachment(100, -10);
 		bindingSettingsSection.setLayoutData(bindingSettingsData);
 		FormData previewData = new FormData();
 		previewData.top = new FormAttachment(bindingSettingsSection, 5);
-		previewData.bottom = new FormAttachment(100, 10);
-		previewData.left = new FormAttachment(modelSection, 5);
-		previewData.right = new FormAttachment(100, 10);
+		previewData.bottom = new FormAttachment(100, -10);
+		previewData.left = new FormAttachment(modelSection, 10);
+		previewData.right = new FormAttachment(100, -10);
 		previewSection.setLayoutData(previewData);
 	}
 

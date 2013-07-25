@@ -67,6 +67,7 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 		scroll = new ScrolledComposite(control, SWT.V_SCROLL | SWT.H_SCROLL);
 		folder = new CTabFolder(scroll, style);
 		folder.setSimple(false);
+		folder.setTabHeight(0);
 		scroll.setContent(folder);
 		scroll.setExpandHorizontal(true);
 		scroll.setExpandVertical(true);
