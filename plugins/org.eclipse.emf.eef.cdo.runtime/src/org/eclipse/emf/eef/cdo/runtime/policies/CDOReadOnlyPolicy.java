@@ -14,6 +14,7 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.api.providers.IReadOnlyPolicy;
+import org.eclipse.emf.spi.cdo.FSMUtil;
 
 /**
  * Read Only policy for CDO. If an element is locked -> the widget is read only.
@@ -30,7 +31,7 @@ public class CDOReadOnlyPolicy implements IReadOnlyPolicy {
 	public boolean isReadOnly(EObject context, Object eStructuralFeature) {
 		if (context != null) {
 			CDOObject cdoObject = CDOUtil.getCDOObject(context);
-			if (cdoObject != null
+			if (cdoObject != null && !FSMUtil.isTransient(cdoObject)
 					&& cdoObject.cdoWriteLock().isLockedByOthers()) {
 				return true;
 			}
