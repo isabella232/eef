@@ -3,6 +3,8 @@
  */
 package org.eclipse.emf.eef.runtime.util;
 
+import java.util.Collection;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -35,4 +37,19 @@ public interface EEFEditingService extends EEFService<EObject> {
 	 * @return the {@link EReference} to edit.
 	 */
 	EReference getReferenceToEdit(SemanticPropertiesEditingContext editingContext);
+	
+	/**
+	 * Defines if the given object can be referenced in an EEF editing model.
+	 * @param target the object to test.
+	 * @return <code>true</code> if the given object can be edited with EEF.
+	 */
+	boolean canBeReferencedByEditingModel(EObject target);
+	
+	/**
+	 * Searches EEF EditingModels elements (PropertiesEditingModel,EClassBinding, ...) referencing the given element. 
+	 * @param target the referenced element
+	 * @return a collection of element referencing the given element.
+	 */
+	Collection<EObject> referencingEEFElement(EObject target);
+		
 }

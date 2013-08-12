@@ -13,6 +13,22 @@
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.1"/>
       </propertyBindings>
     </bindings>
+    <bindings>
+      <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertiesEditingModel"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertiesEditingModel/id"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertiesEditingModel/name"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.1"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertiesEditingModel/involvedModels"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.2"/>
+      </propertyBindings>
+    </bindings>
     <involvedModels href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.genmodel#/"/>
   </eef-model:PropertiesEditingModel>
   <eef-views:ViewsRepository name="editingModel">
@@ -21,6 +37,17 @@
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
       </elements>
       <elements xsi:type="eef-views:ElementEditor" name="views">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.0"/>
+      </elements>
+    </views>
+    <views name="Editing Model">
+      <elements xsi:type="eef-views:ElementEditor" name="id">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+      </elements>
+      <elements xsi:type="eef-views:ElementEditor" name="name">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+      </elements>
+      <elements xsi:type="eef-views:ElementEditor" name="Involved Models">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.0"/>
       </elements>
     </views>

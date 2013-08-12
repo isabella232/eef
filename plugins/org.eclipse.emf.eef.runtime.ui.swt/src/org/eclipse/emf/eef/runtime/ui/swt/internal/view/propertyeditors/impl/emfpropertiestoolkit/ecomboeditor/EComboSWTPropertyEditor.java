@@ -59,6 +59,21 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLin
 		eComboEditor.getControl().setLayoutData(layoutData);
 	}
 
-	
-	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.StandardFormPropertyEditor#lock()
+	 */
+	@Override
+	public void lock() {
+		eComboEditor.setLocked(true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.StandardFormPropertyEditor#unlock()
+	 */
+	@Override
+	public void unlock() {
+		eComboEditor.setLocked(false);
+	}
 }

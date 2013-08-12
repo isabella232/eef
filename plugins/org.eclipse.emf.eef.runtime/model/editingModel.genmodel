@@ -6,7 +6,7 @@
     modelPluginID="org.eclipse.emf.eef.runtime" modelName="EditingModel" editPluginClass="org.eclipse.emf.eef.editor.EditingModelEditPlugin"
     editorPluginClass="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
     copyrightFields="false" editPluginID="org.eclipse.emf.eef.runtime.editor" editorPluginID="org.eclipse.emf.eef.runtime.editor"
-    runtimeVersion="2.6" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    runtimeVersion="2.6" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>editingModel.ecore</foreignModel>
   <genPackages prefix="EditingModel" basePackage="org.eclipse.emf.eef.runtime" disposableProviderFactory="true"
       ecorePackage="editingModel.ecore#/">

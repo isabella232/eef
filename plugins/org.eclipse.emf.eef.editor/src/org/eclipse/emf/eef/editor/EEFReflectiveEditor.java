@@ -64,6 +64,7 @@ import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.emf.eef.editor.internal.pages.BindingsEditingPage;
+import org.eclipse.emf.eef.editor.internal.pages.EditingModelPropertiesPage;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
 import org.eclipse.emf.eef.editor.internal.services.SelectionService;
 import org.eclipse.emf.eef.editor.internal.services.ViewerService;
@@ -634,13 +635,19 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 			// Only creates the other pages if there is something that can be edited
 			//
 			if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
-				BindingsEditingPage page = new BindingsEditingPage(this, adapterFactory);
-				page.setEMFService(new EMFService());
-				page.setSelectionService(new SelectionService());
-				page.setViewerService(new ViewerService(EditingModelEditPlugin.getPlugin().getLockManagerProvider()));
-				page.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
-				page.setInput(editingDomain.getResourceSet());
-				addPage(page);
+				EditingModelPropertiesPage editingModelPropertiesPage = new EditingModelPropertiesPage(this, adapterFactory);
+				editingModelPropertiesPage.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
+				addPage(editingModelPropertiesPage);
+				
+				BindingsEditingPage bindingEditingPage = new BindingsEditingPage(this, adapterFactory);
+				bindingEditingPage.setEMFService(new EMFService());
+				bindingEditingPage.setEEFEditingService(EditingModelEditPlugin.getPlugin().getEEFEditingService());
+				bindingEditingPage.setSelectionService(new SelectionService());
+				bindingEditingPage.setViewerService(new ViewerService(EditingModelEditPlugin.getPlugin().getLockManagerProvider()));
+				bindingEditingPage.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
+				bindingEditingPage.setImageManager(EditingModelEditPlugin.getPlugin().getImageManager());
+				bindingEditingPage.setInput(editingDomain.getResourceSet());
+				addPage(bindingEditingPage);
 			}
 		} catch (PartInitException e) {
 			e.printStackTrace();

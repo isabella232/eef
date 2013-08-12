@@ -245,6 +245,7 @@ public class SingleLinePropertyViewer extends Viewer {
 	 * Update the list buttons.
 	 */
 	protected void updateButtons() {
+		text.setEnabled(!locked);
 		setButton.setEnabled(!locked);
 		clearButton.setEnabled(shouldEnableClear(input));
 	}
