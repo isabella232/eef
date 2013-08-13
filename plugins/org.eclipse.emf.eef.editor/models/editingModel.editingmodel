@@ -30,6 +30,7 @@
       </propertyBindings>
     </bindings>
     <involvedModels href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.genmodel#/"/>
+    <involvedModels href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#/"/>
   </eef-model:PropertiesEditingModel>
   <eef-views:ViewsRepository name="editingModel">
     <views name="Binding">

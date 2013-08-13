@@ -184,6 +184,7 @@ public class BindingsEditingPage extends FormPage {
 		toolkit = managedForm.getToolkit();
 		Form form = managedForm.getForm().getForm();
 		toolkit.decorateFormHeading(form);
+		form.setText("Bindings");
 		Composite parent = form.getBody();
 		parent.setLayout(new FillLayout());
 		pageContainer = toolkit.createComposite(parent);
@@ -565,7 +566,7 @@ public class BindingsEditingPage extends FormPage {
 		@Override
 		public void widgetSelected(SelectionEvent e) {
 			EObject selection = selectionService.unwrapSelection(metamodelViewer.getSelection());
-			PropertiesEditingModel editedModel = emfService.findEditedModel(editingDomain.getResourceSet());
+			PropertiesEditingModel editedModel = emfService.findEditedEditingModel(editingDomain.getResourceSet());
 			if (editedModel != null) {
 				if (selection instanceof EClass) {
 					EClassBinding binding = EditingModelFactory.eINSTANCE.createEClassBinding();

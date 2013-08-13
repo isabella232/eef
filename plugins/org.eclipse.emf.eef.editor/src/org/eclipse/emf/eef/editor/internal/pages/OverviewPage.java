@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.editor.internal.pages;
 
+import java.io.ObjectInputStream.GetField;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -35,7 +37,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EditingModelPropertiesPage extends FormPage {
+public class OverviewPage extends FormPage {
 
 	private EditingContextFactoryProvider contextFactoryProvider;
 	private EMFService emfService;
@@ -47,8 +49,8 @@ public class EditingModelPropertiesPage extends FormPage {
 	 * @param editor
 	 * @param adapterFactory
 	 */
-	public EditingModelPropertiesPage(FormEditor editor, AdapterFactory adapterFactory) {
-		super(editor, "eef-editingmodel-editing", "Editing Model");
+	public OverviewPage(FormEditor editor, AdapterFactory adapterFactory) {
+		super(editor, "eef-overview", "Overview");
 		this.adapterFactory = adapterFactory;
 	}
 
@@ -75,6 +77,7 @@ public class EditingModelPropertiesPage extends FormPage {
 		toolkit = managedForm.getToolkit();
 		Form form = managedForm.getForm().getForm();
 		toolkit.decorateFormHeading(form);
+		form.setText("Overview");
 		Composite parent = form.getBody();
 		parent.setLayout(new GridLayout(1, false));
 		EEFViewer viewer = new EEFViewer(parent, SWT.NONE);
@@ -89,7 +92,7 @@ public class EditingModelPropertiesPage extends FormPage {
 	private PropertiesEditingContext createEditingContext() {
 		EditingDomain domain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
 		ResourceSet resourceSet = domain.getResourceSet();
-		PropertiesEditingModel editedModel = emfService.findEditedModel(resourceSet);
+		PropertiesEditingModel editedModel = emfService.findEditedEditingModel(resourceSet);
 		if (editedModel != null) {
 			PropertiesEditingContext context = contextFactoryProvider.getEditingContextFactory(editedModel).createPropertiesEditingContext(domain, adapterFactory, editedModel);
 			context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, toolkit);

@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.views.ViewsRepository;
 
 import com.google.common.collect.Sets;
 
@@ -39,9 +40,9 @@ public class EMFService {
 	}
 
 	/**
-	 * Returns the first PropertiesEditingModel in the given {@link ResourceSet}.
+	 * Returns the first {@link PropertiesEditingModel} in the given {@link ResourceSet}.
 	 */
-	public PropertiesEditingModel findEditedModel(ResourceSet resourceSet) {
+	public PropertiesEditingModel findEditedEditingModel(ResourceSet resourceSet) {
 		for (Resource resource : resourceSet.getResources()) {
 			for (EObject eObject : resource.getContents()) {
 				if (eObject instanceof PropertiesEditingModel) {
@@ -50,5 +51,19 @@ public class EMFService {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Returns the first {@link ViewsRepository} in the given {@link ResourceSet}.
+	 */
+	public ViewsRepository findEditedViewsRepository(ResourceSet resourceSet) {
+		for (Resource resource : resourceSet.getResources()) {
+			for (EObject eObject : resource.getContents()) {
+				if (eObject instanceof ViewsRepository) {
+					return (ViewsRepository) eObject;
+				}
+			}
+		}
+		return null;		
 	}
 }
