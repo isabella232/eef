@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.editor.internal.widgets;
 
 import org.eclipse.emf.eef.UIConstants;
 import org.eclipse.emf.eef.editor.internal.widgets.util.SelectionMEEFVContentProvider;
+import org.eclipse.emf.eef.runtime.context.NullPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
@@ -66,7 +67,10 @@ public class MultiEEFViewer extends ContentViewer {
 	 */
 	@Override
 	public ISelection getSelection() {
-		return null;
+		if (getSubViewer() != null && getSubViewer().getInput() instanceof PropertiesEditingContext && !(getSubViewer().getInput() instanceof NullPropertiesEditingContext)) {
+			return new StructuredSelection(((PropertiesEditingContext)getSubViewer().getInput()).getEditingComponent().getEObject());
+		}
+		return new StructuredSelection();
 	}
 
 	/**

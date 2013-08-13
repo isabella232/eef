@@ -172,7 +172,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public void setValue(final Object view, final Object field, final Object value) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
 			final PropertiesEditingView<?> editingView = ((PropertiesEditingView<?>) view);
-			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
+			if (!((Composite)editingView.getContents()).isDisposed() && editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
 						if (field instanceof ElementEditor) {
@@ -216,7 +216,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public void addValue(final Object view, final Object field, final Object newValue) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
 			final PropertiesEditingView<?> editingView = ((PropertiesEditingView<?>) view);
-			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
+			if (!((Composite)editingView.getContents()).isDisposed() && editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
 						if (field instanceof ElementEditor) {
@@ -238,7 +238,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public void addAllValues(final Object view, final Object field, final Collection<?> values) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
 			final PropertiesEditingView<?> editingView = ((PropertiesEditingView<?>) view);
-			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
+			if (!((Composite)editingView.getContents()).isDisposed() && editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
 						if (field instanceof ElementEditor) {
@@ -260,7 +260,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public void removeValue(final Object view, final Object field, final Object value) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
 			final PropertiesEditingView<?> editingView = ((PropertiesEditingView<?>) view);
-			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
+			if (!((Composite)editingView.getContents()).isDisposed() && editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
 						if (field instanceof ElementEditor) {
@@ -282,7 +282,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public void removeAllValues(final Object view, final Object field, final Collection<?> values) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
 			final PropertiesEditingView<?> editingView = ((PropertiesEditingView<?>) view);
-			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
+			if (!((Composite)editingView.getContents()).isDisposed() && editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
 						if (field instanceof ElementEditor) {
@@ -304,7 +304,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public void moveValue(final Object view, final Object field, final Object value, final int newIndex) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
 			final PropertiesEditingView<?> editingView = ((PropertiesEditingView<?>) view);
-			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
+			if (!((Composite)editingView.getContents()).isDisposed() && editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
 						if (field instanceof ElementEditor) {
