@@ -6,6 +6,7 @@ package org.eclipse.emf.eef.editor.internal.pages;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -14,8 +15,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider.FontAndColorProvider;
@@ -31,7 +35,12 @@ import org.eclipse.emf.eef.editor.internal.widgets.MultiEEFViewer;
 import org.eclipse.emf.eef.editor.internal.widgets.MultiEEFViewer.SelectionInterpreter;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
+import org.eclipse.emf.eef.runtime.context.NullPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
+import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
@@ -47,6 +56,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -57,6 +67,7 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
@@ -88,12 +99,15 @@ public class BindingsEditingPage extends FormPage {
 	private AdapterFactory adapterFactory;
 	private ResourceSet input;
 	
+	private ToolBar bindingSettingsActions;
 	private TreeViewer metamodelViewer;
 	private TreeViewer modelViewer;
 	private MultiEEFViewer bindingSettingsViewer;
 
 	private SelectionBroker selectionBroker;
 	private FormToolkit toolkit;
+
+	private Composite pageContainer;
 
 	/**
 	 * @param editor
@@ -171,19 +185,18 @@ public class BindingsEditingPage extends FormPage {
 		toolkit.decorateFormHeading(form);
 		Composite parent = form.getBody();
 		parent.setLayout(new FillLayout());
-		final Composite container = toolkit.createComposite(parent);
-		container.setLayout(new FormLayout());
-		Composite modelSection = createModelSection(toolkit, container);
-		Composite bindingSettingsSection = createBindingSettingsSection(toolkit, container);
-		Composite previewSection = createPreviewSection(toolkit, container);
+		pageContainer = toolkit.createComposite(parent);
+		pageContainer.setLayout(new FormLayout());
+		Composite modelSection = createModelSection(toolkit, pageContainer);
+		Composite bindingSettingsSection = createBindingSettingsSection(toolkit, pageContainer);
+		Composite previewSection = createPreviewSection(toolkit, pageContainer);
 		layoutPage(modelSection, bindingSettingsSection, previewSection);
 		initSelectionBroker();
 		metamodelViewer.addSelectionChangedListener(selectionBroker);
 		metamodelViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			
 			public void selectionChanged(SelectionChangedEvent event) {
-				container.layout(true);
-				container.getParent().layout(true);
+				refreshPageLayout();
 			}
 		});
 	}
@@ -227,16 +240,21 @@ public class BindingsEditingPage extends FormPage {
 	private Composite createBindingSettingsSection(FormToolkit toolkit, Composite container) {
 		Section bindingSettingsSection = toolkit.createSection(container, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		bindingSettingsSection.setText("Binding Settings");
-		ToolBar actions = new ToolBar(bindingSettingsSection, SWT.NONE);
-		ToolItem add = new ToolItem(actions, SWT.PUSH);
+		bindingSettingsActions = new ToolBar(bindingSettingsSection, SWT.NONE);
+		ToolItem add = new ToolItem(bindingSettingsActions, SWT.PUSH);
 		// FIXME: What the heck with the delegatingResourceLocator !!!
 		add.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "Add"));
-		ToolItem remove = new ToolItem(actions, SWT.PUSH);
+		add.setToolTipText("Add a binding linked to the selected element");
+		add.setEnabled(false);
+		ToolItem remove = new ToolItem(bindingSettingsActions, SWT.PUSH);
 		remove.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "Delete"));
-		bindingSettingsSection.setTextClient(actions);
+		remove.setToolTipText("Remove the current binding");
+		remove.setEnabled(false);
+		bindingSettingsSection.setTextClient(bindingSettingsActions);
 		Composite bindingSettingsContainer = toolkit.createComposite(bindingSettingsSection);
 		bindingSettingsContainer.setLayout(new GridLayout(1, false));
 		createBindingSettingsSectionContents(toolkit, bindingSettingsContainer);
+		add.addSelectionListener(new AddBindingAdapter(emfService, selectionService, ((IEditingDomainProvider)getEditor()).getEditingDomain(), adapterFactory, metamodelViewer, bindingSettingsViewer));
 		bindingSettingsSection.setClient(bindingSettingsContainer);
 		return bindingSettingsSection;
 	}
@@ -367,26 +385,58 @@ public class BindingsEditingPage extends FormPage {
 			
 			public PropertiesEditingContext createContextFromSelection(ISelection selection) {
 				EObject selectedElement = selectionService.unwrapSelection(selection);
+				PropertiesEditingContext context;
 				if (selectedElement != null) {
 					EditingDomain editingDomain = ((EEFReflectiveEditor)getEditor()).getEditingDomain();
-					PropertiesEditingContext context = contextFactoryProvider.getEditingContextFactory(selectedElement).createPropertiesEditingContext(editingDomain, adapterFactory, selectedElement);
-					context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, BindingsEditingPage.this.toolkit);
-					return context;
+					context = contextFactoryProvider.getEditingContextFactory(selectedElement).createPropertiesEditingContext(editingDomain, adapterFactory, selectedElement);
+				} else {
+					context = contextFactoryProvider.getEditingContextFactory(selectedElement).createNullEditingContext();
 				}
-				return null;
+				context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, BindingsEditingPage.this.toolkit);
+				return context;
 			}
 		});
+		bindingSettingsViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			public void selectionChanged(SelectionChangedEvent event) {
+				Object subViewerInput = bindingSettingsViewer.getSubViewer().getInput();
+				if (subViewerInput == null || subViewerInput instanceof NullPropertiesEditingContext) {
+					if (event.getSelection() == null || event.getSelection().isEmpty()) {
+						updateViewerBackground();
+					}
+				}
+			}
+		});
+		updateViewerBackground();
 	}
+	
+	private void updateViewerBackground() {
+		//FIXME: Ugly but ... it works ...
+		Control[] controlChildren = ((Composite)bindingSettingsViewer.getSubViewer().getControl()).getChildren();
+		if (controlChildren.length == 1 && controlChildren[0] instanceof ScrolledComposite) {
+			ScrolledComposite scrolledComposite = (ScrolledComposite)controlChildren[0];
+			if (scrolledComposite.getChildren().length > 0 && scrolledComposite.getChildren()[0] instanceof CTabFolder) { 
+				BindingsEditingPage.this.toolkit.adapt((CTabFolder) scrolledComposite.getChildren()[0]);
+			}
+		}
+	}
+
+
 
 	private void createPreviewSectionContents(FormToolkit toolkit, Composite previewContainer) {
 		toolkit.createLabel(previewContainer, "Preview");		
 	}
 	
 	/**
-	 * @return the selectionBroker
+	 * 
 	 */
-	public void initSelectionBroker() {
-		selectionBroker = new SelectionBroker(metamodelViewer, bindingSettingsViewer, selectionService, viewerService);
+	private void refreshPageLayout() {
+		pageContainer.layout(true);
+		pageContainer.getParent().layout(true);
+	}
+	
+	private void initSelectionBroker() {
+		selectionBroker = new SelectionBroker(eefEditingService, selectionService, viewerService, metamodelViewer, bindingSettingsViewer, bindingSettingsActions);
 	}
 
 	private static final class SelectionBroker implements ISelectionChangedListener {
@@ -394,16 +444,21 @@ public class BindingsEditingPage extends FormPage {
 		private static final String BINDING_VIEW_ID = "editingModel::Binding";
 		private static final String BINDING_E_CLASS_EDITOR_ID = "editingModel::Binding::eClass";
 
-		private TreeViewer metamodelViewer;
-		private MultiEEFViewer bindingSettingsViewer;
+		private EEFEditingService eefEditingService;
 		private SelectionService selectionService;
 		private ViewerService viewerService;
+
+		private TreeViewer metamodelViewer;
+		private MultiEEFViewer bindingSettingsViewer;
+		private ToolBar bindingSettingsActions;
 		
-		public SelectionBroker(TreeViewer metamodelViewer, MultiEEFViewer bindingSettingsViewer, SelectionService selectionService, ViewerService viewerService) {
-			this.metamodelViewer = metamodelViewer;
-			this.bindingSettingsViewer = bindingSettingsViewer;
+		public SelectionBroker(EEFEditingService eefEditingService, SelectionService selectionService, ViewerService viewerService, TreeViewer metamodelViewer, MultiEEFViewer bindingSettingsViewer, ToolBar bindingSettingsActions) {
+			this.eefEditingService = eefEditingService;
 			this.selectionService = selectionService;
 			this.viewerService = viewerService;
+			this.metamodelViewer = metamodelViewer;
+			this.bindingSettingsViewer = bindingSettingsViewer;
+			this.bindingSettingsActions = bindingSettingsActions; 
 		}
 
 		/**
@@ -415,6 +470,7 @@ public class BindingsEditingPage extends FormPage {
 				EObject selection = selectionService.unwrapSelection(event.getSelection());
 				bindingSettingsViewer.setInput(selection);
 				lockFields();
+				updateBindingSettingsActionsState(selection);
 			}
 			
 		}
@@ -431,6 +487,24 @@ public class BindingsEditingPage extends FormPage {
 			}
 		}
 
+		private void updateBindingSettingsActionsState(EObject selection) {
+			assert bindingSettingsActions.getItemCount() == 2:"Bad toolbar configuration.";
+			ToolItem add = bindingSettingsActions.getItem(0);
+			ToolItem delete = bindingSettingsActions.getItem(1);
+			if (selection instanceof EClass) {
+				add.setEnabled(true);
+				Collection<EObject> referencingEEFElement = eefEditingService.referencingEEFElement(selection);
+				if (referencingEEFElement.size() > 0) {
+					delete.setEnabled(true);
+				} else {
+					delete.setEnabled(false);
+				}
+			} else {
+				add.setEnabled(false);
+				delete.setEnabled(false);
+			}
+		}
+		
 	}
 	
 	/**
@@ -458,6 +532,55 @@ public class BindingsEditingPage extends FormPage {
 		public void widgetSelected(SelectionEvent e) {
 			action.run();
 		}
+		
+	}
+	
+	private class AddBindingAdapter extends SelectionAdapter {
+
+		private EMFService emfService;
+		private SelectionService selectionService;
+		
+		private EditingDomain editingDomain;
+		private AdapterFactory adapterFactory;
+		
+		private TreeViewer metamodelViewer;
+		private MultiEEFViewer bindingSettingsViewer;
+		
+		public AddBindingAdapter(EMFService emfService, SelectionService selectionService, EditingDomain editingDomain, AdapterFactory adapterFactory, TreeViewer metamodelViewer, MultiEEFViewer bindingSettingsViewer) {
+			this.emfService = emfService;
+			this.selectionService = selectionService;
+			this.editingDomain = editingDomain;
+			this.adapterFactory = adapterFactory;
+			this.metamodelViewer = metamodelViewer;
+			this.bindingSettingsViewer = bindingSettingsViewer;
+		}
+
+
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+		 */
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			EObject selection = selectionService.unwrapSelection(metamodelViewer.getSelection());
+			PropertiesEditingModel editedModel = emfService.findEditedModel(editingDomain.getResourceSet());
+			if (editedModel != null) {
+				if (selection instanceof EClass) {
+					EClassBinding binding = EditingModelFactory.eINSTANCE.createEClassBinding();
+					binding.setEClass((EClass) selection);
+					IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(editedModel, IEditingDomainItemProvider.class);
+					Command cmd = provider.createCommand(editedModel, editingDomain, AddCommand.class , new CommandParameter(editedModel, EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__BINDINGS, Lists.newArrayList(binding)));
+					editingDomain.getCommandStack().execute(cmd);
+					metamodelViewer.refresh();
+					bindingSettingsViewer.refresh();
+					refreshPageLayout();
+				}
+			} else {
+				// TODO: log error, I'm unable to find the editingModel!!
+			}
+		}
+		
 		
 	}
 

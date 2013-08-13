@@ -75,7 +75,7 @@ public class MultiEEFViewer extends ContentViewer {
 	 */
 	@Override
 	public void refresh() {
-
+		inputChanged(getInput(), null);
 	}
 
 	/**
@@ -97,6 +97,7 @@ public class MultiEEFViewer extends ContentViewer {
 		if (elements.length > 0) {
 			selection.setSelection(new StructuredSelection(elements[0]));
 		}
+		fireSelectionChanged(new SelectionChangedEvent(this, elements.length == 0?new StructuredSelection(): new StructuredSelection(elements)));
 	}
 
 	/**

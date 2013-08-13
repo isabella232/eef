@@ -77,6 +77,14 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createNullEditingContext()
+	 */
+	public PropertiesEditingContext createNullEditingContext() {
+		return new NullPropertiesEditingContextImpl();
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createPropertiesEditingContext(org.eclipse.emf.common.notify.AdapterFactory, org.eclipse.emf.ecore.EObject)
 	 */
 	public PropertiesEditingContext createPropertiesEditingContext(AdapterFactory adapterFactory, EObject eObject) {

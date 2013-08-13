@@ -30,6 +30,11 @@ public interface PropertiesEditingContextFactory extends EEFService<EObject> {
 	EditingContextFactoryProvider getContextFactoryProvider();
 	
 	/**
+	 * @return a null-implementation of a {@link PropertiesEditingContext}.
+	 */
+	PropertiesEditingContext createNullEditingContext();
+	
+	/**
 	 * Creates a standard {@link PropertiesEditingContext} with an {@link AdapterFactory} and an {@link EObject}.
 	 * @param adapterFactory {@link AdapterFactory} for the context.
 	 * @param eObject {@link EObject} for the context.

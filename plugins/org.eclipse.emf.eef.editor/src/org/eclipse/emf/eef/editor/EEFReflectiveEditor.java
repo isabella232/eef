@@ -635,12 +635,15 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 			// Only creates the other pages if there is something that can be edited
 			//
 			if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
+				EMFService emfService = new EMFService();
+				
 				EditingModelPropertiesPage editingModelPropertiesPage = new EditingModelPropertiesPage(this, adapterFactory);
 				editingModelPropertiesPage.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
+				editingModelPropertiesPage.setEMFService(emfService);
 				addPage(editingModelPropertiesPage);
 				
 				BindingsEditingPage bindingEditingPage = new BindingsEditingPage(this, adapterFactory);
-				bindingEditingPage.setEMFService(new EMFService());
+				bindingEditingPage.setEMFService(emfService);
 				bindingEditingPage.setEEFEditingService(EditingModelEditPlugin.getPlugin().getEEFEditingService());
 				bindingEditingPage.setSelectionService(new SelectionService());
 				bindingEditingPage.setViewerService(new ViewerService(EditingModelEditPlugin.getPlugin().getLockManagerProvider()));

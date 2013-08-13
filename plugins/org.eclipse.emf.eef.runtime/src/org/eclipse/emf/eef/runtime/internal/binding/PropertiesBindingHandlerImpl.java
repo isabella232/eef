@@ -462,8 +462,8 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 */
 	public void handleEvent(Event event) {
 		if (event.getProperty("notification") instanceof Notification) {
-			Notification notification = (Notification) event.getProperty("notification"); 
-			for (PropertiesEditingComponent editingComponent : editingComponents) {
+			Notification notification = (Notification) event.getProperty("notification");
+			for (PropertiesEditingComponent editingComponent : Lists.newArrayList(editingComponents)) {
 				if (editingComponent.isAffectingEvent(notification)) {
 					notifyChanged(editingComponent, notification);
 				}
