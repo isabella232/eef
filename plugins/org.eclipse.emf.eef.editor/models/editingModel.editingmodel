@@ -29,6 +29,18 @@
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.2"/>
       </propertyBindings>
     </bindings>
+    <bindings>
+      <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EObjectView"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.2"/>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EObjectView/definition"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0"/>
+      </propertyBindings>
+    </bindings>
+    <bindings>
+      <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//JavaView"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.3"/>
+    </bindings>
     <involvedModels href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.genmodel#/"/>
     <involvedModels href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#/"/>
   </eef-model:PropertiesEditingModel>
@@ -38,7 +50,7 @@
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
       </elements>
       <elements xsi:type="eef-views:ElementEditor" name="views">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.0"/>
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
       </elements>
     </views>
     <views name="Editing Model">
@@ -52,5 +64,11 @@
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.0"/>
       </elements>
     </views>
+    <views name="EObjectView">
+      <elements xsi:type="eef-views:ElementEditor" name="definition">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
+      </elements>
+    </views>
+    <views name="JavaView"/>
   </eef-views:ViewsRepository>
 </xmi:XMI>

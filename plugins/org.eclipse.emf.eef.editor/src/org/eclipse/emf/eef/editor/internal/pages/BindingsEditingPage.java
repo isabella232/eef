@@ -258,7 +258,7 @@ public class BindingsEditingPage extends FormPage {
 		createBindingSettingsSectionContents(toolkit, bindingSettingsContainer);
 		EditingDomain editingDomain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
 		add.addSelectionListener(new AddBindingAdapter(emfService, selectionService, editingDomain, adapterFactory, metamodelViewer, bindingSettingsViewer));
-		remove.addSelectionListener(new DeleteBindingAdapter(selectionService, editingDomain, adapterFactory, metamodelViewer, bindingSettingsViewer));
+		remove.addSelectionListener(new DeleteBindingAdapter(selectionService, editingDomain, metamodelViewer, bindingSettingsViewer));
 		bindingSettingsSection.setClient(bindingSettingsContainer);
 		return bindingSettingsSection;
 	}
@@ -458,7 +458,7 @@ public class BindingsEditingPage extends FormPage {
 	}
 	
 	private void initSelectionBroker() {
-		selectionBroker = new SelectionBroker(eefEditingService, selectionService, viewerService, metamodelViewer, bindingSettingsViewer, bindingSettingsActions);
+		selectionBroker = new SelectionBroker(selectionService, viewerService, metamodelViewer, bindingSettingsViewer);
 	}
 
 	private final class SelectionBroker implements ISelectionChangedListener {
@@ -466,21 +466,17 @@ public class BindingsEditingPage extends FormPage {
 		private static final String BINDING_VIEW_ID = "editingModel::Binding";
 		private static final String BINDING_E_CLASS_EDITOR_ID = "editingModel::Binding::eClass";
 
-		private EEFEditingService eefEditingService;
 		private SelectionService selectionService;
 		private ViewerService viewerService;
 
 		private TreeViewer metamodelViewer;
 		private MultiEEFViewer bindingSettingsViewer;
-		private ToolBar bindingSettingsActions;
 		
-		public SelectionBroker(EEFEditingService eefEditingService, SelectionService selectionService, ViewerService viewerService, TreeViewer metamodelViewer, MultiEEFViewer bindingSettingsViewer, ToolBar bindingSettingsActions) {
-			this.eefEditingService = eefEditingService;
+		public SelectionBroker(SelectionService selectionService, ViewerService viewerService, TreeViewer metamodelViewer, MultiEEFViewer bindingSettingsViewer) {
 			this.selectionService = selectionService;
 			this.viewerService = viewerService;
 			this.metamodelViewer = metamodelViewer;
 			this.bindingSettingsViewer = bindingSettingsViewer;
-			this.bindingSettingsActions = bindingSettingsActions; 
 		}
 
 		/**
@@ -592,7 +588,6 @@ public class BindingsEditingPage extends FormPage {
 		private SelectionService selectionService;
 
 		private EditingDomain editingDomain;
-		private AdapterFactory adapterFactory;
 		
 		private Viewer metamodelViewer;
 		private MultiEEFViewer bindingSettingsViewer;
@@ -600,14 +595,12 @@ public class BindingsEditingPage extends FormPage {
 		/**
 		 * @param selectionService
 		 * @param editingDomain
-		 * @param adapterFactory
 		 * @param metamodelViewer
 		 * @param bindingSettingsViewer
 		 */
-		public DeleteBindingAdapter(SelectionService selectionService, EditingDomain editingDomain, AdapterFactory adapterFactory, Viewer metamodelViewer, MultiEEFViewer bindingSettingsViewer) {
+		public DeleteBindingAdapter(SelectionService selectionService, EditingDomain editingDomain, Viewer metamodelViewer, MultiEEFViewer bindingSettingsViewer) {
 			this.selectionService = selectionService;
 			this.editingDomain = editingDomain;
-			this.adapterFactory = adapterFactory;
 			this.metamodelViewer = metamodelViewer;
 			this.bindingSettingsViewer = bindingSettingsViewer;
 		}
@@ -622,7 +615,6 @@ public class BindingsEditingPage extends FormPage {
 			ISelection selection = bindingSettingsViewer.getSelection();
 			if (selection != null && !selection.isEmpty()) {
 				EClassBinding binding = selectionService.unwrapSelection(selection);
-				IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(binding, IEditingDomainItemProvider.class);
 				Command cmd = editingDomain.createCommand(DeleteCommand.class, new CommandParameter(null, null, Lists.newArrayList(binding)));
 				editingDomain.getCommandStack().execute(cmd);
 				metamodelViewer.refresh();
@@ -630,9 +622,7 @@ public class BindingsEditingPage extends FormPage {
 				EObject eObj = selectionService.unwrapSelection(metamodelViewer.getSelection());
 				updateBindingSettingsActionsState(eObj);
 				refreshPageLayout();
-			} else {
-				// TODO: log error, I'm unable to find the editingModel!!
-			}			
+			} 		
 		}
 		
 		

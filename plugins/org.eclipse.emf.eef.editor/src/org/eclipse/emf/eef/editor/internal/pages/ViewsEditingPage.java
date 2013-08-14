@@ -10,19 +10,34 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.editor.internal.pages;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
+import org.eclipse.emf.eef.editor.internal.services.SelectionService;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
-import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
+import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
+import org.eclipse.emf.eef.views.View;
+import org.eclipse.emf.eef.views.ViewsFactory;
+import org.eclipse.emf.eef.views.ViewsPackage;
 import org.eclipse.emf.eef.views.ViewsRepository;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -30,12 +45,17 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -45,13 +65,18 @@ public class ViewsEditingPage extends FormPage {
 
 	private static final int MODELS_SECTION_WIDTH = 30;
 
-	private EMFService emfService;
 	private EditingContextFactoryProvider contextFactoryProvider;
+	private ImageManager imageManager;
+	private EMFService emfService;
+	private SelectionService selectionService;
 	
 	private AdapterFactory adapterFactory;
 
 	private FormToolkit toolkit;
 	private Composite pageContainer;
+
+	private TreeViewer views;
+
 
 	/**
 	 * @param editor
@@ -63,6 +88,20 @@ public class ViewsEditingPage extends FormPage {
 	}
 
 	/**
+	 * @param editingContextFactoryProvider the contextFactoryProvider to set
+	 */
+	public void setContextFactoryProvider(EditingContextFactoryProvider editingContextFactoryProvider) {
+		this.contextFactoryProvider = editingContextFactoryProvider;
+	}
+
+	/**
+	 * @param imageManager the imageManager to set
+	 */
+	public void setImageManager(ImageManager imageManager) {
+		this.imageManager = imageManager;
+	}
+
+	/**
 	 * @param emfService the emfService to set
 	 */
 	public void setEMFService(EMFService emfService) {
@@ -70,10 +109,10 @@ public class ViewsEditingPage extends FormPage {
 	}
 
 	/**
-	 * @param editingContextFactoryProvider the contextFactoryProvider to set
+	 * @param selectionService the selectionService to set
 	 */
-	public void setContextFactoryProvider(EditingContextFactoryProvider editingContextFactoryProvider) {
-		this.contextFactoryProvider = editingContextFactoryProvider;
+	public void setSelectionService(SelectionService selectionService) {
+		this.selectionService = selectionService;
 	}
 
 	/**
@@ -100,6 +139,27 @@ public class ViewsEditingPage extends FormPage {
 		viewsContainer.setLayout(new GridLayout(1, false));
 		createViewsSectionContents(toolkit, viewsContainer);
 		viewsSection.setClient(viewsContainer);
+		ToolBar toolbar  = new ToolBar(viewsSection, SWT.NONE);
+		ToolItem add = new ToolItem(toolbar, SWT.PUSH);
+		add.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "Add"));
+		add.setToolTipText("Creates a new view in the repository");
+		add.addSelectionListener(new AddViewAdapter());
+		final ToolItem delete = new ToolItem(toolbar, SWT.PUSH);
+		delete.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "Delete"));
+		delete.setToolTipText("Delete the selected view of the repository");
+		delete.addSelectionListener(new DeleteViewAdapter());
+		views.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (event.getSelection() != null && !event.getSelection().isEmpty()) {
+					delete.setEnabled(true);
+				} else {
+					delete.setEnabled(false);
+				}
+			}
+		});
+		delete.setEnabled(false);
+		viewsSection.setTextClient(toolbar);
 		return viewsSection;
 	}
 	
@@ -125,25 +185,69 @@ public class ViewsEditingPage extends FormPage {
 
 
 	private void createViewsSectionContents(FormToolkit toolkit, Composite container) {
-		EEFViewer viewer = new EEFViewer(container, SWT.NONE);
-		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
-		viewer.setContentProvider(new EEFContentProvider());
-		PropertiesEditingContext editingContext = createEditingContext();
-		if (editingContext != null) {
-			viewer.setInput(editingContext);
-		}
-	}
+		Tree viewsTree = toolkit.createTree(container, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+		viewsTree.setLayoutData(new GridData(GridData.FILL_BOTH));
+		views = new TreeViewer(viewsTree);
+		views.setContentProvider(new AdapterFactoryContentProvider(adapterFactory) {
 
-	private PropertiesEditingContext createEditingContext() {
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider#hasChildren(java.lang.Object)
+			 */
+			@Override
+			public boolean hasChildren(Object object) {
+				if (object instanceof View) {
+					return false;
+				}
+				return super.hasChildren(object);
+			}
+				
+		});
+		views.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 		EditingDomain domain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
 		ResourceSet resourceSet = domain.getResourceSet();
-		ViewsRepository viewsRepository = emfService.findEditedViewsRepository(resourceSet);
-		if (viewsRepository != null) {
-			PropertiesEditingContext context = contextFactoryProvider.getEditingContextFactory(viewsRepository).createPropertiesEditingContext(domain, adapterFactory, viewsRepository);
-			context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, toolkit);
-			return context;
+		views.setInput(emfService.findEditedViewsRepository(resourceSet));
+	}
+
+	
+	private class AddViewAdapter extends SelectionAdapter {
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+		 */
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			View view = ViewsFactory.eINSTANCE.createView();
+			ViewsRepository repository = (ViewsRepository) views.getInput();
+			view.setName("View" + (repository.getViews().size() + 1));
+			IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(repository, IEditingDomainItemProvider.class);
+			EditingDomain editingDomain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
+			Command cmd = provider.createCommand(repository, editingDomain, AddCommand.class , new CommandParameter(repository, ViewsPackage.Literals.VIEWS_REPOSITORY__VIEWS, Lists.newArrayList(view)));
+			editingDomain.getCommandStack().execute(cmd);
+			views.refresh();
+			views.setSelection(new StructuredSelection(view));
 		}
-		return null;
+		
+	}
+	
+	private class DeleteViewAdapter extends SelectionAdapter {
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+		 */
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			ISelection selection = views.getSelection();
+			if (selection != null && !selection.isEmpty()) {
+				View view = selectionService.unwrapSelection(selection);
+				EditingDomain editingDomain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
+				Command cmd = editingDomain.createCommand(DeleteCommand.class, new CommandParameter(null, null, Lists.newArrayList(view)));
+				editingDomain.getCommandStack().execute(cmd);
+			} 		
+		}
+		
 	}
 	
 }

@@ -222,7 +222,8 @@ public class EEFEditingWizard extends Wizard {
 			control.setLayoutData(new GridData(GridData.FILL_BOTH));
 			control.setLayout(new GridLayout(1, false));
 			radio = new ERadioEditor(control, SWT.NONE);
-			radio.setContentProvide(new ArrayContentProvider());
+			radio.createContents();
+			radio.setContentProvider(new ArrayContentProvider());
 			radio.setLabelProvider(editUIProvidersFactory.createLabelProvider(context.getAdapterFactory()));
 			radio.setInput(instanciableTypes);
 			radio.addSelectionChangedListener(new ISelectionChangedListener() {

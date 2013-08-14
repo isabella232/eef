@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:eef-model="http://www.eclipse.org/emf/eef/editingmodel/1.0.0" xmlns:eef-views="http://www.eclipse.org/emf/eef/views/1.0.0">
   <eef-model:PropertiesEditingModel name="Conference Editing Model" id="org.eclipse.emf.example.eef">
+    <bindings>
+      <eClass href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference"/>
+    </bindings>
     <involvedModels href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.genmodel#/"/>
     <involvedModels href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#/"/>
   </eef-model:PropertiesEditingModel>
-  <eef-views:ViewsRepository/>
+  <eef-views:ViewsRepository>
+    <views name="View1"/>
+    <views name="View2"/>
+  </eef-views:ViewsRepository>
 </xmi:XMI>
