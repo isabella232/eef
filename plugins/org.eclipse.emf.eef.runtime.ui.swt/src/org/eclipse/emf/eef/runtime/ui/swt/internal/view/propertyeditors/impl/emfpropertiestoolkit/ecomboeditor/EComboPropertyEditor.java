@@ -55,10 +55,8 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	 */
 	public void init(EStructuralFeature feature) {
 		this.feature = feature;
-		if (view.getEditingComponent().getEObject().eGet(feature) != null) {
-			EEFViewerInput input = new EEFViewerInput(view.getEditingComponent().getEditingContext(), feature);
-			propertyEditorViewer.getViewer().setInput(input);
-		}
+		EEFViewerInput input = new EEFViewerInput(view.getEditingComponent().getEditingContext(), feature);
+		propertyEditorViewer.getViewer().setInput(input);
 		initListener();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		propertyEditorViewer.getViewer().getControl().setLayoutData(layoutData);
@@ -77,7 +75,8 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
-		propertyEditorViewer.getViewer().setInput(value);
+//		propertyEditorViewer.getViewer().setInput(value);
+		propertyEditorViewer.getViewer().refresh();
 	}
 
 	/**
