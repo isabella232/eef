@@ -291,11 +291,17 @@ public class EditingModelItemProviderAdapterFactory extends EditingModelAdapterF
 	 * This implementation substitutes the factory itself as the key for the adapter.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Adapter adapt(Notifier notifier, Object type) {
-		return super.adapt(notifier, this);
+		Adapter adapt = super.adapt(notifier, this);
+		if (adapt == null) {
+			if (parentAdapterFactory != null) {
+				adapt = parentAdapterFactory.adapt(notifier, type);
+			}
+		}
+		return adapt;
 	}
 
 	/**
