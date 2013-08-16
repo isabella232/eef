@@ -57,7 +57,6 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -68,7 +67,6 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
@@ -406,34 +404,19 @@ public class BindingsEditingPage extends FormPage {
 				Object subViewerInput = bindingSettingsViewer.getSubViewer().getInput();
 				if (subViewerInput == null || subViewerInput instanceof NullPropertiesEditingContext) {
 					if (event.getSelection() == null || event.getSelection().isEmpty()) {
-						updateViewerBackground();
+						viewerService.updateViewerBackground(BindingsEditingPage.this.toolkit, bindingSettingsViewer.getSubViewer());
 					}
 				}
 			}
 		});
-		updateViewerBackground();
+		viewerService.updateViewerBackground(toolkit, bindingSettingsViewer.getSubViewer());
 	}
-	
-	private void updateViewerBackground() {
-		//FIXME: Ugly but ... it works ...
-		Control[] controlChildren = ((Composite)bindingSettingsViewer.getSubViewer().getControl()).getChildren();
-		if (controlChildren.length == 1 && controlChildren[0] instanceof ScrolledComposite) {
-			ScrolledComposite scrolledComposite = (ScrolledComposite)controlChildren[0];
-			if (scrolledComposite.getChildren().length > 0 && scrolledComposite.getChildren()[0] instanceof CTabFolder) { 
-				BindingsEditingPage.this.toolkit.adapt((CTabFolder) scrolledComposite.getChildren()[0]);
-			}
-		}
-	}
-
 
 
 	private void createPreviewSectionContents(FormToolkit toolkit, Composite previewContainer) {
 		toolkit.createLabel(previewContainer, "Preview");		
 	}
 	
-	/**
-	 * 
-	 */
 	private void refreshPageLayout() {
 		pageContainer.layout(true);
 		pageContainer.getParent().layout(true);

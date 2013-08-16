@@ -638,6 +638,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 			if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
 				EMFService emfService = new EMFService();
 				SelectionService selectionService = new SelectionService();
+				ViewerService viewerService = new ViewerService(EditingModelEditPlugin.getPlugin().getLockManagerProvider());
 				
 				OverviewPage overviewPage = new OverviewPage(this, adapterFactory);
 				overviewPage.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
@@ -648,7 +649,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 				bindingEditingPage.setEMFService(emfService);
 				bindingEditingPage.setEEFEditingService(EditingModelEditPlugin.getPlugin().getEEFEditingService());
 				bindingEditingPage.setSelectionService(selectionService);
-				bindingEditingPage.setViewerService(new ViewerService(EditingModelEditPlugin.getPlugin().getLockManagerProvider()));
+				bindingEditingPage.setViewerService(viewerService);
 				bindingEditingPage.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
 				bindingEditingPage.setImageManager(EditingModelEditPlugin.getPlugin().getImageManager());
 				bindingEditingPage.setInput(editingDomain.getResourceSet());
@@ -659,6 +660,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 				viewsEditingPage.setImageManager(EditingModelEditPlugin.getPlugin().getImageManager());
 				viewsEditingPage.setEMFService(emfService);
 				viewsEditingPage.setSelectionService(selectionService);
+				viewsEditingPage.setViewerService(viewerService);
 				addPage(viewsEditingPage);
 			}
 		} catch (PartInitException e) {

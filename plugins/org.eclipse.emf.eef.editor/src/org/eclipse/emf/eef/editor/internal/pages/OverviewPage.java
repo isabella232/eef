@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.editor.internal.pages;
 
-import java.io.ObjectInputStream.GetField;
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.EditingDomain;

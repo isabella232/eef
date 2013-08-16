@@ -18,8 +18,14 @@ import org.eclipse.emf.eef.editor.internal.services.util.ViewLockingSettings;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.View;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -59,4 +65,15 @@ public class ViewerService {
 
 	}	
 	
+	public void updateViewerBackground(FormToolkit toolkit, EEFViewer viewer) {
+		//FIXME: Ugly but ... it works ...
+		Control[] controlChildren = ((Composite)viewer.getControl()).getChildren();
+		if (controlChildren.length == 1 && controlChildren[0] instanceof ScrolledComposite) {
+			ScrolledComposite scrolledComposite = (ScrolledComposite)controlChildren[0];
+			if (scrolledComposite.getChildren().length > 0 && scrolledComposite.getChildren()[0] instanceof CTabFolder) { 
+				toolkit.adapt((CTabFolder) scrolledComposite.getChildren()[0]);
+			}
+		}
+	}
+
 }

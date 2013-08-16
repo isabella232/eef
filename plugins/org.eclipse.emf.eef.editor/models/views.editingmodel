@@ -9,6 +9,18 @@
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0"/>
       </propertyBindings>
     </bindings>
+    <bindings>
+      <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//View"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//ViewElement/name"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//DocumentedElement/documentation"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.1"/>
+      </propertyBindings>
+    </bindings>
     <involvedModels href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.genmodel#/"/>
     <involvedModels href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#/"/>
   </eef-model:PropertiesEditingModel>
@@ -16,6 +28,14 @@
     <views name="ViewsRepository">
       <elements xsi:type="eef-views:ElementEditor" name="views">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
+      </elements>
+    </views>
+    <views name="Overview">
+      <elements xsi:type="eef-views:ElementEditor" name="name">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+      </elements>
+      <elements xsi:type="eef-views:ElementEditor" name="documentation">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.4"/>
       </elements>
     </views>
   </eef-views:ViewsRepository>
