@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util;
+package org.eclipse.emf.eef.runtime.ui.swt.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -11,7 +11,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EEFViewerInput {
+public final class EEFViewerInput {
 
 	private PropertiesEditingContext editingContext;
 	

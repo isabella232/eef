@@ -6,8 +6,8 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.widgets;
 import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.EEFViewerInput;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
+import org.eclipse.emf.eef.runtime.ui.swt.util.EEFViewerInput;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;

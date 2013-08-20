@@ -21,6 +21,7 @@ import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
@@ -66,10 +67,12 @@ public class ViewerService {
 	}	
 	
 	public void updateViewerBackground(FormToolkit toolkit, EEFViewer viewer) {
+		toolkit.adapt((Composite) viewer.getControl());
 		//FIXME: Ugly but ... it works ...
 		Control[] controlChildren = ((Composite)viewer.getControl()).getChildren();
 		if (controlChildren.length == 1 && controlChildren[0] instanceof ScrolledComposite) {
 			ScrolledComposite scrolledComposite = (ScrolledComposite)controlChildren[0];
+			toolkit.adapt(scrolledComposite);
 			if (scrolledComposite.getChildren().length > 0 && scrolledComposite.getChildren()[0] instanceof CTabFolder) { 
 				toolkit.adapt((CTabFolder) scrolledComposite.getChildren()[0]);
 			}

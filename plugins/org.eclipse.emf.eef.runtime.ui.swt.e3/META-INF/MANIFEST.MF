@@ -96,5 +96,6 @@ Export-Package: org.eclipse.emf.eef.runtime.ui.swt.e3,
  org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.swttoolkit;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.providers,
  org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.section,
+ org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors,
  org.eclipse.emf.eef.runtime.ui.swt.e3.viewer;x-friends:="org.eclipse.emf.eef.runtime.tests"
 Bundle-Activator: org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin

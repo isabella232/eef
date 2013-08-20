@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
@@ -67,12 +66,12 @@ public interface EMFService extends EEFService<EPackage> {
 
 	/**
 	 * Returns all EClass compatible with the {@link EReference} type. 
-	 * @param domain the editingDomain owning the editedObject (can be <code>null</code>).
+	 * @param adapterFactory the editingDomain owning the editedObject (can be <code>null</code>).
 	 * @param editedObject the edited Object
 	 * @param eReference the edited reference
 	 * @return a {@link Collection} of {@link EClass} compatible with the {@link EReference} type.
 	 */
-	Collection<EClass> listOfInstanciableType(EditingDomain domain, EObject editedObject, EReference eReference);
+	Collection<EClass> listOfInstanciableType(AdapterFactory adapterFactory, EObject editedObject, EReference eReference);
 	
 	
 	/**
@@ -83,4 +82,5 @@ public interface EMFService extends EEFService<EPackage> {
 	 * @return a all the settable values for the given or <code>null</code> if these values cannot be found. 
 	 */
 	Object choiceOfValues(AdapterFactory adapterFactory, Object editedElement, EStructuralFeature feature);
+	
 }

@@ -146,9 +146,9 @@ public class ViewsEditingPage extends FormPage {
 		pageContainer = toolkit.createComposite(parent);
 		pageContainer.setLayout(new FormLayout());
 		Composite viewsSection = createViewsSection(toolkit, pageContainer);
-		Composite bindingSettingsSection = createViewSettingsSection(toolkit, pageContainer);
+		Composite viewSettingsSection = createViewSettingsSection(toolkit, pageContainer);
 		Composite previewSection = createPreviewSection(toolkit, pageContainer);
-		layoutPage(viewsSection, bindingSettingsSection, previewSection);
+		layoutPage(viewsSection, viewSettingsSection, previewSection);
 	}
 
 	private Composite createViewsSection(FormToolkit toolkit, Composite container) {
@@ -256,7 +256,7 @@ public class ViewsEditingPage extends FormPage {
 
 	
 	private void createViewSettingsSectionContents(FormToolkit toolkit, Composite bindingSettingsContainer) {
-		viewSettingsViewer = new EEFViewer(bindingSettingsContainer, SWT.NONE);
+		viewSettingsViewer = new EEFViewer(bindingSettingsContainer, SWT.BORDER);
 		viewSettingsViewer.setContentProvider(new EEFContentProvider());
 		viewerService.updateViewerBackground(toolkit, viewSettingsViewer);
 	}

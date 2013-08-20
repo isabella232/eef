@@ -4,13 +4,19 @@
     <bindings>
       <eClass href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
     </bindings>
     <involvedModels href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.genmodel#/"/>
     <involvedModels href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#/"/>
   </eef-model:PropertiesEditingModel>
   <eef-views:ViewsRepository>
-    <views documentation="This first view displays general information about the Conference" name="Conference"/>
-    <views name="View2"/>
+    <views documentation="This first view displays general information about the Conference" name="Conference">
+      <elements xsi:type="eef-views:Container" name="General">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" documentation="Name of the conference&#x9;" name="Name">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+      </elements>
+    </views>
+    <views name="Participant"/>
   </eef-views:ViewsRepository>
 </xmi:XMI>

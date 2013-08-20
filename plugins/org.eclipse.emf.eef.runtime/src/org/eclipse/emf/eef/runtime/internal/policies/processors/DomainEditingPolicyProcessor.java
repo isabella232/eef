@@ -12,9 +12,12 @@ import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.command.IdentityCommand;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.MoveCommand;
@@ -123,6 +126,12 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 			} else {
 				if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
 					return AddCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
+				} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)){
+					EClass newValueClass = (EClass) newValue;
+					EClass referenceType = ((EReference)feature).getEReferenceType();
+					if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
+						return AddCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, EcoreUtil.create(newValueClass));							
+					}
 				} else {
 					return AddCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, newValue);
 				}
@@ -135,6 +144,12 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 				for (Object newValue1 : (Collection<?>)newValue) {
 					if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
 						cc.append(AddCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue1)));
+					} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)){
+						EClass newValueClass = (EClass) newValue;
+						EClass referenceType = ((EReference)feature).getEReferenceType();
+						if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
+							cc.append(AddCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, EcoreUtil.create(newValueClass)));							
+						}
 					} else {
 						cc.append(AddCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, newValue1));
 					}

@@ -6,9 +6,12 @@ package org.eclipse.emf.eef.runtime.internal.policies.processors;
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -100,8 +103,18 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 			if (feature.isMany()) {
 				if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
 					((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
+				} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
+					EClass newValueClass = (EClass) newValue;
+					EClass referenceType = ((EReference)feature).getEReferenceType();
+					if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
+						((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.create(newValueClass));				
+					}
 				} else {
-					((Collection<Object>)eObject.eGet(feature)).add(newValue);
+					if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
+						((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.create((EClass) newValue));						
+					} else {
+						((Collection<Object>)eObject.eGet(feature)).add(newValue);
+					}
 				}
 			} else {
 				throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
@@ -116,6 +129,8 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 				for (Object newValue : newValues) {
 					if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
 						((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
+					} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
+						((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.create((EClass) newValue));						
 					} else {
 						((Collection<Object>)eObject.eGet(feature)).add(newValue);
 					}				

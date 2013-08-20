@@ -40,6 +40,14 @@
             type="editingmodel"/>
     </extension>
 
+   <extension
+         point="org.eclipse.emf.ecore.uri_mapping">
+      <mapping
+            source="eeftoolkit://EEFExtended.toolkit"
+            target="eeftoolkit:/org.eclipse.emf.eef.editor/org.eclipse.emf.eef.editor.internal.propertyeditors.extended.EEFExtendedToolkit">
+      </mapping>
+   </extension>
+
    <extension point="org.eclipse.ui.newWizards">
       <category
             id="org.eclipse.emf.ecore.Wizard.category.ID"

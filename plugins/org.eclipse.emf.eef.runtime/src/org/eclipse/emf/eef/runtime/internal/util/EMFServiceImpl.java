@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
@@ -145,10 +146,11 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.util.EMFService#listOfInstanciableType(EditingDomain, EObject, EReference)
 	 */
-	public Collection<EClass> listOfInstanciableType(EditingDomain domain, EObject editedObject, EReference eReference) {
+	public Collection<EClass> listOfInstanciableType(AdapterFactory adapterFactory, EObject editedObject, EReference eReference) {
 		Collection<EClass> result = Sets.newLinkedHashSet();
-		if (domain != null) {
-			Collection<?> newChildDescriptors = domain.getNewChildDescriptors(editedObject, null);
+		if (adapterFactory != null) {
+			IEditingDomainItemProvider adapt = (IEditingDomainItemProvider) adapterFactory.adapt(editedObject, IEditingDomainItemProvider.class);
+			Collection<?> newChildDescriptors = adapt.getNewChildDescriptors(editedObject, null, null);
 			for (Object object : newChildDescriptors) {
 				if (object instanceof CommandParameter) {
 					CommandParameter commandParameter = (CommandParameter) object;

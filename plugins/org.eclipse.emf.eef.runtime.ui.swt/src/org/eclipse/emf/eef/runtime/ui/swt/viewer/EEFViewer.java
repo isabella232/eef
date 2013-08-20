@@ -126,53 +126,55 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	 * @see org.eclipse.jface.viewers.Viewer#refresh()
 	 */
 	public void refresh() {
-		clear();
-		PropertiesEditingComponent component = input.getEditingComponent();
-		int i = 1;
-		for (org.eclipse.emf.eef.runtime.editingModel.View descriptor : component.getViewDescriptors()) {
-			ViewHandler<?> viewHandler = input.getViewHandlerProvider().getViewHandler(descriptor);
-			if (viewHandler instanceof PropertiesEditingViewHandler) {
-				PropertiesEditingViewHandler propertiesEditingViewHandler = (PropertiesEditingViewHandler) viewHandler;
-				org.eclipse.emf.eef.views.View viewDescriptor = (org.eclipse.emf.eef.views.View) ((EObjectView)descriptor).getDefinition();
-				boolean filtered = isFiltered(viewDescriptor);
-				if (filtered) {
+		if (input != null) {
+			clear();
+			PropertiesEditingComponent component = input.getEditingComponent();
+			int i = 1;
+			for (org.eclipse.emf.eef.runtime.editingModel.View descriptor : component.getViewDescriptors()) {
+				ViewHandler<?> viewHandler = input.getViewHandlerProvider().getViewHandler(descriptor);
+				if (viewHandler instanceof PropertiesEditingViewHandler) {
+					PropertiesEditingViewHandler propertiesEditingViewHandler = (PropertiesEditingViewHandler) viewHandler;
+					org.eclipse.emf.eef.views.View viewDescriptor = (org.eclipse.emf.eef.views.View) ((EObjectView)descriptor).getDefinition();
+					boolean filtered = isFiltered(viewDescriptor);
+					if (filtered) {
+						try {
+							CTabItem item = new CTabItem(folder, SWT.NONE);
+							item.setText(viewDescriptor.getName());
+							PropertiesEditingView<Composite> view = propertiesEditingViewHandler.createView(component, descriptor,  folder);
+							view.getContents().setLayoutData(new GridData(GridData.FILL_BOTH));
+							propertiesEditingViewHandler.initView(component, view);
+							item.setControl(view.getContents());
+						} catch (ViewConstructionException e) {
+							EEFLogger logger = propertiesEditingViewHandler.getLogger();
+							logger.logError("org.eclipse.emf.eef.runtime.ui.swt", "An error occured during view creation.", e);
+						}
+					}
+				} else if (viewHandler instanceof SWTViewHandler) {
+					SWTViewHandler swtViewHandler = (SWTViewHandler) viewHandler;
+					CTabItem item = new CTabItem(folder, SWT.NONE);
+					item.setText("View " + i);
+					Composite viewComposite = new Composite(folder, SWT.NONE);
+					viewComposite.setLayout(new FillLayout());
 					try {
-						CTabItem item = new CTabItem(folder, SWT.NONE);
-						item.setText(viewDescriptor.getName());
-						PropertiesEditingView<Composite> view = propertiesEditingViewHandler.createView(component, descriptor,  folder);
-						view.getContents().setLayoutData(new GridData(GridData.FILL_BOTH));
-						propertiesEditingViewHandler.initView(component, view);
-						item.setControl(view.getContents());
+						Composite view = swtViewHandler.createView(component, descriptor, viewComposite);
+						swtViewHandler.initView(component, view);
 					} catch (ViewConstructionException e) {
-						EEFLogger logger = propertiesEditingViewHandler.getLogger();
+						EEFLogger logger = swtViewHandler.getLogger();
 						logger.logError("org.eclipse.emf.eef.runtime.ui.swt", "An error occured during view creation.", e);
 					}
+					item.setControl(viewComposite);
 				}
-			} else if (viewHandler instanceof SWTViewHandler) {
-				SWTViewHandler swtViewHandler = (SWTViewHandler) viewHandler;
-				CTabItem item = new CTabItem(folder, SWT.NONE);
-				item.setText("View " + i);
-				Composite viewComposite = new Composite(folder, SWT.NONE);
-				viewComposite.setLayout(new FillLayout());
-				try {
-					Composite view = swtViewHandler.createView(component, descriptor, viewComposite);
-					swtViewHandler.initView(component, view);
-				} catch (ViewConstructionException e) {
-					EEFLogger logger = swtViewHandler.getLogger();
-					logger.logError("org.eclipse.emf.eef.runtime.ui.swt", "An error occured during view creation.", e);
+				i++;
+			}
+			if (dynamicTabHeader ) {
+				if (folder.getItemCount() > 1) {
+					folder.setTabHeight(SWT.DEFAULT);
+				} else {
+					folder.setTabHeight(0);
 				}
-				item.setControl(viewComposite);
 			}
-			i++;
+			folder.setSelection(0);
 		}
-		if (dynamicTabHeader ) {
-			if (folder.getItemCount() > 1) {
-				folder.setTabHeight(SWT.DEFAULT);
-			} else {
-				folder.setTabHeight(0);
-			}
-		}
-		folder.setSelection(0);
 	}
 
 	/**

@@ -23,11 +23,12 @@ public class EMFPropertiesToolkit extends EEFToolkitImpl<Composite> {
 	/**
 	 * EMFProperties toolkit name.
 	 */
-	public static final String EMF_PROPERTIES = "EMFProperties";
+	public static final String EMF_PROPERTIES_TOOLKIT_NAME = "EMFProperties";
 	
-	private static final Toolkit toolkit = ToolkitsFactory.eINSTANCE.createToolkit(); 
+	private static final Toolkit toolkit = ToolkitsFactory.eINSTANCE.createToolkit();
+	
 	static {
-		toolkit.setName(EMF_PROPERTIES);
+		toolkit.setName(EMF_PROPERTIES_TOOLKIT_NAME);
 	}
 	
 	private EditUIProvidersFactory editUIProvidersFactory;
