@@ -11,7 +11,6 @@
 package org.eclipse.emf.eef.editor.internal.propertyeditors.extended;
 
 import org.eclipse.emf.eef.editor.internal.propertyeditors.extended.treecontents.TreeContentsPropertyEditorFactory;
-import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
@@ -36,7 +35,6 @@ public class EEFExtendedToolkit extends EEFToolkitImpl<Composite> {
 		toolkit.setName(EEF_EXTENDED_TOOLKIT_NAME);
 	}
 	
-	private EditingContextFactoryProvider editingContextFactoryProvider;
 	private EMFServiceProvider emfServiceProvider;
 	private ImageManager imageManager;
 
@@ -50,20 +48,6 @@ public class EEFExtendedToolkit extends EEFToolkitImpl<Composite> {
 
 	public EEFExtendedToolkit() {
 		addPropertyEditorFactory(new TreeContentsPropertyEditorFactory(this));
-	}
-
-	/**
-	 * @return the editingContextFactoryProvider
-	 */
-	public EditingContextFactoryProvider getEditingContextFactoryProvider() {
-		return editingContextFactoryProvider;
-	}
-
-	/**
-	 * @param editingContextFactoryProvider the editingContextFactoryProvider to set
-	 */
-	public void setEditingContextFactoryProvider(EditingContextFactoryProvider editingContextFactoryProvider) {
-		this.editingContextFactoryProvider = editingContextFactoryProvider;
 	}
 
 	/**

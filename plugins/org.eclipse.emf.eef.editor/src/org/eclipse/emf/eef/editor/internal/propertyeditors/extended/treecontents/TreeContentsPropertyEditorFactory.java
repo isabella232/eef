@@ -82,7 +82,7 @@ public class TreeContentsPropertyEditorFactory extends WidgetPropertyEditorFacto
 					view, viewElement);
 		}
 		return new TreeContentsPropertyEditor(
-						eefExtendedToolkit.getEditingContextFactoryProvider(), eefExtendedToolkit.getEMFServiceProvider(), 
+						editorContext.view.getEditingComponent().getEditingContext().getContextFactoryProvider(), eefExtendedToolkit.getEMFServiceProvider(), 
 						view, viewElement, 
 						propertyEditorViewer);
 	}
