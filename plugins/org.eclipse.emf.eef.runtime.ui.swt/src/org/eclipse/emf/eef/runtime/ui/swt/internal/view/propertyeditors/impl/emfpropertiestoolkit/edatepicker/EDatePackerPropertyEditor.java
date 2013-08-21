@@ -117,7 +117,7 @@ public class EDatePackerPropertyEditor extends PropertyEditorImpl implements Mon
 				}
 				
 			};
-			propertyEditorViewer.getViewer().addEDatePickerListener(listener);
+			propertyEditorViewer.getViewer().addSingleLinePropertyViewerListener(listener);
 		}
 	}
 }

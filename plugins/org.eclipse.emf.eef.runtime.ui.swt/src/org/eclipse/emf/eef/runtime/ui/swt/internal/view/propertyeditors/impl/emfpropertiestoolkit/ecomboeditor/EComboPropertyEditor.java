@@ -75,7 +75,6 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
-//		propertyEditorViewer.getViewer().setInput(value);
 		propertyEditorViewer.getViewer().refresh();
 	}
 
@@ -128,7 +127,7 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 				}
 				
 			};
-			propertyEditorViewer.getViewer().addEDatePickerListener(listener);
+			propertyEditorViewer.getViewer().addSingleLinePropertyViewerListener(listener);
 		}
 	}
 }

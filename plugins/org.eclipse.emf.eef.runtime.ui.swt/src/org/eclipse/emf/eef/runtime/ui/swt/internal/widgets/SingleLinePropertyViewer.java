@@ -151,7 +151,7 @@ public class SingleLinePropertyViewer extends Viewer {
 	 * @param listener
 	 *            the {@link SingleLinePropertyViewerListener} to add.
 	 */
-	public void addEDatePickerListener(SingleLinePropertyViewerListener listener) {
+	public void addSingleLinePropertyViewerListener(SingleLinePropertyViewerListener listener) {
 		listeners.add(listener);
 	}
 
@@ -161,7 +161,7 @@ public class SingleLinePropertyViewer extends Viewer {
 	 * @param listener
 	 *            the {@link SingleLinePropertyViewerListener} to remove.
 	 */
-	public void removeEDatePickerListener(SingleLinePropertyViewerListener listener) {
+	public void removeSingleLinePropertyViewerListener(SingleLinePropertyViewerListener listener) {
 		listeners.remove(listener);
 	}
 
