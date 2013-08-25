@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.Editor;
+import org.eclipse.emf.eef.runtime.editingModel.EditorSettings;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 
 /**
@@ -32,6 +33,7 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getEditor <em>Editor</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getSubPropertyBindings <em>Sub Property Bindings</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getSettings <em>Settings</em>}</li>
  * </ul>
  * </p>
  *
@@ -67,6 +69,16 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 	 * @ordered
 	 */
 	protected EList<PropertyBinding> subPropertyBindings;
+
+	/**
+	 * The cached value of the '{@link #getSettings() <em>Settings</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSettings()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EditorSettings> settings;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -185,6 +197,18 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<EditorSettings> getSettings() {
+		if (settings == null) {
+			settings = new EObjectContainmentEList<EditorSettings>(EditorSettings.class, this, EditingModelPackage.PROPERTY_BINDING__SETTINGS);
+		}
+		return settings;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -192,6 +216,8 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 				return basicSetEditor(null, msgs);
 			case EditingModelPackage.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS:
 				return ((InternalEList<?>)getSubPropertyBindings()).basicRemove(otherEnd, msgs);
+			case EditingModelPackage.PROPERTY_BINDING__SETTINGS:
+				return ((InternalEList<?>)getSettings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -211,6 +237,8 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 				return getEditor();
 			case EditingModelPackage.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS:
 				return getSubPropertyBindings();
+			case EditingModelPackage.PROPERTY_BINDING__SETTINGS:
+				return getSettings();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -234,6 +262,10 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 				getSubPropertyBindings().clear();
 				getSubPropertyBindings().addAll((Collection<? extends PropertyBinding>)newValue);
 				return;
+			case EditingModelPackage.PROPERTY_BINDING__SETTINGS:
+				getSettings().clear();
+				getSettings().addAll((Collection<? extends EditorSettings>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -255,6 +287,9 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 			case EditingModelPackage.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS:
 				getSubPropertyBindings().clear();
 				return;
+			case EditingModelPackage.PROPERTY_BINDING__SETTINGS:
+				getSettings().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -273,6 +308,8 @@ public class PropertyBindingImpl extends EObjectImpl implements PropertyBinding 
 				return editor != null;
 			case EditingModelPackage.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS:
 				return subPropertyBindings != null && !subPropertyBindings.isEmpty();
+			case EditingModelPackage.PROPERTY_BINDING__SETTINGS:
+				return settings != null && !settings.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

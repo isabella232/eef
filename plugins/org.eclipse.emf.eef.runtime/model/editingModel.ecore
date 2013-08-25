@@ -52,6 +52,8 @@
         eType="#//Editor" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subPropertyBindings" upperBound="-1"
         eType="#//PropertyBinding" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="settings" upperBound="-1"
+        eType="#//EditorSettings" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavaView" eSuperTypes="#//View">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" lowerBound="1"
@@ -77,4 +79,6 @@
     <eLiterals name="GenmodelPropertyDescription"/>
     <eLiterals name="EcoreDocumentation" value="1"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EditorSettings" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EditorFilter" eSuperTypes="#//EditorSettings query.ecore#//Filter"/>
 </ecore:EPackage>

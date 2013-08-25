@@ -98,6 +98,15 @@ public interface EditingModelFactory extends EFactory {
 	EditingOptions createEditingOptions();
 
 	/**
+	 * Returns a new object of class '<em>Editor Filter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Editor Filter</em>'.
+	 * @generated
+	 */
+	EditorFilter createEditorFilter();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

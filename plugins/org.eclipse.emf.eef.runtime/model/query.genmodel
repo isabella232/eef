@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.eef.runtime/src-gen"
+    editDirectory="/org.eclipse.emf.eef.editor/src-gen" editorDirectory="/org.eclipse.emf.eef.editor/src-gen"
+    modelPluginID="org.eclipse.emf.eef.runtime" modelName="Query" editPluginClass="org.eclipse.emf.eef.editor.EditingModelEditPlugin"
+    editorPluginClass="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
+    copyrightFields="false" runtimeVersion="2.6">
+  <foreignModel>query.ecore</foreignModel>
+  <genPackages prefix="Query" basePackage="org.eclipse.emf.eef.runtime" disposableProviderFactory="true"
+      ecorePackage="query.ecore#/">
+    <genClasses image="false" ecoreClass="query.ecore#//Query">
+      <genTypeParameters ecoreTypeParameter="query.ecore#//Query/TYPE"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference query.ecore#//Query/body"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="query.ecore#//Body">
+      <genTypeParameters ecoreTypeParameter="query.ecore#//Body/TYPE"/>
+    </genClasses>
+    <genClasses ecoreClass="query.ecore#//JavaBody">
+      <genTypeParameters ecoreTypeParameter="query.ecore#//JavaBody/TYPE"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute query.ecore#//JavaBody/package"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute query.ecore#//JavaBody/class"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute query.ecore#//JavaBody/method"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute query.ecore#//JavaBody/static"/>
+    </genClasses>
+    <genClasses ecoreClass="query.ecore#//Filter"/>
+    <genClasses ecoreClass="query.ecore#//Navigation"/>
+  </genPackages>
+</genmodel:GenModel>

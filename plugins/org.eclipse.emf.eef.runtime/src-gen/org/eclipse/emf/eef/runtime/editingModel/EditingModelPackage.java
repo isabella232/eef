@@ -266,13 +266,22 @@ public interface EditingModelPackage extends EPackage {
 	int PROPERTY_BINDING__SUB_PROPERTY_BINDINGS = 2;
 
 	/**
+	 * The feature id for the '<em><b>Settings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_BINDING__SETTINGS = 3;
+
+	/**
 	 * The number of structural features of the '<em>Property Binding</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_BINDING_FEATURE_COUNT = 3;
+	int PROPERTY_BINDING_FEATURE_COUNT = 4;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' attribute.
@@ -405,6 +414,53 @@ public interface EditingModelPackage extends EPackage {
 	int EDITING_OPTIONS_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.EditorSettings <em>Editor Settings</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditorSettings
+	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEditorSettings()
+	 * @generated
+	 */
+	int EDITOR_SETTINGS = 10;
+
+	/**
+	 * The number of structural features of the '<em>Editor Settings</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_SETTINGS_FEATURE_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EditorFilterImpl <em>Editor Filter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditorFilterImpl
+	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEditorFilter()
+	 * @generated
+	 */
+	int EDITOR_FILTER = 11;
+
+	/**
+	 * The feature id for the '<em><b>Body</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_FILTER__BODY = EDITOR_SETTINGS_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Editor Filter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_FILTER_FEATURE_COUNT = EDITOR_SETTINGS_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider <em>Feature Documentation Provider</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -412,7 +468,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getFeatureDocumentationProvider()
 	 * @generated
 	 */
-	int FEATURE_DOCUMENTATION_PROVIDER = 10;
+	int FEATURE_DOCUMENTATION_PROVIDER = 12;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel <em>Properties Editing Model</em>}'.
@@ -618,6 +674,17 @@ public interface EditingModelPackage extends EPackage {
 	EReference getPropertyBinding_SubPropertyBindings();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSettings <em>Settings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Settings</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSettings()
+	 * @see #getPropertyBinding()
+	 * @generated
+	 */
+	EReference getPropertyBinding_Settings();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.EObjectView <em>EObject View</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -700,6 +767,26 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getEditingOptions_FeatureDocumentationProvider();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.EditorSettings <em>Editor Settings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Editor Settings</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditorSettings
+	 * @generated
+	 */
+	EClass getEditorSettings();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.EditorFilter <em>Editor Filter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Editor Filter</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditorFilter
+	 * @generated
+	 */
+	EClass getEditorFilter();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider <em>Feature Documentation Provider</em>}'.
@@ -898,6 +985,14 @@ public interface EditingModelPackage extends EPackage {
 		EReference PROPERTY_BINDING__SUB_PROPERTY_BINDINGS = eINSTANCE.getPropertyBinding_SubPropertyBindings();
 
 		/**
+		 * The meta object literal for the '<em><b>Settings</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROPERTY_BINDING__SETTINGS = eINSTANCE.getPropertyBinding_Settings();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EObjectViewImpl <em>EObject View</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -968,6 +1063,26 @@ public interface EditingModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EDITING_OPTIONS__FEATURE_DOCUMENTATION_PROVIDER = eINSTANCE.getEditingOptions_FeatureDocumentationProvider();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.EditorSettings <em>Editor Settings</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.eef.runtime.editingModel.EditorSettings
+		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEditorSettings()
+		 * @generated
+		 */
+		EClass EDITOR_SETTINGS = eINSTANCE.getEditorSettings();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EditorFilterImpl <em>Editor Filter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditorFilterImpl
+		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEditorFilter()
+		 * @generated
+		 */
+		EClass EDITOR_FILTER = eINSTANCE.getEditorFilter();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider <em>Feature Documentation Provider</em>}' enum.

@@ -258,6 +258,29 @@ public class EditingModelItemProviderAdapterFactory extends EditingModelAdapterF
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.eef.runtime.editingModel.EditorFilter} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EditorFilterItemProvider editorFilterItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EditorFilter}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createEditorFilterAdapter() {
+		if (editorFilterItemProvider == null) {
+			editorFilterItemProvider = new EditorFilterItemProvider(this);
+		}
+
+		return editorFilterItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -370,6 +393,7 @@ public class EditingModelItemProviderAdapterFactory extends EditingModelAdapterF
 		if (javaEditorItemProvider != null) javaEditorItemProvider.dispose();
 		if (eObjectEditorItemProvider != null) eObjectEditorItemProvider.dispose();
 		if (editingOptionsItemProvider != null) editingOptionsItemProvider.dispose();
+		if (editorFilterItemProvider != null) editorFilterItemProvider.dispose();
 	}
 
 }

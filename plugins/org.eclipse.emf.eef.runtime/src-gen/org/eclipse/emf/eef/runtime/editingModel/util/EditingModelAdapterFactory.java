@@ -11,6 +11,8 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.editingModel.*;
+import org.eclipse.emf.eef.runtime.query.Filter;
+import org.eclipse.emf.eef.runtime.query.Query;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
@@ -118,6 +120,22 @@ public class EditingModelAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseEditingOptions(EditingOptions object) {
 				return createEditingOptionsAdapter();
+			}
+			@Override
+			public Adapter caseEditorSettings(EditorSettings object) {
+				return createEditorSettingsAdapter();
+			}
+			@Override
+			public Adapter caseEditorFilter(EditorFilter object) {
+				return createEditorFilterAdapter();
+			}
+			@Override
+			public <TYPE> Adapter caseQuery(Query<TYPE> object) {
+				return createQueryAdapter();
+			}
+			@Override
+			public Adapter caseFilter(Filter object) {
+				return createFilterAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -276,6 +294,62 @@ public class EditingModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEditingOptionsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.EditorSettings <em>Editor Settings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditorSettings
+	 * @generated
+	 */
+	public Adapter createEditorSettingsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.EditorFilter <em>Editor Filter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditorFilter
+	 * @generated
+	 */
+	public Adapter createEditorFilterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.query.Query <em>Query</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.eef.runtime.query.Query
+	 * @generated
+	 */
+	public Adapter createQueryAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.query.Filter <em>Filter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.eef.runtime.query.Filter
+	 * @generated
+	 */
+	public Adapter createFilterAdapter() {
 		return null;
 	}
 

@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getEditor <em>Editor</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSubPropertyBindings <em>Sub Property Bindings</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSettings <em>Settings</em>}</li>
  * </ul>
  * </p>
  *
@@ -96,5 +97,21 @@ public interface PropertyBinding extends EObject {
 	 * @generated
 	 */
 	EList<PropertyBinding> getSubPropertyBindings();
+
+	/**
+	 * Returns the value of the '<em><b>Settings</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.eef.runtime.editingModel.EditorSettings}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Settings</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Settings</em>' containment reference list.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertyBinding_Settings()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<EditorSettings> getSettings();
 
 } // PropertyBinding
