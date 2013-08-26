@@ -380,7 +380,7 @@ public class BindingsEditingPage extends FormPage {
 	}
 
 	private void createBindingSettingsSectionContents(FormToolkit toolkit, Composite bindingSettingsContainer) {
-		bindingSettingsViewer = new MultiEEFViewer(bindingSettingsContainer, SWT.NONE);
+		bindingSettingsViewer = new MultiEEFViewer(bindingSettingsContainer, SWT.BORDER);
 		bindingSettingsViewer.setContentProvider(new EEFContentProvider());
 		bindingSettingsViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 		bindingSettingsViewer.setSelectionInterpreter(new SelectionInterpreter() {

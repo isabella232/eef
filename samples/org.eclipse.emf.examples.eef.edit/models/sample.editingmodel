@@ -5,6 +5,10 @@
       <eClass href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
     </bindings>
+    <bindings>
+      <eClass href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
+    </bindings>
     <involvedModels href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.genmodel#/"/>
     <involvedModels href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#/"/>
   </eef-model:PropertiesEditingModel>
@@ -16,7 +20,14 @@
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
         </elements>
       </elements>
+      <elements xsi:type="eef-views:ElementEditor" name="Place">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+      </elements>
+      <elements xsi:type="eef-views:Container"/>
     </views>
     <views name="Participant"/>
+    <views name="View3"/>
+    <views name="View4"/>
+    <views name="View5"/>
   </eef-views:ViewsRepository>
 </xmi:XMI>

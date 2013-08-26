@@ -13,7 +13,6 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
-import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.internal.binding.settings.AbstractEEFBindingSettings;
@@ -82,11 +81,10 @@ public class PropertiesEditingComponentImpl implements PropertiesEditingComponen
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingModelEnvironment()
-	 * @processing
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getBindingSettings()
 	 */
-	public EditingModelEnvironment getEditingModelEnvironment() {
-		return bindingSettings.getEditingModelEnvironment();
+	public EEFBindingSettings getBindingSettings() {
+		return bindingSettings;
 	}
 
 	/**

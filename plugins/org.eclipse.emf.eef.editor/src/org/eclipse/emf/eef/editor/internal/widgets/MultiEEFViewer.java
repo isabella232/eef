@@ -42,7 +42,7 @@ public class MultiEEFViewer extends ContentViewer {
 		GridData layoutData = new GridData(GridData.FILL_VERTICAL);
 		layoutData.widthHint = UIConstants.WIDTH_HINT;
 		selection.getControl().setLayoutData(layoutData);
-		viewer = new EEFViewer(control, SWT.NONE);
+		viewer = new EEFViewer(control, style);
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 		control.setWeights(new int[] { 0, 100});
 		

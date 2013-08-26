@@ -94,7 +94,7 @@ public abstract class ViewServiceImpl implements ViewService {
 		if (feature != null) {
 			EditingOptions options = editingComponent.getBinding().getEditingModel().getOptions();
 			if (options == null || options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.GENMODEL_PROPERTY_DESCRIPTION) {
-				EditingModelEnvironment editingModelEnvironment = editingComponent.getEditingModelEnvironment();
+				EditingModelEnvironment editingModelEnvironment = editingComponent.getBindingSettings().getEditingModelEnvironment();
 				EObject genFeature = editingModelEnvironment.genFeature(feature);
 				if (genFeature != null) {
 					EStructuralFeature esf = genFeature.eClass().getEStructuralFeature("propertyDescription");

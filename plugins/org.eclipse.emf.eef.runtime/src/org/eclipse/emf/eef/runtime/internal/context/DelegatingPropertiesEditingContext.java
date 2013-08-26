@@ -67,6 +67,14 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getParentContext()
+	 */
+	public PropertiesEditingContext getParentContext() {
+		return delegatingContext.getParentContext();
+	}
+
+	/**
 	 * @return
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingComponent()
 	 */

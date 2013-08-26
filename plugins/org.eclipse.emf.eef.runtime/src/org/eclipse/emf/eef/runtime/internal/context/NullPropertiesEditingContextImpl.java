@@ -67,6 +67,14 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getParentContext()
+	 */
+	public PropertiesEditingContext getParentContext() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingComponent()
 	 */
 	public PropertiesEditingComponent getEditingComponent() {

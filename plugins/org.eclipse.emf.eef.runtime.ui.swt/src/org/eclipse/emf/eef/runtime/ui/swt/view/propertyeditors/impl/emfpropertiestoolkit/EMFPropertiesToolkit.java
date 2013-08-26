@@ -9,6 +9,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emf
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor.EReferencePropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilderProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
@@ -32,7 +33,9 @@ public class EMFPropertiesToolkit extends EEFToolkitImpl<Composite> {
 	}
 	
 	private EditUIProvidersFactory editUIProvidersFactory;
-	private ImageManager imageManager; 
+	private ViewerFilterBuilderProvider viewerFilterBuilderProvider; 
+	private ImageManager imageManager;
+
 	
 	/**
 	 * @return the editUIProvidersFactory
@@ -46,6 +49,20 @@ public class EMFPropertiesToolkit extends EEFToolkitImpl<Composite> {
 	 */
 	public final void setEditUIProvidersFactory(EditUIProvidersFactory editUIProvidersFactory) {
 		this.editUIProvidersFactory = editUIProvidersFactory;
+	}
+
+	/**
+	 * @return the viewerFilterBuilderProvider
+	 */
+	public ViewerFilterBuilderProvider getViewerFilterBuilderProvider() {
+		return viewerFilterBuilderProvider;
+	}
+
+	/**
+	 * @param viewerFilterBuilderProvider the viewerFilterBuilderProvider to set
+	 */
+	public void setViewerFilterBuilderProvider(ViewerFilterBuilderProvider viewerFilterBuilderProvider) {
+		this.viewerFilterBuilderProvider = viewerFilterBuilderProvider;
 	}
 
 	/**

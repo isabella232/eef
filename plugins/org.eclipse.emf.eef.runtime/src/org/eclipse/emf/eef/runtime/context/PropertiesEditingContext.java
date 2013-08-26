@@ -35,6 +35,11 @@ public interface PropertiesEditingContext {
 	 * @return the {@link ViewHandlerProvider} to use in the current context.
 	 */
 	ViewHandlerProvider getViewHandlerProvider();
+	
+	/**
+	 * @return the parent context of the current {@link PropertiesEditingContext}.
+	 */
+	PropertiesEditingContext getParentContext();
 
 	/**
 	 * Returns a {@link PropertiesEditingComponent} binding the edited model element.
