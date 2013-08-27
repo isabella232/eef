@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor;
+package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.singlecontainmenteditor;
 
 import java.util.Collection;
 
@@ -26,12 +26,12 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleLinePropertyViewer> implements FilterablePropertyEditor {
+public class SingleContainmentFormPropertyEditor extends StandardFormPropertyEditor<SingleLinePropertyViewer> implements FilterablePropertyEditor {
 
 	private EditUIProvidersFactory editUIProvidersFactory;
 	private ImageManager imageManager;
 	
-	private FormSingleLinePropertyViewer eComboEditor;
+	private FormSingleLinePropertyViewer singleContainmentEditor;
 
 	private Collection<ViewerFilter> filters;
 
@@ -41,7 +41,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 	 * @param view
 	 * @param elementEditor
 	 */
-	public EComboFormPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+	public SingleContainmentFormPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
 		this.editUIProvidersFactory = editUIProvidersFactory;
 		this.imageManager = imageManager;
@@ -53,7 +53,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public FormSingleLinePropertyViewer getViewer() {
-		return eComboEditor;
+		return singleContainmentEditor;
 	}
 
 	/**
@@ -62,13 +62,13 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 	 */
 	@Override
 	protected void createEditorContents(FormToolkit toolkit, Composite parent) {
-		eComboEditor = new FormSingleLinePropertyViewer(toolkit, parent, SWT.BORDER);
+		singleContainmentEditor = new FormSingleLinePropertyViewer(toolkit, parent, SWT.BORDER);
 		PropertiesEditingContext editingContext = view.getEditingComponent().getEditingContext();
-		eComboEditor.setLabelProvider(editUIProvidersFactory.createLabelProvider(editingContext.getAdapterFactory()));
-		eComboEditor.setImageManager(imageManager);
-		eComboEditor.createContents();
+		singleContainmentEditor.setLabelProvider(editUIProvidersFactory.createLabelProvider(editingContext.getAdapterFactory()));
+		singleContainmentEditor.setImageManager(imageManager);
+		singleContainmentEditor.createContents();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
-		eComboEditor.getControl().setLayoutData(layoutData);
+		singleContainmentEditor.getControl().setLayoutData(layoutData);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 	 */
 	@Override
 	public void lock() {
-		eComboEditor.setLocked(true);
+		singleContainmentEditor.setLocked(true);
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 	 */
 	@Override
 	public void unlock() {
-		eComboEditor.setLocked(false);
+		singleContainmentEditor.setLocked(false);
 	}
 
 }

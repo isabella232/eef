@@ -277,8 +277,8 @@ public class BindingsEditingPage extends FormPage {
 		bindingSettingsContainer.setLayout(new GridLayout(1, false));
 		createBindingSettingsSectionContents(toolkit, bindingSettingsContainer);
 		EditingDomain editingDomain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
-		add.addSelectionListener(new AddBindingAdapter(emfService, selectionService, editingDomain, adapterFactory, metamodelViewer, bindingSettingsViewer));
-		remove.addSelectionListener(new DeleteBindingAdapter(selectionService, editingDomain, metamodelViewer, bindingSettingsViewer));
+		add.addSelectionListener(new AddBindingAdapter(editingDomain, adapterFactory));
+		remove.addSelectionListener(new DeleteBindingAdapter(editingDomain));
 		bindingSettingsSection.setClient(bindingSettingsContainer);
 		return bindingSettingsSection;
 	}
@@ -542,22 +542,12 @@ public class BindingsEditingPage extends FormPage {
 	
 	private class AddBindingAdapter extends SelectionAdapter {
 
-		private EMFService emfService;
-		private SelectionService selectionService;
-		
 		private EditingDomain editingDomain;
 		private AdapterFactory adapterFactory;
-		
-		private Viewer metamodelViewer;
-		private MultiEEFViewer bindingSettingsViewer;
-		
-		public AddBindingAdapter(EMFService emfService, SelectionService selectionService, EditingDomain editingDomain, AdapterFactory adapterFactory, Viewer metamodelViewer, MultiEEFViewer bindingSettingsViewer) {
-			this.emfService = emfService;
-			this.selectionService = selectionService;
+				
+		public AddBindingAdapter(EditingDomain editingDomain, AdapterFactory adapterFactory) {
 			this.editingDomain = editingDomain;
 			this.adapterFactory = adapterFactory;
-			this.metamodelViewer = metamodelViewer;
-			this.bindingSettingsViewer = bindingSettingsViewer;
 		}
 
 		/**
@@ -588,24 +578,10 @@ public class BindingsEditingPage extends FormPage {
 	
 	private class DeleteBindingAdapter extends SelectionAdapter {
 
-		private SelectionService selectionService;
-
 		private EditingDomain editingDomain;
 		
-		private Viewer metamodelViewer;
-		private MultiEEFViewer bindingSettingsViewer;
-		
-		/**
-		 * @param selectionService
-		 * @param editingDomain
-		 * @param metamodelViewer
-		 * @param bindingSettingsViewer
-		 */
-		public DeleteBindingAdapter(SelectionService selectionService, EditingDomain editingDomain, Viewer metamodelViewer, MultiEEFViewer bindingSettingsViewer) {
-			this.selectionService = selectionService;
+		public DeleteBindingAdapter(EditingDomain editingDomain) {
 			this.editingDomain = editingDomain;
-			this.metamodelViewer = metamodelViewer;
-			this.bindingSettingsViewer = bindingSettingsViewer;
 		}
 
 

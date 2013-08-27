@@ -51,13 +51,15 @@ public class EditingViewNotifier implements EEFNotifier {
 		if (view instanceof PropertiesEditingView) {
 			@SuppressWarnings("unchecked")
 			PropertiesEditingView<Composite> editingView = (PropertiesEditingView<Composite>) view;
-			if (notification instanceof EEFPropertyNotification) {
-				if (editingView.getViewService() instanceof SWTViewService) {
-					((SWTViewService) editingView.getViewService()).executeAsyncUIRunnable(editingView.getContents().getDisplay(), new AddDecorationOnEditor(editingView, (EEFPropertyNotification) notification));
-				}
-			} else {
-				if (editingView.getViewService() instanceof SWTViewService) {
-					((SWTViewService) editingView.getViewService()).executeAsyncUIRunnable(editingView.getContents().getDisplay(), new AddDecorationOnView(editingView, notification));
+			if (!editingView.getContents().isDisposed()) {
+				if (notification instanceof EEFPropertyNotification) {
+					if (editingView.getViewService() instanceof SWTViewService) {
+						((SWTViewService) editingView.getViewService()).executeAsyncUIRunnable(editingView.getContents().getDisplay(), new AddDecorationOnEditor(editingView, (EEFPropertyNotification) notification));
+					}
+				} else {
+					if (editingView.getViewService() instanceof SWTViewService) {
+						((SWTViewService) editingView.getViewService()).executeAsyncUIRunnable(editingView.getContents().getDisplay(), new AddDecorationOnView(editingView, notification));
+					}
 				}
 			}
 		}
@@ -71,7 +73,7 @@ public class EditingViewNotifier implements EEFNotifier {
 		if (view instanceof PropertiesEditingView) {
 			@SuppressWarnings("unchecked")
 			PropertiesEditingView<Composite> editingView = (PropertiesEditingView<Composite>) view;
-			if (editingView.getViewService() instanceof SWTViewService) {
+			if (!editingView.getContents().isDisposed() && editingView.getViewService() instanceof SWTViewService) {
 				((SWTViewService) editingView.getViewService()).executeAsyncUIRunnable(editingView.getContents().getDisplay(), new RemoveDecorationOnView(editingView));
 			}
 		}
@@ -86,7 +88,7 @@ public class EditingViewNotifier implements EEFNotifier {
 			@SuppressWarnings("unchecked")
 			PropertiesEditingView<Composite> editingView = (PropertiesEditingView<Composite>) view;
 			if (editor instanceof ViewElement) {
-				if (editingView.getViewService() instanceof SWTViewService) {
+				if (!editingView.getContents().isDisposed() && editingView.getViewService() instanceof SWTViewService) {
 					((SWTViewService) editingView.getViewService()).executeAsyncUIRunnable(editingView.getContents().getDisplay(), new RemoveDecorationOnEditor(editingView, (ViewElement) editor));
 				}
 			}

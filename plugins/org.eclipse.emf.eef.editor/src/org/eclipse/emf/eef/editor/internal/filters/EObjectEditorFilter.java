@@ -58,7 +58,24 @@ public class EObjectEditorFilter {
 			if (context.getEditingComponent().getEObject() instanceof EClassBinding) {
 				return (EClassBinding) context.getEditingComponent().getEObject();
 			} else {
-				context = context.getParentContext();
+				EClassBinding bindingFromAncestors = findBindingInAncestors(context.getEditingComponent().getEObject());
+				if (bindingFromAncestors != null) {
+					return bindingFromAncestors;
+				} else {
+					context = context.getParentContext();
+				}
+			}
+		}
+		return null;
+	}
+	
+	private EClassBinding findBindingInAncestors(EObject root) {
+		EObject parent = root;
+		while (parent != null) {
+			if (parent instanceof EClassBinding) {
+				return (EClassBinding) parent;
+			} else {
+				parent = parent.eContainer();
 			}
 		}
 		return null;
