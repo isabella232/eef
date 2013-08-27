@@ -44,6 +44,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
@@ -53,6 +54,8 @@ import org.eclipse.emf.eef.runtime.util.EEFEditingService;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -448,7 +451,7 @@ public class BindingsEditingPage extends FormPage {
 		assert bindingSettingsActions.getItemCount() == 2:"Bad toolbar configuration.";
 		ToolItem add = bindingSettingsActions.getItem(0);
 		ToolItem delete = bindingSettingsActions.getItem(1);
-		if (selection instanceof EClass) {
+		if (selection instanceof EClass || ((selection instanceof EStructuralFeature) && findCurrentEClassBinding() != null)) {
 			add.setEnabled(true);
 			Collection<EObject> referencingEEFElement = eefEditingService.referencingEEFElement(selection);
 			if (referencingEEFElement.size() > 0) {
@@ -466,10 +469,44 @@ public class BindingsEditingPage extends FormPage {
 		selectionBroker = new SelectionBroker(selectionService, viewerService, metamodelViewer, bindingSettingsViewer);
 	}
 
+	/**
+	 * @return
+	 */
+	private EClassBinding findCurrentEClassBinding() {
+		EClassBinding editedBinding = null;
+		EClass currentClass = findCurrentEClass();
+		if (currentClass != null) {
+			Collection<EObject> referencingEEFElement = eefEditingService.referencingEEFElement(currentClass);
+			if (referencingEEFElement.size() > 0) {
+				editedBinding = (EClassBinding) referencingEEFElement.iterator().next();
+			}
+		}
+		return editedBinding;
+	}
+	
+	private EClass findCurrentEClass() {
+		ISelection metamodelSelection = metamodelViewer.getSelection();
+		if (metamodelSelection instanceof TreeSelection) {
+			TreePath[] paths = ((TreeSelection) metamodelSelection).getPaths();
+			if (paths.length > 0) {
+				TreePath selectionPath = paths[0];
+				for (int i = selectionPath.getSegmentCount() - 1; i >= 0 ; i--) {
+					Object segment = selectionPath.getSegment(i);
+					if (segment instanceof EClass) {
+						return (EClass) segment;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	private final class SelectionBroker implements ISelectionChangedListener {
 
 		private static final String BINDING_VIEW_ID = "editingModel::Binding";
 		private static final String BINDING_E_CLASS_EDITOR_ID = "editingModel::Binding::eClass";
+		private static final String PROPERTY_VIEW_ID = "editingModel::Property Binding";
+		private static final String BINDING_FEATURE_EDITOR_ID = "editingModel::Property Binding::feature";
 
 		private SelectionService selectionService;
 		private ViewerService viewerService;
@@ -505,6 +542,7 @@ public class BindingsEditingPage extends FormPage {
 				PropertiesEditingComponent editingComponent = ((PropertiesEditingContext) input).getEditingComponent();
 				ViewLockingSettings lockingSettings = ViewLockingSettings.builder()
 																			.addLockSettings(BINDING_VIEW_ID, BINDING_E_CLASS_EDITOR_ID)
+																			.addLockSettings(PROPERTY_VIEW_ID, BINDING_FEATURE_EDITOR_ID)
 																			.build();
 				viewerService.lockEditors(editingComponent, lockingSettings);
 			}
@@ -557,9 +595,9 @@ public class BindingsEditingPage extends FormPage {
 		@Override
 		public void widgetSelected(SelectionEvent e) {
 			EObject selection = selectionService.unwrapSelection(metamodelViewer.getSelection());
-			PropertiesEditingModel editedModel = emfService.findEditedEditingModel(editingDomain.getResourceSet());
-			if (editedModel != null) {
-				if (selection instanceof EClass) {
+			if (selection instanceof EClass) {
+				PropertiesEditingModel editedModel = emfService.findEditedEditingModel(editingDomain.getResourceSet());
+				if (editedModel != null) {
 					EClassBinding binding = EditingModelFactory.eINSTANCE.createEClassBinding();
 					binding.setEClass((EClass) selection);
 					IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(editedModel, IEditingDomainItemProvider.class);
@@ -568,10 +606,24 @@ public class BindingsEditingPage extends FormPage {
 					EObject eObj = selectionService.unwrapSelection(metamodelViewer.getSelection());
 					updateBindingSettingsActionsState(eObj);
 					refreshPageLayout();
+				} else {
+					// TODO: log error, I'm unable to find the editingModel!!
 				}
-			} else {
-				// TODO: log error, I'm unable to find the editingModel!!
+			} else if (selection instanceof EStructuralFeature) {
+				EClassBinding editedBinding = findCurrentEClassBinding();
+				EStructuralFeature structuralFeature = (EStructuralFeature) selection;
+				if (editedBinding != null) {
+					PropertyBinding binding = EditingModelFactory.eINSTANCE.createPropertyBinding();
+					binding.setFeature(structuralFeature);
+					IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(editedBinding, IEditingDomainItemProvider.class);						
+					Command cmd = provider.createCommand(editedBinding, editingDomain, AddCommand.class , new CommandParameter(editedBinding, EditingModelPackage.Literals.ECLASS_BINDING__PROPERTY_BINDINGS, Lists.newArrayList(binding)));
+					editingDomain.getCommandStack().execute(cmd);
+					EObject eObj = selectionService.unwrapSelection(metamodelViewer.getSelection());
+					updateBindingSettingsActionsState(eObj);
+					refreshPageLayout();
+				}
 			}
+
 		}
 		
 	}
@@ -593,7 +645,7 @@ public class BindingsEditingPage extends FormPage {
 		public void widgetSelected(SelectionEvent e) {
 			ISelection selection = bindingSettingsViewer.getSelection();
 			if (selection != null && !selection.isEmpty()) {
-				EClassBinding binding = selectionService.unwrapSelection(selection);
+				EObject binding = selectionService.unwrapSelection(selection);
 				Command cmd = editingDomain.createCommand(DeleteCommand.class, new CommandParameter(null, null, Lists.newArrayList(binding)));
 				editingDomain.getCommandStack().execute(cmd);
 				EObject eObj = selectionService.unwrapSelection(metamodelViewer.getSelection());
