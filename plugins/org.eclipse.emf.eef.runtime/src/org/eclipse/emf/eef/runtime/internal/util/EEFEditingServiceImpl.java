@@ -53,7 +53,14 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 	 */
 	public boolean isAddingInContainmentEvent(PropertiesEditingContext context, PropertiesEditingEvent editingEvent) {
 		EStructuralFeature feature = context.getEditingComponent().getBinding().feature(editingEvent.getAffectedEditor(), context.getOptions().autowire());
-		return feature != null && feature instanceof EReference && ((EReference)feature).isContainment() && editingEvent.getNewValue() == null && editingEvent.getEventType() == PropertiesEditingEvent.ADD;
+		return feature != null 
+				&& feature instanceof EReference 
+				&& ((EReference)feature).isContainment() 
+				&& editingEvent.getNewValue() == null 
+				&& (
+						((editingEvent.getEventType() == PropertiesEditingEvent.ADD) && feature.isMany())
+						|| ((editingEvent.getEventType() == PropertiesEditingEvent.SET) && !feature.isMany())
+					);
 	}
 
 	/**

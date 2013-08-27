@@ -7,6 +7,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emf
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor.EContainmentPropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker.EDatePickerPropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor.EReferencePropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.singlecontainmentcomboeditor.SingleContainmentPropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilderProvider;
@@ -86,7 +87,8 @@ public class EMFPropertiesToolkit extends EEFToolkitImpl<Composite> {
 		addPropertyEditorFactory(new EReferencePropertyEditorFactory(this))
 			.addPropertyEditorFactory(new EComboPropertyEditorFactory(this))
 			.addPropertyEditorFactory(new EContainmentPropertyEditorFactory(this))
-			.addPropertyEditorFactory(new EDatePickerPropertyEditorFactory(this));
+			.addPropertyEditorFactory(new EDatePickerPropertyEditorFactory(this))
+			.addPropertyEditorFactory(new SingleContainmentPropertyEditorFactory(this));
 	}
 
 	/**
