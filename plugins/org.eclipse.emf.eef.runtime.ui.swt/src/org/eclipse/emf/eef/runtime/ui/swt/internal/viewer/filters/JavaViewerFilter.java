@@ -15,8 +15,10 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.query.Filter;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.util.ReflectService;
 import org.eclipse.emf.eef.runtime.util.ReflectServiceProvider;
@@ -34,22 +36,16 @@ import com.google.common.collect.Lists;
 public class JavaViewerFilter extends ViewerFilter {
 	
 	private ReflectServiceProvider reflectServiceProvider;
+	private EEFLogger logger;
 	
 	private Bundle bundle;
 	private Filter filter;
 	private PropertiesEditingContext editingContext;
 	private PropertiesEditingView<Composite> editingView;
 
-	
-	/**
-	 * @param reflectServiceProvider 
-	 * @param editingContext 
-	 * @param editingView 
-	 * @param bundle
-	 * @param filter
-	 */
-	public JavaViewerFilter(ReflectServiceProvider reflectServiceProvider, PropertiesEditingContext editingContext, PropertiesEditingView<Composite> editingView, Bundle bundle, Filter filter) {
+	public JavaViewerFilter(ReflectServiceProvider reflectServiceProvider, EEFLogger logger, PropertiesEditingContext editingContext, PropertiesEditingView<Composite> editingView, Bundle bundle, Filter filter) {
 		this.reflectServiceProvider = reflectServiceProvider;
+		this.logger = logger;
 		this.editingContext = editingContext;
 		this.editingView = editingView;
 		this.bundle = bundle;
@@ -79,16 +75,16 @@ public class JavaViewerFilter extends ViewerFilter {
 				return invocationResult;
 			}
 		} catch (ClassNotFoundException e) {
-			return true;
-		} catch (SecurityException e) {
-			return true;
-		} catch (IllegalArgumentException e) {
+			logger.logError(EEFRuntimeUISWT.PLUGIN_ID, "Unable to load the class " + qualifiedClass, e);
 			return true;
 		} catch (IllegalAccessException e) {
+			logger.logError(EEFRuntimeUISWT.PLUGIN_ID, "Unable to create a new instance of the class " + qualifiedClass, e);
 			return true;
 		} catch (InvocationTargetException e) {
+			logger.logError(EEFRuntimeUISWT.PLUGIN_ID, "Unable to execute the method " + body.getMethod() + " of the class " + qualifiedClass, e);
 			return true;
 		} catch (InstantiationException e) {
+			logger.logError(EEFRuntimeUISWT.PLUGIN_ID, "Unable to create a new instance of the class " + qualifiedClass, e);
 			return true;
 		}
 		return true;

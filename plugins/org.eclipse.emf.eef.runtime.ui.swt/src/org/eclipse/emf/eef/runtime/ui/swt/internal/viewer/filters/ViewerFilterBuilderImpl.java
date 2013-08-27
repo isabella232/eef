@@ -11,6 +11,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.internal.viewer.filters;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.query.Filter;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
@@ -29,6 +30,7 @@ import org.osgi.framework.FrameworkUtil;
 public class ViewerFilterBuilderImpl implements ViewerFilterBuilder, DefaultService {
 
 	private ReflectServiceProvider reflectServiceProvider;
+	private EEFLogger logger;
 	
 	private ViewerFilter nullViewerFilter;
 
@@ -48,12 +50,19 @@ public class ViewerFilterBuilderImpl implements ViewerFilterBuilder, DefaultServ
 	}
 
 	/**
+	 * @param logger the logger to set
+	 */
+	public void setLogger(EEFLogger logger) {
+		this.logger = logger;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilder#buildFilter(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.query.Filter)
 	 */
 	public ViewerFilter buildFilter(PropertiesEditingContext editingContext, PropertiesEditingView<Composite> editingView, Filter filter) {
 		if (filter.getBody() instanceof JavaBody<?>) {
-			return new JavaViewerFilter(reflectServiceProvider, editingContext, editingView, FrameworkUtil.getBundle(editingContext.getEditingComponent().getBindingSettings().getClass()), filter);
+			return new JavaViewerFilter(reflectServiceProvider, logger, editingContext, editingView, FrameworkUtil.getBundle(editingContext.getEditingComponent().getBindingSettings().getClass()), filter);
 		}
 		return getNullViewerFilter();
 	}
