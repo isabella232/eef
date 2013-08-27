@@ -6,7 +6,7 @@
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/name"/>
-        <editor xsi:type="eef-model:EObjectEditor"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.0"/>
       </propertyBindings>
     </bindings>
     <bindings>
