@@ -8,12 +8,14 @@ import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.CommandParameter;
@@ -198,6 +200,26 @@ public class BindingsEditingPage extends FormPage {
 			public void selectionChanged(SelectionChangedEvent event) {
 				refreshPageLayout();
 			}
+		});
+		((IEditingDomainProvider)getEditor()).getEditingDomain().getResourceSet().eAdapters().add(new EContentAdapter() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.ecore.util.EContentAdapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+			 */
+			@Override
+			public void notifyChanged(Notification notification) {
+				super.notifyChanged(notification);
+				metamodelViewer.getControl().getDisplay().asyncExec(new Runnable() {
+					
+					public void run() {
+						metamodelViewer.refresh();
+						bindingSettingsViewer.refresh();
+						
+					}
+				});
+			}
+			
 		});
 	}
 
@@ -553,8 +575,6 @@ public class BindingsEditingPage extends FormPage {
 					IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(editedModel, IEditingDomainItemProvider.class);
 					Command cmd = provider.createCommand(editedModel, editingDomain, AddCommand.class , new CommandParameter(editedModel, EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__BINDINGS, Lists.newArrayList(binding)));
 					editingDomain.getCommandStack().execute(cmd);
-					metamodelViewer.refresh();
-					bindingSettingsViewer.refresh();
 					EObject eObj = selectionService.unwrapSelection(metamodelViewer.getSelection());
 					updateBindingSettingsActionsState(eObj);
 					refreshPageLayout();
@@ -600,8 +620,6 @@ public class BindingsEditingPage extends FormPage {
 				EClassBinding binding = selectionService.unwrapSelection(selection);
 				Command cmd = editingDomain.createCommand(DeleteCommand.class, new CommandParameter(null, null, Lists.newArrayList(binding)));
 				editingDomain.getCommandStack().execute(cmd);
-				metamodelViewer.refresh();
-				bindingSettingsViewer.refresh();
 				EObject eObj = selectionService.unwrapSelection(metamodelViewer.getSelection());
 				updateBindingSettingsActionsState(eObj);
 				refreshPageLayout();
