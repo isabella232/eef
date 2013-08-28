@@ -10,17 +10,23 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.editor.internal.filters;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.eef.editor.internal.filters.utils.PropertyBindingFeatureChoiceFilter;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -34,48 +40,57 @@ public class PropertyBindingFilter {
 	 * @return
 	 */
 	public boolean bindableFeature(PropertiesEditingComponent currentComponent, Notifier element) {
-		EClassBinding editedBinding = getEditedBinding(currentComponent);
-		if (editedBinding != null && editedBinding.getEClass() != null) {
-			
-			if (computeAncestors(editedBinding.getEClass()).contains(element)) {
-				return true;
-			} else if (editedBinding.getEClass().getEAllStructuralFeatures().contains(element)){
-				return true;
+		EObject editedBinding = computeContext(currentComponent);
+		if (editedBinding != null) {
+			EObject target = null;
+			if (editedBinding instanceof EClassBinding) { 
+				target = ((EClassBinding) editedBinding).getEClass();
+			} else if (editedBinding instanceof PropertyBinding) {
+				target = ((PropertyBinding) editedBinding).getFeature();
 			} else {
-				return false;
+				// What ????
+			}
+			if (target != null) {
+				PropertyBindingFeatureChoiceFilter filter = new PropertyBindingFeatureChoiceFilter(editedBinding);
+				Collection<?> reachableObjects = filter.getReachableObjects(target, EcorePackage.Literals.ECLASS__EALL_STRUCTURAL_FEATURES);
+				Collection<?> choiceOfValues = filter.filterPropertyBindingChoiceOfValues(reachableObjects);
+				if (choiceOfValues.contains(element)){
+					return true;
+				} else {
+					return computeAncestors(choiceOfValues).contains(element);
+				}
 			}
 		}
 		return true;
 	}
-	
-	
-	private EClassBinding getEditedBinding(PropertiesEditingComponent editingComponent) {
-		PropertiesEditingContext context = editingComponent.getEditingContext();
-		while (context != null) {
-			if (context.getEditingComponent().getEObject() instanceof EClassBinding) {
-				return (EClassBinding) context.getEditingComponent().getEObject();
+
+	private EObject computeContext(PropertiesEditingComponent currentComponent) {
+		EObject eObject = currentComponent.getEObject();
+		if (eObject instanceof PropertyBinding) {
+			PropertyBinding currentBinding = (PropertyBinding) eObject;
+			if (currentBinding.eContainer() != null) {
+				return currentBinding.eContainer();
 			} else {
-				EClassBinding bindingFromAncestors = findBindingInAncestors(context.getEditingComponent().getEObject());
-				if (bindingFromAncestors != null) {
-					return bindingFromAncestors;
-				} else {
-					context = context.getParentContext();
+				PropertiesEditingContext parentContext = currentComponent.getEditingContext().getParentContext();
+				while (parentContext != null) {
+					EObject eObject2 = parentContext.getEditingComponent().getEObject();
+					if (eObject2 instanceof EClassBinding || ((eObject2 instanceof PropertyBinding) && (eObject != eObject2))) {
+						return eObject2;
+					}
 				}
 			}
 		}
 		return null;
 	}
-	
-	private EClassBinding findBindingInAncestors(EObject root) {
-		EObject parent = root;
-		while (parent != null) {
-			if (parent instanceof EClassBinding) {
-				return (EClassBinding) parent;
-			} else {
-				parent = parent.eContainer();
+
+	private Set<Notifier> computeAncestors(Collection<?> values) {
+		Set<Notifier> result = Sets.newHashSet();
+		for (Object element : values) {
+			if (element instanceof Notifier) {
+				result.addAll(computeAncestors((Notifier)element));
 			}
 		}
-		return null;
+		return result;
 	}
 	
 	private List<Notifier> computeAncestors(Notifier root) {

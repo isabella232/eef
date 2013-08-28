@@ -6,8 +6,16 @@
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/name"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.1"/>
       </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/participants"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/overview"/>
+      </propertyBindings>
+    </bindings>
+    <bindings>
+      <eClass href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Session"/>
     </bindings>
     <involvedModels href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.genmodel#/"/>
     <involvedModels href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#/"/>
@@ -26,6 +34,9 @@
       <elements xsi:type="eef-views:Container"/>
     </views>
     <views name="Participant"/>
+    <views name="Sessions">
+      <elements xsi:type="eef-views:ElementEditor" name="sessions"/>
+    </views>
   </eef-views:ViewsRepository>
   <eef-model:EObjectEditor definition="/1/@views.0/@elements.1"/>
   <eef-model:EObjectEditor definition="/1/@views.0/@elements.1"/>

@@ -21,7 +21,6 @@ import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
