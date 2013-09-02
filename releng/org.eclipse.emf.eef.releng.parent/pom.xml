@@ -14,7 +14,7 @@
 
 	<groupId>org.eclipse.emf</groupId>
 	<artifactId>org.eclipse.emf.eef.releng.parent</artifactId>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>1.2.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>EEF Parent</name>
@@ -55,7 +55,7 @@
 				<repository>
 					<id>emf</id>
 					<layout>p2</layout>
-					<url>http://download.eclipse.org/modeling/emf/emf/updates/2.8milestones</url>
+					<url>http://download.eclipse.org/modeling/emf/emf/updates/2.8</url>
 				</repository>
 				<repository>
 					<id>emf-tools</id>
@@ -105,7 +105,7 @@
 				<repository>
 					<id>emf</id>
 					<layout>p2</layout>
-					<url>http://download.eclipse.org/modeling/emf/emf/updates/2.8milestones</url>
+					<url>http://download.eclipse.org/modeling/emf/emf/updates/2.8</url>
 				</repository>
 				<repository>
 					<id>emf-tools</id>
