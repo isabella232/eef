@@ -61,8 +61,7 @@ public class JavaBodyItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addPackagePropertyDescriptor(object);
-			addClassPropertyDescriptor(object);
+			addQualifiedClassPropertyDescriptor(object);
 			addMethodPropertyDescriptor(object);
 			addStaticPropertyDescriptor(object);
 		}
@@ -70,41 +69,19 @@ public class JavaBodyItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Package feature.
+	 * This adds a property descriptor for the Qualified Class feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addPackagePropertyDescriptor(Object object) {
+	protected void addQualifiedClassPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_JavaBody_package_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_JavaBody_package_feature", "_UI_JavaBody_type"),
-				 QueryPackage.Literals.JAVA_BODY__PACKAGE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Class feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addClassPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_JavaBody_class_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_JavaBody_class_feature", "_UI_JavaBody_type"),
-				 QueryPackage.Literals.JAVA_BODY__CLASS,
+				 getString("_UI_JavaBody_qualifiedClass_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_JavaBody_qualifiedClass_feature", "_UI_JavaBody_type"),
+				 QueryPackage.Literals.JAVA_BODY__QUALIFIED_CLASS,
 				 true,
 				 false,
 				 false,
@@ -172,14 +149,29 @@ public class JavaBodyItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((JavaBody<?>)object).getPackage();
-		return label == null || label.length() == 0 ?
-			getString("_UI_JavaBody_type") :
-			getString("_UI_JavaBody_type") + " " + label;
+		StringBuilder builder = new StringBuilder();
+		JavaBody<?> javaBody = (JavaBody<?>)object;
+		if (javaBody.isStatic()) {
+			builder.append("static ");
+		}
+		builder.append("method:");
+		if (javaBody.getQualifiedClass() != null && !javaBody.getQualifiedClass().isEmpty()) {
+			builder.append(javaBody.getQualifiedClass());
+		} else {
+			builder.append("???");
+		}
+		builder.append('#');
+		if (javaBody.getMethod() != null && !javaBody.getMethod().isEmpty()) {
+			builder.append(javaBody.getMethod()).append("()");
+		} else {
+			builder.append("???");
+		}
+		String label = builder.toString();
+		return label == null || label.length() == 0 ? getString("_UI_JavaBody_type") : label;
 	}
 
 	/**
@@ -194,8 +186,7 @@ public class JavaBodyItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(JavaBody.class)) {
-			case QueryPackage.JAVA_BODY__PACKAGE:
-			case QueryPackage.JAVA_BODY__CLASS:
+			case QueryPackage.JAVA_BODY__QUALIFIED_CLASS:
 			case QueryPackage.JAVA_BODY__METHOD:
 			case QueryPackage.JAVA_BODY__STATIC:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
