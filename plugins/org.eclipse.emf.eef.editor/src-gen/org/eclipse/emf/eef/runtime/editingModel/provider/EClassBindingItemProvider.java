@@ -216,10 +216,10 @@ public class EClassBindingItemProvider
 				(EditingModelPackage.Literals.ECLASS_BINDING__VIEWS,
 						EditingModelFactory.eINSTANCE.createEObjectView()));
 		
-		newChildDescriptors.add
-			(createChildParameter
-				(EditingModelPackage.Literals.ECLASS_BINDING__VIEWS,
-				 EditingModelFactory.eINSTANCE.createJavaView()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(EditingModelPackage.Literals.ECLASS_BINDING__VIEWS,
+//				 EditingModelFactory.eINSTANCE.createJavaView()));
 
 		newChildDescriptors.add
 			(createChildParameter
