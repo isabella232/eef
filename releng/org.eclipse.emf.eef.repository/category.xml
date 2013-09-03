@@ -9,6 +9,9 @@
    <feature url="features/org.eclipse.emf.eef.runtime.e3.feature_2.0.0.qualifier.jar" id="org.eclipse.emf.eef.runtime.e3.feature" version="2.0.0.qualifier">
       <category name="org.eclipse.emf.eef.runtime.category"/>
    </feature>
+   <feature url="features/org.eclipse.emf.eef.toolkit.jdt_2.0.0.qualifier.jar" id="org.eclipse.emf.eef.toolkit.jdt" version="2.0.0.qualifier">
+      <category name="org.eclipse.emf.eef.toolkits.category"/>
+   </feature>
    <category-def name="org.eclipse.emf.eef.runtime.category" label="EEF Runtime">
       <description>
          EEF Runtime related features
@@ -17,6 +20,11 @@
    <category-def name="org.eclipse.emf.eef.edt.category" label="EEF Development Tooling">
       <description>
          EEF Development Tooling feature
+      </description>
+   </category-def>
+   <category-def name="org.eclipse.emf.eef.toolkits.category" label="EEF Toolkits">
+      <description>
+         All toolkits available for EEF provided by the EEF project
       </description>
    </category-def>
 </site>
