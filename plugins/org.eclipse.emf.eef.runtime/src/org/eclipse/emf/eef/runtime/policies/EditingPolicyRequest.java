@@ -132,7 +132,7 @@ public interface EditingPolicyRequest {
 				if (value != null) {
 					return new EditingPolicyRequestImpl(processingKind, target, feature, value);
 				} if (oldIndex != null && newIndex != null) {
-					return new EditingPolicyRequestImpl(processingKind, target, feature, oldIndex, newIndex);
+					return new EditingPolicyRequestImpl(processingKind, target, feature, newIndex, oldIndex);
 				} else {
 					return new EditingPolicyRequestImpl(processingKind, target, feature);
 				}

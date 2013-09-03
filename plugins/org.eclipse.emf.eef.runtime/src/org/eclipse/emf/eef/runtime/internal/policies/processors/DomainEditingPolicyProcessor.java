@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.internal.policies.processors;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.command.AbortExecutionException;
@@ -161,7 +162,8 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		case REMOVE_MANY:
 			return RemoveCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, behavior.getValue());
 		case MOVE:
-			return MoveCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, behavior.getOldIndex(), behavior.getNewIndex());
+			Object movedObject = ((List<?>)eObject.eGet(feature)).get(behavior.getOldIndex());
+			return MoveCommand.create(domainEditingContext.getEditingDomain(), eObject, feature, movedObject, behavior.getNewIndex());
 		}
 		return IdentityCommand.INSTANCE;
 	}

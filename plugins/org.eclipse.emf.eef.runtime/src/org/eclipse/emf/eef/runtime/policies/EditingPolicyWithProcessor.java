@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.policies;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -53,7 +54,7 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 				if (feature instanceof EAttribute) {
 					validationResult = validateAttributeEditing(editingEvent, feature, currentValue);
 				} else if (feature instanceof EReference) {
-					validationResult = validateReferenceEditing(editingEvent, feature, currentValue);
+					validationResult = validateReferenceEditing(editingEvent, eObject, feature, currentValue);
 				}
 				return new EditingPolicyValidation(this, validationResult);
 			}
@@ -88,7 +89,7 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 		return validationResult;
 	}
 
-	private boolean validateReferenceEditing(PropertiesEditingEvent editingEvent, EStructuralFeature feature, Object currentValue) {
+	private boolean validateReferenceEditing(PropertiesEditingEvent editingEvent, EObject editedEObject, EStructuralFeature feature, Object currentValue) {
 		if (feature.isMany()) {
 			switch (editingEvent.getEventType()) {
 			case PropertiesEditingEvent.ADD:
@@ -101,6 +102,12 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 			case PropertiesEditingEvent.REMOVE_MANY:
 				// TODO: need specifications
 				return true;
+			case PropertiesEditingEvent.MOVE:
+				Object newValue = editingEvent.getNewValue();
+				if (newValue instanceof Integer) {
+					Integer newIndex = (Integer) newValue;
+					return newIndex >= 0 && newIndex < ((List<?>)editedEObject.eGet(feature)).size();
+				}
 			default:
 				return false;
 			}
