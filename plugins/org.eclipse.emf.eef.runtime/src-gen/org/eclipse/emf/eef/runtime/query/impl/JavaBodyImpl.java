@@ -22,8 +22,7 @@ import org.eclipse.emf.eef.runtime.query.QueryPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.eef.runtime.query.impl.JavaBodyImpl#getPackage <em>Package</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.query.impl.JavaBodyImpl#getClass_ <em>Class</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.query.impl.JavaBodyImpl#getQualifiedClass <em>Qualified Class</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.query.impl.JavaBodyImpl#getMethod <em>Method</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.query.impl.JavaBodyImpl#isStatic <em>Static</em>}</li>
  * </ul>
@@ -33,44 +32,24 @@ import org.eclipse.emf.eef.runtime.query.QueryPackage;
  */
 public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE> {
 	/**
-	 * The default value of the '{@link #getPackage() <em>Package</em>}' attribute.
+	 * The default value of the '{@link #getQualifiedClass() <em>Qualified Class</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPackage()
+	 * @see #getQualifiedClass()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String PACKAGE_EDEFAULT = null;
+	protected static final String QUALIFIED_CLASS_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getPackage() <em>Package</em>}' attribute.
+	 * The cached value of the '{@link #getQualifiedClass() <em>Qualified Class</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPackage()
+	 * @see #getQualifiedClass()
 	 * @generated
 	 * @ordered
 	 */
-	protected String package_ = PACKAGE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getClass_() <em>Class</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getClass_()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String CLASS_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getClass_() <em>Class</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getClass_()
-	 * @generated
-	 * @ordered
-	 */
-	protected String class_ = CLASS_EDEFAULT;
+	protected String qualifiedClass = QUALIFIED_CLASS_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getMethod() <em>Method</em>}' attribute.
@@ -136,8 +115,8 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getPackage() {
-		return package_;
+	public String getQualifiedClass() {
+		return qualifiedClass;
 	}
 
 	/**
@@ -145,32 +124,11 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPackage(String newPackage) {
-		String oldPackage = package_;
-		package_ = newPackage;
+	public void setQualifiedClass(String newQualifiedClass) {
+		String oldQualifiedClass = qualifiedClass;
+		qualifiedClass = newQualifiedClass;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, QueryPackage.JAVA_BODY__PACKAGE, oldPackage, package_));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getClass_() {
-		return class_;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setClass(String newClass) {
-		String oldClass = class_;
-		class_ = newClass;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, QueryPackage.JAVA_BODY__CLASS, oldClass, class_));
+			eNotify(new ENotificationImpl(this, Notification.SET, QueryPackage.JAVA_BODY__QUALIFIED_CLASS, oldQualifiedClass, qualifiedClass));
 	}
 
 	/**
@@ -223,10 +181,8 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case QueryPackage.JAVA_BODY__PACKAGE:
-				return getPackage();
-			case QueryPackage.JAVA_BODY__CLASS:
-				return getClass_();
+			case QueryPackage.JAVA_BODY__QUALIFIED_CLASS:
+				return getQualifiedClass();
 			case QueryPackage.JAVA_BODY__METHOD:
 				return getMethod();
 			case QueryPackage.JAVA_BODY__STATIC:
@@ -243,11 +199,8 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case QueryPackage.JAVA_BODY__PACKAGE:
-				setPackage((String)newValue);
-				return;
-			case QueryPackage.JAVA_BODY__CLASS:
-				setClass((String)newValue);
+			case QueryPackage.JAVA_BODY__QUALIFIED_CLASS:
+				setQualifiedClass((String)newValue);
 				return;
 			case QueryPackage.JAVA_BODY__METHOD:
 				setMethod((String)newValue);
@@ -267,11 +220,8 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case QueryPackage.JAVA_BODY__PACKAGE:
-				setPackage(PACKAGE_EDEFAULT);
-				return;
-			case QueryPackage.JAVA_BODY__CLASS:
-				setClass(CLASS_EDEFAULT);
+			case QueryPackage.JAVA_BODY__QUALIFIED_CLASS:
+				setQualifiedClass(QUALIFIED_CLASS_EDEFAULT);
 				return;
 			case QueryPackage.JAVA_BODY__METHOD:
 				setMethod(METHOD_EDEFAULT);
@@ -291,10 +241,8 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case QueryPackage.JAVA_BODY__PACKAGE:
-				return PACKAGE_EDEFAULT == null ? package_ != null : !PACKAGE_EDEFAULT.equals(package_);
-			case QueryPackage.JAVA_BODY__CLASS:
-				return CLASS_EDEFAULT == null ? class_ != null : !CLASS_EDEFAULT.equals(class_);
+			case QueryPackage.JAVA_BODY__QUALIFIED_CLASS:
+				return QUALIFIED_CLASS_EDEFAULT == null ? qualifiedClass != null : !QUALIFIED_CLASS_EDEFAULT.equals(qualifiedClass);
 			case QueryPackage.JAVA_BODY__METHOD:
 				return METHOD_EDEFAULT == null ? method != null : !METHOD_EDEFAULT.equals(method);
 			case QueryPackage.JAVA_BODY__STATIC:
@@ -313,10 +261,8 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (package: ");
-		result.append(package_);
-		result.append(", class: ");
-		result.append(class_);
+		result.append(" (qualifiedClass: ");
+		result.append(qualifiedClass);
 		result.append(", method: ");
 		result.append(method);
 		result.append(", static: ");

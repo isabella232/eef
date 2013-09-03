@@ -59,7 +59,7 @@ public class JavaViewerFilter extends ViewerFilter {
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
 		JavaBody<Boolean> body = (JavaBody<Boolean>) filter.getBody();
-		String qualifiedClass = body.getPackage() + "." + body.getClass_();
+		String qualifiedClass = body.getQualifiedClass();
 		try {
 			Class<?> loadClass = bundle.loadClass(qualifiedClass);
 			List<Object> applicableArguments = Lists.newArrayList();

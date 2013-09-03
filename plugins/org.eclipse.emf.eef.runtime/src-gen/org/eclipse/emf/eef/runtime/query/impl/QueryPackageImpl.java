@@ -168,7 +168,7 @@ public class QueryPackageImpl extends EPackageImpl implements QueryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJavaBody_Package() {
+	public EAttribute getJavaBody_QualifiedClass() {
 		return (EAttribute)javaBodyEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -177,7 +177,7 @@ public class QueryPackageImpl extends EPackageImpl implements QueryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJavaBody_Class() {
+	public EAttribute getJavaBody_Method() {
 		return (EAttribute)javaBodyEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -186,17 +186,8 @@ public class QueryPackageImpl extends EPackageImpl implements QueryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJavaBody_Method() {
-		return (EAttribute)javaBodyEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getJavaBody_Static() {
-		return (EAttribute)javaBodyEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)javaBodyEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -251,8 +242,7 @@ public class QueryPackageImpl extends EPackageImpl implements QueryPackage {
 		bodyEClass = createEClass(BODY);
 
 		javaBodyEClass = createEClass(JAVA_BODY);
-		createEAttribute(javaBodyEClass, JAVA_BODY__PACKAGE);
-		createEAttribute(javaBodyEClass, JAVA_BODY__CLASS);
+		createEAttribute(javaBodyEClass, JAVA_BODY__QUALIFIED_CLASS);
 		createEAttribute(javaBodyEClass, JAVA_BODY__METHOD);
 		createEAttribute(javaBodyEClass, JAVA_BODY__STATIC);
 
@@ -315,8 +305,7 @@ public class QueryPackageImpl extends EPackageImpl implements QueryPackage {
 		initEClass(bodyEClass, Body.class, "Body", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(javaBodyEClass, JavaBody.class, "JavaBody", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getJavaBody_Package(), ecorePackage.getEString(), "package", null, 1, 1, JavaBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJavaBody_Class(), ecorePackage.getEString(), "class", null, 1, 1, JavaBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getJavaBody_QualifiedClass(), ecorePackage.getEString(), "qualifiedClass", null, 1, 1, JavaBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJavaBody_Method(), ecorePackage.getEString(), "method", null, 1, 1, JavaBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJavaBody_Static(), ecorePackage.getEBoolean(), "static", null, 0, 1, JavaBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

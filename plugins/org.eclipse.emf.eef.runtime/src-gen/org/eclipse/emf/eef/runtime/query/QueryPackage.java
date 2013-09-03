@@ -117,22 +117,13 @@ public interface QueryPackage extends EPackage {
 	int JAVA_BODY = 2;
 
 	/**
-	 * The feature id for the '<em><b>Package</b></em>' attribute.
+	 * The feature id for the '<em><b>Qualified Class</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int JAVA_BODY__PACKAGE = BODY_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Class</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JAVA_BODY__CLASS = BODY_FEATURE_COUNT + 1;
+	int JAVA_BODY__QUALIFIED_CLASS = BODY_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Method</b></em>' attribute.
@@ -141,7 +132,7 @@ public interface QueryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JAVA_BODY__METHOD = BODY_FEATURE_COUNT + 2;
+	int JAVA_BODY__METHOD = BODY_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Static</b></em>' attribute.
@@ -150,7 +141,7 @@ public interface QueryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JAVA_BODY__STATIC = BODY_FEATURE_COUNT + 3;
+	int JAVA_BODY__STATIC = BODY_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Java Body</em>' class.
@@ -159,7 +150,7 @@ public interface QueryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JAVA_BODY_FEATURE_COUNT = BODY_FEATURE_COUNT + 4;
+	int JAVA_BODY_FEATURE_COUNT = BODY_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.query.impl.FilterImpl <em>Filter</em>}' class.
@@ -260,26 +251,15 @@ public interface QueryPackage extends EPackage {
 	EClass getJavaBody();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.eef.runtime.query.JavaBody#getPackage <em>Package</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.eef.runtime.query.JavaBody#getQualifiedClass <em>Qualified Class</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Package</em>'.
-	 * @see org.eclipse.emf.eef.runtime.query.JavaBody#getPackage()
+	 * @return the meta object for the attribute '<em>Qualified Class</em>'.
+	 * @see org.eclipse.emf.eef.runtime.query.JavaBody#getQualifiedClass()
 	 * @see #getJavaBody()
 	 * @generated
 	 */
-	EAttribute getJavaBody_Package();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.eef.runtime.query.JavaBody#getClass_ <em>Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Class</em>'.
-	 * @see org.eclipse.emf.eef.runtime.query.JavaBody#getClass_()
-	 * @see #getJavaBody()
-	 * @generated
-	 */
-	EAttribute getJavaBody_Class();
+	EAttribute getJavaBody_QualifiedClass();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.eef.runtime.query.JavaBody#getMethod <em>Method</em>}'.
@@ -384,20 +364,12 @@ public interface QueryPackage extends EPackage {
 		EClass JAVA_BODY = eINSTANCE.getJavaBody();
 
 		/**
-		 * The meta object literal for the '<em><b>Package</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Qualified Class</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute JAVA_BODY__PACKAGE = eINSTANCE.getJavaBody_Package();
-
-		/**
-		 * The meta object literal for the '<em><b>Class</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute JAVA_BODY__CLASS = eINSTANCE.getJavaBody_Class();
+		EAttribute JAVA_BODY__QUALIFIED_CLASS = eINSTANCE.getJavaBody_QualifiedClass();
 
 		/**
 		 * The meta object literal for the '<em><b>Method</b></em>' attribute feature.

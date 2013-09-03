@@ -18,8 +18,7 @@
     </genClasses>
     <genClasses ecoreClass="query.ecore#//JavaBody">
       <genTypeParameters ecoreTypeParameter="query.ecore#//JavaBody/TYPE"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute query.ecore#//JavaBody/package"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute query.ecore#//JavaBody/class"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute query.ecore#//JavaBody/qualifiedClass"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute query.ecore#//JavaBody/method"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute query.ecore#//JavaBody/static"/>
     </genClasses>

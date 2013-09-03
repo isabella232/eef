@@ -127,6 +127,7 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	 */
 	public void refresh() {
 		if (input != null) {
+			int selectionIndex = folder.getSelectionIndex();
 			clear();
 			PropertiesEditingComponent component = input.getEditingComponent();
 			int i = 1;
@@ -173,7 +174,11 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 					folder.setTabHeight(0);
 				}
 			}
-			folder.setSelection(0);
+			if (selectionIndex >= 0) {
+				folder.setSelection(selectionIndex);
+			} else {
+				folder.setSelection(0);
+			}
 		}
 	}
 

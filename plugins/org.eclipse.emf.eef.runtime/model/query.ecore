@@ -16,9 +16,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavaBody">
     <eTypeParameters name="TYPE"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="package" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualifiedClass" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="class" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="method" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="static" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
