@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.editor.internal.propertyeditors.extended;
 import org.eclipse.emf.eef.editor.internal.propertyeditors.extended.treecontents.TreeContentsPropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
@@ -36,7 +37,9 @@ public class EEFExtendedToolkit extends EEFToolkitImpl<Composite> {
 	}
 	
 	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private ImageManager imageManager;
+
 
 	/**
 	 * {@inheritDoc}
@@ -62,6 +65,20 @@ public class EEFExtendedToolkit extends EEFToolkitImpl<Composite> {
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @return the eefEditingServiceProvider
+	 */
+	public EEFEditingServiceProvider getEEFEditingServiceProvider() {
+		return eefEditingServiceProvider;
+	}
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**

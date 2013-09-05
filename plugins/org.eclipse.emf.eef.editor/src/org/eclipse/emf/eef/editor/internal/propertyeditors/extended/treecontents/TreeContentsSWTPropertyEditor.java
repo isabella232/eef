@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.editor.internal.propertyeditors.extended.treecontents;
 
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.editor.internal.widgets.TreeEEFViewer;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor;
@@ -29,23 +30,19 @@ public class TreeContentsSWTPropertyEditor implements SWTPropertyEditor<TreeEEFV
 	private EMFServiceProvider emfServiceProvider;
 	private ImageManager imageManager;
 
+	private EditingDomain editingDomain;
+
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	
 	private TreeEEFViewer viewer;
 
-
-	/**
-	 * @param emfServiceProvider
-	 * @param imageManager
-	 * @param view
-	 * @param elementEditor
-	 */
-	public TreeContentsSWTPropertyEditor(EMFServiceProvider emfServiceProvider, ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+	public TreeContentsSWTPropertyEditor(EMFServiceProvider emfServiceProvider, ImageManager imageManager, EditingDomain editingDomain, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.emfServiceProvider = emfServiceProvider;
 		this.imageManager = imageManager;
+		this.editingDomain = editingDomain;
 	}
 
 	/**

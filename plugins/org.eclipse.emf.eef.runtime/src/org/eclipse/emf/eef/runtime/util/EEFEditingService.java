@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -51,5 +52,12 @@ public interface EEFEditingService extends EEFService<EObject> {
 	 * @return a collection of element referencing the given element.
 	 */
 	Collection<EObject> referencingEEFElement(EObject target);
+	
+	/**
+	 * Searches for an {@link EditingDomain} in the hierarchy of the given {@link PropertiesEditingContext}.
+	 * @param editingContext the start point for the research.
+	 * @return the found {@link EditingDomain} if exists <code>null</code> otherwise.
+	 */
+	EditingDomain searchEditingDomain(PropertiesEditingContext editingContext);
 		
 }

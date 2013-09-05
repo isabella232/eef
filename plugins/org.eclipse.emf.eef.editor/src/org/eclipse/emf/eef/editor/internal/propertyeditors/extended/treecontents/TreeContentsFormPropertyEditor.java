@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.editor.internal.propertyeditors.extended.treecontents;
 
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.editor.internal.widgets.FormTreeEEFViewer;
 import org.eclipse.emf.eef.editor.internal.widgets.TreeEEFViewer;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor;
@@ -31,22 +32,22 @@ public class TreeContentsFormPropertyEditor implements FormPropertyEditor<TreeEE
 	private EMFServiceProvider emfServiceProvider;
 	private ImageManager imageManager;
 
+	private EditingDomain editingDomain;
+
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	
 	private FormTreeEEFViewer viewer;
 
 	/**
-	 * @param emfServiceProvider
-	 * @param imageManager
-	 * @param view
-	 * @param elementEditor
+	 * @param editingDomain can be null;
 	 */
-	public TreeContentsFormPropertyEditor(EMFServiceProvider emfServiceProvider, ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+	public TreeContentsFormPropertyEditor(EMFServiceProvider emfServiceProvider, ImageManager imageManager, EditingDomain editingDomain, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.emfServiceProvider = emfServiceProvider;
 		this.imageManager = imageManager;
+		this.editingDomain = editingDomain;
 	}
 
 	/**
@@ -57,6 +58,7 @@ public class TreeContentsFormPropertyEditor implements FormPropertyEditor<TreeEE
 		this.viewer = new FormTreeEEFViewer(toolkit, parent, SWT.NONE);
 		viewer.setEMFServiceProvider(emfServiceProvider);
 		viewer.setImageManager(imageManager);
+		viewer.setEditingDomain(editingDomain);
 		viewer.createContents();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.heightHint = view.getViewSettings().getMultiEditorHeight();

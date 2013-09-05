@@ -16,6 +16,10 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
+import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.eef.runtime.context.NullPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
@@ -36,6 +40,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -61,9 +67,11 @@ import com.google.common.collect.Lists;
 public class TreeEEFViewer extends ContentViewer {
 
 	private static final String ECLASS_DATA_KEY = "EClass";
+
 	private EMFServiceProvider emfServiceProvider;
 	private ImageManager imageManager;
 	
+	private EditingDomain editingDomain;
 	private EReference editedFeature;
 	private Collection<TreeEEFViewerListener> listeners;
 
@@ -99,6 +107,13 @@ public class TreeEEFViewer extends ContentViewer {
 		this.imageManager = imageManager;
 	}
 	
+	/**
+	 * @param editingDomain the editingDomain to set
+	 */
+	public void setEditingDomain(EditingDomain editingDomain) {
+		this.editingDomain = editingDomain;
+	}	
+
 	/**
 	 * Adds a {@link TreeEEFViewerListener}.
 	 * @param listener the listener to add.
@@ -157,6 +172,13 @@ public class TreeEEFViewer extends ContentViewer {
 				}
 			}
 		});
+		if (editingDomain != null) {
+			int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
+			//TODO: check this singleton.
+			Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
+			selection.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(selection));
+			selection.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, selection));
+		}
 		viewer = createEEFViewer(control);
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 		control.setWeights(new int[] { 35, 65});

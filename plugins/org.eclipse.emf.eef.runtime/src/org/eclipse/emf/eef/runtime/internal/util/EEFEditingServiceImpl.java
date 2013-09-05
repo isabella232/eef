@@ -13,6 +13,8 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.EcoreUtil.UsageCrossReferencer;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
@@ -108,6 +110,21 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#searchEditingDomain(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 */
+	public EditingDomain searchEditingDomain(PropertiesEditingContext editingContext) {
+		PropertiesEditingContext currentEditingContext = editingContext;
+		while (currentEditingContext != null) {
+			if (currentEditingContext instanceof DomainAwarePropertiesEditingContext) {
+				return ((DomainAwarePropertiesEditingContext) currentEditingContext).getEditingDomain();
+			}
+			currentEditingContext = currentEditingContext.getParentContext();
+		}
+		return null;
 	}
 
 }

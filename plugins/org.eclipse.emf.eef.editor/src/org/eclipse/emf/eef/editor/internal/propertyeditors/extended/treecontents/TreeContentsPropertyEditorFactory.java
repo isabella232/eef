@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.editor.internal.propertyeditors.extended.treecontents;
 
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.editor.internal.propertyeditors.extended.EEFExtendedToolkit;
 import org.eclipse.emf.eef.editor.internal.widgets.TreeEEFViewer;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
@@ -17,6 +18,7 @@ import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
+import org.eclipse.emf.eef.runtime.util.EEFEditingService;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
@@ -72,14 +74,16 @@ public class TreeContentsPropertyEditorFactory extends WidgetPropertyEditorFacto
 		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 		PropertiesEditingView<Composite> view = (PropertiesEditingView<Composite>) editorContext.view;
 		ElementEditor viewElement = (ElementEditor) editorContext.viewElement;
+		EEFEditingService editingService = eefExtendedToolkit.getEEFEditingServiceProvider().getEditingService(view.getEditingComponent().getEObject());
+		EditingDomain editingDomain = editingService.searchEditingDomain(view.getEditingComponent().getEditingContext());
 		if (toolkit != null) {
 			propertyEditorViewer = new TreeContentsFormPropertyEditor(
 					eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getImageManager(), 
-					view, viewElement);
+					editingDomain, view, viewElement);
 		} else {
 			propertyEditorViewer = new TreeContentsSWTPropertyEditor(
 					eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getImageManager(), 
-					view, viewElement);
+					editingDomain, view, viewElement);
 		}
 		return new TreeContentsPropertyEditor(
 						editorContext.view.getEditingComponent().getEditingContext().getContextFactoryProvider(), eefExtendedToolkit.getEMFServiceProvider(), 
