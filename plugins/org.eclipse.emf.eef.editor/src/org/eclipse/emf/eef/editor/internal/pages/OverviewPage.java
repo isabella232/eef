@@ -21,6 +21,7 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
+import org.eclipse.emf.eef.views.ViewsRepository;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -78,16 +79,23 @@ public class OverviewPage extends FormPage {
 		form.setText("Overview");
 		Composite parent = form.getBody();
 		parent.setLayout(new GridLayout(1, false));
-		EEFViewer viewer = new EEFViewer(parent, SWT.NONE);
-		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
-		viewer.setContentProvider(new EEFContentProvider());
-		PropertiesEditingContext editingContext = createEditingContext();
-		if (editingContext != null) {
-			viewer.setInput(editingContext);
+		EEFViewer editingModelViewer = new EEFViewer(parent, SWT.NONE);
+		editingModelViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+		editingModelViewer.setContentProvider(new EEFContentProvider());
+		PropertiesEditingContext editingModelEditingContext = createEditingContextForEditingModel();
+		if (editingModelEditingContext != null) {
+			editingModelViewer.setInput(editingModelEditingContext);
+		}
+		EEFViewer viewsRepositoryViewer = new EEFViewer(parent, SWT.NONE);
+		viewsRepositoryViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+		viewsRepositoryViewer.setContentProvider(new EEFContentProvider());
+		PropertiesEditingContext viewRepositoryEditingContext = createEditingContextForViewsRepository();
+		if (viewRepositoryEditingContext != null) {
+			viewsRepositoryViewer.setInput(viewRepositoryEditingContext);
 		}
 	}
 
-	private PropertiesEditingContext createEditingContext() {
+	private PropertiesEditingContext createEditingContextForEditingModel() {
 		EditingDomain domain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
 		ResourceSet resourceSet = domain.getResourceSet();
 		PropertiesEditingModel editedModel = emfService.findEditedEditingModel(resourceSet);
@@ -99,4 +107,15 @@ public class OverviewPage extends FormPage {
 		return null;
 	}
 
+	private PropertiesEditingContext createEditingContextForViewsRepository() {
+		EditingDomain domain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
+		ResourceSet resourceSet = domain.getResourceSet();
+		ViewsRepository viewsRepository = emfService.findEditedViewsRepository(resourceSet);
+		if (viewsRepository != null) {
+			PropertiesEditingContext context = contextFactoryProvider.getEditingContextFactory(viewsRepository).createPropertiesEditingContext(domain, adapterFactory, viewsRepository);
+			context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, toolkit);
+			return context;
+		}
+		return null;
+	}
 }

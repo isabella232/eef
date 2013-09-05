@@ -5,8 +5,12 @@
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//ViewsRepository"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
       <propertyBindings>
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//ViewsRepository/views"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//ViewsRepository/name"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.0"/>
+      </propertyBindings>
+      <propertyBindings>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//DocumentedElement/documentation"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.1"/>
       </propertyBindings>
     </bindings>
     <bindings>
@@ -63,8 +67,14 @@
   </eef-model:PropertiesEditingModel>
   <eef-views:ViewsRepository name="views">
     <views name="ViewsRepository">
-      <elements xsi:type="eef-views:ElementEditor" name="views">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
+      <elements xsi:type="eef-views:Container" name="Views Repository">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" name="Name">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+        <elements xsi:type="eef-views:ElementEditor" name="Documentation">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.4"/>
+        </elements>
       </elements>
     </views>
     <views name="Overview">
