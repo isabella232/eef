@@ -40,7 +40,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -53,7 +52,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
-import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.dialogs.FilteredTree;
+import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
@@ -82,7 +82,7 @@ public class ViewsEditingPage extends FormPage {
 	private FormToolkit toolkit;
 	private Composite pageContainer;
 
-	private TreeViewer views;
+	private FilteredTree views;
 	private EEFViewer viewSettingsViewer;
 
 
@@ -167,7 +167,7 @@ public class ViewsEditingPage extends FormPage {
 		delete.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "Delete"));
 		delete.setToolTipText("Delete the selected view of the repository");
 		delete.addSelectionListener(new DeleteViewAdapter());
-		views.addSelectionChangedListener(new ISelectionChangedListener() {
+		views.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
 			
 			public void selectionChanged(SelectionChangedEvent event) {
 				if (event.getSelection() != null && !event.getSelection().isEmpty()) {
@@ -230,10 +230,23 @@ public class ViewsEditingPage extends FormPage {
 
 
 	private void createViewsSectionContents(FormToolkit toolkit, Composite container) {
-		Tree viewsTree = toolkit.createTree(container, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
-		viewsTree.setLayoutData(new GridData(GridData.FILL_BOTH));
-		views = new TreeViewer(viewsTree);
-		views.setContentProvider(new AdapterFactoryContentProvider(adapterFactory) {
+		views = new FilteredTree(container, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL, new PatternFilter(), true);
+		toolkit.adapt(views);
+		views.getViewer().setContentProvider(new AdapterFactoryContentProvider(adapterFactory) {
+
+			private final Object[] nullChildren = new Object[0];
+			
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider#getChildren(java.lang.Object)
+			 */
+			@Override
+			public Object[] getChildren(Object object) {
+				if (object instanceof View) {
+					return nullChildren;
+				}
+				return super.getChildren(object);
+			}
 
 			/**
 			 * {@inheritDoc}
@@ -248,10 +261,11 @@ public class ViewsEditingPage extends FormPage {
 			}
 				
 		});
-		views.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+		views.setLayoutData(new GridData(GridData.FILL_BOTH));
+		views.getViewer().setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 		EditingDomain domain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
 		ResourceSet resourceSet = domain.getResourceSet();
-		views.setInput(emfService.findEditedViewsRepository(resourceSet));
+		views.getViewer().setInput(emfService.findEditedViewsRepository(resourceSet));
 	}
 
 	
@@ -279,14 +293,14 @@ public class ViewsEditingPage extends FormPage {
 		@Override
 		public void widgetSelected(SelectionEvent e) {
 			View view = ViewsFactory.eINSTANCE.createView();
-			ViewsRepository repository = (ViewsRepository) views.getInput();
+			ViewsRepository repository = (ViewsRepository) views.getViewer().getInput();
 			view.setName("View" + (repository.getViews().size() + 1));
 			IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(repository, IEditingDomainItemProvider.class);
 			EditingDomain editingDomain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
 			Command cmd = provider.createCommand(repository, editingDomain, AddCommand.class , new CommandParameter(repository, ViewsPackage.Literals.VIEWS_REPOSITORY__VIEWS, Lists.newArrayList(view)));
 			editingDomain.getCommandStack().execute(cmd);
-			views.refresh();
-			views.setSelection(new StructuredSelection(view));
+			views.getViewer().refresh();
+			views.getViewer().setSelection(new StructuredSelection(view));
 		}
 		
 	}
@@ -299,7 +313,7 @@ public class ViewsEditingPage extends FormPage {
 		 */
 		@Override
 		public void widgetSelected(SelectionEvent e) {
-			ISelection selection = views.getSelection();
+			ISelection selection = views.getViewer().getSelection();
 			if (selection != null && !selection.isEmpty()) {
 				View view = selectionService.unwrapSelection(selection);
 				EditingDomain editingDomain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
