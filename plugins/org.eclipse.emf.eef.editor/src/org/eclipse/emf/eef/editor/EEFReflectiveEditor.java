@@ -63,6 +63,7 @@ import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
+import org.eclipse.emf.eef.editor.internal.notify.Notifiable;
 import org.eclipse.emf.eef.editor.internal.pages.BindingsEditingPage;
 import org.eclipse.emf.eef.editor.internal.pages.OverviewPage;
 import org.eclipse.emf.eef.editor.internal.pages.ViewsEditingPage;
@@ -106,6 +107,8 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
+import com.google.common.collect.Lists;
+
 
 /**
  * This is an example of a EditingModel model editor.
@@ -135,6 +138,8 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	 * This keeps track of all the {@link org.eclipse.jface.viewers.ISelectionChangedListener}s that are listening to this editor.
 	 */
 	protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
+	
+	private Collection<Notifiable> notifiables = Lists.newArrayList();
 
 	/**
 	 * This keeps track of the selection of the editor as a whole.
@@ -325,6 +330,14 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 			}
 		};
 
+	public void addNotifiable(Notifiable notifiable) {
+		notifiables.add(notifiable);
+	}
+	
+	public void removeNotifiable(Notifiable notifiable) {
+		notifiables.remove(notifiable);
+	}
+		
 	/**
 	 * Handles activation of the editor or it's associated views.
 	 */
@@ -592,6 +605,21 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 			resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
 		}
 		editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
+		editingDomain.getResourceSet().eAdapters().add(new EContentAdapter() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.ecore.util.EContentAdapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+			 */
+			@Override
+			public void notifyChanged(Notification notification) {
+				super.notifyChanged(notification);
+				for (Notifiable notifiable : notifiables) {
+					notifiable.notifyChanged(notification);
+				}
+			}
+			
+		});
 	}
 
 	/**
@@ -643,6 +671,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 				OverviewPage overviewPage = new OverviewPage(this, adapterFactory);
 				overviewPage.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
 				overviewPage.setEMFService(emfService);
+				overviewPage.setImageManager(EditingModelEditPlugin.getPlugin().getImageManager());
 				addPage(overviewPage);
 				
 				BindingsEditingPage bindingEditingPage = new BindingsEditingPage(this, adapterFactory);

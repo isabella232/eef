@@ -12,6 +12,7 @@ package org.eclipse.emf.eef.editor.internal.pages;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.command.AddCommand;
@@ -20,8 +21,11 @@ import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
+import org.eclipse.emf.eef.editor.internal.notify.Notifiable;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
 import org.eclipse.emf.eef.editor.internal.services.SelectionService;
 import org.eclipse.emf.eef.editor.internal.services.ViewerService;
@@ -43,6 +47,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -84,6 +89,8 @@ public class ViewsEditingPage extends FormPage {
 
 	private FilteredTree views;
 	private EEFViewer viewSettingsViewer;
+
+	private Form innerForm;
 
 
 
@@ -138,10 +145,10 @@ public class ViewsEditingPage extends FormPage {
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
 		toolkit = managedForm.getToolkit();
-		Form form = managedForm.getForm().getForm();
-		toolkit.decorateFormHeading(form);
-		form.setText("Views");
-		Composite parent = form.getBody();
+		innerForm = managedForm.getForm().getForm();
+		toolkit.decorateFormHeading(innerForm);
+		refreshPageTitle();
+		Composite parent = innerForm.getBody();
 		parent.setLayout(new FillLayout());
 		pageContainer = toolkit.createComposite(parent);
 		pageContainer.setLayout(new FormLayout());
@@ -149,6 +156,19 @@ public class ViewsEditingPage extends FormPage {
 		Composite viewSettingsSection = createViewSettingsSection(toolkit, pageContainer);
 		Composite previewSection = createPreviewSection(toolkit, pageContainer);
 		layoutPage(viewsSection, viewSettingsSection, previewSection);
+		((EEFReflectiveEditor)getEditor()).addNotifiable(new Notifiable() {
+			
+			public void notifyChanged(Notification notification) {
+				if (notification.getNotifier() instanceof ViewsRepository) {
+					pageContainer.getDisplay().asyncExec(new Runnable() {
+
+						public void run() {
+							refreshPageTitle();
+						}
+					});
+				}
+			}
+		});
 	}
 
 	private Composite createViewsSection(FormToolkit toolkit, Composite container) {
@@ -279,6 +299,25 @@ public class ViewsEditingPage extends FormPage {
 		toolkit.createLabel(previewContainer, "Preview");		
 	}
 	
+	private void refreshPageTitle() {
+		if (innerForm != null) {
+			ResourceSet resourceSet = ((IEditingDomainProvider)getEditor()).getEditingDomain().getResourceSet();
+			ViewsRepository editedViewsRepository = emfService.findEditedViewsRepository(resourceSet);
+			String formLabel = "Views";
+			if (editedViewsRepository != null) {
+				IItemLabelProvider labelProvider = (IItemLabelProvider) adapterFactory.adapt(editedViewsRepository, IItemLabelProvider.class);
+				if (labelProvider != null) {
+					formLabel = labelProvider.getText(editedViewsRepository);
+					Image image = imageManager.getImageFromObject(labelProvider.getImage(editedViewsRepository));
+					if (image != null) {
+						innerForm.setImage(image);
+					}
+				}
+			} 
+			innerForm.setText(formLabel);
+		}
+	}
+
 	private void refreshPageLayout() {
 		pageContainer.layout(true);
 		pageContainer.getParent().layout(true);

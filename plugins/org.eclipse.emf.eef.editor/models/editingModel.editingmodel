@@ -112,7 +112,7 @@
       </elements>
     </views>
     <views name="Editing Model">
-      <elements xsi:type="eef-views:Container" name="Properties Editing Model">
+      <elements xsi:type="eef-views:Container" name="Editing Model">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="id">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>

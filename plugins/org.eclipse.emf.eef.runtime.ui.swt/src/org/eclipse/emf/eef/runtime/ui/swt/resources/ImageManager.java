@@ -19,5 +19,12 @@ public interface ImageManager {
 	 * @return the associated image.
 	 */
 	Image getImage(ResourceLocator resourceLocator, String key);
+	
+	/**
+	 * Returns an {@link Image} built from the given object if possible.
+	 * @param object source object.
+	 * @return the built image.
+	 */
+	Image getImageFromObject(Object object);
 
 }

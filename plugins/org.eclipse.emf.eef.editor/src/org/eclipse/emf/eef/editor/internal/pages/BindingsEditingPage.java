@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.CommandParameter;
@@ -23,6 +22,7 @@ import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider.FontAndColorProvider;
@@ -30,6 +30,7 @@ import org.eclipse.emf.eef.UIConstants;
 import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.editor.internal.actions.ExtendedLoadResourceAction;
+import org.eclipse.emf.eef.editor.internal.notify.Notifiable;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
 import org.eclipse.emf.eef.editor.internal.services.SelectionService;
 import org.eclipse.emf.eef.editor.internal.services.ViewerService;
@@ -65,6 +66,7 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -115,6 +117,8 @@ public class BindingsEditingPage extends FormPage {
 	private FormToolkit toolkit;
 
 	private Composite pageContainer;
+
+	private Form innerForm;
 
 	/**
 	 * @param editor
@@ -188,10 +192,10 @@ public class BindingsEditingPage extends FormPage {
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
 		toolkit = managedForm.getToolkit();
-		Form form = managedForm.getForm().getForm();
-		toolkit.decorateFormHeading(form);
-		form.setText("Bindings");
-		Composite parent = form.getBody();
+		innerForm = managedForm.getForm().getForm();
+		toolkit.decorateFormHeading(innerForm);
+		refreshPageTitle();
+		Composite parent = innerForm.getBody();
 		parent.setLayout(new FillLayout());
 		pageContainer = toolkit.createComposite(parent);
 		pageContainer.setLayout(new FormLayout());
@@ -207,25 +211,19 @@ public class BindingsEditingPage extends FormPage {
 				refreshPageLayout();
 			}
 		});
-		((IEditingDomainProvider)getEditor()).getEditingDomain().getResourceSet().eAdapters().add(new EContentAdapter() {
-
-			/**
-			 * {@inheritDoc}
-			 * @see org.eclipse.emf.ecore.util.EContentAdapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
-			 */
-			@Override
+		((EEFReflectiveEditor)getEditor()).addNotifiable(new Notifiable() {
+			
 			public void notifyChanged(Notification notification) {
-				super.notifyChanged(notification);
 				metamodelViewer.getViewer().getControl().getDisplay().asyncExec(new Runnable() {
 					
 					public void run() {
 						metamodelViewer.getViewer().refresh();
 						bindingSettingsViewer.refresh();
+						refreshPageTitle();
 						
 					}
 				});
 			}
-			
 		});
 	}
 
@@ -338,7 +336,6 @@ public class BindingsEditingPage extends FormPage {
 	}
 
 	private void createMetamodelViewer(FormToolkit toolkit, CTabFolder tabFolder) {
-//		final Tree metamodelTree = toolkit.createTree(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE);
 		metamodelViewer = new FilteredTree(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE, new PatternFilter(), true);
 		metamodelViewer.getViewer().setContentProvider(new AdapterFactoryContentProvider(adapterFactory) {
 
@@ -457,6 +454,24 @@ public class BindingsEditingPage extends FormPage {
 		toolkit.createLabel(previewContainer, "Preview");		
 	}
 	
+	private void refreshPageTitle() {
+		if (innerForm != null) {
+			PropertiesEditingModel editedEditingModel = emfService.findEditedEditingModel(((IEditingDomainProvider)getEditor()).getEditingDomain().getResourceSet());
+			String formLabel = "Bindings";
+			if (editedEditingModel != null) {
+				IItemLabelProvider labelProvider = (IItemLabelProvider) adapterFactory.adapt(editedEditingModel, IItemLabelProvider.class);
+				if (labelProvider != null) {
+					formLabel = labelProvider.getText(editedEditingModel);
+					Image image = imageManager.getImageFromObject(labelProvider.getImage(editedEditingModel));
+					if (image != null) {
+						innerForm.setImage(image);
+					}
+				}
+			} 
+			innerForm.setText(formLabel);
+		}
+	}
+
 	private void refreshPageLayout() {
 		pageContainer.layout(true);
 		pageContainer.getParent().layout(true);
