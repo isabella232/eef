@@ -65,7 +65,6 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -116,7 +115,6 @@ public class BindingsEditingPage extends FormPage {
 	private FormToolkit toolkit;
 
 	private Composite pageContainer;
-	private Font featureFont;
 
 	/**
 	 * @param editor
@@ -183,18 +181,6 @@ public class BindingsEditingPage extends FormPage {
 		}
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.ui.forms.editor.FormPage#dispose()
-	 */
-	@Override
-	public void dispose() {
-		if (featureFont != null) {
-			featureFont.dispose();
-		}
-		super.dispose();
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.ui.forms.editor.FormPage#createFormContent(org.eclipse.ui.forms.IManagedForm)
@@ -496,14 +482,6 @@ public class BindingsEditingPage extends FormPage {
 	
 	private void initSelectionBroker() {
 		selectionBroker = new SelectionBroker(selectionService, viewerService, metamodelViewer.getViewer(), bindingSettingsViewer);
-	}
-
-	private Font getFeatureFont() {
-		return featureFont;
-	}
-
-	private void setFeatureFont(Font featureFont) {
-		this.featureFont = featureFont;
 	}
 
 	/**
