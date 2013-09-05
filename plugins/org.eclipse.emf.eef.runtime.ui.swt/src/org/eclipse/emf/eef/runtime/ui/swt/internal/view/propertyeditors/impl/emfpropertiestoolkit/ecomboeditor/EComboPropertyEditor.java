@@ -38,13 +38,13 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EComboPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
-	private EditUIProvidersFactory editUIProvidersFactory;
-	private ViewerFilterBuilderProvider filterBuilderProvider;
+	protected EditUIProvidersFactory editUIProvidersFactory;
+	protected ViewerFilterBuilderProvider filterBuilderProvider;
 
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
-	private EStructuralFeature feature;
+	protected EStructuralFeature feature;
 	private SingleLinePropertyViewerListener listener;
 
 
@@ -115,52 +115,60 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	/**
 	 * Initialize the listener on the MultiLinePropertyViewer.
 	 */
-	protected void initListener() {
+	private void initListener() {
 		if (listener == null) {
-			listener = new SingleLinePropertyViewerListener() {
-
-				/**
-				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#set()
-				 */
-				public void set() {
-					EEFSelectionDialog dialog = new EEFSelectionDialog(propertyEditorViewer.getViewer().getControl().getShell(), true);
-					dialog.setTitle("Choose the element to set to the " + feature.getName() + " reference:");
-					dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
-					dialog.setEditUIProvidersFactory(editUIProvidersFactory);
-					dialog.addFilter(
-							new ChoiceOfValuesFilter(
-									view.getEditingComponent().getEditingContext().getAdapterFactory(), 
-									view.getEditingComponent().getEObject(), 
-									EComboPropertyEditor.this.feature, 
-									EEFSWTConstants.DEFAULT_SELECTION_MODE));
-					Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
-					if (!filters.isEmpty()) {
-						for (ViewerFilter viewerFilter : filters) {
-							dialog.addFilter(viewerFilter);
-						}
-					}
-					dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
-					if (dialog.open() == Window.OK) {
-						if (dialog.getSelection() != null) {
-							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, dialog.getSelection()));
-							propertyEditorViewer.getViewer().refresh();
-						}
-					}
-				}
-
-				/**
-				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#clear()
-				 */
-				public void clear() {
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.UNSET, null, null));
-					propertyEditorViewer.getViewer().refresh();
-				}
-				
-			};
+			listener = createPropertyViewerListener();
 			propertyEditorViewer.getViewer().addSingleLinePropertyViewerListener(listener);
 		}
+	}
+
+	/**
+	 * Creates the listener to add to the viewer in order to process viewer events. 
+	 * @return the {@link SingleLinePropertyViewerListener} to add to the viewer.
+	 */
+	protected SingleLinePropertyViewerListener createPropertyViewerListener() {
+		return new SingleLinePropertyViewerListener() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#set()
+			 */
+			public void set() {
+				EEFSelectionDialog dialog = new EEFSelectionDialog(propertyEditorViewer.getViewer().getControl().getShell(), true);
+				dialog.setTitle("Choose the element to set to the " + feature.getName() + " reference:");
+				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
+				dialog.setEditUIProvidersFactory(editUIProvidersFactory);
+				dialog.addFilter(
+						new ChoiceOfValuesFilter(
+								view.getEditingComponent().getEditingContext().getAdapterFactory(), 
+								view.getEditingComponent().getEObject(), 
+								EComboPropertyEditor.this.feature, 
+								EEFSWTConstants.DEFAULT_SELECTION_MODE));
+				Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
+				if (!filters.isEmpty()) {
+					for (ViewerFilter viewerFilter : filters) {
+						dialog.addFilter(viewerFilter);
+					}
+				}
+				dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
+				if (dialog.open() == Window.OK) {
+					if (dialog.getSelection() != null) {
+						firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, dialog.getSelection()));
+						propertyEditorViewer.getViewer().refresh();
+					}
+				}
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#clear()
+			 */
+			public void clear() {
+				firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.UNSET, null, null));
+				propertyEditorViewer.getViewer().refresh();
+			}
+			
+		};
 	}
 
 	private PropertyBinding findAssociatedBinding(EList<PropertyBinding> propertyBindings) {

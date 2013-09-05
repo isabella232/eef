@@ -116,7 +116,7 @@ public class EEFSelectionDialog extends Dialog {
 		if (multi) {
 			style |= SWT.MULTI;
 		}
-		selectionViewer = new TreeViewer(control, style);
+		selectionViewer = createSelectionViewer(control, style);
 		selectionViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		for (ViewerFilter filter : filters) {
@@ -142,6 +142,16 @@ public class EEFSelectionDialog extends Dialog {
 		});
 		
 		return control;
+	}
+
+	/**
+	 * Creates the selection viewer.
+	 * @param parent the parent control.
+	 * @param style the viewer style.
+	 * @return the created viewer. 
+	 */
+	protected TreeViewer createSelectionViewer(Composite parent, int style) {
+		return new TreeViewer(parent, style);
 	}
 
 	/**
