@@ -66,7 +66,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -77,6 +76,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.dialogs.FilteredTree;
+import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -106,7 +107,8 @@ public class BindingsEditingPage extends FormPage {
 	private ResourceSet input;
 	
 	private ToolBar bindingSettingsActions;
-	private TreeViewer metamodelViewer;
+
+	private FilteredTree metamodelViewer;
 	private TreeViewer modelViewer;
 	private MultiEEFViewer bindingSettingsViewer;
 
@@ -176,7 +178,7 @@ public class BindingsEditingPage extends FormPage {
 			this.input = (ResourceSet)input;
 			if (metamodelViewer != null) {
 				Collection<Resource> ecoreResources = emfService.ecoreResources(this.input);
-				metamodelViewer.setInput(ecoreResources);
+				metamodelViewer.getViewer().setInput(ecoreResources);
 			}
 		}
 	}
@@ -212,8 +214,8 @@ public class BindingsEditingPage extends FormPage {
 		Composite previewSection = createPreviewSection(toolkit, pageContainer);
 		layoutPage(modelSection, bindingSettingsSection, previewSection);
 		initSelectionBroker();
-		metamodelViewer.addSelectionChangedListener(selectionBroker);
-		metamodelViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		metamodelViewer.getViewer().addSelectionChangedListener(selectionBroker);
+		metamodelViewer.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
 			
 			public void selectionChanged(SelectionChangedEvent event) {
 				refreshPageLayout();
@@ -228,10 +230,10 @@ public class BindingsEditingPage extends FormPage {
 			@Override
 			public void notifyChanged(Notification notification) {
 				super.notifyChanged(notification);
-				metamodelViewer.getControl().getDisplay().asyncExec(new Runnable() {
+				metamodelViewer.getViewer().getControl().getDisplay().asyncExec(new Runnable() {
 					
 					public void run() {
-						metamodelViewer.refresh();
+						metamodelViewer.getViewer().refresh();
 						bindingSettingsViewer.refresh();
 						
 					}
@@ -260,10 +262,10 @@ public class BindingsEditingPage extends FormPage {
 		filterModels.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				metamodelViewer.refresh();
+				metamodelViewer.getViewer().refresh();
 			}
 		});
-		metamodelViewer.addFilter(new ViewerFilter() {
+		metamodelViewer.getViewer().addFilter(new ViewerFilter() {
 			
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
@@ -350,9 +352,9 @@ public class BindingsEditingPage extends FormPage {
 	}
 
 	private void createMetamodelViewer(FormToolkit toolkit, CTabFolder tabFolder) {
-		final Tree metamodelTree = toolkit.createTree(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE);
-		metamodelViewer = new TreeViewer(metamodelTree);
-		metamodelViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory) {
+//		final Tree metamodelTree = toolkit.createTree(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE);
+		metamodelViewer = new FilteredTree(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE, new PatternFilter(), true);
+		metamodelViewer.getViewer().setContentProvider(new AdapterFactoryContentProvider(adapterFactory) {
 
 			/**
 			 * {@inheritDoc}
@@ -387,7 +389,7 @@ public class BindingsEditingPage extends FormPage {
 			}
 			
 		});
-		FontAndColorProvider provider = new FontAndColorProvider(adapterFactory, metamodelViewer) {
+		FontAndColorProvider provider = new FontAndColorProvider(adapterFactory, metamodelViewer.getViewer()) {
 
 			/**
 			 * {@inheritDoc}
@@ -397,7 +399,7 @@ public class BindingsEditingPage extends FormPage {
 			public Color getForeground(Object object) {
 				if (object instanceof EPackage || object instanceof EClass || object instanceof EStructuralFeature) {
 					if (eefEditingService.referencingEEFElement((EObject) object).isEmpty()) {
-						return metamodelTree.getDisplay().getSystemColor(SWT.COLOR_DARK_GRAY);
+						return metamodelViewer.getViewer().getControl().getDisplay().getSystemColor(SWT.COLOR_DARK_GRAY);
 					}
 
 				}
@@ -405,8 +407,8 @@ public class BindingsEditingPage extends FormPage {
 			}
 
 		};
-		metamodelViewer.setLabelProvider(provider);
-		metamodelViewer.addFilter(new ViewerFilter() {
+		metamodelViewer.getViewer().setLabelProvider(provider);
+		metamodelViewer.getViewer().addFilter(new ViewerFilter() {
 			
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
@@ -416,10 +418,10 @@ public class BindingsEditingPage extends FormPage {
 		if (input != null) {
 			ResourceSet resourceSet = ((IEditingDomainProvider)getEditor()).getEditingDomain().getResourceSet();
 			EcoreUtil.resolveAll(resourceSet);
-			metamodelViewer.setInput(resourceSet);
+			metamodelViewer.getViewer().setInput(resourceSet);
 		}
 		CTabItem metamodelItem = new CTabItem(tabFolder, SWT.NONE);
-		metamodelItem.setControl(metamodelTree);
+		metamodelItem.setControl(metamodelViewer);
 		metamodelItem.setText("Metamodel");
 	}
 
@@ -493,7 +495,7 @@ public class BindingsEditingPage extends FormPage {
 	}
 	
 	private void initSelectionBroker() {
-		selectionBroker = new SelectionBroker(selectionService, viewerService, metamodelViewer, bindingSettingsViewer);
+		selectionBroker = new SelectionBroker(selectionService, viewerService, metamodelViewer.getViewer(), bindingSettingsViewer);
 	}
 
 	private Font getFeatureFont() {
@@ -520,7 +522,7 @@ public class BindingsEditingPage extends FormPage {
 	}
 	
 	private EClass findCurrentEClass() {
-		ISelection metamodelSelection = metamodelViewer.getSelection();
+		ISelection metamodelSelection = metamodelViewer.getViewer().getSelection();
 		if (metamodelSelection instanceof TreeSelection) {
 			TreePath[] paths = ((TreeSelection) metamodelSelection).getPaths();
 			if (paths.length > 0) {
@@ -629,7 +631,7 @@ public class BindingsEditingPage extends FormPage {
 		 */
 		@Override
 		public void widgetSelected(SelectionEvent e) {
-			EObject selection = selectionService.unwrapSelection(metamodelViewer.getSelection());
+			EObject selection = selectionService.unwrapSelection(metamodelViewer.getViewer().getSelection());
 			if (selection instanceof EClass) {
 				PropertiesEditingModel editedModel = emfService.findEditedEditingModel(editingDomain.getResourceSet());
 				if (editedModel != null) {
@@ -638,7 +640,7 @@ public class BindingsEditingPage extends FormPage {
 					IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(editedModel, IEditingDomainItemProvider.class);
 					Command cmd = provider.createCommand(editedModel, editingDomain, AddCommand.class , new CommandParameter(editedModel, EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__BINDINGS, Lists.newArrayList(binding)));
 					editingDomain.getCommandStack().execute(cmd);
-					EObject eObj = selectionService.unwrapSelection(metamodelViewer.getSelection());
+					EObject eObj = selectionService.unwrapSelection(metamodelViewer.getViewer().getSelection());
 					updateBindingSettingsActionsState(eObj);
 					refreshPageLayout();
 				} else {
@@ -653,7 +655,7 @@ public class BindingsEditingPage extends FormPage {
 					IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(editedBinding, IEditingDomainItemProvider.class);						
 					Command cmd = provider.createCommand(editedBinding, editingDomain, AddCommand.class , new CommandParameter(editedBinding, EditingModelPackage.Literals.ECLASS_BINDING__PROPERTY_BINDINGS, Lists.newArrayList(binding)));
 					editingDomain.getCommandStack().execute(cmd);
-					EObject eObj = selectionService.unwrapSelection(metamodelViewer.getSelection());
+					EObject eObj = selectionService.unwrapSelection(metamodelViewer.getViewer().getSelection());
 					updateBindingSettingsActionsState(eObj);
 					refreshPageLayout();
 				}
@@ -683,7 +685,7 @@ public class BindingsEditingPage extends FormPage {
 				EObject binding = selectionService.unwrapSelection(selection);
 				Command cmd = editingDomain.createCommand(DeleteCommand.class, new CommandParameter(null, null, Lists.newArrayList(binding)));
 				editingDomain.getCommandStack().execute(cmd);
-				EObject eObj = selectionService.unwrapSelection(metamodelViewer.getSelection());
+				EObject eObj = selectionService.unwrapSelection(metamodelViewer.getViewer().getSelection());
 				updateBindingSettingsActionsState(eObj);
 				refreshPageLayout();
 			} 		
