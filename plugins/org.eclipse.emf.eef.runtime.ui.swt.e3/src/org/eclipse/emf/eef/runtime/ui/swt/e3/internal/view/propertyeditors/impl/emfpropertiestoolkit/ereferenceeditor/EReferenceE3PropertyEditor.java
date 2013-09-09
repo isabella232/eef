@@ -21,6 +21,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.EEFSelectionDialog;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.ChoiceOfValuesFilter;
+import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
@@ -34,8 +35,8 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EReferenceE3PropertyEditor extends EReferencePropertyEditor {
 
-	public EReferenceE3PropertyEditor(EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
-		super(editUIProvidersFactory, view, elementEditor, propertyEditorViewer);
+	public EReferenceE3PropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
+		super(editUIProvidersFactory, imageManager, view, elementEditor, propertyEditorViewer);
 	}
 
 	/**
@@ -57,6 +58,7 @@ public class EReferenceE3PropertyEditor extends EReferencePropertyEditor {
 				dialog.setTitle("Choose the element to add to the " + feature.getName() + " reference:");
 				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
 				dialog.setEditUIProvidersFactory(editUIProvidersFactory);
+				dialog.setImageManager(imageManager);
 				dialog.addFilter(
 						new ChoiceOfValuesFilter(
 								view.getEditingComponent().getEditingContext().getAdapterFactory(), 

@@ -6,9 +6,13 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.widgets;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
+import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -17,11 +21,19 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.collect.Lists;
@@ -30,11 +42,14 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EEFSelectionDialog extends Dialog {
+public class EEFSelectionDialog extends TrayDialog {
 
+	private ImageManager imageManager;
+	
 	private String title;
 	private TreeViewer selectionViewer;
 	private boolean multi;
+	private Menu loadModelMenu;
 	
 	private AdapterFactory adapterFactory;
 	private IContentProvider contentProvider;
@@ -103,6 +118,13 @@ public class EEFSelectionDialog extends Dialog {
 	}
 
 	/**
+	 * @return the selectionViewer
+	 */
+	protected final TreeViewer getSelectionViewer() {
+		return selectionViewer;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
@@ -140,7 +162,37 @@ public class EEFSelectionDialog extends Dialog {
 				}
 			}
 		});
-		
+		final Button loadModel = new Button(control, SWT.PUSH);
+		if (imageManager != null) {
+			loadModel.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "Load"));
+		} else {
+			loadModel.setText("...");
+		}
+		loadModel.setToolTipText("Load model...");
+		loadModel.addSelectionListener(new SelectionAdapter() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 */
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (loadModelMenu != null && !loadModelMenu.isDisposed()) {
+					loadModelMenu.dispose();
+				}
+				loadModelMenu = new Menu(e.display.getActiveShell(), SWT.POP_UP);
+				Menu menu = loadModelMenu;
+				buildLoadModelMenu(menu);
+
+				Rectangle rect = loadModel.getBounds ();
+				Point pt = new Point (rect.x, rect.y + rect.height);
+				pt = loadModel.getParent().toDisplay (pt);
+				loadModelMenu.setLocation (pt.x, pt.y);
+				loadModelMenu.setVisible (true);
+			}
+			
+			
+		});
 		return control;
 	}
 
@@ -166,6 +218,13 @@ public class EEFSelectionDialog extends Dialog {
 	 */
 	public void setEditUIProvidersFactory(EditUIProvidersFactory providersFactory) {
 		this.providersFactory = providersFactory;
+	}
+
+	/**
+	 * @param imageManager the imageManager to set
+	 */
+	public void setImageManager(ImageManager imageManager) {
+		this.imageManager = imageManager;
 	}
 
 	/**
@@ -217,4 +276,34 @@ public class EEFSelectionDialog extends Dialog {
 		this.filters.add(filter);
 	}
 
+	/**
+	 * Builds the "Load Model" menu.
+	 * @param menu the "Load Model" {@link Menu}.
+	 */
+	protected void buildLoadModelMenu(Menu menu) {
+		MenuItem filesystemItem = new MenuItem (menu, SWT.PUSH);
+		filesystemItem.setText("From filesystem...");
+		filesystemItem.addSelectionListener(new SelectionAdapter() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 */
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog dialog = new FileDialog(getShell());
+				String pathName = dialog.open();
+				if (pathName != null) {
+					URI uri = URI.createFileURI(pathName);
+					Object dialogInput = getInput();
+					if (dialogInput instanceof ResourceSet) {
+						((ResourceSet) dialogInput).getResource(uri, true);
+						selectionViewer.refresh();
+					}
+				}
+			}
+
+		});
+	}
+	
 }

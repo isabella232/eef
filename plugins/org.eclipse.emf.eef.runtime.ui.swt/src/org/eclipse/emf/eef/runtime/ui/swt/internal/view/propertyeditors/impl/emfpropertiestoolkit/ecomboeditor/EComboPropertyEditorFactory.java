@@ -56,7 +56,7 @@ public class EComboPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
 		return new EComboPropertyEditor(
-				emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getViewerFilterBuilderProvider(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, 
+				emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), emfPropertiesToolkit.getViewerFilterBuilderProvider(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, 
 				new EComboSWTPropertyEditor(emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement)
 			);
 	}

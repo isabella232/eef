@@ -236,7 +236,7 @@ public class BindingsEditingPage extends FormPage {
 		modelSection.setClient(modelContainer);
 		ToolBar actions = new ToolBar(modelSection, SWT.NONE);
 		ToolItem load = new ToolItem(actions, SWT.PUSH);
-		load.setImage(imageManager.getImage(EditingModelEditPlugin.getPlugin(), "Load"));
+		load.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "Load"));
 		load.setToolTipText("Load a model in the editor resources");
 		load.addSelectionListener(new LoadSelectionAdapter(((IEditingDomainProvider)getEditor()).getEditingDomain()));
 		final ToolItem filterModels = new ToolItem(actions, SWT.CHECK);

@@ -21,6 +21,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.EEFSelectionDialog;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer.SingleLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.ChoiceOfValuesFilter;
+import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilderProvider;
@@ -37,8 +38,9 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EComboE3PropertyEditor extends EComboPropertyEditor {
 
-	public EComboE3PropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
-		super(editUIProvidersFactory, filterBuilderProvider, view, elementEditor, propertyEditorViewer);
+	public EComboE3PropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, 
+			PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+		super(editUIProvidersFactory, imageManager, filterBuilderProvider, view, elementEditor, propertyEditorViewer);
 	}
 
 	/**
@@ -55,6 +57,7 @@ public class EComboE3PropertyEditor extends EComboPropertyEditor {
 				dialog.setTitle("Choose the element to set to the " + feature.getName() + " reference:");
 				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
 				dialog.setEditUIProvidersFactory(editUIProvidersFactory);
+				dialog.setImageManager(imageManager);
 				dialog.addFilter(
 						new ChoiceOfValuesFilter(
 								view.getEditingComponent().getEditingContext().getAdapterFactory(), 

@@ -56,14 +56,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 public class ExtendedLoadResourceAction extends LoadResourceAction {
 
 	@Override
 	public void run() {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		Shell shell = new Shell();
 		ExtendedLoadResourceDialog loadResourceDialog = new ExtendedLoadResourceDialog(shell, domain);
 
 		if (loadResourceDialog.open() == Window.OK && !loadResourceDialog.getRegisteredPackages().isEmpty()) {

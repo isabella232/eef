@@ -18,6 +18,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.EEFSelectionDialog;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer.SingleLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.ChoiceOfValuesFilter;
+import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.util.EEFViewerInput;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
@@ -39,6 +40,7 @@ import org.eclipse.swt.widgets.Composite;
 public class EComboPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
 	protected EditUIProvidersFactory editUIProvidersFactory;
+	protected ImageManager imageManager;
 	protected ViewerFilterBuilderProvider filterBuilderProvider;
 
 	protected PropertiesEditingView<Composite> view;
@@ -47,16 +49,9 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	protected EStructuralFeature feature;
 	private SingleLinePropertyViewerListener listener;
 
-
-	/**
-	 * @param editUIProvidersFactory
-	 * @param filterBuilderProvider
-	 * @param view
-	 * @param elementEditor
-	 * @param propertyEditorViewer
-	 */
-	public EComboPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ViewerFilterBuilderProvider filterBuilderProvider,PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+	public EComboPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider,PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
 		this.editUIProvidersFactory = editUIProvidersFactory;
+		this.imageManager = imageManager;
 		this.filterBuilderProvider = filterBuilderProvider;
 		this.view = view;
 		this.elementEditor = elementEditor;
@@ -138,6 +133,7 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 				dialog.setTitle("Choose the element to set to the " + feature.getName() + " reference:");
 				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
 				dialog.setEditUIProvidersFactory(editUIProvidersFactory);
+				dialog.setImageManager(imageManager);
 				dialog.addFilter(
 						new ChoiceOfValuesFilter(
 								view.getEditingComponent().getEditingContext().getAdapterFactory(), 

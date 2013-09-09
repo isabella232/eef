@@ -17,6 +17,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyView
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.ArrayFeatureContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.ChoiceOfValuesFilter;
+import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
@@ -35,6 +36,7 @@ import org.eclipse.swt.widgets.Composite;
 public class EReferencePropertyEditor extends PropertyEditorImpl implements MultivaluedPropertyEditor {
 
 	protected EditUIProvidersFactory editUIProvidersFactory;
+	protected ImageManager imageManager;
 
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
@@ -43,17 +45,12 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 	protected EStructuralFeature feature;
 	private MultiLinePropertyViewerListener listener;
 
-	/**
-	 * @param editUIProvidersFactory
-	 * @param view
-	 * @param elementEditor
-	 * @param propertyEditorViewer
-	 */
-	public EReferencePropertyEditor(EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
+	public EReferencePropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
 		this.editUIProvidersFactory = editUIProvidersFactory;
+		this.imageManager = imageManager;
 	}
 
 	/**
@@ -213,6 +210,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 				dialog.setTitle("Choose the element to add to the " + feature.getName() + " reference:");
 				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
 				dialog.setEditUIProvidersFactory(editUIProvidersFactory);
+				dialog.setImageManager(imageManager);
 				dialog.addFilter(
 						new ChoiceOfValuesFilter(
 								view.getEditingComponent().getEditingContext().getAdapterFactory(), 

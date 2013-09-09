@@ -378,7 +378,7 @@ public class TreeEEFViewer extends ContentViewer {
 		 */
 		@Override
 		public void widgetSelected(SelectionEvent e) {
-			if (addViewElementMenu == null) {
+			if (addViewElementMenu == null || addViewElementMenu.isDisposed()) {
 				Collection<EClass> listOfInstanciableType = computeInstanciableTypes();
 				if (addViewElementMenu != null) {
 					addViewElementMenu.dispose();
