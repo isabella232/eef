@@ -12,27 +12,21 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.widgets;
 
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.EEFSelectionDialog;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
-import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
-import org.eclipse.ui.dialogs.ResourceSelectionDialog;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -81,12 +75,8 @@ public class EEFSelectionDialogWithFilter extends EEFSelectionDialog {
 					if (result.size() > 0 && result.get(0) instanceof IFile) {
 						IFile file = (IFile) result.get(0);
 						String pathName = file.getFullPath().toOSString();
-						URI uri = URI.createPlatformResourceURI(pathName, true);
-						Object dialogInput = getInput();
-						if (dialogInput instanceof ResourceSet) {
-							((ResourceSet) dialogInput).getResource(uri, true);
-							getSelectionViewer().refresh();
-						}
+						URI uri = URI.createPlatformResourceURI(pathName, false);
+						addURIsToLoad(uri.toString());
 					}
 				}
 			}

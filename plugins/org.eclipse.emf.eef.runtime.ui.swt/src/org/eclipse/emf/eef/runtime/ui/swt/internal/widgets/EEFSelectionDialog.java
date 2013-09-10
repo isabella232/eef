@@ -4,6 +4,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.internal.widgets;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.URI;
@@ -31,10 +32,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
 import com.google.common.collect.Lists;
 
@@ -49,7 +52,7 @@ public class EEFSelectionDialog extends TrayDialog {
 	private String title;
 	private TreeViewer selectionViewer;
 	private boolean multi;
-	private Menu loadModelMenu;
+	private Menu addModelMenu;
 	
 	private AdapterFactory adapterFactory;
 	private IContentProvider contentProvider;
@@ -58,6 +61,8 @@ public class EEFSelectionDialog extends TrayDialog {
 	private Object selection;
 	private Collection<ViewerFilter> filters;
 	private EditUIProvidersFactory providersFactory;
+
+	private Text urisToLoad;
 	
 	/**
 	 * @param parent
@@ -162,13 +167,47 @@ public class EEFSelectionDialog extends TrayDialog {
 				}
 			}
 		});
-		final Button loadModel = new Button(control, SWT.PUSH);
+		Group modelLoading = new Group(control, SWT.BORDER);
+		modelLoading.setText("Model loading");
+		modelLoading.setLayout(new GridLayout(3, false));
+		modelLoading.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		urisToLoad = new Text(modelLoading, SWT.BORDER);
+		urisToLoad.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		final Button addModel = new Button(modelLoading, SWT.PUSH);
+		if (imageManager != null) {
+			addModel.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "Add"));
+		} else {
+			addModel.setText("add");
+		}
+		addModel.setToolTipText("Load model...");
+		addModel.addSelectionListener(new SelectionAdapter() {
+			
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 */
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (addModelMenu != null && !addModelMenu.isDisposed()) {
+					addModelMenu.dispose();
+				}
+				addModelMenu = new Menu(e.display.getActiveShell(), SWT.POP_UP);
+				Menu menu = addModelMenu;
+				buildLoadModelMenu(menu);
+				
+				Rectangle rect = addModel.getBounds ();
+				Point pt = new Point (rect.x, rect.y + rect.height);
+				pt = addModel.getParent().toDisplay (pt);
+				addModelMenu.setLocation (pt.x, pt.y);
+				addModelMenu.setVisible (true);
+			}
+		});
+		final Button loadModel = new Button(modelLoading, SWT.PUSH);
 		if (imageManager != null) {
 			loadModel.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "Load"));
 		} else {
 			loadModel.setText("...");
 		}
-		loadModel.setToolTipText("Load model...");
 		loadModel.addSelectionListener(new SelectionAdapter() {
 
 			/**
@@ -177,20 +216,8 @@ public class EEFSelectionDialog extends TrayDialog {
 			 */
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (loadModelMenu != null && !loadModelMenu.isDisposed()) {
-					loadModelMenu.dispose();
-				}
-				loadModelMenu = new Menu(e.display.getActiveShell(), SWT.POP_UP);
-				Menu menu = loadModelMenu;
-				buildLoadModelMenu(menu);
-
-				Rectangle rect = loadModel.getBounds ();
-				Point pt = new Point (rect.x, rect.y + rect.height);
-				pt = loadModel.getParent().toDisplay (pt);
-				loadModelMenu.setLocation (pt.x, pt.y);
-				loadModelMenu.setVisible (true);
+				loadModels();
 			}
-			
 			
 		});
 		return control;
@@ -275,6 +302,25 @@ public class EEFSelectionDialog extends TrayDialog {
 	public void addFilter(ViewerFilter filter) {
 		this.filters.add(filter);
 	}
+	
+	/**
+	 * Adds a URI to the list of URI to load.
+	 * @param uri the {@link URI} to add.
+	 */
+	protected final void addURIsToLoad(String uri) {
+		StringBuilder builder = new StringBuilder(urisToLoad.getText());
+		if (builder.length() > 0) {
+			builder.append(' ');			
+		}
+		if (uri.indexOf(' ') > 0) {
+			builder.append("\"");
+		}
+		builder.append(uri);
+		if (uri.indexOf(' ') > 0) {
+			builder.append("\"");
+		}
+		urisToLoad.setText(builder.toString());
+	}
 
 	/**
 	 * Builds the "Load Model" menu.
@@ -295,15 +341,70 @@ public class EEFSelectionDialog extends TrayDialog {
 				String pathName = dialog.open();
 				if (pathName != null) {
 					URI uri = URI.createFileURI(pathName);
-					Object dialogInput = getInput();
-					if (dialogInput instanceof ResourceSet) {
-						((ResourceSet) dialogInput).getResource(uri, true);
-						selectionViewer.refresh();
-					}
+					addURIsToLoad(uri.toString());
 				}
 			}
-
 		});
+	}
+	
+	private void loadModels() {
+		String urisText = urisToLoad.getText();
+		if (urisText != null) {
+			urisText = urisText.trim();
+			if (urisText.length() > 0) {
+				List<URI> uris = extractURIs(urisText);
+				Object dialogInput = getInput();
+				if (dialogInput instanceof ResourceSet) {
+					for (URI uri : uris) {
+						((ResourceSet) dialogInput).getResource(uri, true);
+					}
+					urisToLoad.setText("");
+				}
+			}
+		}
+	}
+
+	/*
+	 * TODO: this method should be externalized in a service to be tested!
+	 */
+	private List<URI> extractURIs(String urisText) {
+		List<URI> result = Lists.newArrayList();
+		boolean quoteOpen = false;
+		String currentString = "";
+		for (int i = 0; i < urisText.length(); i++) {
+			char uriChar = urisText.charAt(i);
+			switch (uriChar) {
+			case '\"':
+				if (quoteOpen) {
+					if (currentString.length() > 0) {
+						result.add(URI.createURI(currentString));
+					}
+					currentString = "";
+					quoteOpen = false;
+				} else {
+					quoteOpen = true;
+					currentString = "";
+				}
+				break;
+			case ' ':
+				if (!quoteOpen) {
+					if (currentString.length() > 0) {
+						result.add(URI.createURI(currentString));
+					}
+					currentString = "";
+				} else {
+					currentString += uriChar;
+				}
+				break;
+			default:
+				currentString += uriChar;
+				break;
+			}
+		}
+		if (currentString.length() > 0) {
+			result.add(URI.createURI(currentString));
+		}
+		return result;
 	}
 	
 }
