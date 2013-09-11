@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.cdo.runtime.policies;
 import java.util.List;
 
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.ecore.EObject;
@@ -24,6 +25,7 @@ import org.eclipse.emf.eef.runtime.impl.parts.CompositePropertiesEditionPart;
 import org.eclipse.emf.eef.runtime.policies.ILockPolicy;
 import org.eclipse.emf.eef.runtime.ui.widgets.settings.EEFEditorSettings;
 import org.eclipse.emf.eef.runtime.ui.widgets.settings.EEFEditorSettingsBuilder.EEFEditorSettingsImpl;
+import org.eclipse.emf.spi.cdo.FSMUtil;
 
 /**
  * Lock policy for EEF wizard : lock the semantic elements and its EEFEditorSettings for SmartModelNavigation.
@@ -59,9 +61,9 @@ public class EEFWizardLockPolicy implements ILockPolicy {
 	}
 
 	private void lock(EObject eObject) {
-		if (eObject != null) {
+		if (eObject != null && eObject.eResource() instanceof CDOResource) {
 			CDOObject cdoObject = CDOUtil.getCDOObject(eObject);
-			if (cdoObject != null) {
+			if (cdoObject != null && !FSMUtil.isTransient(cdoObject)) {
 				if (!CDOLockStrategyProviderService.getInstance().getProviders()
 						.isEmpty()) {
 					for (ICDOLockStrategyProvider provider : CDOLockStrategyProviderService.getInstance().getProviders()) {
@@ -87,9 +89,9 @@ public class EEFWizardLockPolicy implements ILockPolicy {
 	}
 
 	private void unlock(EObject eObject) {
-		if (eObject != null) {
+		if (eObject != null && eObject.eResource() instanceof CDOResource) {
 			CDOObject cdoObject = CDOUtil.getCDOObject(eObject);
-			if (cdoObject != null && cdoObject.cdoView() instanceof CDOTransaction) {
+			if (cdoObject != null && !FSMUtil.isTransient(cdoObject) && cdoObject.cdoView() instanceof CDOTransaction) {
 				if (!CDOLockStrategyProviderService.getInstance().getProviders()
 						.isEmpty()) {
 					for (ICDOLockStrategyProvider provider : CDOLockStrategyProviderService.getInstance().getProviders()) {
