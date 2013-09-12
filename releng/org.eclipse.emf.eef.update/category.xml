@@ -28,9 +28,6 @@
    <feature id="org.eclipse.emf.eef.extended-feature" version="0.0.0">
       <category name="eef.extension"/>
    </feature>
-   <feature id="org.eclipse.emf.eef.richtext-feature" version="0.0.0">
-      <category name="eef.extension"/>
-   </feature>
    <feature id="org.eclipse.emf.eef.collab.runtime-feature" version="0.0.0">
       <category name="eef.extension"/>
    </feature>
