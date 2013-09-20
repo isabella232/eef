@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.notify.TargetedEditingEvent;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 
 
@@ -41,7 +42,12 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 	 */
 	public EditingPolicyValidation validateEditing(PropertiesEditingContext editingContext) {
 		PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContext)editingContext).getEditingEvent();
-		EObject eObject = editingContext.getEditingComponent().getEObject();
+		EObject eObject;
+		if (editingEvent instanceof TargetedEditingEvent) {
+			eObject = ((TargetedEditingEvent) editingEvent).getTarget();
+		} else {
+			eObject = editingContext.getEditingComponent().getEObject();
+		}
 		EStructuralFeature feature = editingContext.getEditingComponent().getBinding().feature(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
 		if (feature != null) {
 			if (!eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
