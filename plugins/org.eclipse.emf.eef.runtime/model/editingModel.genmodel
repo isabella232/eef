@@ -70,6 +70,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//EditingOptions/featureDocumentationProvider"/>
     </genClasses>
     <genClasses image="false" ecoreClass="editingModel.ecore#//EditorSettings"/>
-    <genClasses ecoreClass="editingModel.ecore#//EditorFilter"/>
+    <genClasses ecoreClass="editingModel.ecore#//EReferenceFilter"/>
   </genPackages>
 </genmodel:GenModel>

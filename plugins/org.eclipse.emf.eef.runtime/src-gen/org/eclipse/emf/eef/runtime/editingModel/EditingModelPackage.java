@@ -433,14 +433,14 @@ public interface EditingModelPackage extends EPackage {
 	int EDITOR_SETTINGS_FEATURE_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EditorFilterImpl <em>Editor Filter</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EReferenceFilterImpl <em>EReference Filter</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditorFilterImpl
-	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEditorFilter()
+	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EReferenceFilterImpl
+	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEReferenceFilter()
 	 * @generated
 	 */
-	int EDITOR_FILTER = 11;
+	int EREFERENCE_FILTER = 11;
 
 	/**
 	 * The feature id for the '<em><b>Body</b></em>' containment reference.
@@ -449,16 +449,16 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EDITOR_FILTER__BODY = EDITOR_SETTINGS_FEATURE_COUNT + 0;
+	int EREFERENCE_FILTER__BODY = EDITOR_SETTINGS_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Editor Filter</em>' class.
+	 * The number of structural features of the '<em>EReference Filter</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EDITOR_FILTER_FEATURE_COUNT = EDITOR_SETTINGS_FEATURE_COUNT + 1;
+	int EREFERENCE_FILTER_FEATURE_COUNT = EDITOR_SETTINGS_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider <em>Feature Documentation Provider</em>}' enum.
@@ -779,14 +779,14 @@ public interface EditingModelPackage extends EPackage {
 	EClass getEditorSettings();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.EditorFilter <em>Editor Filter</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter <em>EReference Filter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Editor Filter</em>'.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.EditorFilter
+	 * @return the meta object for class '<em>EReference Filter</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter
 	 * @generated
 	 */
-	EClass getEditorFilter();
+	EClass getEReferenceFilter();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider <em>Feature Documentation Provider</em>}'.
@@ -1075,14 +1075,14 @@ public interface EditingModelPackage extends EPackage {
 		EClass EDITOR_SETTINGS = eINSTANCE.getEditorSettings();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EditorFilterImpl <em>Editor Filter</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EReferenceFilterImpl <em>EReference Filter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditorFilterImpl
-		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEditorFilter()
+		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EReferenceFilterImpl
+		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEReferenceFilter()
 		 * @generated
 		 */
-		EClass EDITOR_FILTER = eINSTANCE.getEditorFilter();
+		EClass EREFERENCE_FILTER = eINSTANCE.getEReferenceFilter();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider <em>Feature Documentation Provider</em>}' enum.

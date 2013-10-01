@@ -8,7 +8,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
-import org.eclipse.emf.eef.runtime.editingModel.EditorFilter;
+import org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter;
 import org.eclipse.emf.eef.runtime.editingModel.EditorSettings;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -71,9 +71,9 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 		if (associatedBinding != null) {
 			EList<EditorSettings> settings = associatedBinding.getSettings();
 			for (EditorSettings editorSettings : settings) {
-				if (editorSettings instanceof EditorFilter) {
-					EditorFilter editorFilter = (EditorFilter) editorSettings;
-					ViewerFilter viewerFilter = filterBuilderProvider.getFilterBuilder(editorFilter).buildFilter(view.getEditingComponent().getEditingContext(), view, editorFilter);
+				if (editorSettings instanceof EReferenceFilter) {
+					EReferenceFilter eReferenceFilter = (EReferenceFilter) editorSettings;
+					ViewerFilter viewerFilter = filterBuilderProvider.getFilterBuilder(eReferenceFilter).buildFilter(view.getEditingComponent().getEditingContext(), view, eReferenceFilter);
 					((FilterablePropertyEditor)propertyEditorViewer).addFilter(viewerFilter);
 				}
 			}

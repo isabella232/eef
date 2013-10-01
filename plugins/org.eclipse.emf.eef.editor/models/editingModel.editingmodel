@@ -45,7 +45,7 @@
       <propertyBindings>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding/feature"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.0"/>
-        <settings xsi:type="eef-model:EditorFilter">
+        <settings xsi:type="eef-model:EReferenceFilter">
           <body xsi:type="eef-query:JavaBody" qualifiedClass="org.eclipse.emf.eef.editor.internal.filters.PropertyBindingFilter" method="bindableFeature"/>
         </settings>
       </propertyBindings>
@@ -68,13 +68,13 @@
       <propertyBindings>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EObjectEditor/definition"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.4/@elements.0"/>
-        <settings xsi:type="eef-model:EditorFilter">
+        <settings xsi:type="eef-model:EReferenceFilter">
           <body xsi:type="eef-query:JavaBody" qualifiedClass="org.eclipse.emf.eef.editor.internal.filters.EObjectEditorFilter" method="bindableEditor"/>
         </settings>
       </propertyBindings>
     </bindings>
     <bindings>
-      <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EditorFilter"/>
+      <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EReferenceFilter"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.8"/>
       <propertyBindings>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.ecore#//Query/body"/>
@@ -170,7 +170,7 @@
         </elements>
       </elements>
     </views>
-    <views name="EditorFilter">
+    <views name="EReferenceFilter">
       <elements xsi:type="eef-views:ElementEditor" name="body">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.4"/>
       </elements>

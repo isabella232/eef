@@ -164,12 +164,12 @@ public class EditingModelSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case EditingModelPackage.EDITOR_FILTER: {
-				EditorFilter editorFilter = (EditorFilter)theEObject;
-				T result = caseEditorFilter(editorFilter);
-				if (result == null) result = caseEditorSettings(editorFilter);
-				if (result == null) result = caseFilter(editorFilter);
-				if (result == null) result = caseQuery(editorFilter);
+			case EditingModelPackage.EREFERENCE_FILTER: {
+				EReferenceFilter eReferenceFilter = (EReferenceFilter)theEObject;
+				T result = caseEReferenceFilter(eReferenceFilter);
+				if (result == null) result = caseEditorSettings(eReferenceFilter);
+				if (result == null) result = caseFilter(eReferenceFilter);
+				if (result == null) result = caseQuery(eReferenceFilter);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -343,17 +343,17 @@ public class EditingModelSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Editor Filter</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EReference Filter</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Editor Filter</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EReference Filter</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseEditorFilter(EditorFilter object) {
+	public T caseEReferenceFilter(EReferenceFilter object) {
 		return null;
 	}
 

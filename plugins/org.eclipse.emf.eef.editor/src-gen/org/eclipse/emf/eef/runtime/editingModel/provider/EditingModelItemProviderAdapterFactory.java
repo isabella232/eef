@@ -258,26 +258,26 @@ public class EditingModelItemProviderAdapterFactory extends EditingModelAdapterF
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.eef.runtime.editingModel.EditorFilter} instances.
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EditorFilterItemProvider editorFilterItemProvider;
+	protected EReferenceFilterItemProvider eReferenceFilterItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EditorFilter}.
+	 * This creates an adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createEditorFilterAdapter() {
-		if (editorFilterItemProvider == null) {
-			editorFilterItemProvider = new EditorFilterItemProvider(this);
+	public Adapter createEReferenceFilterAdapter() {
+		if (eReferenceFilterItemProvider == null) {
+			eReferenceFilterItemProvider = new EReferenceFilterItemProvider(this);
 		}
 
-		return editorFilterItemProvider;
+		return eReferenceFilterItemProvider;
 	}
 
 	/**
@@ -393,7 +393,7 @@ public class EditingModelItemProviderAdapterFactory extends EditingModelAdapterF
 		if (javaEditorItemProvider != null) javaEditorItemProvider.dispose();
 		if (eObjectEditorItemProvider != null) eObjectEditorItemProvider.dispose();
 		if (editingOptionsItemProvider != null) editingOptionsItemProvider.dispose();
-		if (editorFilterItemProvider != null) editorFilterItemProvider.dispose();
+		if (eReferenceFilterItemProvider != null) eReferenceFilterItemProvider.dispose();
 	}
 
 }

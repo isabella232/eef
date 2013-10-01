@@ -80,5 +80,5 @@
     <eLiterals name="EcoreDocumentation" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EditorSettings" abstract="true" interface="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="EditorFilter" eSuperTypes="#//EditorSettings query.ecore#//Filter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EReferenceFilter" eSuperTypes="#//EditorSettings query.ecore#//Filter"/>
 </ecore:EPackage>

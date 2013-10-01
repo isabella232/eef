@@ -10,7 +10,6 @@ package org.eclipse.emf.eef.runtime.editingModel.provider;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -24,19 +23,19 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
+import org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
-import org.eclipse.emf.eef.runtime.editingModel.EditorFilter;
 import org.eclipse.emf.eef.runtime.query.Body;
 import org.eclipse.emf.eef.runtime.query.QueryFactory;
 import org.eclipse.emf.eef.runtime.query.QueryPackage;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EditorFilter} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class EditorFilterItemProvider
+public class EReferenceFilterItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -50,7 +49,7 @@ public class EditorFilterItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EditorFilterItemProvider(AdapterFactory adapterFactory) {
+	public EReferenceFilterItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -100,14 +99,14 @@ public class EditorFilterItemProvider
 	}
 
 	/**
-	 * This returns EditorFilter.gif.
+	 * This returns EReferenceFilter.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/EditorFilter"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/EReferenceFilter"));
 	}
 
 	/**
@@ -118,13 +117,13 @@ public class EditorFilterItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		Body<Boolean> body = ((EditorFilter)object).getBody();
+		Body<Boolean> body = ((EReferenceFilter)object).getBody();
 		String label = null;
 		IItemLabelProvider labelProvider = (IItemLabelProvider) adapterFactory.adapt(body, IItemLabelProvider.class);
 		if (labelProvider != null) {
 			label = labelProvider.getText(body);
 		}
-		return label != null?label:getString("_UI_EditorFilter_type");
+		return label != null?label:getString("_UI_EReferenceFilter_type");
 	}
 
 	/**
@@ -138,8 +137,8 @@ public class EditorFilterItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(EditorFilter.class)) {
-			case EditingModelPackage.EDITOR_FILTER__BODY:
+		switch (notification.getFeatureID(EReferenceFilter.class)) {
+			case EditingModelPackage.EREFERENCE_FILTER__BODY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}

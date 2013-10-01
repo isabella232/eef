@@ -77,7 +77,7 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 			case EditingModelPackage.JAVA_EDITOR: return createJavaEditor();
 			case EditingModelPackage.EOBJECT_EDITOR: return createEObjectEditor();
 			case EditingModelPackage.EDITING_OPTIONS: return createEditingOptions();
-			case EditingModelPackage.EDITOR_FILTER: return createEditorFilter();
+			case EditingModelPackage.EREFERENCE_FILTER: return createEReferenceFilter();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -198,9 +198,9 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EditorFilter createEditorFilter() {
-		EditorFilterImpl editorFilter = new EditorFilterImpl();
-		return editorFilter;
+	public EReferenceFilter createEReferenceFilter() {
+		EReferenceFilterImpl eReferenceFilter = new EReferenceFilterImpl();
+		return eReferenceFilter;
 	}
 
 	/**

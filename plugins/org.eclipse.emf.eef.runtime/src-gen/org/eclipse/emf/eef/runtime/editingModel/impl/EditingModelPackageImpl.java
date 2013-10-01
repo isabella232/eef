@@ -17,11 +17,11 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
+import org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.Editor;
-import org.eclipse.emf.eef.runtime.editingModel.EditorFilter;
 import org.eclipse.emf.eef.runtime.editingModel.EditorSettings;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
@@ -120,7 +120,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass editorFilterEClass = null;
+	private EClass eReferenceFilterEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -460,8 +460,8 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getEditorFilter() {
-		return editorFilterEClass;
+	public EClass getEReferenceFilter() {
+		return eReferenceFilterEClass;
 	}
 
 	/**
@@ -541,7 +541,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 
 		editorSettingsEClass = createEClass(EDITOR_SETTINGS);
 
-		editorFilterEClass = createEClass(EDITOR_FILTER);
+		eReferenceFilterEClass = createEClass(EREFERENCE_FILTER);
 
 		// Create enums
 		featureDocumentationProviderEEnum = createEEnum(FEATURE_DOCUMENTATION_PROVIDER);
@@ -583,8 +583,8 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		eObjectViewEClass.getESuperTypes().add(this.getView());
 		javaEditorEClass.getESuperTypes().add(this.getEditor());
 		eObjectEditorEClass.getESuperTypes().add(this.getEditor());
-		editorFilterEClass.getESuperTypes().add(this.getEditorSettings());
-		editorFilterEClass.getESuperTypes().add(theQueryPackage.getFilter());
+		eReferenceFilterEClass.getESuperTypes().add(this.getEditorSettings());
+		eReferenceFilterEClass.getESuperTypes().add(theQueryPackage.getFilter());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(propertiesEditingModelEClass, PropertiesEditingModel.class, "PropertiesEditingModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -646,7 +646,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 
 		initEClass(editorSettingsEClass, EditorSettings.class, "EditorSettings", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(editorFilterEClass, EditorFilter.class, "EditorFilter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(eReferenceFilterEClass, EReferenceFilter.class, "EReferenceFilter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(featureDocumentationProviderEEnum, FeatureDocumentationProvider.class, "FeatureDocumentationProvider");

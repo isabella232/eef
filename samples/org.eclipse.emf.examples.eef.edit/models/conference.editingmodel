@@ -9,7 +9,7 @@
       <propertyBindings>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.0"/>
-        <settings xsi:type="eef-model:EditorFilter">
+        <settings xsi:type="eef-model:EReferenceFilter">
           <body xsi:type="eef-query:JavaBody"/>
         </settings>
       </propertyBindings>
@@ -23,7 +23,7 @@
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/participants"/>
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0"/>
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0/@elements.0"/>
       </propertyBindings>
       <propertyBindings>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/sessions"/>
@@ -168,8 +168,10 @@
       </elements>
     </views>
     <views name="Participants">
-      <elements xsi:type="eef-views:ElementEditor" name="participants">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
+      <elements xsi:type="eef-views:Container">
+        <elements xsi:type="eef-views:ElementEditor" name="participants">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
+        </elements>
       </elements>
     </views>
     <views name="Sessions">

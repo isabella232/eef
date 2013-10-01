@@ -126,8 +126,8 @@ public class EditingModelAdapterFactory extends AdapterFactoryImpl {
 				return createEditorSettingsAdapter();
 			}
 			@Override
-			public Adapter caseEditorFilter(EditorFilter object) {
-				return createEditorFilterAdapter();
+			public Adapter caseEReferenceFilter(EReferenceFilter object) {
+				return createEReferenceFilterAdapter();
 			}
 			@Override
 			public <TYPE> Adapter caseQuery(Query<TYPE> object) {
@@ -312,16 +312,16 @@ public class EditingModelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.EditorFilter <em>Editor Filter</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter <em>EReference Filter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.EditorFilter
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter
 	 * @generated
 	 */
-	public Adapter createEditorFilterAdapter() {
+	public Adapter createEReferenceFilterAdapter() {
 		return null;
 	}
 
