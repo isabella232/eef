@@ -12,6 +12,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl
 
 import java.util.Collection;
 
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
@@ -38,9 +39,10 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EComboE3PropertyEditor extends EComboPropertyEditor {
 
-	public EComboE3PropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, 
-			PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
-		super(editUIProvidersFactory, imageManager, filterBuilderProvider, view, elementEditor, propertyEditorViewer);
+	public EComboE3PropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager,
+			ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, PropertyBinding propertyBinding,
+			ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+		super(editUIProvidersFactory, imageManager, filterBuilderProvider, view, propertyBinding, elementEditor, propertyEditorViewer);
 	}
 
 	/**

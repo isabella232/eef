@@ -5,6 +5,8 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.impl;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.section.SectionPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor;
@@ -49,15 +51,19 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 	public void createContents(FormToolkit toolkit, Composite composite) {
 		contentsComposite = toolkit.createComposite(composite);
 		contentsComposite.setLayout(new GridLayout(3, false));
+		EClassBinding binding = editingComponent.getBinding();
+		boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
 		for (EObject content : viewDescriptor.eContents()) {
-			buildElement(toolkit, contentsComposite, content);
+			if (binding.feature(content, autowire) != null) {
+				buildElement(toolkit, contentsComposite, binding.propertyBinding(content, autowire), content);
+			}
 		}
 	}
 
-	private void buildElement(FormToolkit toolkit, Composite currentContainer, EObject content) {
+	private void buildElement(FormToolkit toolkit, Composite currentContainer, PropertyBinding propertyBinding, EObject content) {
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;
-			PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
+			PropertyEditorContext editorContext = new PropertyEditorContext(this, propertyBinding, elementEditor);
 			EEFToolkit<Composite> propertyEditorProvider = eefToolkitProvider.getToolkit(editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
@@ -70,7 +76,7 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 			}
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
-			PropertyEditorContext editorContext = new PropertyEditorContext(this, container);
+			PropertyEditorContext editorContext = new PropertyEditorContext(this, propertyBinding, container);
 			EEFToolkit<Composite> propertyEditorProvider = eefToolkitProvider.getToolkit(editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
@@ -82,9 +88,13 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 				this.propertyEditors.put(container, propertyEditor);
 				if (!(propertyEditor instanceof UndefinedPropertyEditor)) {
 					for (EObject subContent : content.eContents()) {
-						Object viewer = propertyEditor.getPropertyEditorViewer().getViewer();
-						if (viewer instanceof Viewer) {
-							buildElement(toolkit, (Composite) ((Viewer) viewer).getControl(), subContent);
+						EClassBinding binding = editingComponent.getBinding();
+						boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
+						Composite viewerControl = (Composite) ((Viewer) propertyEditor.getPropertyEditorViewer().getViewer()).getControl();
+						if ((Viewer) propertyEditor.getPropertyEditorViewer().getViewer() instanceof Viewer) {
+							if (binding.feature(content, autowire) != null) {
+								buildElement(toolkit, viewerControl, binding.propertyBinding(subContent, autowire), subContent);
+							}
 						}
 					}
 				}

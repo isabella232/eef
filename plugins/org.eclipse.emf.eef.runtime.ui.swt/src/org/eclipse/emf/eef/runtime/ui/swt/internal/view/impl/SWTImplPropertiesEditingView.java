@@ -6,6 +6,8 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.view.SWTPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor;
@@ -42,15 +44,19 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 	public void createContents(Composite composite) {
 		contentsComposite = new Composite(composite, SWT.NONE);
 		contentsComposite.setLayout(new GridLayout(3, false));
+		EClassBinding binding = editingComponent.getBinding();
+		boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
 		for (EObject content : viewDescriptor.eContents()) {
-			buildElement(contentsComposite, content);
+			if (binding.feature(content, autowire) != null) {
+				buildElement(contentsComposite, binding.propertyBinding(content, autowire), content);
+			}
 		}
 	}
 
-	private void buildElement(Composite currentContainer, EObject content) {
+	private void buildElement(Composite currentContainer, PropertyBinding propertyBinding, EObject content) {
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;
-			PropertyEditorContext editorContext = new PropertyEditorContext(this, elementEditor);
+			PropertyEditorContext editorContext = new PropertyEditorContext(this, propertyBinding, elementEditor);
 			EEFToolkit<Composite> propertyEditorProvider = eefToolkitProvider.getToolkit(editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
@@ -61,7 +67,7 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 			}
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
-			PropertyEditorContext editorContext = new PropertyEditorContext(this, container);
+			PropertyEditorContext editorContext = new PropertyEditorContext(this, propertyBinding, container);
 			EEFToolkit<Composite> propertyEditorProvider = eefToolkitProvider.getToolkit(editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
@@ -69,8 +75,13 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 					((SWTPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(currentContainer);
 					this.propertyEditors.put(container, propertyEditor);
 					if (!(propertyEditor instanceof UndefinedPropertyEditor)) {
+						EClassBinding binding = editingComponent.getBinding();
+						boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
+						Composite viewerControl = (Composite)((Viewer) propertyEditor.getPropertyEditorViewer().getViewer()).getControl();
 						for (EObject subContent : content.eContents()) {
-							buildElement((Composite)((Viewer) propertyEditor.getPropertyEditorViewer().getViewer()).getControl(), subContent);
+							if (binding.feature(content, autowire) != null) {
+								buildElement(viewerControl, binding.propertyBinding(subContent, autowire), subContent);
+							}
 						}
 					}
 				}

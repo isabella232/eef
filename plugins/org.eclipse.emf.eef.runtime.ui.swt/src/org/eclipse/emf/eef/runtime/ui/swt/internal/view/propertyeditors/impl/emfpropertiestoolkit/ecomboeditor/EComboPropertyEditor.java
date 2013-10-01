@@ -7,7 +7,6 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter;
 import org.eclipse.emf.eef.runtime.editingModel.EditorSettings;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
@@ -44,16 +43,18 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	protected ViewerFilterBuilderProvider filterBuilderProvider;
 
 	protected PropertiesEditingView<Composite> view;
+	protected PropertyBinding propertyBinding;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
 	protected EStructuralFeature feature;
 	private SingleLinePropertyViewerListener listener;
 
-	public EComboPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider,PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+	public EComboPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider,PropertiesEditingView<Composite> view, PropertyBinding propertyBinding, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
 		this.editUIProvidersFactory = editUIProvidersFactory;
 		this.imageManager = imageManager;
 		this.filterBuilderProvider = filterBuilderProvider;
 		this.view = view;
+		this.propertyBinding = propertyBinding;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
 	}
@@ -66,10 +67,8 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 		this.feature = feature;
 		EEFViewerInput input = new EEFViewerInput(view.getEditingComponent().getEditingContext(), feature);
 		propertyEditorViewer.getViewer().setInput(input);
-		EList<PropertyBinding> propertyBindings = view.getEditingComponent().getBinding().getPropertyBindings();
-		PropertyBinding associatedBinding = findAssociatedBinding(propertyBindings);
-		if (associatedBinding != null) {
-			EList<EditorSettings> settings = associatedBinding.getSettings();
+		if (propertyBinding != null) {
+			EList<EditorSettings> settings = propertyBinding.getSettings();
 			for (EditorSettings editorSettings : settings) {
 				if (editorSettings instanceof EReferenceFilter) {
 					EReferenceFilter eReferenceFilter = (EReferenceFilter) editorSettings;
@@ -165,16 +164,6 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 			}
 			
 		};
-	}
-
-	private PropertyBinding findAssociatedBinding(EList<PropertyBinding> propertyBindings) {
-		PropertyBinding associatedBinding = null;
-		for (PropertyBinding propertyBinding : propertyBindings) {
-			if (propertyBinding.getEditor() instanceof EObjectEditor && ((EObjectEditor)propertyBinding.getEditor()).getDefinition() == elementEditor) {
-				associatedBinding = propertyBinding;
-			}
-		}
-		return associatedBinding;
 	}
 
 }
