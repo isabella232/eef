@@ -54,7 +54,8 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 		EClassBinding binding = editingComponent.getBinding();
 		boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
 		for (EObject content : viewDescriptor.eContents()) {
-			if (binding.feature(content, autowire) != null) {
+			//TODO: In case of Container, we should check that at least 1 subElementEditor is binded.
+			if (content instanceof Container || binding.feature(content, autowire) != null) {
 				buildElement(toolkit, contentsComposite, binding.propertyBinding(content, autowire), content);
 			}
 		}
@@ -92,7 +93,8 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 						boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
 						Composite viewerControl = (Composite) ((Viewer) propertyEditor.getPropertyEditorViewer().getViewer()).getControl();
 						if ((Viewer) propertyEditor.getPropertyEditorViewer().getViewer() instanceof Viewer) {
-							if (binding.feature(content, autowire) != null) {
+							//TODO: In case of Container, we should check that at least 1 subElementEditor is binded.
+							if (content instanceof Container || binding.feature(content, autowire) != null) {
 								buildElement(toolkit, viewerControl, binding.propertyBinding(subContent, autowire), subContent);
 							}
 						}

@@ -47,7 +47,8 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 		EClassBinding binding = editingComponent.getBinding();
 		boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
 		for (EObject content : viewDescriptor.eContents()) {
-			if (binding.feature(content, autowire) != null) {
+			//TODO: In case of Container, we should check that at least 1 subElementEditor is binded.
+			if (content instanceof Container || binding.feature(content, autowire) != null) {
 				buildElement(contentsComposite, binding.propertyBinding(content, autowire), content);
 			}
 		}
@@ -79,7 +80,8 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 						boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
 						Composite viewerControl = (Composite)((Viewer) propertyEditor.getPropertyEditorViewer().getViewer()).getControl();
 						for (EObject subContent : content.eContents()) {
-							if (binding.feature(content, autowire) != null) {
+							//TODO: In case of Container, we should check that at least 1 subElementEditor is binded.
+							if (content instanceof Container || binding.feature(content, autowire) != null) {
 								buildElement(viewerControl, binding.propertyBinding(subContent, autowire), subContent);
 							}
 						}
