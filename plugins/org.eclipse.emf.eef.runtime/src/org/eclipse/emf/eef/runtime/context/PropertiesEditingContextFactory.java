@@ -69,7 +69,7 @@ public interface PropertiesEditingContextFactory extends EEFService<EObject> {
 		
 	/**
 	 * Creates a semantic {@link PropertiesEditingContext} related to a given {@link PropertiesEditingEvent}.
-	 * @param parentContext the {@link PropertiesEditingContext} that generated this new contet
+	 * @param parentContext the {@link PropertiesEditingContext} that generated this new context.
 	 * @param editingEvent the {@link PropertiesEditingEvent} to process with the created context.
 	 * @return the created {@link PropertiesEditingContext}.
 	 */
