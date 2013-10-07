@@ -49,7 +49,7 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	protected EStructuralFeature feature;
 	private SingleLinePropertyViewerListener listener;
 
-	public EComboPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider,PropertiesEditingView<Composite> view, PropertyBinding propertyBinding, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+	public EComboPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, PropertyBinding propertyBinding, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
 		this.editUIProvidersFactory = editUIProvidersFactory;
 		this.imageManager = imageManager;
 		this.filterBuilderProvider = filterBuilderProvider;

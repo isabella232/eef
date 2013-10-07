@@ -58,8 +58,8 @@ public class EReferencePropertyEditorFactory extends WidgetPropertyEditorFactory
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
 		return new EReferencePropertyEditor(
-				emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), 
-				(PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, (PropertyEditorViewer<MultiLinePropertyViewer>) 
+				emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), emfPropertiesToolkit.getViewerFilterBuilderProvider(),
+				(PropertiesEditingView<Composite>) editorContext.view, editorContext.propertyBinding, (ElementEditor) editorContext.viewElement, (PropertyEditorViewer<MultiLinePropertyViewer>) 
 				new EReferenceSWTPropertyEditor(emfPropertiesToolkit.getImageManager(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement)
 			);
 	}

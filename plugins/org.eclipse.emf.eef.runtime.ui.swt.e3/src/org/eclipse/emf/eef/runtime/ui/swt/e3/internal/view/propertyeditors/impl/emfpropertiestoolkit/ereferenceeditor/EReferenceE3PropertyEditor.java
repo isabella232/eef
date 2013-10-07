@@ -12,6 +12,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl
 
 import java.util.Collection;
 
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
@@ -23,6 +24,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyView
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilderProvider;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -35,8 +37,10 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EReferenceE3PropertyEditor extends EReferencePropertyEditor {
 
-	public EReferenceE3PropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
-		super(editUIProvidersFactory, imageManager, view, elementEditor, propertyEditorViewer);
+	public EReferenceE3PropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager,
+			ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, PropertyBinding propertyBinding,
+			ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
+		super(editUIProvidersFactory, imageManager, filterBuilderProvider, view, propertyBinding, elementEditor, propertyEditorViewer);
 	}
 
 	/**
