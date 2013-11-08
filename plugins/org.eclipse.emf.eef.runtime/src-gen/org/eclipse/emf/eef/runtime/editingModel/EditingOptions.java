@@ -6,7 +6,7 @@
  */
 package org.eclipse.emf.eef.runtime.editingModel;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EModelElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,9 +22,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getEditingOptions()
  * @model
+ * @extends EModelElement
  * @generated
  */
-public interface EditingOptions extends EObject {
+public interface EditingOptions extends EModelElement {
 	/**
 	 * Returns the value of the '<em><b>Feature Documentation Provider</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider}.

@@ -7,6 +7,7 @@
 package org.eclipse.emf.eef.runtime.editingModel.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.impl.EModelElementImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.View;
@@ -20,7 +21,7 @@ import org.eclipse.emf.eef.runtime.editingModel.View;
  *
  * @generated
  */
-public abstract class ViewImpl extends EObjectImpl implements View {
+public abstract class ViewImpl extends EModelElementImpl implements View {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

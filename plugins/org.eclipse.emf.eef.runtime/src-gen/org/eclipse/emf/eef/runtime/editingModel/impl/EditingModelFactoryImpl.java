@@ -69,14 +69,14 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL: return createPropertiesEditingModel();
-			case EditingModelPackage.ECLASS_BINDING: return createEClassBinding();
-			case EditingModelPackage.PROPERTY_BINDING: return createPropertyBinding();
-			case EditingModelPackage.JAVA_VIEW: return createJavaView();
-			case EditingModelPackage.EOBJECT_VIEW: return createEObjectView();
-			case EditingModelPackage.JAVA_EDITOR: return createJavaEditor();
-			case EditingModelPackage.EOBJECT_EDITOR: return createEObjectEditor();
-			case EditingModelPackage.EDITING_OPTIONS: return createEditingOptions();
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL: return (EObject)createPropertiesEditingModel();
+			case EditingModelPackage.ECLASS_BINDING: return (EObject)createEClassBinding();
+			case EditingModelPackage.PROPERTY_BINDING: return (EObject)createPropertyBinding();
+			case EditingModelPackage.JAVA_VIEW: return (EObject)createJavaView();
+			case EditingModelPackage.EOBJECT_VIEW: return (EObject)createEObjectView();
+			case EditingModelPackage.JAVA_EDITOR: return (EObject)createJavaEditor();
+			case EditingModelPackage.EOBJECT_EDITOR: return (EObject)createEObjectEditor();
+			case EditingModelPackage.EDITING_OPTIONS: return (EObject)createEditingOptions();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}

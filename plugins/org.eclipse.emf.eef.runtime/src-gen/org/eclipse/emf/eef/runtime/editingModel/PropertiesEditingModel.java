@@ -7,6 +7,7 @@
 package org.eclipse.emf.eef.runtime.editingModel;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
@@ -28,9 +29,10 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
  *
  * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertiesEditingModel()
  * @model
+ * @extends EModelElement
  * @generated
  */
-public interface PropertiesEditingModel extends EObject {
+public interface PropertiesEditingModel extends EModelElement {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->

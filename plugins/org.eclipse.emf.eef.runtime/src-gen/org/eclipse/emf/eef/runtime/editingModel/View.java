@@ -6,7 +6,7 @@
  */
 package org.eclipse.emf.eef.runtime.editingModel;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EModelElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,8 +16,9 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getView()
  * @model abstract="true"
+ * @extends EModelElement
  * @generated
  */
-public interface View extends EObject {
+public interface View extends EModelElement {
 
 } // View
