@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<units size='1'>
+  <unit id='org.eclipse.emf.eef.runtime.ui.jdt' version='2.0.0.201309200820'>
+    <update id='org.eclipse.emf.eef.runtime.ui.jdt' range='[0.0.0,2.0.0.201309200820)' severity='0'/>
+    <properties size='8'>
+      <property name='df_LT.providerName' value='Eclipse Modeling Project'/>
+      <property name='df_LT.pluginName' value='SWT-Dependent part of the Extended Editing Framework runtime'/>
+      <property name='org.eclipse.equinox.p2.name' value='%pluginName'/>
+      <property name='org.eclipse.equinox.p2.provider' value='%providerName'/>
+      <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+      <property name='maven-groupId' value='org.eclipse'/>
+      <property name='maven-artifactId' value='org.eclipse.emf.eef.runtime.ui.jdt'/>
+      <property name='maven-version' value='2.0.0-SNAPSHOT'/>
+    </properties>
+    <provides size='4'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.eef.runtime.ui.jdt' version='2.0.0.201309200820'/>
+      <provided namespace='osgi.bundle' name='org.eclipse.emf.eef.runtime.ui.jdt' version='2.0.0.201309200820'/>
+      <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+    </provides>
+    <requires size='38'>
+      <required namespace='java.package' name='com.google.common.collect' range='10.0.1'/>
+      <required namespace='java.package' name='org.eclipse.core.resources' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.core.runtime' range='3.4.0'/>
+      <required namespace='java.package' name='org.eclipse.core.runtime.jobs' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.common.notify' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.common.util' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.ecore' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.ecore.resource' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.binding' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.context' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.editingModel' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.notify' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.ui.swt' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.ui.swt.internal.widgets' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.ui.swt.resources' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.ui.swt.util' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.ui.swt.viewer' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.ui.swt.viewer.filters' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.ui.view' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.ui.view.propertyeditors' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.views' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.emf.eef.views.toolkits' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.jdt.core' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.jdt.core.search' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.jdt.internal.core' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.jdt.internal.ui.dialogs' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.jface.operation' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.jface.viewers' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.jface.window' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.swt' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.swt.layout' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.swt.widgets' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.ui' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.ui.dialogs' range='0.0.0'/>
+    </requires>
+    <artifacts size='1'>
+      <artifact classifier='osgi.bundle' id='org.eclipse.emf.eef.runtime.ui.jdt' version='2.0.0.201309200820'/>
+    </artifacts>
+    <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+    <touchpointData size='1'>
+      <instructions size='1'>
+        <instruction key='manifest'>
+          Bundle-SymbolicName: org.eclipse.emf.eef.runtime.ui.jdt;singleton:=true&#xA;Bundle-Version: 2.0.0.201309200820&#xA;
+        </instruction>
+      </instructions>
+    </touchpointData>
+  </unit>
+</units>

@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.EModelElementImpl;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -52,7 +53,7 @@ import com.google.common.collect.Collections2;
  *
  * @generated
  */
-public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
+public class EClassBindingImpl extends EModelElementImpl implements EClassBinding {
 	/**
 	 * The cached value of the '{@link #getEClass() <em>EClass</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -129,7 +130,7 @@ public class EClassBindingImpl extends EObjectImpl implements EClassBinding {
 	 */
 	public void setEditingModel(PropertiesEditingModel newEditingModel) {
 		if (newEditingModel != eInternalContainer() || (eContainerFeatureID() != EditingModelPackage.ECLASS_BINDING__EDITING_MODEL && newEditingModel != null)) {
-			if (EcoreUtil.isAncestor(this, newEditingModel))
+			if (EcoreUtil.isAncestor(this, (EObject)newEditingModel))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)

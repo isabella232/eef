@@ -7,7 +7,7 @@
 package org.eclipse.emf.eef.runtime.editingModel;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
@@ -27,9 +27,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertyBinding()
  * @model
+ * @extends EModelElement
  * @generated
  */
-public interface PropertyBinding extends EObject {
+public interface PropertyBinding extends EModelElement {
 	/**
 	 * Returns the value of the '<em><b>Feature</b></em>' reference.
 	 * <!-- begin-user-doc -->

@@ -7,6 +7,7 @@
 package org.eclipse.emf.eef.runtime.editingModel.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.impl.EModelElementImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.Editor;
@@ -20,7 +21,7 @@ import org.eclipse.emf.eef.runtime.editingModel.Editor;
  *
  * @generated
  */
-public abstract class EditorImpl extends EObjectImpl implements Editor {
+public abstract class EditorImpl extends EModelElementImpl implements Editor {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
