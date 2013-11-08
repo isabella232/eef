@@ -9,13 +9,10 @@ package org.eclipse.emf.eef.runtime.query.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.eef.runtime.query.Body;
 import org.eclipse.emf.eef.runtime.query.Filter;
 import org.eclipse.emf.eef.runtime.query.JavaBody;

@@ -14,12 +14,10 @@ import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.View;
+import org.eclipse.emf.eef.runtime.internal.binding.ReflectivePropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
-import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 import com.google.common.base.Function;
@@ -32,10 +30,9 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class AbstractEEFBindingSettings implements EEFBindingSettings {
+public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<PropertiesEditingModel> {
 
 	private EMFServiceProvider emfServiceProvider;
-	private ViewHandlerProvider viewHandlerProvider;
 
 	private List<PropertiesEditingModel> editingModels;
 	private EditingModelEnvironment editingModelEnvironment;
@@ -48,29 +45,7 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings {
 	}
 
 	/**
-	 * @param viewHandlerProvider the viewHandlerProvider to set
-	 */
-	public void setViewHandlerProvider(ViewHandlerProvider viewHandlerProvider) {
-		this.viewHandlerProvider = viewHandlerProvider;
-	}
-
-	/**
-	 * @return the emfServiceProvider
-	 */
-	public EMFServiceProvider getEMFServiceProvider() {
-		return emfServiceProvider;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getViewHandler(java.lang.Object)
-	 */
-	public ViewHandler<?> getViewHandler(View view) {
-		return viewHandlerProvider.getViewHandler(view);
-	}
-
-	/**
-	 * Determines if the current provided is designed to provide
+	 * Determines if the current provider is designed to provide
 	 * {@link PropertiesEditingComponent} for the given {@link EPackage}.
 	 * 
 	 * @param ePackage {@link EPackage} to test.
@@ -118,9 +93,10 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getEditingModel(org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getEEFDescription(org.eclipse.emf.ecore.EObject)
+	 * This method is not final anymore for {@link ReflectivePropertiesEditingComponent} requirements.
 	 */
-	public final PropertiesEditingModel getEditingModel(EObject eObject) {
+	public PropertiesEditingModel getEEFDescription(EObject eObject) {
 		for (PropertiesEditingModel editingModel : getEditingModels()) {
 			if (editingModel.getEMFServiceProvider() == null) {
 				editingModel.setEMFServiceProvider(emfServiceProvider);

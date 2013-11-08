@@ -13,7 +13,6 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.widgets;
 import java.util.List;
 
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;

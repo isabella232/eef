@@ -44,7 +44,7 @@ public interface PropertiesEditingComponent {
 	/**
 	 * @return the associated {@link EEFBindingSettings}.
 	 */
-	EEFBindingSettings getBindingSettings();
+	<T extends EObject> EEFBindingSettings<T> getBindingSettings();
 	
 	/**
 	 * @return the {@link EClassBinding} describing the target {@link EObject} mapping.

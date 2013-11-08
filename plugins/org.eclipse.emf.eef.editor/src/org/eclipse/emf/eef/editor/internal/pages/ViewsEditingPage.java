@@ -99,6 +99,7 @@ public class ViewsEditingPage extends FormPage {
 	private ToolItem moveDownView;
 	private FilteredTree views;
 	private EEFViewer viewSettingsViewer;
+	private EEFViewer viewPreviewViewer;
 
 	private boolean viewsSortedAlphabetically = false;
 	
@@ -255,6 +256,9 @@ public class ViewsEditingPage extends FormPage {
 					PropertiesEditingContext editingContext = contextFactoryProvider.getEditingContextFactory(view).createPropertiesEditingContext(domain, adapterFactory, view);
 					editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, ViewsEditingPage.this.toolkit);
 					viewSettingsViewer.setInput(editingContext);
+					PropertiesEditingContext reflectEditingContext = contextFactoryProvider.getEditingContextFactory(view).createReflectivePropertiesEditingContext(adapterFactory, view);
+					editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, ViewsEditingPage.this.toolkit);
+					viewPreviewViewer.setInput(reflectEditingContext);
 				} else {
 					delete.setEnabled(false);
 				}
@@ -355,7 +359,9 @@ public class ViewsEditingPage extends FormPage {
 	}
 	
 	private void createPreviewSectionContents(FormToolkit toolkit, Composite previewContainer) {
-		toolkit.createLabel(previewContainer, "Preview");		
+		viewPreviewViewer = new EEFViewer(previewContainer, SWT.BORDER);
+		viewPreviewViewer.setContentProvider(new EEFContentProvider());
+		viewerService.updateViewerBackground(toolkit, viewPreviewViewer);
 	}
 	
 	private void refreshPageTitle() {

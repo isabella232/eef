@@ -74,5 +74,13 @@ public interface PropertiesEditingContextFactory extends EEFService<EObject> {
 	 * @return the created {@link PropertiesEditingContext}.
 	 */
 	PropertiesEditingContext createSemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent);
+
+	/**
+	 * Creates a reflective {@link PropertiesEditingContext} usable to preview a given view
+	 * @param adapterFactory {@link AdapterFactory} for the context.
+	 * @param view the view to preview.
+	 * @return the create {@link PropertiesEditingContext}.
+	 */
+	PropertiesEditingContext createReflectivePropertiesEditingContext(AdapterFactory adapterFactory, EObject view);
 	
 }

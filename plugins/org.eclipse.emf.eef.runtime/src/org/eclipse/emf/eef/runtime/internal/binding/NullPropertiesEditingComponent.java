@@ -140,7 +140,7 @@ public class NullPropertiesEditingComponent implements PropertiesEditingComponen
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getBindingSettings()
 	 */
-	public EEFBindingSettings getBindingSettings() {
+	public EEFBindingSettings<EObject> getBindingSettings() {
 		// TODO returning null Binding settings
 		return null;
 	}

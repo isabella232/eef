@@ -7,10 +7,7 @@
 package org.eclipse.emf.eef.runtime.query.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.eef.runtime.query.Body;
 import org.eclipse.emf.eef.runtime.query.QueryPackage;
 

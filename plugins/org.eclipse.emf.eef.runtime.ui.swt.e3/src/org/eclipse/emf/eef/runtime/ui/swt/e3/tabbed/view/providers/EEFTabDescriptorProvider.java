@@ -45,9 +45,9 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 			Object firstElement = ((StructuredSelection) selection).getFirstElement();
 			if (firstElement instanceof EObject) {
 				EObject editedEObject = (EObject)firstElement;
-				EEFBindingSettings bindingSettings = E3EEFRuntimeUIPlatformPlugin.getPlugin().getBindingSettingsProvider().getBindingSettings(editedEObject.eClass().getEPackage());
+				EEFBindingSettings<PropertiesEditingModel> bindingSettings = E3EEFRuntimeUIPlatformPlugin.getPlugin().getBindingSettingsProvider().getBindingSettings(editedEObject.eClass().getEPackage());
 				if (bindingSettings != null) {
-					PropertiesEditingModel editingModel = bindingSettings.getEditingModel(editedEObject);
+					PropertiesEditingModel editingModel = bindingSettings.getEEFDescription(editedEObject);
 					if (editingModel != null) {
 						binding = editingModel.binding(editedEObject);
 						if (binding != null) {
