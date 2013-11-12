@@ -15,7 +15,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
@@ -62,6 +64,10 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 		if (binding == null) {
 			if (bindingSettings.getEEFDescription(source) instanceof View) {
 				binding = EditingModelFactory.eINSTANCE.createEClassBinding();
+				EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+				eAnnotation.setSource(EEF_EANNOTATION_SOURCE);
+				eAnnotation.getDetails().put(BINDING_KIND_KIND, REFLECTIVE_BINDING_KIND);
+				binding.getEAnnotations().add(eAnnotation);
 				binding.getViews().add((View) bindingSettings.getEEFDescription(source));
 			}
 		}

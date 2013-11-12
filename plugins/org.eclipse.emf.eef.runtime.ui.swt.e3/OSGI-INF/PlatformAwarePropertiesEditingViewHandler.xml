@@ -6,6 +6,7 @@
    </service>
    <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler"/>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
+   <reference bind="setEEFEditingServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider" name="EEFEditingServiceProvider" policy="dynamic"/>
    <reference bind="setViewServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.util.ViewServiceProvider" name="ViewServiceProvider" policy="static"/>
    <reference bind="setEEFToolkitProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider" name="EEFToolkitProvider" policy="static"/>
    <reference bind="setLockManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider" name="EEFLockManagerProvider" policy="static"/>

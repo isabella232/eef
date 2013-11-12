@@ -26,6 +26,7 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
@@ -48,6 +49,7 @@ import com.google.common.collect.UnmodifiableIterator;
 public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditingView<Composite>> {
 
 	private EMFServiceProvider emfServiceProvider;
+	protected EEFEditingServiceProvider eefEditingServiceProvider;
 	private ViewServiceProvider viewServiceProvider;
 	private EEFToolkitProvider eefToolkitProvider;
 	private EEFLockManagerProvider lockManagerProvider;
@@ -58,6 +60,13 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
@@ -104,6 +113,13 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	}
 
 	/**
+	 * @return the eefEditingServiceProvider
+	 */
+	public EEFEditingServiceProvider getEEFEditingServiceProvider() {
+		return eefEditingServiceProvider;
+	}
+
+	/**
 	 * @return the viewServiceProvider
 	 */
 	public ViewServiceProvider getViewServiceProvider() {
@@ -139,7 +155,8 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public PropertiesEditingView<Composite> createView(PropertiesEditingComponent editingComponent, org.eclipse.emf.eef.runtime.editingModel.View viewDescriptor, Object... args) throws ViewConstructionException {
 		if (viewDescriptor instanceof EObjectView && ((EObjectView)viewDescriptor).getDefinition() instanceof View  
 				&& args.length > 0 && args[0] instanceof Composite) {
-			PropertiesEditingView<Composite> view = new SWTImplPropertiesEditingView(editingComponent, (View) ((EObjectView)viewDescriptor).getDefinition());					
+			PropertiesEditingView<Composite> view = new SWTImplPropertiesEditingView(editingComponent, (View) ((EObjectView)viewDescriptor).getDefinition());
+			((SWTImplPropertiesEditingView)view).setEEFEditingServiceProvider(eefEditingServiceProvider);
 			((SWTImplPropertiesEditingView)view).setViewServiceProvider(viewServiceProvider);
 			((SWTImplPropertiesEditingView)view).setToolkitPropertyEditorFactory(getEEFToolkitProvider());
 			((SWTImplPropertiesEditingView) view).createContents((Composite)args[0]);
@@ -154,7 +171,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
 	public void initView(PropertiesEditingComponent editingComponent, PropertiesEditingView<Composite> view) {
-		if (view != null) {
+		if (view != null && !eefEditingServiceProvider.getEditingService(editingComponent.getBinding()).isReflectiveBinding(editingComponent.getBinding())) {
 			UnmodifiableIterator<ElementEditor> elementEditors = Iterators.filter(view.getViewModel().eAllContents(), ElementEditor.class);
 			while (elementEditors.hasNext()) {
 				ElementEditor elementEditor = elementEditors.next();

@@ -20,6 +20,7 @@ import org.eclipse.emf.eef.runtime.ui.util.ViewService;
 import org.eclipse.emf.eef.runtime.ui.util.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewElement;
 
@@ -31,6 +32,7 @@ import com.google.common.collect.Maps;
  */
 public abstract class AbstractPropertiesEditingView<T> implements PropertiesEditingView<T> {
 	
+	protected EEFEditingServiceProvider eefEditingServiceProvider;
 	private ViewServiceProvider viewServiceProvider;
 	protected EEFToolkitProvider eefToolkitProvider;
 	
@@ -55,6 +57,13 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 		this.editingComponent = editingComponent;
 		this.propertyEditors = Maps.newHashMap();
 		editingComponent.addEditingListener(this);
+	}
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**

@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
@@ -25,6 +26,13 @@ import org.eclipse.emf.eef.runtime.services.EEFService;
  *
  */
 public interface EEFEditingService extends EEFService<EObject> {
+	
+	/**
+	 * Defines if the given binding is a {@link EClassBinding} generated for a view rendering need or not.
+	 * @param binding the binding to test (can be null)
+	 * @return <code>true</code> if the given {@link EClassBinding} is a reflective binding.
+	 */
+	boolean isReflectiveBinding(EClassBinding binding);
 	
 	/**
 	 * Defines if a {@link PropertiesEditingEvent} must generate a {@link EReferenceEditingPolicy}. This means:

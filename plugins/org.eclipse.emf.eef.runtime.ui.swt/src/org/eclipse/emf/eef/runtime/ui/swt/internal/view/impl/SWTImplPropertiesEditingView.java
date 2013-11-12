@@ -55,7 +55,7 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 		boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
 		for (EObject content : viewDescriptor.eContents()) {
 			//TODO: In case of Container, we should check that at least 1 subElementEditor is binded.
-			if (content instanceof Container || binding.feature(content, autowire) != null) {
+			if (content instanceof Container || eefEditingServiceProvider.getEditingService(binding).isReflectiveBinding(binding) || binding.feature(content, autowire) != null) {
 				buildElement(contentsComposite, binding.propertyBinding(content, autowire), content);
 			}
 		}

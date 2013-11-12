@@ -59,9 +59,11 @@ public class SWTViewServiceImpl extends ViewServiceImpl implements SWTViewServic
 		Label label;
 		label = new Label(parent, SWT.NONE);
 		label.setText(text);
-		EStructuralFeature associatedFeature = feature(editingComponent, editor);
-		if (associatedFeature != null && associatedFeature.isRequired()) {
-			label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
+		if (!eefEditingServiceProvider.getEditingService(editingComponent.getBinding()).isReflectiveBinding(editingComponent.getBinding())) {
+			EStructuralFeature associatedFeature = feature(editingComponent, editor);
+			if (associatedFeature != null && associatedFeature.isRequired()) {
+				label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
+			}
 		}
 		return label;
 	}

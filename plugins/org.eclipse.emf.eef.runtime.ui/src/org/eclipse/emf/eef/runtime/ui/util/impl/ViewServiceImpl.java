@@ -25,8 +25,10 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.ui.util.ViewService;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 
 /**
@@ -35,12 +37,20 @@ import org.eclipse.emf.eef.views.View;
 public abstract class ViewServiceImpl implements ViewService {
 	
 	private EMFServiceProvider emfServiceProvider;
+	protected EEFEditingServiceProvider eefEditingServiceProvider;
 	
 	/**
 	 * @param emfServiceProvider the emfServiceProvider to set
 	 */
 	public final void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
@@ -57,6 +67,9 @@ public abstract class ViewServiceImpl implements ViewService {
 	 */
 	public final String getDescription(PropertiesEditingComponent editingComponent, Object editor, String alternate) {
 		String text = alternate;
+		if (eefEditingServiceProvider.getEditingService(editingComponent.getBinding()).isReflectiveBinding(editingComponent.getBinding())) {
+			return editor instanceof ElementEditor ? ((ElementEditor)editor).getName() : editor.toString();
+		}
 		EStructuralFeature associatedFeature = feature(editingComponent, editor);
 		EObject eObject = editingComponent.getEObject();
 		if (!eObject.eClass().getEAllStructuralFeatures().contains(associatedFeature)) {
@@ -89,26 +102,28 @@ public abstract class ViewServiceImpl implements ViewService {
 	 * @see org.eclipse.emf.eef.runtime.ui.util.ViewService#getHelpContent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
 	public final String getHelpContent(PropertiesEditingComponent editingComponent, Object editor) {
-		EStructuralFeature feature = feature(editingComponent, editor);
-		if (feature != null) {
-			EditingOptions options = editingComponent.getBinding().getEditingModel().getOptions();
-			if (options == null || options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.GENMODEL_PROPERTY_DESCRIPTION) {
-				EditingModelEnvironment editingModelEnvironment = editingComponent.getBindingSettings().getEditingModelEnvironment();
-				EObject genFeature = editingModelEnvironment.genFeature(feature);
-				if (genFeature != null) {
-					EStructuralFeature esf = genFeature.eClass().getEStructuralFeature("propertyDescription");
-					if (esf != null) {
-						String documentation = (String) genFeature.eGet(esf);
+		if (!eefEditingServiceProvider.getEditingService(editingComponent.getBinding()).isReflectiveBinding(editingComponent.getBinding())) {
+			EStructuralFeature feature = feature(editingComponent, editor);
+			if (feature != null) {
+				EditingOptions options = editingComponent.getBinding().getEditingModel().getOptions();
+				if (options == null || options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.GENMODEL_PROPERTY_DESCRIPTION) {
+					EditingModelEnvironment editingModelEnvironment = editingComponent.getBindingSettings().getEditingModelEnvironment();
+					EObject genFeature = editingModelEnvironment.genFeature(feature);
+					if (genFeature != null) {
+						EStructuralFeature esf = genFeature.eClass().getEStructuralFeature("propertyDescription");
+						if (esf != null) {
+							String documentation = (String) genFeature.eGet(esf);
+							if (documentation != null && documentation.length() > 0) {
+								return documentation;
+							}
+						}
+					}
+				} else {
+					if (options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.ECORE_DOCUMENTATION) {
+						String documentation = EcoreUtil.getDocumentation(feature);
 						if (documentation != null && documentation.length() > 0) {
 							return documentation;
 						}
-					}
-				}
-			} else {
-				if (options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.ECORE_DOCUMENTATION) {
-					String documentation = EcoreUtil.getDocumentation(feature);
-					if (documentation != null && documentation.length() > 0) {
-						return documentation;
 					}
 				}
 			}

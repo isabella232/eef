@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.runtime.internal.util;
 import java.util.Collection;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -21,9 +22,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.EcoreUtil.UsageCrossReferencer;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
@@ -56,6 +59,19 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#isReflectiveBinding(org.eclipse.emf.eef.runtime.editingModel.EClassBinding)
+	 */
+	public boolean isReflectiveBinding(EClassBinding binding) {
+		if (binding != null) {
+			EAnnotation eAnnotation = binding.getEAnnotation(PropertiesEditingComponent.EEF_EANNOTATION_SOURCE);
+			if (eAnnotation != null && eAnnotation.getDetails().get(PropertiesEditingComponent.BINDING_KIND_KIND) == PropertiesEditingComponent.REFLECTIVE_BINDING_KIND) {
+				return true;
+			}
+		}
+		return false;
+	}
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#isAddingInContainmentEvent(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)

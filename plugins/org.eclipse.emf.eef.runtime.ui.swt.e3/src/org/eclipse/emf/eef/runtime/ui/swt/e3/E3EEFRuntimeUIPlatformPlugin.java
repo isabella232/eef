@@ -18,6 +18,7 @@ import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.ui.util.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -38,6 +39,7 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 	private ServiceTracker editingContextFactoryProviderTracker;
 	private ServiceTracker bindingSettingsProviderTracker;
 	private ServiceTracker emfServiceProviderTracker;
+	private ServiceTracker eefEditingServiceProviderTracker;
 	private ServiceTracker viewServiceProviderTracker;
 	private ServiceTracker eefToolkitProviderTracker;
 
@@ -61,6 +63,8 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 		bindingSettingsProviderTracker.open();
 		emfServiceProviderTracker = new ServiceTracker(context, EMFServiceProvider.class.getName(), null);
 		emfServiceProviderTracker.open();
+		eefEditingServiceProviderTracker = new ServiceTracker(context, EEFEditingServiceProvider.class.getName(), null);
+		eefEditingServiceProviderTracker.open();
 		viewServiceProviderTracker = new ServiceTracker(context, ViewServiceProvider.class.getName(), null);
 		viewServiceProviderTracker.open();
 		eefToolkitProviderTracker = new ServiceTracker(context, EEFToolkitProvider.class.getName(), null);
@@ -129,9 +133,10 @@ public class E3EEFRuntimeUIPlatformPlugin extends AbstractUIPlugin {
 		return (EMFServiceProvider) emfServiceProviderTracker.getService();
 	}
 	
-	/**
-	 * @return
-	 */
+	public EEFEditingServiceProvider getEEFEditingServiceProvider() {
+		return (EEFEditingServiceProvider) eefEditingServiceProviderTracker.getService();
+	}
+	
 	public ViewServiceProvider getViewServiceProvider() {
 		return (ViewServiceProvider) viewServiceProviderTracker.getService();
 	}

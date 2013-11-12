@@ -31,6 +31,10 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
  */
 public interface PropertiesEditingComponent {
 
+	final String EEF_EANNOTATION_SOURCE = "http://www.eclipse.org/emf/eef";
+	final String BINDING_KIND_KIND = "Binding Kind";
+	final String REFLECTIVE_BINDING_KIND = "Reflective";
+	
 	/**
 	 * @return the handled {@link EObject}.
 	 */

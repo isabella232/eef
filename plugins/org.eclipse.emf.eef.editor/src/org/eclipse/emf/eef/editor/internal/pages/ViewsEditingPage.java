@@ -257,7 +257,7 @@ public class ViewsEditingPage extends FormPage {
 					editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, ViewsEditingPage.this.toolkit);
 					viewSettingsViewer.setInput(editingContext);
 					PropertiesEditingContext reflectEditingContext = contextFactoryProvider.getEditingContextFactory(view).createReflectivePropertiesEditingContext(adapterFactory, view);
-					editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, ViewsEditingPage.this.toolkit);
+					reflectEditingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, ViewsEditingPage.this.toolkit);
 					viewPreviewViewer.setInput(reflectEditingContext);
 				} else {
 					delete.setEnabled(false);
