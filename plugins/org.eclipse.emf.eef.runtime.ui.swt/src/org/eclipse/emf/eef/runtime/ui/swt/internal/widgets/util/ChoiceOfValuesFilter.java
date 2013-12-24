@@ -34,11 +34,6 @@ public class ChoiceOfValuesFilter extends ViewerFilter {
 	private final EStructuralFeature feature;
 	private final SelectionMode mode;
 	
-	private Collection<?> choiceOfValues;
-	private Collection<Notifier> intermediateChoices;
-	
-	
-	
 	/**
 	 * @param adapterFactory {@link AdapterFactory} to use for the choice of value.
 	 * @param editedElement {@link EObject} to edit.
@@ -49,17 +44,6 @@ public class ChoiceOfValuesFilter extends ViewerFilter {
 		this.editedElement = editedElement;
 		this.feature = feature;
 		this.mode = mode;
-		IItemPropertySource propertySource = (IItemPropertySource) this.adapterFactory.adapt(this.editedElement, IItemPropertySource.class);
-		if (propertySource != null) {
-			IItemPropertyDescriptor descriptor = propertySource.getPropertyDescriptor(this.editedElement, this.feature);
-			choiceOfValues = descriptor.getChoiceOfValues(this.editedElement);
-			intermediateChoices = Lists.newArrayList();
-			for (Object object : choiceOfValues) {
-				if (object instanceof EObject) {
-					populateIntermediateChoices(intermediateChoices, (EObject)object);
-				}
-			}
-		}
 	}
 
 	private void populateIntermediateChoices(Collection<Notifier> intermediateChoices, EObject object) {
@@ -76,8 +60,24 @@ public class ChoiceOfValuesFilter extends ViewerFilter {
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.jface.viewers.ViewerFilter#select(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+	 * TODO: need cache.
 	 */
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
+		Collection<?> choiceOfValues = null;
+		Collection<Notifier> intermediateChoices = Lists.newArrayList();
+		IItemPropertySource propertySource = (IItemPropertySource) this.adapterFactory.adapt(this.editedElement, IItemPropertySource.class);
+		if (propertySource != null) {
+			IItemPropertyDescriptor descriptor = propertySource.getPropertyDescriptor(this.editedElement, this.feature);
+			choiceOfValues = descriptor.getChoiceOfValues(this.editedElement);
+			for (Object object : choiceOfValues) {
+				if (object instanceof EObject) {
+					populateIntermediateChoices(intermediateChoices, (EObject)object);
+				}
+			}
+		}
+		if (choiceOfValues == null) {
+			choiceOfValues = Lists.newArrayList();
+		}
 		return choiceOfValues.contains(element) 
 				|| ((mode == SelectionMode.TREE) && (intermediateChoices.contains(element)));
 	}

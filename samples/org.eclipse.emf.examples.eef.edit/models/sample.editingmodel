@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:eef-model="http://www.eclipse.org/emf/eef/editingmodel/1.0.0" xmlns:eef-views="http://www.eclipse.org/emf/eef/views/1.0.0">
+  <eef-model:PropertiesEditingModel name="Conference Sample" id="conference.sample">
+    <bindings>
+      <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference"/>
+      <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
+    </bindings>
+    <involvedModels href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.genmodel#/"/>
+    <involvedModels href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#/"/>
+  </eef-model:PropertiesEditingModel>
+  <eef-views:ViewsRepository>
+    <views name="View1">
+      <elements xsi:type="eef-views:Container" name=" Properties">
+        <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <elements xsi:type="eef-views:ElementEditor" name="name">
+          <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        </elements>
+      </elements>
+    </views>
+    <views name="View2"/>
+    <views name="View3"/>
+  </eef-views:ViewsRepository>
+</xmi:XMI>

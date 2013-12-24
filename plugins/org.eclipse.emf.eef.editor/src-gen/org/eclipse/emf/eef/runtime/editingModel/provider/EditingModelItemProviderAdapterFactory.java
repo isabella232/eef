@@ -258,6 +258,29 @@ public class EditingModelItemProviderAdapterFactory extends EditingModelAdapterF
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EReferenceFilterItemProvider eReferenceFilterItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createEReferenceFilterAdapter() {
+		if (eReferenceFilterItemProvider == null) {
+			eReferenceFilterItemProvider = new EReferenceFilterItemProvider(this);
+		}
+
+		return eReferenceFilterItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -291,11 +314,17 @@ public class EditingModelItemProviderAdapterFactory extends EditingModelAdapterF
 	 * This implementation substitutes the factory itself as the key for the adapter.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Adapter adapt(Notifier notifier, Object type) {
-		return super.adapt(notifier, this);
+		Adapter adapt = super.adapt(notifier, this);
+		if (adapt == null) {
+			if (parentAdapterFactory != null) {
+				adapt = parentAdapterFactory.adapt(notifier, type);
+			}
+		}
+		return adapt;
 	}
 
 	/**
@@ -364,6 +393,7 @@ public class EditingModelItemProviderAdapterFactory extends EditingModelAdapterF
 		if (javaEditorItemProvider != null) javaEditorItemProvider.dispose();
 		if (eObjectEditorItemProvider != null) eObjectEditorItemProvider.dispose();
 		if (editingOptionsItemProvider != null) editingOptionsItemProvider.dispose();
+		if (eReferenceFilterItemProvider != null) eReferenceFilterItemProvider.dispose();
 	}
 
 }

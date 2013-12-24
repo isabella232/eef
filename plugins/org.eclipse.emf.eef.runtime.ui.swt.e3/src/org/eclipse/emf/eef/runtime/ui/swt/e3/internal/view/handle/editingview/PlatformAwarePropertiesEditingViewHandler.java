@@ -50,11 +50,13 @@ public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditing
 			FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 			if (toolkit != null) {
 				view = new FormImplPropertiesEditingView(editingComponent, eObjectViewDescriptor);
+				((FormImplPropertiesEditingView)view).setEEFEditingServiceProvider(eefEditingServiceProvider);
 				((FormImplPropertiesEditingView) view).setViewServiceProvider(getViewServiceProvider());
 				((FormImplPropertiesEditingView) view).setToolkitPropertyEditorFactory(getEEFToolkitProvider());
 				((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[0]);
 			} else {
 				view = new SWTImplPropertiesEditingView(editingComponent, eObjectViewDescriptor);					
+				((SWTImplPropertiesEditingView)view).setEEFEditingServiceProvider(eefEditingServiceProvider);
 				((SWTImplPropertiesEditingView) view).setViewServiceProvider(getViewServiceProvider());
 				((SWTImplPropertiesEditingView) view).setToolkitPropertyEditorFactory(getEEFToolkitProvider());
 				((SWTImplPropertiesEditingView) view).createContents((Composite)args[0]);

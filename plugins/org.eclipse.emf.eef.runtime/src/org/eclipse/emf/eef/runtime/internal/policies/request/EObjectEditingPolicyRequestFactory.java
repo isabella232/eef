@@ -16,6 +16,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.notify.TargetedEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest.ProcessingKind;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory;
@@ -53,8 +54,13 @@ public class EObjectEditingPolicyRequestFactory implements EditingPolicyRequestF
 		EditingPolicyRequest.Builder requestBuilder = new EditingPolicyRequest.Builder();
 		PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContext) editingContext).getEditingEvent();
 		EClassBinding binding = editingContext.getEditingComponent().getBinding();
-		EStructuralFeature bindingFeature = binding.feature(editingEvent.getAffectedEditor(), editingContext.getEditingComponent().getEditingContext().getOptions().autowire());
-		EObject editedObject = (EObject)editingContext.getEditingComponent().getEObject();
+		EStructuralFeature bindingFeature = binding.feature(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
+		EObject editedObject;
+		if (editingEvent instanceof TargetedEditingEvent) {
+			editedObject = ((TargetedEditingEvent) editingEvent).getTarget();
+		} else {
+			editedObject = (EObject)editingContext.getEditingComponent().getEObject();
+		}
 		EMFService emfService = emfServiceProvider.getEMFService(editingContext.getEditingComponent().getEObject().eClass().getEPackage());
 		EStructuralFeature feature = emfService.mapFeature(editedObject, bindingFeature);
 		if (feature != null) {

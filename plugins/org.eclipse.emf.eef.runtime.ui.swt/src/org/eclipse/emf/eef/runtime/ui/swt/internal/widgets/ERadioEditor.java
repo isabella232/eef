@@ -80,7 +80,7 @@ public class ERadioEditor extends Viewer {
 		return control;
 	}
 	
-	public void setContentProvide(IStructuredContentProvider provider) {
+	public void setContentProvider(IStructuredContentProvider provider) {
 		this.contentProvider = provider;
 	}
 
@@ -161,11 +161,13 @@ public class ERadioEditor extends Viewer {
 	}
 
 	private void clear() {
-		for (Button button : radio) {
-			button.dispose();
+		if (radio != null) {
+			for (Button button : radio) {
+				button.dispose();
+			}
+			selection = null;
+			radio.clear();
 		}
-		selection = null;
-		radio.clear();
 	}
 
 	/**

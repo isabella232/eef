@@ -18,7 +18,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.EEFDatePickerDialog;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer.SingleLinePropertyViewerListener;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.EEFViewerInput;
+import org.eclipse.emf.eef.runtime.ui.swt.util.EEFViewerInput;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
@@ -124,7 +124,7 @@ public class EDatePackerPropertyEditor extends PropertyEditorImpl implements Mon
 				}
 				
 			};
-			propertyEditorViewer.getViewer().addEDatePickerListener(listener);
+			propertyEditorViewer.getViewer().addSingleLinePropertyViewerListener(listener);
 		}
 	}
 }

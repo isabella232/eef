@@ -13,9 +13,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -28,16 +26,13 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
-import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.editor.internal.filters.utils.PropertyBindingFeatureChoiceFilter;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.views.ElementEditor;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding} object.
@@ -106,18 +101,8 @@ public class PropertyBindingItemProvider
 					 */
 					@Override
 					public Collection<?> getChoiceOfValues(Object object) {
-						Collection<?> choiceOfValues = super.getChoiceOfValues(object);
 						PropertyBinding propertyBinding = ((PropertyBinding)object);
-						if (propertyBinding.eContainer() instanceof EClassBinding) {
-							final EClassBinding eClassBinding = (EClassBinding)propertyBinding.eContainer(); 
-							return Collections2.filter(choiceOfValues, new EClassFeaturesFilter(eClassBinding.getEClass()));
-						} else if (propertyBinding.eContainer() instanceof PropertyBinding) {
-							final PropertyBinding parentPropertyBinding = (PropertyBinding)propertyBinding.eContainer();
-							if (parentPropertyBinding.getFeature() instanceof EReference) {
-								return Collections2.filter(choiceOfValues, new EClassFeaturesFilter((EClass) parentPropertyBinding.getFeature().getEType()));
-							}
-						}
-						return choiceOfValues;
+						return new PropertyBindingFeatureChoiceFilter(propertyBinding.eContainer()).filterPropertyBindingChoiceOfValues(super.getChoiceOfValues(object));
 					}
 				
 			});
@@ -137,6 +122,7 @@ public class PropertyBindingItemProvider
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR);
 			childrenFeatures.add(EditingModelPackage.Literals.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS);
+			childrenFeatures.add(EditingModelPackage.Literals.PROPERTY_BINDING__SETTINGS);
 		}
 		return childrenFeatures;
 	}
@@ -212,6 +198,7 @@ public class PropertyBindingItemProvider
 		switch (notification.getFeatureID(PropertyBinding.class)) {
 			case EditingModelPackage.PROPERTY_BINDING__EDITOR:
 			case EditingModelPackage.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS:
+			case EditingModelPackage.PROPERTY_BINDING__SETTINGS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -243,6 +230,11 @@ public class PropertyBindingItemProvider
 			(createChildParameter
 				(EditingModelPackage.Literals.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS,
 				 EditingModelFactory.eINSTANCE.createPropertyBinding()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EditingModelPackage.Literals.PROPERTY_BINDING__SETTINGS,
+				 EditingModelFactory.eINSTANCE.createEReferenceFilter()));
 	}
 
 	/**
@@ -254,24 +246,6 @@ public class PropertyBindingItemProvider
 	@Override
 	public ResourceLocator getResourceLocator() {
 		return EditingModelEditPlugin.INSTANCE;
-	}
-
-	private static final class EClassFeaturesFilter implements Predicate<Object> {
-		
-		private final EClass targetClass;
-
-		private EClassFeaturesFilter(EClass targetClass) {
-			this.targetClass = targetClass;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see com.google.common.base.Predicate#apply(java.lang.Object)
-		 */
-		public boolean apply(Object input) {
-			return input instanceof EStructuralFeature && targetClass.getEAllStructuralFeatures().contains(input);
-		}
 	}
 
 }

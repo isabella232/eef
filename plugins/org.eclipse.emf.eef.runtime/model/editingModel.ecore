@@ -5,29 +5,29 @@
     nsURI="http://www.eclipse.org/emf/eef/editingmodel/1.0.0" nsPrefix="eef-model">
   <eClassifiers xsi:type="ecore:EClass" name="PropertiesEditingModel">
     <eOperations name="binding" eType="#//EClassBinding">
-      <eParameters name="eObject" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+      <eParameters name="eObject" lowerBound="1" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
     </eOperations>
     <eOperations name="views" upperBound="-1" eType="#//View">
-      <eParameters name="eObject" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+      <eParameters name="eObject" lowerBound="1" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" upperBound="-1"
         eType="#//EClassBinding" containment="true" eOpposite="#//EClassBinding/editingModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="involvedModels" upperBound="-1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="options" eType="#//EditingOptions"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         iD="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EClassBinding">
-    <eOperations name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature">
+    <eOperations name="feature" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature">
       <eParameters name="view" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
       <eParameters name="autowire" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
     <eOperations name="propertyEditor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
       <eParameters name="eObject" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-      <eParameters name="feature" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+      <eParameters name="feature" lowerBound="1" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
       <eParameters name="autowire" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
     <eOperations name="propertyBinding" eType="#//PropertyBinding">
@@ -37,7 +37,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="editingModel" lowerBound="1"
         eType="#//PropertiesEditingModel" eOpposite="#//PropertiesEditingModel/bindings"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eClass" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="views" upperBound="-1"
         eType="#//View" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="propertyBindings" upperBound="-1"
@@ -47,11 +47,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="Editor" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="PropertyBinding">
     <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="editor" lowerBound="1"
         eType="#//Editor" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subPropertyBindings" upperBound="-1"
         eType="#//PropertyBinding" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="settings" upperBound="-1"
+        eType="#//EditorSettings" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavaView" eSuperTypes="#//View">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" lowerBound="1"
@@ -59,7 +61,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EObjectView" eSuperTypes="#//View">
     <eStructuralFeatures xsi:type="ecore:EReference" name="definition" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavaEditor" eSuperTypes="#//Editor">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" lowerBound="1"
@@ -67,7 +69,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EObjectEditor" eSuperTypes="#//Editor">
     <eStructuralFeatures xsi:type="ecore:EReference" name="definition" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EditingOptions">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureDocumentationProvider"
@@ -77,4 +79,6 @@
     <eLiterals name="GenmodelPropertyDescription"/>
     <eLiterals name="EcoreDocumentation" value="1"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EditorSettings" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EReferenceFilter" eSuperTypes="#//EditorSettings query.ecore#//Filter"/>
 </ecore:EPackage>

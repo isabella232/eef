@@ -13,8 +13,8 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.widgets;
 import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.EEFViewerInput;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
+import org.eclipse.emf.eef.runtime.ui.swt.util.EEFViewerInput;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -158,7 +158,7 @@ public class SingleLinePropertyViewer extends Viewer {
 	 * @param listener
 	 *            the {@link SingleLinePropertyViewerListener} to add.
 	 */
-	public void addEDatePickerListener(SingleLinePropertyViewerListener listener) {
+	public void addSingleLinePropertyViewerListener(SingleLinePropertyViewerListener listener) {
 		listeners.add(listener);
 	}
 
@@ -168,7 +168,7 @@ public class SingleLinePropertyViewer extends Viewer {
 	 * @param listener
 	 *            the {@link SingleLinePropertyViewerListener} to remove.
 	 */
-	public void removeEDatePickerListener(SingleLinePropertyViewerListener listener) {
+	public void removeSingleLinePropertyViewerListener(SingleLinePropertyViewerListener listener) {
 		listeners.remove(listener);
 	}
 
@@ -252,6 +252,7 @@ public class SingleLinePropertyViewer extends Viewer {
 	 * Update the list buttons.
 	 */
 	protected void updateButtons() {
+		text.setEnabled(!locked);
 		setButton.setEnabled(!locked);
 		clearButton.setEnabled(shouldEnableClear(input));
 	}

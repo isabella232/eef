@@ -10,23 +10,29 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor;
 
+import java.util.Collection;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLinePropertyViewer> {
+public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLinePropertyViewer>, FilterablePropertyEditor {
 
 	private ImageManager imageManager;
 
@@ -34,15 +40,13 @@ public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLineP
 	protected ElementEditor elementEditor;
 	private MultiLinePropertyViewer multiLinePropertyViewer;
 
-	/**
-	 * @param imageManager
-	 * @param view
-	 * @param elementEditor
-	 */
+	private Collection<ViewerFilter> filters;
+
 	public EReferenceSWTPropertyEditor(ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.imageManager = imageManager;
+		this.filters = Lists.newArrayList();
 	}
 
 	/**
@@ -88,6 +92,30 @@ public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLineP
 		multiLinePropertyViewer.setLayoutData(layoutData);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#addFilter(org.eclipse.jface.viewers.ViewerFilter)
+	 */
+	public void addFilter(ViewerFilter filter) {
+		filters.add(filter);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#removeFilter(org.eclipse.jface.viewers.ViewerFilter)
+	 */
+	public void removeFilter(ViewerFilter filter) {
+		filters.remove(filter);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#getFilters()
+	 */
+	public Collection<ViewerFilter> getFilters() {
+		return filters;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()

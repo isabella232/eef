@@ -84,6 +84,14 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createNullEditingContext()
+	 */
+	public PropertiesEditingContext createNullEditingContext() {
+		return new NullPropertiesEditingContextImpl();
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createPropertiesEditingContext(org.eclipse.emf.common.notify.AdapterFactory, org.eclipse.emf.ecore.EObject)
 	 */
 	public PropertiesEditingContext createPropertiesEditingContext(AdapterFactory adapterFactory, EObject eObject) {
@@ -136,10 +144,23 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	public PropertiesEditingContext createSemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent) {
 		SemanticPropertiesEditingContext context;
 		if (parentContext instanceof DomainAwarePropertiesEditingContext) {
-			context = new SemanticDomainPropertiesEditingContext((DomainAwarePropertiesEditingContext) parentContext, editingEvent);			
+			context = new SemanticDomainPropertiesEditingContext((DomainAwarePropertiesEditingContext) parentContext, editingEvent);
 		} else {
 			context = new SemanticPropertiesEditingContextImpl(parentContext, editingEvent);
 		}
+		return context;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createReflectivePropertiesEditingContext(org.eclipse.emf.common.notify.AdapterFactory, org.eclipse.emf.ecore.EObject)
+	 */
+	public PropertiesEditingContext createReflectivePropertiesEditingContext(AdapterFactory adapterFactory, EObject view) {
+		ReflectivePropertiesEditingContext context = new ReflectivePropertiesEditingContext(adapterFactory, view);
+		context.setEMFServiceProvider(emfServiceProvider);
+		context.setBindingManagerProvider(bindingHandlerProvider);
+		context.setContextFactoryProvider(getContextFactoryProvider());
+		context.setViewHandlerProvider(viewHandlerProvider);
 		return context;
 	}
 

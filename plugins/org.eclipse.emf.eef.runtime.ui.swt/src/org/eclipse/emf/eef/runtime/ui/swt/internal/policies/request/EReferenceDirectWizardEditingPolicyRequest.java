@@ -26,7 +26,7 @@ public class EReferenceDirectWizardEditingPolicyRequest extends EReferenceWizard
 	 */
 	@Override
 	protected void attachToResource(PropertiesEditingContext editingContext, Resource resource, EObject createdEObject) {
-		resource.getContents().equals(createdEObject);
+		resource.getContents().add(createdEObject);
 	}
 
 	/**

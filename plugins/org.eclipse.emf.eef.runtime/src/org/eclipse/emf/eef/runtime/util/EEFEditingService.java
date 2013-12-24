@@ -10,10 +10,14 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.util;
 
+import java.util.Collection;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
@@ -22,6 +26,13 @@ import org.eclipse.emf.eef.runtime.services.EEFService;
  *
  */
 public interface EEFEditingService extends EEFService<EObject> {
+	
+	/**
+	 * Defines if the given binding is a {@link EClassBinding} generated for a view rendering need or not.
+	 * @param binding the binding to test (can be null)
+	 * @return <code>true</code> if the given {@link EClassBinding} is a reflective binding.
+	 */
+	boolean isReflectiveBinding(EClassBinding binding);
 	
 	/**
 	 * Defines if a {@link PropertiesEditingEvent} must generate a {@link EReferenceEditingPolicy}. This means:
@@ -42,4 +53,26 @@ public interface EEFEditingService extends EEFService<EObject> {
 	 * @return the {@link EReference} to edit.
 	 */
 	EReference getReferenceToEdit(SemanticPropertiesEditingContext editingContext);
+	
+	/**
+	 * Defines if the given object can be referenced in an EEF editing model.
+	 * @param target the object to test.
+	 * @return <code>true</code> if the given object can be edited with EEF.
+	 */
+	boolean canBeReferencedByEditingModel(EObject target);
+	
+	/**
+	 * Searches EEF EditingModels elements (PropertiesEditingModel,EClassBinding, ...) referencing the given element. 
+	 * @param target the referenced element
+	 * @return a collection of element referencing the given element.
+	 */
+	Collection<EObject> referencingEEFElement(EObject target);
+	
+	/**
+	 * Searches for an {@link EditingDomain} in the hierarchy of the given {@link PropertiesEditingContext}.
+	 * @param editingContext the start point for the research.
+	 * @return the found {@link EditingDomain} if exists <code>null</code> otherwise.
+	 */
+	EditingDomain searchEditingDomain(PropertiesEditingContext editingContext);
+		
 }

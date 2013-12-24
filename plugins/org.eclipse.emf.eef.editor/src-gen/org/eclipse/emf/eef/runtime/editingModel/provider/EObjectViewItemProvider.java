@@ -20,6 +20,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.views.View;
 
@@ -115,10 +116,18 @@ public class EObjectViewItemProvider
 	 * This returns EObjectView.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
+		EObjectView view = (EObjectView) object;
+		if (view.getDefinition() != null) {
+			IItemLabelProvider labelProvider = (IItemLabelProvider) getAdapterFactory().adapt(view.getDefinition(), IItemLabelProvider.class);
+			Object image = labelProvider.getImage(view.getDefinition());
+			if (image != null) {
+				return image;
+			} 
+		}
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/EObjectView"));
 	}
 
@@ -126,12 +135,19 @@ public class EObjectViewItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_EObjectView_type");
+		EObjectView view = (EObjectView) object;
+		if (view.getDefinition() != null) {
+			IItemLabelProvider labelProvider = (IItemLabelProvider) getAdapterFactory().adapt(view.getDefinition(), IItemLabelProvider.class);
+			String text = labelProvider.getText(view.getDefinition());
+			if (text != null) {
+				return text;
+			} 
+		}
+		return getString("_UI_EObjectView_type") + " with no view definition";
 	}
 
 	/**

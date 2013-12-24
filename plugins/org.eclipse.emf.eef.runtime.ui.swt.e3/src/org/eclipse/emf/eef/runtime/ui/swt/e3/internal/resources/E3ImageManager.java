@@ -30,4 +30,12 @@ public class E3ImageManager implements ImageManager {
 		return ExtendedImageRegistry.getInstance().getImage(image);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager#getImageFromObject(java.lang.Object)
+	 */
+	public Image getImageFromObject(Object object) {
+		return ExtendedImageRegistry.getInstance().getImage(object);
+	}
+
 }

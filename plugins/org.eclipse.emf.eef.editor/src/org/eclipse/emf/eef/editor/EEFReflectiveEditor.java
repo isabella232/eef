@@ -63,10 +63,16 @@ import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
+import org.eclipse.emf.eef.editor.internal.notify.Notifiable;
 import org.eclipse.emf.eef.editor.internal.pages.BindingsEditingPage;
+import org.eclipse.emf.eef.editor.internal.pages.OverviewPage;
+import org.eclipse.emf.eef.editor.internal.pages.ViewsEditingPage;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
+import org.eclipse.emf.eef.editor.internal.services.SelectionService;
+import org.eclipse.emf.eef.editor.internal.services.ViewerService;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.util.EditingModelEditorResourceSet;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -101,6 +107,8 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
+import com.google.common.collect.Lists;
+
 
 /**
  * This is an example of a EditingModel model editor.
@@ -130,6 +138,8 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	 * This keeps track of all the {@link org.eclipse.jface.viewers.ISelectionChangedListener}s that are listening to this editor.
 	 */
 	protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
+	
+	private Collection<Notifiable> notifiables = Lists.newArrayList();
 
 	/**
 	 * This keeps track of the selection of the editor as a whole.
@@ -320,6 +330,14 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 			}
 		};
 
+	public void addNotifiable(Notifiable notifiable) {
+		notifiables.add(notifiable);
+	}
+	
+	public void removeNotifiable(Notifiable notifiable) {
+		notifiables.remove(notifiable);
+	}
+		
 	/**
 	 * Handles activation of the editor or it's associated views.
 	 */
@@ -587,6 +605,21 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 			resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
 		}
 		editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
+		editingDomain.getResourceSet().eAdapters().add(new EContentAdapter() {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.ecore.util.EContentAdapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+			 */
+			@Override
+			public void notifyChanged(Notification notification) {
+				super.notifyChanged(notification);
+				for (Notifiable notifiable : notifiables) {
+					notifiable.notifyChanged(notification);
+				}
+			}
+			
+		});
 	}
 
 	/**
@@ -631,10 +664,33 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 			// Only creates the other pages if there is something that can be edited
 			//
 			if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
-				BindingsEditingPage page = new BindingsEditingPage(this, adapterFactory);
-				page.setEMFService(new EMFService());
-				page.setInput(editingDomain.getResourceSet());
-				addPage(page);
+				EMFService emfService = new EMFService();
+				SelectionService selectionService = new SelectionService();
+				ViewerService viewerService = new ViewerService(EditingModelEditPlugin.getPlugin().getLockManagerProvider());
+				
+				OverviewPage overviewPage = new OverviewPage(this, adapterFactory);
+				overviewPage.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
+				overviewPage.setEMFService(emfService);
+				overviewPage.setImageManager(EditingModelEditPlugin.getPlugin().getImageManager());
+				addPage(overviewPage);
+				
+				BindingsEditingPage bindingEditingPage = new BindingsEditingPage(this, adapterFactory);
+				bindingEditingPage.setEMFService(emfService);
+				bindingEditingPage.setEEFEditingService(EditingModelEditPlugin.getPlugin().getEEFEditingService());
+				bindingEditingPage.setSelectionService(selectionService);
+				bindingEditingPage.setViewerService(viewerService);
+				bindingEditingPage.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
+				bindingEditingPage.setImageManager(EditingModelEditPlugin.getPlugin().getImageManager());
+				bindingEditingPage.setInput(editingDomain.getResourceSet());
+				addPage(bindingEditingPage);
+				
+				ViewsEditingPage viewsEditingPage = new ViewsEditingPage(this, adapterFactory);
+				viewsEditingPage.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
+				viewsEditingPage.setImageManager(EditingModelEditPlugin.getPlugin().getImageManager());
+				viewsEditingPage.setEMFService(emfService);
+				viewsEditingPage.setSelectionService(selectionService);
+				viewsEditingPage.setViewerService(viewerService);
+				addPage(viewsEditingPage);
 			}
 		} catch (PartInitException e) {
 			e.printStackTrace();

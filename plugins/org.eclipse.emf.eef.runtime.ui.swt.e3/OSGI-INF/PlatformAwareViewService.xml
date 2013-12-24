@@ -6,5 +6,6 @@
       <provide interface="org.eclipse.emf.eef.runtime.ui.util.ViewService"/>
    </service>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="dynamic"/>
+   <reference bind="setEEFEditingServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider" name="EEFEditingServiceProvider" policy="dynamic"/>
    <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.swt.SWTViewService"/>
 </scr:component>

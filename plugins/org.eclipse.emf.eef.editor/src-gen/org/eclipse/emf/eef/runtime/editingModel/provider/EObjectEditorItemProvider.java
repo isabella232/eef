@@ -142,10 +142,18 @@ public class EObjectEditorItemProvider
 	 * This returns EObjectEditor.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
+		EObjectEditor editor = (EObjectEditor) object;
+		if (editor.getDefinition() != null) {
+			IItemLabelProvider labelProvider = (IItemLabelProvider) getAdapterFactory().adapt(editor.getDefinition(), IItemLabelProvider.class);
+			Object image = labelProvider.getImage(editor.getDefinition());
+			if (image != null) {
+				return image;
+			} 
+		}
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/EObjectEditor"));
 	}
 
@@ -153,11 +161,19 @@ public class EObjectEditorItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_EObjectEditor_type");
+		EObjectEditor editor = (EObjectEditor) object;
+		if (editor.getDefinition() != null) {
+			IItemLabelProvider labelProvider = (IItemLabelProvider) getAdapterFactory().adapt(editor.getDefinition(), IItemLabelProvider.class);
+			String text = labelProvider.getText(editor.getDefinition());
+			if (text != null) {
+				return text;
+			} 
+		}
+		return getString("_UI_EObjectEditor_type") + " with no editor definition";
 	}
 
 	/**

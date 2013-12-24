@@ -85,7 +85,7 @@ public class EEFEditingWizard extends Wizard {
 			EEFEditingService editingService = eefEditingServiceProvider.getEditingService(context.getEditingComponent().getEObject());
 			if (editingService.isAddingInContainmentEvent(context, ((SemanticPropertiesEditingContext) context).getEditingEvent())) {
 				EReference editedReference = editingService.getReferenceToEdit((SemanticPropertiesEditingContext) context);	
-				Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(null, context.getEditingComponent().getEObject(), editedReference);
+				Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(context.getAdapterFactory(), context.getEditingComponent().getEObject(), editedReference);
 				if (listOfInstanciableType.size() > 0) {
 					if (listOfInstanciableType.size() > 1) {
 						creationPage = new ElementCreationWizardPage();
@@ -229,7 +229,8 @@ public class EEFEditingWizard extends Wizard {
 			control.setLayoutData(new GridData(GridData.FILL_BOTH));
 			control.setLayout(new GridLayout(1, false));
 			radio = new ERadioEditor(control, SWT.NONE);
-			radio.setContentProvide(new ArrayContentProvider());
+			radio.createContents();
+			radio.setContentProvider(new ArrayContentProvider());
 			radio.setLabelProvider(editUIProvidersFactory.createLabelProvider(context.getAdapterFactory()));
 			radio.setInput(instanciableTypes);
 			radio.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -290,7 +291,7 @@ public class EEFEditingWizard extends Wizard {
 			Composite control = new Composite(parent, SWT.NONE);
 			control.setLayoutData(new GridData(GridData.FILL_BOTH));
 			control.setLayout(new GridLayout(1, false));
-			viewer = new EEFViewer(control, SWT.NONE);
+			viewer = new EEFViewer(control, SWT.BORDER);
 			viewer.setContentProvider(new EEFContentProvider());
 			viewer.setInput(context);
 			this.setControl(control);

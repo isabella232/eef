@@ -24,6 +24,18 @@
 
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <factory
+            uri="http://www.eclipse.org/emf/eef/query/1.0"
+            class="org.eclipse.emf.eef.runtime.query.provider.QueryItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <factory
             uri="http://www.eclipse.org/emf/eef/views/1.0.0"
             class="org.eclipse.emf.eef.views.provider.ViewsItemProviderAdapterFactory"
             supportedTypes=
@@ -39,6 +51,14 @@
             class="org.eclipse.emf.eef.runtime.editingModel.resources.EditingModelResourceFactory"
             type="editingmodel"/>
     </extension>
+
+   <extension
+         point="org.eclipse.emf.ecore.uri_mapping">
+      <mapping
+            source="eeftoolkit://EEFExtended.toolkit"
+            target="eeftoolkit:/org.eclipse.emf.eef.editor/org.eclipse.emf.eef.editor.internal.propertyeditors.extended.EEFExtendedToolkit">
+      </mapping>
+   </extension>
 
    <extension point="org.eclipse.ui.newWizards">
       <category

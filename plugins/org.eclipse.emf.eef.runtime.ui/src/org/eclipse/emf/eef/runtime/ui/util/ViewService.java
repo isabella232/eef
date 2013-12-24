@@ -27,7 +27,7 @@ import org.eclipse.emf.eef.views.View;
  *
  */
 public interface ViewService extends EEFService<View> {
-	
+
 	/**
 	 * Returns the label text for a given editor.
 	 * @param editingComponent the current editingComponent.

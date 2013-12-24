@@ -125,7 +125,7 @@ public class FeatureDocumentationTests {
 		PropertiesEditingComponent editingComponent = testenv.getEditingContext().getEditingComponent();
 		ViewService viewService = testenv.getViewServiceProvider().getViewService(eclassView);
 		String helpContent = viewService.getHelpContent(editingComponent, nameEditor);
-		EditingModelEnvironment env = editingComponent.getEditingModelEnvironment();
+		EditingModelEnvironment env = editingComponent.getBindingSettings().getEditingModelEnvironment();
 		EClass eClassEClassFromResourceSet = getEClassEClassFromResourceSet(env.getResourceSet());
 		EStructuralFeature eStructuralFeature = eClassEClassFromResourceSet.getEStructuralFeature("name");
 		GenFeature genFeature = (GenFeature) env.genFeature(eStructuralFeature);

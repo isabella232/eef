@@ -35,8 +35,13 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
+import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.View;
+import org.eclipse.emf.eef.runtime.internal.binding.settings.ReflectiveEEFBindingSettings;
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.ReflectivePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotifier;
 import org.eclipse.emf.eef.runtime.notify.ModelChangesNotifierImpl;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -162,16 +167,43 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#createComponent(org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext)
 	 */
-	public PropertiesEditingComponent createComponent(EObjectPropertiesEditingContext editingContext) {
-		EObject eObject = editingContext.getEObject();
-		EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
-		Notifier highestNotifier = emfService.highestNotifier(eObject);
-		initModelChangesNotifierIfNeeded(highestNotifier);
-		EEFBindingSettings provider = bindingSettingsProvider.getBindingSettings(eObject.eClass().getEPackage());
-		PropertiesEditingComponent component = new PropertiesEditingComponentImpl(provider, eObject);
-		component.setEditingContext(editingContext);
-		initLockPolicies(component);
-		registerEditingComponentAsEventHandler(component);
+	public PropertiesEditingComponent createComponent(PropertiesEditingContext editingContext) {
+		PropertiesEditingComponent component = null;
+		EObject eObject = null;
+		if (editingContext instanceof EObjectPropertiesEditingContext) {
+			eObject = ((EObjectPropertiesEditingContext) editingContext).getEObject();
+		} else if (editingContext instanceof ReflectivePropertiesEditingContext) {
+			eObject = ((ReflectivePropertiesEditingContext) editingContext).getEObject();
+		}
+		if (eObject != null) {
+			EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
+			Notifier highestNotifier = emfService.highestNotifier(eObject);
+			initModelChangesNotifierIfNeeded(highestNotifier);
+			if (editingContext instanceof EObjectPropertiesEditingContext) {
+				EEFBindingSettings<PropertiesEditingModel> bindingSettings = bindingSettingsProvider.getBindingSettings(eObject.eClass().getEPackage());
+				component = new PropertiesEditingComponentImpl(bindingSettings, eObject);
+			} else if (editingContext instanceof ReflectivePropertiesEditingContext) {
+				EObject eefDescription = ((ReflectivePropertiesEditingContext) editingContext).getEObject();
+				if (eefDescription instanceof PropertiesEditingModel) {
+					ReflectiveEEFBindingSettings<PropertiesEditingModel> bindingSettings = new ReflectiveEEFBindingSettings<PropertiesEditingModel>((PropertiesEditingModel) eefDescription);
+					component = new ReflectivePropertiesEditingComponent<PropertiesEditingModel>(bindingSettings, eObject);
+				} else {
+					// Ok it's ugly, but I assume it's a view. In this bundle, I didn't have knowledge of eef.runtime.ui.views metamodel
+					// but, I suppose that I can only use ReflectivePEContext with PEM and View from eef.runtime.ui.views metamodel.
+					EObjectView view = EditingModelFactory.eINSTANCE.createEObjectView();
+					view.setDefinition(eefDescription);
+					ReflectiveEEFBindingSettings<View> bindingSettings = new ReflectiveEEFBindingSettings<View>(view);
+					component = new ReflectivePropertiesEditingComponent<View>(bindingSettings, eObject);
+				}
+			}
+			component.setEditingContext(editingContext);
+			registerEditingComponentAsEventHandler(component);
+			if (!(component instanceof ReflectivePropertiesEditingComponent)) {
+				initLockPolicies(component);
+			}
+		} else {
+			component = new NullPropertiesEditingComponent(editingContext);
+		}
 		return component;
 	}
 
@@ -469,8 +501,8 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 */
 	public void handleEvent(Event event) {
 		if (event.getProperty("notification") instanceof Notification) {
-			Notification notification = (Notification) event.getProperty("notification"); 
-			for (PropertiesEditingComponent editingComponent : editingComponents) {
+			Notification notification = (Notification) event.getProperty("notification");
+			for (PropertiesEditingComponent editingComponent : Lists.newArrayList(editingComponents)) {
 				if (editingComponent.isAffectingEvent(notification)) {
 					notifyChanged(editingComponent, notification);
 				}

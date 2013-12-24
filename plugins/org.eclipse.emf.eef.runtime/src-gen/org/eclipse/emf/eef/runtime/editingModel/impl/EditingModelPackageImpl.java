@@ -17,16 +17,19 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
+import org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.Editor;
+import org.eclipse.emf.eef.runtime.editingModel.EditorSettings;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
+import org.eclipse.emf.eef.runtime.query.QueryPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -110,6 +113,20 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass editorSettingsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass eReferenceFilterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum featureDocumentationProviderEEnum = null;
 
 	/**
@@ -160,6 +177,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 
 		// Initialize simple dependencies
 		EcorePackage.eINSTANCE.eClass();
+		QueryPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theEditingModelPackage.createPackageContents();
@@ -352,6 +370,15 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getPropertyBinding_Settings() {
+		return (EReference)propertyBindingEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getEObjectView() {
 		return eObjectViewEClass;
 	}
@@ -424,6 +451,24 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getEditorSettings() {
+		return editorSettingsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEReferenceFilter() {
+		return eReferenceFilterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getFeatureDocumentationProvider() {
 		return featureDocumentationProviderEEnum;
 	}
@@ -477,6 +522,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		createEReference(propertyBindingEClass, PROPERTY_BINDING__FEATURE);
 		createEReference(propertyBindingEClass, PROPERTY_BINDING__EDITOR);
 		createEReference(propertyBindingEClass, PROPERTY_BINDING__SUB_PROPERTY_BINDINGS);
+		createEReference(propertyBindingEClass, PROPERTY_BINDING__SETTINGS);
 
 		javaViewEClass = createEClass(JAVA_VIEW);
 		createEAttribute(javaViewEClass, JAVA_VIEW__DEFINITION);
@@ -492,6 +538,10 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 
 		editingOptionsEClass = createEClass(EDITING_OPTIONS);
 		createEAttribute(editingOptionsEClass, EDITING_OPTIONS__FEATURE_DOCUMENTATION_PROVIDER);
+
+		editorSettingsEClass = createEClass(EDITOR_SETTINGS);
+
+		eReferenceFilterEClass = createEClass(EREFERENCE_FILTER);
 
 		// Create enums
 		featureDocumentationProviderEEnum = createEEnum(FEATURE_DOCUMENTATION_PROVIDER);
@@ -522,6 +572,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 
 		// Obtain other dependent packages
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+		QueryPackage theQueryPackage = (QueryPackage)EPackage.Registry.INSTANCE.getEPackage(QueryPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -532,6 +583,8 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		eObjectViewEClass.getESuperTypes().add(this.getView());
 		javaEditorEClass.getESuperTypes().add(this.getEditor());
 		eObjectEditorEClass.getESuperTypes().add(this.getEditor());
+		eReferenceFilterEClass.getESuperTypes().add(this.getEditorSettings());
+		eReferenceFilterEClass.getESuperTypes().add(theQueryPackage.getFilter());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(propertiesEditingModelEClass, PropertiesEditingModel.class, "PropertiesEditingModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -574,6 +627,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		initEReference(getPropertyBinding_Feature(), theEcorePackage.getEStructuralFeature(), null, "feature", null, 1, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyBinding_Editor(), this.getEditor(), null, "editor", null, 1, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyBinding_SubPropertyBindings(), this.getPropertyBinding(), null, "subPropertyBindings", null, 0, -1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPropertyBinding_Settings(), this.getEditorSettings(), null, "settings", null, 0, -1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(javaViewEClass, JavaView.class, "JavaView", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getJavaView_Definition(), ecorePackage.getEJavaObject(), "definition", null, 1, 1, JavaView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -589,6 +643,10 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 
 		initEClass(editingOptionsEClass, EditingOptions.class, "EditingOptions", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEditingOptions_FeatureDocumentationProvider(), this.getFeatureDocumentationProvider(), "featureDocumentationProvider", null, 0, 1, EditingOptions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(editorSettingsEClass, EditorSettings.class, "EditorSettings", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(eReferenceFilterEClass, EReferenceFilter.class, "EReferenceFilter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(featureDocumentationProviderEEnum, FeatureDocumentationProvider.class, "FeatureDocumentationProvider");

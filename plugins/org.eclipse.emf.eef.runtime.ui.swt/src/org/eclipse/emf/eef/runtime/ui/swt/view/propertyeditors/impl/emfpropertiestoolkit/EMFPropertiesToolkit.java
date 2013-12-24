@@ -14,8 +14,10 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emf
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor.EContainmentPropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker.EDatePickerPropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor.EReferencePropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.singlecontainmenteditor.SingleContainmentPropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilderProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
@@ -30,15 +32,18 @@ public class EMFPropertiesToolkit extends EEFToolkitImpl<Composite> {
 	/**
 	 * EMFProperties toolkit name.
 	 */
-	public static final String EMF_PROPERTIES = "EMFProperties";
+	public static final String EMF_PROPERTIES_TOOLKIT_NAME = "EMFProperties";
 	
-	private static final Toolkit toolkit = ToolkitsFactory.eINSTANCE.createToolkit(); 
+	private static final Toolkit toolkit = ToolkitsFactory.eINSTANCE.createToolkit();
+	
 	static {
-		toolkit.setName(EMF_PROPERTIES);
+		toolkit.setName(EMF_PROPERTIES_TOOLKIT_NAME);
 	}
 	
 	private EditUIProvidersFactory editUIProvidersFactory;
-	private ImageManager imageManager; 
+	private ViewerFilterBuilderProvider viewerFilterBuilderProvider; 
+	private ImageManager imageManager;
+
 	
 	/**
 	 * @return the editUIProvidersFactory
@@ -52,6 +57,20 @@ public class EMFPropertiesToolkit extends EEFToolkitImpl<Composite> {
 	 */
 	public final void setEditUIProvidersFactory(EditUIProvidersFactory editUIProvidersFactory) {
 		this.editUIProvidersFactory = editUIProvidersFactory;
+	}
+
+	/**
+	 * @return the viewerFilterBuilderProvider
+	 */
+	public ViewerFilterBuilderProvider getViewerFilterBuilderProvider() {
+		return viewerFilterBuilderProvider;
+	}
+
+	/**
+	 * @param viewerFilterBuilderProvider the viewerFilterBuilderProvider to set
+	 */
+	public void setViewerFilterBuilderProvider(ViewerFilterBuilderProvider viewerFilterBuilderProvider) {
+		this.viewerFilterBuilderProvider = viewerFilterBuilderProvider;
 	}
 
 	/**
@@ -75,7 +94,8 @@ public class EMFPropertiesToolkit extends EEFToolkitImpl<Composite> {
 		addPropertyEditorFactory(new EReferencePropertyEditorFactory(this))
 			.addPropertyEditorFactory(new EComboPropertyEditorFactory(this))
 			.addPropertyEditorFactory(new EContainmentPropertyEditorFactory(this))
-			.addPropertyEditorFactory(new EDatePickerPropertyEditorFactory(this));
+			.addPropertyEditorFactory(new EDatePickerPropertyEditorFactory(this))
+			.addPropertyEditorFactory(new SingleContainmentPropertyEditorFactory(this));
 	}
 
 	/**

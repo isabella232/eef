@@ -15,12 +15,11 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
-import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
-import org.eclipse.emf.eef.runtime.internal.binding.settings.AbstractEEFBindingSettings;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
@@ -32,6 +31,10 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
  */
 public interface PropertiesEditingComponent {
 
+	final String EEF_EANNOTATION_SOURCE = "http://www.eclipse.org/emf/eef";
+	final String BINDING_KIND_KIND = "Binding Kind";
+	final String REFLECTIVE_BINDING_KIND = "Reflective";
+	
 	/**
 	 * @return the handled {@link EObject}.
 	 */
@@ -50,10 +53,9 @@ public interface PropertiesEditingComponent {
 	void setEditingContext(PropertiesEditingContext editingContext);
 	
 	/**
-	 * @return the {@link EditingModelEnvironment} of the {@link AbstractEEFBindingSettings} that provided this component.
-	 * 
+	 * @return the associated {@link EEFBindingSettings}.
 	 */
-	EditingModelEnvironment getEditingModelEnvironment();
+	<T extends EObject> EEFBindingSettings<T> getBindingSettings();
 	
 	/**
 	 * @return the {@link EClassBinding} describing the target {@link EObject} mapping.

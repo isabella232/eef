@@ -8,6 +8,7 @@ package org.eclipse.emf.eef.runtime.editingModel.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.impl.EModelElementImpl;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
@@ -27,7 +28,7 @@ import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
  *
  * @generated
  */
-public class EditingOptionsImpl extends EObjectImpl implements EditingOptions {
+public class EditingOptionsImpl extends EModelElementImpl implements EditingOptions {
 	/**
 	 * The default value of the '{@link #getFeatureDocumentationProvider() <em>Feature Documentation Provider</em>}' attribute.
 	 * <!-- begin-user-doc -->

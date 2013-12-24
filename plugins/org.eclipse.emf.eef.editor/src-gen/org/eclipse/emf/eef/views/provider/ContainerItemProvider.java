@@ -175,7 +175,7 @@ public class ContainerItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
@@ -189,27 +189,8 @@ public class ContainerItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ViewsPackage.Literals.CONTAINER__ELEMENTS,
-				 ViewsFactory.eINSTANCE.createView()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ViewsPackage.Literals.CONTAINER__ELEMENTS,
 				 ViewsFactory.eINSTANCE.createElementEditor()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(ViewsPackage.Literals.CONTAINER__ELEMENTS,
-				 ViewsFactory.eINSTANCE.createCustomElementEditor()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ViewsPackage.Literals.CONTAINER__ELEMENTS,
-				 ViewsFactory.eINSTANCE.createCustomView()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ViewsPackage.Literals.CONTAINER__ELEMENTS,
-				 ViewsFactory.eINSTANCE.createViewReference()));
 	}
 
 }

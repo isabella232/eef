@@ -8,6 +8,7 @@ package org.eclipse.emf.eef.runtime.editingModel;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -28,9 +29,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getEClassBinding()
  * @model
+ * @extends EModelElement
  * @generated
  */
-public interface EClassBinding extends EObject {
+public interface EClassBinding extends EModelElement {
 	/**
 	 * Returns the value of the '<em><b>Editing Model</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getBindings <em>Bindings</em>}'.

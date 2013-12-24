@@ -18,7 +18,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
  */
 public class EEFRuntimeUISWT extends EMFPlugin {
 
-	public static final String PLUGIN_ID = "org.eclipse.emf.eef.runtime.ui";	
+	public static final String PLUGIN_ID = "org.eclipse.emf.eef.runtime.ui.swt";	
 	
 	/**
 	 * Keep track of the singleton.

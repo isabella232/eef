@@ -14,6 +14,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor.EContainmentPlatformAwarePropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.edatepickereditor.EDatePickerPlatformAwarePropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor.EReferencePlaftormAwarePropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.singlecontainmenteditor.SingleContainmentPlatformAwarePropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 
 /**
@@ -34,7 +35,8 @@ public class EMFPropertiesPlatformAwareToolkit extends EMFPropertiesToolkit {
 		addPropertyEditorFactory(new EReferencePlaftormAwarePropertyEditorFactory(this))
 		.addPropertyEditorFactory(new EComboPlatformAwarePropertyEditorFactory(this))
 		.addPropertyEditorFactory(new EContainmentPlatformAwarePropertyEditorFactory(this))
-		.addPropertyEditorFactory(new EDatePickerPlatformAwarePropertyEditorFactory(this));
+		.addPropertyEditorFactory(new EDatePickerPlatformAwarePropertyEditorFactory(this))
+		.addPropertyEditorFactory(new SingleContainmentPlatformAwarePropertyEditorFactory(this));
 	}
 	
 	

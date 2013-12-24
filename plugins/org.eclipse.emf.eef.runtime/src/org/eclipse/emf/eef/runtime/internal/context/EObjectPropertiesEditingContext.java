@@ -130,6 +130,14 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getParentContext()
+	 */
+	public PropertiesEditingContext getParentContext() {
+		return parentContext;
+	}
+
+	/**
 	 * @return the eObject
 	 */
 	public EObject getEObject() {
