@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.checkbox;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
@@ -20,18 +23,20 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class CheckboxPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<Composite> {
 
+	public static final String CHECKBOX_WIDGET_NAME = GenericBindingSettings.CHECKBOX_WIDGET_NAME;
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
 
 	static {
-		widget.setName("Checkbox");		
+		widget.setName(CHECKBOX_WIDGET_NAME);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
 	 */
 	public Widget getModel() {
@@ -40,6 +45,7 @@ public class CheckboxPropertyEditorFactory extends WidgetPropertyEditorFactoryIm
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory#serviceFor(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	public boolean serviceFor(PropertyEditorContext editorContext) {
@@ -48,10 +54,22 @@ public class CheckboxPropertyEditorFactory extends WidgetPropertyEditorFactoryIm
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new CheckboxPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new CheckboxSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new CheckboxPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new CheckboxSWTPropertyEditor(
+				(PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#canHandle(org.eclipse.emf.ecore.EStructuralFeature)
+	 */
+	public boolean canHandle(EStructuralFeature feature) {
+		return !feature.isMany() && feature instanceof EAttribute
+				&& (feature.getEType().getName().equals("EBoolean") || feature.getEType().getName().equals("EBool") || feature.getEType().getName().equalsIgnoreCase("Boolean"));
 	}
 }

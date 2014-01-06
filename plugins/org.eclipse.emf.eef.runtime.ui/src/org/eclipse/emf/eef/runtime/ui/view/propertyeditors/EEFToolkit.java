@@ -10,14 +10,32 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
+import java.util.Collection;
+
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
+import org.eclipse.emf.eef.views.toolkits.Widget;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
-public interface EEFToolkit<T> extends EEFService<PropertyEditorContext>, ModelPropertyEditorFactory<Toolkit,T> {
+public interface EEFToolkit<T> extends EEFService<PropertyEditorContext>, ModelPropertyEditorFactory<Toolkit, T> {
+
+	/**
+	 * @param eStructuralFeature
+	 *            EStructuralFeature
+	 * @return all toolkits widgets enable for {@link EStructuralFeature}
+	 */
+	public Collection<Widget> getAllWidgetsFor(EStructuralFeature eStructuralFeature);
+
+	/**
+	 * @param name
+	 *            String
+	 * @return the first toolkits widget named "name".
+	 */
+	public Widget getWidgetByName(String name);
 
 }

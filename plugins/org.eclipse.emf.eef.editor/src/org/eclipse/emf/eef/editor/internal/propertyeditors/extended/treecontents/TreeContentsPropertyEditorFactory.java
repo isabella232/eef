@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.editor.internal.propertyeditors.extended.treecontents;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.editor.internal.propertyeditors.extended.EEFExtendedToolkit;
 import org.eclipse.emf.eef.editor.internal.widgets.TreeEEFViewer;
@@ -27,20 +28,20 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class TreeContentsPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<Composite> {
 
 	public static final String TREE_CONTENTS_WIDGET_NAME = "TreeContents";
-	
+
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
 
 	static {
-		widget.setName(TREE_CONTENTS_WIDGET_NAME);		
+		widget.setName(TREE_CONTENTS_WIDGET_NAME);
 	}
-	
+
 	private EEFExtendedToolkit eefExtendedToolkit;
-	
+
 	/**
 	 * @param eefExtendedToolkit
 	 */
@@ -50,6 +51,7 @@ public class TreeContentsPropertyEditorFactory extends WidgetPropertyEditorFacto
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
 	 */
 	public Widget getModel() {
@@ -58,6 +60,7 @@ public class TreeContentsPropertyEditorFactory extends WidgetPropertyEditorFacto
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#serviceFor(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	public boolean serviceFor(PropertyEditorContext editorContext) {
@@ -66,6 +69,7 @@ public class TreeContentsPropertyEditorFactory extends WidgetPropertyEditorFacto
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	@Override
@@ -77,18 +81,21 @@ public class TreeContentsPropertyEditorFactory extends WidgetPropertyEditorFacto
 		EEFEditingService editingService = eefExtendedToolkit.getEEFEditingServiceProvider().getEditingService(view.getEditingComponent().getEObject());
 		EditingDomain editingDomain = editingService.searchEditingDomain(view.getEditingComponent().getEditingContext());
 		if (toolkit != null) {
-			propertyEditorViewer = new TreeContentsFormPropertyEditor(
-					eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getImageManager(), 
-					editingDomain, view, viewElement);
+			propertyEditorViewer = new TreeContentsFormPropertyEditor(eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getImageManager(), editingDomain, view, viewElement);
 		} else {
-			propertyEditorViewer = new TreeContentsSWTPropertyEditor(
-					eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getImageManager(), 
-					editingDomain, view, viewElement);
+			propertyEditorViewer = new TreeContentsSWTPropertyEditor(eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getImageManager(), editingDomain, view, viewElement);
 		}
-		return new TreeContentsPropertyEditor(
-						editorContext.view.getEditingComponent().getEditingContext().getContextFactoryProvider(), eefExtendedToolkit.getEMFServiceProvider(), 
-						view, viewElement, 
-						propertyEditorViewer);
+		return new TreeContentsPropertyEditor(editorContext.view.getEditingComponent().getEditingContext().getContextFactoryProvider(), eefExtendedToolkit.getEMFServiceProvider(), view, viewElement,
+				propertyEditorViewer);
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#canHandle(org.eclipse.emf.ecore.EStructuralFeature)
+	 */
+	public boolean canHandle(EStructuralFeature feature) {
+		return false;
 	}
 
 }

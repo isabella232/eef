@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.Collections2;
@@ -26,13 +27,13 @@ import com.google.common.collect.Maps;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFService<ELEMENT_TYPE>> implements EEFServiceProvider<ELEMENT_TYPE, SERVICE_TYPE> {
 
 	private BiMap<String, Node<ELEMENT_TYPE, SERVICE_TYPE>> services;
 	private List<SERVICE_TYPE> defaultServices;
-	
+
 	/**
 	 * 
 	 */
@@ -43,7 +44,9 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceProvider#addService(org.eclipse.emf.eef.runtime.services.EEFService, java.util.Map)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceProvider#addService(org.eclipse.emf.eef.runtime.services.EEFService,
+	 *      java.util.Map)
 	 */
 	public final synchronized void addService(SERVICE_TYPE service, Map<String, ?> properties) throws PriorityCircularityException {
 		try {
@@ -56,7 +59,7 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 
 			}
 			if (clone.isAcyclic()) {
-				Node<ELEMENT_TYPE, SERVICE_TYPE> newNode = addNode((String) properties.get("component.name"), service);				
+				Node<ELEMENT_TYPE, SERVICE_TYPE> newNode = addNode((String) properties.get("component.name"), service);
 				for (String hasPriorityOver : prioritiesOver) {
 					addEdge(newNode, getOrCreateNode(hasPriorityOver));
 				}
@@ -75,19 +78,20 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 							defaultServices.remove(defaultService);
 						}
 					}
-					
-				} 
+
+				}
 			} else {
 				throw new PriorityCircularityException(service);
 			}
 		} catch (CloneNotSupportedException e) {
 			// Can't happen, I'm cloneable!
-		}	
-		
+		}
+
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceProvider#removeService(org.eclipse.emf.eef.runtime.services.EEFService)
 	 */
 	public void removeService(SERVICE_TYPE service) {
@@ -99,13 +103,14 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFServiceProvider#getService(java.lang.Object)
 	 */
 	public <ANY_SUBTYPE_OF_ELEMENT extends ELEMENT_TYPE> SERVICE_TYPE getService(ANY_SUBTYPE_OF_ELEMENT element) {
 		List<SERVICE_TYPE> availableProviders = Lists.newArrayList();
 		availableProviders = getServicesFor(element);
-		if (availableProviders.size() == 0) {			
-			// If no registered provider can handle the view, we return null 
+		if (availableProviders.size() == 0) {
+			// If no registered provider can handle the view, we return null
 			return null;
 		} else if (availableProviders.size() == 1) {
 			// If only one provider can handle the view, we return it
@@ -115,9 +120,10 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 			return greatest(availableProviders).iterator().next();
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -135,21 +141,31 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 		}
 		return result;
 	}
-	
+
 	public List<SERVICE_TYPE> getServicesFor(ELEMENT_TYPE element) {
 		List<SERVICE_TYPE> result = Lists.newArrayList();
-		// First we're looking for an appropriate service which isn't a default service. 
+		// First we're looking for an appropriate service which isn't a default
+		// service.
 		for (Node<ELEMENT_TYPE, SERVICE_TYPE> node : services.values()) {
 			SERVICE_TYPE service = node.getTarget();
 			if (service.serviceFor(element) && !(service instanceof DefaultService)) {
 				result.add(service);
 			}
 		}
-		// If no service is available, we're looking for a default service 
+		// If no service is available, we're looking for a default service
 		if (result.size() == 0 && !defaultServices.isEmpty()) {
 			result.add(defaultServices.get(0));
 		}
 		return result;
+	}
+
+	protected Collection<SERVICE_TYPE> getAllServices() {
+		Function<Node<ELEMENT_TYPE, SERVICE_TYPE>, SERVICE_TYPE> node2Service = new Function<Node<ELEMENT_TYPE, SERVICE_TYPE>, SERVICE_TYPE>() {
+			public SERVICE_TYPE apply(Node<ELEMENT_TYPE, SERVICE_TYPE> input) {
+				return input.getTarget();
+			}
+		};
+		return Collections2.transform(services.values(), node2Service);
 	}
 
 	private Node<ELEMENT_TYPE, SERVICE_TYPE> addNode(String id, SERVICE_TYPE provider) {
@@ -165,8 +181,7 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 		}
 		return result;
 	}
-	
-	
+
 	private Edge<ELEMENT_TYPE, SERVICE_TYPE> addEdge(Node<ELEMENT_TYPE, SERVICE_TYPE> node, Node<ELEMENT_TYPE, SERVICE_TYPE> target) {
 		Edge<ELEMENT_TYPE, SERVICE_TYPE> result = new Edge<ELEMENT_TYPE, SERVICE_TYPE>(target);
 		node.getOutgoingEdges().add(result);
@@ -175,9 +190,9 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 
 	private List<String> extractPriorities(Object priorityProperty) {
 		if (priorityProperty instanceof String) {
-			if (((String)priorityProperty).length() > 0) {
+			if (((String) priorityProperty).length() > 0) {
 				List<String> result = Lists.newArrayList();
-				StringTokenizer st = new StringTokenizer((String)priorityProperty, ",");
+				StringTokenizer st = new StringTokenizer((String) priorityProperty, ",");
 				while (st.hasMoreElements()) {
 					String nextPriority = (String) st.nextElement();
 					result.add(nextPriority.trim());
@@ -197,7 +212,7 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 			return result;
 		}
 	}
-	
+
 	private boolean isAcyclic() {
 		try {
 			@SuppressWarnings("unchecked")
@@ -213,13 +228,13 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 				}
 			}
 			return true;
-			
+
 		} catch (CloneNotSupportedException e) {
-			//Not possible
+			// Not possible
 		}
 		return true;
 	}
-	
+
 	private Collection<Node<ELEMENT_TYPE, SERVICE_TYPE>> getNodes() {
 		return services.values();
 	}
@@ -229,15 +244,16 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see com.google.common.base.Predicate#apply(java.lang.Object)
 			 */
 			public boolean apply(Node<ELEMENT_TYPE, SERVICE_TYPE> input) {
 				return input.getOutgoingEdges().size() == 0;
 			}
-			
+
 		});
 	}
-	
+
 	private void removeNode(Node<ELEMENT_TYPE, SERVICE_TYPE> toRemove) {
 		for (Node<ELEMENT_TYPE, SERVICE_TYPE> node : services.values()) {
 			List<Edge<ELEMENT_TYPE, SERVICE_TYPE>> edgeToRemove = Lists.newArrayList();
@@ -252,10 +268,13 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 		}
 		services.values().remove(toRemove);
 	}
-	
+
 	/**
-	 * Returns the {@link VHPMetadata}s with the highest priority passed in input.
-	 * @param input list of {@link VHPMetadata} to process.
+	 * Returns the {@link VHPMetadata}s with the highest priority passed in
+	 * input.
+	 * 
+	 * @param input
+	 *            list of {@link VHPMetadata} to process.
 	 * @return the {@link VHPMetadata}s with the highest priority.
 	 */
 	private Collection<SERVICE_TYPE> greatest(Collection<SERVICE_TYPE> input) {
@@ -268,7 +287,7 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 		}
 		return result;
 	}
-	
+
 	private Collection<SERVICE_TYPE> connexity(SERVICE_TYPE provider) {
 		Node<ELEMENT_TYPE, SERVICE_TYPE> node = getAssociatedNode(provider);
 		if (node != null) {
@@ -281,9 +300,9 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 		} else {
 			return Collections.emptyList();
 		}
-		
+
 	}
-	
+
 	private Node<ELEMENT_TYPE, SERVICE_TYPE> getAssociatedNode(EEFService<?> provider) {
 		for (Node<ELEMENT_TYPE, SERVICE_TYPE> node : services.values()) {
 			if (node.getTarget() == provider) {
@@ -292,9 +311,9 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 		}
 		return null;
 	}
-	
+
 	private static final class Node<ELEMENT_TYPE, SERVICE_TYPE extends EEFService<ELEMENT_TYPE>> {
-		
+
 		SERVICE_TYPE target;
 		private List<Edge<ELEMENT_TYPE, SERVICE_TYPE>> outgoingEdges;
 
@@ -302,7 +321,7 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 			this.target = target;
 			outgoingEdges = Lists.newArrayList();
 		}
-		
+
 		public SERVICE_TYPE getTarget() {
 			return target;
 		}
@@ -325,9 +344,9 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 		public List<Edge<ELEMENT_TYPE, SERVICE_TYPE>> getOutgoingEdges() {
 			return outgoingEdges;
 		}
-		
+
 	}
-	
+
 	private static final class Edge<ELEMENT_TYPE, SERVICE_TYPE extends EEFService<ELEMENT_TYPE>> {
 		Node<ELEMENT_TYPE, SERVICE_TYPE> target;
 
@@ -339,5 +358,5 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 			return target;
 		}
 	}
-	
+
 }

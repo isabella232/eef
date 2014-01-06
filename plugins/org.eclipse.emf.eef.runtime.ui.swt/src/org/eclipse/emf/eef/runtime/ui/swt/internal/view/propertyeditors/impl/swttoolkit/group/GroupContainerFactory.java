@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.group;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
 import org.eclipse.emf.eef.views.Container;
@@ -19,18 +21,21 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class GroupContainerFactory extends WidgetPropertyEditorFactoryImpl<Composite> {
+
+	public static final String GROUP_CONTAINER_NAME = GenericBindingSettings.GROUP_CONTAINER_NAME;
 
 	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
 
 	static {
-		widget.setName("Group");		
+		widget.setName(GROUP_CONTAINER_NAME);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
 	 */
 	public Widget getModel() {
@@ -39,18 +44,29 @@ public class GroupContainerFactory extends WidgetPropertyEditorFactoryImpl<Compo
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(PropertyEditorContext editorContext) {
 		return getModel() == editorContext.viewElement.getRepresentation() && editorContext.view.getContents() instanceof Composite;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new GroupPropertyEditor(new GroupSWTPropertyEditor((Container) editorContext.viewElement));			 
+		return new GroupPropertyEditor(new GroupSWTPropertyEditor((Container) editorContext.viewElement));
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#canHandle(org.eclipse.emf.ecore.EStructuralFeature)
+	 */
+	public boolean canHandle(EStructuralFeature feature) {
+		return false;
 	}
 
 }
