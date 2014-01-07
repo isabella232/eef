@@ -28,12 +28,15 @@ public class BindingSettingsBuilder {
 	private EEFToolkitProvider toolkitProvider;
 	private String GROUP_CONTAINER_NAME = "";
 	private String TEXT_WIDGET_NAME = "";
+	private PropertiesEditingModel propertiesEditingModel;
 
-	public BindingSettingsBuilder(EEFToolkitProvider toolkitProvider) {
+	public BindingSettingsBuilder(PropertiesEditingModel propertiesEditingModel, EEFToolkitProvider toolkitProvider) {
+		this.propertiesEditingModel = propertiesEditingModel;
 		this.toolkitProvider = toolkitProvider;
 	}
 
-	public BindingSettingsBuilder(EEFToolkitProvider toolkitProvider, String groupContainerName, String textWidgetName) {
+	public BindingSettingsBuilder(PropertiesEditingModel propertiesEditingModel, EEFToolkitProvider toolkitProvider, String groupContainerName, String textWidgetName) {
+		this.propertiesEditingModel = propertiesEditingModel;
 		this.toolkitProvider = toolkitProvider;
 		this.GROUP_CONTAINER_NAME = groupContainerName;
 		this.TEXT_WIDGET_NAME = textWidgetName;
@@ -99,7 +102,7 @@ public class BindingSettingsBuilder {
 	 *            PropertiesEditingModel
 	 * @return the EClass binding
 	 */
-	public EClassBinding createEClassBinding(EObject eObject, org.eclipse.emf.eef.views.View createdView, PropertiesEditingModel propertiesEditingModel) {
+	public EClassBinding createEClassBinding(EObject eObject, org.eclipse.emf.eef.views.View createdView) {
 		EClassBinding eClassBinding = EditingModelFactory.eINSTANCE.createEClassBinding();
 		eClassBinding.setEClass(eObject.eClass());
 		EObjectView modelView = EditingModelFactory.eINSTANCE.createEObjectView();
@@ -133,6 +136,20 @@ public class BindingSettingsBuilder {
 		newGroup.setRepresentation(toolkitProvider.getWidgetByName(GROUP_CONTAINER_NAME));
 		view.getElements().add(newGroup);
 		return newGroup;
+	}
+
+	/**
+	 * @param eObject
+	 *            EObject
+	 * @return if the eobject class is already binding
+	 */
+	public boolean existEClassBinding(EObject eObject) {
+		for (EClassBinding eClassBinding : propertiesEditingModel.getBindings()) {
+			if (eClassBinding.getEClass().equals(eObject.eClass())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

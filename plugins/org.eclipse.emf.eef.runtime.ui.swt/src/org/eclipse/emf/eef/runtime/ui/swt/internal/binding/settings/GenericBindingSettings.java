@@ -61,6 +61,8 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 */
 	private ResourceSet resourceSet;
 	private Map<URI, PropertiesEditingModel> mapURI2PropertiesEditingModel = new HashMap<URI, PropertiesEditingModel>();
+	public static final String PROPERTIES_EDITING_MODEL_NAME = "Generic Binding Settings";
+	public static final String PROPERTIES_EDITING_MODEL_ID = "org.eclipse.emf.eef.runtime.ui.swt.genericBindingSetting";
 
 	/**
 	 * (non-Javadoc)
@@ -117,7 +119,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 		createOrGetResourceSet();
 		// get PropertiesEditingModel if exists, else create one.
 		PropertiesEditingModel propertiesEditingModel = getPropertiesEditingModel(eObject);
-		// define EClass and EStruturalFeature bindings.
+		// define EClass and EStruturalFeature bindings if do not exist.
 		updatePropertiesEditingModel(eObject, propertiesEditingModel);
 
 		return propertiesEditingModel;
@@ -134,17 +136,20 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 */
 	protected void updatePropertiesEditingModel(EObject eObject, PropertiesEditingModel propertiesEditingModel) {
 		// create EClassBinding on eobject with its view
-		BindingSettingsBuilder builder = new BindingSettingsBuilder(toolkitProvider, GROUP_CONTAINER_NAME, TEXT_WIDGET_NAME);
-		// create View
-		org.eclipse.emf.eef.views.View createdView = builder.createViewForEClassBinding(eObject);
-		// add container group
-		Container createdGroup = builder.createContainerViewForEClassBinding(eObject, createdView);
+		BindingSettingsBuilder builder = new BindingSettingsBuilder(propertiesEditingModel, toolkitProvider, GROUP_CONTAINER_NAME, TEXT_WIDGET_NAME);
+		if (!builder.existEClassBinding(eObject)) {
+			// create View
+			org.eclipse.emf.eef.views.View createdView = builder.createViewForEClassBinding(eObject);
+			// add container group
+			Container createdGroup = builder.createContainerViewForEClassBinding(eObject, createdView);
 
-		// create EClassBinding and link the createdView
-		EClassBinding eClassBinding = builder.createEClassBinding(eObject, createdView, propertiesEditingModel);
+			// create EClassBinding and link the createdView
+			EClassBinding eClassBinding = builder.createEClassBinding(eObject, createdView);
 
-		// bind eobject structural features
-		builder.bindEStructuralFeature(eObject, eClassBinding, createdGroup);
+			// bind eobject structural features
+			builder.bindEStructuralFeature(eObject, eClassBinding, createdGroup);
+		}
+
 	}
 
 	/**
@@ -156,9 +161,10 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 		PropertiesEditingModel propertiesEditingModel = null;
 		if (eObject.eResource() != null && mapURI2PropertiesEditingModel.get(eObject.eResource().getURI()) == null) {
 			propertiesEditingModel = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
-			propertiesEditingModel.setId(eObject.getClass().getPackage().getName());
-			propertiesEditingModel.setName(eObject.getClass().getPackage().getName() + "Standard EditingModel");
+			propertiesEditingModel.setId(PROPERTIES_EDITING_MODEL_ID);
+			propertiesEditingModel.setName(PROPERTIES_EDITING_MODEL_NAME);
 			propertiesEditingModel.setEMFServiceProvider(emfServiceProvider);
+			mapURI2PropertiesEditingModel.put(eObject.eResource().getURI(), propertiesEditingModel);
 		} else {
 			propertiesEditingModel = mapURI2PropertiesEditingModel.get(eObject.eResource().getURI());
 		}
