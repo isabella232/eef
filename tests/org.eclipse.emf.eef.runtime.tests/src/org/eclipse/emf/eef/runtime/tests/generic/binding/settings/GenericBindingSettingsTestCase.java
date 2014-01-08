@@ -17,8 +17,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -31,10 +29,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
-import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.EEFToolkitProviderImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.junit.Test;
@@ -49,7 +44,7 @@ import org.junit.runners.Parameterized.Parameters;
  * 
  */
 @RunWith(Parameterized.class)
-public class GenericBindingSettingsTestCase {
+public class GenericBindingSettingsTestCase extends AbstractGenericBindingSettingsTestCase {
 
 	private EObject eObject;
 	private EClass eClass;
@@ -196,15 +191,7 @@ public class GenericBindingSettingsTestCase {
 
 	@Test
 	public void testGenericBindingSettings() throws Exception {
-		GenericBindingSettings genericBindingSettings = new GenericBindingSettings();
-		EEFToolkitProviderImpl eefToolkitProvider = new EEFToolkitProviderImpl();
-		Map<String, Object> options = new HashMap<String, Object>();
-		options.put("component.name", "SWTToolkit");
-		eefToolkitProvider.addService(new SWTToolkit(), options);
-		options.put("component.name", "EMFPropertiesToolkit");
-		options.put("priority.over", "SWTToolkit");
-		eefToolkitProvider.addService(new EMFPropertiesToolkit(), options);
-		genericBindingSettings.setEEFToolkitProvider(eefToolkitProvider);
+		GenericBindingSettings genericBindingSettings = initGenericBindingSettings();
 		PropertiesEditingModel propertiesEditingModel = genericBindingSettings.getEEFDescription(eObject);
 
 		// test EClass binding

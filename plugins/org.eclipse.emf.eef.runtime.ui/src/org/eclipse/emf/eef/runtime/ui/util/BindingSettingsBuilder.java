@@ -89,6 +89,9 @@ public class BindingSettingsBuilder {
 					return widget;
 				}
 			}
+			if (!widgetsFor.isEmpty()) {
+				return widgetsFor.iterator().next();
+			}
 		}
 		return null;
 	}

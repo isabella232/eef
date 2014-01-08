@@ -60,6 +60,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 */
 	private ResourceSet resourceSet;
 	private Map<String, PropertiesEditingModel> mapURI2PropertiesEditingModel = new HashMap<String, PropertiesEditingModel>();
+
 	public static final String PROPERTIES_EDITING_MODEL_NAME = "Generic Binding Settings";
 	public static final String PROPERTIES_EDITING_MODEL_ID = "org.eclipse.emf.eef.runtime.ui.swt.genericBindingSetting";
 
@@ -179,6 +180,13 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 			resourceSet = getEditingModelEnvironment().getResourceSet();
 		}
 		return resourceSet;
+	}
+
+	/**
+	 * @return map
+	 */
+	public Map<String, PropertiesEditingModel> getMapURI2PropertiesEditingModel() {
+		return mapURI2PropertiesEditingModel;
 	}
 
 	/**
