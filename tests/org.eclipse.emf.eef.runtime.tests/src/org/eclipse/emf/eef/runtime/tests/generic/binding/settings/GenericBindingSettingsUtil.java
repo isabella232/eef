@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Util class to create data for Generic binding setting test.
-
+ * 
  * @author <a href="mailto:nathalie.lepine@obeo.fr">Nathalie Lepine</a>
  * 
  */
@@ -47,7 +47,16 @@ public class GenericBindingSettingsUtil {
 	 * @return EClass with eAttribute
 	 */
 	protected static Object[] createEObjectWithSingleStringAttribute(EPackage ePackage, EClassifier type) {
-		EClass eClass1 = createEClass(ePackage, CLASS1);
+		return createEObjectWithSingleStringAttribute(ePackage, CLASS1, type);
+	}
+
+	/**
+	 * @param ePackage
+	 * @param type
+	 * @return EClass with eAttribute
+	 */
+	protected static Object[] createEObjectWithSingleStringAttribute(EPackage ePackage, String name, EClassifier type) {
+		EClass eClass1 = createEClass(ePackage, name);
 		EAttribute singleStringAttribute = addSingleStringAttribute(eClass1);
 		singleStringAttribute.setEType(type);
 		EObject createdClass = EcoreUtil.create(eClass1);
@@ -59,7 +68,7 @@ public class GenericBindingSettingsUtil {
 	 * @param type
 	 * @return EClass with enum
 	 */
-	public static Object[] createEObjectWithSingleEnum(EPackage ePackage) {
+	protected static Object[] createEObjectWithSingleEnum(EPackage ePackage) {
 		EClass eClass1 = createEClass(ePackage, CLASS1);
 		EEnum enum1 = createEEnum(ePackage, ENUM1);
 		EAttribute singleStringAttribute = addSingleStringAttribute(eClass1);
