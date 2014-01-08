@@ -56,6 +56,7 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	@Override
 	protected Builder initEnvironmentBuilder() {
 		Builder initEnvironmentBuilder = super.initEnvironmentBuilder();
+		if (1 == 1) throw new RuntimeException("Step 1");
 		return initEnvironmentBuilder
 						.setEditingModel(createEditingModel())
 						.setEditedObject(createEditedObject())
@@ -145,10 +146,8 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 		@Override
 		public Command createCommand(Class<? extends Command> commandClass, CommandParameter commandParameter) {
 			if (commandClass == SetCommand.class && commandParameter.getFeature() == EcorePackage.Literals.ENAMED_ELEMENT__NAME) {
-				if (1 == 1) throw new RuntimeException("Step 1");
 				return new SetCommand(TestEditingDomain.this, commandParameter.getEOwner(), (EStructuralFeature)commandParameter.getFeature(), MARKER);
 			}
-			if (1 == 1) throw new RuntimeException("Step 2 " + commandClass + " " + commandParameter.getFeature());
 			return super.createCommand(commandClass, commandParameter);
 		}
 	}
