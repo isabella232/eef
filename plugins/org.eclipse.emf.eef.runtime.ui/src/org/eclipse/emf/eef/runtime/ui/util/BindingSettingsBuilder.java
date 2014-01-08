@@ -5,6 +5,7 @@ package org.eclipse.emf.eef.runtime.ui.util;
 
 import java.util.Collection;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
@@ -29,17 +30,19 @@ public class BindingSettingsBuilder {
 	private String GROUP_CONTAINER_NAME = "";
 	private String TEXT_WIDGET_NAME = "";
 	private PropertiesEditingModel propertiesEditingModel;
+	private String TEXTAREA_WIDGET_NAME = "";
 
 	public BindingSettingsBuilder(PropertiesEditingModel propertiesEditingModel, EEFToolkitProvider toolkitProvider) {
 		this.propertiesEditingModel = propertiesEditingModel;
 		this.toolkitProvider = toolkitProvider;
 	}
 
-	public BindingSettingsBuilder(PropertiesEditingModel propertiesEditingModel, EEFToolkitProvider toolkitProvider, String groupContainerName, String textWidgetName) {
+	public BindingSettingsBuilder(PropertiesEditingModel propertiesEditingModel, EEFToolkitProvider toolkitProvider, String groupContainerName, String textWidgetName, String textareaWidgetName) {
 		this.propertiesEditingModel = propertiesEditingModel;
 		this.toolkitProvider = toolkitProvider;
 		this.GROUP_CONTAINER_NAME = groupContainerName;
 		this.TEXT_WIDGET_NAME = textWidgetName;
+		this.TEXTAREA_WIDGET_NAME = textareaWidgetName;
 
 	}
 
@@ -80,12 +83,16 @@ public class BindingSettingsBuilder {
 	 * @return widget corresponding to the feature
 	 */
 	public Widget getWidgetForFeature(EStructuralFeature feature) {
+		if (!feature.isMany() && feature instanceof EAttribute && (feature.getEType().getName().equals("EString") || feature.getEType().getName().equals("String"))
+				&& "documentation".equals(feature.getName())) {
+			return toolkitProvider.getWidgetByName(TEXTAREA_WIDGET_NAME);
+		}
 		Collection<Widget> widgetsFor = toolkitProvider.getAllWidgetsFor(feature);
 		if (widgetsFor.size() == 1) {
 			return widgetsFor.iterator().next();
 		} else {
 			for (Widget widget : widgetsFor) {
-				if (!TEXT_WIDGET_NAME.equals(widget.getName())) {
+				if (!TEXT_WIDGET_NAME.equals(widget.getName()) && !TEXTAREA_WIDGET_NAME.equals(widget.getName())) {
 					return widget;
 				}
 			}

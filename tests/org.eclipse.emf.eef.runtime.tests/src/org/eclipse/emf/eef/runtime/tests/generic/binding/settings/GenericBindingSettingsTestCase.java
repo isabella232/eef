@@ -178,6 +178,8 @@ public class GenericBindingSettingsTestCase extends AbstractGenericBindingSettin
 				// date
 				GenericBindingSettingsUtil.createEObjectWithSingleDate(ePackage, XMLTypePackage.eINSTANCE.getDate()),
 				GenericBindingSettingsUtil.createEObjectWithSingleDate(ePackage, XMLTypePackage.eINSTANCE.getDateTime()),
+				// commentaire
+				GenericBindingSettingsUtil.createEObjectWithSingleStringAttributeComment(ePackage, XMLTypePackage.eINSTANCE.getString()),
 				// reference 0..1
 				GenericBindingSettingsUtil.createEObjectWithSingleReference(ePackage),
 				// reference 0..*
@@ -231,6 +233,8 @@ public class GenericBindingSettingsTestCase extends AbstractGenericBindingSettin
 			assertEquals("Representation should be a text", GenericBindingSettings.TEXT_WIDGET_NAME, elementEditor.getRepresentation().getName());
 		} else if (GenericBindingSettingsUtil.SINGLE_BOOLEAN_ATTRIBUTE.equals(eStructuralFeature.getName())) {
 			assertEquals("Representation should be a checkbox", GenericBindingSettings.CHECKBOX_WIDGET_NAME, elementEditor.getRepresentation().getName());
+		} else if (GenericBindingSettingsUtil.SINGLE_STRING_ATTRIBUTE_COMMENT.equals(eStructuralFeature.getName())) {
+			assertEquals("Representation should be a text area", GenericBindingSettings.TEXTAREA_WIDGET_NAME, elementEditor.getRepresentation().getName());
 		} else if (GenericBindingSettingsUtil.SINGLE_ENUM.equals(eStructuralFeature.getName())) {
 			assertEquals("Representation should be a combo", GenericBindingSettings.COMBO_WIDGET_NAME, elementEditor.getRepresentation().getName());
 		} else if (GenericBindingSettingsUtil.SINGLE_DATE.equals(eStructuralFeature.getName())) {
