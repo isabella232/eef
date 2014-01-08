@@ -128,17 +128,17 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 
 		public TestEditingDomain(AdapterFactory adapterFactory, CommandStack commandStack, Map<Resource, Boolean> resourceToReadOnlyMap) {
 			super(adapterFactory, commandStack, resourceToReadOnlyMap);
-			if (1 == 1) throw new RuntimeException("Step 3");
+			System.out.println("Constr 1");
 		}
 
 		public TestEditingDomain(AdapterFactory adapterFactory, CommandStack commandStack, ResourceSet resourceSet) {
 			super(adapterFactory, commandStack, resourceSet);
-			if (1 == 1) throw new RuntimeException("Step 2");
+			System.out.println("Constr 2");
 		}
 
 		public TestEditingDomain(AdapterFactory adapterFactory, CommandStack commandStack) {
 			super(adapterFactory, commandStack);
-			if (1 == 1) throw new RuntimeException("Step 1");
+			System.out.println("Constr 3");
 		}
 		
 		/**
