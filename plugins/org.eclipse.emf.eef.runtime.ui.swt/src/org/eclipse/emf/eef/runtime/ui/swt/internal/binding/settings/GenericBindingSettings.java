@@ -6,7 +6,6 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -60,7 +59,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 * Properties editing model.
 	 */
 	private ResourceSet resourceSet;
-	private Map<URI, PropertiesEditingModel> mapURI2PropertiesEditingModel = new HashMap<URI, PropertiesEditingModel>();
+	private Map<String, PropertiesEditingModel> mapURI2PropertiesEditingModel = new HashMap<String, PropertiesEditingModel>();
 	public static final String PROPERTIES_EDITING_MODEL_NAME = "Generic Binding Settings";
 	public static final String PROPERTIES_EDITING_MODEL_ID = "org.eclipse.emf.eef.runtime.ui.swt.genericBindingSetting";
 
@@ -159,14 +158,15 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 */
 	private PropertiesEditingModel getPropertiesEditingModel(EObject eObject) {
 		PropertiesEditingModel propertiesEditingModel = null;
-		if (eObject.eResource() != null && mapURI2PropertiesEditingModel.get(eObject.eResource().getURI()) == null) {
+		String uri = eObject.eClass().getEPackage().getNsURI();
+		if (mapURI2PropertiesEditingModel.get(uri) == null) {
 			propertiesEditingModel = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
 			propertiesEditingModel.setId(PROPERTIES_EDITING_MODEL_ID);
 			propertiesEditingModel.setName(PROPERTIES_EDITING_MODEL_NAME);
 			propertiesEditingModel.setEMFServiceProvider(emfServiceProvider);
-			mapURI2PropertiesEditingModel.put(eObject.eResource().getURI(), propertiesEditingModel);
+			mapURI2PropertiesEditingModel.put(uri, propertiesEditingModel);
 		} else {
-			propertiesEditingModel = mapURI2PropertiesEditingModel.get(eObject.eResource().getURI());
+			propertiesEditingModel = mapURI2PropertiesEditingModel.get(uri);
 		}
 		return propertiesEditingModel;
 	}

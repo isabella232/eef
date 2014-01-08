@@ -10,9 +10,8 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor;
 
-import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -82,7 +81,7 @@ public class EComboPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#canHandle(org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public boolean canHandle(EStructuralFeature feature) {
-		return feature instanceof EAttribute && EcorePackage.eINSTANCE.getEEnum().isInstance(feature.getEType());
+		return feature instanceof EReference && !feature.isMany() && !((EReference) feature).isContainment();
 	}
 
 }

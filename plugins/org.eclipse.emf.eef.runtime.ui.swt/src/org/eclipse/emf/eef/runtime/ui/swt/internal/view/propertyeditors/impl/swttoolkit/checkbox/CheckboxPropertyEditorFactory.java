@@ -69,7 +69,9 @@ public class CheckboxPropertyEditorFactory extends WidgetPropertyEditorFactoryIm
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#canHandle(org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public boolean canHandle(EStructuralFeature feature) {
-		return !feature.isMany() && feature instanceof EAttribute
-				&& (feature.getEType().getName().equals("EBoolean") || feature.getEType().getName().equals("EBool") || feature.getEType().getName().equalsIgnoreCase("Boolean"));
+		return !feature.isMany()
+				&& feature instanceof EAttribute
+				&& (feature.getEType().getName().equals("EBoolean") || feature.getEType().getName().equals("EBool") || feature.getEType().getName().equalsIgnoreCase("Boolean") || feature.getEType()
+						.getName().equalsIgnoreCase("BooleanObject"));
 	}
 }

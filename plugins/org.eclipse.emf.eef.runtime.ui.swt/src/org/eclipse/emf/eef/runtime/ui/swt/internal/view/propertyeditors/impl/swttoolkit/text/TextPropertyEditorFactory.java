@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.text;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -69,6 +70,6 @@ public class TextPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<C
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#canHandle(org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public boolean canHandle(EStructuralFeature feature) {
-		return !feature.isMany();
+		return !feature.isMany() && feature instanceof EAttribute;
 	}
 }

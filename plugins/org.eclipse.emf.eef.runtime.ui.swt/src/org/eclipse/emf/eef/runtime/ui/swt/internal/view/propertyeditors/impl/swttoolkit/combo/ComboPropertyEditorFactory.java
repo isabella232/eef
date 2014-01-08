@@ -80,6 +80,6 @@ public class ComboPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#canHandle(org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public boolean canHandle(EStructuralFeature feature) {
-		return feature.isMany() && feature instanceof EAttribute && feature.getEType() instanceof EEnum;
+		return !feature.isMany() && feature instanceof EAttribute && feature.getEType() instanceof EEnum;
 	}
 }

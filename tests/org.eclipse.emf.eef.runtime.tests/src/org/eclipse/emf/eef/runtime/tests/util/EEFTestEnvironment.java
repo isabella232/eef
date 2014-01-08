@@ -736,7 +736,7 @@ public class EEFTestEnvironment {
 
 			};
 			bindingSettings.setEMFServiceProvider(getEMFServiceProvider());
-			bindingSettings.setViewHandlerProvider(getViewHandlerProvider());
+//			bindingSettings.setViewHandlerProvider(getViewHandlerProvider());
 			result.add(new EEFServiceDescriptor<EEFBindingSettings>("propertieseditingprovider.default", bindingSettings));
 			return result;
 		}
