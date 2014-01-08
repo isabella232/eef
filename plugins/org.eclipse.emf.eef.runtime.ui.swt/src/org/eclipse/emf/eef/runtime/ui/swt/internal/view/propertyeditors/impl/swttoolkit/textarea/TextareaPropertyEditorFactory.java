@@ -69,7 +69,6 @@ public class TextareaPropertyEditorFactory extends WidgetPropertyEditorFactoryIm
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#canHandle(org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public boolean canHandle(EStructuralFeature feature) {
-		return !feature.isMany() && feature instanceof EAttribute && (feature.getEType().getName().equals("EString") || feature.getEType().getName().equals("String"))
-				&& "documentation".equals(feature.getName());
+		return !feature.isMany() && feature instanceof EAttribute;
 	}
 }

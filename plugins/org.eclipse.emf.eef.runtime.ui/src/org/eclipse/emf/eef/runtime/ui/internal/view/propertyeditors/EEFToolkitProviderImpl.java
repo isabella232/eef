@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.services.EEFServiceProviderImpl;
@@ -55,7 +55,7 @@ public class EEFToolkitProviderImpl extends EEFServiceProviderImpl<PropertyEdito
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider#getAllWidgetsFor(org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public Collection<Widget> getAllWidgetsFor(EStructuralFeature eStructuralFeature) {
-		Collection<Widget> widgets = new HashSet<Widget>();
+		Collection<Widget> widgets = new ArrayList<Widget>();
 		for (EEFToolkit<?> toolkit : getAllToolkits()) {
 			widgets.addAll(toolkit.getAllWidgetsFor(eStructuralFeature));
 

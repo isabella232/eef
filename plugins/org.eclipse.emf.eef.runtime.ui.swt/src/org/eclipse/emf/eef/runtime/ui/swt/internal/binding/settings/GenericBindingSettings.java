@@ -136,7 +136,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 */
 	protected void updatePropertiesEditingModel(EObject eObject, PropertiesEditingModel propertiesEditingModel) {
 		// create EClassBinding on eobject with its view
-		BindingSettingsBuilder builder = new BindingSettingsBuilder(propertiesEditingModel, toolkitProvider, GROUP_CONTAINER_NAME, TEXT_WIDGET_NAME);
+		BindingSettingsBuilder builder = new BindingSettingsBuilder(propertiesEditingModel, toolkitProvider, GROUP_CONTAINER_NAME, TEXT_WIDGET_NAME, TEXTAREA_WIDGET_NAME);
 		if (!builder.existEClassBinding(eObject)) {
 			// create View
 			org.eclipse.emf.eef.views.View createdView = builder.createViewForEClassBinding(eObject);

@@ -32,6 +32,7 @@ public class GenericBindingSettingsUtil {
 	public static final String CLASS1 = "Class1";
 	public static final String CLASS2 = "Class2";
 	public static final String SINGLE_STRING_ATTRIBUTE = "singleStringAttribute";
+	public static final String SINGLE_STRING_ATTRIBUTE_COMMENT = "documentation";
 	public static final String SINGLE_ENUM = "singleEnum";
 	public static final String SINGLE_DATE = "singleDate";
 	public static final String SINGLE_REFERENCE = "singleReference";
@@ -58,6 +59,20 @@ public class GenericBindingSettingsUtil {
 	protected static Object[] createEObjectWithSingleStringAttribute(EPackage ePackage, String name, EClassifier type) {
 		EClass eClass1 = createEClass(ePackage, name);
 		EAttribute singleStringAttribute = addSingleStringAttribute(eClass1);
+		singleStringAttribute.setEType(type);
+		EObject createdClass = EcoreUtil.create(eClass1);
+		return new Object[] { createdClass, eClass1, singleStringAttribute };
+	}
+
+	/**
+	 * @param ePackage
+	 * @param type
+	 * @return EClass with eAttribute
+	 */
+	protected static Object[] createEObjectWithSingleStringAttributeComment(EPackage ePackage, EClassifier type) {
+		EClass eClass1 = createEClass(ePackage, CLASS1);
+		EAttribute singleStringAttribute = addSingleStringAttribute(eClass1);
+		singleStringAttribute.setName(SINGLE_STRING_ATTRIBUTE_COMMENT);
 		singleStringAttribute.setEType(type);
 		EObject createdClass = EcoreUtil.create(eClass1);
 		return new Object[] { createdClass, eClass1, singleStringAttribute };
