@@ -53,7 +53,7 @@ public class ReflectHelper<T> {
 			result = null;
 		}
 		if (result == null) {
-			result = getConstructor(paramTypes);
+			result = getConstructor(args);
 		}
 		return result;
 	}
@@ -152,7 +152,7 @@ public class ReflectHelper<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Constructor<? extends T> getConstructor(Class<?>[] paramTypes) {
+	private Constructor<? extends T> getConstructor(Object... paramTypes) {
 		Constructor<? extends T> result = null;
 		for (Constructor<?> constructor : clazz.getConstructors()) {
 			if (constructor.getParameterTypes().length == paramTypes.length) {
@@ -198,9 +198,9 @@ public class ReflectHelper<T> {
 		return null;
 	}
 	
-	private boolean areCompatibles(Class<?>[] paramTypes, Class<?>[] parameterTypes) {
+	private boolean areCompatibles(Object[] parameters, Class<?>[] parameterTypes) {
 		for (int i = 0; i < parameterTypes.length; i++) {
-			if (!areCompatible(paramTypes[i] , parameterTypes[i])) {
+			if (!parameterTypes[i].isInstance(parameters[i])) {
 				return false;
 			}
 		}

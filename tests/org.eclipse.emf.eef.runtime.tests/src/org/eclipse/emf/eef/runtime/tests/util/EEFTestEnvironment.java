@@ -626,7 +626,7 @@ public class EEFTestEnvironment {
 			eClassView.getElements().add(abstractEditor);
 			ElementEditor superTypes = ViewsFactory.eINSTANCE.createElementEditor();
 			superTypes.setName("eSuperTypes");
-			superTypes.setRepresentation(searchWidget(toolkits.get(1), "MultiLinePropertyViewer"));
+			superTypes.setRepresentation(searchWidget(toolkits.get(1), "EReference Editor"));
 			eClassView.getElements().add(superTypes);
 			result.add(eClassView);
 			View eClassInstanceView = ViewsFactory.eINSTANCE.createView();
@@ -701,6 +701,7 @@ public class EEFTestEnvironment {
 		public Collection<EEFServiceDescriptor<ViewService>> createViewServices() {
 			Collection<EEFServiceDescriptor<ViewService>> result = new ArrayList<EEFServiceDescriptor<ViewService>>();
 			PlatformAwareViewServiceImpl viewService = new PlatformAwareViewServiceImpl();
+			viewService.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
 			viewService.setEMFServiceProvider(getEMFServiceProvider());
 			result.add(new EEFServiceDescriptor<ViewService>("viewservice.default", viewService));
 			return result;
@@ -780,6 +781,7 @@ public class EEFTestEnvironment {
 			service3.setViewServiceProvider(getViewServiceProvider());
 			service3.setEEFToolkitProvider(getEEFToolkitProvider());
 			service3.setLockManagerProvider(getLockManagerProvider());
+			service3.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
 			service3.setLogger(getLogger());
 			service3.setEMFServiceProvider(getEMFServiceProvider());
 			desc = new EEFServiceDescriptor<ViewHandler<?>>(PROPERTIES_EDITING_VIEW_HANDLER_PROVIDER_NAME, service3, SWT_VIEW_HANDLER_PROVIDER_NAME);
