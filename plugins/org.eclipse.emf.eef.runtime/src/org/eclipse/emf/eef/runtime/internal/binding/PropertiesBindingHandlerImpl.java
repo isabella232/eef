@@ -329,7 +329,6 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 			} else {
 				System.out.println("PropertiesBindingHandlerImpl.firePropertiesChanged() - direct");
 				if (editingPolicy.validateEditing(semanticEditingContext).canPerform()) {
-					System.out.println("Can performed - " + ((DomainAwarePropertiesEditingContext)semanticEditingContext.getParentContext()).getEditingDomain());
 					execute(editingComponent, editingPolicy, semanticEditingContext);
 				}
 			}

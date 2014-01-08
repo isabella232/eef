@@ -48,6 +48,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest)
 	 */
 	public void process(PropertiesEditingContext editingContext, EditingPolicyRequest behavior) {
+		System.out.println("DirectEditingPolicyProcessor.process()");
 		switch (behavior.getProcessingKind()) {
 		case SET:
 			performSet(behavior.getTarget(), behavior.getFeature(), behavior.getValue());

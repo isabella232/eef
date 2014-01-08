@@ -145,9 +145,12 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 		 */
 		@Override
 		public Command createCommand(Class<? extends Command> commandClass, CommandParameter commandParameter) {
+			System.out.println("EMFEditCompatibilityTests.TestEditingDomain.createCommand()");
 			if (commandClass == SetCommand.class && commandParameter.getFeature() == EcorePackage.Literals.ENAMED_ELEMENT__NAME) {
+				System.out.println("EMFEditCompatibilityTests.TestEditingDomain.createCommand() - 1");
 				return new SetCommand(TestEditingDomain.this, commandParameter.getEOwner(), (EStructuralFeature)commandParameter.getFeature(), MARKER);
 			}
+			System.out.println("EMFEditCompatibilityTests.TestEditingDomain.createCommand() - 2");
 			return super.createCommand(commandClass, commandParameter);
 		}
 	}

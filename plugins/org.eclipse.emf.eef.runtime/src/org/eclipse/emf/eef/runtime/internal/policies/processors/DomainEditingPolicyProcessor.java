@@ -57,6 +57,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	 */
 	public final void process(PropertiesEditingContext editingContext, EditingPolicyRequest behavior) {
 		DomainAwarePropertiesEditingContext domainEditingContext = (DomainAwarePropertiesEditingContext) editingContext;
+		System.out.println("DomainEditingPolicyProcessor.process()");
 		Command convertToCommand = convertToCommand(domainEditingContext, behavior);
 		if (convertToCommand != null) {
 			executeCommand(domainEditingContext, convertToCommand);
@@ -70,8 +71,10 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	 */
 	private void executeCommand(DomainAwarePropertiesEditingContext domainEditingContext, Command command) {
 		if (domainEditingContext.getOptions().liveMode()) {
+			System.out.println("DomainEditingPolicyProcessor.executeCommand() - live");
 			domainEditingContext.getEditingDomain().getCommandStack().execute(command);
 		} else {
+			System.out.println("DomainEditingPolicyProcessor.executeCommand() - batch");
 		    // If the command is executable, record and execute it.
 		    //
 		    if (command != null)
