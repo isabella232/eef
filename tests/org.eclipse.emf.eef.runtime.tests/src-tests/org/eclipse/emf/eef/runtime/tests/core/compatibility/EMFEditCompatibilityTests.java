@@ -95,7 +95,7 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	public void testCompatibilityInLiveMode() {
 		assertSame("Bad initiale state for this test.", ORIGINAL_ECLASS_NAME, editedEClass().getName());
 		view().setName(NEW_ECLASS_NAME);
-		assertSame("Bad EMF.edit command override use.",  MARKER, editedEClass().getName());
+		assertSame("Bad EMF.edit command override use. Expected " + MARKER + " but was " + editedEClass().getName(),  MARKER, editedEClass().getName());
 		editedEClass().setName(ORIGINAL_ECLASS_NAME);
 	}
 	
@@ -119,7 +119,7 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 				return true;
 			}
 		});
-		assertSame("Bad EMF.edit command override use.",  MARKER, editedEClass().getName());
+		assertSame("Bad EMF.edit command override use. Expected " + MARKER + " but was " + editedEClass().getName(),  MARKER, editedEClass().getName());
 		editingContext.getOptions().setBatchMode(false);
 		editedEClass().setName(ORIGINAL_ECLASS_NAME);
 	}
