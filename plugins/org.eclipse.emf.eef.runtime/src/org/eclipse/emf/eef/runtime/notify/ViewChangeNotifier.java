@@ -39,6 +39,7 @@ public class ViewChangeNotifier implements PropertyChangeListener {
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
+		System.out.println("ViewChangeNotifier.propertyChange()");
 		bindingHandlerProvider.getBindingManager(component.getEObject()).firePropertiesChanged(component, new PropertiesEditingEventImpl(
 				evt.getSource(), evt.getPropertyName(), 
 				((evt instanceof TypedPropertyChangedEvent)?((TypedPropertyChangedEvent)evt).getEventType():PropertiesEditingEvent.SET), 

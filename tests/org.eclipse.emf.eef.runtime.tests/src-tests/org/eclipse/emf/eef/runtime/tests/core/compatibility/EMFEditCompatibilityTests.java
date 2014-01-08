@@ -94,6 +94,7 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	@Test
 	public void testCompatibilityInLiveMode() {
 		assertSame("Bad initiale state for this test.", ORIGINAL_ECLASS_NAME, editedEClass().getName());
+		System.out.println("EMFEditCompatibilityTests.testCompatibilityInLiveMode()");
 		view().setName(NEW_ECLASS_NAME);
 		assertSame("Bad EMF.edit command override use. Expected " + MARKER + " but was " + editedEClass().getName(),  MARKER, editedEClass().getName());
 		editedEClass().setName(ORIGINAL_ECLASS_NAME);
@@ -128,17 +129,14 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 
 		public TestEditingDomain(AdapterFactory adapterFactory, CommandStack commandStack, Map<Resource, Boolean> resourceToReadOnlyMap) {
 			super(adapterFactory, commandStack, resourceToReadOnlyMap);
-			System.out.println("Constr 1");
 		}
 
 		public TestEditingDomain(AdapterFactory adapterFactory, CommandStack commandStack, ResourceSet resourceSet) {
 			super(adapterFactory, commandStack, resourceSet);
-			System.out.println("Constr 2");
 		}
 
 		public TestEditingDomain(AdapterFactory adapterFactory, CommandStack commandStack) {
 			super(adapterFactory, commandStack);
-			System.out.println("Constr 3");
 		}
 		
 		/**
