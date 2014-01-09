@@ -45,7 +45,6 @@ public class EClassListeningView {
 	 */
 	public void setName(String name) {
 		if (name != null && !name.equals(this.name)) {
-			System.out.println("EClassListeningView.setName()");
 			this.name = name;
 			support.firePropertyChange(new TypedPropertyChangedEvent(this, "name", TypedPropertyChangedEvent.SET, null, name));
 		}

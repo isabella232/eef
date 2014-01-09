@@ -49,30 +49,16 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 	 *      java.util.Map)
 	 */
 	public final synchronized void addService(SERVICE_TYPE service, Map<String, ?> properties) throws PriorityCircularityException {
-		boolean logging = false;
 		try {
-			if (service.getClass().getName().indexOf("Processor") > 0) {
-				logging = true;
-				System.out.println(">>>> Adding Processor: " + service);
-			}
 			@SuppressWarnings("unchecked")
 			EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE> clone = (EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE>) this.clone();
 			Node<ELEMENT_TYPE, SERVICE_TYPE> addedNode = clone.addNode((String) properties.get("component.name"), service);
-			if (logging) {
-				System.out.println(">>>> Component name:" + properties.get("component.name"));
-				System.out.println(">>>> priority over:" + properties.get("priority.over"));
-			}
-			List<String> prioritiesOver = extractPriorities(properties.get("priority.over"), logging);
+			List<String> prioritiesOver = extractPriorities(properties.get("priority.over"));
 			for (String hasPriorityOver : prioritiesOver) {
-				if (logging) {
-					System.out.println(">>>> Priority over:" + prioritiesOver);
-				}
 				clone.addEdge(addedNode, clone.getOrCreateNode(hasPriorityOver));
+				
 			}
 			if (clone.isAcyclic()) {
-				if (logging) {
-					System.out.println(">>>> Acyclic!");
-				}
 				Node<ELEMENT_TYPE, SERVICE_TYPE> newNode = addNode((String) properties.get("component.name"), service);
 				for (String hasPriorityOver : prioritiesOver) {
 					addEdge(newNode, getOrCreateNode(hasPriorityOver));
@@ -127,21 +113,9 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 			// If no registered provider can handle the view, we return null
 			return null;
 		} else if (availableProviders.size() == 1) {
-			SERVICE_TYPE result = availableProviders.get(0);
-			if (result.getClass().getName().indexOf("Processor") > 0) {
-				System.out.println("Looking for processor, 1 result found : " + result);
-			}
 			// If only one provider can handle the view, we return it
 			return availableProviders.get(0);
 		} else {
-			SERVICE_TYPE result = availableProviders.get(0);
-			if (result.getClass().getName().indexOf("Processor") > 0) {
-				System.out.println("Looking for processor, n result found : ");
-				for (SERVICE_TYPE service_TYPE : availableProviders) {
-					System.out.println(" - " + service_TYPE);
-				}
-				System.out.println("Greatest: " + greatest(availableProviders).iterator().next());
-			}
 			// otherwise we return one of those which have the highest priority
 			return greatest(availableProviders).iterator().next();
 		}
@@ -214,20 +188,16 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 		return result;
 	}
 
-	private List<String> extractPriorities(Object priorityProperty, boolean logging) {
+	private List<String> extractPriorities(Object priorityProperty) {
 		if (priorityProperty instanceof String) {
 			if (((String) priorityProperty).length() > 0) {
-				System.out.println(">>>> Priority extraction : Length > 0");
 				List<String> result = Lists.newArrayList();
 				StringTokenizer st = new StringTokenizer((String) priorityProperty, ",");
 				while (st.hasMoreElements()) {
 					String nextPriority = (String) st.nextElement();
-					System.out.println(">>>> Priority extraction - Element: " + nextPriority);
 					result.add(nextPriority.trim());
 				}
 				return result;
-			} else {
-				System.out.println(">>>> Priority extraction : Length == 0");				
 			}
 		}
 		return Collections.emptyList();

@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.internal.binding;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,21 +18,11 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.EEFRuntime;
@@ -41,7 +30,6 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
-import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
@@ -324,10 +312,8 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 			PropertiesEditingContext semanticEditingContext = service.createSemanticPropertiesEditingContext(editingContext, editingEvent);
 			PropertiesEditingPolicy editingPolicy = editingPolicyProvider.getEditingPolicy(semanticEditingContext);
 			if (editingEvent.delayedChanges()) {
-				System.out.println("PropertiesBindingHandlerImpl.firePropertiesChanged() - delayed");
 				delayedApplyingPropertiesChanged(editingComponent, editingEvent);
 			} else {
-				System.out.println("PropertiesBindingHandlerImpl.firePropertiesChanged() - direct");
 				if (editingPolicy.validateEditing(semanticEditingContext).canPerform()) {
 					execute(editingComponent, editingPolicy, semanticEditingContext);
 				}

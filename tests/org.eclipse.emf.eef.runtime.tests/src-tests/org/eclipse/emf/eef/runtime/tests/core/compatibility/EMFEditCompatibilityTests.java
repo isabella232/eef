@@ -93,7 +93,6 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	 */
 	@Test
 	public void testCompatibilityInLiveMode() {
-		System.out.println("************************ EMFEditCompatibilityTests.testCompatibilityInLiveMode() ************************");
 		assertSame("Bad initiale state for this test.", ORIGINAL_ECLASS_NAME, editedEClass().getName());
 		view().setName(NEW_ECLASS_NAME);
 		assertSame("Bad EMF.edit command override use. Expected " + MARKER + " but was " + editedEClass().getName(),  MARKER, editedEClass().getName());
@@ -106,7 +105,6 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	 */
 	@Test
 	public void testBatchEditingMode() {
-		System.out.println("************************ EMFEditCompatibilityTests.testBatchEditingMode() ************************");
 		assertSame("Bad initiale state for this test.", ORIGINAL_ECLASS_NAME, editedEClass().getName());
 		editingContext.getOptions().setBatchMode(true);
 		((DomainAwarePropertiesEditingContext)editingContext).getEditingDomain().getCommandStack().execute(new AbstractBatchEditingCommand(editingContext) {
@@ -146,12 +144,9 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 		 */
 		@Override
 		public Command createCommand(Class<? extends Command> commandClass, CommandParameter commandParameter) {
-			System.out.println("EMFEditCompatibilityTests.TestEditingDomain.createCommand()");
 			if (commandClass == SetCommand.class && commandParameter.getFeature() == EcorePackage.Literals.ENAMED_ELEMENT__NAME) {
-				System.out.println("EMFEditCompatibilityTests.TestEditingDomain.createCommand() - 1");
 				return new SetCommand(TestEditingDomain.this, commandParameter.getEOwner(), (EStructuralFeature)commandParameter.getFeature(), MARKER);
 			}
-			System.out.println("EMFEditCompatibilityTests.TestEditingDomain.createCommand() - 2");
 			return super.createCommand(commandClass, commandParameter);
 		}
 	}

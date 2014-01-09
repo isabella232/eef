@@ -80,7 +80,6 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute()
 	 */
 	public final void execute(PropertiesEditingContext editingContext) {
-		System.out.println("EditingPolicyWithProcessor.execute()");
 		processor.process(editingContext, request);
 	}
 

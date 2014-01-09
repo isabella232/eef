@@ -112,7 +112,6 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 				//NOTE: Silent catch
 			}
 		}
-		System.out.println("ReflectViewHandler.initView()");
 		@SuppressWarnings("unchecked")
 		Method searchListenerAdder = getHelper((Class<? extends T>) view.getClass()).searchListenerAdder();
 		if (searchListenerAdder != null) {
