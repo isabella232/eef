@@ -22,6 +22,8 @@ import org.eclipse.emf.eef.runtime.tests.core.notify.EditingListenerTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.EventsProcessingTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.PropertiesChangeDelayingTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.ViewNotificationTests;
+import org.eclipse.emf.eef.runtime.tests.generic.binding.settings.GenericBindingSettings2TestCase;
+import org.eclipse.emf.eef.runtime.tests.generic.binding.settings.GenericBindingSettingsTestCase;
 import org.eclipse.emf.eef.runtime.tests.ui.ContainerTests;
 import org.eclipse.emf.eef.runtime.tests.ui.EEFViewerTests;
 import org.eclipse.emf.eef.runtime.tests.ui.FeatureDocumentationTests;
@@ -65,7 +67,11 @@ import org.junit.runners.Suite;
 	EditingModelBuilderTests.class,
 	EClassBindingResolverTests.class,
 	PlatformResourceRegistryResourceBinding.class,
-	FeatureDocumentationTests.class
+	FeatureDocumentationTests.class,
+	
+	//Other case
+	GenericBindingSettingsTestCase.class,
+	GenericBindingSettings2TestCase.class
 })
 public class AllTests {
 
