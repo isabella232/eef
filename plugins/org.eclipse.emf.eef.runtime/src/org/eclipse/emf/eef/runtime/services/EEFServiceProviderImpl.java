@@ -60,8 +60,9 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 			Node<ELEMENT_TYPE, SERVICE_TYPE> addedNode = clone.addNode((String) properties.get("component.name"), service);
 			if (logging) {
 				System.out.println(">>>> Component name:" + properties.get("component.name"));
+				System.out.println(">>>> priority over:" + properties.get("priority.over"));
 			}
-			List<String> prioritiesOver = extractPriorities(properties.get("priority.over"));
+			List<String> prioritiesOver = extractPriorities(properties.get("priority.over"), logging);
 			for (String hasPriorityOver : prioritiesOver) {
 				if (logging) {
 					System.out.println(">>>> Priority over:" + prioritiesOver);
@@ -213,16 +214,20 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 		return result;
 	}
 
-	private List<String> extractPriorities(Object priorityProperty) {
+	private List<String> extractPriorities(Object priorityProperty, boolean logging) {
 		if (priorityProperty instanceof String) {
 			if (((String) priorityProperty).length() > 0) {
+				System.out.println(">>>> Priority extraction : Length > 0");
 				List<String> result = Lists.newArrayList();
 				StringTokenizer st = new StringTokenizer((String) priorityProperty, ",");
 				while (st.hasMoreElements()) {
 					String nextPriority = (String) st.nextElement();
+					System.out.println(">>>> Priority extraction - Element: " + nextPriority);
 					result.add(nextPriority.trim());
 				}
 				return result;
+			} else {
+				System.out.println(">>>> Priority extraction : Length == 0");				
 			}
 		}
 		return Collections.emptyList();
