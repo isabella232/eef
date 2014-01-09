@@ -49,16 +49,29 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 	 *      java.util.Map)
 	 */
 	public final synchronized void addService(SERVICE_TYPE service, Map<String, ?> properties) throws PriorityCircularityException {
+		boolean logging = false;
 		try {
+			if (service.getClass().getName().indexOf("Processor") > 0) {
+				logging = true;
+				System.out.println(">>>> Adding Processor: " + service);
+			}
 			@SuppressWarnings("unchecked")
 			EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE> clone = (EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE>) this.clone();
 			Node<ELEMENT_TYPE, SERVICE_TYPE> addedNode = clone.addNode((String) properties.get("component.name"), service);
+			if (logging) {
+				System.out.println(">>>> Component name:" + properties.get("component.name"));
+			}
 			List<String> prioritiesOver = extractPriorities(properties.get("priority.over"));
 			for (String hasPriorityOver : prioritiesOver) {
+				if (logging) {
+					System.out.println(">>>> Priority over:" + prioritiesOver);
+				}
 				clone.addEdge(addedNode, clone.getOrCreateNode(hasPriorityOver));
-
 			}
 			if (clone.isAcyclic()) {
+				if (logging) {
+					System.out.println(">>>> Acyclic!");
+				}
 				Node<ELEMENT_TYPE, SERVICE_TYPE> newNode = addNode((String) properties.get("component.name"), service);
 				for (String hasPriorityOver : prioritiesOver) {
 					addEdge(newNode, getOrCreateNode(hasPriorityOver));
