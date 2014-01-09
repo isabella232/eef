@@ -93,8 +93,8 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	 */
 	@Test
 	public void testCompatibilityInLiveMode() {
+		System.out.println("************************ EMFEditCompatibilityTests.testCompatibilityInLiveMode() ************************");
 		assertSame("Bad initiale state for this test.", ORIGINAL_ECLASS_NAME, editedEClass().getName());
-		System.out.println("EMFEditCompatibilityTests.testCompatibilityInLiveMode()");
 		view().setName(NEW_ECLASS_NAME);
 		assertSame("Bad EMF.edit command override use. Expected " + MARKER + " but was " + editedEClass().getName(),  MARKER, editedEClass().getName());
 		editedEClass().setName(ORIGINAL_ECLASS_NAME);
@@ -106,6 +106,7 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	 */
 	@Test
 	public void testBatchEditingMode() {
+		System.out.println("************************ EMFEditCompatibilityTests.testBatchEditingMode() ************************");
 		assertSame("Bad initiale state for this test.", ORIGINAL_ECLASS_NAME, editedEClass().getName());
 		editingContext.getOptions().setBatchMode(true);
 		((DomainAwarePropertiesEditingContext)editingContext).getEditingDomain().getCommandStack().execute(new AbstractBatchEditingCommand(editingContext) {

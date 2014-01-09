@@ -60,12 +60,16 @@ public class PropertiesEditingPolicyProviderImpl implements PropertiesEditingPol
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context) {
+		System.out.println("********* PropertiesEditingPolicyProviderImpl.getEditingPolicy() *********");
 		EditingPolicyRequestFactory requestFactory = editingPolicyRequestFactoryProvider.getProcessingFactory(context);
 		if (!(requestFactory instanceof NullEditingPolicyRequestFactory)) {
+			System.out.println("********* Not null request factory *********");
 			EditingPolicyProcessor processor = editingPolicyProcessorProvider.getProcessor(context);
 			if (!(processor instanceof NullEditingPolicyProcessor)) {
 				return new EditingPolicyWithProcessor(requestFactory.createProcessing(context), processor);
 			}
+		} else {
+			System.out.println("********* Null request factory *********");
 		}
 		return getNullEditingPolicy();
 	}
