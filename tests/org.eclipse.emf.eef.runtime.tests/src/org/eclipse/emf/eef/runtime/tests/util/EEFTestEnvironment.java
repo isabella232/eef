@@ -686,7 +686,7 @@ public class EEFTestEnvironment {
 			services.add(descriptor);
 			descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(DomainEditingPolicyProcessor.class.getName(), new DomainEditingPolicyProcessor(), DirectEditingPolicyProcessor.class.getName());
 			services.add(descriptor);
-			descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(WizardEditingPolicyProcessor.class.getName(), new WizardEditingPolicyProcessor(), DomainEditingPolicyProcessor.class.getName());
+			descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(WizardEditingPolicyProcessor.class.getName(), new WizardEditingPolicyProcessor(), DomainEditingPolicyProcessor.class.getName(), DirectEditingPolicyProcessor.class.getName());
 			services.add(descriptor);
 			return services;
 		}
@@ -970,6 +970,9 @@ public class EEFTestEnvironment {
 				try {
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
+					if (eefServiceDescriptor.hasPriorityOver != null && !eefServiceDescriptor.hasPriorityOver.isEmpty()) {
+						properties.put(EEFTestEnvironment.PRIORITY_OVER_KEY, eefServiceDescriptor.hasPriorityOver.get(0));
+					}
 					result.addService(eefServiceDescriptor.service, properties);
 				} catch (PriorityCircularityException e) {
 					e.printStackTrace();
