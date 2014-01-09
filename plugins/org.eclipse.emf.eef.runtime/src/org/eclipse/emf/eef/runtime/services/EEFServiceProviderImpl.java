@@ -113,9 +113,21 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 			// If no registered provider can handle the view, we return null
 			return null;
 		} else if (availableProviders.size() == 1) {
+			SERVICE_TYPE result = availableProviders.get(0);
+			if (result.getClass().getName().indexOf("Processor") > 0) {
+				System.out.println("Looking for processor, 1 result found : " + result);
+			}
 			// If only one provider can handle the view, we return it
 			return availableProviders.get(0);
 		} else {
+			SERVICE_TYPE result = availableProviders.get(0);
+			if (result.getClass().getName().indexOf("Processor") > 0) {
+				System.out.println("Looking for processor, n result found : ");
+				for (SERVICE_TYPE service_TYPE : availableProviders) {
+					System.out.println(" - " + service_TYPE);
+				}
+				System.out.println("Greatest: " + greatest(availableProviders).iterator().next());
+			}
 			// otherwise we return one of those which have the highest priority
 			return greatest(availableProviders).iterator().next();
 		}

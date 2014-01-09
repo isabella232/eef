@@ -65,6 +65,7 @@ public class PropertiesEditingPolicyProviderImpl implements PropertiesEditingPol
 		if (!(requestFactory instanceof NullEditingPolicyRequestFactory)) {
 			System.out.println("********* Not null request factory *********");
 			EditingPolicyProcessor processor = editingPolicyProcessorProvider.getProcessor(context);
+			System.out.println("********* Selected processor : " + processor + " *********");
 			if (!(processor instanceof NullEditingPolicyProcessor)) {
 				return new EditingPolicyWithProcessor(requestFactory.createProcessing(context), processor);
 			}
