@@ -75,7 +75,7 @@ public class PropertiesChangeDelayingTests extends NonUIEditingTestCase {
 		// T0: We send an editingEvent
 		long timing = 0;
 		environmentBuilder.getBindingHandlerProvider().getBindingManager(editingComponent.getEObject()).firePropertiesChanged(editingComponent, new PropertiesEditingEventImpl(view1, "name", PropertiesEditingEvent.SET, null, NEW_CLASS_NAME, true));
-		assertFalse("Command performed too soon.", commandStack.isSaveNeeded());
+		assertFalse("Command performed too soon in the preliminary check.", commandStack.isSaveNeeded());
 		final long delay = 30;
 		editingContext.getOptions().setDelayedFirePropertiesChangedDelay(delay);
 		TestScheduler executor = new TestScheduler();
@@ -106,8 +106,8 @@ public class PropertiesChangeDelayingTests extends NonUIEditingTestCase {
 		
 		while (!executor.allJobsDone()) {}
 		
-		assertFalse("Command performed too soon.", checker1.getStackState());
-		assertFalse("Command performed too soon.", checker2.getStackState());
+		assertFalse("Command performed too soon for the first checker.", checker1.getStackState());
+		assertFalse("Command performed too soon for the second checker.", checker2.getStackState());
 		assertTrue("Command seems to not be performed.", checker3.getStackState());
 		
 		commandStack.saveIsDone();
