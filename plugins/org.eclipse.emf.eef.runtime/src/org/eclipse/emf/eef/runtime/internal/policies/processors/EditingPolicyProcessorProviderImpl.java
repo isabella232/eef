@@ -26,7 +26,7 @@ public class EditingPolicyProcessorProviderImpl extends EEFServiceProviderImpl<P
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessorProvider#getProcessor(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public EditingPolicyProcessor getProcessor(PropertiesEditingContext editingContext) {
-		System.out.println("EditingPolicyProcessorProviderImpl.getProcessor()");
+		System.out.println("EditingPolicyProcessorProviderImpl.getProcessor() - context:" + editingContext);
 		return getService(editingContext);
 	}
 
