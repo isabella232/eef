@@ -20,6 +20,9 @@ import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+
 /**
  * @author <a href="mailto:nathalie.lepine@obeo.fr">Nathalie Lepine</a>
  * 
@@ -91,16 +94,28 @@ public class BindingSettingsBuilder {
 		if (widgetsFor.size() == 1) {
 			return widgetsFor.iterator().next();
 		} else {
-			for (Widget widget : widgetsFor) {
+			Collection<Widget> widgets = widgetsFor;
+			if (useFirstStandardWidgets()) {
+				widgets = Collections2.filter(widgetsFor, new StandardEEFToolkitsSelector());
+			}
+			for (Widget widget : widgets) {
 				if (!TEXT_WIDGET_NAME.equals(widget.getName()) && !TEXTAREA_WIDGET_NAME.equals(widget.getName())) {
 					return widget;
 				}
 			}
-			if (!widgetsFor.isEmpty()) {
-				return widgetsFor.iterator().next();
+			if (!widgets.isEmpty()) {
+				return widgets.iterator().next();
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Defines if the widget selection algorithm have to eliminate specific toolkits.
+	 * @return the selection strategy.
+	 */
+	protected boolean useFirstStandardWidgets() {
+		return true;
 	}
 
 	/**
@@ -160,6 +175,14 @@ public class BindingSettingsBuilder {
 			}
 		}
 		return false;
+	}
+	
+	private static class StandardEEFToolkitsSelector implements Predicate<Widget> {
+		
+		public boolean apply(Widget widget) {
+			return widget.getToolkit().getName() == "swt" || widget.getToolkit().getName() == "EMFProperties";
+		}
+		
 	}
 
 }
