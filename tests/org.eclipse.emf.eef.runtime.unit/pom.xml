@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright (C) 2011, Chris Aniszczyk <caniszczyk@gmail.com>
+
+   All rights reserved. This program and the accompanying materials
+   are made available under the terms of the Eclipse Public License v1.0
+   which accompanies this distribution, and is available at
+   http://www.eclipse.org/legal/epl-v10.html
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eclipse</groupId>
+    <artifactId>org.eclipse.emf.eef.parent</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+ 	<relativePath>../../releng/org.eclipse.emf.eef.parent/pom.xml</relativePath>
+  </parent>
+
+  <groupId>org.eclipse</groupId>
+  <artifactId>org.eclipse.emf.eef.runtime.unit</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+  <name>Unit tests for EEF Core Runtime</name>
+  <packaging>eclipse-test-plugin</packaging>
+  
+  <build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+				  <dependencies>
+      				<dependency>
+        				<type>p2-installable-unit</type>
+        				<artifactId>org.eclipse.equinox.ds</artifactId>
+      				</dependency>
+    				</dependencies>
+			        <testSuite>org.eclipse.emf.eef.runtime.unit</testSuite>
+			        <testClass>org.eclipse.emf.eef.runtime.unit.suite.AllTests</testClass>
+					<useUIHarness>true</useUIHarness>
+					<useUIThread>true</useUIThread>
+					<!--argLine>-Xmx1024m</argLine>
+					<argLine>-XX:MaxPermSize=256m</argLine-->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>

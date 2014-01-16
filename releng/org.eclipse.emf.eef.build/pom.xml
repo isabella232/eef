@@ -28,6 +28,7 @@
 		<module>../../features/org.eclipse.emf.eef.edt.feature</module>	
 		<module>../org.eclipse.emf.eef.repository</module>
 		<module>../../tests/org.eclipse.emf.eef.runtime.tests</module>
+		<module>../../tests/org.eclipse.emf.eef.runtime.unit</module>
 	</modules>
 	
 </project>
