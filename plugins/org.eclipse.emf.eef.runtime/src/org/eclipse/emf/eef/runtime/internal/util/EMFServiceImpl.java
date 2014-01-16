@@ -101,7 +101,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EStructuralFeature, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public boolean equals(EStructuralFeature esf1, EStructuralFeature esf2) {
-		return equals(esf1.eClass(), esf2.eClass()) && esf1.getName().equals(esf2.getName());
+		return equals((EClass)esf1.eContainer(), (EClass)esf2.eContainer()) && esf1.getName().equals(esf2.getName());
 	}
 
 	/**
