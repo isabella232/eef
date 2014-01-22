@@ -8,7 +8,6 @@ package org.eclipse.emf.eef.runtime.query.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.eef.runtime.query.Navigation;
 import org.eclipse.emf.eef.runtime.query.QueryPackage;
 

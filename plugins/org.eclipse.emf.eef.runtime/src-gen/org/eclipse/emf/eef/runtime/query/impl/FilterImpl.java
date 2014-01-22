@@ -7,7 +7,6 @@
 package org.eclipse.emf.eef.runtime.query.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.eef.runtime.query.Filter;
 import org.eclipse.emf.eef.runtime.query.QueryPackage;
 

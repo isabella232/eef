@@ -10,8 +10,12 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.eef.runtime.query.*;
+import org.eclipse.emf.eef.runtime.query.Body;
+import org.eclipse.emf.eef.runtime.query.Filter;
+import org.eclipse.emf.eef.runtime.query.JavaBody;
+import org.eclipse.emf.eef.runtime.query.Navigation;
+import org.eclipse.emf.eef.runtime.query.Query;
+import org.eclipse.emf.eef.runtime.query.QueryPackage;
 
 /**
  * <!-- begin-user-doc -->
