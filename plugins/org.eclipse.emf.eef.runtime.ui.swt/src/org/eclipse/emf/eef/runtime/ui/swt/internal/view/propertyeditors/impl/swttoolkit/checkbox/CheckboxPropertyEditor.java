@@ -10,7 +10,8 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.checkbox;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.util.EEFControlWrapperViewer;
@@ -18,6 +19,7 @@ import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.PropertyEditorImpl;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -30,17 +32,22 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class CheckboxPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
+	private EEFEditingServiceProvider eefEditingServiceProvider;
+	
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer;
 
-	protected EStructuralFeature feature;
+	protected PropertyBinding propertyBinding;
  
 	/**
-	 * @param view {@link PropertiesEditingView} where the PropertyEditor is built.
-	 * @param viewElement {@link ElementEditor} specifying the Property Editor.
+	 * @param eefEditingServiceProvider
+	 * @param view
+	 * @param elementEditor
+	 * @param propertyEditorViewer
 	 */
-	public CheckboxPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer) {
+	public CheckboxPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
@@ -48,11 +55,12 @@ public class CheckboxPropertyEditor extends PropertyEditorImpl implements Monova
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.ecore.EStructuralFeature)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
 	 */
-	public void init(EStructuralFeature feature) {
-		this.feature = feature;
-		Object value = view.getEditingComponent().getEObject().eGet(feature);
+	public void init(PropertyBinding propertyBinding) {
+		this.propertyBinding = propertyBinding;
+		EObject eObject = view.getEditingComponent().getEObject();
+		Object value = eefEditingServiceProvider.getEditingService(eObject).getValue(view.getEditingComponent().getEditingContext(), eObject, propertyBinding);
 		if (value instanceof Boolean) {
 			propertyEditorViewer.getViewer().getMainControl().setSelection((Boolean) value);
 		}

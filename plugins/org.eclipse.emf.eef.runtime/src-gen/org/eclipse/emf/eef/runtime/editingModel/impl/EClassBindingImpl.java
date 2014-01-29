@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.Editor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
@@ -205,41 +206,36 @@ public class EClassBindingImpl extends EModelElementImpl implements EClassBindin
 		return propertyBindings;
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public EStructuralFeature feature(Object view, boolean autowire) {
-		for (PropertyBinding binding : getPropertyBindings()) {
-			Editor editor = binding.getEditor();
-			if (editor instanceof JavaEditor && view.equals(((JavaEditor) editor).getDefinition())) {
-				return binding.getFeature();
-			}
-			if (editor instanceof EObjectEditor && view.equals(((EObjectEditor) editor).getDefinition())) {
-				return binding.getFeature();
-			}
-		}
-		if (autowire) {
-			if (view instanceof String) {
-				return eClass.getEStructuralFeature((String)view);
-			}
-			if (view instanceof EObject) {
-				// Here we dont have an PropertyBinding to help us. We check if the view is an EObject (fon instance an ElementEditor)
-				// We looking for an "name" structural feature and if this feature is type of String, we try to associate this name
-				// with a structural feature of the handled EClass. For instance if an ElementEditor (which has a "name" feature) is named
-				// "active" and the current EClass has a feature named "active", we return this feature.
-				EStructuralFeature nameFeature = ((EObject) view).eClass().getEStructuralFeature("name");
-				if (nameFeature != null && "java.lang.String".equals(nameFeature.getEType().getInstanceClassName())) {
-					EStructuralFeature feature = eClass.getEStructuralFeature((String)((EObject) view).eGet(nameFeature));
-					if (feature != null) {
-						return feature;
-					}
-				}
-			}
-		}
-		return null;
-	}
+//	public EStructuralFeature feature(Object view, boolean autowire) {
+//		for (PropertyBinding binding : getPropertyBindings()) {
+//			Editor editor = binding.getEditor();
+//			if (editor instanceof JavaEditor && view.equals(((JavaEditor) editor).getDefinition())) {
+//				return binding.getFeature();
+//			}
+//			if (editor instanceof EObjectEditor && view.equals(((EObjectEditor) editor).getDefinition())) {
+//				return binding.getFeature();
+//			}
+//		}
+//		if (autowire) {
+//			if (view instanceof String) {
+//				return eClass.getEStructuralFeature((String)view);
+//			}
+//			if (view instanceof EObject) {
+//				// Here we dont have an PropertyBinding to help us. We check if the view is an EObject (fon instance an ElementEditor)
+//				// We looking for an "name" structural feature and if this feature is type of String, we try to associate this name
+//				// with a structural feature of the handled EClass. For instance if an ElementEditor (which has a "name" feature) is named
+//				// "active" and the current EClass has a feature named "active", we return this feature.
+//				EStructuralFeature nameFeature = ((EObject) view).eClass().getEStructuralFeature("name");
+//				if (nameFeature != null && "java.lang.String".equals(nameFeature.getEType().getInstanceClassName())) {
+//					EStructuralFeature feature = eClass.getEStructuralFeature((String)((EObject) view).eGet(nameFeature));
+//					if (feature != null) {
+//						return feature;
+//					}
+//				}
+//			}
+//		}
+//		return null;
+//	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -250,15 +246,17 @@ public class EClassBindingImpl extends EModelElementImpl implements EClassBindin
 	public Object propertyEditor(EObject eObject, EStructuralFeature feature, boolean autowire) {
 		EMFService emfService = ((PropertiesEditingModel)eContainer()).getEMFServiceProvider().getEMFService(eObject.eClass().getEPackage());
 		for (PropertyBinding binding : getPropertyBindings()) {
-			if (emfService.equals(binding.getFeature(), feature)) {
-				Editor editor = binding.getEditor();
-				if (editor instanceof EObjectEditor) {
-					return ((EObjectEditor) editor).getDefinition();
+			if (binding instanceof EStructuralFeatureBinding) {
+				if (emfService.equals(((EStructuralFeatureBinding) binding).getFeature(), feature)) {
+					Editor editor = binding.getEditor();
+					if (editor instanceof EObjectEditor) {
+						return ((EObjectEditor) editor).getDefinition();
+					}
+					if (editor instanceof JavaEditor) {
+						return ((JavaEditor) editor).getDefinition();
+					}
+					return editor;
 				}
-				if (editor instanceof JavaEditor) {
-					return ((JavaEditor) editor).getDefinition();
-				}
-				return editor;
 			}
 		}
 		if (autowire) {

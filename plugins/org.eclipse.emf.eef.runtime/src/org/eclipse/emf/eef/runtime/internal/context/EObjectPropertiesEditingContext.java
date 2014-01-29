@@ -18,6 +18,7 @@ import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.EditingRecorder;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 
@@ -28,6 +29,7 @@ import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 public class EObjectPropertiesEditingContext implements PropertiesEditingContext {
 
 	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private BindingHandlerProvider bindingHandlerProvider;
 	private EditingContextFactoryProvider contextFactoryProvider;
 	private ViewHandlerProvider viewHandlerProvider;
@@ -71,6 +73,10 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
 	}
+	
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
+	}
 
 	/**
 	 * @param bindingHandlerProvider the bindingHandlerProvider to set
@@ -106,6 +112,14 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEEFEditingServiceProvider()
+	 */
+	public EEFEditingServiceProvider getEEFEditingServiceProvider() {
+		return eefEditingServiceProvider;
 	}
 
 	/**

@@ -12,6 +12,7 @@ package org.eclipse.emf.eef.runtime.internal.policies.processors;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -24,10 +25,16 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
+import org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding;
+import org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
+import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -35,6 +42,15 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
  */
 public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	
+	private EMFServiceProvider emfServiceProvider;
+	
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
@@ -47,143 +63,198 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest)
 	 */
-	public void process(PropertiesEditingContext editingContext, EditingPolicyRequest behavior) {
-		switch (behavior.getProcessingKind()) {
+	public void process(PropertiesEditingContext editingContext, EditingPolicyRequest request) {
+		switch (request.getProcessingKind()) {
 		case SET:
-			performSet(behavior.getTarget(), behavior.getFeature(), behavior.getValue());
+			performSet(editingContext, request.getTarget(), request.getPropertyBinding(), request.getValue());
 			break;
 		case UNSET:
-			performUnset(behavior.getTarget(), behavior.getFeature());
+			performUnset(editingContext, request.getTarget(), request.getPropertyBinding());
 			break;
 		case EDIT:
-			performEdit(editingContext, behavior.getTarget(), behavior.getFeature(), behavior.getValue());
+			performEdit(editingContext, request.getTarget(), request.getPropertyBinding(), request.getValue());
 			break;
 		case ADD:
-			performAdd(behavior.getTarget(), behavior.getFeature(), behavior.getValue());
+			performAdd(editingContext, request.getTarget(), request.getPropertyBinding(), request.getValue());
 			break;
 		case ADD_MANY:
-			performAddMany(behavior.getTarget(), behavior.getFeature(), (Collection<?>) behavior.getValue());
+			performAddMany(editingContext, request.getTarget(), request.getPropertyBinding(), (Collection<?>) request.getValue());
 			break;
 		case REMOVE:
-			performRemove(behavior.getTarget(), behavior.getFeature(), behavior.getValue());
+			performRemove(editingContext, request.getTarget(), request.getPropertyBinding(), request.getValue());
 			break;
 		case REMOVE_MANY:
-			performRemoveMany(behavior.getTarget(), behavior.getFeature(), (Collection<?>) behavior.getValue());
+			performRemoveMany(editingContext, request.getTarget(), request.getPropertyBinding(), (Collection<?>) request.getValue());
 			break;
 		case MOVE:
-			performMove(behavior.getTarget(), behavior.getFeature(), behavior.getOldIndex(), behavior.getNewIndex());
+			performMove(editingContext, request.getTarget(), request.getPropertyBinding(), request.getOldIndex(), request.getNewIndex());
 			break;
 		default:
 			break;
 		}
 	}
 
-	protected final void performSet(EObject eObject, EStructuralFeature feature, Object value) {
-		if (value != null) {
-			if (value instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-				eObject.eSet(feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)value));
-			} else {
-				eObject.eSet(feature, value);
+	protected final void performSet(PropertiesEditingContext editingContext, EObject eObject, PropertyBinding propertyBinding, Object value) {
+		if (propertyBinding instanceof MonoValuedPropertyBinding && ((MonoValuedPropertyBinding) propertyBinding).getSetter() != null) {
+			EList<Object> parameters = new BasicEList<Object>();
+			parameters.add(value);
+			((MonoValuedPropertyBinding) propertyBinding).getSetter().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+		} else if (propertyBinding instanceof MultiValuedPropertyBinding && ((MultiValuedPropertyBinding) propertyBinding).getAdder() != null) {
+			EList<Object> parameters = new BasicEList<Object>();
+			parameters.add(value);
+			((MultiValuedPropertyBinding) propertyBinding).getAdder().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+		} else {
+			if (propertyBinding instanceof EStructuralFeatureBinding) {
+				EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
+				if (value != null) {
+					if (value instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+						eObject.eSet(feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)value));
+					} else {
+						eObject.eSet(feature, value);
+					}
+				}
 			}
 		}
 	}
 
-	protected final void performUnset(EObject eObject, EStructuralFeature feature) {
-		eObject.eUnset(feature);
+	protected final void performUnset(PropertiesEditingContext editingContext, EObject eObject, PropertyBinding propertyBinding) {
+		if (propertyBinding instanceof MonoValuedPropertyBinding && ((MonoValuedPropertyBinding) propertyBinding).getUnsetter() != null) {
+			((MonoValuedPropertyBinding) propertyBinding).getSetter().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, new BasicEList<Object>());
+		} else {
+			if (propertyBinding instanceof EStructuralFeatureBinding) {
+				EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
+				eObject.eUnset(feature);
+			}
+		}
 	}
 
-	protected final void performEdit(PropertiesEditingContext editingContext, EObject eObject, EStructuralFeature feature, Object value) {
+	protected final void performEdit(PropertiesEditingContext editingContext, EObject eObject, PropertyBinding propertyBinding, Object value) {
 		if (value instanceof EObject) {
 			EObject editedElement = (EObject)value;
 			PropertiesEditingContextFactory factory = editingContext.getContextFactoryProvider().getEditingContextFactory(editedElement);
 			PropertiesEditingContext subPropertiesEditingContext = factory.createPropertiesEditingContext(editingContext, editedElement);
 			PropertiesEditingPolicyProvider editingPolicyProvider = editingContext.getBindingManagerProvider().getBindingManager(editedElement).getPolicyProvider();
-			PropertiesEditingPolicy subElementEditingPolicy = editingPolicyProvider.getEditingPolicy(subPropertiesEditingContext);
+			//I'm quite confident in this cast 
+			PropertiesEditingPolicy subElementEditingPolicy = editingPolicyProvider.getEditingPolicy((SemanticPropertiesEditingContext) subPropertiesEditingContext);
 			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
 			editingContext.getBindingManagerProvider().getBindingManager(editingComponent.getEObject()).execute(editingComponent, subElementEditingPolicy, subPropertiesEditingContext);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	protected final void performAdd(EObject eObject, EStructuralFeature feature, Object newValue) {
-		if (newValue != null) {
-			if (feature.isMany()) {
-				if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-					((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
-				} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
-					EClass newValueClass = (EClass) newValue;
-					EClass referenceType = ((EReference)feature).getEReferenceType();
-					if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
-						((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.create(newValueClass));				
+	protected final void performAdd(PropertiesEditingContext editingContext, EObject eObject, PropertyBinding propertyBinding, Object newValue) {
+		if (propertyBinding instanceof MultiValuedPropertyBinding && ((MultiValuedPropertyBinding) propertyBinding).getAdder() != null) {
+			EList<Object> parameters = new BasicEList<Object>();
+			parameters.add(newValue);
+			((MultiValuedPropertyBinding) propertyBinding).getAdder().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+		} else {
+			if (propertyBinding instanceof EStructuralFeatureBinding) {
+				EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
+				if (newValue != null) {
+					if (feature.isMany()) {
+						if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+							((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
+						} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
+							EClass newValueClass = (EClass) newValue;
+							EClass referenceType = ((EReference)feature).getEReferenceType();
+							if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
+								((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.create(newValueClass));				
+							}
+						} else {
+							if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
+								((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.create((EClass) newValue));						
+							} else {
+								((Collection<Object>)eObject.eGet(feature)).add(newValue);
+							}
+						}
+					} else {
+						throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
 					}
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected final void performAddMany(PropertiesEditingContext editingContext, EObject eObject, PropertyBinding propertyBinding, Collection<?> newValues) {
+		if (propertyBinding instanceof MultiValuedPropertyBinding && ((MultiValuedPropertyBinding) propertyBinding).getAdder() != null) {
+			EList<Object> parameters = new BasicEList<Object>();
+			parameters.addAll(newValues);
+			((MultiValuedPropertyBinding) propertyBinding).getAdder().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+		} else {
+			if (propertyBinding instanceof EStructuralFeatureBinding) {
+				EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
+				if (newValues != null) {
+					if (feature.isMany()) {
+						for (Object newValue : newValues) {
+							if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+								((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
+							} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
+								((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.create((EClass) newValue));						
+							} else {
+								((Collection<Object>)eObject.eGet(feature)).add(newValue);
+							}				
+						}
+					} else {
+						throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
+					}
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected final void performRemove(PropertiesEditingContext editingContext, EObject eObject, PropertyBinding propertyBinding, Object oldValue) {
+		if (propertyBinding instanceof MultiValuedPropertyBinding && ((MultiValuedPropertyBinding) propertyBinding).getRemover() != null) {
+			EList<Object> parameters = new BasicEList<Object>();
+			parameters.add(oldValue);
+			((MultiValuedPropertyBinding) propertyBinding).getRemover().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+		} else {
+			if (propertyBinding instanceof EStructuralFeatureBinding) {
+				EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
+				if (feature.isMany()) {
+					((Collection<Object>)eObject.eGet(feature)).remove(oldValue);
 				} else {
-					if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
-						((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.create((EClass) newValue));						
-					} else {
-						((Collection<Object>)eObject.eGet(feature)).add(newValue);
-					}
+					throw new IllegalArgumentException("Cannot _REMOVE_ a value to a single feature.");
 				}
-			} else {
-				throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
 			}
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	protected final void performAddMany(EObject eObject, EStructuralFeature feature, Collection<?> newValues) {
-		if (newValues != null) {
-			if (feature.isMany()) {
-				for (Object newValue : newValues) {
-					if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-						((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
-					} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
-						((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.create((EClass) newValue));						
-					} else {
-						((Collection<Object>)eObject.eGet(feature)).add(newValue);
-					}				
+	protected final void performRemoveMany(PropertiesEditingContext editingContext, EObject eObject, PropertyBinding propertyBinding, Collection<?> oldValues) {
+		if (propertyBinding instanceof MultiValuedPropertyBinding && ((MultiValuedPropertyBinding) propertyBinding).getRemover() != null) {
+			EList<Object> parameters = new BasicEList<Object>();
+			parameters.addAll(oldValues);
+			((MultiValuedPropertyBinding) propertyBinding).getRemover().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+		} else {
+			if (propertyBinding instanceof EStructuralFeatureBinding) {
+				EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
+				if (feature.isMany()) {
+					((Collection<Object>)eObject.eGet(feature)).removeAll(oldValues);
+				} else {
+					throw new IllegalArgumentException("Cannot _REMOVE_ a value to a single feature.");
 				}
-			} else {
-				throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
 			}
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#performRemove(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
-	 */
-	@SuppressWarnings("unchecked")
-	protected final void performRemove(EObject eObject, EStructuralFeature feature, Object oldValue) {
-		if (feature.isMany()) {
-			((Collection<Object>)eObject.eGet(feature)).remove(oldValue);
+	protected final void performMove(PropertiesEditingContext editingContext, EObject eObject, PropertyBinding propertyBinding, Integer oldIndex, Integer newIndex) {
+		if (propertyBinding instanceof EStructuralFeatureBinding) {
+			EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
+			Object currentValue = eObject.eGet(feature);
+			if (currentValue instanceof EList<?>) {
+				((EList<?>)eObject.eGet(feature)).move(newIndex, oldIndex);
+			} else {
+				throw new IllegalArgumentException("Cannot _MOVE_ a value in this feature.");
+			}
 		} else {
-			throw new IllegalArgumentException("Cannot _REMOVE_ a value to a single feature.");
+			//No way to handle this case for the moment.
 		}
 	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#performRemoveMany(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
-	 */
-	@SuppressWarnings("unchecked")
-	protected final void performRemoveMany(EObject eObject, EStructuralFeature feature, Collection<?> oldValues) {
-		if (feature.isMany()) {
-			((Collection<Object>)eObject.eGet(feature)).removeAll(oldValues);
-		} else {
-			throw new IllegalArgumentException("Cannot _REMOVE_ a value to a single feature.");
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#performMove(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Integer, java.lang.Integer)
-	 */
-	protected final void performMove(EObject eObject, EStructuralFeature feature, Integer oldIndex, Integer newIndex) {
-		Object currentValue = eObject.eGet(feature);
-		if (currentValue instanceof EList<?>) {
-			((EList<?>)eObject.eGet(feature)).move(newIndex, oldIndex);
-		} else {
-			throw new IllegalArgumentException("Cannot _MOVE_ a value in this feature.");
-		}
+	
+	private EStructuralFeature extractFeature(EStructuralFeatureBinding propertyBinding, EObject target) {
+		EMFService emfService = emfServiceProvider.getEMFService(target.eClass().getEPackage());
+		return emfService.mapFeature(target, propertyBinding.getFeature());
 	}
 }

@@ -27,7 +27,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 public class EDatePickerPlatformAwarePropertyEditorFactory extends EDatePickerPropertyEditorFactory {
 
 	/**
-	 * @param emfPropertiesToolkit
+	 * @param toolkit
 	 */
 	public EDatePickerPlatformAwarePropertyEditorFactory(EMFPropertiesToolkit emfPropertiesToolkit) {
 		super(emfPropertiesToolkit);
@@ -39,9 +39,19 @@ public class EDatePickerPlatformAwarePropertyEditorFactory extends EDatePickerPr
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
-		if (toolkit != null) {
-			return new EDatePackerPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EDatePickerFormPropertyEditor(emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));			
+		FormToolkit formtoolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+		if (formtoolkit != null) {
+			return new EDatePackerPropertyEditor(
+					toolkit.getEEFEditingServiceProvider(),
+					(PropertiesEditingView<Composite>) editorContext.view, 
+					(ElementEditor) editorContext.viewElement, 
+					new EDatePickerFormPropertyEditor(
+							toolkit.getEditUIProvidersFactory(), 
+							toolkit.getImageManager(), 
+							(PropertiesEditingView<Composite>) editorContext.view, 
+							(ElementEditor) editorContext.viewElement
+						)
+				);
 		} else {
 			return super.createPropertyEditor(editorContext);
 		}

@@ -22,7 +22,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
-import org.eclipse.emf.eef.runtime.services.EEFServiceProvider;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 
@@ -32,8 +32,9 @@ import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
  */
 public class PropertiesEditingContextFactoryImpl implements PropertiesEditingContextFactory, DefaultService {
 
-	private EEFServiceProvider<EObject, PropertiesEditingContextFactory> serviceProvider;
+	private EditingContextFactoryProvider serviceProvider;
 	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private BindingHandlerProvider bindingHandlerProvider;
 	private ViewHandlerProvider viewHandlerProvider;
 
@@ -41,7 +42,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#setProvider(org.eclipse.emf.eef.runtime.services.EEFServiceProvider)
 	 */
-	public void setProvider(EEFServiceProvider<EObject, PropertiesEditingContextFactory> serviceProvider) {
+	public void setProvider(EditingContextFactoryProvider serviceProvider) {
 		this.serviceProvider = serviceProvider;
 	}
 
@@ -50,7 +51,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#getContextFactoryProvider()
 	 */
 	public EditingContextFactoryProvider getContextFactoryProvider() {
-		return (EditingContextFactoryProvider) serviceProvider;
+		return serviceProvider;
 	}
 
 	/**
@@ -58,6 +59,13 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
@@ -158,6 +166,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	public PropertiesEditingContext createReflectivePropertiesEditingContext(AdapterFactory adapterFactory, EObject view) {
 		ReflectivePropertiesEditingContext context = new ReflectivePropertiesEditingContext(adapterFactory, view);
 		context.setEMFServiceProvider(emfServiceProvider);
+		context.setEEFEditingServiceProvider(eefEditingServiceProvider);
 		context.setBindingManagerProvider(bindingHandlerProvider);
 		context.setContextFactoryProvider(getContextFactoryProvider());
 		context.setViewHandlerProvider(viewHandlerProvider);
@@ -166,6 +175,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 
 	private void configureEditingContext(EObjectPropertiesEditingContext context) {
 		context.setEMFServiceProvider(emfServiceProvider);
+		context.setEEFEditingServiceProvider(eefEditingServiceProvider);
 		context.setBindingManagerProvider(bindingHandlerProvider);
 		context.setContextFactoryProvider(getContextFactoryProvider());
 		context.setViewHandlerProvider(viewHandlerProvider);

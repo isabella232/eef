@@ -196,7 +196,7 @@ public class SingleLinePropertyViewer extends Viewer {
 	 */
 	@Override
 	public ISelection getSelection() {
-		Object value = input.getEditedObject().eGet(input.getEditedFeature());
+		Object value = input.getCurrentValue();
 		return new StructuredSelection(value);
 	}
 
@@ -209,7 +209,7 @@ public class SingleLinePropertyViewer extends Viewer {
 		if (input == null) {
 			text.setText("");
 		} else {
-			Object value = input.getEditedObject().eGet(input.getEditedFeature());
+			Object value = input.getCurrentValue();
 			if (labelProvider != null) {
 				text.setText(labelProvider.getText(value));
 			} else {

@@ -11,7 +11,7 @@
 package org.eclipse.emf.eef.runtime.internal.policies.request;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 
 /**
@@ -23,13 +23,9 @@ public class EditingPolicyRequestImpl implements EditingPolicyRequest {
 	private ProcessingKind processingKind;
 	
 	private EObject target;
-	
-	private EStructuralFeature feature;
-	
+	private PropertyBinding propertyBinding;
 	private Object value;
-	
 	private int newIndex;
-
 	private int oldIndex;
 	
 	/**
@@ -38,10 +34,10 @@ public class EditingPolicyRequestImpl implements EditingPolicyRequest {
 	 * @param feature
 	 * @param value
 	 */
-	public EditingPolicyRequestImpl(ProcessingKind processingKind, EObject target, EStructuralFeature feature, Object value) {
+	public EditingPolicyRequestImpl(ProcessingKind processingKind, EObject target, PropertyBinding propertyBinding, Object value) {
 		this.processingKind = processingKind;
 		this.target = target;
-		this.feature = feature;
+		this.propertyBinding = propertyBinding;
 		this.value = value;
 	}
 
@@ -50,10 +46,10 @@ public class EditingPolicyRequestImpl implements EditingPolicyRequest {
 	 * @param target
 	 * @param feature
 	 */
-	public EditingPolicyRequestImpl(ProcessingKind processingKind, EObject target, EStructuralFeature feature) {
+	public EditingPolicyRequestImpl(ProcessingKind processingKind, EObject target, PropertyBinding propertyBinding) {
 		this.processingKind = processingKind;
 		this.target = target;
-		this.feature = feature;
+		this.propertyBinding = propertyBinding;
 	}
 
 	/**
@@ -63,10 +59,10 @@ public class EditingPolicyRequestImpl implements EditingPolicyRequest {
 	 * @param newIndex
 	 * @param oldIndex
 	 */
-	public EditingPolicyRequestImpl(ProcessingKind processingKind, EObject target, EStructuralFeature feature, int newIndex, int oldIndex) {
+	public EditingPolicyRequestImpl(ProcessingKind processingKind, EObject target, PropertyBinding propertyBinding, int newIndex, int oldIndex) {
 		this.processingKind = processingKind;
 		this.target = target;
-		this.feature = feature;
+		this.propertyBinding = propertyBinding;
 		this.newIndex = newIndex;
 		this.oldIndex = oldIndex;
 	}
@@ -86,10 +82,10 @@ public class EditingPolicyRequestImpl implements EditingPolicyRequest {
 	}
 
 	/**
-	 * @return the feature
+	 * @return the propertyBinding
 	 */
-	public EStructuralFeature getFeature() {
-		return feature;
+	public PropertyBinding getPropertyBinding() {
+		return propertyBinding;
 	}
 
 	/**

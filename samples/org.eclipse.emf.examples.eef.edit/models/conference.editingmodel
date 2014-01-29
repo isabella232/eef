@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eef-model="http://www.eclipse.org/emf/eef/editingmodel/1.0.0" xmlns:eef-query="http://www.eclipse.org/emf/eef/query/1.0" xmlns:eef-views="http://www.eclipse.org/emf/eef/views/1.0.0">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eef-model="http://www.eclipse.org/emf/eef/editingmodel/1.0.0" xmlns:eef-views="http://www.eclipse.org/emf/eef/views/1.0.0">
   <eef-model:PropertiesEditingModel name="Conference Standard EditingModel" id="org.eclipse.emf.samples.eef.Conference.std">
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.2"/>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.0"/>
-        <settings xsi:type="eef-model:EReferenceFilter">
-          <body xsi:type="eef-query:JavaBody"/>
-        </settings>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/overview"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.1"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/venues"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.1/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/participants"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/sessions"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0"/>
       </propertyBindings>
@@ -33,15 +30,15 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.3"/>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.0/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/getToTheVenue"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.0/@elements.1"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/rooms"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.1/@elements.0"/>
       </propertyBindings>
@@ -49,11 +46,11 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Room"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.4"/>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Room/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.4/@elements.0/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Room/capacity"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.4/@elements.0/@elements.1"/>
       </propertyBindings>
@@ -62,31 +59,31 @@
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.5"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.6"/>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/firstname"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/lastname"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.1"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/gender"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.2"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/jobTitle"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.3"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/bio"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.1/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/isRegistered"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.6/@elements.0/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/attending"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.6/@elements.1/@elements.0"/>
       </propertyBindings>
@@ -94,19 +91,19 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.7"/>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/title"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/type"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.1"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/speakers"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.2"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/description"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.0"/>
       </propertyBindings>
@@ -114,15 +111,15 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.8"/>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/session"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/room"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.1"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/date"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.2"/>
       </propertyBindings>
@@ -130,18 +127,18 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Schedule"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.9"/>
-      <propertyBindings>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Schedule/sessions"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0"/>
-        <subPropertyBindings>
+        <subPropertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
           <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/session"/>
           <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0/@subElementEditors.0"/>
         </subPropertyBindings>
-        <subPropertyBindings>
+        <subPropertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
           <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/room"/>
           <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0/@subElementEditors.1"/>
         </subPropertyBindings>
-        <subPropertyBindings>
+        <subPropertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
           <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/date"/>
           <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0/@subElementEditors.2"/>
         </subPropertyBindings>

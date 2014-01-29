@@ -13,9 +13,9 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.sw
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.util.EEFEditingService;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -53,8 +53,8 @@ public interface ComboUIPropertyEditor {
 			Object choiceOfValues = null;
 			if (inputElement instanceof ComboContentProviderInput) {
 				PropertiesEditingContext contentProviderContext = ((ComboContentProviderInput) inputElement).getEditingContext();
-				EMFService service = contentProviderContext.getEMFServiceProvider().getEMFService(((ComboContentProviderInput) inputElement).getEditingContext().getEditingComponent().getEObject().eClass().getEPackage());
-				choiceOfValues = service.choiceOfValues(contentProviderContext.getAdapterFactory(), contentProviderContext.getEditingComponent().getEObject(), ((ComboContentProviderInput) inputElement).getFeature());
+				EEFEditingService service = contentProviderContext.getEEFEditingServiceProvider().getEditingService((((ComboContentProviderInput) inputElement).getEditingContext().getEditingComponent().getEObject().eClass().getEPackage()));
+				choiceOfValues = service.getChoiceOfValue(contentProviderContext, contentProviderContext.getEditingComponent().getEObject(), ((ComboContentProviderInput) inputElement).getPropertyBinding());
 			} else {
 				choiceOfValues = inputElement;
 			}
@@ -78,26 +78,29 @@ public interface ComboUIPropertyEditor {
 	public static final class ComboContentProviderInput {
 		
 		private PropertiesEditingContext editingContext;
-		private EStructuralFeature feature;
+		private PropertyBinding propertyBinding;
+
 		/**
 		 * @param editingContext
-		 * @param feature
+		 * @param propertyBinding
 		 */
-		public ComboContentProviderInput(PropertiesEditingContext editingContext, EStructuralFeature feature) {
+		public ComboContentProviderInput(PropertiesEditingContext editingContext, PropertyBinding propertyBinding) {
 			this.editingContext = editingContext;
-			this.feature = feature;
+			this.propertyBinding = propertyBinding;
 		}
+		
 		/**
 		 * @return the editingContext
 		 */
 		public PropertiesEditingContext getEditingContext() {
 			return editingContext;
 		}
+
 		/**
-		 * @return the feature
+		 * @return the propertyBinding
 		 */
-		public EStructuralFeature getFeature() {
-			return feature;
+		public PropertyBinding getPropertyBinding() {
+			return propertyBinding;
 		}
 		
 	}

@@ -10,8 +10,8 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.EModelElementImpl;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.query.Body;
@@ -32,7 +32,7 @@ import org.eclipse.emf.eef.runtime.query.QueryPackage;
  *
  * @generated
  */
-public class EReferenceFilterImpl extends EObjectImpl implements EReferenceFilter {
+public class EReferenceFilterImpl extends EModelElementImpl implements EReferenceFilter {
 	/**
 	 * The cached value of the '{@link #getBody() <em>Body</em>}' containment reference.
 	 * <!-- begin-user-doc -->

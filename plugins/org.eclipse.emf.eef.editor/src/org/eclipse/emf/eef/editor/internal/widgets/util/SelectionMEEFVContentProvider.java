@@ -61,7 +61,7 @@ public class SelectionMEEFVContentProvider implements ITreeContentProvider {
 			}
 		} else if (inputElement instanceof EStructuralFeature) {
 			EStructuralFeature selectedFeature = (EStructuralFeature)inputElement;
-			// Let search in the class ResourceSet, if exists (but it should exist!), all the binding referencing this feature.
+			// Let search in the class ResourceSet, if exists (but it should exist!), all the binding referencing this propertyBinding.
 			Collection<Setting> find = UsageCrossReferencer.find(selectedFeature, selectedFeature.eResource().getResourceSet());
 			for (Setting setting : find) {
 				if (EditingModelPackage.Literals.PROPERTY_BINDING__FEATURE == setting.getEStructuralFeature()) {

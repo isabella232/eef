@@ -142,12 +142,12 @@ public class TreeContentsPropertyEditor extends PropertyEditorImpl implements Mu
 			 * @see org.eclipse.emf.eef.editor.internal.widgets.TreeEEFViewer.TreeEEFViewerListener#handleRemove(org.eclipse.emf.ecore.EObject)
 			 */
 			public void handleRemove(EObject element) {
-				//Ok here it's a bit tricky. I have to find the object referencing the selected by the feature binding to the given elementEditor.
+				//Ok here it's a bit tricky. I have to find the object referencing the selected by the propertyBinding binding to the given elementEditor.
 				PropertiesEditingContext editingContext = view.getEditingComponent().getEditingContext();
 				EClassBinding binding = editingContext.getEditingComponent().getBinding();
 				EStructuralFeature bindedFeature = binding.feature(elementEditor, editingContext.getOptions().autowire());
 				EObject target = null;
-				// First I check if the feature where I have to remove the element is its containing feature (a crossreferencer don't find this information)
+				// First I check if the propertyBinding where I have to remove the element is its containing propertyBinding (a crossreferencer don't find this information)
 				EMFService emfService = emfServiceProvider.getEMFService(element.eClass().getEPackage());
 				if (emfService.equals(element.eContainingFeature(), bindedFeature)) {
 					target = element.eContainer();

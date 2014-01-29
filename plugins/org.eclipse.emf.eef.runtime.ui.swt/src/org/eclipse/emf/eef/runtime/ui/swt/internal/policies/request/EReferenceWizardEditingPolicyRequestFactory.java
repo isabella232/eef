@@ -15,6 +15,9 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest.ProcessingKind;
@@ -74,27 +77,27 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory implements Edi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory#createProcessing(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory#createProcessing(org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
-	public EditingPolicyRequest createProcessing(PropertiesEditingContext editingContext) {
+	public EditingPolicyRequest createProcessing(SemanticPropertiesEditingContext editingContext) {
 		EditingPolicyRequest.Builder requestBuilder = new EditingPolicyRequest.Builder();
+		PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContext) editingContext).getEditingEvent();
+		EClassBinding binding = editingContext.getEditingComponent().getBinding();
+		PropertyBinding propertyBinding = binding.propertyBinding(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
 		requestBuilder.setTarget(editingContext.getEditingComponent().getEObject());
-		EReference feature = getEditedReference((SemanticPropertiesEditingContext) editingContext);
-		requestBuilder.setFeature(feature);
-		requestBuilder.setValue(defineEObjectToSet(editingContext, (EReference) feature));
-		if (feature.isMany()) {
-			requestBuilder.setProcessingKind(ProcessingKind.ADD);
+		requestBuilder.setPropertyBinding(propertyBinding);
+		if (propertyBinding instanceof EStructuralFeatureBinding) {
+			EReference feature = (EReference)((EStructuralFeatureBinding)propertyBinding).getFeature();
+			requestBuilder.setValue(defineEObjectToSet(editingContext, (EReference) feature));
+			if (feature.isMany()) {
+				requestBuilder.setProcessingKind(ProcessingKind.ADD);
+			} else {
+				requestBuilder.setProcessingKind(ProcessingKind.SET);
+			}
 		} else {
-			requestBuilder.setProcessingKind(ProcessingKind.SET);
+			//TODO: TBD but I think it will be a little tricky in this case :)
 		}
 		return requestBuilder.build();
-	}
-
-	/**
-	 * @return the edited reference via the {@link PropertiesEditingEvent}.
-	 */
-	private final EReference getEditedReference(SemanticPropertiesEditingContext editingContext) {
-		return eefEditingServiceProvider.getEditingService(editingContext.getEditingComponent().getEObject()).getReferenceToEdit(editingContext);
 	}
 
 	/**

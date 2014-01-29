@@ -16,7 +16,9 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditorSettings;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -35,6 +37,8 @@ import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.PropertyEditorImpl;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -48,6 +52,8 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EReferencePropertyEditor extends PropertyEditorImpl implements MultivaluedPropertyEditor {
 
+	protected EMFServiceProvider emfServiceProvider;
+	protected EEFEditingServiceProvider eefEditingServiceProvider;
 	protected EditUIProvidersFactory editUIProvidersFactory;
 	protected ImageManager imageManager;
 	protected ViewerFilterBuilderProvider filterBuilderProvider;
@@ -57,36 +63,35 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer;
 
-	protected EStructuralFeature feature;
 	private MultiLinePropertyViewerListener listener;
 
-	public EReferencePropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, PropertyBinding propertyBinding, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
-		this.propertyEditorViewer = propertyEditorViewer;
+	public EReferencePropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, PropertyBinding propertyBinding, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
+		this.emfServiceProvider = emfServiceProvider;
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.editUIProvidersFactory = editUIProvidersFactory;
 		this.imageManager = imageManager;
 		this.filterBuilderProvider = filterBuilderProvider;
+		this.propertyEditorViewer = propertyEditorViewer;
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyBinding = propertyBinding;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.ecore.EStructuralFeature)
-	 */
-	public void init(EStructuralFeature feature) {
-		this.feature = feature;
-		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(this.feature));
-		PropertyBinding propertyBinding = view.getEditingComponent().getBinding().propertyBinding(elementEditor, view.getEditingComponent().getEditingContext().getOptions().autowire());
+	public void init(PropertyBinding propertyBinding) {
+		this.propertyBinding = propertyBinding;
+		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), propertyBinding));
 		ILabelProvider labelProvider;
 		if (propertyBinding != null) {
-			labelProvider = editUIProvidersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory(), propertyBinding);
+			labelProvider = editUIProvidersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext(), propertyBinding);
 		} else {
 			labelProvider = editUIProvidersFactory.createLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory());
 		}
 		propertyEditorViewer.getViewer().setLabelProvider(labelProvider);
-		propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());
-		propertyEditorViewer.getViewer().setUpperBound(feature.getUpperBound());
+		if (propertyBinding instanceof EStructuralFeatureBinding) {
+			EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+			propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());
+			propertyEditorViewer.getViewer().setUpperBound(feature.getUpperBound());
+		}
 		propertyEditorViewer.getViewer().setInput(view.getEditingComponent().getEObject());
 		if (propertyBinding != null) {
 			EList<EditorSettings> settings = propertyBinding.getSettings();
@@ -193,8 +198,10 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener#moveUp(java.lang.Object)
 			 */
 			public void moveUp(Object movedElement) {
-				EObject editedElement = view.getEditingComponent().getEObject();
-				Object currentValue = editedElement.eGet(feature);
+				PropertiesEditingComponent editingComponent = view.getEditingComponent();
+				EObject editedObject = editingComponent.getEObject();
+				EObject editedElement = editedObject;
+				Object currentValue = eefEditingServiceProvider.getEditingService(editedObject).getValue(editingComponent.getEditingContext(), editedElement, propertyBinding);
 				if (currentValue instanceof List<?>) {
 					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 					if (oldIndex > 0) {
@@ -209,12 +216,14 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener#moveDown(java.lang.Object)
 			 */
 			public void moveDown(Object movedElement) {
-				EObject editedElement = view.getEditingComponent().getEObject();
-				Object currentValue = editedElement.eGet(feature);
+				PropertiesEditingComponent editingComponent = view.getEditingComponent();
+				EObject editedObject = editingComponent.getEObject();
+				EObject editedElement = editedObject;
+				Object currentValue = eefEditingServiceProvider.getEditingService(editedObject).getValue(editingComponent.getEditingContext(), editedElement, propertyBinding);
 				if (currentValue instanceof List<?>) {
 					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 					if (oldIndex < ((List<?>) currentValue).size()) {
-						firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
+						firePropertiesChanged(editingComponent, new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
 						propertyEditorViewer.getViewer().refresh();
 					}
 				}
@@ -234,15 +243,17 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 			 */
 			public void add() {
 				EEFSelectionDialog dialog = new EEFSelectionDialog(propertyEditorViewer.getViewer().getControl().getShell(), true);
-				dialog.setTitle("Choose the element to add to the " + feature.getName() + " reference:");
+				dialog.setTitle("Choose the element to add to the reference:");
 				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
 				dialog.setEditUIProvidersFactory(editUIProvidersFactory);
 				dialog.setImageManager(imageManager);
 				dialog.addFilter(
 						new ChoiceOfValuesFilter(
-								view.getEditingComponent().getEditingContext().getAdapterFactory(), 
+								emfServiceProvider,
+								eefEditingServiceProvider,
+								view.getEditingComponent().getEditingContext(), 
 								view.getEditingComponent().getEObject(), 
-								EReferencePropertyEditor.this.feature, 
+								propertyBinding, 
 								EEFSWTConstants.DEFAULT_SELECTION_MODE));
 				Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
 				if (!filters.isEmpty()) {

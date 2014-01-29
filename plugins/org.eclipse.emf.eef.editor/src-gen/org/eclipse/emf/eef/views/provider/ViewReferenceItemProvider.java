@@ -71,7 +71,7 @@ public class ViewReferenceItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Qualified Identifier feature.
+	 * This adds a property descriptor for the Qualified Identifier propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -93,7 +93,7 @@ public class ViewReferenceItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the View feature.
+	 * This adds a property descriptor for the View propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

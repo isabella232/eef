@@ -11,8 +11,9 @@
 package org.eclipse.emf.eef.runtime.ui.swt.util;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -20,28 +21,19 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
  */
 public final class EEFViewerInput {
 
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private PropertiesEditingContext editingContext;
-	
 	private EObject editedObject;
-	
-	private EStructuralFeature editedFeature;
-
-	/**
-	 * @param editedObject
-	 * @param editedFeature
-	 */
-	public EEFViewerInput(EObject editedObject, EStructuralFeature editedFeature) {
-		this.editedObject = editedObject;
-		this.editedFeature = editedFeature;
-	}
+	private PropertyBinding propertyBinding;
 
 	/**
 	 * @param editingContext
-	 * @param editedFeature
+	 * @param propertyBinding
 	 */
-	public EEFViewerInput(PropertiesEditingContext editingContext, EStructuralFeature editedFeature) {
+	public EEFViewerInput(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editingContext, PropertyBinding propertyBinding) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.editingContext = editingContext;
-		this.editedFeature = editedFeature;
+		this.propertyBinding = propertyBinding;
 	}
 
 	/**
@@ -49,10 +41,10 @@ public final class EEFViewerInput {
 	 * @param editedObject
 	 * @param editedFeature
 	 */
-	public EEFViewerInput(PropertiesEditingContext editingContext, EObject editedObject, EStructuralFeature editedFeature) {
+	public EEFViewerInput(PropertiesEditingContext editingContext, EObject editedObject, PropertyBinding propertyBinding) {
 		this.editingContext = editingContext;
 		this.editedObject = editedObject;
-		this.editedFeature = editedFeature;
+		this.propertyBinding = propertyBinding;
 	}
 
 	/**
@@ -76,10 +68,17 @@ public final class EEFViewerInput {
  	}
 
 	/**
-	 * @return the editedFeature
+	 * @return the propertyBinding
 	 */
-	public EStructuralFeature getEditedFeature() {
-		return editedFeature;
+	public PropertyBinding getPropertyBinding() {
+		return propertyBinding;
+	}
+	
+	/**
+	 * @return
+	 */
+	public Object getCurrentValue() {
+		return eefEditingServiceProvider.getEditingService(getEditedObject()).getValue(getEditingContext(), getEditedObject(), getPropertyBinding());
 	}
 	
 }

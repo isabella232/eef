@@ -536,7 +536,7 @@ public class BindingsEditingPage extends FormPage {
 		private static final String BINDING_VIEW_ID = "editingModel::Binding";
 		private static final String BINDING_E_CLASS_EDITOR_ID = "editingModel::Binding::eClass";
 		private static final String PROPERTY_VIEW_ID = "editingModel::Property Binding";
-		private static final String BINDING_FEATURE_EDITOR_ID = "editingModel::Property Binding::feature";
+		private static final String BINDING_FEATURE_EDITOR_ID = "editingModel::Property Binding::propertyBinding";
 
 		private SelectionService selectionService;
 		private ViewerService viewerService;

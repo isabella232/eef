@@ -12,10 +12,9 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview;
 
 import java.util.Collection;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl.SWTImplPropertiesEditingView;
@@ -27,7 +26,6 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEdi
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
-import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewConstructionException;
@@ -175,14 +173,14 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 			UnmodifiableIterator<ElementEditor> elementEditors = Iterators.filter(view.getViewModel().eAllContents(), ElementEditor.class);
 			while (elementEditors.hasNext()) {
 				ElementEditor elementEditor = elementEditors.next();
-				EStructuralFeature bindingFeature = editingComponent.getBinding().feature(elementEditor, editingComponent.getEditingContext().getOptions().autowire());
-				EObject editedObject = editingComponent.getEObject();
-				EMFService emfService = emfServiceProvider.getEMFService(editedObject.eClass().getEPackage());
-				EStructuralFeature feature = emfService.mapFeature(editedObject, bindingFeature);
-				if (feature != null) {
-					PropertyEditor propertyEditor = view.getPropertyEditor(elementEditor);
-					propertyEditor.init(feature);
-				}
+				PropertyBinding propertyBinding = editingComponent.getBinding().propertyBinding(elementEditor, editingComponent.getEditingContext().getOptions().autowire());
+//				EObject editedObject = editingComponent.getEObject();
+//				EMFService emfService = emfServiceProvider.getEMFService(editedObject.eClass().getEPackage());
+//				EStructuralFeature propertyBinding = emfService.mapFeature(editedObject, bindingFeature);
+//				if (propertyBinding != null) {
+//				}
+				PropertyEditor propertyEditor = view.getPropertyEditor(elementEditor);
+				propertyEditor.init(propertyBinding);
 			}
 			EEFLockManager lockManager = lockManagerProvider.getLockManager(view);
 			lockManager.initView(view);

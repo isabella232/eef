@@ -37,13 +37,13 @@ public class EReferencePropertyEditorFactory extends WidgetPropertyEditorFactory
 		widget.setName(EREFERENCE_EDITOR_WIDGET_NAME);
 	}
 
-	protected final EMFPropertiesToolkit emfPropertiesToolkit;
+	protected final EMFPropertiesToolkit toolkit;
 
 	/**
-	 * @param emfPropertiesToolkit
+	 * @param toolkit
 	 */
 	public EReferencePropertyEditorFactory(EMFPropertiesToolkit emfPropertiesToolkit) {
-		this.emfPropertiesToolkit = emfPropertiesToolkit;
+		this.toolkit = emfPropertiesToolkit;
 	}
 
 	/**
@@ -71,10 +71,22 @@ public class EReferencePropertyEditorFactory extends WidgetPropertyEditorFactory
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new EReferencePropertyEditor(emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), emfPropertiesToolkit.getViewerFilterBuilderProvider(),
-				(PropertiesEditingView<Composite>) editorContext.view, editorContext.propertyBinding, (ElementEditor) editorContext.viewElement,
-				(PropertyEditorViewer<MultiLinePropertyViewer>) new EReferenceSWTPropertyEditor(emfPropertiesToolkit.getImageManager(), (PropertiesEditingView<Composite>) editorContext.view,
-						(ElementEditor) editorContext.viewElement));
+		return new EReferencePropertyEditor(
+				toolkit.getEMFServiceProvider(),
+				toolkit.getEEFEditingServiceProvider(),
+				toolkit.getEditUIProvidersFactory(), 
+				toolkit.getImageManager(), 
+				toolkit.getViewerFilterBuilderProvider(),
+				(PropertiesEditingView<Composite>) editorContext.view, 
+				editorContext.propertyBinding, 
+				(ElementEditor) editorContext.viewElement,
+				(PropertyEditorViewer<MultiLinePropertyViewer>) 
+				new EReferenceSWTPropertyEditor(
+						toolkit.getImageManager(), 
+						(PropertiesEditingView<Composite>) editorContext.view,
+						(ElementEditor) editorContext.viewElement
+					)
+			);
 	}
 
 	/**

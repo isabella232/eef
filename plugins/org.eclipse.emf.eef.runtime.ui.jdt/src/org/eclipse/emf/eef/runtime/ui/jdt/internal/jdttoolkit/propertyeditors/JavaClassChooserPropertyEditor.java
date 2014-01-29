@@ -6,7 +6,7 @@ package org.eclipse.emf.eef.runtime.ui.jdt.internal.jdttoolkit.propertyeditors;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer;
@@ -16,6 +16,7 @@ import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.PropertyEditorImpl;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
@@ -35,10 +36,11 @@ import org.eclipse.ui.PlatformUI;
  */
 public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
-	private EStructuralFeature feature;
+	private PropertyBinding propertyBinding;
 	private SingleLinePropertyViewerListener listener;
 
 
@@ -47,7 +49,8 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 	 * @param elementEditor
 	 * @param propertyEditorViewer
 	 */
-	public JavaClassChooserPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+	public JavaClassChooserPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
@@ -55,11 +58,11 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.ecore.EStructuralFeature)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
 	 */
-	public void init(EStructuralFeature feature) {
-		this.feature = feature;
-		EEFViewerInput input = new EEFViewerInput(view.getEditingComponent().getEditingContext(), feature);
+	public void init(PropertyBinding propertyBinding) {
+		this.propertyBinding = propertyBinding;
+		EEFViewerInput input = new EEFViewerInput(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), propertyBinding);
 		propertyEditorViewer.getViewer().setInput(input);
 		initListener();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);

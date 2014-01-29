@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.sw
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
@@ -32,6 +33,15 @@ public class CheckboxPropertyEditorFactory extends WidgetPropertyEditorFactoryIm
 
 	static {
 		widget.setName(CHECKBOX_WIDGET_NAME);
+	}
+	
+	protected final SWTToolkit toolkit;
+	
+	/**
+	 * @param toolkit
+	 */
+	public CheckboxPropertyEditorFactory(SWTToolkit toolkit) {
+		this.toolkit = toolkit;
 	}
 
 	/**
@@ -59,8 +69,11 @@ public class CheckboxPropertyEditorFactory extends WidgetPropertyEditorFactoryIm
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new CheckboxPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new CheckboxSWTPropertyEditor(
-				(PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new CheckboxPropertyEditor(
+				toolkit.getEEFEditingServiceProvider(),
+				(PropertiesEditingView<Composite>) editorContext.view, 
+				(ElementEditor) editorContext.viewElement, 
+				new CheckboxSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 
 	/**

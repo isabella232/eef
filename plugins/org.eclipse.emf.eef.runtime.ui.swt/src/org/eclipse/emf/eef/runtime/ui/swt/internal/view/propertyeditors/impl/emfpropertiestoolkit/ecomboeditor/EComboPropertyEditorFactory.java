@@ -35,8 +35,6 @@ public class EComboPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl
 		widget.setName(ECOMBO_EDITOR_WIDGET_NAME);
 	}
 
-	protected final EMFPropertiesToolkit emfPropertiesToolkit;
-
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -46,11 +44,13 @@ public class EComboPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl
 		return widget;
 	}
 
+	protected final EMFPropertiesToolkit toolkit;
+	
 	/**
-	 * @param emfPropertiesToolkit
+	 * @param toolkit
 	 */
 	public EComboPropertyEditorFactory(EMFPropertiesToolkit emfPropertiesToolkit) {
-		this.emfPropertiesToolkit = emfPropertiesToolkit;
+		this.toolkit = emfPropertiesToolkit;
 	}
 
 	/**
@@ -69,9 +69,19 @@ public class EComboPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new EComboPropertyEditor(emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), emfPropertiesToolkit.getViewerFilterBuilderProvider(),
-				(PropertiesEditingView<Composite>) editorContext.view, editorContext.propertyBinding, (ElementEditor) editorContext.viewElement, new EComboSWTPropertyEditor(
-						emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), (PropertiesEditingView<Composite>) editorContext.view,
+		return new EComboPropertyEditor(
+				toolkit.getEMFServiceProvider(),
+				toolkit.getEEFEditingServiceProvider(),
+				toolkit.getEditUIProvidersFactory(), 
+				toolkit.getImageManager(), 
+				toolkit.getViewerFilterBuilderProvider(),
+				(PropertiesEditingView<Composite>) editorContext.view, 
+				editorContext.propertyBinding, (ElementEditor) 
+				editorContext.viewElement, 
+				new EComboSWTPropertyEditor(
+						toolkit.getEditUIProvidersFactory(), 
+						toolkit.getImageManager(), 
+						(PropertiesEditingView<Composite>) editorContext.view,
 						(ElementEditor) editorContext.viewElement));
 	}
 

@@ -75,7 +75,7 @@ public class WidgetItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
+	 * This adds a property descriptor for the Name propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -97,7 +97,7 @@ public class WidgetItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Icon feature.
+	 * This adds a property descriptor for the Icon propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -119,7 +119,7 @@ public class WidgetItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Implementation feature.
+	 * This adds a property descriptor for the Implementation propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

@@ -16,8 +16,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
@@ -26,6 +26,24 @@ import org.eclipse.emf.eef.runtime.services.EEFService;
  *
  */
 public interface EEFEditingService extends EEFService<EObject> {
+	
+	/**
+	 * Returns the value for the property binding for the given EObject.
+	 * @param editingContext current {@link PropertiesEditingContext}.
+	 * @param target EObject to inspect. Can be <code>null</code>, in this case editingContext.getEditingComponent().getEObject() will be used.
+	 * @param propertyBinding the concerning {@link PropertyBinding}.
+	 * @return the value for the given {@link PropertyBinding}.
+	 */
+	Object getValue(PropertiesEditingContext editingContext, EObject target, PropertyBinding propertyBinding);
+	
+	/**
+	 * Returns the choice of value for the property binding for the given EObject.
+	 * @param editingContext current {@link PropertiesEditingContext}.
+	 * @param target EObject to inspect. Can be <code>null</code>, in this case editingContext.getEditingComponent().getEObject() will be used.
+	 * @param propertyBinding the concerning {@link PropertyBinding}.
+	 * @return the choice of value for the given {@link PropertyBinding}.
+	 */
+	Object getChoiceOfValue(PropertiesEditingContext editingContext, EObject target, PropertyBinding propertyBinding);
 	
 	/**
 	 * Defines if the given binding is a {@link EClassBinding} generated for a view rendering need or not.
@@ -46,13 +64,6 @@ public interface EEFEditingService extends EEFService<EObject> {
 	 * @return <code>true</code> if the event must generate {@link EReferenceEditingPolicy}.
 	 */
 	boolean isAddingInContainmentEvent(PropertiesEditingContext context, PropertiesEditingEvent editingEvent);
-
-	/**
-	 * Extracts the {@link EReference} from a {@link SemanticPropertiesEditingContext}.
-	 * @param editingContext {@link SemanticPropertiesEditingContext} to process.
-	 * @return the {@link EReference} to edit.
-	 */
-	EReference getReferenceToEdit(SemanticPropertiesEditingContext editingContext);
 	
 	/**
 	 * Defines if the given object can be referenced in an EEF editing model.

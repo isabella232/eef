@@ -11,9 +11,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -62,7 +62,7 @@ public class BindingSettingsBuilder {
 	public void bindEStructuralFeature(EObject eObject, EClassBinding eClassBinding, Container createdGroup) {
 		for (EStructuralFeature feature : eObject.eClass().getEAllStructuralFeatures()) {
 			// create property binding
-			PropertyBinding propertyBinding = EditingModelFactory.eINSTANCE.createPropertyBinding();
+			EStructuralFeatureBinding propertyBinding = EditingModelFactory.eINSTANCE.createEStructuralFeatureBinding();
 			propertyBinding.setFeature(feature);
 			Widget widget = getWidgetForFeature(feature);
 			if (widget != null) {

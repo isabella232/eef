@@ -5,5 +5,6 @@
       <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit"/>
    </service>
    <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit"/>
+   <reference bind="setEEFEditingServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider" name="EEFEditingServiceProvider" policy="static"/>
    <reference bind="setEditUIProvidersFactory" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory" name="EditUIProvidersFactory" policy="static"/>
 </scr:component>

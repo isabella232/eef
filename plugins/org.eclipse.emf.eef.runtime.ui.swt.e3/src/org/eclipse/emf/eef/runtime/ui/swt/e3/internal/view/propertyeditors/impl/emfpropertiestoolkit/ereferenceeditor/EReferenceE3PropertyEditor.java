@@ -27,6 +27,8 @@ import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilderProvider;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
@@ -37,10 +39,23 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EReferenceE3PropertyEditor extends EReferencePropertyEditor {
 
-	public EReferenceE3PropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager,
-			ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, PropertyBinding propertyBinding,
-			ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
-		super(editUIProvidersFactory, imageManager, filterBuilderProvider, view, propertyBinding, elementEditor, propertyEditorViewer);
+	/**
+	 * @param emfServiceProvider
+	 * @param eefEditingServiceProvider
+	 * @param editUIProvidersFactory
+	 * @param imageManager
+	 * @param filterBuilderProvider
+	 * @param view
+	 * @param propertyBinding
+	 * @param elementEditor
+	 * @param propertyEditorViewer
+	 */
+	public EReferenceE3PropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider,
+			EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider,
+			PropertiesEditingView<Composite> view, PropertyBinding propertyBinding, ElementEditor elementEditor,
+			PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
+		super(emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, imageManager, filterBuilderProvider, view, propertyBinding,
+				elementEditor, propertyEditorViewer);
 	}
 
 	/**
@@ -59,15 +74,17 @@ public class EReferenceE3PropertyEditor extends EReferencePropertyEditor {
 			@Override
 			public void add() {
 				EEFSelectionDialog dialog = new EEFSelectionDialogWithFilter(propertyEditorViewer.getViewer().getControl().getShell(), true);
-				dialog.setTitle("Choose the element to add to the " + feature.getName() + " reference:");
+				dialog.setTitle("Choose the element to add to the reference:");
 				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
 				dialog.setEditUIProvidersFactory(editUIProvidersFactory);
 				dialog.setImageManager(imageManager);
 				dialog.addFilter(
 						new ChoiceOfValuesFilter(
-								view.getEditingComponent().getEditingContext().getAdapterFactory(), 
+								emfServiceProvider,
+								eefEditingServiceProvider,
+								view.getEditingComponent().getEditingContext(), 
 								view.getEditingComponent().getEObject(), 
-								EReferenceE3PropertyEditor.this.feature, 
+								EReferenceE3PropertyEditor.this.propertyBinding, 
 								EEFSWTConstants.DEFAULT_SELECTION_MODE));
 				dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
 				if (dialog.open() == Window.OK) {

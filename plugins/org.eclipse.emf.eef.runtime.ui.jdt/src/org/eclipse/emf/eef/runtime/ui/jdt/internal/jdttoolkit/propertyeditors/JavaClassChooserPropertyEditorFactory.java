@@ -26,13 +26,13 @@ public class JavaClassChooserPropertyEditorFactory extends WidgetPropertyEditorF
 		widget.setName("JavaClass Chooser");
 	}
 
-	private JDTToolkit jdtToolkit;
+	private JDTToolkit toolkit;
 
 	/**
-	 * @param jdtToolkit
+	 * @param toolkit
 	 */
 	public JavaClassChooserPropertyEditorFactory(JDTToolkit jdtToolkit) {
-		this.jdtToolkit = jdtToolkit;
+		this.toolkit = jdtToolkit;
 	}
 
 	/**
@@ -60,8 +60,17 @@ public class JavaClassChooserPropertyEditorFactory extends WidgetPropertyEditorF
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new JavaClassChooserPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new JavaClassChooserSWTPropertyEditor(
-				jdtToolkit.getEditUIProvidersFactory(), jdtToolkit.getImageManager(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new JavaClassChooserPropertyEditor(
+				toolkit.getEEFEditingServiceProvider(),
+				(PropertiesEditingView<Composite>) editorContext.view, 
+				(ElementEditor) editorContext.viewElement, 
+				new JavaClassChooserSWTPropertyEditor(
+						toolkit.getEditUIProvidersFactory(), 
+						toolkit.getImageManager(), 
+						(PropertiesEditingView<Composite>) editorContext.view, 
+						(ElementEditor) editorContext.viewElement
+					)
+			);
 	}
 
 	/**

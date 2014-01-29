@@ -19,7 +19,7 @@ import org.eclipse.emf.common.notify.Notification;
 public interface Notifiable {
 
 	  /**
-	   * Notifies that a change to some feature has occurred.
+	   * Notifies that a change to some propertyBinding has occurred.
 	   * @param notification a description of the change.
 	   */
 	  void notifyChanged(Notification notification);

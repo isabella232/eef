@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.sw
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
@@ -33,6 +34,16 @@ public class TextPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<C
 
 	static {
 		widget.setName(TEXT_WIDGET_NAME);
+	}
+	
+	protected final SWTToolkit toolkit;
+	
+
+	/**
+	 * @param toolkit
+	 */
+	public TextPropertyEditorFactory(SWTToolkit toolkit) {
+		this.toolkit = toolkit;
 	}
 
 	/**
@@ -60,8 +71,11 @@ public class TextPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<C
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new TextPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new TextSWTPropertyEditor(
-				(PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new TextPropertyEditor(
+				toolkit.getEEFEditingServiceProvider(),
+				(PropertiesEditingView<Composite>) editorContext.view, 
+				(ElementEditor) editorContext.viewElement, 
+				new TextSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 
 	/**

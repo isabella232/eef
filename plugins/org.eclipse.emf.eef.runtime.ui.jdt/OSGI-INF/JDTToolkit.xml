@@ -4,6 +4,7 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit"/>
    </service>
+   <reference bind="setEEFEditingServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider" name="EEFEditingServiceProvider" policy="static"/>
    <reference bind="setEditUIProvidersFactory" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory" name="EditUIProvidersFactory" policy="static"/>
    <reference bind="setImageManager" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager" name="ImageManager" policy="static"/>
 </scr:component>

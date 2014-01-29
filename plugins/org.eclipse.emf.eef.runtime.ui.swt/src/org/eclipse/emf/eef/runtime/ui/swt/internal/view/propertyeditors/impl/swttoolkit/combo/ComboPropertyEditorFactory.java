@@ -36,13 +36,13 @@ public class ComboPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<
 		widget.setName(COMBO_WIDGET_NAME);
 	}
 
-	protected final SWTToolkit swtToolkit;
+	protected final SWTToolkit toolkit;
 
 	/**
-	 * @param swtToolkit
+	 * @param toolkit
 	 */
 	public ComboPropertyEditorFactory(SWTToolkit swtToolkit) {
-		this.swtToolkit = swtToolkit;
+		this.toolkit = swtToolkit;
 	}
 
 	/**
@@ -70,8 +70,11 @@ public class ComboPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new ComboPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new ComboSWTPropertyEditor(
-				swtToolkit.getEditUIProvidersFactory(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new ComboPropertyEditor(
+				toolkit.getEEFEditingServiceProvider(),
+				(PropertiesEditingView<Composite>) editorContext.view, 
+				(ElementEditor) editorContext.viewElement, 
+				new ComboSWTPropertyEditor(toolkit.getEditUIProvidersFactory(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 	}
 
 	/**

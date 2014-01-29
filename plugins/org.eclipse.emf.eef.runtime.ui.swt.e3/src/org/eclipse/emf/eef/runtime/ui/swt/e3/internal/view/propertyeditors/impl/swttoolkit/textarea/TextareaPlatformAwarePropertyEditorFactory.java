@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -23,7 +24,14 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class TextareaPlatformAwarePropertyEditorFactory extends TextareaPropertyEditorFactory{
+public class TextareaPlatformAwarePropertyEditorFactory extends TextareaPropertyEditorFactory {
+	
+	/**
+	 * @param toolkit
+	 */
+	public TextareaPlatformAwarePropertyEditorFactory(SWTToolkit toolkit) {
+		super(toolkit);
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -31,9 +39,17 @@ public class TextareaPlatformAwarePropertyEditorFactory extends TextareaProperty
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
-		if (toolkit != null) {
-			return new TextareaPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new TextareaFormPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));			
+		FormToolkit formtoolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+		if (formtoolkit != null) {
+			return new TextareaPropertyEditor(
+					toolkit.getEEFEditingServiceProvider(),
+					(PropertiesEditingView<Composite>) editorContext.view, 
+					(ElementEditor) editorContext.viewElement, 
+					new TextareaFormPropertyEditor(
+							(PropertiesEditingView<Composite>) editorContext.view, 
+							(ElementEditor) editorContext.viewElement
+						)
+				);			
 		} else {
 			return super.createPropertyEditor(editorContext);
 		}

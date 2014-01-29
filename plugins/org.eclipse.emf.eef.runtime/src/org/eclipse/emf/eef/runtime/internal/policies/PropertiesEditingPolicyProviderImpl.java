@@ -11,6 +11,7 @@
 package org.eclipse.emf.eef.runtime.internal.policies;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.processors.NullEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.internal.policies.request.NullEditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
@@ -57,9 +58,9 @@ public class PropertiesEditingPolicyProviderImpl implements PropertiesEditingPol
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider#getEditingPolicy(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider#getEditingPolicy(org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
-	public PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context) {
+	public PropertiesEditingPolicy getEditingPolicy(SemanticPropertiesEditingContext context) {
 		EditingPolicyRequestFactory requestFactory = editingPolicyRequestFactoryProvider.getProcessingFactory(context);
 		if (!(requestFactory instanceof NullEditingPolicyRequestFactory)) {
 			EditingPolicyProcessor processor = editingPolicyProcessorProvider.getProcessor(context);

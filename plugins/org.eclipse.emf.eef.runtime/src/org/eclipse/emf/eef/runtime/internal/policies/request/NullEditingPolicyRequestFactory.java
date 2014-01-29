@@ -11,6 +11,7 @@
 package org.eclipse.emf.eef.runtime.internal.policies.request;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
@@ -31,10 +32,10 @@ public class NullEditingPolicyRequestFactory implements EditingPolicyRequestFact
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory#createProcessing(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory#createProcessing(org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
-	public EditingPolicyRequest createProcessing(PropertiesEditingContext editingContext) {
- 		return null;
+	public EditingPolicyRequest createProcessing(SemanticPropertiesEditingContext editingContext) {
+		return null;
 	}
 
 }

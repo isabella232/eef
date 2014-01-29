@@ -27,7 +27,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 public class EReferencePlaftormAwarePropertyEditorFactory extends EReferencePropertyEditorFactory {
 
 	/**
-	 * @param emfPropertiesToolkit
+	 * @param toolkit
 	 */
 	public EReferencePlaftormAwarePropertyEditorFactory(EMFPropertiesToolkit emfPropertiesToolkit) {
 		super(emfPropertiesToolkit);
@@ -40,18 +40,37 @@ public class EReferencePlaftormAwarePropertyEditorFactory extends EReferenceProp
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
-		if (toolkit != null) {
+		FormToolkit formtoolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+		if (formtoolkit != null) {
 			return new EReferenceE3PropertyEditor(
-					emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), emfPropertiesToolkit.getViewerFilterBuilderProvider(), 
-					(PropertiesEditingView<Composite>) editorContext.view, editorContext.propertyBinding, (ElementEditor) editorContext.viewElement, 
-					new EReferenceFormPropertyEditor(emfPropertiesToolkit.getImageManager(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement)
+					toolkit.getEMFServiceProvider(),
+					toolkit.getEEFEditingServiceProvider(),
+					toolkit.getEditUIProvidersFactory(), 
+					toolkit.getImageManager(), 
+					toolkit.getViewerFilterBuilderProvider(), 
+					(PropertiesEditingView<Composite>) editorContext.view, 
+					editorContext.propertyBinding, 
+					(ElementEditor) editorContext.viewElement, 
+					new EReferenceFormPropertyEditor(
+							toolkit.getImageManager(), 
+							(PropertiesEditingView<Composite>) editorContext.view, 
+							(ElementEditor) editorContext.viewElement
+						)
 				);
 		} else {
 			return new EReferenceE3PropertyEditor(
-					emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), emfPropertiesToolkit.getViewerFilterBuilderProvider(),
-					(PropertiesEditingView<Composite>) editorContext.view, editorContext.propertyBinding, (ElementEditor) editorContext.viewElement, 
-					new EReferenceSWTPropertyEditor(emfPropertiesToolkit.getImageManager(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement)
+					toolkit.getEMFServiceProvider(),
+					toolkit.getEEFEditingServiceProvider(),
+					toolkit.getEditUIProvidersFactory(), 
+					toolkit.getImageManager(), 
+					toolkit.getViewerFilterBuilderProvider(),
+					(PropertiesEditingView<Composite>) editorContext.view, 
+					editorContext.propertyBinding, 
+					(ElementEditor) editorContext.viewElement, 
+					new EReferenceSWTPropertyEditor(toolkit.getImageManager(), 
+							(PropertiesEditingView<Composite>) editorContext.view, 
+							(ElementEditor) editorContext.viewElement
+						)
 				);
 		}
 	}

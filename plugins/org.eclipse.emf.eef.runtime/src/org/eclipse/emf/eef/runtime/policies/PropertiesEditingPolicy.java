@@ -23,7 +23,7 @@ public interface PropertiesEditingPolicy {
 	 * @param editingContext the {@link SemanticPropertiesEditingContext} to process.
 	 * @return an {@link EditingPolicyValidation} defining if the policy can be performed with the given {@link SemanticPropertiesEditingContext}.
 	 */
-	EditingPolicyValidation validateEditing(PropertiesEditingContext editingContext);
+	EditingPolicyValidation validateEditing(SemanticPropertiesEditingContext editingContext);
 
 	/**
 	 * Executes the policy for the given {@link SemanticPropertiesEditingContext}.

@@ -4,5 +4,5 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory"/>
    </service>
-   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="dynamic"/>
+   <reference bind="setEEFEditingServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider" name="EEFEditingServiceProvider" policy="static"/>
 </scr:component>

@@ -18,6 +18,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swt
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.swt.widgets.Composite;
@@ -39,6 +40,22 @@ public class SWTToolkit extends EEFToolkitImpl<Composite> {
 		toolkit.setName(SWT_TOOLKIT_NAME);
 	}
 	
+	private EEFEditingServiceProvider eefEditingServiceProvider;
+	
+	/**
+	 * @return the eefEditingServiceProvider
+	 */
+	public EEFEditingServiceProvider getEEFEditingServiceProvider() {
+		return eefEditingServiceProvider;
+	}
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
+	}
+
 	private EditUIProvidersFactory editUIProvidersFactory;
 	
 	/**
@@ -59,11 +76,11 @@ public class SWTToolkit extends EEFToolkitImpl<Composite> {
 	 * 
 	 */
 	public SWTToolkit() {
-		addPropertyEditorFactory(new TextPropertyEditorFactory())
-		.addPropertyEditorFactory(new CheckboxPropertyEditorFactory())
+		addPropertyEditorFactory(new TextPropertyEditorFactory(this))
+		.addPropertyEditorFactory(new CheckboxPropertyEditorFactory(this))
 		.addPropertyEditorFactory(new GroupContainerFactory())
 		.addPropertyEditorFactory(new HBoxContainerFactory())
-		.addPropertyEditorFactory(new TextareaPropertyEditorFactory())
+		.addPropertyEditorFactory(new TextareaPropertyEditorFactory(this))
 		.addPropertyEditorFactory(new ComboPropertyEditorFactory(this));
 	}
 

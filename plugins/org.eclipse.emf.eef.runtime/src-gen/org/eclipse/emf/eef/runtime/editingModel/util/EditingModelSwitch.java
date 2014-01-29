@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.editingModel.*;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.Editor;
@@ -122,6 +124,29 @@ public class EditingModelSwitch<T> {
 			case EditingModelPackage.PROPERTY_BINDING: {
 				PropertyBinding propertyBinding = (PropertyBinding)theEObject;
 				T result = casePropertyBinding(propertyBinding);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EditingModelPackage.MONO_VALUED_PROPERTY_BINDING: {
+				MonoValuedPropertyBinding monoValuedPropertyBinding = (MonoValuedPropertyBinding)theEObject;
+				T result = caseMonoValuedPropertyBinding(monoValuedPropertyBinding);
+				if (result == null) result = casePropertyBinding(monoValuedPropertyBinding);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EditingModelPackage.MULTI_VALUED_PROPERTY_BINDING: {
+				MultiValuedPropertyBinding multiValuedPropertyBinding = (MultiValuedPropertyBinding)theEObject;
+				T result = caseMultiValuedPropertyBinding(multiValuedPropertyBinding);
+				if (result == null) result = casePropertyBinding(multiValuedPropertyBinding);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EditingModelPackage.ESTRUCTURAL_FEATURE_BINDING: {
+				EStructuralFeatureBinding eStructuralFeatureBinding = (EStructuralFeatureBinding)theEObject;
+				T result = caseEStructuralFeatureBinding(eStructuralFeatureBinding);
+				if (result == null) result = caseMonoValuedPropertyBinding(eStructuralFeatureBinding);
+				if (result == null) result = caseMultiValuedPropertyBinding(eStructuralFeatureBinding);
+				if (result == null) result = casePropertyBinding(eStructuralFeatureBinding);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -250,6 +275,51 @@ public class EditingModelSwitch<T> {
 	 * @generated
 	 */
 	public T casePropertyBinding(PropertyBinding object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Mono Valued Property Binding</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Mono Valued Property Binding</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMonoValuedPropertyBinding(MonoValuedPropertyBinding object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Multi Valued Property Binding</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multi Valued Property Binding</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMultiValuedPropertyBinding(MultiValuedPropertyBinding object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>EStructural Feature Binding</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>EStructural Feature Binding</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEStructuralFeatureBinding(EStructuralFeatureBinding object) {
 		return null;
 	}
 

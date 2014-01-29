@@ -17,6 +17,7 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 
@@ -26,18 +27,18 @@ import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
  */
 public class ReflectivePropertiesEditingContext implements PropertiesEditingContext {
 
+	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
+	private BindingHandlerProvider bindingHandlerProvider;
+	private EditingContextFactoryProvider contextFactoryProvider;
+	private ViewHandlerProvider viewHandlerProvider;
+
 	private AdapterFactory adapterFactory;
 	private EObject eObject;
 	private ContextOptions options;
 	private PropertiesEditingContext parentContext;
 
 	private PropertiesEditingComponent component;
-
-	private EMFServiceProvider emfServiceProvider;
-	private BindingHandlerProvider bindingHandlerProvider;
-	private EditingContextFactoryProvider contextFactoryProvider;
-	private ViewHandlerProvider viewHandlerProvider;
-
 
 	/**
 	 * @param adapterFactory the {@link AdapterFactory} to use in the current context.
@@ -64,6 +65,13 @@ public class ReflectivePropertiesEditingContext implements PropertiesEditingCont
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
@@ -100,6 +108,14 @@ public class ReflectivePropertiesEditingContext implements PropertiesEditingCont
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEEFEditingServiceProvider()
+	 */
+	public EEFEditingServiceProvider getEEFEditingServiceProvider() {
+		return eefEditingServiceProvider;
 	}
 
 	/**

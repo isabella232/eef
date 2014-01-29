@@ -21,7 +21,6 @@ import org.eclipse.emf.eef.runtime.util.ReflectServiceProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.widgets.Composite;
-import org.osgi.framework.FrameworkUtil;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -62,7 +61,7 @@ public class ViewerFilterBuilderImpl implements ViewerFilterBuilder, DefaultServ
 	 */
 	public ViewerFilter buildFilter(PropertiesEditingContext editingContext, PropertiesEditingView<Composite> editingView, Filter filter) {
 		if (filter.getBody() instanceof JavaBody<?>) {
-			return new JavaViewerFilter(reflectServiceProvider, logger, editingContext, editingView, FrameworkUtil.getBundle(editingContext.getEditingComponent().getBindingSettings().getClass()), filter);
+			return new JavaViewerFilter(reflectServiceProvider, logger, editingContext, editingView, editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), filter);
 		}
 		return getNullViewerFilter();
 	}

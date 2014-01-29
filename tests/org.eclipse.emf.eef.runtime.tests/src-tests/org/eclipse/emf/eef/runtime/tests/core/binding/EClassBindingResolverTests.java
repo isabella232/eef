@@ -49,7 +49,7 @@ public class EClassBindingResolverTests {
 
 	/**
 	 * Here the "EClass" EClass is binded to the view SampleView. No PropertyBinding is
-	 * specified. The "feature" method on the "name" editor (just "name" String) should
+	 * specified. The "propertyBinding" method on the "name" editor (just "name" String) should
 	 * return EcorePackage.Literals.ENAMED_ELEMENT__NAME.
 	 */
 	@Test
@@ -63,7 +63,7 @@ public class EClassBindingResolverTests {
 
 	/**
 	 * Here the "EClass" EClass is binded to the view SampleView. No PropertyBinding is
-	 * specified. The "editor" method on the EcorePackage.Literals.ENAMED_ELEMENT__NAME feature should
+	 * specified. The "editor" method on the EcorePackage.Literals.ENAMED_ELEMENT__NAME propertyBinding should
 	 * return the "name" editor (just "name" String) .
 	 */
 	@Test
@@ -78,7 +78,7 @@ public class EClassBindingResolverTests {
 
 	/**
 	 * Here the "EClass" EClass is binded to the view SampleTitleView. A PropertyBinding is
-	 * specified. The "feature" method on the "title" editor (just "title" String) should
+	 * specified. The "propertyBinding" method on the "title" editor (just "title" String) should
 	 * return EcorePackage.Literals.ENAMED_ELEMENT__NAME.
 	 */
 	@Test
@@ -94,7 +94,7 @@ public class EClassBindingResolverTests {
 
 	/**
 	 * Here the "EClass" EClass is binded to the view SampleTitleView. A PropertyBinding is
-	 * specified. The "editor" method on the EcorePackage.Literals.ENAMED_ELEMENT__NAME feature should
+	 * specified. The "editor" method on the EcorePackage.Literals.ENAMED_ELEMENT__NAME propertyBinding should
 	 * return the "title" editor (just "title" String) .
 	 */
 	@Test
@@ -111,7 +111,7 @@ public class EClassBindingResolverTests {
 
 	/**
 	 * Here the "EClass" EClass is binded to a "Sample" {@link View}. No PropertyBinding is
-	 * specified. The "feature" method on the "abstract" {@link ElementEditor} should
+	 * specified. The "propertyBinding" method on the "abstract" {@link ElementEditor} should
 	 * return EcorePackage.Literals.ECLASS__ABSTRACT.
 	 */
 	@Test
@@ -130,7 +130,7 @@ public class EClassBindingResolverTests {
 
 	/**
 	 * Here the "EClass" EClass is binded to a "Sample" {@link View}. No PropertyBinding is
-	 * specified. The "propertyEditor" method on the EcorePackage.Literals.ECLASS__ABSTRACT feature should
+	 * specified. The "propertyEditor" method on the EcorePackage.Literals.ECLASS__ABSTRACT propertyBinding should
 	 * return "abstract" {@link ElementEditor} .
 	 */
 	@Test
@@ -150,7 +150,7 @@ public class EClassBindingResolverTests {
 
 	/**
 	 * Here the "EClass" EClass is binded to a "Sample" {@link View}. A PropertyBinding is
-	 * specified. The "feature" method on the "instanciable" {@link ElementEditor} should
+	 * specified. The "propertyBinding" method on the "instanciable" {@link ElementEditor} should
 	 * return EcorePackage.Literals.ECLASS__ABSTRACT.
 	 */
 	@Test
@@ -171,7 +171,7 @@ public class EClassBindingResolverTests {
 
 	/**
 	 * Here the "EClass" EClass is binded to a "Sample" {@link View}. A PropertyBinding is
-	 * specified. The "feature" method on the EcorePackage.Literals.ECLASS__ABSTRACT feature should
+	 * specified. The "propertyBinding" method on the EcorePackage.Literals.ECLASS__ABSTRACT propertyBinding should
 	 * return "instanciable" {@link ElementEditor}.
 	 */
 	@Test

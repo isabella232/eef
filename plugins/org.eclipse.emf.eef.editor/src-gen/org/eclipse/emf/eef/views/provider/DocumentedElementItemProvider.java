@@ -73,7 +73,7 @@ public class DocumentedElementItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Documentation feature.
+	 * This adds a property descriptor for the Documentation propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

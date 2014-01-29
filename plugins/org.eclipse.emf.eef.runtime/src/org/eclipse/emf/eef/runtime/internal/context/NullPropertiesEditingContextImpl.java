@@ -19,6 +19,7 @@ import org.eclipse.emf.eef.runtime.context.NullPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.internal.binding.NullPropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 
@@ -29,6 +30,7 @@ import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 public class NullPropertiesEditingContextImpl implements PropertiesEditingContext, NullPropertiesEditingContext {
 
 	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private BindingHandlerProvider bindingManagerProvider;
 	private EditingContextFactoryProvider contextFactoryProvider;
 	private ViewHandlerProvider viewHandlerProvider;
@@ -39,6 +41,14 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 	 */
 	public EMFServiceProvider getEMFServiceProvider() {
 		return emfServiceProvider;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEEFEditingServiceProvider()
+	 */
+	public EEFEditingServiceProvider getEEFEditingServiceProvider() {
+		return eefEditingServiceProvider;
 	}
 
 	/**

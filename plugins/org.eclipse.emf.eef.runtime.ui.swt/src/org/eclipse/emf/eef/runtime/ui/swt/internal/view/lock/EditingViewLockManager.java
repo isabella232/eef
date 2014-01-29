@@ -14,12 +14,9 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
-import org.eclipse.emf.eef.runtime.util.EMFService;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
@@ -38,15 +35,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EditingViewLockManager implements EEFLockManager {
 	
-	private EMFServiceProvider emfServiceProvider;
 	private EEFNotifierProvider eefNotifierProvider;
-
-	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
-	 */
-	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
-	}
 
 	/**
 	 * @param eefNotifierProvider the eefNotifierProvider to set
@@ -92,13 +81,13 @@ public class EditingViewLockManager implements EEFLockManager {
 	private void checkEditorsLockingTowardPolicies(PropertiesEditingView<Composite> editingView, PropertiesEditingComponent editingComponent,
 			EObject editedEObject, Collection<EEFLockPolicy> policies, boolean autowire) {
 		TreeIterator<EObject> viewContents = editingView.getViewModel().eAllContents();
-		EMFService emfService = emfServiceProvider.getEMFService(editedEObject.eClass().getEPackage());
 		while (viewContents.hasNext()) {
 			EObject next = viewContents.next();
-			EStructuralFeature feature = emfService.mapFeature(editedEObject, editingComponent.getBinding().feature(next, autowire));
+//			EMFService emfService = emfServiceProvider.getEMFService(editedEObject.eClass().getEPackage());
+//			EStructuralFeature propertyBinding = emfService.mapFeature(editedEObject, editingComponent.getBinding().feature(next, autowire));
 			if (next instanceof ElementEditor) {
 				for (EEFLockPolicy lockPolicy : policies) {
-					if (lockPolicy.isLocked(editingView.getEditingComponent().getEditingContext(), editedEObject, feature)) {
+					if (lockPolicy.isLocked(editingView.getEditingComponent().getEditingContext(), editedEObject, editingComponent.getBinding().propertyBinding(next, autowire))) {
 						lockEditor(editingView, next);
 					}
 				}

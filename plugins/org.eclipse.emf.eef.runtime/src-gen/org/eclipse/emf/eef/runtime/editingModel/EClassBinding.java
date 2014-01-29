@@ -121,15 +121,6 @@ public interface EClassBinding extends EModelElement {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * TODO: this method should take the Edited EObject as parameter.
-	 * <!-- end-user-doc -->
-	 * @model viewRequired="true" autowireRequired="true"
-	 * @generated
-	 */
-	EStructuralFeature feature(Object view, boolean autowire);
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model eObjectRequired="true" featureRequired="true" autowireRequired="true"
 	 * @generated

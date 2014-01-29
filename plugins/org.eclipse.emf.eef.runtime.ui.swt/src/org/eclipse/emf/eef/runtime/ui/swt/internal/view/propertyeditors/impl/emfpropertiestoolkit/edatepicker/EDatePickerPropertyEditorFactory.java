@@ -36,13 +36,13 @@ public class EDatePickerPropertyEditorFactory extends WidgetPropertyEditorFactor
 		widget.setName(EDATE_PICKER_EDITOR_WIDGET_NAME);
 	}
 
-	protected final EMFPropertiesToolkit emfPropertiesToolkit;
+	protected final EMFPropertiesToolkit toolkit;
 
 	/**
-	 * @param emfPropertiesToolkit
+	 * @param toolkit
 	 */
 	public EDatePickerPropertyEditorFactory(EMFPropertiesToolkit emfPropertiesToolkit) {
-		this.emfPropertiesToolkit = emfPropertiesToolkit;
+		this.toolkit = emfPropertiesToolkit;
 	}
 
 	/**
@@ -70,9 +70,17 @@ public class EDatePickerPropertyEditorFactory extends WidgetPropertyEditorFactor
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new EDatePackerPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new EDatePickerSWTPropertyEditor(
-				emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), (PropertiesEditingView<Composite>) editorContext.view,
-				(ElementEditor) editorContext.viewElement));
+		return new EDatePackerPropertyEditor(
+				toolkit.getEEFEditingServiceProvider(),
+				(PropertiesEditingView<Composite>) editorContext.view, 
+				(ElementEditor) editorContext.viewElement, 
+				new EDatePickerSWTPropertyEditor(
+						toolkit.getEditUIProvidersFactory(), 
+						toolkit.getImageManager(), 
+						(PropertiesEditingView<Composite>) editorContext.view,
+						(ElementEditor) editorContext.viewElement
+					)
+				);
 	}
 
 	/**

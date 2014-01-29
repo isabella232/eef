@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.checkbox.CheckboxPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.checkbox.CheckboxPropertyEditorFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -26,15 +27,30 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 public class CheckboxPlatformAwarePropertyEditorFactory extends CheckboxPropertyEditorFactory {
 
 	/**
+	 * @param toolkit
+	 */
+	public CheckboxPlatformAwarePropertyEditorFactory(SWTToolkit toolkit) {
+		super(toolkit);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorFactory#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
-		if (toolkit != null) {
-			return new CheckboxPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new CheckboxFormPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		FormToolkit formtoolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+		if (formtoolkit != null) {
+			return new CheckboxPropertyEditor(
+					toolkit.getEEFEditingServiceProvider(),
+					(PropertiesEditingView<Composite>) editorContext.view, 
+					(ElementEditor) editorContext.viewElement, 
+					new CheckboxFormPropertyEditor(
+							(PropertiesEditingView<Composite>) editorContext.view, 
+							(ElementEditor) editorContext.viewElement
+						)
+				);
 		} else {
 			return super.createPropertyEditor(editorContext);
 		}

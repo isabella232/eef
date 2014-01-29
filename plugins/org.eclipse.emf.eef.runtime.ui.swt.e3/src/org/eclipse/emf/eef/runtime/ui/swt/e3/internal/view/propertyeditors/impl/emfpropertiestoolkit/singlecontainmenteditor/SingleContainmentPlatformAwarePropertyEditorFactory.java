@@ -21,7 +21,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 public class SingleContainmentPlatformAwarePropertyEditorFactory extends SingleContainmentPropertyEditorFactory {
 
 	/**
-	 * @param emfPropertiesToolkit
+	 * @param toolkit
 	 */
 	public SingleContainmentPlatformAwarePropertyEditorFactory(EMFPropertiesToolkit emfPropertiesToolkit) {
 		super(emfPropertiesToolkit);
@@ -33,11 +33,18 @@ public class SingleContainmentPlatformAwarePropertyEditorFactory extends SingleC
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
-		if (toolkit != null) {
+		FormToolkit formtoolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+		if (formtoolkit != null) {
 			return new SingleContainmentPropertyEditor(
-					(PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, 
-					new SingleContainmentFormPropertyEditor(emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement)
+					toolkit.getEEFEditingServiceProvider(),
+					(PropertiesEditingView<Composite>) editorContext.view, 
+					(ElementEditor) editorContext.viewElement, 
+					new SingleContainmentFormPropertyEditor(
+							toolkit.getEditUIProvidersFactory(), 
+							toolkit.getImageManager(), 
+							(PropertiesEditingView<Composite>) editorContext.view, 
+							(ElementEditor) editorContext.viewElement
+						)
 				);
 		} else {
 			return super.createPropertyEditor(editorContext);

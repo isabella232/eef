@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.singlecontainmenteditor;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer;
@@ -13,6 +13,7 @@ import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.PropertyEditorImpl;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -23,13 +24,16 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class SingleContainmentPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
+	private EEFEditingServiceProvider eefEditingServiceProvider;
+	
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
-	private EStructuralFeature feature;
+	private PropertyBinding propertyBinding;
 	private SingleLinePropertyViewerListener listener;
 
-	public SingleContainmentPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+	public SingleContainmentPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
@@ -37,11 +41,11 @@ public class SingleContainmentPropertyEditor extends PropertyEditorImpl implemen
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.ecore.EStructuralFeature)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
 	 */
-	public void init(EStructuralFeature feature) {
-		this.feature = feature;
-		EEFViewerInput input = new EEFViewerInput(view.getEditingComponent().getEditingContext(), this.feature);
+	public void init(PropertyBinding propertyBinding) {
+		this.propertyBinding = propertyBinding;
+		EEFViewerInput input = new EEFViewerInput(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), this.propertyBinding);
 		propertyEditorViewer.getViewer().setInput(input);
 		initListener();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);

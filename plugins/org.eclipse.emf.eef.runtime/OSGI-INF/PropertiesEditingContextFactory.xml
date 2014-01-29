@@ -5,6 +5,7 @@
       <provide interface="org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory"/>
    </service>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
+   <reference bind="setEEFEditingServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider" name="EEFEditingServiceProvider" policy="static"/>
    <reference bind="setBindingManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider" name="BindingManagerProvider" policy="static"/>
    <reference bind="setViewHandlerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider" name="ViewHandlerProvider" policy="static"/>
 </scr:component>

@@ -11,6 +11,7 @@
 package org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory;
 
@@ -19,6 +20,15 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory;
  *
  */
 public class EMFEditAwareLockPolicyFactory implements EEFLockPolicyFactory {
+	
+	private EMFServiceProvider emfServiceProvider;
+
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -33,7 +43,9 @@ public class EMFEditAwareLockPolicyFactory implements EEFLockPolicyFactory {
 	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactory#createLockPolicy()
 	 */
 	public EEFLockPolicy createLockPolicy() {
-		return new EMFEditAwareLockPolicy();
+		EMFEditAwareLockPolicy emfEditAwareLockPolicy = new EMFEditAwareLockPolicy();
+		emfEditAwareLockPolicy.setEMFServiceProvider(emfServiceProvider);
+		return emfEditAwareLockPolicy;
 	}
 
 }

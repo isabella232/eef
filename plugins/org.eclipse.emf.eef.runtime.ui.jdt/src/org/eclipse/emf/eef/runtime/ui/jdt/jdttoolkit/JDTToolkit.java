@@ -15,6 +15,7 @@ import org.eclipse.emf.eef.runtime.ui.jdt.internal.jdttoolkit.propertyeditors.Ja
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 
@@ -35,8 +36,8 @@ public class JDTToolkit extends EEFToolkitImpl<Composite> {
 		toolkit.setName(JDT_TOOLKIT_NAME);
 	}
 
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private EditUIProvidersFactory editUIProvidersFactory;
-
 	private ImageManager imageManager;
 	
 	
@@ -53,6 +54,20 @@ public class JDTToolkit extends EEFToolkitImpl<Composite> {
 	 */
 	public Toolkit getModel() {
 		return toolkit;
+	}
+
+	/**
+	 * @return the eefEditingServiceProvider
+	 */
+	public EEFEditingServiceProvider getEEFEditingServiceProvider() {
+		return eefEditingServiceProvider;
+	}
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**

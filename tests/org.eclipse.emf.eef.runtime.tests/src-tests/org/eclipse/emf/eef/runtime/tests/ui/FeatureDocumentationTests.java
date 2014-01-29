@@ -69,9 +69,9 @@ public class FeatureDocumentationTests {
 	private ElementEditor nameEditor;
 
 	/**
-	 * In this test, we create a ecore file, a view repository and we bind them. A feature of the
+	 * In this test, we create a ecore file, a view repository and we bind them. A propertyBinding of the
 	 * ecore model has a Ecore documentation. Then, we create a context on an instance of this ecore model
-	 * and we use the ViewService to get the Ecore documentation of the feature. 
+	 * and we use the ViewService to get the Ecore documentation of the propertyBinding. 
 	 */
 	@Test
 	public void testEcoreDocumentation() {

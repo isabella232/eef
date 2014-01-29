@@ -35,13 +35,13 @@ public class EContainmentPropertyEditorFactory extends WidgetPropertyEditorFacto
 		widget.setName(ECONTAINEMENT_EDITOR_WIDGET_NAME);
 	}
 
-	protected final EMFPropertiesToolkit emfPropertiesToolkit;
+	protected final EMFPropertiesToolkit toolkit;
 
 	/**
-	 * @param emfPropertiesToolkit
+	 * @param toolkit
 	 */
 	public EContainmentPropertyEditorFactory(EMFPropertiesToolkit emfPropertiesToolkit) {
-		this.emfPropertiesToolkit = emfPropertiesToolkit;
+		this.toolkit = emfPropertiesToolkit;
 	}
 
 	/**
@@ -69,8 +69,17 @@ public class EContainmentPropertyEditorFactory extends WidgetPropertyEditorFacto
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new EContainmentPropertyEditor(emfPropertiesToolkit.getEditUIProvidersFactory(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement,
-				new EContainmentSWTPropertyEditor(emfPropertiesToolkit.getImageManager(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new EContainmentPropertyEditor(
+				toolkit.getEEFEditingServiceProvider(),
+				toolkit.getEditUIProvidersFactory(), 
+				(PropertiesEditingView<Composite>) editorContext.view, 
+				(ElementEditor) editorContext.viewElement,
+				new EContainmentSWTPropertyEditor(
+						toolkit.getImageManager(), 
+						(PropertiesEditingView<Composite>) editorContext.view, 
+						(ElementEditor) editorContext.viewElement
+				)
+			);
 	}
 
 	/**

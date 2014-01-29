@@ -33,11 +33,11 @@ public class SWTPlatformAwareToolkit extends SWTToolkit {
 	 */
 	public SWTPlatformAwareToolkit() {
 		clearEditorProviders();
-		addPropertyEditorFactory(new TextPlatformAwarePropertyEditorFactory())
-		.addPropertyEditorFactory(new CheckboxPlatformAwarePropertyEditorFactory())
+		addPropertyEditorFactory(new TextPlatformAwarePropertyEditorFactory(this))
+		.addPropertyEditorFactory(new CheckboxPlatformAwarePropertyEditorFactory(this))
 		.addPropertyEditorFactory(new GroupPlatformAwareContainerFactory())
 		.addPropertyEditorFactory(new HBoxPlatformAwareContainerFactory())
-		.addPropertyEditorFactory(new TextareaPlatformAwarePropertyEditorFactory())
+		.addPropertyEditorFactory(new TextareaPlatformAwarePropertyEditorFactory(this))
 		.addPropertyEditorFactory(new ComboPlatformAwarePropertyEditorFactory(this));
 	}
 

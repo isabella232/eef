@@ -69,7 +69,7 @@ public class EditingOptionsItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Feature Documentation Provider feature.
+	 * This adds a property descriptor for the Feature Documentation Provider propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

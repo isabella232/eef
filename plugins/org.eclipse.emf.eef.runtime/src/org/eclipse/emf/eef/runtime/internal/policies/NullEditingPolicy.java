@@ -11,6 +11,7 @@
 package org.eclipse.emf.eef.runtime.internal.policies;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyValidation;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 
@@ -22,15 +23,15 @@ public class NullEditingPolicy implements PropertiesEditingPolicy {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#validateEditing(org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext)
+	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#validateEditing(org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
-	public EditingPolicyValidation validateEditing(PropertiesEditingContext editingContext) {
+	public EditingPolicyValidation validateEditing(SemanticPropertiesEditingContext editingContext) {
 		return new EditingPolicyValidation(this, true);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute(org.eclipse.emf.eef.runtime.policies.SemanticPropertiesEditingContext)
+	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public void execute(PropertiesEditingContext editingContext) {
 		// Do nothing

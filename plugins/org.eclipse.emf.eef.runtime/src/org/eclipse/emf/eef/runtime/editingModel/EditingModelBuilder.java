@@ -191,7 +191,7 @@ public class EditingModelBuilder {
 		 * @return
 		 */
 		private PropertyBinding buildPropertyBinding() {
-			PropertyBinding propertyBinding = EditingModelFactory.eINSTANCE.createPropertyBinding();
+			EStructuralFeatureBinding propertyBinding = EditingModelFactory.eINSTANCE.createEStructuralFeatureBinding();
 			propertyBinding.setFeature(feature);
 			if (editorBuilder != null) {
 				propertyBinding.setEditor(editorBuilder.buildEditor());

@@ -8,6 +8,7 @@ package org.eclipse.emf.eef.runtime.query;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -117,13 +118,22 @@ public interface QueryPackage extends EPackage {
 	int JAVA_BODY = 2;
 
 	/**
+	 * The feature id for the '<em><b>Bundle</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__BUNDLE = BODY_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Qualified Class</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int JAVA_BODY__QUALIFIED_CLASS = BODY_FEATURE_COUNT + 0;
+	int JAVA_BODY__QUALIFIED_CLASS = BODY_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Method</b></em>' attribute.
@@ -132,7 +142,7 @@ public interface QueryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JAVA_BODY__METHOD = BODY_FEATURE_COUNT + 1;
+	int JAVA_BODY__METHOD = BODY_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Static</b></em>' attribute.
@@ -141,7 +151,7 @@ public interface QueryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JAVA_BODY__STATIC = BODY_FEATURE_COUNT + 2;
+	int JAVA_BODY__STATIC = BODY_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Java Body</em>' class.
@@ -150,7 +160,7 @@ public interface QueryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JAVA_BODY_FEATURE_COUNT = BODY_FEATURE_COUNT + 3;
+	int JAVA_BODY_FEATURE_COUNT = BODY_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.query.impl.FilterImpl <em>Filter</em>}' class.
@@ -210,6 +220,17 @@ public interface QueryPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '<em>Class Loader</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.lang.ClassLoader
+	 * @see org.eclipse.emf.eef.runtime.query.impl.QueryPackageImpl#getClassLoader()
+	 * @generated
+	 */
+	int CLASS_LOADER = 5;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.query.Query <em>Query</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -249,6 +270,17 @@ public interface QueryPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getJavaBody();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.eef.runtime.query.JavaBody#getBundle <em>Bundle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Bundle</em>'.
+	 * @see org.eclipse.emf.eef.runtime.query.JavaBody#getBundle()
+	 * @see #getJavaBody()
+	 * @generated
+	 */
+	EAttribute getJavaBody_Bundle();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.eef.runtime.query.JavaBody#getQualifiedClass <em>Qualified Class</em>}'.
@@ -302,6 +334,17 @@ public interface QueryPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getNavigation();
+
+	/**
+	 * Returns the meta object for data type '{@link java.lang.ClassLoader <em>Class Loader</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Class Loader</em>'.
+	 * @see java.lang.ClassLoader
+	 * @model instanceClass="java.lang.ClassLoader"
+	 * @generated
+	 */
+	EDataType getClassLoader();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -364,6 +407,14 @@ public interface QueryPackage extends EPackage {
 		EClass JAVA_BODY = eINSTANCE.getJavaBody();
 
 		/**
+		 * The meta object literal for the '<em><b>Bundle</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute JAVA_BODY__BUNDLE = eINSTANCE.getJavaBody_Bundle();
+
+		/**
 		 * The meta object literal for the '<em><b>Qualified Class</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -406,6 +457,16 @@ public interface QueryPackage extends EPackage {
 		 * @generated
 		 */
 		EClass NAVIGATION = eINSTANCE.getNavigation();
+
+		/**
+		 * The meta object literal for the '<em>Class Loader</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.lang.ClassLoader
+		 * @see org.eclipse.emf.eef.runtime.query.impl.QueryPackageImpl#getClassLoader()
+		 * @generated
+		 */
+		EDataType CLASS_LOADER = eINSTANCE.getClassLoader();
 
 	}
 

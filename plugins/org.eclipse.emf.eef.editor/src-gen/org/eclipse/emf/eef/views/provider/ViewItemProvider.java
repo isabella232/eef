@@ -70,7 +70,7 @@ public class ViewItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Explicit feature.
+	 * This adds a property descriptor for the Explicit propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

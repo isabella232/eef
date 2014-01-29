@@ -41,19 +41,19 @@ public interface SWTViewService extends ViewService {
 	String EEF_WIDGET_TYPE_KEY = "org.eclipse.emf.eef.widgets.type";
 
 	/**
-	 * Instantiates a new label to display the given feature.
+	 * Instantiates a new label to display the given propertyBinding.
 	 * @param editingComponent the current {@link PropertiesEditingComponent}.
 	 * @param parent label container.
-	 * @param editor feature to display.
+	 * @param editor propertyBinding to display.
 	 * @param alternate alternative text.
 	 * @return created label.
 	 */
 	Label createLabel(PropertiesEditingComponent editingComponent, Composite parent, Object editor, String alternate);
 	
 	/**
-	 * Instantiates a help button for the given feature.
+	 * Instantiates a help button for the given propertyBinding.
 	 * @param parent button container.
-	 * @param editor feature to process.
+	 * @param editor propertyBinding to process.
 	 * @return created control.
 	 */
 	Control createHelpButton(PropertiesEditingComponent editingComponent, final Composite parent, Object editor);

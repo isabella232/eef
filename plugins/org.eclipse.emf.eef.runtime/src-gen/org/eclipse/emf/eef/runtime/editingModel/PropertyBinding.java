@@ -8,7 +8,8 @@ package org.eclipse.emf.eef.runtime.editingModel;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.query.JavaBody;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,10 +19,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getEditor <em>Editor</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSubPropertyBindings <em>Sub Property Bindings</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSettings <em>Settings</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getGetter <em>Getter</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getValueProvider <em>Value Provider</em>}</li>
  * </ul>
  * </p>
  *
@@ -31,32 +33,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @generated
  */
 public interface PropertyBinding extends EModelElement {
-	/**
-	 * Returns the value of the '<em><b>Feature</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Feature</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Feature</em>' reference.
-	 * @see #setFeature(EStructuralFeature)
-	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertyBinding_Feature()
-	 * @model required="true"
-	 * @generated
-	 */
-	EStructuralFeature getFeature();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getFeature <em>Feature</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Feature</em>' reference.
-	 * @see #getFeature()
-	 * @generated
-	 */
-	void setFeature(EStructuralFeature value);
-
 	/**
 	 * Returns the value of the '<em><b>Editor</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -114,5 +90,73 @@ public interface PropertyBinding extends EModelElement {
 	 * @generated
 	 */
 	EList<EditorSettings> getSettings();
+
+	/**
+	 * Returns the value of the '<em><b>Getter</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Getter</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Getter</em>' containment reference.
+	 * @see #setGetter(JavaBody)
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertyBinding_Getter()
+	 * @model type="org.eclipse.emf.eef.runtime.query.JavaBody<org.eclipse.emf.ecore.EJavaObject>" containment="true"
+	 * @generated
+	 */
+	JavaBody<Object> getGetter();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getGetter <em>Getter</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Getter</em>' containment reference.
+	 * @see #getGetter()
+	 * @generated
+	 */
+	void setGetter(JavaBody<Object> value);
+
+	/**
+	 * Returns the value of the '<em><b>Value Provider</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Value Provider</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Value Provider</em>' containment reference.
+	 * @see #setValueProvider(JavaBody)
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertyBinding_ValueProvider()
+	 * @model type="org.eclipse.emf.eef.runtime.query.JavaBody<org.eclipse.emf.ecore.EEList<org.eclipse.emf.ecore.EJavaObject>>" containment="true"
+	 * @generated
+	 */
+	JavaBody<EList<Object>> getValueProvider();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getValueProvider <em>Value Provider</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Value Provider</em>' containment reference.
+	 * @see #getValueProvider()
+	 * @generated
+	 */
+	void setValueProvider(JavaBody<EList<Object>> value);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model required="true" loaderDataType="org.eclipse.emf.eef.runtime.query.ClassLoader" loaderRequired="true" targetRequired="true"
+	 * @generated
+	 */
+	Object getValue(ClassLoader loader, EObject target);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model loaderDataType="org.eclipse.emf.eef.runtime.query.ClassLoader" loaderRequired="true" targetRequired="true"
+	 * @generated
+	 */
+	EList<Object> getChoiceOfValue(ClassLoader loader, EObject target);
 
 } // PropertyBinding

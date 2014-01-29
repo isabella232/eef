@@ -10,13 +10,11 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.providers;
 
-import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
-import org.eclipse.emf.eef.runtime.util.EMFService;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -24,25 +22,18 @@ import org.eclipse.swt.graphics.Image;
  *
  */
 public class PropertyBindingLabelProvider extends AdapterFactoryLabelProvider {
-	
-	private EMFServiceProvider emfServiceProvider;
-	
+
+	private EEFEditingServiceProvider eefEditingServiceProvider;	
+	private PropertiesEditingContext editingContext;
 	private PropertyBinding propertyBinding;
 
-	/**
-	 * @param adapterFactory
-	 * @param propertyBinding
-	 */
-	public PropertyBindingLabelProvider(AdapterFactory adapterFactory, PropertyBinding propertyBinding) {
-		super(adapterFactory);
-		this.propertyBinding = propertyBinding;
-	}
 
-	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
-	 */
-	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
+
+	public PropertyBindingLabelProvider(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editingContext, PropertyBinding propertyBinding) {
+		super(editingContext.getAdapterFactory());
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
+		this.editingContext = editingContext;
+		this.propertyBinding = propertyBinding;
 	}
 
 	/**
@@ -52,18 +43,9 @@ public class PropertyBindingLabelProvider extends AdapterFactoryLabelProvider {
 	@Override
 	public Image getColumnImage(Object object, int columnIndex) {
 		if (object instanceof EObject && propertyBinding.getSubPropertyBindings().size() > columnIndex) {
-			PropertyBinding subBinding = propertyBinding.getSubPropertyBindings().get(columnIndex);
-			EStructuralFeature feature = subBinding.getFeature();
-			if (feature != null) {
-				EObject src = (EObject) object;
-				if (!src.eClass().getEAllStructuralFeatures().contains(feature) && emfServiceProvider != null) {
-					EMFService service = emfServiceProvider.getEMFService(src.eClass().getEPackage());
-					feature = service.mapFeature(src, feature);
-				}
-				Object target = src.eGet(feature);
-				return getImage(target);
-					
-			}
+			EObject element= (EObject) object;
+			Object target = eefEditingServiceProvider.getEditingService(element).getValue(editingContext, element, propertyBinding.getSubPropertyBindings().get(columnIndex));
+			return getImage(target);
 		}
 		return super.getColumnImage(object, columnIndex);
 	}
@@ -75,18 +57,9 @@ public class PropertyBindingLabelProvider extends AdapterFactoryLabelProvider {
 	@Override
 	public String getColumnText(Object object, int columnIndex) {
 		if (object instanceof EObject && propertyBinding.getSubPropertyBindings().size() > columnIndex) {
-			PropertyBinding subBinding = propertyBinding.getSubPropertyBindings().get(columnIndex);
-			EStructuralFeature feature = subBinding.getFeature();
-			if (feature != null) {
-				EObject src = (EObject) object;
-				if (!src.eClass().getEAllStructuralFeatures().contains(feature) && emfServiceProvider != null) {
-					EMFService service = emfServiceProvider.getEMFService(src.eClass().getEPackage());
-					feature = service.mapFeature(src, feature);
-				}
-				Object target = src.eGet(feature);
-				return getText(target);
-					
-			}
+			EObject element= (EObject) object;
+			Object target = eefEditingServiceProvider.getEditingService(element).getValue(editingContext, element, propertyBinding.getSubPropertyBindings().get(columnIndex));
+			return getText(target);
 		}
 		return super.getColumnText(object, columnIndex);
 	}

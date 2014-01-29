@@ -25,9 +25,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  *
  */
 public class ComboPlatformAwarePropertyEditorFactory extends ComboPropertyEditorFactory {
-
+	
 	/**
-	 * @param swtToolkit
+	 * @param toolkit
 	 */
 	public ComboPlatformAwarePropertyEditorFactory(SWTToolkit swtToolkit) {
 		super(swtToolkit);
@@ -39,9 +39,18 @@ public class ComboPlatformAwarePropertyEditorFactory extends ComboPropertyEditor
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		FormToolkit toolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
-		if (toolkit != null) {
-			return new ComboPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new ComboFormPropertyEditor(swtToolkit.getEditUIProvidersFactory(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		FormToolkit formtoolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+		if (formtoolkit != null) {
+			return new ComboPropertyEditor(
+					toolkit.getEEFEditingServiceProvider(),
+					(PropertiesEditingView<Composite>) editorContext.view, 
+					(ElementEditor) editorContext.viewElement, 
+					new ComboFormPropertyEditor(
+							toolkit.getEditUIProvidersFactory(), 
+							(PropertiesEditingView<Composite>) editorContext.view, 
+							(ElementEditor) editorContext.viewElement
+						)
+				);
 		} else {
 			return super.createPropertyEditor(editorContext);
 		}

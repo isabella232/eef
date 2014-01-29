@@ -68,7 +68,7 @@ public class EObjectViewItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Definition feature.
+	 * This adds a property descriptor for the Definition propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT

@@ -10,10 +10,12 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.editingModel.*;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.Editor;
@@ -101,6 +103,18 @@ public class EditingModelAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter casePropertyBinding(PropertyBinding object) {
 				return createPropertyBindingAdapter();
+			}
+			@Override
+			public Adapter caseMonoValuedPropertyBinding(MonoValuedPropertyBinding object) {
+				return createMonoValuedPropertyBindingAdapter();
+			}
+			@Override
+			public Adapter caseMultiValuedPropertyBinding(MultiValuedPropertyBinding object) {
+				return createMultiValuedPropertyBindingAdapter();
+			}
+			@Override
+			public Adapter caseEStructuralFeatureBinding(EStructuralFeatureBinding object) {
+				return createEStructuralFeatureBindingAdapter();
 			}
 			@Override
 			public Adapter caseJavaView(JavaView object) {
@@ -239,6 +253,48 @@ public class EditingModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPropertyBindingAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding <em>Mono Valued Property Binding</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding
+	 * @generated
+	 */
+	public Adapter createMonoValuedPropertyBindingAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding <em>Multi Valued Property Binding</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding
+	 * @generated
+	 */
+	public Adapter createMultiValuedPropertyBindingAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding <em>EStructural Feature Binding</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding
+	 * @generated
+	 */
+	public Adapter createEStructuralFeatureBindingAdapter() {
 		return null;
 	}
 

@@ -218,7 +218,7 @@ public class GenericBindingSettingsTestCase extends AbstractGenericBindingSettin
 		// test property binding
 		assertEquals("1 property binding", 1, classBinding.getPropertyBindings().size());
 		PropertyBinding propertyBinding = classBinding.getPropertyBindings().get(0);
-		assertEquals("Bad feature", eStructuralFeature, propertyBinding.getFeature());
+		assertEquals("Bad propertyBinding", eStructuralFeature, propertyBinding.getFeature());
 		assertTrue("Setting should be empty", propertyBinding.getSettings().isEmpty());
 		assertTrue("Property settings should be empty", propertyBinding.getSubPropertyBindings().isEmpty());
 

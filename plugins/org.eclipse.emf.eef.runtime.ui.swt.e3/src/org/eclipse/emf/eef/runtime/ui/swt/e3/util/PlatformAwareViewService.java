@@ -24,20 +24,20 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 public interface PlatformAwareViewService extends ViewService {
 	
 	/**
-	 * Instantiates a new label to display the given feature.
+	 * Instantiates a new label to display the given propertyBinding.
 	 * @param toolkit a {@link FormToolkit} to use in Eclipse Form Style. This parameter can be null.
 	 * @param parent label container.
-	 * @param editor feature to display.
+	 * @param editor propertyBinding to display.
 	 * @param alternate alternative text.
 	 * @return created label.
 	 */
 	Label createLabel(PropertiesEditingComponent editingComponent, FormToolkit toolkit, Composite parent, Object editor, String alternate);
 	
 	/**
-	 * Instantiates a help button for the given feature.
+	 * Instantiates a help button for the given propertyBinding.
 	 * @param toolkit a {@link FormToolkit} to use in Eclipse Form Style. This parameter can be null.
 	 * @param parent button container.
-	 * @param editor feature to process.
+	 * @param editor propertyBinding to process.
 	 * @param alternate alternative text.
 	 * @param helpID help ID
 	 * @return created control.

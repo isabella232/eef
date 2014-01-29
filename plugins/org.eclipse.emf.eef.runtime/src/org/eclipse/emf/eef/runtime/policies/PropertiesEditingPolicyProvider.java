@@ -11,6 +11,7 @@
 package org.eclipse.emf.eef.runtime.policies;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
@@ -23,6 +24,6 @@ public interface PropertiesEditingPolicyProvider extends EEFService<PropertiesEd
 	 * @param context
 	 * @return
 	 */
-	PropertiesEditingPolicy getEditingPolicy(PropertiesEditingContext context);
+	PropertiesEditingPolicy getEditingPolicy(SemanticPropertiesEditingContext context);
 		
 }

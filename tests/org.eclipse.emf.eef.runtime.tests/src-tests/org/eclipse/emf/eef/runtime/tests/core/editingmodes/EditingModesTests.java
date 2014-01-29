@@ -87,7 +87,7 @@ public class EditingModesTests extends NonUIEditingTestCase {
 
 	/**
 	 * This test checks the live mode : two changes are made, two commands are sent to the commandstack and when we undo the last command,
-	 * only one feature is restored.
+	 * only one propertyBinding is restored.
 	 * At end of the test all must be restored as at the beginning. 
 	 */
 	@Test

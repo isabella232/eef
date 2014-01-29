@@ -16,6 +16,13 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavaBody">
     <eTypeParameters name="TYPE"/>
+    <eOperations name="invoke" lowerBound="1">
+      <eGenericType eTypeParameter="#//JavaBody/TYPE"/>
+      <eParameters name="loader" lowerBound="1" eType="#//ClassLoader"/>
+      <eParameters name="target" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eParameters name="parameters" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bundle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualifiedClass" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="method" lowerBound="1"
@@ -35,4 +42,5 @@
       <eTypeArguments eClassifier="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     </eGenericSuperTypes>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ClassLoader" instanceClassName="java.lang.ClassLoader"/>
 </ecore:EPackage>

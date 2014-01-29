@@ -7,10 +7,12 @@
 package org.eclipse.emf.eef.runtime.query.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.eef.runtime.query.*;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
 import org.eclipse.emf.eef.runtime.query.Navigation;
 import org.eclipse.emf.eef.runtime.query.QueryFactory;
@@ -72,6 +74,36 @@ public class QueryFactoryImpl extends EFactoryImpl implements QueryFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case QueryPackage.CLASS_LOADER:
+				return createClassLoaderFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case QueryPackage.CLASS_LOADER:
+				return convertClassLoaderToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public <TYPE> JavaBody<TYPE> createJavaBody() {
 		JavaBodyImpl<TYPE> javaBody = new JavaBodyImpl<TYPE>();
 		return javaBody;
@@ -85,6 +117,24 @@ public class QueryFactoryImpl extends EFactoryImpl implements QueryFactory {
 	public Navigation createNavigation() {
 		NavigationImpl navigation = new NavigationImpl();
 		return navigation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ClassLoader createClassLoaderFromString(EDataType eDataType, String initialValue) {
+		return (ClassLoader)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertClassLoaderToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
 	}
 
 	/**

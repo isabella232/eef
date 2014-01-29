@@ -69,7 +69,7 @@ public class JavaBodyItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Qualified Class feature.
+	 * This adds a property descriptor for the Qualified Class propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -91,7 +91,7 @@ public class JavaBodyItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Method feature.
+	 * This adds a property descriptor for the Method propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -113,7 +113,7 @@ public class JavaBodyItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Static feature.
+	 * This adds a property descriptor for the Static propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

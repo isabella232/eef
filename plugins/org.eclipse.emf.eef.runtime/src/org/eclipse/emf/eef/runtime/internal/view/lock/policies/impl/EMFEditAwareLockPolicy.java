@@ -14,6 +14,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 /**
@@ -22,6 +25,15 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
  */
 public class EMFEditAwareLockPolicy implements EEFLockPolicy {
 	
+	private EMFServiceProvider emfServiceProvider;
+
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy#isLocked(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject)
@@ -32,13 +44,17 @@ public class EMFEditAwareLockPolicy implements EEFLockPolicy {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy#isLocked(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
+	 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy#isLocked(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
 	 */
-	public boolean isLocked(PropertiesEditingContext editingContext, EObject object, EStructuralFeature feature) {
-		if (feature != null) {
-			IItemPropertySource propertySource = (IItemPropertySource) editingContext.getAdapterFactory().adapt(object, IItemPropertySource.class);
-			if (propertySource != null) {
-				return (propertySource.getPropertyDescriptor(object, feature) != null) && (!propertySource.getPropertyDescriptor(object, feature).canSetProperty(object));
+	public boolean isLocked(PropertiesEditingContext editingContext, EObject object, PropertyBinding propertyBinding) {
+		if (propertyBinding instanceof EStructuralFeatureBinding) {
+			EStructuralFeature bindedFeature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+			EStructuralFeature feature = emfServiceProvider.getEMFService(object.eClass().getEPackage()).mapFeature(object, bindedFeature);
+			if (feature != null) {
+				IItemPropertySource propertySource = (IItemPropertySource) editingContext.getAdapterFactory().adapt(object, IItemPropertySource.class);
+				if (propertySource != null) {
+					return (propertySource.getPropertyDescriptor(object, feature) != null) && (!propertySource.getPropertyDescriptor(object, feature).canSetProperty(object));
+				}
 			}
 		}
 		return false;

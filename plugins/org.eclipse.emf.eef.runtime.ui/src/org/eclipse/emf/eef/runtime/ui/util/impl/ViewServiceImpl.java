@@ -21,9 +21,11 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.util.ViewService;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFService;
@@ -70,18 +72,21 @@ public abstract class ViewServiceImpl implements ViewService {
 		if (eefEditingServiceProvider.getEditingService(editingComponent.getBinding()).isReflectiveBinding(editingComponent.getBinding())) {
 			return editor instanceof ElementEditor ? ((ElementEditor)editor).getName() : editor.toString();
 		}
-		EStructuralFeature associatedFeature = feature(editingComponent, editor);
-		EObject eObject = editingComponent.getEObject();
-		if (!eObject.eClass().getEAllStructuralFeatures().contains(associatedFeature)) {
-			EMFService service = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
-			associatedFeature = service.mapFeature(eObject, associatedFeature);
-		}
-		if (associatedFeature != null) {
-			IItemPropertySource labelProvider = (IItemPropertySource) editingComponent.getEditingContext().getAdapterFactory().adapt(eObject, org.eclipse.emf.edit.provider.IItemPropertySource.class);
-			if (labelProvider != null) {
-				IItemPropertyDescriptor propertyDescriptor = labelProvider.getPropertyDescriptor(eObject, associatedFeature);
-				if (propertyDescriptor != null) {
-					text = propertyDescriptor.getDisplayName(editor);
+		PropertyBinding propertyBinding = editingComponent.getBinding().propertyBinding(editor, editingComponent.getEditingContext().getOptions().autowire());
+		if (propertyBinding instanceof EStructuralFeatureBinding) {
+			EStructuralFeature associatedFeature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+			EObject eObject = editingComponent.getEObject();
+			if (!eObject.eClass().getEAllStructuralFeatures().contains(associatedFeature)) {
+				EMFService service = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
+				associatedFeature = service.mapFeature(eObject, associatedFeature);
+			}
+			if (associatedFeature != null) {
+				IItemPropertySource labelProvider = (IItemPropertySource) editingComponent.getEditingContext().getAdapterFactory().adapt(eObject, org.eclipse.emf.edit.provider.IItemPropertySource.class);
+				if (labelProvider != null) {
+					IItemPropertyDescriptor propertyDescriptor = labelProvider.getPropertyDescriptor(eObject, associatedFeature);
+					if (propertyDescriptor != null) {
+						text = propertyDescriptor.getDisplayName(editor);
+					}
 				}
 			}
 		}
@@ -93,9 +98,9 @@ public abstract class ViewServiceImpl implements ViewService {
 	 * @param editor
 	 * @return
 	 */
-	protected final EStructuralFeature feature(PropertiesEditingComponent editingComponent, Object editor) {
-		return editingComponent.getBinding().feature(editor, editingComponent.getEditingContext().getOptions().autowire());
-	}
+//	protected final EStructuralFeature feature(PropertiesEditingComponent editingComponent, Object editor) {
+//		return editingComponent.getBinding().feature(editor, editingComponent.getEditingContext().getOptions().autowire());
+//	}
 
 	/**
 	 * {@inheritDoc}
@@ -103,26 +108,29 @@ public abstract class ViewServiceImpl implements ViewService {
 	 */
 	public final String getHelpContent(PropertiesEditingComponent editingComponent, Object editor) {
 		if (!eefEditingServiceProvider.getEditingService(editingComponent.getBinding()).isReflectiveBinding(editingComponent.getBinding())) {
-			EStructuralFeature feature = feature(editingComponent, editor);
-			if (feature != null) {
-				EditingOptions options = editingComponent.getBinding().getEditingModel().getOptions();
-				if (options == null || options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.GENMODEL_PROPERTY_DESCRIPTION) {
-					EditingModelEnvironment editingModelEnvironment = editingComponent.getBindingSettings().getEditingModelEnvironment();
-					EObject genFeature = editingModelEnvironment.genFeature(feature);
-					if (genFeature != null) {
-						EStructuralFeature esf = genFeature.eClass().getEStructuralFeature("propertyDescription");
-						if (esf != null) {
-							String documentation = (String) genFeature.eGet(esf);
+			PropertyBinding propertyBinding = editingComponent.getBinding().propertyBinding(editor, editingComponent.getEditingContext().getOptions().autowire());
+			if (propertyBinding instanceof EStructuralFeatureBinding) {
+				EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+				if (feature != null) {
+					EditingOptions options = editingComponent.getBinding().getEditingModel().getOptions();
+					if (options == null || options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.GENMODEL_PROPERTY_DESCRIPTION) {
+						EditingModelEnvironment editingModelEnvironment = editingComponent.getBindingSettings().getEditingModelEnvironment();
+						EObject genFeature = editingModelEnvironment.genFeature(feature);
+						if (genFeature != null) {
+							EStructuralFeature esf = genFeature.eClass().getEStructuralFeature("propertyDescription");
+							if (esf != null) {
+								String documentation = (String) genFeature.eGet(esf);
+								if (documentation != null && documentation.length() > 0) {
+									return documentation;
+								}
+							}
+						}
+					} else {
+						if (options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.ECORE_DOCUMENTATION) {
+							String documentation = EcoreUtil.getDocumentation(feature);
 							if (documentation != null && documentation.length() > 0) {
 								return documentation;
 							}
-						}
-					}
-				} else {
-					if (options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.ECORE_DOCUMENTATION) {
-						String documentation = EcoreUtil.getDocumentation(feature);
-						if (documentation != null && documentation.length() > 0) {
-							return documentation;
 						}
 					}
 				}

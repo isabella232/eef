@@ -15,12 +15,15 @@ import java.util.Collection;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.ERadioEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
@@ -53,7 +56,7 @@ public class EEFEditingWizard extends Wizard {
 	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private EditUIProvidersFactory editUIProvidersFactory;
-	
+
 	private PropertiesEditingContext context;
 	private PropertiesEditingWizardPage editingPage;
 	private ElementCreationWizardPage creationPage;
@@ -81,23 +84,32 @@ public class EEFEditingWizard extends Wizard {
 		editingPage = new PropertiesEditingWizardPage();
 		editingPage.setInput(context);
 		if (context instanceof SemanticPropertiesEditingContext) {
+			SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) context;
 			EMFService emfService = emfServiceProvider.getEMFService(context.getEditingComponent().getEObject().eClass().getEPackage());
 			EEFEditingService editingService = eefEditingServiceProvider.getEditingService(context.getEditingComponent().getEObject());
-			if (editingService.isAddingInContainmentEvent(context, ((SemanticPropertiesEditingContext) context).getEditingEvent())) {
-				EReference editedReference = editingService.getReferenceToEdit((SemanticPropertiesEditingContext) context);	
-				Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(context.getAdapterFactory(), context.getEditingComponent().getEObject(), editedReference);
-				if (listOfInstanciableType.size() > 0) {
-					if (listOfInstanciableType.size() > 1) {
-						creationPage = new ElementCreationWizardPage();
-						creationPage.setInput(listOfInstanciableType);
-						addPage(creationPage);
+			if (editingService.isAddingInContainmentEvent(context, semanticEditingContext.getEditingEvent())) {
+				PropertyBinding propertyBinding = semanticEditingContext.getEditingComponent().getBinding().propertyBinding(
+						semanticEditingContext.getEditingEvent().getAffectedEditor(), 
+						semanticEditingContext.getOptions().autowire());
+				if (propertyBinding instanceof EStructuralFeatureBinding) {
+					EStructuralFeature bindedFeature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+					EReference editedReference = (EReference) emfService.mapFeature(semanticEditingContext.getEditingComponent().getEObject(), bindedFeature);	
+					Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(context.getAdapterFactory(), context.getEditingComponent().getEObject(), editedReference);
+					if (listOfInstanciableType.size() > 0) {
+						if (listOfInstanciableType.size() > 1) {
+							creationPage = new ElementCreationWizardPage();
+							creationPage.setInput(listOfInstanciableType);
+							addPage(creationPage);
+						} else {
+							createdObject= EcoreUtil.create(listOfInstanciableType.iterator().next());
+							createObject(createdObject);
+						}
 					} else {
-						createdObject= EcoreUtil.create(listOfInstanciableType.iterator().next());
-						createObject(createdObject);
+						//FIXME: I've got a pb
 					}
 				} else {
-					//FIXME: I've got a pb
-				}				
+					//FIXME: What ??? How can I have isAddingInContainment == true and a PropertyBinding which isn't a ESFBinding ?
+				}
 			}
 		}
 		addPage(editingPage);
@@ -109,7 +121,7 @@ public class EEFEditingWizard extends Wizard {
 	public final EObject getCreatedObject() {
 		return createdObject;
 	}
-	
+
 	/**
 	 * Attaches the given {@link EObject} to a {@link Resource}.
 	 * @param resource target {@link Resource}.
@@ -118,7 +130,7 @@ public class EEFEditingWizard extends Wizard {
 	protected void attachToResource(Resource resource, EObject eObject) {
 		//Note: Only used in EReferenceWizardEditingPolicy, very tricky but I don't have a better way. 
 	}
-	
+
 	/**
 	 * Detaches the given {@link EObject} from its {@link Resource} if exists.
 	 * @param eObject the {@link EObject} to detach.
@@ -135,7 +147,7 @@ public class EEFEditingWizard extends Wizard {
 		context.stopEditing();
 		return true;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.jface.wizard.Wizard#performCancel()
@@ -150,7 +162,7 @@ public class EEFEditingWizard extends Wizard {
 
 	private PropertiesEditingMessageManager initMessageManager() {
 		return new PropertiesEditingMessageManagerImpl() {
-			
+
 			/**
 			 * {@inheritDoc}
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.util.PropertiesEditingMessageManagerImpl#updateStatus(java.lang.String)
@@ -183,11 +195,11 @@ public class EEFEditingWizard extends Wizard {
 					editingPage.setMessage(message, IMessageProvider.WARNING);
 				}
 			}
-			
-			
+
+
 		};
 	}
-	
+
 	/**
 	 * @param createdObject 
 	 * 
@@ -212,7 +224,7 @@ public class EEFEditingWizard extends Wizard {
 			setTitle("Element Creation");
 			setDescription("Select the type of object you want to create.");
 		}
-		
+
 		/**
 		 * @param input the instanciable types
 		 */
@@ -234,7 +246,7 @@ public class EEFEditingWizard extends Wizard {
 			radio.setLabelProvider(editUIProvidersFactory.createLabelProvider(context.getAdapterFactory()));
 			radio.setInput(instanciableTypes);
 			radio.addSelectionChangedListener(new ISelectionChangedListener() {
-				
+
 
 				public void selectionChanged(SelectionChangedEvent event) {
 					StructuredSelection selection = (StructuredSelection) event.getSelection();

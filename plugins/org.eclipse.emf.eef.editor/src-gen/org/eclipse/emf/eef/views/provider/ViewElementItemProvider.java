@@ -71,7 +71,7 @@ public class ViewElementItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Representation feature.
+	 * This adds a property descriptor for the Representation propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -93,7 +93,7 @@ public class ViewElementItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
+	 * This adds a property descriptor for the Name propertyBinding.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

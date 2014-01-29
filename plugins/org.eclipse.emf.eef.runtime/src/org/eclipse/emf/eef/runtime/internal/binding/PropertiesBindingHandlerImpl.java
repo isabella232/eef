@@ -36,8 +36,10 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.internal.binding.settings.ReflectiveEEFBindingSettings;
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
@@ -309,7 +311,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 			PropertiesEditingContext editingContext = editingComponent.getEditingContext();
 			EditingContextFactoryProvider contextFactoryProvider = editingContext.getContextFactoryProvider();
 			PropertiesEditingContextFactory service = contextFactoryProvider.getEditingContextFactory(editingComponent.getEObject());
-			PropertiesEditingContext semanticEditingContext = service.createSemanticPropertiesEditingContext(editingContext, editingEvent);
+			SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) service.createSemanticPropertiesEditingContext(editingContext, editingEvent);
 			PropertiesEditingPolicy editingPolicy = editingPolicyProvider.getEditingPolicy(semanticEditingContext);
 			if (editingEvent.delayedChanges()) {
 				delayedApplyingPropertiesChanged(editingComponent, editingEvent);
@@ -462,22 +464,26 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 */
 	private Diagnostic validateValue(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		Diagnostic ret = Diagnostic.OK_INSTANCE;
-		EStructuralFeature feature = editingComponent.getBinding().feature(editingEvent.getAffectedEditor(), editingComponent.getEditingContext().getOptions().autowire());
-		// TODO: Skipped test on EEnum to process later.
-		if (editingEvent.getNewValue() != null && feature instanceof EAttribute && !(feature.getEType() instanceof EEnum)) {
-			EAttribute attribute = (EAttribute)feature;
-			try {
-				Object newValue = editingEvent.getNewValue();
-				if (newValue instanceof String) {
-					newValue = EcoreUtil.createFromString(attribute.getEAttributeType(), (String)newValue);
+		PropertyBinding propertyBinding = editingComponent.getBinding().propertyBinding(editingEvent.getAffectedEditor(), editingComponent.getEditingContext().getOptions().autowire());
+		// At this point, I consider that only binding with EStructuralFeature are able to validate a editing value
+		if (propertyBinding instanceof EStructuralFeatureBinding) {
+			EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+			// TODO: Skipped test on EEnum to process later.
+			if (editingEvent.getNewValue() != null && feature instanceof EAttribute && !(feature.getEType() instanceof EEnum)) {
+				EAttribute attribute = (EAttribute)feature;
+				try {
+					Object newValue = editingEvent.getNewValue();
+					if (newValue instanceof String) {
+						newValue = EcoreUtil.createFromString(attribute.getEAttributeType(), (String)newValue);
+					}
+					ret = Diagnostician.INSTANCE.validate(attribute.getEAttributeType(), newValue);
+				} catch (IllegalArgumentException iae) {
+					ret = BasicDiagnostic.toDiagnostic(iae);
+				} catch (WrappedException we) {
+					ret = BasicDiagnostic.toDiagnostic(we);
+				} catch (NullPointerException e) {
+					// A suspicious error occurred (e.g. on Enum) let's go on. 
 				}
-				ret = Diagnostician.INSTANCE.validate(attribute.getEAttributeType(), newValue);
-			} catch (IllegalArgumentException iae) {
-				ret = BasicDiagnostic.toDiagnostic(iae);
-			} catch (WrappedException we) {
-				ret = BasicDiagnostic.toDiagnostic(we);
-			} catch (NullPointerException e) {
-				// A suspicious error occurred (e.g. on Enum) let's go on. 
 			}
 		}
 		return ret;

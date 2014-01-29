@@ -25,7 +25,6 @@ import org.eclipse.emf.eef.runtime.util.ReflectServiceProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.widgets.Composite;
-import org.osgi.framework.Bundle;
 
 import com.google.common.collect.Lists;
 
@@ -38,17 +37,17 @@ public class JavaViewerFilter extends ViewerFilter {
 	private ReflectServiceProvider reflectServiceProvider;
 	private EEFLogger logger;
 	
-	private Bundle bundle;
+	private ClassLoader loader;
 	private Filter filter;
 	private PropertiesEditingContext editingContext;
 	private PropertiesEditingView<Composite> editingView;
 
-	public JavaViewerFilter(ReflectServiceProvider reflectServiceProvider, EEFLogger logger, PropertiesEditingContext editingContext, PropertiesEditingView<Composite> editingView, Bundle bundle, Filter filter) {
+	public JavaViewerFilter(ReflectServiceProvider reflectServiceProvider, EEFLogger logger, PropertiesEditingContext editingContext, PropertiesEditingView<Composite> editingView, ClassLoader loader, Filter filter) {
 		this.reflectServiceProvider = reflectServiceProvider;
 		this.logger = logger;
 		this.editingContext = editingContext;
 		this.editingView = editingView;
-		this.bundle = bundle;
+		this.loader = loader;
 		this.filter = filter;
 	}
 
@@ -61,7 +60,7 @@ public class JavaViewerFilter extends ViewerFilter {
 		JavaBody<Boolean> body = (JavaBody<Boolean>) filter.getBody();
 		String qualifiedClass = body.getQualifiedClass();
 		try {
-			Class<?> loadClass = bundle.loadClass(qualifiedClass);
+			Class<?> loadClass = loader.loadClass(qualifiedClass);
 			List<Object> applicableArguments = Lists.newArrayList();
 			applicableArguments.add(editingContext);
 			applicableArguments.add(editingContext.getEditingComponent());

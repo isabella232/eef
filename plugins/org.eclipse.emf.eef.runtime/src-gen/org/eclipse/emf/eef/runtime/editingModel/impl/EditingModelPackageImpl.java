@@ -8,7 +8,9 @@ package org.eclipse.emf.eef.runtime.editingModel.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -18,6 +20,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EReferenceFilter;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
@@ -26,6 +29,8 @@ import org.eclipse.emf.eef.runtime.editingModel.EditorSettings;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
+import org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding;
+import org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
@@ -85,6 +90,27 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass monoValuedPropertyBindingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass multiValuedPropertyBindingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass eStructuralFeatureBindingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass eObjectViewEClass = null;
 
 	/**
@@ -128,6 +154,13 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * @generated
 	 */
 	private EEnum featureDocumentationProviderEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType voidEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -343,7 +376,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPropertyBinding_Feature() {
+	public EReference getPropertyBinding_Editor() {
 		return (EReference)propertyBindingEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -352,7 +385,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPropertyBinding_Editor() {
+	public EReference getPropertyBinding_SubPropertyBindings() {
 		return (EReference)propertyBindingEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -361,7 +394,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPropertyBinding_SubPropertyBindings() {
+	public EReference getPropertyBinding_Settings() {
 		return (EReference)propertyBindingEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -370,8 +403,89 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPropertyBinding_Settings() {
+	public EReference getPropertyBinding_Getter() {
 		return (EReference)propertyBindingEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPropertyBinding_ValueProvider() {
+		return (EReference)propertyBindingEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMonoValuedPropertyBinding() {
+		return monoValuedPropertyBindingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMonoValuedPropertyBinding_Setter() {
+		return (EReference)monoValuedPropertyBindingEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMonoValuedPropertyBinding_Unsetter() {
+		return (EReference)monoValuedPropertyBindingEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMultiValuedPropertyBinding() {
+		return multiValuedPropertyBindingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMultiValuedPropertyBinding_Adder() {
+		return (EReference)multiValuedPropertyBindingEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMultiValuedPropertyBinding_Remover() {
+		return (EReference)multiValuedPropertyBindingEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEStructuralFeatureBinding() {
+		return eStructuralFeatureBindingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getEStructuralFeatureBinding_Feature() {
+		return (EReference)eStructuralFeatureBindingEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -478,6 +592,15 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EDataType getVoid() {
+		return voidEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EditingModelFactory getEditingModelFactory() {
 		return (EditingModelFactory)getEFactoryInstance();
 	}
@@ -519,10 +642,22 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		editorEClass = createEClass(EDITOR);
 
 		propertyBindingEClass = createEClass(PROPERTY_BINDING);
-		createEReference(propertyBindingEClass, PROPERTY_BINDING__FEATURE);
 		createEReference(propertyBindingEClass, PROPERTY_BINDING__EDITOR);
 		createEReference(propertyBindingEClass, PROPERTY_BINDING__SUB_PROPERTY_BINDINGS);
 		createEReference(propertyBindingEClass, PROPERTY_BINDING__SETTINGS);
+		createEReference(propertyBindingEClass, PROPERTY_BINDING__GETTER);
+		createEReference(propertyBindingEClass, PROPERTY_BINDING__VALUE_PROVIDER);
+
+		monoValuedPropertyBindingEClass = createEClass(MONO_VALUED_PROPERTY_BINDING);
+		createEReference(monoValuedPropertyBindingEClass, MONO_VALUED_PROPERTY_BINDING__SETTER);
+		createEReference(monoValuedPropertyBindingEClass, MONO_VALUED_PROPERTY_BINDING__UNSETTER);
+
+		multiValuedPropertyBindingEClass = createEClass(MULTI_VALUED_PROPERTY_BINDING);
+		createEReference(multiValuedPropertyBindingEClass, MULTI_VALUED_PROPERTY_BINDING__ADDER);
+		createEReference(multiValuedPropertyBindingEClass, MULTI_VALUED_PROPERTY_BINDING__REMOVER);
+
+		eStructuralFeatureBindingEClass = createEClass(ESTRUCTURAL_FEATURE_BINDING);
+		createEReference(eStructuralFeatureBindingEClass, ESTRUCTURAL_FEATURE_BINDING__FEATURE);
 
 		javaViewEClass = createEClass(JAVA_VIEW);
 		createEAttribute(javaViewEClass, JAVA_VIEW__DEFINITION);
@@ -545,6 +680,9 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 
 		// Create enums
 		featureDocumentationProviderEEnum = createEEnum(FEATURE_DOCUMENTATION_PROVIDER);
+
+		// Create data types
+		voidEDataType = createEDataType(VOID);
 	}
 
 	/**
@@ -579,6 +717,10 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		monoValuedPropertyBindingEClass.getESuperTypes().add(this.getPropertyBinding());
+		multiValuedPropertyBindingEClass.getESuperTypes().add(this.getPropertyBinding());
+		eStructuralFeatureBindingEClass.getESuperTypes().add(this.getMonoValuedPropertyBinding());
+		eStructuralFeatureBindingEClass.getESuperTypes().add(this.getMultiValuedPropertyBinding());
 		javaViewEClass.getESuperTypes().add(this.getView());
 		eObjectViewEClass.getESuperTypes().add(this.getView());
 		javaEditorEClass.getESuperTypes().add(this.getEditor());
@@ -606,10 +748,6 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		initEReference(getEClassBinding_Views(), this.getView(), null, "views", null, 0, -1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEClassBinding_PropertyBindings(), this.getPropertyBinding(), null, "propertyBindings", null, 0, -1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		op = addEOperation(eClassBindingEClass, theEcorePackage.getEStructuralFeature(), "feature", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEJavaObject(), "view", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEBoolean(), "autowire", 1, 1, IS_UNIQUE, IS_ORDERED);
-
 		op = addEOperation(eClassBindingEClass, ecorePackage.getEJavaObject(), "propertyEditor", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEObject(), "eObject", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theEcorePackage.getEStructuralFeature(), "feature", 1, 1, IS_UNIQUE, IS_ORDERED);
@@ -624,10 +762,70 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		initEClass(editorEClass, Editor.class, "Editor", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(propertyBindingEClass, PropertyBinding.class, "PropertyBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPropertyBinding_Feature(), theEcorePackage.getEStructuralFeature(), null, "feature", null, 1, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyBinding_Editor(), this.getEditor(), null, "editor", null, 1, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyBinding_SubPropertyBindings(), this.getPropertyBinding(), null, "subPropertyBindings", null, 0, -1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyBinding_Settings(), this.getEditorSettings(), null, "settings", null, 0, -1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		EGenericType g1 = createEGenericType(theQueryPackage.getJavaBody());
+		EGenericType g2 = createEGenericType(ecorePackage.getEJavaObject());
+		g1.getETypeArguments().add(g2);
+		initEReference(getPropertyBinding_Getter(), g1, null, "getter", null, 0, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(theQueryPackage.getJavaBody());
+		g2 = createEGenericType(ecorePackage.getEEList());
+		g1.getETypeArguments().add(g2);
+		EGenericType g3 = createEGenericType(theEcorePackage.getEJavaObject());
+		g2.getETypeArguments().add(g3);
+		initEReference(getPropertyBinding_ValueProvider(), g1, null, "valueProvider", null, 0, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		op = addEOperation(propertyBindingEClass, ecorePackage.getEJavaObject(), "getValue", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theQueryPackage.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(propertyBindingEClass, ecorePackage.getEJavaObject(), "getChoiceOfValue", 0, -1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theQueryPackage.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(monoValuedPropertyBindingEClass, MonoValuedPropertyBinding.class, "MonoValuedPropertyBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(theQueryPackage.getJavaBody());
+		g2 = createEGenericType(this.getVoid());
+		g1.getETypeArguments().add(g2);
+		initEReference(getMonoValuedPropertyBinding_Setter(), g1, null, "setter", null, 0, 1, MonoValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(theQueryPackage.getJavaBody());
+		g2 = createEGenericType(this.getVoid());
+		g1.getETypeArguments().add(g2);
+		initEReference(getMonoValuedPropertyBinding_Unsetter(), g1, null, "unsetter", null, 0, 1, MonoValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		op = addEOperation(monoValuedPropertyBindingEClass, this.getVoid(), "setValue", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theQueryPackage.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEJavaObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(monoValuedPropertyBindingEClass, this.getVoid(), "unsetValue", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theQueryPackage.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEJavaObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(multiValuedPropertyBindingEClass, MultiValuedPropertyBinding.class, "MultiValuedPropertyBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(theQueryPackage.getJavaBody());
+		g2 = createEGenericType(this.getVoid());
+		g1.getETypeArguments().add(g2);
+		initEReference(getMultiValuedPropertyBinding_Adder(), g1, null, "adder", null, 0, 1, MultiValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(theQueryPackage.getJavaBody());
+		g2 = createEGenericType(this.getVoid());
+		g1.getETypeArguments().add(g2);
+		initEReference(getMultiValuedPropertyBinding_Remover(), g1, null, "remover", null, 0, 1, MultiValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		op = addEOperation(multiValuedPropertyBindingEClass, this.getVoid(), "addValue", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theQueryPackage.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEJavaObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(multiValuedPropertyBindingEClass, this.getVoid(), "removeValue", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theQueryPackage.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEJavaObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(eStructuralFeatureBindingEClass, EStructuralFeatureBinding.class, "EStructuralFeatureBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getEStructuralFeatureBinding_Feature(), theEcorePackage.getEStructuralFeature(), null, "feature", null, 1, 1, EStructuralFeatureBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(javaViewEClass, JavaView.class, "JavaView", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getJavaView_Definition(), ecorePackage.getEJavaObject(), "definition", null, 1, 1, JavaView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -652,6 +850,9 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		initEEnum(featureDocumentationProviderEEnum, FeatureDocumentationProvider.class, "FeatureDocumentationProvider");
 		addEEnumLiteral(featureDocumentationProviderEEnum, FeatureDocumentationProvider.GENMODEL_PROPERTY_DESCRIPTION);
 		addEEnumLiteral(featureDocumentationProviderEEnum, FeatureDocumentationProvider.ECORE_DOCUMENTATION);
+
+		// Initialize data types
+		initEDataType(voidEDataType, Void.class, "Void", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

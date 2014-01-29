@@ -20,6 +20,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.TargetedEditingEvent;
 import org.eclipse.emf.eef.runtime.util.EMFService;
@@ -47,37 +49,42 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#validateEditing(org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
-	public EditingPolicyValidation validateEditing(PropertiesEditingContext editingContext) {
-		PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContext)editingContext).getEditingEvent();
+	public EditingPolicyValidation validateEditing(SemanticPropertiesEditingContext editingContext) {
+		PropertiesEditingEvent editingEvent = editingContext.getEditingEvent();
 		EObject eObject;
 		if (editingEvent instanceof TargetedEditingEvent) {
 			eObject = ((TargetedEditingEvent) editingEvent).getTarget();
 		} else {
 			eObject = editingContext.getEditingComponent().getEObject();
 		}
-		EStructuralFeature feature = editingContext.getEditingComponent().getBinding().feature(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
-		if (feature != null) {
-			if (!eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
-				EMFService emfService = editingContext.getEMFServiceProvider().getEMFService(eObject.eClass().getEPackage());
-				feature = emfService.mapFeature(eObject, feature);
-			}
-			if (eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
-				boolean validationResult = false;
-				Object currentValue = eObject.eGet(feature);
-				if (feature instanceof EAttribute) {
-					validationResult = validateAttributeEditing(editingEvent, feature, currentValue);
-				} else if (feature instanceof EReference) {
-					validationResult = validateReferenceEditing(editingEvent, eObject, feature, currentValue);
+		PropertyBinding propertyBinding = editingContext.getEditingComponent().getBinding().propertyBinding(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
+		if (propertyBinding instanceof EStructuralFeatureBinding) {
+			EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+			if (feature != null) {
+				if (!eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
+					EMFService emfService = editingContext.getEMFServiceProvider().getEMFService(eObject.eClass().getEPackage());
+					feature = emfService.mapFeature(eObject, feature);
 				}
-				return new EditingPolicyValidation(this, validationResult);
+				if (eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
+					boolean validationResult = false;
+					Object currentValue = eObject.eGet(feature);
+					if (feature instanceof EAttribute) {
+						validationResult = validateAttributeEditing(editingEvent, feature, currentValue);
+					} else if (feature instanceof EReference) {
+						validationResult = validateReferenceEditing(editingEvent, eObject, feature, currentValue);
+					}
+					return new EditingPolicyValidation(this, validationResult);
+				}
 			}
+			return new EditingPolicyValidation(this, false, "The feature doesn't seem to affected the edited element.");
+		} else {
+			return new EditingPolicyValidation(this, true, "No structural feature specified, unable to validate the value.");
 		}
-		return new EditingPolicyValidation(this, false, "The feature doesn't seem to affected the edited element.");
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute()
+	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public final void execute(PropertiesEditingContext editingContext) {
 		processor.process(editingContext, request);

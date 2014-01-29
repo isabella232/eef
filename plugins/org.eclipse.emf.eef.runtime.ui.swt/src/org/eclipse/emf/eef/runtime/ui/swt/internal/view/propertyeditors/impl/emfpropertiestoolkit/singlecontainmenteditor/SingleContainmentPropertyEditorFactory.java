@@ -28,8 +28,6 @@ public class SingleContainmentPropertyEditorFactory extends WidgetPropertyEditor
 		widget.setName(SINGLE_CONTAINMENT_EDITOR_WIDGET_NAME);
 	}
 
-	protected final EMFPropertiesToolkit emfPropertiesToolkit;
-
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -39,11 +37,13 @@ public class SingleContainmentPropertyEditorFactory extends WidgetPropertyEditor
 		return widget;
 	}
 
+	protected final EMFPropertiesToolkit toolkit;
+	
 	/**
-	 * @param emfPropertiesToolkit
+	 * @param toolkit
 	 */
 	public SingleContainmentPropertyEditorFactory(EMFPropertiesToolkit emfPropertiesToolkit) {
-		this.emfPropertiesToolkit = emfPropertiesToolkit;
+		this.toolkit = emfPropertiesToolkit;
 	}
 
 	/**
@@ -62,9 +62,17 @@ public class SingleContainmentPropertyEditorFactory extends WidgetPropertyEditor
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new SingleContainmentPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new SingleContainmentSWTPropertyEditor(
-				emfPropertiesToolkit.getEditUIProvidersFactory(), emfPropertiesToolkit.getImageManager(), (PropertiesEditingView<Composite>) editorContext.view,
-				(ElementEditor) editorContext.viewElement));
+		return new SingleContainmentPropertyEditor(
+				toolkit.getEEFEditingServiceProvider(),
+				(PropertiesEditingView<Composite>) editorContext.view, 
+				(ElementEditor) editorContext.viewElement, 
+				new SingleContainmentSWTPropertyEditor(
+						toolkit.getEditUIProvidersFactory(), 
+						toolkit.getImageManager(), 
+						(PropertiesEditingView<Composite>) editorContext.view,
+						(ElementEditor) editorContext.viewElement
+					)
+			);
 	}
 
 	/**
