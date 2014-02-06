@@ -6,8 +6,12 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
@@ -23,7 +27,6 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
-import org.eclipse.emf.eef.views.Container;
 
 /**
  * Generic binding settings for EObject.
@@ -116,13 +119,33 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getEEFDescription(org.eclipse.emf.ecore.EObject)
 	 */
 	public PropertiesEditingModel getEEFDescription(EObject eObject) {
-		createOrGetResourceSet();
+		initResourceSet(eObject);
 		// get PropertiesEditingModel if exists, else create one.
 		PropertiesEditingModel propertiesEditingModel = getPropertiesEditingModel(eObject);
+		// bind genmodel if exist
+		bindGenModel(eObject, propertiesEditingModel);
 		// define EClass and EStruturalFeature bindings if do not exist.
 		updatePropertiesEditingModel(eObject, propertiesEditingModel);
 
 		return propertiesEditingModel;
+	}
+
+	/**
+	 * Get genmodel if exists.
+	 * 
+	 * @param eObject
+	 *            EObject
+	 * @param propertiesEditingModel
+	 *            PropertiesEditingModel
+	 */
+	protected void bindGenModel(EObject eObject, PropertiesEditingModel propertiesEditingModel) {
+		URI uri = EcorePlugin.getEPackageNsURIToGenModelLocationMap().get(eObject.eClass().getEPackage().getNsURI());
+		if (uri != null) {
+			Resource genModelResource = getResourceSet().getResource(uri, true);
+			if (!genModelResource.getContents().isEmpty()) {
+				propertiesEditingModel.getInvolvedModels().add(genModelResource.getContents().get(0));
+			}
+		}
 	}
 
 	/**
@@ -140,16 +163,33 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 		if (!builder.existEClassBinding(eObject)) {
 			// create View
 			org.eclipse.emf.eef.views.View createdView = builder.createViewForEClassBinding(eObject);
-			// add container group
-			Container createdGroup = builder.createContainerViewForEClassBinding(eObject, createdView);
+
+			// get eClass in environment resourcet set
+			EPackage ePackage = getEPackageFromResourceSet(eObject);
+			EClass eClass = getEMFServiceProvider().getEMFService(ePackage).mapEClass(ePackage, eObject.eClass());
 
 			// create EClassBinding and link the createdView
-			EClassBinding eClassBinding = builder.createEClassBinding(eObject, createdView);
+			EClassBinding eClassBinding = builder.createEClassBinding(eClass, createdView);
 
 			// bind eobject structural features
-			builder.bindEStructuralFeature(eObject, eClassBinding, createdGroup);
+			builder.bindEStructuralFeature(eObject, eClassBinding, createdView, getEditingModelEnvironment());
 		}
 
+	}
+
+	/**
+	 * Get eObject ePackage
+	 * 
+	 * @param eObject
+	 *            EObject
+	 */
+	protected EPackage getEPackageFromResourceSet(EObject eObject) {
+		for (Resource resource : editingModelEnvironment.getResourceSet().getResources()) {
+			if (!resource.getContents().isEmpty() && resource.getContents().get(0) instanceof EPackage && ((EPackage) resource.getContents().get(0)).getNsURI().equals(eObject.eClass().getEPackage().getNsURI())) {
+				return (EPackage) resource.getContents().get(0);
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -175,10 +215,17 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	/**
 	 * @return the resource set.
 	 */
-	private ResourceSet createOrGetResourceSet() {
+	private ResourceSet initResourceSet(EObject eObject) {
 		if (resourceSet == null) {
 			resourceSet = getEditingModelEnvironment().getResourceSet();
 		}
+		return resourceSet;
+	}
+
+	/**
+	 * @return ResourceSet
+	 */
+	public ResourceSet getResourceSet() {
 		return resourceSet;
 	}
 

@@ -30,16 +30,18 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(final EPackage element) {
@@ -48,7 +50,9 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EPackage, org.eclipse.emf.ecore.EPackage)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EPackage,
+	 *      org.eclipse.emf.ecore.EPackage)
 	 */
 	public boolean equals(final EPackage ePack1, final EPackage ePack2) {
 		if (ePack1 == ePack2) {
@@ -62,14 +66,16 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 			EPackage ePackage2 = EPackage.Registry.INSTANCE.getEPackage(ePack2.getNsURI());
 			if (ePackage2.equals(ePack1)) {
 				return true;
-			}			
-		} 
+			}
+		}
 		return false;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EClass, org.eclipse.emf.ecore.EClass)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EClass,
+	 *      org.eclipse.emf.ecore.EClass)
 	 */
 	public boolean equals(final EClass eClass1, final EClass eClass2) {
 		if (eClass1.equals(eClass2)) {
@@ -98,24 +104,49 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EStructuralFeature, org.eclipse.emf.ecore.EStructuralFeature)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#equals(org.eclipse.emf.ecore.EStructuralFeature,
+	 *      org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public boolean equals(EStructuralFeature esf1, EStructuralFeature esf2) {
 		return equals(esf1.eClass(), esf2.eClass()) && esf1.getName().equals(esf2.getName());
 	}
 
 	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#mapEClass(org.eclipse.emf.ecore.EPackage,
+	 *      org.eclipse.emf.ecore.EClass)
+	 */
+	public EClass mapEClass(EPackage source, EClass concerningClass) {
+		if (concerningClass != null) {
+			if (source.getNsURI().equals(concerningClass.getEPackage().getNsURI())) {
+				for (EClass clazz : Iterables.filter(source.getEClassifiers(), EClass.class)) {
+					if (concerningClass.getName().equals(clazz.getName())) {
+						return clazz;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#mapFeature(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#mapFeature(org.eclipse.emf.ecore.EObject,
+	 *      org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public EStructuralFeature mapFeature(final EObject editedObject, final EStructuralFeature feature) {
 		if (feature != null) {
 			if (editedObject.eClass().getEAllStructuralFeatures().contains(feature)) {
-				// If the EObject contains the feature then we return this feature
+				// If the EObject contains the feature then we return this
+				// feature
 				return feature;
 			} else {
 				if (feature.eResource().getURI().isPlatform() && !editedObject.eClass().eResource().getURI().isPlatform()) {
-					// This is a case managed by this helper: the editingModel refers to the Ecore file and the EObject is created
+					// This is a case managed by this helper: the editingModel
+					// refers to the Ecore file and the EObject is created
 					// frome the registered metamodel
 					for (EStructuralFeature srcFeature : editedObject.eClass().getEAllStructuralFeatures()) {
 						if (srcFeature.getName().equals(feature.getName())) {
@@ -130,6 +161,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.util.EMFService#highestNotifier(org.eclipse.emf.ecore.EObject)
 	 */
 	public Notifier highestNotifier(final EObject src) {
@@ -151,7 +183,9 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#listOfInstanciableType(EditingDomain, EObject, EReference)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#listOfInstanciableType(EditingDomain,
+	 *      EObject, EReference)
 	 */
 	public Collection<EClass> listOfInstanciableType(AdapterFactory adapterFactory, EObject editedObject, EReference eReference) {
 		Collection<EClass> result = Sets.newLinkedHashSet();
@@ -161,7 +195,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 			for (Object object : newChildDescriptors) {
 				if (object instanceof CommandParameter) {
 					CommandParameter commandParameter = (CommandParameter) object;
-					if (equals((EStructuralFeature)commandParameter.feature, eReference) && commandParameter.value instanceof EObject) {
+					if (equals((EStructuralFeature) commandParameter.feature, eReference) && commandParameter.value instanceof EObject) {
 						result.add(((EObject) commandParameter.value).eClass());
 					}
 				}
@@ -188,7 +222,9 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#choiceOfValues(org.eclipse.emf.common.notify.AdapterFactory, java.lang.Object, org.eclipse.emf.ecore.EStructuralFeature)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#choiceOfValues(org.eclipse.emf.common.notify.AdapterFactory,
+	 *      java.lang.Object, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public Object choiceOfValues(AdapterFactory adapterFactory, Object editedElement, EStructuralFeature feature) {
 		IItemPropertySource propertySource = (IItemPropertySource) adapterFactory.adapt(editedElement, IItemPropertySource.class);
