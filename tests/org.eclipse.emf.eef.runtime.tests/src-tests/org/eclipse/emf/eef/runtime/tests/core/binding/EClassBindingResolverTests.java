@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.util.EEFTestEnvironment;
@@ -58,7 +59,7 @@ public class EClassBindingResolverTests {
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(SampleView.class)
 			.build();
-		assertEquals(EcorePackage.Literals.ENAMED_ELEMENT__NAME, editingModel.getBindings().get(0).feature("name", true));
+		assertEquals(EcorePackage.Literals.ENAMED_ELEMENT__NAME, ((EStructuralFeatureBinding)editingModel.getBindings().get(0).propertyBinding("name", true)).getFeature());
 	}
 
 	/**
@@ -89,7 +90,7 @@ public class EClassBindingResolverTests {
 				.bindProperty(EcorePackage.Literals.ENAMED_ELEMENT__NAME)
 					.withEditor( "title")
 			.build();
-		assertEquals(EcorePackage.Literals.ENAMED_ELEMENT__NAME, editingModel.getBindings().get(0).feature("title", true));
+		assertEquals(EcorePackage.Literals.ENAMED_ELEMENT__NAME, ((EStructuralFeatureBinding)editingModel.getBindings().get(0).propertyBinding("title", true)).getFeature());
 	}
 
 	/**
@@ -125,7 +126,7 @@ public class EClassBindingResolverTests {
 			.bindClass(EcorePackage.Literals.ECLASS)
 				.withView(sampleView)
 			.build();
-		assertEquals(EcorePackage.Literals.ECLASS__ABSTRACT, editingModel.getBindings().get(0).feature(abstractEditor, true));
+		assertEquals(EcorePackage.Literals.ECLASS__ABSTRACT, (((EStructuralFeatureBinding)editingModel.getBindings().get(0).propertyBinding(abstractEditor, true)).getFeature()));
 	}
 
 	/**
@@ -166,7 +167,7 @@ public class EClassBindingResolverTests {
 			.bindProperty(EcorePackage.Literals.ECLASS__ABSTRACT)
 				.withEditor(instanciableEditor)
 			.build();
-		assertEquals(EcorePackage.Literals.ECLASS__ABSTRACT, editingModel.getBindings().get(0).feature(instanciableEditor, true));
+		assertEquals(EcorePackage.Literals.ECLASS__ABSTRACT, ((EStructuralFeatureBinding)editingModel.getBindings().get(0).propertyBinding(instanciableEditor, true)).getFeature());
 	}
 
 	/**

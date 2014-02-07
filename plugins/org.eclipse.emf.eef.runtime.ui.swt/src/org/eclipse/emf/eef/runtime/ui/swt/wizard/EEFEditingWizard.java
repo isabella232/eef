@@ -15,17 +15,14 @@ import java.util.Collection;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
-import org.eclipse.emf.eef.runtime.ui.swt.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.ERadioEditor;
+import org.eclipse.emf.eef.runtime.ui.swt.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
@@ -88,12 +85,8 @@ public class EEFEditingWizard extends Wizard {
 			EMFService emfService = emfServiceProvider.getEMFService(context.getEditingComponent().getEObject().eClass().getEPackage());
 			EEFEditingService editingService = eefEditingServiceProvider.getEditingService(context.getEditingComponent().getEObject());
 			if (editingService.isAddingInContainmentEvent(context, semanticEditingContext.getEditingEvent())) {
-				PropertyBinding propertyBinding = semanticEditingContext.getEditingComponent().getBinding().propertyBinding(
-						semanticEditingContext.getEditingEvent().getAffectedEditor(), 
-						semanticEditingContext.getOptions().autowire());
-				if (propertyBinding instanceof EStructuralFeatureBinding) {
-					EStructuralFeature bindedFeature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
-					EReference editedReference = (EReference) emfService.mapFeature(semanticEditingContext.getEditingComponent().getEObject(), bindedFeature);	
+				EReference editedReference = (EReference) editingService.featureFromEditor(semanticEditingContext, semanticEditingContext.getEditingEvent().getAffectedEditor());
+				if (editedReference != null) { 
 					Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(context.getAdapterFactory(), context.getEditingComponent().getEObject(), editedReference);
 					if (listOfInstanciableType.size() > 0) {
 						if (listOfInstanciableType.size() > 1) {
@@ -108,7 +101,7 @@ public class EEFEditingWizard extends Wizard {
 						//FIXME: I've got a pb
 					}
 				} else {
-					//FIXME: What ??? How can I have isAddingInContainment == true and a PropertyBinding which isn't a ESFBinding ?
+					//What ??? How can I have isAddingInContainment == true and a PropertyBinding which isn't a ESFBinding ?
 				}
 			}
 		}

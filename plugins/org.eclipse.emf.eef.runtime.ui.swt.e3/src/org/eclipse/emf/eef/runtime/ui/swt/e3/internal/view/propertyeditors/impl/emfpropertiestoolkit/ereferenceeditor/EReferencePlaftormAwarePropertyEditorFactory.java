@@ -49,7 +49,6 @@ public class EReferencePlaftormAwarePropertyEditorFactory extends EReferenceProp
 					toolkit.getImageManager(), 
 					toolkit.getViewerFilterBuilderProvider(), 
 					(PropertiesEditingView<Composite>) editorContext.view, 
-					editorContext.propertyBinding, 
 					(ElementEditor) editorContext.viewElement, 
 					new EReferenceFormPropertyEditor(
 							toolkit.getImageManager(), 
@@ -65,7 +64,6 @@ public class EReferencePlaftormAwarePropertyEditorFactory extends EReferenceProp
 					toolkit.getImageManager(), 
 					toolkit.getViewerFilterBuilderProvider(),
 					(PropertiesEditingView<Composite>) editorContext.view, 
-					editorContext.propertyBinding, 
 					(ElementEditor) editorContext.viewElement, 
 					new EReferenceSWTPropertyEditor(toolkit.getImageManager(), 
 							(PropertiesEditingView<Composite>) editorContext.view, 

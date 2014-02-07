@@ -39,14 +39,15 @@ import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
-import org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding;
-import org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.internal.context.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor;
+import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EditingStrategyNotFoundException;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
+import org.eclipse.emf.eef.runtime.query.JavaBody;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
@@ -131,200 +132,335 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	 */
 	protected Command convertToCommand(final DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyRequest request) {
 		final EObject eObject = request.getTarget();
-		final PropertyBinding propertyBinding = request.getPropertyBinding();
 		Object newValue = request.getValue();
 		switch (request.getProcessingKind()) {
 		case SET:
-			return performSet(domainEditingContext, eObject, propertyBinding, newValue);
+			return performSet(domainEditingContext, eObject, newValue);
 		case UNSET:
-			return performUnset(domainEditingContext, eObject, propertyBinding);
+			return performUnset(domainEditingContext, eObject);
 		case ADD:
-			return performAdd(domainEditingContext, eObject, propertyBinding, newValue);
+			return performAdd(domainEditingContext, eObject, newValue);
 		case ADD_MANY:
-			return performAddMany(domainEditingContext, eObject, propertyBinding, (Collection<?>) newValue);
+			return performAddMany(domainEditingContext, eObject, (Collection<?>) newValue);
 		case REMOVE:
-			return performRemove(domainEditingContext, eObject, propertyBinding, newValue);
+			return performRemove(domainEditingContext, eObject, newValue);
 		case REMOVE_MANY:
-			return performRemoveMany(domainEditingContext, eObject, propertyBinding, (Collection<?>) newValue);
+			return performRemoveMany(domainEditingContext, eObject, (Collection<?>) newValue);
 		case MOVE:
-			return performMove(domainEditingContext, eObject, propertyBinding, request.getOldIndex(), request.getNewIndex());
+			return performMove(domainEditingContext, eObject, request.getOldIndex(), request.getNewIndex());
 		}
 		return IdentityCommand.INSTANCE;
 	}
 
-	protected final Command performSet(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final PropertyBinding propertyBinding, final Object value) {
-		if (propertyBinding instanceof MonoValuedPropertyBinding && ((MonoValuedPropertyBinding) propertyBinding).getSetter() != null) {
-			ChangeRecorder changeRecorder = createChangeRecorder(eObject);
-			return new ChangeCommand(changeRecorder) {
-				@Override
-				protected void doExecute() {
-					EList<Object> parameters = new BasicEList<Object>();
-					parameters.add(value);
-					((MonoValuedPropertyBinding) propertyBinding).getSetter().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
-				}
-			};
-		} else {
-			if (propertyBinding instanceof EStructuralFeatureBinding) {
-				EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
-				if (value == null) {
-					return null;
-				} else {
-					if (value instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-						return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)value));
-					} else {
-						return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, value);
+	protected final Command performSet(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Object value) {
+		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			try {
+				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__SETTER) {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 */
+					@Override
+					protected Command processBySetter(final JavaBody<Void> setter) {
+						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
+						return new ChangeCommand(changeRecorder) {
+							@Override
+							protected void doExecute() {
+								EList<Object> parameters = new BasicEList<Object>();
+								parameters.add(value);
+								setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+							}
+						};
 					}
-				}
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 */
+					@Override
+					protected Command processByFeature(EStructuralFeature feature) {
+						if (value == null) {
+							return null;
+						} else {
+							if (value instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+								return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)value));
+							} else {
+								return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, value);
+							}
+						}
+					}
+				}.process();
+			} catch (EditingStrategyNotFoundException e) {
+				// Should I return null of IdentityCommand.INSTANCE.
+				return null;
 			}
-			// Should I return null of IdentityCommand.INSTANCE.
-			return null;
 		}
+		// Should I return null of IdentityCommand.INSTANCE.
+		return null;
 	}
 
-	protected final Command performUnset(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final PropertyBinding propertyBinding) {
-		if (propertyBinding instanceof MonoValuedPropertyBinding && ((MonoValuedPropertyBinding) propertyBinding).getUnsetter() != null) {
-			ChangeRecorder changeRecorder = createChangeRecorder(eObject);
-			return new ChangeCommand(changeRecorder) {
-				@Override
-				protected void doExecute() {
-					((MonoValuedPropertyBinding) propertyBinding).getUnsetter().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, new BasicEList<Object>());
-				}
-			};
-		} else {
-			if (propertyBinding instanceof EStructuralFeatureBinding) {
-				EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
-				if (feature.isMany()) {
-					return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, new BasicEList<Object>());
-				} else {
-					return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, null);
-				}
-			}
-		}
-		// Should I return null of IdentityCommand.INSTANCE.
-		return null;
-	}
-	
-	protected final Command performAdd(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final PropertyBinding propertyBinding, final Object newValue) {
-		if (propertyBinding instanceof MultiValuedPropertyBinding && ((MultiValuedPropertyBinding) propertyBinding).getAdder() != null) {
-			ChangeRecorder changeRecorder = createChangeRecorder(eObject);
-			return new ChangeCommand(changeRecorder) {
-				@Override
-				protected void doExecute() {
-					EList<Object> parameters = new BasicEList<Object>();
-					parameters.add(newValue);
-					((MultiValuedPropertyBinding) propertyBinding).getAdder().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
-				}
-			};
-		} else {
-			if (propertyBinding instanceof EStructuralFeatureBinding) {
-				EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
-				if (newValue == null) {
-					return null;
-				} else {
-					if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-						return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
-					} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)){
-						EClass newValueClass = (EClass) newValue;
-						EClass referenceType = ((EReference)feature).getEReferenceType();
-						if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
-							return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.create(newValueClass));							
-						}
-					} else {
-						return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, newValue);
-					}
-				}
-			}
-		}
-		// Should I return null of IdentityCommand.INSTANCE.
-		return null;
-	}
-	
-	protected final Command performAddMany(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final PropertyBinding propertyBinding, final Collection<?> newValues) {
-		if (propertyBinding instanceof MultiValuedPropertyBinding && ((MultiValuedPropertyBinding) propertyBinding).getAdder() != null) {
-			ChangeRecorder changeRecorder = createChangeRecorder(eObject);
-			return new ChangeCommand(changeRecorder) {
-				@Override
-				protected void doExecute() {
-					EList<Object> parameters = new BasicEList<Object>();
-					parameters.addAll(newValues);
-					((MultiValuedPropertyBinding) propertyBinding).getAdder().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
-				}
-			};
-		} else {
-			if (propertyBinding instanceof EStructuralFeatureBinding) {
-				EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
-				if (newValues == null || newValues.isEmpty()) {
-					return null;
-				} else {
-					CompoundCommand cc = new CompoundCommand("EEF add many command");
-					for (Object newValue : newValues) {
-						if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-							cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue)));
-						} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)){
-							EClass newValueClass = (EClass) newValue;
-							EClass referenceType = ((EReference)feature).getEReferenceType();
-							if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
-								cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.create(newValueClass)));							
+	protected final Command performUnset(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject) {
+		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			try {
+				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__UNSETTER) {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 */
+					@Override
+					protected Command processBySetter(final JavaBody<Void> setter) {
+						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
+						return new ChangeCommand(changeRecorder) {
+							@Override
+							protected void doExecute() {
+								setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, new BasicEList<Object>());
 							}
+						};
+					}
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 */
+					@Override
+					protected Command processByFeature(EStructuralFeature feature) {
+						if (feature.isMany()) {
+							return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, new BasicEList<Object>());
 						} else {
-							cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, newValue));
+							return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, null);
 						}
 					}
-					return cc;
-				}
+				}.process();
+			} catch (EditingStrategyNotFoundException e) {
+				// Should I return null of IdentityCommand.INSTANCE.
+				return null;
 			}
 		}
 		// Should I return null of IdentityCommand.INSTANCE.
 		return null;
 	}
 	
-	protected final Command performRemove(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final PropertyBinding propertyBinding, final Object oldValue) {
-		if (propertyBinding instanceof MultiValuedPropertyBinding && ((MultiValuedPropertyBinding) propertyBinding).getRemover() != null) {
-			ChangeRecorder changeRecorder = createChangeRecorder(eObject);
-			return new ChangeCommand(changeRecorder) {
-				@Override
-				protected void doExecute() {
-					EList<Object> parameters = new BasicEList<Object>();
-					parameters.add(oldValue);
-					((MultiValuedPropertyBinding) propertyBinding).getRemover().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
-				}
-			};
-		} else {
-			if (propertyBinding instanceof EStructuralFeatureBinding) {
-				EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
-				return RemoveCommand.create(editingContext.getEditingDomain(), eObject, feature, oldValue);
+	protected final Command performAdd(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Object newValue) {
+		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			try {
+				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 */
+					@Override
+					protected Command processBySetter(final JavaBody<Void> setter) {
+						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
+						return new ChangeCommand(changeRecorder) {
+							@Override
+							protected void doExecute() {
+								EList<Object> parameters = new BasicEList<Object>();
+								parameters.add(newValue);
+								setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+							}
+						};
+					}
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 */
+					@Override
+					protected Command processByFeature(EStructuralFeature feature) {
+						if (newValue == null) {
+							return null;
+						} else {
+							if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+								return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
+							} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)){
+								EClass newValueClass = (EClass) newValue;
+								EClass referenceType = ((EReference)feature).getEReferenceType();
+								if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
+									return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.create(newValueClass));							
+								}
+							} 
+							return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, newValue);
+						}
+					}
+				}.process();
+			} catch (EditingStrategyNotFoundException e) {
+				// Should I return null of IdentityCommand.INSTANCE.
+				return null;
 			}
 		}
 		// Should I return null of IdentityCommand.INSTANCE.
 		return null;
 	}
 	
-	protected final Command performRemoveMany(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final PropertyBinding propertyBinding, final Collection<?> oldValues) {
-		if (propertyBinding instanceof MultiValuedPropertyBinding && ((MultiValuedPropertyBinding) propertyBinding).getRemover() != null) {
-			ChangeRecorder changeRecorder = createChangeRecorder(eObject);
-			return new ChangeCommand(changeRecorder) {
-				@Override
-				protected void doExecute() {
-					EList<Object> parameters = new BasicEList<Object>();
-					parameters.addAll(oldValues);
-					((MultiValuedPropertyBinding) propertyBinding).getRemover().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
-				}
-			};
-		} else {
-			if (propertyBinding instanceof EStructuralFeatureBinding) {
-				EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
-				return RemoveCommand.create(editingContext.getEditingDomain(), eObject, feature, oldValues);
+	protected final Command performAddMany(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Collection<?> newValues) {
+		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			try {
+				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 */
+					@Override
+					protected Command processBySetter(final JavaBody<Void> setter) {
+						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
+						return new ChangeCommand(changeRecorder) {
+							@Override
+							protected void doExecute() {
+								EList<Object> parameters = new BasicEList<Object>();
+								parameters.addAll(newValues);
+								setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+							}
+						};
+					}
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 */
+					@Override
+					protected Command processByFeature(EStructuralFeature feature) {
+						if (newValues == null || newValues.isEmpty()) {
+							return null;
+						} else {
+							CompoundCommand cc = new CompoundCommand("EEF add many command");
+							for (Object newValue : newValues) {
+								if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+									cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue)));
+								} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)){
+									EClass newValueClass = (EClass) newValue;
+									EClass referenceType = ((EReference)feature).getEReferenceType();
+									if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
+										cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.create(newValueClass)));							
+									}
+								} else {
+									cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, newValue));
+								}
+							}
+							return cc;
+						}
+					}
+				}.process();
+			} catch (EditingStrategyNotFoundException e) {
+				// Should I return null of IdentityCommand.INSTANCE.
+				return null;
 			}
 		}
 		// Should I return null of IdentityCommand.INSTANCE.
 		return null;
 	}
 	
-	protected final Command performMove(DomainAwarePropertiesEditingContext editingContext, EObject eObject, PropertyBinding propertyBinding, Integer oldIndex, Integer newIndex) {
-		if (propertyBinding instanceof EStructuralFeatureBinding) {
-			EStructuralFeature feature = extractFeature((EStructuralFeatureBinding) propertyBinding, eObject);
-			Object movedObject = ((List<?>)eObject.eGet(feature)).get(oldIndex);
-			return MoveCommand.create(editingContext.getEditingDomain(), eObject, feature, movedObject, newIndex);
+	protected final Command performRemove(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Object oldValue) {
+		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			try {
+				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 */
+					@Override
+					protected Command processBySetter(final JavaBody<Void> setter) {
+						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
+						return new ChangeCommand(changeRecorder) {
+							@Override
+							protected void doExecute() {
+								EList<Object> parameters = new BasicEList<Object>();
+								parameters.add(oldValue);
+								setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+							}
+						};
+					}
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 */
+					@Override
+					protected Command processByFeature(EStructuralFeature feature) {
+						return RemoveCommand.create(editingContext.getEditingDomain(), eObject, feature, oldValue);
+					}
+				}.process();
+			} catch (EditingStrategyNotFoundException e) {
+				// Should I return null of IdentityCommand.INSTANCE.
+				return null;
+			}
+		}
+		// Should I return null of IdentityCommand.INSTANCE.
+		return null;
+	}
+	
+	protected final Command performRemoveMany(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Collection<?> oldValues) {
+		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			try {
+				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 */
+					@Override
+					protected Command processBySetter(final JavaBody<Void> setter) {
+						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
+						return new ChangeCommand(changeRecorder) {
+							@Override
+							protected void doExecute() {
+								EList<Object> parameters = new BasicEList<Object>();
+								parameters.addAll(oldValues);
+								setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+							}
+						};
+					}
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 */
+					@Override
+					protected Command processByFeature(EStructuralFeature feature) {
+						return RemoveCommand.create(editingContext.getEditingDomain(), eObject, feature, oldValues);
+					}
+				}.process();
+			} catch (EditingStrategyNotFoundException e) {
+				// Should I return null of IdentityCommand.INSTANCE.
+				return null;
+			}
+		}
+		// Should I return null of IdentityCommand.INSTANCE.
+		return null;
+	}
+	
+	protected final Command performMove(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Integer oldIndex, final Integer newIndex) {
+		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			try {
+				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 */
+					@Override
+					protected Command processBySetter(final JavaBody<Void> setter) {
+						return null;
+					}
+
+					/**
+					 * {@inheritDoc}
+					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 */
+					@Override
+					protected Command processByFeature(EStructuralFeature feature) {
+						Object movedObject = ((List<?>)eObject.eGet(feature)).get(oldIndex);
+						return MoveCommand.create(editingContext.getEditingDomain(), eObject, feature, movedObject, newIndex);
+					}
+				}.process();
+			} catch (EditingStrategyNotFoundException e) {
+				// Should I return null of IdentityCommand.INSTANCE.
+				return null;
+			}
 		}
 		// Should I return null of IdentityCommand.INSTANCE.
 		return null;
@@ -344,11 +480,6 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		return changeRecorder;
 	}
 
-	private EStructuralFeature extractFeature(EStructuralFeatureBinding propertyBinding, EObject target) {
-		EMFService emfService = emfServiceProvider.getEMFService(target.eClass().getEPackage());
-		return emfService.mapFeature(target, propertyBinding.getFeature());
-	}
-	
 	/**
 	 * Handles an exception thrown during command execution by logging it with the plugin.
 	 */

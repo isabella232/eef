@@ -6,7 +6,6 @@ package org.eclipse.emf.eef.runtime.ui.jdt.internal.jdttoolkit.propertyeditors;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer;
@@ -40,7 +39,6 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
-	private PropertyBinding propertyBinding;
 	private SingleLinePropertyViewerListener listener;
 
 
@@ -58,11 +56,10 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
-	public void init(PropertyBinding propertyBinding) {
-		this.propertyBinding = propertyBinding;
-		EEFViewerInput input = new EEFViewerInput(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), propertyBinding);
+	public void init() {
+		EEFViewerInput input = new EEFViewerInput(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), elementEditor);
 		propertyEditorViewer.getViewer().setInput(input);
 		initListener();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);

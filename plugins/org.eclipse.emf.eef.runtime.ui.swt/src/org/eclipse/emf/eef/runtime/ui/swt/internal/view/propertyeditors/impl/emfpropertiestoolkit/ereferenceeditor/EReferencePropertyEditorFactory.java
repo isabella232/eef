@@ -78,7 +78,6 @@ public class EReferencePropertyEditorFactory extends WidgetPropertyEditorFactory
 				toolkit.getImageManager(), 
 				toolkit.getViewerFilterBuilderProvider(),
 				(PropertiesEditingView<Composite>) editorContext.view, 
-				editorContext.propertyBinding, 
 				(ElementEditor) editorContext.viewElement,
 				(PropertyEditorViewer<MultiLinePropertyViewer>) 
 				new EReferenceSWTPropertyEditor(

@@ -65,7 +65,7 @@ public class JavaViewItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Definition propertyBinding.
+	 * This adds a property descriptor for the Definition feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -103,7 +103,6 @@ public class JavaViewItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public String getText(Object object) {
 		Object labelValue = ((JavaView)object).getDefinition();

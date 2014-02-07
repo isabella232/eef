@@ -14,6 +14,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
@@ -28,13 +29,21 @@ import org.eclipse.emf.eef.runtime.services.EEFService;
 public interface EEFEditingService extends EEFService<EObject> {
 	
 	/**
+	 * Try to find and returns a {@link EStructuralFeature} edited by the given editor.
+	 * @param editingContext the current {@link PropertiesEditingContext}. 
+	 * @param editor editing element
+	 * @return a corresponding {@link EStructuralFeature} if possible <code>null</code> otherwise.
+	 */
+	EStructuralFeature featureFromEditor(PropertiesEditingContext editingContext, Object editor);
+
+	/**
 	 * Returns the value for the property binding for the given EObject.
 	 * @param editingContext current {@link PropertiesEditingContext}.
 	 * @param target EObject to inspect. Can be <code>null</code>, in this case editingContext.getEditingComponent().getEObject() will be used.
 	 * @param propertyBinding the concerning {@link PropertyBinding}.
 	 * @return the value for the given {@link PropertyBinding}.
 	 */
-	Object getValue(PropertiesEditingContext editingContext, EObject target, PropertyBinding propertyBinding);
+	Object getValue(PropertiesEditingContext editingContext, EObject target);
 	
 	/**
 	 * Returns the choice of value for the property binding for the given EObject.

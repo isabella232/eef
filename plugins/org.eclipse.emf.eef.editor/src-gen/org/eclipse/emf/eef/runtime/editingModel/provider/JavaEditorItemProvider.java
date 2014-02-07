@@ -65,7 +65,7 @@ public class JavaEditorItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Definition propertyBinding.
+	 * This adds a property descriptor for the Definition feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

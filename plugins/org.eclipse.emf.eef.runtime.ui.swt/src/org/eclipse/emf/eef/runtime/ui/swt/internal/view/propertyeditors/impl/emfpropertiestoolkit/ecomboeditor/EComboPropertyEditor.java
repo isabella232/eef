@@ -53,31 +53,29 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	protected ViewerFilterBuilderProvider filterBuilderProvider;
 
 	protected PropertiesEditingView<Composite> view;
-	protected PropertyBinding propertyBinding;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
 	private SingleLinePropertyViewerListener listener;
 
-	public EComboPropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, PropertyBinding propertyBinding, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+	public EComboPropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
 		this.emfServiceProvider = emfServiceProvider;
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.editUIProvidersFactory = editUIProvidersFactory;
 		this.imageManager = imageManager;
 		this.filterBuilderProvider = filterBuilderProvider;
 		this.view = view;
-		this.propertyBinding = propertyBinding;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
-	public void init(PropertyBinding propertyBinding) {
-		this.propertyBinding = propertyBinding;
-		EEFViewerInput input = new EEFViewerInput(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), propertyBinding);
+	public void init() {
+		EEFViewerInput input = new EEFViewerInput(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), elementEditor);
 		propertyEditorViewer.getViewer().setInput(input);
+		PropertyBinding propertyBinding = view.getEditingComponent().getBinding().propertyBinding(elementEditor, view.getEditingComponent().getEditingContext().getOptions().autowire());
 		if (propertyBinding != null) {
 			EList<EditorSettings> settings = propertyBinding.getSettings();
 			for (EditorSettings editorSettings : settings) {

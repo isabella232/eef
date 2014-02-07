@@ -13,7 +13,6 @@ package org.eclipse.emf.eef.runtime.view.lock.policies;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -31,10 +30,10 @@ public interface EEFLockPolicy {
 	/**
 	 * Defines if an {@link EStructuralFeature} of an object is locked.
 	 * @param object the object to check.
-	 * @param propertyBinding the concerning binding.
+	 * @param feature the {@link EStructuralFeature} to check.
 	 * @return <code>true</code> if the given feature is locked.
 	 */
-	boolean isLocked(PropertiesEditingContext editingContext, EObject object, PropertyBinding propertyBinding);
+	boolean isLocked(PropertiesEditingContext editingContext, EObject object, EStructuralFeature feature);
 
 	/**
 	 * Disposes the current policy.

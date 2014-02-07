@@ -14,9 +14,11 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
@@ -35,7 +37,15 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EditingViewLockManager implements EEFLockManager {
 	
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private EEFNotifierProvider eefNotifierProvider;
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
+	}
 
 	/**
 	 * @param eefNotifierProvider the eefNotifierProvider to set
@@ -83,11 +93,10 @@ public class EditingViewLockManager implements EEFLockManager {
 		TreeIterator<EObject> viewContents = editingView.getViewModel().eAllContents();
 		while (viewContents.hasNext()) {
 			EObject next = viewContents.next();
-//			EMFService emfService = emfServiceProvider.getEMFService(editedEObject.eClass().getEPackage());
-//			EStructuralFeature propertyBinding = emfService.mapFeature(editedEObject, editingComponent.getBinding().feature(next, autowire));
 			if (next instanceof ElementEditor) {
+				EStructuralFeature feature = eefEditingServiceProvider.getEditingService(editedEObject).featureFromEditor(editingComponent.getEditingContext(), next);
 				for (EEFLockPolicy lockPolicy : policies) {
-					if (lockPolicy.isLocked(editingView.getEditingComponent().getEditingContext(), editedEObject, editingComponent.getBinding().propertyBinding(next, autowire))) {
+					if (lockPolicy.isLocked(editingView.getEditingComponent().getEditingContext(), editedEObject, feature)) {
 						lockEditor(editingView, next);
 					}
 				}

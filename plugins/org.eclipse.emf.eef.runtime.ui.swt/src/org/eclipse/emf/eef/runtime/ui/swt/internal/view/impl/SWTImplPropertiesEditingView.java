@@ -14,7 +14,6 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.view.SWTPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor;
@@ -56,15 +55,15 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 		for (EObject content : viewDescriptor.eContents()) {
 			//TODO: In case of Container, we should check that at least 1 subElementEditor is binded.
 			if (content instanceof Container || eefEditingServiceProvider.getEditingService(binding).isReflectiveBinding(binding) || binding.propertyBinding(content, autowire) != null) {
-				buildElement(contentsComposite, binding.propertyBinding(content, autowire), content);
+				buildElement(contentsComposite, content);
 			}
 		}
 	}
 
-	private void buildElement(Composite currentContainer, PropertyBinding propertyBinding, EObject content) {
+	private void buildElement(Composite currentContainer, EObject content) {
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;
-			PropertyEditorContext editorContext = new PropertyEditorContext(this, propertyBinding, elementEditor);
+			PropertyEditorContext editorContext = new PropertyEditorContext(this, editingComponent.getEditingContext(), elementEditor);
 			EEFToolkit<Composite> propertyEditorProvider = eefToolkitProvider.getToolkit(editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
@@ -75,7 +74,7 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 			}
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
-			PropertyEditorContext editorContext = new PropertyEditorContext(this, propertyBinding, container);
+			PropertyEditorContext editorContext = new PropertyEditorContext(this, editingComponent.getEditingContext(), container);
 			EEFToolkit<Composite> propertyEditorProvider = eefToolkitProvider.getToolkit(editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
@@ -89,7 +88,7 @@ public class SWTImplPropertiesEditingView extends AbstractPropertiesEditingView<
 						for (EObject subContent : content.eContents()) {
 							//TODO: In case of Container, we should check that at least 1 subElementEditor is binded.
 							if (content instanceof Container || binding.propertyBinding(content, autowire) != null) {
-								buildElement(viewerControl, binding.propertyBinding(subContent, autowire), subContent);
+								buildElement(viewerControl, subContent);
 							}
 						}
 					}

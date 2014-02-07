@@ -51,8 +51,8 @@ public class EObjectEditingPolicyRequestFactory implements EditingPolicyRequestF
 			editedObject = (EObject)editingContext.getEditingComponent().getEObject();
 		}
 		if (propertyBinding != null) {
+			requestBuilder.setEditingContext(editingContext);
 			requestBuilder.setTarget(editedObject);
-			requestBuilder.setPropertyBinding(propertyBinding);
 			switch (editingEvent.getEventType()) {
 			case PropertiesEditingEvent.SET:
 				requestBuilder.setProcessingKind(ProcessingKind.SET);

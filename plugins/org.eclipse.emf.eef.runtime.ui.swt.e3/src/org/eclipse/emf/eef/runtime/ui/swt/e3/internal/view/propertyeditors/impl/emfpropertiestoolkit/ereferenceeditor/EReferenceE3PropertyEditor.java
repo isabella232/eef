@@ -52,9 +52,9 @@ public class EReferenceE3PropertyEditor extends EReferencePropertyEditor {
 	 */
 	public EReferenceE3PropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider,
 			EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider,
-			PropertiesEditingView<Composite> view, PropertyBinding propertyBinding, ElementEditor elementEditor,
+			PropertiesEditingView<Composite> view, ElementEditor elementEditor,
 			PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
-		super(emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, imageManager, filterBuilderProvider, view, propertyBinding,
+		super(emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, imageManager, filterBuilderProvider, view,
 				elementEditor, propertyEditorViewer);
 	}
 

@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.internal.view.lock.impl.EEFLockManagerProviderImpl;
 import org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl.EEFLockPolicyFactoryProviderImpl;
 import org.eclipse.emf.eef.runtime.services.PriorityCircularityException;
@@ -268,10 +270,10 @@ public class EEFLockTests extends UIEditingTestCase {
 			
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy#isLocked(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
+			 * @see org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy#isLocked(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
 			 */
-			public boolean isLocked(PropertiesEditingContext editingContext, EObject object, EStructuralFeature feature) {
-				return EcorePackage.Literals.ECLASS__ABSTRACT == feature;
+			public boolean isLocked(PropertiesEditingContext editingContext, EObject object, PropertyBinding propertyBinding) {
+				return propertyBinding instanceof EStructuralFeatureBinding && EcorePackage.Literals.ECLASS__ABSTRACT == ((EStructuralFeatureBinding)propertyBinding).getFeature();
 			}
 			
 			/**

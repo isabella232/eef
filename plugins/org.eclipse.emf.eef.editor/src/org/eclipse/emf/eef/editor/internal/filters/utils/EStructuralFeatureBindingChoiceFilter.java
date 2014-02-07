@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -35,14 +35,14 @@ import com.google.common.collect.Collections2;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class PropertyBindingFeatureChoiceFilter {
+public class EStructuralFeatureBindingChoiceFilter {
 
 	private EObject context;
 	
 	/**
 	 * @param context
 	 */
-	public PropertyBindingFeatureChoiceFilter(EObject context) {
+	public EStructuralFeatureBindingChoiceFilter(EObject context) {
 		this.context = context;
 	}
 
@@ -55,8 +55,8 @@ public class PropertyBindingFeatureChoiceFilter {
 		if (context instanceof EClassBinding) {
 			final EClassBinding eClassBinding = (EClassBinding)context; 
 			return Collections2.filter(choiceOfValues, new EClassFeaturesFilter(eClassBinding.getEClass()));
-		} else if (context instanceof PropertyBinding) {
-			final PropertyBinding parentPropertyBinding = (PropertyBinding)context;
+		} else if (context instanceof EStructuralFeatureBinding) {
+			final EStructuralFeatureBinding parentPropertyBinding = (EStructuralFeatureBinding)context;
 			if (parentPropertyBinding.getFeature() instanceof EReference) {
 				return Collections2.filter(choiceOfValues, new EClassFeaturesFilter((EClass) parentPropertyBinding.getFeature().getEType()));
 			}

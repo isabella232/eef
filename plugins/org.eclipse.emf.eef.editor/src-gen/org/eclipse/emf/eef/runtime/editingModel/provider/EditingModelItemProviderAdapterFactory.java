@@ -166,6 +166,75 @@ public class EditingModelItemProviderAdapterFactory extends EditingModelAdapterF
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MonoValuedPropertyBindingItemProvider monoValuedPropertyBindingItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createMonoValuedPropertyBindingAdapter() {
+		if (monoValuedPropertyBindingItemProvider == null) {
+			monoValuedPropertyBindingItemProvider = new MonoValuedPropertyBindingItemProvider(this);
+		}
+
+		return monoValuedPropertyBindingItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MultiValuedPropertyBindingItemProvider multiValuedPropertyBindingItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createMultiValuedPropertyBindingAdapter() {
+		if (multiValuedPropertyBindingItemProvider == null) {
+			multiValuedPropertyBindingItemProvider = new MultiValuedPropertyBindingItemProvider(this);
+		}
+
+		return multiValuedPropertyBindingItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EStructuralFeatureBindingItemProvider eStructuralFeatureBindingItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createEStructuralFeatureBindingAdapter() {
+		if (eStructuralFeatureBindingItemProvider == null) {
+			eStructuralFeatureBindingItemProvider = new EStructuralFeatureBindingItemProvider(this);
+		}
+
+		return eStructuralFeatureBindingItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.eef.runtime.editingModel.EObjectView} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -388,6 +457,9 @@ public class EditingModelItemProviderAdapterFactory extends EditingModelAdapterF
 		if (propertiesEditingModelItemProvider != null) propertiesEditingModelItemProvider.dispose();
 		if (eClassBindingItemProvider != null) eClassBindingItemProvider.dispose();
 		if (propertyBindingItemProvider != null) propertyBindingItemProvider.dispose();
+		if (monoValuedPropertyBindingItemProvider != null) monoValuedPropertyBindingItemProvider.dispose();
+		if (multiValuedPropertyBindingItemProvider != null) multiValuedPropertyBindingItemProvider.dispose();
+		if (eStructuralFeatureBindingItemProvider != null) eStructuralFeatureBindingItemProvider.dispose();
 		if (javaViewItemProvider != null) javaViewItemProvider.dispose();
 		if (eObjectViewItemProvider != null) eObjectViewItemProvider.dispose();
 		if (javaEditorItemProvider != null) javaEditorItemProvider.dispose();

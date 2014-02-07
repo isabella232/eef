@@ -14,8 +14,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.util.EEFEditingService;
+import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -54,7 +54,7 @@ public interface ComboUIPropertyEditor {
 			if (inputElement instanceof ComboContentProviderInput) {
 				PropertiesEditingContext contentProviderContext = ((ComboContentProviderInput) inputElement).getEditingContext();
 				EEFEditingService service = contentProviderContext.getEEFEditingServiceProvider().getEditingService((((ComboContentProviderInput) inputElement).getEditingContext().getEditingComponent().getEObject().eClass().getEPackage()));
-				choiceOfValues = service.getChoiceOfValue(contentProviderContext, contentProviderContext.getEditingComponent().getEObject(), ((ComboContentProviderInput) inputElement).getPropertyBinding());
+				choiceOfValues = service.getChoiceOfValue(contentProviderContext, contentProviderContext.getEditingComponent().getEObject(), ((ComboContentProviderInput) inputElement).getElementEditor());
 			} else {
 				choiceOfValues = inputElement;
 			}
@@ -78,15 +78,15 @@ public interface ComboUIPropertyEditor {
 	public static final class ComboContentProviderInput {
 		
 		private PropertiesEditingContext editingContext;
-		private PropertyBinding propertyBinding;
+		private ElementEditor elementEditor;
 
 		/**
 		 * @param editingContext
 		 * @param propertyBinding
 		 */
-		public ComboContentProviderInput(PropertiesEditingContext editingContext, PropertyBinding propertyBinding) {
+		public ComboContentProviderInput(PropertiesEditingContext editingContext, ElementEditor elementEditor) {
 			this.editingContext = editingContext;
-			this.propertyBinding = propertyBinding;
+			this.elementEditor = elementEditor;
 		}
 		
 		/**
@@ -97,10 +97,10 @@ public interface ComboUIPropertyEditor {
 		}
 
 		/**
-		 * @return the propertyBinding
+		 * @return the elementEditor
 		 */
-		public PropertyBinding getPropertyBinding() {
-			return propertyBinding;
+		public final ElementEditor getElementEditor() {
+			return elementEditor;
 		}
 		
 	}

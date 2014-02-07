@@ -71,7 +71,7 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 	private void buildElement(FormToolkit toolkit, Composite currentContainer, PropertyBinding propertyBinding, EObject content) {
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;
-			PropertyEditorContext editorContext = new PropertyEditorContext(this, propertyBinding, elementEditor);
+			PropertyEditorContext editorContext = new PropertyEditorContext(this, editingComponent.getEditingContext(), elementEditor);
 			EEFToolkit<Composite> propertyEditorProvider = eefToolkitProvider.getToolkit(editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
@@ -84,7 +84,7 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 			}
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
-			PropertyEditorContext editorContext = new PropertyEditorContext(this, propertyBinding, container);
+			PropertyEditorContext editorContext = new PropertyEditorContext(this, editingComponent.getEditingContext(), container);
 			EEFToolkit<Composite> propertyEditorProvider = eefToolkitProvider.getToolkit(editorContext);
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);

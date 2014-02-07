@@ -11,7 +11,7 @@
 package org.eclipse.emf.eef.runtime.policies;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.request.EditingPolicyRequestImpl;
 
 /**
@@ -36,12 +36,6 @@ public interface EditingPolicyRequest {
 	 * @return the edited {@link EObject}.
 	 */
 	EObject getTarget();
-
-	/**
-	 * Returns the PropertyBinding describing the way to edit the target.
-	 * @return the edited {@link PropertyBinding}.
-	 */
-	PropertyBinding getPropertyBinding();
 
 	/**
 	 * Returns the new value for the feature.
@@ -69,13 +63,22 @@ public interface EditingPolicyRequest {
 	
 	public static class Builder  {
 		
+		private SemanticPropertiesEditingContext editingContext;
 		private ProcessingKind processingKind;
 		private EObject target;
-		private PropertyBinding propertyBinding;
 		private Object value;
 		private Integer newIndex;
 		private Integer oldIndex;
 		
+		/**
+		 * @param editingContext the editingContext to set
+		 * @return the current {@link Builder}
+		 */
+		public Builder setEditingContext(SemanticPropertiesEditingContext editingContext) {
+			this.editingContext = editingContext;
+			return this;
+		}
+
 		/**
 		 * @param processingKind the processingKind to set
 		 * @return the current {@link Builder}
@@ -91,15 +94,6 @@ public interface EditingPolicyRequest {
 		 */
 		public Builder setTarget(EObject target) {
 			this.target = target;
-			return this;
-		}
-
-		/**
-		 * @param propertyBinding the propertyBinding to set
-		 * @return the current {@link Builder}
-		 */
-		public Builder setPropertyBinding(PropertyBinding propertyBinding) {
-			this.propertyBinding = propertyBinding;
 			return this;
 		}
 
@@ -135,13 +129,13 @@ public interface EditingPolicyRequest {
 		 * @return the built {@link EditingPolicyRequest}.
 		 */
 		public EditingPolicyRequest build() {
-			if (processingKind != null && target != null && propertyBinding != null) {
+			if (processingKind != null && target != null) {
 				if (value != null) {
-					return new EditingPolicyRequestImpl(processingKind, target, propertyBinding, value);
+					return new EditingPolicyRequestImpl(editingContext, processingKind, target, value);
 				} if (oldIndex != null && newIndex != null) {
-					return new EditingPolicyRequestImpl(processingKind, target, propertyBinding, newIndex, oldIndex);
+					return new EditingPolicyRequestImpl(editingContext, processingKind, target, newIndex, oldIndex);
 				} else {
-					return new EditingPolicyRequestImpl(processingKind, target, propertyBinding);
+					return new EditingPolicyRequestImpl(editingContext, processingKind, target);
 				}
 			}
 			throw new IllegalArgumentException("Unable to build a EditPolicyRequest with the given arguments.");

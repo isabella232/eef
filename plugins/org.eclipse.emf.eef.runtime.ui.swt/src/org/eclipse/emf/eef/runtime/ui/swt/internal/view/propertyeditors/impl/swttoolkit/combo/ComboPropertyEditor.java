@@ -42,8 +42,6 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<ComboViewer> propertyEditorControl;
 
-	protected PropertyBinding propertyBinding;
-
 	/**
 	 * @param eefEditingServiceProvider
 	 * @param view
@@ -59,15 +57,14 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
-	public void init(PropertyBinding propertyBinding) {
-		this.propertyBinding = propertyBinding;
+	public void init() {
 		if (propertyEditorControl instanceof ComboUIPropertyEditor) {
-			((ComboUIPropertyEditor) propertyEditorControl).initCombo(new ComboContentProviderInput(view.getEditingComponent().getEditingContext(), propertyBinding));
+			((ComboUIPropertyEditor) propertyEditorControl).initCombo(new ComboContentProviderInput(view.getEditingComponent().getEditingContext(), elementEditor));
 		}
 		EObject eObject = view.getEditingComponent().getEObject();
-		setValue(eefEditingServiceProvider.getEditingService(eObject).getValue(view.getEditingComponent().getEditingContext(), eObject, propertyBinding));
+		setValue(eefEditingServiceProvider.getEditingService(eObject).getValue(view.getEditingComponent().getEditingContext(), eObject, elementEditor));
 		initListeners();
 	}
 

@@ -36,10 +36,8 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
-import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.internal.binding.settings.ReflectiveEEFBindingSettings;
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
@@ -52,6 +50,7 @@ import org.eclipse.emf.eef.runtime.notify.UIPropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
@@ -85,6 +84,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	private EEFBindingSettingsProvider bindingSettingsProvider;
 	private PropertiesEditingPolicyProvider editingPolicyProvider;
 	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private EEFNotifierProvider eefNotifierProvider;
 	private EEFLockPolicyFactoryProvider lockPolicyFactoryProvider;
 	private EEFLockManagerProvider lockManagerProvider;
@@ -126,6 +126,20 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @return the eefEditingServiceProvider
+	 */
+	public EEFEditingServiceProvider getEefEditingServiceProvider() {
+		return eefEditingServiceProvider;
+	}
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public void setEefEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
@@ -464,26 +478,23 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 */
 	private Diagnostic validateValue(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		Diagnostic ret = Diagnostic.OK_INSTANCE;
-		PropertyBinding propertyBinding = editingComponent.getBinding().propertyBinding(editingEvent.getAffectedEditor(), editingComponent.getEditingContext().getOptions().autowire());
+		EStructuralFeature feature = eefEditingServiceProvider.getEditingService(editingComponent.getEObject()).featureFromEditor(editingComponent.getEditingContext(), editingEvent.getAffectedEditor());
 		// At this point, I consider that only binding with EStructuralFeature are able to validate a editing value
-		if (propertyBinding instanceof EStructuralFeatureBinding) {
-			EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
-			// TODO: Skipped test on EEnum to process later.
-			if (editingEvent.getNewValue() != null && feature instanceof EAttribute && !(feature.getEType() instanceof EEnum)) {
-				EAttribute attribute = (EAttribute)feature;
-				try {
-					Object newValue = editingEvent.getNewValue();
-					if (newValue instanceof String) {
-						newValue = EcoreUtil.createFromString(attribute.getEAttributeType(), (String)newValue);
-					}
-					ret = Diagnostician.INSTANCE.validate(attribute.getEAttributeType(), newValue);
-				} catch (IllegalArgumentException iae) {
-					ret = BasicDiagnostic.toDiagnostic(iae);
-				} catch (WrappedException we) {
-					ret = BasicDiagnostic.toDiagnostic(we);
-				} catch (NullPointerException e) {
-					// A suspicious error occurred (e.g. on Enum) let's go on. 
+		// TODO: Skipped test on EEnum to process later.
+		if (editingEvent.getNewValue() != null && feature instanceof EAttribute && !(feature.getEType() instanceof EEnum)) {
+			EAttribute attribute = (EAttribute)feature;
+			try {
+				Object newValue = editingEvent.getNewValue();
+				if (newValue instanceof String) {
+					newValue = EcoreUtil.createFromString(attribute.getEAttributeType(), (String)newValue);
 				}
+				ret = Diagnostician.INSTANCE.validate(attribute.getEAttributeType(), newValue);
+			} catch (IllegalArgumentException iae) {
+				ret = BasicDiagnostic.toDiagnostic(iae);
+			} catch (WrappedException we) {
+				ret = BasicDiagnostic.toDiagnostic(we);
+			} catch (NullPointerException e) {
+				// A suspicious error occurred (e.g. on Enum) let's go on. 
 			}
 		}
 		return ret;

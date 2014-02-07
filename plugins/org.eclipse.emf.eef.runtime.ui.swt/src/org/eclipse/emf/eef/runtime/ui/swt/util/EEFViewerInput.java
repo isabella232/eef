@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.views.ElementEditor;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -24,27 +25,17 @@ public final class EEFViewerInput {
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private PropertiesEditingContext editingContext;
 	private EObject editedObject;
-	private PropertyBinding propertyBinding;
+	private ElementEditor elementEditor;
 
 	/**
+	 * @param eefEditingServiceProvider
 	 * @param editingContext
-	 * @param propertyBinding
+	 * @param elementEditor
 	 */
-	public EEFViewerInput(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editingContext, PropertyBinding propertyBinding) {
+	public EEFViewerInput(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editingContext, ElementEditor elementEditor) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.editingContext = editingContext;
-		this.propertyBinding = propertyBinding;
-	}
-
-	/**
-	 * @param editingContext
-	 * @param editedObject
-	 * @param editedFeature
-	 */
-	public EEFViewerInput(PropertiesEditingContext editingContext, EObject editedObject, PropertyBinding propertyBinding) {
-		this.editingContext = editingContext;
-		this.editedObject = editedObject;
-		this.propertyBinding = propertyBinding;
+		this.elementEditor = elementEditor;
 	}
 
 	/**
@@ -68,17 +59,10 @@ public final class EEFViewerInput {
  	}
 
 	/**
-	 * @return the propertyBinding
-	 */
-	public PropertyBinding getPropertyBinding() {
-		return propertyBinding;
-	}
-	
-	/**
 	 * @return
 	 */
 	public Object getCurrentValue() {
-		return eefEditingServiceProvider.getEditingService(getEditedObject()).getValue(getEditingContext(), getEditedObject(), getPropertyBinding());
+		return eefEditingServiceProvider.getEditingService(getEditedObject()).getValue(getEditingContext(), getEditedObject(), elementEditor);
 	}
 	
 }

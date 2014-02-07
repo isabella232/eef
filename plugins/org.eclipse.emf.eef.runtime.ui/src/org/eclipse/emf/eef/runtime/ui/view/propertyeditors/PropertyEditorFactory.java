@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.ViewElement;
@@ -38,16 +38,16 @@ public interface PropertyEditorFactory<T> {
 	public final class PropertyEditorContext {
 		
 		public PropertiesEditingView<?> view;
-		public PropertyBinding propertyBinding;
+		public PropertiesEditingContext editingContext;
 		public ViewElement viewElement;
 		/**
 		 * @param view
-		 * @param propertyBinding
+		 * @param editingContext
 		 * @param viewElement
 		 */
-		public PropertyEditorContext(PropertiesEditingView<?> view, PropertyBinding propertyBinding, ViewElement viewElement) {
+		public PropertyEditorContext(PropertiesEditingView<?> view, PropertiesEditingContext editingContext, ViewElement viewElement) {
 			this.view = view;
-			this.propertyBinding = propertyBinding;
+			this.editingContext = editingContext;
 			this.viewElement = viewElement;
 		}
 		

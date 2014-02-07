@@ -97,6 +97,7 @@ public class EObjectEditorItemProvider
 					 * {@inheritDoc}
 					 * @see org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getChoiceOfValues(java.lang.Object)
 					 */
+					@SuppressWarnings("unchecked")
 					@Override
 					public Collection<?> getChoiceOfValues(Object object) {
 						EObjectEditor eObjectEditor = ((EObjectEditor)object);

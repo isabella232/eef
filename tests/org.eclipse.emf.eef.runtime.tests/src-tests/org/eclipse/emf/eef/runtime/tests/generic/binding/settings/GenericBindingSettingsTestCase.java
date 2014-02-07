@@ -27,8 +27,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -217,7 +217,7 @@ public class GenericBindingSettingsTestCase extends AbstractGenericBindingSettin
 
 		// test property binding
 		assertEquals("1 property binding", 1, classBinding.getPropertyBindings().size());
-		PropertyBinding propertyBinding = classBinding.getPropertyBindings().get(0);
+		EStructuralFeatureBinding propertyBinding = (EStructuralFeatureBinding) classBinding.getPropertyBindings().get(0);
 		assertEquals("Bad propertyBinding", eStructuralFeature, propertyBinding.getFeature());
 		assertTrue("Setting should be empty", propertyBinding.getSettings().isEmpty());
 		assertTrue("Property settings should be empty", propertyBinding.getSubPropertyBindings().isEmpty());

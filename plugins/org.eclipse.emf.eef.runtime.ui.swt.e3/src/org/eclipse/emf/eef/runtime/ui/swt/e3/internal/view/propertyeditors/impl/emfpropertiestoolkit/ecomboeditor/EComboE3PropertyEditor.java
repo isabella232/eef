@@ -54,11 +54,10 @@ public class EComboE3PropertyEditor extends EComboPropertyEditor {
 	 */
 	public EComboE3PropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider,
 			EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider,
-			PropertiesEditingView<Composite> view, PropertyBinding propertyBinding, ElementEditor elementEditor,
+			PropertiesEditingView<Composite> view, ElementEditor elementEditor,
 			PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
-		super(emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, imageManager, filterBuilderProvider, view, propertyBinding,
+		super(emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, imageManager, filterBuilderProvider, view,
 				elementEditor, propertyEditorViewer);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

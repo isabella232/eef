@@ -45,7 +45,6 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer;
 
-	protected PropertyBinding propertyBinding;
 	private MultiLinePropertyViewerListener listener;
 
 	public EContainmentPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
@@ -58,18 +57,13 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
-	public void init(PropertyBinding propertyBinding) {
-		this.propertyBinding = propertyBinding;
-		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), this.propertyBinding));
-		ILabelProvider labelProvider;
-		if (propertyBinding != null) {
-			labelProvider = editUIProvidersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext(), propertyBinding);
-		} else {
-			labelProvider = editUIProvidersFactory.createLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory());
-		}
+	public void init() {
+		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), elementEditor));
+		ILabelProvider labelProvider = editUIProvidersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext(), elementEditor);
 		propertyEditorViewer.getViewer().setLabelProvider(labelProvider);
+		PropertyBinding propertyBinding = view.getEditingComponent().getBinding().propertyBinding(elementEditor, view.getEditingComponent().getEditingContext().getOptions().autowire());
 		if (propertyBinding instanceof EStructuralFeatureBinding) {
 			propertyEditorViewer.getViewer().setLowerBound(((EStructuralFeatureBinding) propertyBinding).getFeature().getLowerBound());
 			propertyEditorViewer.getViewer().setUpperBound(((EStructuralFeatureBinding) propertyBinding).getFeature().getUpperBound());
@@ -161,7 +155,7 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 				 */
 				public void moveUp(Object movedElement) {
 					EObject editedElement = view.getEditingComponent().getEObject();
-					Object currentValue = eefEditingServiceProvider.getEditingService(editedElement).getValue(view.getEditingComponent().getEditingContext(), editedElement, propertyBinding);
+					Object currentValue = eefEditingServiceProvider.getEditingService(editedElement).getValue(view.getEditingComponent().getEditingContext(), editedElement, elementEditor);
 					if (currentValue instanceof List<?>) {
 						int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 						if (oldIndex > 0) {
@@ -177,7 +171,7 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 				 */
 				public void moveDown(Object movedElement) {
 					EObject editedElement = view.getEditingComponent().getEObject();
-					Object currentValue =  eefEditingServiceProvider.getEditingService(editedElement).getValue(view.getEditingComponent().getEditingContext(), editedElement, propertyBinding);
+					Object currentValue =  eefEditingServiceProvider.getEditingService(editedElement).getValue(view.getEditingComponent().getEditingContext(), editedElement, elementEditor);
 					if (currentValue instanceof List<?>) {
 						int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 						if (oldIndex < ((List<?>) currentValue).size()) {

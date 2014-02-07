@@ -49,7 +49,6 @@ public class EComboPlatformAwarePropertyEditorFactory extends EComboPropertyEdit
 					toolkit.getImageManager(), 
 					toolkit.getViewerFilterBuilderProvider(), 
 					(PropertiesEditingView<Composite>) editorContext.view, 
-					editorContext.propertyBinding, 
 					(ElementEditor) editorContext.viewElement, 
 					new EComboFormPropertyEditor(
 							toolkit.getEditUIProvidersFactory(), 
@@ -65,7 +64,8 @@ public class EComboPlatformAwarePropertyEditorFactory extends EComboPropertyEdit
 					toolkit.getEditUIProvidersFactory(), 
 					toolkit.getImageManager(), 
 					toolkit.getViewerFilterBuilderProvider(), 
-					(PropertiesEditingView<Composite>) editorContext.view, editorContext.propertyBinding, (ElementEditor) editorContext.viewElement, 
+					(PropertiesEditingView<Composite>) editorContext.view, 
+					(ElementEditor) editorContext.viewElement, 
 					new EComboSWTPropertyEditor(
 							toolkit.getEditUIProvidersFactory(), 
 							toolkit.getImageManager(), 

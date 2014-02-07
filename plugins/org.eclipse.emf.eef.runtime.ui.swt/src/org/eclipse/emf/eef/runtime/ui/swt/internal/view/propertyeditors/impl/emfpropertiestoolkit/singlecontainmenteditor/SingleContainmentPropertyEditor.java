@@ -3,7 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.singlecontainmenteditor;
 
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer;
@@ -29,7 +28,6 @@ public class SingleContainmentPropertyEditor extends PropertyEditorImpl implemen
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
-	private PropertyBinding propertyBinding;
 	private SingleLinePropertyViewerListener listener;
 
 	public SingleContainmentPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
@@ -41,11 +39,10 @@ public class SingleContainmentPropertyEditor extends PropertyEditorImpl implemen
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
-	public void init(PropertyBinding propertyBinding) {
-		this.propertyBinding = propertyBinding;
-		EEFViewerInput input = new EEFViewerInput(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), this.propertyBinding);
+	public void init() {
+		EEFViewerInput input = new EEFViewerInput(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), elementEditor);
 		propertyEditorViewer.getViewer().setInput(input);
 		initListener();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);

@@ -70,8 +70,8 @@ public class EReferenceEditingPolicyRequestFactory implements EditingPolicyReque
 	public EditingPolicyRequest createProcessing(SemanticPropertiesEditingContext editingContext) {
 		EditingPolicyRequest.Builder requestBuilder = new EditingPolicyRequest.Builder();
 		requestBuilder.setTarget(editingContext.getEditingComponent().getEObject());
+		requestBuilder.setEditingContext(editingContext);
 		PropertyBinding propertyBinding = editingContext.getEditingComponent().getBinding().propertyBinding(editingContext.getEditingEvent().getAffectedEditor(), editingContext.getOptions().autowire());
-		requestBuilder.setPropertyBinding(propertyBinding);
 		if (propertyBinding instanceof EStructuralFeatureBinding) {
 			EReference feature = (EReference)((EStructuralFeatureBinding)propertyBinding).getFeature();
 			requestBuilder.setValue(defineEObjectToSet(editingContext, feature));

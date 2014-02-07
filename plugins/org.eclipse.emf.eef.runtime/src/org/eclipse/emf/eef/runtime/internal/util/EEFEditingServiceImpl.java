@@ -63,22 +63,39 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getValue(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#featureFromEditor(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, java.lang.Object)
 	 */
-	public Object getValue(PropertiesEditingContext editingContext, EObject target, PropertyBinding propertyBinding) {
-		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
-		EObject computedTarget = target != null ? target:editingComponent.getEObject();
-		if (propertyBinding.getGetter() != null) {
-			return propertyBinding.getGetter().invoke(editingComponent.getBindingSettings().getClass().getClassLoader(), computedTarget, new BasicEList<Object>());
-		} else {
-			if (propertyBinding instanceof EStructuralFeatureBinding) {
-				EStructuralFeature bindedFeature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
-				EStructuralFeature feature = emfServiceProvider.getEMFService(computedTarget.eClass().getEPackage()).mapFeature(computedTarget, bindedFeature);
-				if (feature != null) {
-					return computedTarget.eGet(feature);
-				}
+	public EStructuralFeature featureFromEditor(PropertiesEditingContext editingContext, Object editor) {
+		EStructuralFeature associatedFeature = null;
+		EObject editedObject = editingContext.getEditingComponent().getEObject();
+		PropertyBinding propertyBinding = editingContext.getEditingComponent().getBinding().propertyBinding(editor, editingContext.getOptions().autowire());
+		if (propertyBinding instanceof EStructuralFeatureBinding) {
+			associatedFeature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+			if (!editedObject.eClass().getEAllStructuralFeatures().contains(associatedFeature)) {
+				associatedFeature = emfServiceProvider.getEMFService(editedObject.eClass().getEPackage()).mapFeature(editedObject, associatedFeature);
 			}
 		}
+		return associatedFeature;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getValue(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 */
+	public Object getValue(PropertiesEditingContext editingContext, EObject target) {
+//		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
+//		EObject computedTarget = target != null ? target:editingComponent.getEObject();
+//		if (propertyBinding.getGetter() != null) {
+//			return propertyBinding.getGetter().invoke(editingComponent.getBindingSettings().getClass().getClassLoader(), computedTarget, new BasicEList<Object>());
+//		} else {
+//			if (propertyBinding instanceof EStructuralFeatureBinding) {
+//				EStructuralFeature bindedFeature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+//				EStructuralFeature feature = emfServiceProvider.getEMFService(computedTarget.eClass().getEPackage()).mapFeature(computedTarget, bindedFeature);
+//				if (feature != null) {
+//					return computedTarget.eGet(feature);
+//				}
+//			}
+//		}
 		return null;
 	}
 

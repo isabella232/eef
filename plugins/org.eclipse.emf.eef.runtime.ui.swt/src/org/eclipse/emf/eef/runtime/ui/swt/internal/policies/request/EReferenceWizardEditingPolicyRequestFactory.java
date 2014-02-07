@@ -85,7 +85,7 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory implements Edi
 		EClassBinding binding = editingContext.getEditingComponent().getBinding();
 		PropertyBinding propertyBinding = binding.propertyBinding(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
 		requestBuilder.setTarget(editingContext.getEditingComponent().getEObject());
-		requestBuilder.setPropertyBinding(propertyBinding);
+		requestBuilder.setEditingContext(editingContext);
 		if (propertyBinding instanceof EStructuralFeatureBinding) {
 			EReference feature = (EReference)((EStructuralFeatureBinding)propertyBinding).getFeature();
 			requestBuilder.setValue(defineEObjectToSet(editingContext, (EReference) feature));

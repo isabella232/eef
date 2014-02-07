@@ -59,13 +59,12 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 	protected ViewerFilterBuilderProvider filterBuilderProvider;
 
 	protected PropertiesEditingView<Composite> view;
-	protected PropertyBinding propertyBinding;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer;
 
 	private MultiLinePropertyViewerListener listener;
 
-	public EReferencePropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, PropertyBinding propertyBinding, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
+	public EReferencePropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
 		this.emfServiceProvider = emfServiceProvider;
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.editUIProvidersFactory = editUIProvidersFactory;
@@ -74,19 +73,17 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 		this.propertyEditorViewer = propertyEditorViewer;
 		this.view = view;
 		this.elementEditor = elementEditor;
-		this.propertyBinding = propertyBinding;
 	}
 
-	public void init(PropertyBinding propertyBinding) {
-		this.propertyBinding = propertyBinding;
-		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), propertyBinding));
-		ILabelProvider labelProvider;
-		if (propertyBinding != null) {
-			labelProvider = editUIProvidersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext(), propertyBinding);
-		} else {
-			labelProvider = editUIProvidersFactory.createLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory());
-		}
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
+	 */
+	public void init() {
+		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), elementEditor));
+		ILabelProvider labelProvider = editUIProvidersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext(), elementEditor);
 		propertyEditorViewer.getViewer().setLabelProvider(labelProvider);
+		PropertyBinding propertyBinding = view.getEditingComponent().getBinding().propertyBinding(elementEditor, view.getEditingComponent().getEditingContext().getOptions().autowire());
 		if (propertyBinding instanceof EStructuralFeatureBinding) {
 			EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
 			propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());
@@ -201,7 +198,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 				PropertiesEditingComponent editingComponent = view.getEditingComponent();
 				EObject editedObject = editingComponent.getEObject();
 				EObject editedElement = editedObject;
-				Object currentValue = eefEditingServiceProvider.getEditingService(editedObject).getValue(editingComponent.getEditingContext(), editedElement, propertyBinding);
+				Object currentValue = eefEditingServiceProvider.getEditingService(editedObject).getValue(editingComponent.getEditingContext(), editedElement);
 				if (currentValue instanceof List<?>) {
 					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 					if (oldIndex > 0) {
@@ -219,7 +216,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 				PropertiesEditingComponent editingComponent = view.getEditingComponent();
 				EObject editedObject = editingComponent.getEObject();
 				EObject editedElement = editedObject;
-				Object currentValue = eefEditingServiceProvider.getEditingService(editedObject).getValue(editingComponent.getEditingContext(), editedElement, propertyBinding);
+				Object currentValue = eefEditingServiceProvider.getEditingService(editedObject).getValue(editingComponent.getEditingContext(), editedElement, elementEditor);
 				if (currentValue instanceof List<?>) {
 					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 					if (oldIndex < ((List<?>) currentValue).size()) {

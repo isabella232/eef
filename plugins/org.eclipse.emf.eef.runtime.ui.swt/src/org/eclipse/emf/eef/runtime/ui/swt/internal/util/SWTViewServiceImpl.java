@@ -12,8 +12,6 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.util;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.util.impl.ViewServiceImpl;
@@ -62,12 +60,9 @@ public class SWTViewServiceImpl extends ViewServiceImpl implements SWTViewServic
 		label = new Label(parent, SWT.NONE);
 		label.setText(text);
 		if (!eefEditingServiceProvider.getEditingService(editingComponent.getBinding()).isReflectiveBinding(editingComponent.getBinding())) {
-			PropertyBinding propertyBinding = editingComponent.getBinding().propertyBinding(editor, editingComponent.getEditingContext().getOptions().autowire());
-			if (propertyBinding instanceof EStructuralFeatureBinding) {
-				EStructuralFeature associatedFeature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
-				if (associatedFeature != null && associatedFeature.isRequired()) {
-					label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
-				}
+			EStructuralFeature associatedFeature = eefEditingServiceProvider.getEditingService(editingComponent.getEObject()).featureFromEditor(editingComponent.getEditingContext(), editor);
+			if (associatedFeature != null && associatedFeature.isRequired()) {
+				label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
 			}
 		}
 		return label;

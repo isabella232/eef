@@ -76,8 +76,7 @@ public class EComboPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl
 				toolkit.getImageManager(), 
 				toolkit.getViewerFilterBuilderProvider(),
 				(PropertiesEditingView<Composite>) editorContext.view, 
-				editorContext.propertyBinding, (ElementEditor) 
-				editorContext.viewElement, 
+				(ElementEditor) editorContext.viewElement, 
 				new EComboSWTPropertyEditor(
 						toolkit.getEditUIProvidersFactory(), 
 						toolkit.getImageManager(), 

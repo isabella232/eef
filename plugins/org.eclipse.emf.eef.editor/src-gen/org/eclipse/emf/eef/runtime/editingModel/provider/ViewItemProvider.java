@@ -67,7 +67,6 @@ public class ViewItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public String getText(Object object) {
 		return getString("_UI_View_type");

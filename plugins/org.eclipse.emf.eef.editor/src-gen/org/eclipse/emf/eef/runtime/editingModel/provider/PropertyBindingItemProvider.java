@@ -13,26 +13,20 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
-import org.eclipse.emf.eef.editor.internal.filters.utils.PropertyBindingFeatureChoiceFilter;
-import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
-import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
-import org.eclipse.emf.eef.views.ElementEditor;
+import org.eclipse.emf.eef.runtime.query.QueryFactory;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding} object.
@@ -69,47 +63,12 @@ public class PropertyBindingItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addFeaturePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Feature propertyBinding.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	protected void addFeaturePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(new ItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_PropertyBinding_feature_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PropertyBinding_feature_feature", "_UI_PropertyBinding_type"),
-				 EditingModelPackage.Literals.PROPERTY_BINDING__FEATURE,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null) {
-
-					/**
-					 * {@inheritDoc}
-					 * @see org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getChoiceOfValues(java.lang.Object)
-					 */
-					@Override
-					public Collection<?> getChoiceOfValues(Object object) {
-						PropertyBinding propertyBinding = ((PropertyBinding)object);
-						return new PropertyBindingFeatureChoiceFilter(propertyBinding.eContainer()).filterPropertyBindingChoiceOfValues(super.getChoiceOfValues(object));
-					}
-				
-			});
-	}
-
-	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate propertyBinding for an
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
 	 * <!-- begin-user-doc -->
@@ -123,6 +82,8 @@ public class PropertyBindingItemProvider
 			childrenFeatures.add(EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR);
 			childrenFeatures.add(EditingModelPackage.Literals.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS);
 			childrenFeatures.add(EditingModelPackage.Literals.PROPERTY_BINDING__SETTINGS);
+			childrenFeatures.add(EditingModelPackage.Literals.PROPERTY_BINDING__GETTER);
+			childrenFeatures.add(EditingModelPackage.Literals.PROPERTY_BINDING__VALUE_PROVIDER);
 		}
 		return childrenFeatures;
 	}
@@ -134,7 +95,7 @@ public class PropertyBindingItemProvider
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper propertyBinding to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
 
 		return super.getChildFeature(object, child);
@@ -155,33 +116,11 @@ public class PropertyBindingItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		PropertyBinding binding = (PropertyBinding) object;
-		StringBuilder sb = new StringBuilder(getString("_UI_PropertyBinding_type")).append(' ');
-		if (binding.getFeature() != null) {
-			sb.append(binding.getFeature().getName());
-		} else {
-			sb.append("???");
-		}
-		sb.append(" <-> ");
-		if (binding.getEditor() != null) {
-			if (binding.getEditor() instanceof EObjectEditor) {
-				EObject definition = ((EObjectEditor)binding.getEditor()).getDefinition();
-				if (definition instanceof ElementEditor) {
-					sb.append(((ElementEditor) definition).getName());
-				} else {
-					sb.append("???");					
-				}
-			} else if (binding.getEditor() instanceof JavaEditor) {
-				sb.append(binding.getEditor().toString());
-			} else {
-				sb.append("???");					
-			}
-		}
-		return sb.toString();
+		return getString("_UI_PropertyBinding_type");
 	}
 
 	/**
@@ -199,6 +138,8 @@ public class PropertyBindingItemProvider
 			case EditingModelPackage.PROPERTY_BINDING__EDITOR:
 			case EditingModelPackage.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS:
 			case EditingModelPackage.PROPERTY_BINDING__SETTINGS:
+			case EditingModelPackage.PROPERTY_BINDING__GETTER:
+			case EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -233,8 +174,56 @@ public class PropertyBindingItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
+				(EditingModelPackage.Literals.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS,
+				 EditingModelFactory.eINSTANCE.createMonoValuedPropertyBinding()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EditingModelPackage.Literals.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS,
+				 EditingModelFactory.eINSTANCE.createMultiValuedPropertyBinding()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EditingModelPackage.Literals.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS,
+				 EditingModelFactory.eINSTANCE.createEStructuralFeatureBinding()));
+
+		newChildDescriptors.add
+			(createChildParameter
 				(EditingModelPackage.Literals.PROPERTY_BINDING__SETTINGS,
 				 EditingModelFactory.eINSTANCE.createEReferenceFilter()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EditingModelPackage.Literals.PROPERTY_BINDING__GETTER,
+				 QueryFactory.eINSTANCE.createJavaBody()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EditingModelPackage.Literals.PROPERTY_BINDING__VALUE_PROVIDER,
+				 QueryFactory.eINSTANCE.createJavaBody()));
+	}
+
+	/**
+	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
+		Object childFeature = feature;
+		Object childObject = child;
+
+		boolean qualify =
+			childFeature == EditingModelPackage.Literals.PROPERTY_BINDING__GETTER ||
+			childFeature == EditingModelPackage.Literals.PROPERTY_BINDING__VALUE_PROVIDER;
+
+		if (qualify) {
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
+		}
+		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 	/**

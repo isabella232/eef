@@ -14,7 +14,6 @@ import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl.SWTImplPropertiesEditingView;
@@ -173,14 +172,8 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 			UnmodifiableIterator<ElementEditor> elementEditors = Iterators.filter(view.getViewModel().eAllContents(), ElementEditor.class);
 			while (elementEditors.hasNext()) {
 				ElementEditor elementEditor = elementEditors.next();
-				PropertyBinding propertyBinding = editingComponent.getBinding().propertyBinding(elementEditor, editingComponent.getEditingContext().getOptions().autowire());
-//				EObject editedObject = editingComponent.getEObject();
-//				EMFService emfService = emfServiceProvider.getEMFService(editedObject.eClass().getEPackage());
-//				EStructuralFeature propertyBinding = emfService.mapFeature(editedObject, bindingFeature);
-//				if (propertyBinding != null) {
-//				}
 				PropertyEditor propertyEditor = view.getPropertyEditor(elementEditor);
-				propertyEditor.init(propertyBinding);
+				propertyEditor.init();
 			}
 			EEFLockManager lockManager = lockManagerProvider.getLockManager(view);
 			lockManager.initView(view);

@@ -18,6 +18,7 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -30,19 +31,15 @@ public class ArrayFeatureContentProvider implements IStructuredContentProvider, 
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private PropertiesEditingContext editingContext;
-	private PropertyBinding propertyBinding;
+	private ElementEditor elementEditor;
 
 	/**
 	 * @param propertyBinding
 	 */
-	public ArrayFeatureContentProvider(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editingContext, PropertyBinding propertyBinding) {
-		if (propertyBinding instanceof EStructuralFeatureBinding) {
-			EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
-			assert feature != null && feature.isMany():"The propertyBinding can't be null and must be many";
-		}
+	public ArrayFeatureContentProvider(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editingContext, ElementEditor elementEditor) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.editingContext = editingContext;
-		this.propertyBinding = propertyBinding;
+		this.elementEditor = elementEditor;
 	}
 
 	/**
@@ -64,7 +61,7 @@ public class ArrayFeatureContentProvider implements IStructuredContentProvider, 
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof EObject) {
 			EObject eObject = (EObject) inputElement;
-			Object value = eefEditingServiceProvider.getEditingService(eObject).getValue(editingContext, eObject, propertyBinding);
+			Object value = eefEditingServiceProvider.getEditingService(eObject).getValue(editingContext, eObject, elementEditor);
 			if (value instanceof Collection<?>) {
 				return ((Collection<?>) value).toArray();
 			} else if (value instanceof Object[]) {

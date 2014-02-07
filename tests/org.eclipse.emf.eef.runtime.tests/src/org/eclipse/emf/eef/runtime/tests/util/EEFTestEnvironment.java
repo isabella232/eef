@@ -657,7 +657,6 @@ public class EEFTestEnvironment {
 		public Collection<EEFServiceDescriptor<EditingPolicyRequestFactory>> createPolicyRequestFactories() {
 			Collection<EEFServiceDescriptor<EditingPolicyRequestFactory>> services = new ArrayList<EEFServiceDescriptor<EditingPolicyRequestFactory>>();
 			EObjectEditingPolicyRequestFactory eObjectEditingPolicyRequestFactory = new EObjectEditingPolicyRequestFactory();
-			eObjectEditingPolicyRequestFactory.setEMFServiceProvider(getEMFServiceProvider());
 			EEFServiceDescriptor<EditingPolicyRequestFactory> descriptor = new EEFServiceDescriptor<EditingPolicyRequestFactory>(EObjectEditingPolicyRequestFactory.class.getName(), eObjectEditingPolicyRequestFactory);
 			services.add(descriptor);
 			EReferenceEditingPolicyRequestFactory eReferenceEditingPolicyRequestFactory = new EReferenceEditingPolicyRequestFactory();
@@ -799,7 +798,6 @@ public class EEFTestEnvironment {
 		public Collection<EEFServiceDescriptor<EEFLockManager>> createLockManagers() {
 			Collection<EEFServiceDescriptor<EEFLockManager>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EEFLockManager>>();
 			EditingViewLockManager lockManager = new EditingViewLockManager();
-			lockManager.setEMFServiceProvider(getEMFServiceProvider());
 			lockManager.setEEFNotifierProvider(getEEFNotifierProvider());
 			EEFServiceDescriptor<EEFLockManager> desc = new EEFServiceDescriptor<EEFLockManager>("lockmanager.editingview", lockManager);
 			result.add(desc);

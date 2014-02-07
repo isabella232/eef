@@ -42,7 +42,6 @@ public class EDatePackerPropertyEditor extends PropertyEditorImpl implements Mon
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
-	private PropertyBinding propertyBinding;
 	private SingleLinePropertyViewerListener listener;
 
 	/**
@@ -58,12 +57,15 @@ public class EDatePackerPropertyEditor extends PropertyEditorImpl implements Mon
 		this.propertyEditorViewer = propertyEditorViewer;
 	}
 
-	public void init(PropertyBinding propertyBinding) {
-		this.propertyBinding = propertyBinding;
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
+	 */
+	public void init() {
 		PropertiesEditingComponent editingComponent = view.getEditingComponent();
 		PropertiesEditingContext editingContext = editingComponent.getEditingContext();
-		if (eefEditingServiceProvider.getEditingService(editingComponent.getEObject()).getValue(editingContext, editingComponent.getEObject(), propertyBinding) != null) {
-			EEFViewerInput input = new EEFViewerInput(eefEditingServiceProvider, editingContext, propertyBinding);
+		if (eefEditingServiceProvider.getEditingService(editingComponent.getEObject()).getValue(editingContext, editingComponent.getEObject(), elementEditor) != null) {
+			EEFViewerInput input = new EEFViewerInput(eefEditingServiceProvider, editingContext, elementEditor);
 			propertyEditorViewer.getViewer().setInput(input);
 		}
 		initListener();
@@ -111,7 +113,7 @@ public class EDatePackerPropertyEditor extends PropertyEditorImpl implements Mon
 					dialog.setTitle("Choose the date to set to the attribute:");
 					PropertiesEditingComponent editingComponent = view.getEditingComponent();
 					PropertiesEditingContext editingContext = editingComponent.getEditingContext();
-					Date date = (Date) eefEditingServiceProvider.getEditingService(editingComponent.getEObject()).getValue(editingContext, editingComponent.getEObject(), propertyBinding);
+					Date date = (Date) eefEditingServiceProvider.getEditingService(editingComponent.getEObject()).getValue(editingContext, editingComponent.getEObject(), elementEditor);
 					dialog.setDate(date);
 					if (dialog.open() == Window.OK) {
 						if (dialog.getSelection() != null) {

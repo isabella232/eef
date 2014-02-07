@@ -15,10 +15,10 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.providers.PropertyBindingLabelProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 
@@ -79,10 +79,10 @@ public class E3EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory#createPropertyBindingLabelProvider(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory#createPropertyBindingLabelProvider(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.views.ElementEditor)
 	 */
-	public ILabelProvider createPropertyBindingLabelProvider(PropertiesEditingContext editingContext, PropertyBinding binding) {
-		return new PropertyBindingLabelProvider(eefEditingServiceProvider, editingContext, binding);
+	public ILabelProvider createPropertyBindingLabelProvider(PropertiesEditingContext editingContext, ElementEditor elementEditor) {
+		return new PropertyBindingLabelProvider(eefEditingServiceProvider, editingContext, elementEditor);
 	}
 
 }

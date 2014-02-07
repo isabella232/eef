@@ -42,10 +42,10 @@ import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.NullPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
@@ -643,7 +643,7 @@ public class BindingsEditingPage extends FormPage {
 				EClassBinding editedBinding = findCurrentEClassBinding();
 				EStructuralFeature structuralFeature = (EStructuralFeature) selection;
 				if (editedBinding != null) {
-					PropertyBinding binding = EditingModelFactory.eINSTANCE.createPropertyBinding();
+					EStructuralFeatureBinding binding = EditingModelFactory.eINSTANCE.createEStructuralFeatureBinding();
 					binding.setFeature(structuralFeature);
 					IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(editedBinding, IEditingDomainItemProvider.class);						
 					Command cmd = provider.createCommand(editedBinding, editingDomain, AddCommand.class , new CommandParameter(editedBinding, EditingModelPackage.Literals.ECLASS_BINDING__PROPERTY_BINDINGS, Lists.newArrayList(binding)));

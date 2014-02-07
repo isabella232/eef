@@ -19,10 +19,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.eef.editor.internal.filters.utils.PropertyBindingFeatureChoiceFilter;
+import org.eclipse.emf.eef.editor.internal.filters.utils.EStructuralFeatureBindingChoiceFilter;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 
 import com.google.common.collect.Lists;
@@ -45,13 +46,13 @@ public class PropertyBindingFilter {
 			EObject target = null;
 			if (editedBinding instanceof EClassBinding) { 
 				target = ((EClassBinding) editedBinding).getEClass();
-			} else if (editedBinding instanceof PropertyBinding) {
-				target = ((PropertyBinding) editedBinding).getFeature();
+			} else if (editedBinding instanceof EStructuralFeatureBinding) {
+				target = ((EStructuralFeatureBinding) editedBinding).getFeature();
 			} else {
 				// What ????
 			}
 			if (target != null) {
-				PropertyBindingFeatureChoiceFilter filter = new PropertyBindingFeatureChoiceFilter(editedBinding);
+				EStructuralFeatureBindingChoiceFilter filter = new EStructuralFeatureBindingChoiceFilter(editedBinding);
 				Collection<?> reachableObjects = filter.getReachableObjects(target, EcorePackage.Literals.ECLASS__EALL_STRUCTURAL_FEATURES);
 				Collection<?> choiceOfValues = filter.filterPropertyBindingChoiceOfValues(reachableObjects);
 				if (choiceOfValues.contains(element)){

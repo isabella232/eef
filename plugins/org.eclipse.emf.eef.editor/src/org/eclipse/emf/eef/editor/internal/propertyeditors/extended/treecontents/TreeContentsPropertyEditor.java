@@ -30,6 +30,7 @@ import org.eclipse.emf.eef.editor.internal.widgets.TreeEEFViewer.TreeEEFViewerLi
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.TargetedEditingEvent;
 import org.eclipse.emf.eef.runtime.ui.swt.util.EEFViewerInput;
@@ -37,6 +38,7 @@ import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.PropertyEditorImpl;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -53,15 +55,16 @@ public class TreeContentsPropertyEditor extends PropertyEditorImpl implements Mu
 
 	private EditingContextFactoryProvider contextFactoryProvider;
 	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	
 	private PropertiesEditingView<Composite> view;
 	private ElementEditor elementEditor;
 	private PropertyEditorViewer<TreeEEFViewer> propertyEditorViewer;
-	private EStructuralFeature feature;
 
-	public TreeContentsPropertyEditor(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<TreeEEFViewer> propertyEditorViewer) {
+	public TreeContentsPropertyEditor(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<TreeEEFViewer> propertyEditorViewer) {
 		this.contextFactoryProvider = contextFactoryProvider;
 		this.emfServiceProvider = emfServiceProvider;
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.propertyEditorViewer = propertyEditorViewer;
@@ -69,10 +72,9 @@ public class TreeContentsPropertyEditor extends PropertyEditorImpl implements Mu
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.ecore.EStructuralFeature)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
-	public void init(EStructuralFeature feature) {
-		this.feature = feature;
+	public void init() {
 		AdapterFactory adapterFactory = view.getEditingComponent().getEditingContext().getAdapterFactory();
 		final EObject input = view.getEditingComponent().getEObject();
 		propertyEditorViewer.getViewer().setContentProvider(new AdapterFactoryContentProvider(view.getEditingComponent().getEditingContext().getAdapterFactory()) {
@@ -96,7 +98,7 @@ public class TreeContentsPropertyEditor extends PropertyEditorImpl implements Mu
 			@Override
 			public Object[] getChildren(Object object) {
 				if (object == input) {
-					EList<?> children = (EList<?>)((EObject)input).eGet(TreeContentsPropertyEditor.this.feature);
+					EList<?> children = (EList<?>)((EObject)input).eGet(TreeContentsPropertyEditor.this.propertyBinding);
 					return children.toArray(); 
 				}
 				return super.getChildren(object);
@@ -121,7 +123,7 @@ public class TreeContentsPropertyEditor extends PropertyEditorImpl implements Mu
 			}
 
 		});
-		EEFViewerInput eefViewerInput = new EEFViewerInput(input, feature);
+		EEFViewerInput eefViewerInput = new EEFViewerInput(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), elementEditor);
 		propertyEditorViewer.getViewer().setInput(eefViewerInput);
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.heightHint = view.getViewSettings().getMultiEditorHeight();

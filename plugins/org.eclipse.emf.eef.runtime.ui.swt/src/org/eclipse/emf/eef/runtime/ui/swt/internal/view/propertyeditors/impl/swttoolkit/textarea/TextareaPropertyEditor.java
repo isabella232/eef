@@ -40,8 +40,6 @@ public class TextareaPropertyEditor extends PropertyEditorImpl implements Monova
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<EEFControlWrapperViewer<Text>> propertyEditorControl;
 
-	protected PropertyBinding propertyBinding;
-
 	/**
 	 * @param eefEditingServiceProvider
 	 * @param view
@@ -55,14 +53,9 @@ public class TextareaPropertyEditor extends PropertyEditorImpl implements Monova
 		this.propertyEditorControl = propertyEditorViewer;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init(org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
-	 */
-	public void init(PropertyBinding propertyBinding) {
-		this.propertyBinding = propertyBinding;
+	public void init() {
 		EObject eObject = view.getEditingComponent().getEObject();
-		Object value = eefEditingServiceProvider.getEditingService(eObject).getValue(view.getEditingComponent().getEditingContext(), eObject, propertyBinding);
+		Object value = eefEditingServiceProvider.getEditingService(eObject).getValue(view.getEditingComponent().getEditingContext(), eObject, elementEditor);
 		if (value instanceof String) {
 			propertyEditorControl.getViewer().getMainControl().setText((String) value);
 		} else {

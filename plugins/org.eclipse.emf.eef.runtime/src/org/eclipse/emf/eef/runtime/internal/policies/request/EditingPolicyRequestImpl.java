@@ -11,7 +11,7 @@
 package org.eclipse.emf.eef.runtime.internal.policies.request;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 
 /**
@@ -22,49 +22,52 @@ public class EditingPolicyRequestImpl implements EditingPolicyRequest {
 
 	private ProcessingKind processingKind;
 	
+	private SemanticPropertiesEditingContext editingContext;
 	private EObject target;
-	private PropertyBinding propertyBinding;
 	private Object value;
 	private int newIndex;
 	private int oldIndex;
+
 	
 	/**
 	 * @param processingKind
 	 * @param target
-	 * @param feature
 	 * @param value
 	 */
-	public EditingPolicyRequestImpl(ProcessingKind processingKind, EObject target, PropertyBinding propertyBinding, Object value) {
+	public EditingPolicyRequestImpl(SemanticPropertiesEditingContext editingContext, ProcessingKind processingKind, EObject target, Object value) {
+		this.editingContext = editingContext;
 		this.processingKind = processingKind;
 		this.target = target;
-		this.propertyBinding = propertyBinding;
 		this.value = value;
 	}
 
 	/**
 	 * @param processingKind
 	 * @param target
-	 * @param feature
 	 */
-	public EditingPolicyRequestImpl(ProcessingKind processingKind, EObject target, PropertyBinding propertyBinding) {
+	public EditingPolicyRequestImpl(SemanticPropertiesEditingContext editingContext, ProcessingKind processingKind, EObject target) {
 		this.processingKind = processingKind;
 		this.target = target;
-		this.propertyBinding = propertyBinding;
 	}
 
 	/**
 	 * @param processingKind
 	 * @param target
-	 * @param feature
 	 * @param newIndex
 	 * @param oldIndex
 	 */
-	public EditingPolicyRequestImpl(ProcessingKind processingKind, EObject target, PropertyBinding propertyBinding, int newIndex, int oldIndex) {
+	public EditingPolicyRequestImpl(SemanticPropertiesEditingContext editingContext, ProcessingKind processingKind, EObject target, int newIndex, int oldIndex) {
 		this.processingKind = processingKind;
 		this.target = target;
-		this.propertyBinding = propertyBinding;
 		this.newIndex = newIndex;
 		this.oldIndex = oldIndex;
+	}
+
+	/**
+	 * @return the editingContext
+	 */
+	public SemanticPropertiesEditingContext getEditingContext() {
+		return editingContext;
 	}
 
 	/**
@@ -79,13 +82,6 @@ public class EditingPolicyRequestImpl implements EditingPolicyRequest {
 	 */
 	public EObject getTarget() {
 		return target;
-	}
-
-	/**
-	 * @return the propertyBinding
-	 */
-	public PropertyBinding getPropertyBinding() {
-		return propertyBinding;
 	}
 
 	/**

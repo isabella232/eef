@@ -12,10 +12,9 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.util;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
-import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.util.PlatformAwareViewService;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.util.SWTViewServiceImpl;
+import org.eclipse.emf.eef.runtime.util.EEFEditingService;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -48,12 +47,10 @@ public class PlatformAwareViewServiceImpl extends SWTViewServiceImpl implements 
 			label.setText(text);
 		}
 		if (!eefEditingServiceProvider.getEditingService(editingComponent.getBinding()).isReflectiveBinding(editingComponent.getBinding())) {
-			PropertyBinding propertyBinding = editingComponent.getBinding().propertyBinding(editor, editingComponent.getEditingContext().getOptions().autowire());
-			if (propertyBinding instanceof EStructuralFeatureBinding) {
-				EStructuralFeature associatedFeature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
-				if (associatedFeature != null && associatedFeature.isRequired()) {
-					label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
-				}
+			EEFEditingService editingService = eefEditingServiceProvider.getEditingService(editingComponent.getEObject());
+			EStructuralFeature associatedFeature = editingService.featureFromEditor(editingComponent.getEditingContext(), editor);
+			if (associatedFeature != null && associatedFeature.isRequired()) {
+				label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
 			}
 		}
 		return label;
