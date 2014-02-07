@@ -22,17 +22,17 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class HBoxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrapperViewer<Composite>> {
 
 	private Container container;
-	
+
 	private EEFControlWrapperViewer<Composite> wrapperViewer;
 	private Composite hbox;
 
 	private GridLayout layout;
-	
+
 	/**
 	 * @param container
 	 */
@@ -42,22 +42,22 @@ public class HBoxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrappe
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public EEFControlWrapperViewer<Composite> getViewer() {
 		if (wrapperViewer == null) {
 			wrapperViewer = new EEFControlWrapperViewer<Composite>() {
 
-
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.ui.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
 				 */
 				@Override
 				public Composite getMainControl() {
 					return hbox;
 				}
-
 
 			};
 		}
@@ -66,6 +66,7 @@ public class HBoxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrappe
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.SWTPropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(Composite parent) {
@@ -91,6 +92,7 @@ public class HBoxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrappe
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
@@ -99,11 +101,20 @@ public class HBoxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrappe
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		// Do nothing		
+		// Do nothing
 	}
 
-	
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return false;
+	}
+
 }

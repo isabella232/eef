@@ -21,7 +21,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class UndefinedFormPropertyEditor extends AbstractUndefinedPropertyEditor implements FormPropertyEditor<EEFControlWrapperViewer<Label>> {
 
@@ -39,15 +39,16 @@ public class UndefinedFormPropertyEditor extends AbstractUndefinedPropertyEditor
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public EEFControlWrapperViewer<Label> getViewer() {
 		if (wrapperViewer == null) {
 			wrapperViewer = new EEFControlWrapperViewer<Label>() {
 
-
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.ui.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
 				 */
 				@Override
@@ -55,15 +56,16 @@ public class UndefinedFormPropertyEditor extends AbstractUndefinedPropertyEditor
 					return label;
 				}
 
-
 			};
 		}
 		return wrapperViewer;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit,
+	 *      org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(FormToolkit toolkit, Composite parent) {
 		label = toolkit.createLabel(parent, buildErrorMessage(viewElement));
@@ -74,18 +76,29 @@ public class UndefinedFormPropertyEditor extends AbstractUndefinedPropertyEditor
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
-		//Do nothing.
+		// Do nothing.
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		//Do nothing.
+		// Do nothing.
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return false;
 	}
 
 }

@@ -22,17 +22,17 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class HBoxFormPropertyEditor implements FormPropertyEditor<EEFControlWrapperViewer<Composite>> {
 
 	private Container container;
-	
+
 	private EEFControlWrapperViewer<Composite> wrapperViewer;
 	private Composite hbox;
 
 	private GridLayout layout;
-	
+
 	/**
 	 * @param container
 	 */
@@ -42,22 +42,22 @@ public class HBoxFormPropertyEditor implements FormPropertyEditor<EEFControlWrap
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public EEFControlWrapperViewer<Composite> getViewer() {
 		if (wrapperViewer == null) {
 			wrapperViewer = new EEFControlWrapperViewer<Composite>() {
 
-
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.ui.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
 				 */
 				@Override
 				public Composite getMainControl() {
 					return hbox;
 				}
-
 
 			};
 		}
@@ -66,7 +66,9 @@ public class HBoxFormPropertyEditor implements FormPropertyEditor<EEFControlWrap
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit,
+	 *      org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(FormToolkit toolkit, Composite parent) {
 		hbox = toolkit.createComposite(parent);
@@ -91,6 +93,7 @@ public class HBoxFormPropertyEditor implements FormPropertyEditor<EEFControlWrap
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
@@ -99,11 +102,20 @@ public class HBoxFormPropertyEditor implements FormPropertyEditor<EEFControlWrap
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		// Do nothing		
+		// Do nothing
 	}
 
-	
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return false;
+	}
+
 }

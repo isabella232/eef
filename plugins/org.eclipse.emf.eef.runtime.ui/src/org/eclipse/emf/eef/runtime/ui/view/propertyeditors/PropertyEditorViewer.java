@@ -12,7 +12,7 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public interface PropertyEditorViewer<VIEWER> {
 
@@ -23,12 +23,19 @@ public interface PropertyEditorViewer<VIEWER> {
 
 	/**
 	 * Locks the current editor towards the given {@link EEFPropertyLock}.
-	 * @param lock lock configuration.
+	 * 
+	 * @param lock
+	 *            lock configuration.
 	 */
 	void lock();
-	
+
 	/**
 	 * Unlocks the current editor.
 	 */
 	void unlock();
+
+	/**
+	 * @return if current editor is locked
+	 */
+	boolean isLocked();
 }

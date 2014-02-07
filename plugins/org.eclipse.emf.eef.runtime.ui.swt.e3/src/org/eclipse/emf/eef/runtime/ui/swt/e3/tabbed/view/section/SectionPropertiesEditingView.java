@@ -46,7 +46,7 @@ import com.google.common.collect.Maps;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class SectionPropertiesEditingView extends FormImplPropertiesEditingView implements ISection {
 
@@ -61,12 +61,14 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	private Composite parentComposite;
 
 	/**
-	 * EEF Utility to display validation errors in the {@link TabbedPropertySheetPage}.
+	 * EEF Utility to display validation errors in the
+	 * {@link TabbedPropertySheetPage}.
 	 */
 	private ValidationMessageInjector injector;
 
 	/**
-	 * The current selected object or the first object in the selection when multiple objects are selected.
+	 * The current selected object or the first object in the selection when
+	 * multiple objects are selected.
 	 */
 	protected EObject eObject;
 
@@ -100,26 +102,29 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 		setToolkitPropertyEditorFactory(E3EEFRuntimeUIPlatformPlugin.getPlugin().getEEFToolkitProvider());
 	}
 
-
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.ui.views.properties.tabbed.ISection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
+	 * 
+	 * @see org.eclipse.ui.views.properties.tabbed.ISection#createControls(org.eclipse.swt.widgets.Composite,
+	 *      org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
 	 */
-	public void createControls(Composite parent,TabbedPropertySheetPage tabbedPropertySheetPage) {
+	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
 		this.tabbedPropertySheetPage = tabbedPropertySheetPage;
 		this.parentComposite = parent;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.ui.views.properties.tabbed.ISection#setInput(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	 * 
+	 * @see org.eclipse.ui.views.properties.tabbed.ISection#setInput(org.eclipse.ui.IWorkbenchPart,
+	 *      org.eclipse.jface.viewers.ISelection)
 	 */
 	public void setInput(IWorkbenchPart part, ISelection selection) {
 		this.editingDomain = getViewService().getEditingDomain(part);
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
 		}
-		EObject semanticObject = resolveSemanticObject(((IStructuredSelection)selection).getFirstElement());
+		EObject semanticObject = resolveSemanticObject(((IStructuredSelection) selection).getFirstElement());
 		if (semanticObject != null) {
 			EObject newEObject = semanticObject;
 			if (newEObject != eObject) {
@@ -132,40 +137,46 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 					editingContext.getOptions().setMessageManager(initMessageManager());
 					editingComponent = editingContext.getEditingComponent();
 					editingComponent.addEditingListener(this);
-					refreshComponent();					
+					refreshComponent();
 				}
 			}
 		}
-		eObjectList = ((IStructuredSelection)selection).toList();
+		eObjectList = ((IStructuredSelection) selection).toList();
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.ui.views.properties.tabbed.ISection#refresh()
 	 */
 	public void refresh() {
 		if (editingComponent != null) {
 			ViewHandler<?> viewHandler = editingComponent.getEditingContext().getViewHandlerProvider().getViewHandler(rawDescriptor);
 			if (viewHandler instanceof PropertiesEditingViewHandler) {
-				((PropertiesEditingViewHandler)viewHandler).initView(editingComponent, this);
+				((PropertiesEditingViewHandler) viewHandler).initView(editingComponent, this);
 			}
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.ui.views.properties.tabbed.ISection#aboutToBeShown()
 	 */
-	public void aboutToBeShown() { }
+	public void aboutToBeShown() {
+	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.ui.views.properties.tabbed.ISection#aboutToBeHidden()
 	 */
-	public void aboutToBeHidden() {	}
+	public void aboutToBeHidden() {
+	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.ui.views.properties.tabbed.ISection#dispose()
 	 */
 	public void dispose() {
@@ -179,7 +190,6 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 			disposeComponentIfExist();
 		}
 	}
-
 
 	/**
 	 * Dispose and null the editingComponent of the section if it's not null.
@@ -195,6 +205,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.ui.views.properties.tabbed.ISection#getMinimumHeight()
 	 */
 	public int getMinimumHeight() {
@@ -203,6 +214,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.ui.views.properties.tabbed.ISection#shouldUseExtraSpace()
 	 */
 	public boolean shouldUseExtraSpace() {
@@ -210,30 +222,32 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	}
 
 	/**
-	 * This method analyze an input to exact the EObject to edit.
-	 * First we try to adapt this object in {@link SemanticAdapter}. If this can't be done, 
-	 * we check if this object is an {@link EObject}. Finally, if this object isn't an
-	 * {@link EObject}, we try to adapt it in EObject.
-	 * @param object element to test
+	 * This method analyze an input to exact the EObject to edit. First we try
+	 * to adapt this object in {@link SemanticAdapter}. If this can't be done,
+	 * we check if this object is an {@link EObject}. Finally, if this object
+	 * isn't an {@link EObject}, we try to adapt it in EObject.
+	 * 
+	 * @param object
+	 *            element to test
 	 * @return the EObject to edit with EEF.
 	 */
 	protected EObject resolveSemanticObject(Object object) {
 		IAdaptable adaptable = null;
 		if (object instanceof IAdaptable) {
-			adaptable = (IAdaptable)object;
+			adaptable = (IAdaptable) object;
 		}
 		if (adaptable != null) {
 			if (adaptable.getAdapter(SemanticAdapter.class) != null) {
-				SemanticAdapter semanticAdapter = (SemanticAdapter)adaptable.getAdapter(SemanticAdapter.class);
+				SemanticAdapter semanticAdapter = (SemanticAdapter) adaptable.getAdapter(SemanticAdapter.class);
 				return semanticAdapter.getEObject();
-			} 
+			}
 		}
 		if (object instanceof EObject) {
-			return (EObject)object;
-		} 
+			return (EObject) object;
+		}
 		if (adaptable != null) {
 			if (adaptable.getAdapter(EObject.class) != null) {
-				return (EObject)adaptable.getAdapter(EObject.class);
+				return (EObject) adaptable.getAdapter(EObject.class);
 			}
 		}
 		return null;
@@ -254,12 +268,12 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 			setEEFEditingServiceProvider(viewHandler.getEEFEditingServiceProvider());
 			setViewServiceProvider(viewHandler.getViewServiceProvider());
 			setToolkitPropertyEditorFactory(viewHandler.getEEFToolkitProvider());
+			setLockManagerProvider(viewHandler.getLockManagerProvider());
 			createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
 			parentComposite.layout();
 			viewHandler.initView(editingComponent, this);
 		}
 	}
-
 
 	protected PropertiesEditingMessageManager initMessageManager() {
 		PropertiesEditingMessageManager messageManager = new PropertiesEditingMessageManagerImpl() {
@@ -287,6 +301,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManagerImpl#updateLock(java.lang.String)
 			 */
 			@Override

@@ -24,12 +24,13 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditingViewHandler {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler#serviceFor(org.eclipse.emf.eef.runtime.editingModel.View)
 	 */
 	@Override
@@ -39,34 +40,35 @@ public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditing
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler#createView(java.lang.Object, java.lang.Object[])
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler#createView(java.lang.Object,
+	 *      java.lang.Object[])
 	 */
 	@Override
 	public PropertiesEditingView<Composite> createView(PropertiesEditingComponent editingComponent, org.eclipse.emf.eef.runtime.editingModel.View viewDescriptor, Object... args) throws ViewConstructionException {
 		PropertiesEditingView<Composite> view;
-		if (viewDescriptor instanceof EObjectView && ((EObjectView)viewDescriptor).getDefinition() instanceof View 
-				&& args.length > 0 && args[0] instanceof Composite) {
-			View eObjectViewDescriptor = (View) ((EObjectView)viewDescriptor).getDefinition();
+		if (viewDescriptor instanceof EObjectView && ((EObjectView) viewDescriptor).getDefinition() instanceof View && args.length > 0 && args[0] instanceof Composite) {
+			View eObjectViewDescriptor = (View) ((EObjectView) viewDescriptor).getDefinition();
 			FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 			if (toolkit != null) {
 				view = new FormImplPropertiesEditingView(editingComponent, eObjectViewDescriptor);
-				((FormImplPropertiesEditingView)view).setEEFEditingServiceProvider(eefEditingServiceProvider);
+				((FormImplPropertiesEditingView) view).setEEFEditingServiceProvider(eefEditingServiceProvider);
 				((FormImplPropertiesEditingView) view).setViewServiceProvider(getViewServiceProvider());
 				((FormImplPropertiesEditingView) view).setToolkitPropertyEditorFactory(getEEFToolkitProvider());
-				((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite)args[0]);
+				((FormImplPropertiesEditingView) view).setLockManagerProvider(getLockManagerProvider());
+				((FormImplPropertiesEditingView) view).createContents(toolkit, (Composite) args[0]);
 			} else {
-				view = new SWTImplPropertiesEditingView(editingComponent, eObjectViewDescriptor);					
-				((SWTImplPropertiesEditingView)view).setEEFEditingServiceProvider(eefEditingServiceProvider);
+				view = new SWTImplPropertiesEditingView(editingComponent, eObjectViewDescriptor);
+				((SWTImplPropertiesEditingView) view).setEEFEditingServiceProvider(eefEditingServiceProvider);
 				((SWTImplPropertiesEditingView) view).setViewServiceProvider(getViewServiceProvider());
 				((SWTImplPropertiesEditingView) view).setToolkitPropertyEditorFactory(getEEFToolkitProvider());
-				((SWTImplPropertiesEditingView) view).createContents((Composite)args[0]);
+				((SWTImplPropertiesEditingView) view).setLockManagerProvider(getLockManagerProvider());
+				((SWTImplPropertiesEditingView) view).createContents((Composite) args[0]);
 			}
 			editingComponent.setViewForDescriptor(viewDescriptor, view);
 			return view;
 		}
 		return super.createView(editingComponent, viewDescriptor, args);
 	}
-
-	
 
 }

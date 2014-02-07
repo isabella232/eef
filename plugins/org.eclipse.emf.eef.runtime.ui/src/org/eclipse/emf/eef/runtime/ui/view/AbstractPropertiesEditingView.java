@@ -21,6 +21,7 @@ import org.eclipse.emf.eef.runtime.ui.util.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewElement;
 
@@ -28,29 +29,32 @@ import com.google.common.collect.Maps;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public abstract class AbstractPropertiesEditingView<T> implements PropertiesEditingView<T> {
-	
+
 	protected EEFEditingServiceProvider eefEditingServiceProvider;
 	private ViewServiceProvider viewServiceProvider;
 	protected EEFToolkitProvider eefToolkitProvider;
-	
+	protected EEFLockManagerProvider lockManagerProvider;
+
 	protected PropertiesEditingComponent editingComponent;
 	protected View viewDescriptor;
-	
+
 	protected Map<ViewElement, PropertyEditor> propertyEditors;
 	protected T contentsComposite;
 	protected ViewService service;
-	
+
 	/**
-	 * Non-parameterized constructor for {@link SectionPropertiesEditingView} purpose.
-	 * Mustn't be use otherwise.
+	 * Non-parameterized constructor for {@link SectionPropertiesEditingView}
+	 * purpose. Mustn't be use otherwise.
 	 */
-	public AbstractPropertiesEditingView() { }
-	
+	public AbstractPropertiesEditingView() {
+	}
+
 	/**
-	 * @param editingComponent {@link PropertiesEditingComponent} managing the view.
+	 * @param editingComponent
+	 *            {@link PropertiesEditingComponent} managing the view.
 	 */
 	public AbstractPropertiesEditingView(PropertiesEditingComponent editingComponent, View viewDescriptor) {
 		this.viewDescriptor = viewDescriptor;
@@ -60,28 +64,40 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 	}
 
 	/**
-	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 * @param eefEditingServiceProvider
+	 *            the eefEditingServiceProvider to set
 	 */
 	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
-	 * @param viewServiceProvider the viewServiceProvider to set
+	 * @param viewServiceProvider
+	 *            the viewServiceProvider to set
 	 */
 	public void setViewServiceProvider(ViewServiceProvider viewServiceProvider) {
 		this.viewServiceProvider = viewServiceProvider;
 	}
 
 	/**
-	 * @param eefToolkitProvider the eefToolkitProvider to set
+	 * @param eefToolkitProvider
+	 *            the eefToolkitProvider to set
 	 */
 	public void setToolkitPropertyEditorFactory(EEFToolkitProvider eefToolkitProvider) {
 		this.eefToolkitProvider = eefToolkitProvider;
 	}
 
 	/**
+	 * @param lockManagerProvider
+	 *            the lockManager to set
+	 */
+	public void setLockManagerProvider(EEFLockManagerProvider lockManagerProvider) {
+		this.lockManagerProvider = lockManagerProvider;
+	}
+
+	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewModel()
 	 */
 	public final View getViewModel() {
@@ -90,6 +106,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getEditingComponent()
 	 */
 	public final PropertiesEditingComponent getEditingComponent() {
@@ -98,6 +115,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getPropertyEditor(org.eclipse.emf.eef.views.ViewElement)
 	 */
 	public final PropertyEditor getPropertyEditor(ViewElement editor) {
@@ -106,6 +124,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getAllPropertyEditors()
 	 */
 	public Collection<PropertyEditor> getAllPropertyEditors() {
@@ -114,6 +133,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewService()
 	 */
 	public final ViewService getViewService() {
@@ -125,6 +145,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getViewSettings()
 	 */
 	public final ViewSettings getViewSettings() {
@@ -133,6 +154,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#getContents()
 	 */
 	public final T getContents() {
@@ -141,6 +163,7 @@ public abstract class AbstractPropertiesEditingView<T> implements PropertiesEdit
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public final void firePropertiesChanged(PropertiesEditingEvent event) {

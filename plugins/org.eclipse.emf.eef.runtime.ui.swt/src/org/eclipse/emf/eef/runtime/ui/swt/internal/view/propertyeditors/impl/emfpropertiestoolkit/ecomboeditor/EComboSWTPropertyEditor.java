@@ -29,7 +29,7 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLinePropertyViewer> implements FilterablePropertyEditor {
 
@@ -37,13 +37,13 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLin
 	private ImageManager imageManager;
 
 	private SingleLinePropertyViewer eComboEditor;
-	
+
 	private Collection<ViewerFilter> filters;
 
 	/**
 	 * @param view
 	 * @param elementEditor
-	 * @param imageManager 
+	 * @param imageManager
 	 */
 	public EComboSWTPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
@@ -54,6 +54,7 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public SingleLinePropertyViewer getViewer() {
@@ -62,6 +63,7 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.StandardSWTPropertyEditor#createEditorContents(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -77,6 +79,7 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#addFilter(org.eclipse.jface.viewers.ViewerFilter)
 	 */
 	public void addFilter(ViewerFilter filter) {
@@ -85,6 +88,7 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#removeFilter(org.eclipse.jface.viewers.ViewerFilter)
 	 */
 	public void removeFilter(ViewerFilter filter) {
@@ -93,6 +97,7 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#getFilters()
 	 */
 	public Collection<ViewerFilter> getFilters() {
@@ -101,6 +106,7 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.StandardFormPropertyEditor#lock()
 	 */
 	@Override
@@ -110,10 +116,20 @@ public class EComboSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.StandardFormPropertyEditor#unlock()
 	 */
 	@Override
 	public void unlock() {
 		eComboEditor.setLocked(false);
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return eComboEditor.isLocked();
 	}
 }

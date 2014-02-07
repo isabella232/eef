@@ -1,4 +1,4 @@
- /*******************************************************************************
+/*******************************************************************************
  * Copyright (c) 2013 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -17,11 +17,11 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.section.SectionPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.undefined.editor.UndefinedPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.AbstractPropertiesEditingView;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -33,15 +33,16 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView<Composite> implements FormPropertiesEditingView {
 
 	/**
-	 * Non-parameterized constructor for {@link SectionPropertiesEditingView} purpose.
-	 * Mustn't be use otherwise.
+	 * Non-parameterized constructor for {@link SectionPropertiesEditingView}
+	 * purpose. Mustn't be use otherwise.
 	 */
-	public FormImplPropertiesEditingView() { }
+	public FormImplPropertiesEditingView() {
+	}
 
 	/**
 	 * @param editingComponent
@@ -53,7 +54,9 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.view.FormPropertiesEditingView#createContents(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.view.FormPropertiesEditingView#createContents(org.eclipse.ui.forms.widgets.FormToolkit,
+	 *      org.eclipse.swt.widgets.Composite)
 	 */
 	public void createContents(FormToolkit toolkit, Composite composite) {
 		contentsComposite = toolkit.createComposite(composite);
@@ -61,7 +64,8 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 		EClassBinding binding = editingComponent.getBinding();
 		boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
 		for (EObject content : viewDescriptor.eContents()) {
-			//TODO: In case of Container, we should check that at least 1 subElementEditor is binded.
+			// TODO: In case of Container, we should check that at least 1
+			// subElementEditor is binded.
 			if (content instanceof Container || eefEditingServiceProvider.getEditingService(binding).isReflectiveBinding(binding) || binding.feature(content, autowire) != null) {
 				buildElement(toolkit, contentsComposite, binding.propertyBinding(content, autowire), content);
 			}
@@ -76,11 +80,17 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
-					((FormPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(toolkit, currentContainer);
+					((FormPropertyEditor<?>) propertyEditor.getPropertyEditorViewer()).build(toolkit, currentContainer);
 				} else if (propertyEditor.getPropertyEditorViewer() instanceof SWTPropertyEditor) {
-					((SWTPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(currentContainer);					
+					((SWTPropertyEditor<?>) propertyEditor.getPropertyEditorViewer()).build(currentContainer);
 				}
 				this.propertyEditors.put(elementEditor, propertyEditor);
+				// manage read only
+				if (elementEditor.isReadOnly() && !propertyEditor.getPropertyEditorViewer().isLocked()) {
+					lockManagerProvider.getLockManager(this).lockEditor(this, elementEditor);
+				} else if (!elementEditor.isReadOnly() && propertyEditor.getPropertyEditorViewer().isLocked()) {
+					lockManagerProvider.getLockManager(this).clearEditorLock(this, elementEditor);
+				}
 			}
 		} else if (content instanceof Container) {
 			Container container = (Container) content;
@@ -89,9 +99,9 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 			if (propertyEditorProvider != null) {
 				PropertyEditor propertyEditor = propertyEditorProvider.getPropertyEditor(editorContext);
 				if (propertyEditor.getPropertyEditorViewer() instanceof FormPropertyEditor) {
-					((FormPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(toolkit, currentContainer);
+					((FormPropertyEditor<?>) propertyEditor.getPropertyEditorViewer()).build(toolkit, currentContainer);
 				} else if (propertyEditor.getPropertyEditorViewer() instanceof SWTPropertyEditor) {
-					((SWTPropertyEditor<?>)propertyEditor.getPropertyEditorViewer()).build(currentContainer);					
+					((SWTPropertyEditor<?>) propertyEditor.getPropertyEditorViewer()).build(currentContainer);
 				}
 				this.propertyEditors.put(container, propertyEditor);
 				if (!(propertyEditor instanceof UndefinedPropertyEditor)) {
@@ -100,7 +110,8 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 						boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
 						Composite viewerControl = (Composite) ((Viewer) propertyEditor.getPropertyEditorViewer().getViewer()).getControl();
 						if ((Viewer) propertyEditor.getPropertyEditorViewer().getViewer() instanceof Viewer) {
-							//TODO: In case of Container, we should check that at least 1 subElementEditor is binded.
+							// TODO: In case of Container, we should check that
+							// at least 1 subElementEditor is binded.
 							if (content instanceof Container || binding.feature(content, autowire) != null) {
 								buildElement(toolkit, viewerControl, binding.propertyBinding(subContent, autowire), subContent);
 							}
@@ -110,5 +121,5 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 			}
 		}
 	}
-	
+
 }

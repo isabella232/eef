@@ -22,7 +22,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public abstract class StandardFormPropertyEditor<VIEWER extends Viewer> implements FormPropertyEditor<VIEWER> {
 
@@ -30,8 +30,11 @@ public abstract class StandardFormPropertyEditor<VIEWER extends Viewer> implemen
 	protected ElementEditor elementEditor;
 
 	/**
-	 * @param view {@link PropertiesEditingView} where the PropertyEditor is built.
-	 * @param viewElement {@link ElementEditor} specifying the Property Editor.
+	 * @param view
+	 *            {@link PropertiesEditingView} where the PropertyEditor is
+	 *            built.
+	 * @param viewElement
+	 *            {@link ElementEditor} specifying the Property Editor.
 	 */
 	public StandardFormPropertyEditor(PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
@@ -40,18 +43,20 @@ public abstract class StandardFormPropertyEditor<VIEWER extends Viewer> implemen
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit,
+	 *      org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(FormToolkit toolkit, Composite parent) {
 		ViewService viewService = view.getViewService();
 		if (viewService instanceof PlatformAwareViewService) {
-			((PlatformAwareViewService)viewService).createLabel(view.getEditingComponent(), toolkit, parent, elementEditor, elementEditor.getName());
+			((PlatformAwareViewService) viewService).createLabel(view.getEditingComponent(), toolkit, parent, elementEditor, elementEditor.getName());
 		} else if (viewService instanceof SWTViewService) {
 			((SWTViewService) viewService).createLabel(view.getEditingComponent(), parent, elementEditor, elementEditor.getName());
 		}
 		createEditorContents(toolkit, parent);
 		if (viewService instanceof PlatformAwareViewService) {
-			((PlatformAwareViewService)viewService).createHelpButton(view.getEditingComponent(), toolkit, parent, elementEditor);
+			((PlatformAwareViewService) viewService).createHelpButton(view.getEditingComponent(), toolkit, parent, elementEditor);
 		} else if (viewService instanceof SWTViewService) {
 			((SWTViewService) viewService).createHelpButton(view.getEditingComponent(), parent, elementEditor);
 		}
@@ -59,13 +64,17 @@ public abstract class StandardFormPropertyEditor<VIEWER extends Viewer> implemen
 
 	/**
 	 * Create the contents of the property editor in the owning Composite.
-	 * @param toolkit {@link FormToolkit} to use to build the control.
-	 * @param parent the owning {@link Composite}.
+	 * 
+	 * @param toolkit
+	 *            {@link FormToolkit} to use to build the control.
+	 * @param parent
+	 *            the owning {@link Composite}.
 	 */
 	protected abstract void createEditorContents(FormToolkit toolkit, Composite parent);
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
@@ -74,10 +83,19 @@ public abstract class StandardFormPropertyEditor<VIEWER extends Viewer> implemen
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		getViewer().getControl().setEnabled(true);		
+		getViewer().getControl().setEnabled(true);
 	}
-	
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return !getViewer().getControl().isEnabled();
+	}
 }

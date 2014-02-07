@@ -25,7 +25,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class TreeContentsFormPropertyEditor implements FormPropertyEditor<TreeEEFViewer> {
 
@@ -36,11 +36,12 @@ public class TreeContentsFormPropertyEditor implements FormPropertyEditor<TreeEE
 
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
-	
+
 	private FormTreeEEFViewer viewer;
 
 	/**
-	 * @param editingDomain can be null;
+	 * @param editingDomain
+	 *            can be null;
 	 */
 	public TreeContentsFormPropertyEditor(EMFServiceProvider emfServiceProvider, ImageManager imageManager, EditingDomain editingDomain, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
@@ -52,7 +53,9 @@ public class TreeContentsFormPropertyEditor implements FormPropertyEditor<TreeEE
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit,
+	 *      org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(FormToolkit toolkit, Composite parent) {
 		this.viewer = new FormTreeEEFViewer(toolkit, parent, SWT.NONE);
@@ -63,11 +66,12 @@ public class TreeContentsFormPropertyEditor implements FormPropertyEditor<TreeEE
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.heightHint = view.getViewSettings().getMultiEditorHeight();
 		layoutData.horizontalSpan = 3;
-		viewer.getControl().setLayoutData(layoutData);		
+		viewer.getControl().setLayoutData(layoutData);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public TreeEEFViewer getViewer() {
@@ -76,20 +80,31 @@ public class TreeContentsFormPropertyEditor implements FormPropertyEditor<TreeEE
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return false;
 	}
 
 }

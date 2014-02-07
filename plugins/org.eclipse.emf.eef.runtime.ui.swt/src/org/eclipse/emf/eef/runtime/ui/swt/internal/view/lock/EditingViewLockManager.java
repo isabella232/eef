@@ -34,22 +34,24 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EditingViewLockManager implements EEFLockManager {
-	
+
 	private EMFServiceProvider emfServiceProvider;
 	private EEFNotifierProvider eefNotifierProvider;
 
 	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
+	 * @param emfServiceProvider
+	 *            the emfServiceProvider to set
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
 	}
 
 	/**
-	 * @param eefNotifierProvider the eefNotifierProvider to set
+	 * @param eefNotifierProvider
+	 *            the eefNotifierProvider to set
 	 */
 	public void setEEFNotifierProvider(EEFNotifierProvider eefNotifierProvider) {
 		this.eefNotifierProvider = eefNotifierProvider;
@@ -57,6 +59,7 @@ public class EditingViewLockManager implements EEFLockManager {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(Object element) {
@@ -65,6 +68,7 @@ public class EditingViewLockManager implements EEFLockManager {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#initView(java.lang.Object)
 	 */
 	public void initView(Object view) {
@@ -89,8 +93,7 @@ public class EditingViewLockManager implements EEFLockManager {
 		}
 	}
 
-	private void checkEditorsLockingTowardPolicies(PropertiesEditingView<Composite> editingView, PropertiesEditingComponent editingComponent,
-			EObject editedEObject, Collection<EEFLockPolicy> policies, boolean autowire) {
+	private void checkEditorsLockingTowardPolicies(PropertiesEditingView<Composite> editingView, PropertiesEditingComponent editingComponent, EObject editedEObject, Collection<EEFLockPolicy> policies, boolean autowire) {
 		TreeIterator<EObject> viewContents = editingView.getViewModel().eAllContents();
 		EMFService emfService = emfServiceProvider.getEMFService(editedEObject.eClass().getEPackage());
 		while (viewContents.hasNext()) {
@@ -108,6 +111,7 @@ public class EditingViewLockManager implements EEFLockManager {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#lockView(java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
@@ -123,13 +127,15 @@ public class EditingViewLockManager implements EEFLockManager {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#lockEditor(java.lang.Object, java.lang.Object)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#lockEditor(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	public void lockEditor(Object view, Object editor) {
 		if (view instanceof PropertiesEditingView && editor instanceof ViewElement) {
 			@SuppressWarnings("unchecked")
 			PropertyEditor propertyEditor = ((PropertiesEditingView<Composite>) view).getPropertyEditor((ViewElement) editor);
-			if (propertyEditor != null) {
+			if (propertyEditor != null && !propertyEditor.getPropertyEditorViewer().isLocked()) {
 				propertyEditor.getPropertyEditorViewer().lock();
 				EEFNotifier notifier = eefNotifierProvider.getNotifier(view);
 				notifier.notify(view, new PropertyLockNotification(editor, "This editor is locked."));
@@ -139,6 +145,7 @@ public class EditingViewLockManager implements EEFLockManager {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#clearViewLock(java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
@@ -149,18 +156,20 @@ public class EditingViewLockManager implements EEFLockManager {
 			}
 			EEFNotifier notifier = eefNotifierProvider.getNotifier(view);
 			notifier.clearViewNotification(view);
-		}		
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#clearEditorLock(java.lang.Object, java.lang.Object)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#clearEditorLock(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	public void clearEditorLock(Object view, Object editor) {
 		if (view instanceof PropertiesEditingView && editor instanceof ViewElement) {
 			@SuppressWarnings("unchecked")
 			PropertyEditor propertyEditor = ((PropertiesEditingView<Composite>) view).getPropertyEditor((ViewElement) editor);
-			if (propertyEditor != null) {
+			if (propertyEditor != null && propertyEditor.getPropertyEditorViewer().isLocked()) {
 				propertyEditor.getPropertyEditorViewer().unlock();
 				EEFNotifier notifier = eefNotifierProvider.getNotifier(view);
 				notifier.clearEditorNotification(view, editor);
@@ -170,7 +179,10 @@ public class EditingViewLockManager implements EEFLockManager {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#fireLockChange(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object, org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.view.lock.EEFLockManager#fireLockChange(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
+	 *      java.lang.Object,
+	 *      org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
 	 */
 	public void fireLockChange(PropertiesEditingComponent editingComponent, Object view, EEFLockEvent lockEvent) {
 		if (lockEvent instanceof EEFPropertyLockEvent) {

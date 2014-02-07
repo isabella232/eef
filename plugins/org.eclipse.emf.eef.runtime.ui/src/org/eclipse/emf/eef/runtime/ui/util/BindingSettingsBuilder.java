@@ -22,6 +22,7 @@ import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewsFactory;
+import org.eclipse.emf.eef.views.ViewsRepository;
 import org.eclipse.emf.eef.views.toolkits.Widget;
 
 import com.google.common.base.Predicate;
@@ -52,14 +53,11 @@ public class BindingSettingsBuilder {
 	private String GROUP_CONTAINER_NAME = "";
 	private String TEXT_WIDGET_NAME = "";
 	private String TEXTAREA_WIDGET_NAME = "";
+	private ViewsRepository viewsRepository;
 
-	public BindingSettingsBuilder(PropertiesEditingModel propertiesEditingModel, EEFToolkitProvider toolkitProvider) {
+	public BindingSettingsBuilder(PropertiesEditingModel propertiesEditingModel, ViewsRepository viewsRepository, EEFToolkitProvider toolkitProvider, String... names) {
 		this.propertiesEditingModel = propertiesEditingModel;
-		this.toolkitProvider = toolkitProvider;
-	}
-
-	public BindingSettingsBuilder(PropertiesEditingModel propertiesEditingModel, EEFToolkitProvider toolkitProvider, String... names) {
-		this.propertiesEditingModel = propertiesEditingModel;
+		this.viewsRepository = viewsRepository;
 		this.toolkitProvider = toolkitProvider;
 		if (names.length > 0) {
 			this.GROUP_CONTAINER_NAME = names[0];
@@ -188,8 +186,7 @@ public class BindingSettingsBuilder {
 	 * @return widget corresponding to the feature
 	 */
 	public Widget getWidgetForFeature(EStructuralFeature feature) {
-		if (!feature.isMany() && feature instanceof EAttribute && (feature.getEType().getName().equals("EString") || feature.getEType().getName().equals("String"))
-				&& "documentation".equals(feature.getName())) {
+		if (!feature.isMany() && feature instanceof EAttribute && (feature.getEType().getName().equals("EString") || feature.getEType().getName().equals("String")) && "documentation".equals(feature.getName())) {
 			return toolkitProvider.getWidgetByName(TEXTAREA_WIDGET_NAME);
 		}
 		Collection<Widget> widgetsFor = toolkitProvider.getAllWidgetsFor(feature);
@@ -249,6 +246,7 @@ public class BindingSettingsBuilder {
 	public org.eclipse.emf.eef.views.View createViewForEClassBinding(EObject eObject) {
 		org.eclipse.emf.eef.views.View createdView = ViewsFactory.eINSTANCE.createView();
 		createdView.setName(eObject.eClass().getName());
+		viewsRepository.getViews().add(createdView);
 		return createdView;
 	}
 

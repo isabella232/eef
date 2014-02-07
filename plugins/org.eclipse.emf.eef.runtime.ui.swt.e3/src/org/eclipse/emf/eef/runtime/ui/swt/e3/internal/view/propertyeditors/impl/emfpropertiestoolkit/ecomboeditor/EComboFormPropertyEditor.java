@@ -31,13 +31,13 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleLinePropertyViewer> implements FilterablePropertyEditor {
 
 	private EditUIProvidersFactory editUIProvidersFactory;
 	private ImageManager imageManager;
-	
+
 	private FormSingleLinePropertyViewer eComboEditor;
 
 	private Collection<ViewerFilter> filters;
@@ -57,6 +57,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public FormSingleLinePropertyViewer getViewer() {
@@ -65,7 +66,9 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.StandardFormPropertyEditor#createEditorContents(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.StandardFormPropertyEditor#createEditorContents(org.eclipse.ui.forms.widgets.FormToolkit,
+	 *      org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected void createEditorContents(FormToolkit toolkit, Composite parent) {
@@ -80,6 +83,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#addFilter(org.eclipse.jface.viewers.ViewerFilter)
 	 */
 	public void addFilter(ViewerFilter filter) {
@@ -88,6 +92,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#removeFilter(org.eclipse.jface.viewers.ViewerFilter)
 	 */
 	public void removeFilter(ViewerFilter filter) {
@@ -96,6 +101,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#getFilters()
 	 */
 	public Collection<ViewerFilter> getFilters() {
@@ -104,6 +110,7 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.StandardFormPropertyEditor#lock()
 	 */
 	@Override
@@ -113,11 +120,21 @@ public class EComboFormPropertyEditor extends StandardFormPropertyEditor<SingleL
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.StandardFormPropertyEditor#unlock()
 	 */
 	@Override
 	public void unlock() {
 		eComboEditor.setLocked(false);
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return eComboEditor.isLocked();
 	}
 
 }

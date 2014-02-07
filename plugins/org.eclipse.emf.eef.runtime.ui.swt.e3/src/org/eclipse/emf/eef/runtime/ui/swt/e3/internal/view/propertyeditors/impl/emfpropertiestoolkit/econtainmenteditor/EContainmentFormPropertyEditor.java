@@ -28,7 +28,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EContainmentFormPropertyEditor implements FormPropertyEditor<MultiLinePropertyViewer> {
 
@@ -51,6 +51,7 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<MultiL
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public MultiLinePropertyViewer getViewer() {
@@ -59,12 +60,14 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<MultiL
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit,
+	 *      org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(final FormToolkit toolkit, final Composite parent) {
 		final ViewService viewService = view.getViewService();
 		if (viewService instanceof PlatformAwareViewService) {
-			((PlatformAwareViewService)viewService).createLabel(view.getEditingComponent(), toolkit, parent, elementEditor, elementEditor.getName());
+			((PlatformAwareViewService) viewService).createLabel(view.getEditingComponent(), toolkit, parent, elementEditor, elementEditor.getName());
 		} else if (viewService instanceof SWTViewService) {
 			((SWTViewService) viewService).createLabel(view.getEditingComponent(), parent, elementEditor, elementEditor.getName());
 		}
@@ -72,17 +75,18 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<MultiL
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer#buildAdditionnalActionControls(org.eclipse.swt.widgets.Composite)
 			 */
 			@Override
 			protected void buildAdditionnalActionControls(Composite parent) {
 				if (viewService instanceof PlatformAwareViewService) {
-					((PlatformAwareViewService)viewService).createHelpButton(view.getEditingComponent(), toolkit, parent, elementEditor);
+					((PlatformAwareViewService) viewService).createHelpButton(view.getEditingComponent(), toolkit, parent, elementEditor);
 				} else if (viewService instanceof SWTViewService) {
 					((SWTViewService) viewService).createHelpButton(view.getEditingComponent(), parent, elementEditor);
 				}
 			}
-			
+
 		};
 		for (EObject subEditor : elementEditor.eContents()) {
 			if (subEditor instanceof ElementEditor) {
@@ -97,22 +101,32 @@ public class EContainmentFormPropertyEditor implements FormPropertyEditor<MultiL
 		layoutData.horizontalSpan = 2;
 		multiLinePropertyViewer.setLayoutData(layoutData);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
-		multiLinePropertyViewer.setLocked(true);		
+		multiLinePropertyViewer.setLocked(true);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		multiLinePropertyViewer.setLocked(true);		
+		multiLinePropertyViewer.setLocked(false);
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return multiLinePropertyViewer.isLocked();
+	}
 
 }

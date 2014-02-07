@@ -12,10 +12,10 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.em
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
-import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
+import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLinePropertyViewer> {
 
@@ -46,6 +46,7 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public MultiLinePropertyViewer getViewer() {
@@ -54,6 +55,7 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.SWTPropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(final Composite parent) {
@@ -64,6 +66,7 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLin
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer#buildAdditionnalActionControls(org.eclipse.swt.widgets.Composite)
 			 */
 			@Override
@@ -72,7 +75,7 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLin
 					((SWTViewService) view.getViewService()).createHelpButton(view.getEditingComponent(), parent, elementEditor);
 				}
 			}
-			
+
 		};
 		for (EObject subEditor : elementEditor.eContents()) {
 			if (subEditor instanceof ElementEditor) {
@@ -86,22 +89,32 @@ public class EContainmentSWTPropertyEditor implements SWTPropertyEditor<MultiLin
 		layoutData.horizontalSpan = 2;
 		multiLinePropertyViewer.setLayoutData(layoutData);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
-		multiLinePropertyViewer.setLocked(true);		
+		multiLinePropertyViewer.setLocked(true);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		multiLinePropertyViewer.setLocked(false);		
+		multiLinePropertyViewer.setLocked(false);
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return multiLinePropertyViewer.isLocked();
+	}
 
 }

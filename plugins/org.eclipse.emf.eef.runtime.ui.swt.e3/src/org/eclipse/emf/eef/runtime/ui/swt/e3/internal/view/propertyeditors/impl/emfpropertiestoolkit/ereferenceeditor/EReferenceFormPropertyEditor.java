@@ -34,7 +34,7 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EReferenceFormPropertyEditor implements FormPropertyEditor<MultiLinePropertyViewer>, FilterablePropertyEditor {
 
@@ -60,6 +60,7 @@ public class EReferenceFormPropertyEditor implements FormPropertyEditor<MultiLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public MultiLinePropertyViewer getViewer() {
@@ -68,30 +69,33 @@ public class EReferenceFormPropertyEditor implements FormPropertyEditor<MultiLin
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit,
+	 *      org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(final FormToolkit toolkit, final Composite parent) {
 		final ViewService viewService = view.getViewService();
 		if (viewService instanceof PlatformAwareViewService) {
-			((PlatformAwareViewService)viewService).createLabel(view.getEditingComponent(), toolkit, parent, elementEditor, elementEditor.getName());
-		} else if (viewService instanceof SWTViewService){
-			((SWTViewService) viewService).createLabel(view.getEditingComponent(), parent, elementEditor, elementEditor.getName());			
+			((PlatformAwareViewService) viewService).createLabel(view.getEditingComponent(), toolkit, parent, elementEditor, elementEditor.getName());
+		} else if (viewService instanceof SWTViewService) {
+			((SWTViewService) viewService).createLabel(view.getEditingComponent(), parent, elementEditor, elementEditor.getName());
 		}
 		multiLinePropertyViewer = new FormEReferenceEditor(toolkit, parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.MultiLinePropertyViewer#buildAdditionnalActionControls(org.eclipse.swt.widgets.Composite)
 			 */
 			@Override
 			protected void buildAdditionnalActionControls(Composite parent) {
 				if (viewService instanceof PlatformAwareViewService) {
-					((PlatformAwareViewService)viewService).createHelpButton(view.getEditingComponent(), toolkit, parent, elementEditor);
-				}else if (viewService instanceof SWTViewService){
+					((PlatformAwareViewService) viewService).createHelpButton(view.getEditingComponent(), toolkit, parent, elementEditor);
+				} else if (viewService instanceof SWTViewService) {
 					((SWTViewService) viewService).createHelpButton(view.getEditingComponent(), parent, elementEditor);
 				}
 			}
-			
+
 		};
 		for (EObject subEditor : elementEditor.eContents()) {
 			if (subEditor instanceof ElementEditor) {
@@ -106,9 +110,10 @@ public class EReferenceFormPropertyEditor implements FormPropertyEditor<MultiLin
 		layoutData.horizontalSpan = 2;
 		multiLinePropertyViewer.setLayoutData(layoutData);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#addFilter(org.eclipse.jface.viewers.ViewerFilter)
 	 */
 	public void addFilter(ViewerFilter filter) {
@@ -117,6 +122,7 @@ public class EReferenceFormPropertyEditor implements FormPropertyEditor<MultiLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#removeFilter(org.eclipse.jface.viewers.ViewerFilter)
 	 */
 	public void removeFilter(ViewerFilter filter) {
@@ -125,6 +131,7 @@ public class EReferenceFormPropertyEditor implements FormPropertyEditor<MultiLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#getFilters()
 	 */
 	public Collection<ViewerFilter> getFilters() {
@@ -133,19 +140,29 @@ public class EReferenceFormPropertyEditor implements FormPropertyEditor<MultiLin
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
-		multiLinePropertyViewer.setLocked(true);		
+		multiLinePropertyViewer.setLocked(true);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		multiLinePropertyViewer.setLocked(true);		
+		multiLinePropertyViewer.setLocked(true);
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return multiLinePropertyViewer.isLocked();
+	}
 
 }

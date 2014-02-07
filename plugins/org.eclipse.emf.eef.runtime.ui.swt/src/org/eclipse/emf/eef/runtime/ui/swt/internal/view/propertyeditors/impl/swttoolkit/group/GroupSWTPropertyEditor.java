@@ -21,15 +21,15 @@ import org.eclipse.swt.widgets.Group;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class GroupSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrapperViewer<Composite>> {
 
 	private Container container;
-	
+
 	private EEFControlWrapperViewer<Composite> wrapperViewer;
 	private Group group;
-	
+
 	/**
 	 * @param viewElement
 	 */
@@ -39,22 +39,22 @@ public class GroupSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrapp
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public EEFControlWrapperViewer<Composite> getViewer() {
 		if (wrapperViewer == null) {
 			wrapperViewer = new EEFControlWrapperViewer<Composite>() {
 
-
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.ui.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
 				 */
 				@Override
 				public Composite getMainControl() {
 					return group;
 				}
-
 
 			};
 		}
@@ -63,6 +63,7 @@ public class GroupSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrapp
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.SWTPropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(Composite parent) {
@@ -75,9 +76,10 @@ public class GroupSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrapp
 		groupLayout.numColumns = 3;
 		group.setLayout(groupLayout);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
@@ -86,10 +88,20 @@ public class GroupSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrapp
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
 		// Do nothing
 	}
-		
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return false;
+	}
+
 }
