@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.binding.PropertiesBindingHandlerUI">
-   <implementation class="org.eclipse.emf.eef.runtime.ui.internal.binding.PropertiesBindingHandlerUIImpl"/>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.swt.binding.PropertiesBindingHandlerUI">
+   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.internal.binding.PropertiesBindingHandlerUIImpl"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler"/>
       <provide interface="org.osgi.service.event.EventHandler"/>

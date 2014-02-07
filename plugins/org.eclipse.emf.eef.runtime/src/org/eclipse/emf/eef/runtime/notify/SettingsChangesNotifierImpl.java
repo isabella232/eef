@@ -34,9 +34,6 @@ public final class SettingsChangesNotifierImpl extends AbstractModelChangesNotif
 	 */
 	public String getTopic(Notification notification) {
 		String topic;
-		if (notification.getNotifier().getClass().getName().contains("ElementEditor")) {
-			System.out.println(notification.getFeature());
-		}
 		if (notification.getNotifier() instanceof EObject) {
 			EObject notifier = (EObject) notification.getNotifier();
 			topic = EEF_EVENT_BASE_SETTINGS + EEF_ECLASS_NOTIFICATION_TOPIC + notifier.eClass().getEPackage().getName() + "_" + notifier.eClass().getName();
