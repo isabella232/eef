@@ -65,15 +65,6 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#getLockManager(java.lang.Object)
-	 */
-	public EEFLockManager getLockManager(Object view) {
-		return lockManagerProvider.getLockManager(view);
-	}
-
-	/**
 	 * @return the logger
 	 */
 	public EEFLogger getLogger() {
@@ -130,7 +121,7 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 				// NOTE: Silent catch
 			}
 		}
-		EEFLockManager lockManager = getLockManager(view);
+		EEFLockManager lockManager = getLockManagerProvider().getLockManager(view);
 		lockManager.initView(view);
 	}
 

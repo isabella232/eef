@@ -141,15 +141,6 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#getLockManager(java.lang.Object)
-	 */
-	public EEFLockManager getLockManager(Object view) {
-		return lockManagerProvider.getLockManager(view);
-	}
-
-	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#getLockManagerProvider()
