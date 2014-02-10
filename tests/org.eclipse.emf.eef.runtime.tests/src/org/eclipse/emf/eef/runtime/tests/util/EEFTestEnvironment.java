@@ -119,7 +119,7 @@ import org.osgi.service.event.EventAdmin;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EEFTestEnvironment {
 
@@ -188,7 +188,7 @@ public class EEFTestEnvironment {
 	public PropertiesEditingContext getEditingContext() {
 		return builder.getEditingContext();
 	}
-	
+
 	public ViewServiceProvider getViewServiceProvider() {
 		return builder.getViewServiceProvider();
 	}
@@ -214,12 +214,12 @@ public class EEFTestEnvironment {
 		private EditingPolicyProcessorProvider policyProcessorProvider;
 
 		private EEFToolkitProvider eefToolkitProvider;
-		
+
 		private PropertiesEditingContext editingContext;
 
 		private EEFBindingSettingsProvider bindingSettingsProvider;
 		private Collection<EEFServiceDescriptor<EEFBindingSettings>> bindingSettings;
-		
+
 		private BindingHandlerProvider bindingHandlerProvider;
 		private ViewHandlerProvider viewHandlerProvider;
 
@@ -227,9 +227,6 @@ public class EEFTestEnvironment {
 		private ImageManager imageManager;
 
 		private EEFLogger logger;
-
-
-
 
 		public Builder() {
 			sampleModel = null;
@@ -273,35 +270,35 @@ public class EEFTestEnvironment {
 			}
 			return editingModel;
 		}
-		
+
 		public EditingContextFactoryProvider getContextFactoryProvider() {
 			if (contextFactoryProvider == null) {
 				contextFactoryProvider = createEditingContextFactoryProvider();
 			}
 			return contextFactoryProvider;
 		}
-		
+
 		public ViewHandlerProvider getViewHandlerProvider() {
 			if (viewHandlerProvider == null) {
 				viewHandlerProvider = createViewHandlerProvider();
 			}
 			return viewHandlerProvider;
 		}
-		
+
 		public EMFServiceProvider getEMFServiceProvider() {
 			if (emfServiceProvider == null) {
 				emfServiceProvider = createEMFServiceProvider();
 			}
 			return emfServiceProvider;
 		}
-		
+
 		public EEFEditingServiceProvider getEEFEditingServiceProvider() {
 			if (eefEditingServiceProvider == null) {
 				eefEditingServiceProvider = createEEFEditingServiceProvider();
 			}
 			return eefEditingServiceProvider;
 		}
-		
+
 		public Collection<EEFServiceDescriptor<EEFBindingSettings>> getBindingSettings() {
 			if (bindingSettings == null) {
 				bindingSettings = createBindingSettings();
@@ -315,17 +312,17 @@ public class EEFTestEnvironment {
 			}
 			return viewServiceProvider;
 		}
-		
+
 		public EEFNotifierProvider getEEFNotifierProvider() {
 			if (eefNotifierProvider == null) {
 				eefNotifierProvider = createEEFNotifierProvider();
 			}
 			return eefNotifierProvider;
 		}
-		
+
 		public EEFLockPolicyFactoryProvider getLockPolicyFactoryProvider() {
 			if (lockPolicyFactoryProvider == null) {
-				lockPolicyFactoryProvider = createLockPolicyFactoryProvider(); 
+				lockPolicyFactoryProvider = createLockPolicyFactoryProvider();
 			}
 			return lockPolicyFactoryProvider;
 		}
@@ -336,7 +333,7 @@ public class EEFTestEnvironment {
 			}
 			return lockManagerProvider;
 		}
-		
+
 		public EEFLogger getLogger() {
 			if (logger == null) {
 				logger = createLogger();
@@ -352,7 +349,8 @@ public class EEFTestEnvironment {
 		}
 
 		/**
-		 * @param eefNotifierProvider the eefNotifierProvider to set
+		 * @param eefNotifierProvider
+		 *            the eefNotifierProvider to set
 		 */
 		public void setEEFNotifierProvider(EEFNotifierProvider eefNotifierProvider) {
 			this.eefNotifierProvider = eefNotifierProvider;
@@ -364,7 +362,7 @@ public class EEFTestEnvironment {
 			}
 			return editingPolicyProvider;
 		}
-		
+
 		public EditingPolicyRequestFactoryProvider getPolicyRequestFactoryProvider() {
 			if (policyRequestFactoryProvider == null) {
 				policyRequestFactoryProvider = createPolicyRequestFactoryProvider();
@@ -378,28 +376,28 @@ public class EEFTestEnvironment {
 			}
 			return policyProcessorProvider;
 		}
-		
+
 		public EEFBindingSettingsProvider getBindingSettingsProvider() {
 			if (bindingSettingsProvider == null) {
 				bindingSettingsProvider = createBindingSettingsProvider();
 			}
 			return bindingSettingsProvider;
 		}
-		
+
 		public BindingHandlerProvider getBindingHandlerProvider() {
 			if (bindingHandlerProvider == null) {
 				bindingHandlerProvider = createBindingHandlerProvider();
 			}
 			return bindingHandlerProvider;
 		}
-		
+
 		public EditUIProvidersFactory getEditUIProvidersFactory() {
 			if (editUIProvidersFactory == null) {
 				editUIProvidersFactory = createProviderFactory();
 			}
 			return editUIProvidersFactory;
 		}
-		
+
 		public ImageManager getImageManager() {
 			if (imageManager == null) {
 				imageManager = createImageManager();
@@ -412,41 +410,49 @@ public class EEFTestEnvironment {
 				editingContext = createEditingContext();
 			}
 			return editingContext;
-		}	
+		}
 
 		/**
-		 * @param sampleModel the sampleModel to set
-		 * @return 
+		 * @param sampleModel
+		 *            the sampleModel to set
+		 * @return
 		 */
 		public Builder setSampleModel(EObject sampleModel) {
 			this.sampleModel = sampleModel;
 			return this;
 		}
+
 		/**
-		 * @param editedObject the editedObject to set
-		 * @return 
+		 * @param editedObject
+		 *            the editedObject to set
+		 * @return
 		 */
 		public Builder setEditedObject(EObject editedObject) {
 			this.editedObject = editedObject;
 			return this;
 		}
+
 		/**
-		 * @param editingModel the editingModel to set
+		 * @param editingModel
+		 *            the editingModel to set
 		 */
 		public Builder setEditingModel(PropertiesEditingModel editingModel) {
 			this.editingModel = editingModel;
 			return this;
 		}
+
 		/**
-		 * @param adapterFactory the adapterFactory to set
+		 * @param adapterFactory
+		 *            the adapterFactory to set
 		 */
 		public Builder setAdapterFactory(AdapterFactory adapterFactory) {
 			this.adapterFactory = adapterFactory;
 			return this;
 		}
-		
+
 		/**
-		 * @param bindingSettings the bindingSettings to set
+		 * @param bindingSettings
+		 *            the bindingSettings to set
 		 */
 		public Builder setBindingSettings(Collection<EEFServiceDescriptor<EEFBindingSettings>> bindingSettings) {
 			this.bindingSettings = bindingSettings;
@@ -467,7 +473,8 @@ public class EEFTestEnvironment {
 		}
 
 		/**
-		 * @param editingContext the editingContext to set
+		 * @param editingContext
+		 *            the editingContext to set
 		 */
 		public Builder setEditingContext(PropertiesEditingContext editingContext) {
 			this.editingContext = editingContext;
@@ -478,11 +485,15 @@ public class EEFTestEnvironment {
 			return new EEFTestEnvironment(this);
 		}
 
-		/*==========================================================================
+		/*
+		 * ======================================================================
+		 * ====
 		 * 
 		 * Default creation methods
 		 * 
-		 *========================================================================== */		
+		 * ======================================================================
+		 * ====
+		 */
 		public EPackage createEcoreSampleModel() {
 			Resource ecoreResource = getResourceSet().createResource(URI.createURI("eef://sample.ecore"));
 			EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
@@ -517,7 +528,6 @@ public class EEFTestEnvironment {
 			ePackage2.getEClassifiers().add(eClass5);
 			ecoreResource2.getContents().add(ePackage2);
 
-
 			return ePackage;
 		}
 
@@ -535,22 +545,17 @@ public class EEFTestEnvironment {
 		}
 
 		public PropertiesEditingModel createEditingModel() {
-			return new EditingModelBuilder(TESTS_EDITING_MODEL_ID)
-			.bindClass(EcorePackage.Literals.ECLASS)
-			.withView(EClassMockView.class)
-			.build();
+			return new EditingModelBuilder(TESTS_EDITING_MODEL_ID).bindClass(EcorePackage.Literals.ECLASS).withView(EClassMockView.class).build();
 		}
 
-
 		/**
-		 * Build a {@link PropertiesEditingModel} with simple SWT views for the EEF tests.
+		 * Build a {@link PropertiesEditingModel} with simple SWT views for the
+		 * EEF tests.
+		 * 
 		 * @return a sample {@link PropertiesEditingModel}.
 		 */
 		public PropertiesEditingModel createEditingModelWithSWTViews() {
-			return new EditingModelBuilder(TESTS_EDITING_MODEL_ID)
-			.bindClass(EcorePackage.Literals.ECLASS).withView(SampleView.class)
-			.bindClass(EcorePackage.Literals.EPACKAGE).withView(RootView.class)
-			.build();
+			return new EditingModelBuilder(TESTS_EDITING_MODEL_ID).bindClass(EcorePackage.Literals.ECLASS).withView(SampleView.class).bindClass(EcorePackage.Literals.EPACKAGE).withView(RootView.class).build();
 		}
 
 		public PropertiesEditingModel createEditingModelWithPropertiesEditingViews() {
@@ -561,13 +566,7 @@ public class EEFTestEnvironment {
 			resource = rset.getResource(URI.createURI("eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit"), true);
 			toolkits.add((Toolkit) resource.getContents().get(0));
 			List<View> views = createEcoreViews(toolkits);
-			return new EditingModelBuilder(TESTS_EDITING_MODEL_ID)
-			.bindClass(EcorePackage.Literals.ECLASS)
-			.withView(views.get(0))
-			.withView(views.get(1))
-			.bindProperty(EcorePackage.Literals.ECLASSIFIER__DEFAULT_VALUE)
-			.withEditor(views.get(1).getElements().get(0))
-			.build();
+			return new EditingModelBuilder(TESTS_EDITING_MODEL_ID).bindClass(EcorePackage.Literals.ECLASS).withView(views.get(0)).withView(views.get(1)).bindProperty(EcorePackage.Literals.ECLASSIFIER__DEFAULT_VALUE).withEditor(views.get(1).getElements().get(0)).build();
 		}
 
 		public PropertiesEditingModel createEditingModelWithContainersPropertiesEditingViews() {
@@ -576,10 +575,7 @@ public class EEFTestEnvironment {
 			Resource resource = rset.getResource(URI.createURI("eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit"), true);
 			toolkits.add((Toolkit) resource.getContents().get(0));
 			List<View> views = createEcoreViewsWithContainers(toolkits);
-			return new EditingModelBuilder(TESTS_EDITING_MODEL_ID)
-			.bindClass(EcorePackage.Literals.ECLASS)
-			.withView(views.get(0))
-			.build();
+			return new EditingModelBuilder(TESTS_EDITING_MODEL_ID).bindClass(EcorePackage.Literals.ECLASS).withView(views.get(0)).build();
 		}
 
 		public List<View> createEcoreViewsWithContainers(List<Toolkit> toolkits) {
@@ -601,7 +597,7 @@ public class EEFTestEnvironment {
 			eClassView.getElements().add(container1);
 			Container container2 = ViewsFactory.eINSTANCE.createContainer();
 			container2.setName("Container2");
-			container2.setRepresentation(groupWidget);			
+			container2.setRepresentation(groupWidget);
 			ElementEditor abstractEditor = ViewsFactory.eINSTANCE.createElementEditor();
 			abstractEditor.setName("abstract");
 			abstractEditor.setRepresentation(searchWidget(toolkits.get(0), "Checkbox"));
@@ -611,7 +607,7 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
-		//TODO: Robustness on widget finding ...
+		// TODO: Robustness on widget finding ...
 		public List<View> createEcoreViews(List<Toolkit> toolkits) {
 			List<View> result = new ArrayList<View>();
 			View eClassView = ViewsFactory.eINSTANCE.createView();
@@ -653,7 +649,6 @@ public class EEFTestEnvironment {
 			return services;
 		}
 
-		
 		public Collection<EEFServiceDescriptor<EditingPolicyRequestFactory>> createPolicyRequestFactories() {
 			Collection<EEFServiceDescriptor<EditingPolicyRequestFactory>> services = new ArrayList<EEFServiceDescriptor<EditingPolicyRequestFactory>>();
 			EObjectEditingPolicyRequestFactory eObjectEditingPolicyRequestFactory = new EObjectEditingPolicyRequestFactory();
@@ -679,7 +674,7 @@ public class EEFTestEnvironment {
 			services.add(descriptor);
 			return services;
 		}
-		
+
 		public Collection<EEFServiceDescriptor<EditingPolicyProcessor>> createPolicyProcessors() {
 			Collection<EEFServiceDescriptor<EditingPolicyProcessor>> services = new ArrayList<EEFServiceDescriptor<EditingPolicyProcessor>>();
 			EEFServiceDescriptor<EditingPolicyProcessor> descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(DirectEditingPolicyProcessor.class.getName(), new DirectEditingPolicyProcessor());
@@ -690,7 +685,7 @@ public class EEFTestEnvironment {
 			services.add(descriptor);
 			return services;
 		}
-		
+
 		public Collection<EEFServiceDescriptor<EEFLockPolicyFactory>> createLockPolicyFactories() {
 			Collection<EEFServiceDescriptor<EEFLockPolicyFactory>> services = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EEFLockPolicyFactory>>();
 			EEFServiceDescriptor<EEFLockPolicyFactory> descriptor = new EEFServiceDescriptor<EEFLockPolicyFactory>(EMFEditAwareLockPolicyFactory.class.getName(), new EMFEditAwareLockPolicyFactory());
@@ -725,6 +720,7 @@ public class EEFTestEnvironment {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl#getEditingModel()
 				 */
 				@Override
@@ -737,7 +733,7 @@ public class EEFTestEnvironment {
 
 			};
 			bindingSettings.setEMFServiceProvider(getEMFServiceProvider());
-//			bindingSettings.setViewHandlerProvider(getViewHandlerProvider());
+			// bindingSettings.setViewHandlerProvider(getViewHandlerProvider());
 			result.add(new EEFServiceDescriptor<EEFBindingSettings>("propertieseditingprovider.default", bindingSettings));
 			return result;
 		}
@@ -859,7 +855,7 @@ public class EEFTestEnvironment {
 			}
 			return result;
 		}
-		
+
 		private ViewServiceProvider createViewServiceProvider() {
 			ViewServiceProviderImpl result = new ViewServiceProviderImpl();
 			for (EEFServiceDescriptor<ViewService> eefServiceDescriptor : createViewServices()) {
@@ -873,7 +869,7 @@ public class EEFTestEnvironment {
 			}
 			return result;
 		}
-		
+
 		public EEFEditingServiceProvider createEEFEditingServiceProvider() {
 			EEFEditingServiceProviderImpl result = new EEFEditingServiceProviderImpl();
 			for (EEFServiceDescriptor<EEFEditingService> eefServiceDescriptor : createEEFEditingServices()) {
@@ -887,7 +883,7 @@ public class EEFTestEnvironment {
 			}
 			return result;
 		}
-		
+
 		public EEFNotifierProvider createEEFNotifierProvider() {
 			EEFNotifierProviderImpl result = new EEFNotifierProviderImpl();
 			for (EEFServiceDescriptor<EEFNotifier> eefServiceDescriptor : createNotifiers()) {
@@ -910,26 +906,26 @@ public class EEFTestEnvironment {
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
 					factory.addService(eefServiceDescriptor.service, properties);
 				} catch (PriorityCircularityException e) {
-					//Shouldn't occur
+					// Shouldn't occur
 				}
 			}
 			return factory;
 		}
 
 		public EEFLockManagerProvider createLockManagerProvider() {
-			EEFLockManagerProviderImpl managerProvider = new EEFLockManagerProviderImpl(); 
+			EEFLockManagerProviderImpl managerProvider = new EEFLockManagerProviderImpl();
 			for (EEFServiceDescriptor<EEFLockManager> eefServiceDescriptor : createLockManagers()) {
 				try {
 					Map<String, String> properties = new HashMap<String, String>();
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
 					managerProvider.addService(eefServiceDescriptor.service, properties);
 				} catch (PriorityCircularityException e) {
-					//Shouldn't occur
+					// Shouldn't occur
 				}
 			}
 			return managerProvider;
 		}
-		
+
 		public EEFLogger createLogger() {
 			return new E3EEFLogger();
 		}
@@ -943,12 +939,11 @@ public class EEFTestEnvironment {
 					properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, eefServiceDescriptor.name);
 					result.addService(eefServiceDescriptor.service, properties);
 				} catch (PriorityCircularityException e) {
-					//Shouldn't occur
+					// Shouldn't occur
 				}
 			}
 			return result;
 		}
-
 
 		public EditingPolicyRequestFactoryProvider createPolicyRequestFactoryProvider() {
 			EditingPolicyRequestFactoryProviderImpl result = new EditingPolicyRequestFactoryProviderImpl();
@@ -995,28 +990,27 @@ public class EEFTestEnvironment {
 			return result;
 		}
 
-		
 		public BindingHandlerProvider createBindingHandlerProvider() {
 			BindingHandlerProviderImpl result = new BindingHandlerProviderImpl();
 			try {
 				Map<String, String> properties = new HashMap<String, String>();
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, PropertiesBindingHandlerImpl.class.getName());
-					PropertiesBindingHandlerImpl service = new PropertiesBindingHandlerImpl();
-					service.setEMFServiceProvider(getEMFServiceProvider());
-					service.setEditingPolicyProvider(getEditingPolicyProvider());
-					service.setEEFNotifierProvider(getEEFNotifierProvider());
-					service.setLockPolicyFactoryProvider(getLockPolicyFactoryProvider());
-					service.setLockManagerProvider(getLockManagerProvider());
-					service.setBindingSettingsProvider(getBindingSettingsProvider());
-					service.setEventAdmin(new EEFTestsEventAdmin(service));
-					result.addService(service, properties);
+				PropertiesBindingHandlerImpl service = new PropertiesBindingHandlerImpl();
+				service.setEMFServiceProvider(getEMFServiceProvider());
+				service.setEditingPolicyProvider(getEditingPolicyProvider());
+				service.setEEFNotifierProvider(getEEFNotifierProvider());
+				service.setLockPolicyFactoryProvider(getLockPolicyFactoryProvider());
+				service.setLockManagerProvider(getLockManagerProvider());
+				service.setBindingSettingsProvider(getBindingSettingsProvider());
+				service.setEventAdmin(new EEFTestsEventAdmin(service));
+				service.setViewHandlerProvider(getViewHandlerProvider());
+				result.addService(service, properties);
 			} catch (PriorityCircularityException e) {
 				e.printStackTrace();
 			}
 			return result;
 		}
 
-		
 		public EditingContextFactoryProvider createEditingContextFactoryProvider() {
 			EditingContextFactoryProviderImpl result = new EditingContextFactoryProviderImpl();
 			for (EEFServiceDescriptor<PropertiesEditingContextFactory> eefServiceDescriptor : createContextFactory()) {
@@ -1028,10 +1022,10 @@ public class EEFTestEnvironment {
 					e.printStackTrace();
 				}
 			}
-			
+
 			return result;
 		}
-		
+
 		public PropertiesEditingContext createEditingContext() {
 			return getContextFactoryProvider().getEditingContextFactory(getEditedObject()).createPropertiesEditingContext(getAdapterFactory(), getEditedObject());
 		}
@@ -1055,15 +1049,11 @@ public class EEFTestEnvironment {
 		private String name;
 		private List<String> hasPriorityOver;
 
-
-
 		public EEFServiceDescriptor(String name, T service) {
 			this.name = name;
 			this.service = service;
 			this.hasPriorityOver = new ArrayList<String>();
 		}
-
-
 
 		public EEFServiceDescriptor(String name, T service, String... hasPriorityOver) {
 			this.service = service;
@@ -1072,11 +1062,11 @@ public class EEFTestEnvironment {
 		}
 
 	}
-	
+
 	public static final class EEFTestsEventAdmin implements EventAdmin {
-		
+
 		private PropertiesBindingHandlerImpl owner;
-		
+
 		/**
 		 * @param owner
 		 */
@@ -1086,6 +1076,7 @@ public class EEFTestEnvironment {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.osgi.service.event.EventAdmin#postEvent(org.osgi.service.event.Event)
 		 */
 		public void postEvent(Event event) {
@@ -1094,11 +1085,12 @@ public class EEFTestEnvironment {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.osgi.service.event.EventAdmin#sendEvent(org.osgi.service.event.Event)
 		 */
 		public void sendEvent(Event event) {
 		}
-		
+
 	}
 
 }

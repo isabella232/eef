@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.tests.generic.binding.settings;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -18,6 +19,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -47,9 +51,10 @@ public class GenericBindingSettingsUtil {
 	 * @param type
 	 * @return EClass with eAttribute
 	 */
-	protected static Object[] createEObjectWithSingleStringAttribute(EPackage ePackage, EClassifier type) {
-		return createEObjectWithSingleStringAttribute(ePackage, CLASS1, type);
-	}
+	// protected static Object[] createEObjectWithSingleStringAttribute(EPackage
+	// ePackage, EClassifier type) {
+	// return createEObjectWithSingleStringAttribute(ePackage, CLASS1, type);
+	// }
 
 	/**
 	 * @param ePackage
@@ -61,6 +66,7 @@ public class GenericBindingSettingsUtil {
 		EAttribute singleStringAttribute = addSingleStringAttribute(eClass1);
 		singleStringAttribute.setEType(type);
 		EObject createdClass = EcoreUtil.create(eClass1);
+		putInResource(createdClass);
 		return new Object[] { createdClass, eClass1, singleStringAttribute };
 	}
 
@@ -69,12 +75,49 @@ public class GenericBindingSettingsUtil {
 	 * @param type
 	 * @return EClass with eAttribute
 	 */
-	protected static Object[] createEObjectWithSingleStringAttributeComment(EPackage ePackage, EClassifier type) {
-		EClass eClass1 = createEClass(ePackage, CLASS1);
+	protected static Object[] createEObjectWithSingleStringAttribute(EPackage ePackage, String name, EClassifier type, String resourceURI) {
+		EClass eClass1 = createEClass(ePackage, name);
+		EAttribute singleStringAttribute = addSingleStringAttribute(eClass1);
+		singleStringAttribute.setEType(type);
+		EObject createdClass = EcoreUtil.create(eClass1);
+		putInResource(createdClass, resourceURI);
+		return new Object[] { createdClass, eClass1, singleStringAttribute };
+	}
+
+	/**
+	 * Add {@link EObject} in Resource.
+	 * 
+	 * @param eObject
+	 *            EObject
+	 */
+	protected static void putInResource(EObject eObject) {
+		putInResource(eObject, "http://testEEF");
+	}
+
+	/**
+	 * Add {@link EObject} in Resource.
+	 * 
+	 * @param eObject
+	 *            EObject
+	 */
+	protected static void putInResource(EObject eObject, String resourceURI) {
+		ResourceSet resourceSet = new ResourceSetImpl();
+		Resource resource = resourceSet.createResource(URI.createURI(resourceURI));
+		resource.getContents().add(eObject);
+	}
+
+	/**
+	 * @param ePackage
+	 * @param type
+	 * @return EClass with eAttribute
+	 */
+	protected static Object[] createEObjectWithSingleStringAttributeComment(EPackage ePackage, String name, EClassifier type) {
+		EClass eClass1 = createEClass(ePackage, name);
 		EAttribute singleStringAttribute = addSingleStringAttribute(eClass1);
 		singleStringAttribute.setName(SINGLE_STRING_ATTRIBUTE_COMMENT);
 		singleStringAttribute.setEType(type);
 		EObject createdClass = EcoreUtil.create(eClass1);
+		putInResource(createdClass);
 		return new Object[] { createdClass, eClass1, singleStringAttribute };
 	}
 
@@ -83,13 +126,14 @@ public class GenericBindingSettingsUtil {
 	 * @param type
 	 * @return EClass with enum
 	 */
-	protected static Object[] createEObjectWithSingleEnum(EPackage ePackage) {
-		EClass eClass1 = createEClass(ePackage, CLASS1);
+	protected static Object[] createEObjectWithSingleEnum(EPackage ePackage, String name) {
+		EClass eClass1 = createEClass(ePackage, name);
 		EEnum enum1 = createEEnum(ePackage, ENUM1);
 		EAttribute singleStringAttribute = addSingleStringAttribute(eClass1);
 		singleStringAttribute.setName(SINGLE_ENUM);
 		singleStringAttribute.setEType(enum1);
 		EObject createdClass = EcoreUtil.create(eClass1);
+		putInResource(createdClass);
 		return new Object[] { createdClass, eClass1, singleStringAttribute };
 	}
 
@@ -98,11 +142,12 @@ public class GenericBindingSettingsUtil {
 	 * @param type
 	 * @return EClass with eAttribute Edate
 	 */
-	protected static Object[] createEObjectWithSingleDate(EPackage ePackage, EClassifier type) {
-		EClass eClass1 = createEClass(ePackage, CLASS1);
+	protected static Object[] createEObjectWithSingleDate(EPackage ePackage, String name, EClassifier type) {
+		EClass eClass1 = createEClass(ePackage, name);
 		EAttribute singleStringAttribute = addSingleStringAttribute(eClass1);
 		singleStringAttribute.setEType(type);
 		EObject createdClass = EcoreUtil.create(eClass1);
+		putInResource(createdClass);
 		return new Object[] { createdClass, eClass1, singleStringAttribute };
 	}
 
@@ -111,12 +156,13 @@ public class GenericBindingSettingsUtil {
 	 * @param type
 	 * @return EClass with ereference 0..1
 	 */
-	protected static Object[] createEObjectWithSingleReference(EPackage ePackage) {
-		EClass eClass1 = createEClass(ePackage, CLASS1);
-		EClass eClass2 = createEClass(ePackage, CLASS2);
+	protected static Object[] createEObjectWithSingleReference(EPackage ePackage, String name, String name2) {
+		EClass eClass1 = createEClass(ePackage, name);
+		EClass eClass2 = createEClass(ePackage, name2);
 		EReference eReference = addSingleReference(eClass1);
 		eReference.setEType(eClass2);
 		EObject createdClass = EcoreUtil.create(eClass1);
+		putInResource(createdClass);
 		return new Object[] { createdClass, eClass1, eReference };
 	}
 
@@ -125,12 +171,13 @@ public class GenericBindingSettingsUtil {
 	 * @param type
 	 * @return EClass with ereference 0..*
 	 */
-	protected static Object[] createEObjectWithMultiReference(EPackage ePackage) {
-		EClass eClass1 = createEClass(ePackage, CLASS1);
-		EClass eClass2 = createEClass(ePackage, CLASS2);
+	protected static Object[] createEObjectWithMultiReference(EPackage ePackage, String name, String name2) {
+		EClass eClass1 = createEClass(ePackage, name);
+		EClass eClass2 = createEClass(ePackage, name2);
 		EReference eReference = addMultiReference(eClass1);
 		eReference.setEType(eClass2);
 		EObject createdClass = EcoreUtil.create(eClass1);
+		putInResource(createdClass);
 		return new Object[] { createdClass, eClass1, eReference };
 	}
 
@@ -139,12 +186,13 @@ public class GenericBindingSettingsUtil {
 	 * @param type
 	 * @return EClass with composition 0..1
 	 */
-	protected static Object[] createEObjectWithSingleComposition(EPackage ePackage) {
-		EClass eClass1 = createEClass(ePackage, CLASS1);
-		EClass eClass2 = createEClass(ePackage, CLASS2);
+	protected static Object[] createEObjectWithSingleComposition(EPackage ePackage, String name, String name2) {
+		EClass eClass1 = createEClass(ePackage, name);
+		EClass eClass2 = createEClass(ePackage, name2);
 		EReference eReference = addSingleComposition(eClass1);
 		eReference.setEType(eClass2);
 		EObject createdClass = EcoreUtil.create(eClass1);
+		putInResource(createdClass);
 		return new Object[] { createdClass, eClass1, eReference };
 	}
 
@@ -153,12 +201,13 @@ public class GenericBindingSettingsUtil {
 	 * @param type
 	 * @return EClass with composition 0..*
 	 */
-	protected static Object[] createEObjectWithMultiComposition(EPackage ePackage) {
-		EClass eClass1 = createEClass(ePackage, CLASS1);
-		EClass eClass2 = createEClass(ePackage, CLASS2);
+	protected static Object[] createEObjectWithMultiComposition(EPackage ePackage, String name, String name2) {
+		EClass eClass1 = createEClass(ePackage, name);
+		EClass eClass2 = createEClass(ePackage, name2);
 		EReference eReference = addMultiComposition(eClass1);
 		eReference.setEType(eClass2);
 		EObject createdClass = EcoreUtil.create(eClass1);
+		putInResource(createdClass);
 		return new Object[] { createdClass, eClass1, eReference };
 	}
 
@@ -167,11 +216,12 @@ public class GenericBindingSettingsUtil {
 	 * @param type
 	 * @return EClass with eAttribute 0..*
 	 */
-	protected static Object[] createEObjectWithMultiAttribute(EPackage ePackage, EClassifier type) {
-		EClass eClass1 = createEClass(ePackage, CLASS1);
+	protected static Object[] createEObjectWithMultiAttribute(EPackage ePackage, EClassifier type, String name) {
+		EClass eClass1 = createEClass(ePackage, name);
 		EAttribute singleStringAttribute = addMultiAttribute(eClass1);
 		singleStringAttribute.setEType(type);
 		EObject createdClass = EcoreUtil.create(eClass1);
+		putInResource(createdClass);
 		return new Object[] { createdClass, eClass1, singleStringAttribute };
 	}
 
@@ -180,11 +230,12 @@ public class GenericBindingSettingsUtil {
 	 * @param type
 	 * @return EClass with eAttribute
 	 */
-	protected static Object[] createEObjectWithSingleBooleanAttribute(EPackage ePackage, EClassifier type) {
-		EClass eClass1 = createEClass(ePackage, CLASS1);
+	protected static Object[] createEObjectWithSingleBooleanAttribute(EPackage ePackage, String name, EClassifier type) {
+		EClass eClass1 = createEClass(ePackage, name);
 		EAttribute singleStringAttribute = addSingleBooleanAttribute(eClass1);
 		singleStringAttribute.setEType(type);
 		EObject createdClass = EcoreUtil.create(eClass1);
+		putInResource(createdClass);
 		return new Object[] { createdClass, eClass1, singleStringAttribute };
 	}
 
