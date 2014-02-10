@@ -8,6 +8,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
@@ -40,6 +41,7 @@ public class BindingSettingsBuilder {
 	 * GenFeature property constants
 	 */
 	public static final String GENFEATURE_PROPERTY_VALUE_READONLY = "Readonly";
+	public static final String GENFEATURE_PROPERTY_MULTILINE = "propertyMultiLine";
 	public static final String GENFEATURE_PROPERTY_VALUE_NONE = "None";
 	public static final String GENFEATURE_PROPERTY_CATEGORY = "propertyCategory";
 	public static final String GENFEATURE_PROPERTY = "property";
@@ -86,6 +88,7 @@ public class BindingSettingsBuilder {
 		for (EStructuralFeature feature : eClassBinding.getEClass().getEAllStructuralFeatures()) {
 			// get editable information from genmodel if exists
 			boolean isReadonly = false;
+			boolean isMultiLine = false;
 			Container createdGroup = getDefaultGroup(eObject, createdView);
 			EObject genFeature = editingModelEnvironment.genFeature(feature);
 			if (genFeature != null) {
@@ -103,6 +106,12 @@ public class BindingSettingsBuilder {
 				}
 				// get property category for genmodel : 1 category = 1 group
 				createdGroup = getGroup(eObject, createdView, createdGroup, genFeature);
+
+				// get multiline property
+				esf = genFeature.eClass().getEStructuralFeature(GENFEATURE_PROPERTY_MULTILINE);
+				if (esf != null) {
+					isMultiLine = (Boolean) genFeature.eGet(esf);
+				}
 			}
 
 			// no genmodel property, no group
@@ -110,7 +119,7 @@ public class BindingSettingsBuilder {
 				createdGroup = createContainerViewForEClassBinding(eObject, createdView);
 			}
 			// create property binding
-			createPropertyBinding(eClassBinding, feature, isReadonly, createdGroup);
+			createPropertyBinding(eClassBinding, feature, isReadonly, isMultiLine, createdGroup);
 		}
 	}
 
@@ -123,13 +132,21 @@ public class BindingSettingsBuilder {
 	 *            EStructuralFeature
 	 * @param isReadonly
 	 *            boolean
+	 * @param isMultiLine
 	 * @param createdGroup
 	 *            Container
 	 */
-	public void createPropertyBinding(EClassBinding eClassBinding, EStructuralFeature feature, boolean isReadonly, Container createdGroup) {
+	public void createPropertyBinding(EClassBinding eClassBinding, EStructuralFeature feature, boolean isReadonly, boolean isMultiLine, Container createdGroup) {
 		PropertyBinding propertyBinding = EditingModelFactory.eINSTANCE.createPropertyBinding();
 		propertyBinding.setFeature(feature);
-		Widget widget = getWidgetForFeature(feature);
+		Widget widget = null;
+		if (isMultiLine && feature.getEType() instanceof EDataType && feature.getEType().getName().contains("String")) {
+			widget = toolkitProvider.getWidgetByName(TEXTAREA_WIDGET_NAME);
+		}
+		if (widget == null) {
+			widget = getWidgetForFeature(feature);
+		}
+
 		if (widget != null && feature != null) {
 			// create element editor
 			ElementEditor newElementEditor = ViewsFactory.eINSTANCE.createElementEditor();
