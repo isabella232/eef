@@ -105,6 +105,10 @@ public class BindingSettingsBuilder {
 				createdGroup = getGroup(eObject, createdView, createdGroup, genFeature);
 			}
 
+			// no genmodel property, no group
+			if (createdGroup == null) {
+				createdGroup = createContainerViewForEClassBinding(eObject, createdView);
+			}
 			// create property binding
 			createPropertyBinding(eClassBinding, feature, isReadonly, createdGroup);
 		}
