@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.emf.eef.runtime.query.*;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
 import org.eclipse.emf.eef.runtime.query.Navigation;
 import org.eclipse.emf.eef.runtime.query.QueryFactory;

@@ -21,15 +21,15 @@ import org.eclipse.ui.forms.widgets.Section;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class GroupFormPropertyEditor implements FormPropertyEditor<EEFControlWrapperViewer<Composite>> {
 
 	private Container container;
-	
+
 	private EEFControlWrapperViewer<Composite> wrapperViewer;
 	private Composite group;
-	
+
 	/**
 	 * @param container
 	 */
@@ -39,22 +39,22 @@ public class GroupFormPropertyEditor implements FormPropertyEditor<EEFControlWra
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public EEFControlWrapperViewer<Composite> getViewer() {
 		if (wrapperViewer == null) {
 			wrapperViewer = new EEFControlWrapperViewer<Composite>() {
 
-
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.ui.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
 				 */
 				@Override
 				public Composite getMainControl() {
 					return group;
 				}
-
 
 			};
 		}
@@ -63,7 +63,9 @@ public class GroupFormPropertyEditor implements FormPropertyEditor<EEFControlWra
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit,
+	 *      org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(FormToolkit toolkit, Composite parent) {
 		Section section = toolkit.createSection(parent, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
@@ -75,11 +77,12 @@ public class GroupFormPropertyEditor implements FormPropertyEditor<EEFControlWra
 		GridLayout groupLayout = new GridLayout();
 		groupLayout.numColumns = 3;
 		group.setLayout(groupLayout);
-		section.setClient(group);		
+		section.setClient(group);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
@@ -88,10 +91,20 @@ public class GroupFormPropertyEditor implements FormPropertyEditor<EEFControlWra
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
 		// Do nothing
 	}
-	
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return false;
+	}
+
 }

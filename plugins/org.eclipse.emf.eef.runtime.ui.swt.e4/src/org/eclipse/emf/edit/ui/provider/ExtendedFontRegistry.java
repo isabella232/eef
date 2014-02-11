@@ -17,8 +17,7 @@ import java.util.HashMap;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.provider.IItemFontProvider;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
+import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.jface.resource.DeviceResourceException;
 import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.swt.SWT;
@@ -33,16 +32,14 @@ import org.eclipse.swt.widgets.Display;
  */
 public class ExtendedFontRegistry
 {
+	
+	private EEFLogger eefLogger;
+	
   public static final ExtendedFontRegistry INSTANCE = new ExtendedFontRegistry();
 
   protected Display display;
   protected HashMap<Collection<?>, Font> table = new HashMap<Collection<?>, Font>(10);
   
-  /**
-   * @eefspecific 
-   */
-  private EEFServiceRegistry serviceRegistry;
-
   public ExtendedFontRegistry()
   {
     display = Display.getCurrent();
@@ -56,15 +53,13 @@ public class ExtendedFontRegistry
   }
 
   /**
-   * Sets the {@link EEFServiceRegistry} to use in order to get EEF related services.
-   * @param serviceRegistry the {@link EEFServiceRegistry} to use.
-   * @eefspecific
-   */
-  public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-	this.serviceRegistry = serviceRegistry;
-  }
+ * @param eefLogger the eefLogger to set
+ */
+public void setEEFLogger(EEFLogger eefLogger) {
+	this.eefLogger = eefLogger;
+}
 
-  public Font getFont(Font baseFont, Object object)
+public Font getFont(Font baseFont, Object object)
   {
     if (object instanceof Font)
     {
@@ -89,8 +84,7 @@ public class ExtendedFontRegistry
           catch (DeviceResourceException exception)
           {
           	//@eefspecific
-          	EEFLogger logger = serviceRegistry.getService(EEFLogger.class, this);
-            logger.logError("org.eclipse.emf.eef.runtime.ui.swt.e4.e4", "An error occured", exception);
+            eefLogger.logError("org.eclipse.emf.eef.runtime.ui.swt.e4.e4", "An error occured", exception);
           }
         }
         else if (object instanceof URI)
@@ -155,8 +149,7 @@ public class ExtendedFontRegistry
           catch (DeviceResourceException exception)
           {
           	//@eefspecific
-          	EEFLogger logger = serviceRegistry.getService(EEFLogger.class, this);
-            logger.logError("org.eclipse.emf.eef.runtime.ui.swt.e4.e4", "An error occured", exception);
+        	  eefLogger.logError("org.eclipse.emf.eef.runtime.ui.swt.e4.e4", "An error occured", exception);
           }
         }
 

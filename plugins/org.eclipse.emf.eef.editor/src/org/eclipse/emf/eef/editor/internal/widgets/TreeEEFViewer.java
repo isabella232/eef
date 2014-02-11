@@ -11,16 +11,17 @@
 package org.eclipse.emf.eef.editor.internal.widgets;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.eef.runtime.context.NullPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
@@ -28,6 +29,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.util.EEFViewerInput;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -69,10 +71,10 @@ public class TreeEEFViewer extends ContentViewer {
 	private static final String ECLASS_DATA_KEY = "EClass";
 
 	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private ImageManager imageManager;
 	
 	private EditingDomain editingDomain;
-	private EReference editedFeature;
 	private Collection<TreeEEFViewerListener> listeners;
 
 	private Composite parent;
@@ -98,6 +100,13 @@ public class TreeEEFViewer extends ContentViewer {
 	 */
 	public final void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public final void setEefEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
@@ -275,7 +284,6 @@ public class TreeEEFViewer extends ContentViewer {
 	protected final void inputChanged(Object input, Object oldInput) {
 		if (input instanceof EEFViewerInput) {
 			EObject editedObject = ((EEFViewerInput) input).getEditedObject();
-			editedFeature = (EReference) ((EEFViewerInput) input).getEditedFeature();
 			selection.setInput(Lists.newArrayList(editedObject));
 			Object[] elements = ((IStructuredContentProvider)selection.getContentProvider()).getElements(editedObject);
 			if (elements.length > 0) {
@@ -340,12 +348,16 @@ public class TreeEEFViewer extends ContentViewer {
 
 	private Collection<EClass> computeInstanciableTypes() {
 		EObject editedObject = null;
-		Collection<EClass> listOfInstanciableType = null;
+		Collection<EClass> listOfInstanciableType = Collections.emptyList();
 		editedObject = getEditedObject();
 		if (editedObject != null) {
-			//TODO: find a better way to get the AdapterFactory
-			AdapterFactory adapterFactory = ((AdapterFactoryContentProvider)getContentProvider()).getAdapterFactory();
-			listOfInstanciableType = emfServiceProvider.getEMFService(editedObject.eClass().getEPackage()).listOfInstanciableType(adapterFactory, editedObject, editedFeature);
+			EEFViewerInput eefViewerInput = (EEFViewerInput)getInput();
+			PropertiesEditingContext editingContext = eefViewerInput.getEditingContext();
+			AdapterFactory adapterFactory = editingContext.getAdapterFactory();
+			EStructuralFeature editedFeature = eefEditingServiceProvider.getEditingService(editedObject).featureFromEditor(editingContext, eefViewerInput.getElementEditor());
+			if (editedFeature instanceof EReference) {
+				listOfInstanciableType = emfServiceProvider.getEMFService(editedObject.eClass().getEPackage()).listOfInstanciableType(adapterFactory, editedObject, (EReference) editedFeature);
+			}
 		}
 		return listOfInstanciableType;
 	}

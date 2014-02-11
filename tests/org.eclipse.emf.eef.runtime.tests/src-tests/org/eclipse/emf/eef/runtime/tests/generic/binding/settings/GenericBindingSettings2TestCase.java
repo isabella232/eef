@@ -17,6 +17,8 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
@@ -41,22 +43,25 @@ public class GenericBindingSettings2TestCase extends AbstractGenericBindingSetti
 
 	@Before
 	public void setUp() throws Exception {
-		genericBindingSettings = initGenericBindingSettings();
+		Resource resource = new ResourceImpl();
+		genericBindingSettings = initGenericBindingSettings(resource);
 
 		// First package : 2 classes
 		EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
 		ePackage.setNsURI(URI1);
-		Object[] createEObjectWithSingleEnum = GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, GenericBindingSettingsUtil.CLASS1, XMLTypePackage.eINSTANCE.getString());
+		Object[] createEObjectWithSingleEnum = GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, GenericBindingSettingsUtil.CLASS1, XMLTypePackage.eINSTANCE.getString(), URI1);
 		class1 = (EObject) createEObjectWithSingleEnum[0];
-		Object[] createEObjectWithSingleStringAttribute = GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, GenericBindingSettingsUtil.CLASS2,
-				XMLTypePackage.eINSTANCE.getString());
+		Object[] createEObjectWithSingleStringAttribute = GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, GenericBindingSettingsUtil.CLASS2, XMLTypePackage.eINSTANCE.getString(), URI1);
 		class2 = (EObject) createEObjectWithSingleStringAttribute[0];
 
 		// Second package : 1 class
 		EPackage ePackage2 = EcoreFactory.eINSTANCE.createEPackage();
 		ePackage2.setNsURI(URI2);
-		Object[] createEObjectWithSingleStringAttribute2 = GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage2, XMLTypePackage.eINSTANCE.getString());
+		Object[] createEObjectWithSingleStringAttribute2 = GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage2, GenericBindingSettingsUtil.CLASS1, XMLTypePackage.eINSTANCE.getString(), URI2);
 		class3 = (EObject) createEObjectWithSingleStringAttribute2[0];
+
+		resource.getContents().add(ePackage);
+		resource.getContents().add(ePackage2);
 	}
 
 	/**
@@ -169,7 +174,8 @@ public class GenericBindingSettings2TestCase extends AbstractGenericBindingSetti
 		assertNotNull("Map should not be null.", genericBindingSettings.getMapURI2PropertiesEditingModel());
 		assertEquals("The map should have 1 PEM.", 1, genericBindingSettings.getMapURI2PropertiesEditingModel().size());
 		assertNotNull("PEM should not be null", genericBindingSettings.getMapURI2PropertiesEditingModel().get(uri));
-		assertEquals("PEMs should be equals.", genericBindingSettings.getMapURI2PropertiesEditingModel().get(uri), propertiesEditingModel);
+		assertNotNull("PEM should not be null", genericBindingSettings.getMapURI2PropertiesEditingModel().get(uri).getContents().get(0));
+		assertEquals("PEMs should be equals.", genericBindingSettings.getMapURI2PropertiesEditingModel().get(uri).getContents().get(0), propertiesEditingModel);
 	}
 
 	/**
@@ -185,7 +191,8 @@ public class GenericBindingSettings2TestCase extends AbstractGenericBindingSetti
 		assertEquals("The map should have 2 PEMs.", 2, genericBindingSettings.getMapURI2PropertiesEditingModel().size());
 		assertNotNull("PEM should not be null", genericBindingSettings.getMapURI2PropertiesEditingModel().get(uri));
 		assertNotNull("PEM should not be null", genericBindingSettings.getMapURI2PropertiesEditingModel().get(uri2));
-		assertTrue("PEMs should be equals.", genericBindingSettings.getMapURI2PropertiesEditingModel().get(uri).equals(propertiesEditingModel)
-				|| genericBindingSettings.getMapURI2PropertiesEditingModel().get(uri2).equals(propertiesEditingModel));
+		assertNotNull("PEM should not be null", genericBindingSettings.getMapURI2PropertiesEditingModel().get(uri).getContents().get(0));
+		assertNotNull("PEM should not be null", genericBindingSettings.getMapURI2PropertiesEditingModel().get(uri2).getContents().get(0));
+		assertTrue("PEMs should be equals.", genericBindingSettings.getMapURI2PropertiesEditingModel().get(uri).getContents().get(0).equals(propertiesEditingModel) || genericBindingSettings.getMapURI2PropertiesEditingModel().get(uri2).getContents().get(0).equals(propertiesEditingModel));
 	}
 }

@@ -23,14 +23,14 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWrapperViewer<Button>> {
 
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected Button checkbox;
-	
+
 	private EEFControlWrapperViewer<Button> wrapperViewer;
 
 	/**
@@ -44,22 +44,22 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public EEFControlWrapperViewer<Button> getViewer() {
 		if (wrapperViewer == null) {
 			wrapperViewer = new EEFControlWrapperViewer<Button>() {
 
-
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.ui.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
 				 */
 				@Override
 				public Button getMainControl() {
 					return checkbox;
 				}
-
 
 			};
 		}
@@ -68,6 +68,7 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.SWTPropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(Composite parent) {
@@ -78,7 +79,7 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 		checkboxData.horizontalSpan = 2;
 		checkbox.setLayoutData(checkboxData);
 		if (viewService instanceof SWTViewService) {
-			SWTViewService swtViewService = (SWTViewService)viewService;
+			SWTViewService swtViewService = (SWTViewService) viewService;
 			swtViewService.setID(checkbox, elementEditor.getQualifiedIdentifier());
 			swtViewService.setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
 			swtViewService.createHelpButton(view.getEditingComponent(), parent, elementEditor);
@@ -87,6 +88,7 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
@@ -95,10 +97,20 @@ public class CheckboxSWTPropertyEditor implements SWTPropertyEditor<EEFControlWr
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
 		checkbox.setEnabled(true);
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return !checkbox.isEnabled();
 	}
 
 }

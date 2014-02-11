@@ -49,7 +49,7 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class MultiLinePropertyViewer extends StructuredViewer {
 
@@ -57,17 +57,17 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	 * Constant usable in the addColumn method as width parameter.
 	 */
 	public static final int UNDEFINED_COLUMN_WIDTH = -1;
-	
+
 	private Composite parent;
 	private int style;
-		
+
 	private Composite control;
 	private TableViewer table;
 	private Button addButton;
 	private Button removeButton;
 	private Button upButton;
 	private Button downButton;
-	
+
 	private ImageManager imageManager;
 	private Collection<MultiLinePropertyViewerListener> listeners;
 	private List<ColumnSettings> columnsToInit = Lists.newArrayList();
@@ -76,7 +76,6 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	private int lowerBound = 0;
 	private int upperBound = -1;
 
-	
 	/**
 	 * @param parent
 	 * @param style
@@ -85,7 +84,6 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 		this.parent = parent;
 		this.style = style;
 	}
-
 
 	public void createContents() {
 		control = createControlComposite(parent);
@@ -104,7 +102,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 			}
 		});
 		table.addDoubleClickListener(new IDoubleClickListener() {
-			
+
 			public void doubleClick(DoubleClickEvent event) {
 				if (table.getSelection() != null && !table.getSelection().isEmpty()) {
 					if (table.getSelection() instanceof StructuredSelection) {
@@ -117,7 +115,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 						}
 					}
 				}
-				
+
 			}
 		});
 		addButton = createButton(control);
@@ -126,13 +124,14 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 		if (imageManager != null) {
 			addButton.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "Add"));
 		} else {
-			addButton.setText("add");			
+			addButton.setText("add");
 		}
 		addButton.setLayoutData(buttonData);
 		addButton.addSelectionListener(new SelectionAdapter() {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 			 */
 			public void widgetSelected(SelectionEvent e) {
@@ -154,6 +153,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerSelectionAdapter#fireSingleSelection(java.lang.Object)
 			 */
 			public void fireSingleSelection(Object selection) {
@@ -164,6 +164,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerSelectionAdapter#fireMultiSelection(java.util.List)
 			 */
 			protected void fireMultiSelection(List<?> selection) {
@@ -171,7 +172,6 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 					listener.removeAll(selection);
 				}
 			}
-
 
 		});
 
@@ -186,6 +186,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerSelectionAdapter#fireSingleSelection(java.lang.Object)
 			 */
 			public void fireSingleSelection(Object selection) {
@@ -199,13 +200,14 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 		if (imageManager != null) {
 			downButton.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "ArrowDown"));
 		} else {
-			downButton.setText("down");			
+			downButton.setText("down");
 		}
 		downButton.setLayoutData(buttonData);
 		downButton.addSelectionListener(new MultiLinePropertyViewerSelectionAdapter() {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerSelectionAdapter#fireSingleSelection(java.lang.Object)
 			 */
 			public void fireSingleSelection(Object selection) {
@@ -220,7 +222,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 		table.getControl().setLayoutData(treeData);
 		listeners = Lists.newArrayList();
 	}
-	
+
 	private void initColumns() {
 		table.getTable().setHeaderVisible(true);
 		for (ColumnSettings col : columnsToInit) {
@@ -233,11 +235,13 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 		columnsToInit.clear();
 	}
 
-
 	/**
 	 * Adds a column to the Table
-	 * @param name name of the column
-	 * @param width width of the column. This value can be UNDEFINED_COLUMN_WIDTH. 
+	 * 
+	 * @param name
+	 *            name of the column
+	 * @param width
+	 *            width of the column. This value can be UNDEFINED_COLUMN_WIDTH.
 	 */
 	public void addColumn(String name, int width) {
 		if (table != null) {
@@ -259,7 +263,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	protected Composite createControlComposite(Composite parent) {
 		return new Composite(parent, SWT.NONE);
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -268,18 +272,20 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	}
 
 	protected void buildAdditionnalActionControls(Composite parent) {
-		//Do nothing.
+		// Do nothing.
 	}
 
 	/**
-	 * @param lowerBound the lowerBound to set
+	 * @param lowerBound
+	 *            the lowerBound to set
 	 */
 	public void setLowerBound(int lowerBound) {
 		this.lowerBound = lowerBound;
 	}
 
 	/**
-	 * @param upperBound the upperBound to set
+	 * @param upperBound
+	 *            the upperBound to set
 	 */
 	public void setUpperBound(int upperBound) {
 		this.upperBound = upperBound;
@@ -287,20 +293,24 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 
 	/**
 	 * Add a {@link MultiLinePropertyViewerListener} to this instance.
-	 * @param listener {@link MultiLinePropertyViewerListener} to add.
+	 * 
+	 * @param listener
+	 *            {@link MultiLinePropertyViewerListener} to add.
 	 */
 	public void addReferenceEditorListener(MultiLinePropertyViewerListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	/**
 	 * Remove a {@link MultiLinePropertyViewerListener} to this instance.
-	 * @param listener {@link MultiLinePropertyViewerListener} to remove.
+	 * 
+	 * @param listener
+	 *            {@link MultiLinePropertyViewerListener} to remove.
 	 */
 	public void removeReferenceEditorListener(MultiLinePropertyViewerListener listener) {
 		listeners.remove(listener);
 	}
-	
+
 	/**
 	 * @see org.eclipse.jface.viewers.ContentViewer#getContentProvider()
 	 */
@@ -314,10 +324,12 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	public Object getInput() {
 		return table.getInput();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.jface.viewers.Viewer#inputChanged(java.lang.Object, java.lang.Object)
+	 * 
+	 * @see org.eclipse.jface.viewers.Viewer#inputChanged(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	protected void inputChanged(Object input, Object oldInput) {
 		table.setInput(input);
@@ -338,12 +350,12 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	}
 
 	/**
-	 * @param imageManager the imageManager to set
+	 * @param imageManager
+	 *            the imageManager to set
 	 */
 	public void setImageManager(ImageManager imageManager) {
 		this.imageManager = imageManager;
 	}
-
 
 	/**
 	 * @see org.eclipse.jface.viewers.StructuredViewer#addDoubleClickListener(org.eclipse.jface.viewers.IDoubleClickListener)
@@ -360,14 +372,18 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	}
 
 	/**
-	 * @see org.eclipse.jface.viewers.StructuredViewer#addDragSupport(int, org.eclipse.swt.dnd.Transfer[], org.eclipse.swt.dnd.DragSourceListener)
+	 * @see org.eclipse.jface.viewers.StructuredViewer#addDragSupport(int,
+	 *      org.eclipse.swt.dnd.Transfer[],
+	 *      org.eclipse.swt.dnd.DragSourceListener)
 	 */
 	public void addDragSupport(int operations, Transfer[] transferTypes, DragSourceListener listener) {
 		table.addDragSupport(operations, transferTypes, listener);
 	}
 
 	/**
-	 * @see org.eclipse.jface.viewers.StructuredViewer#addDropSupport(int, org.eclipse.swt.dnd.Transfer[], org.eclipse.swt.dnd.DropTargetListener)
+	 * @see org.eclipse.jface.viewers.StructuredViewer#addDropSupport(int,
+	 *      org.eclipse.swt.dnd.Transfer[],
+	 *      org.eclipse.swt.dnd.DropTargetListener)
 	 */
 	public void addDropSupport(int operations, Transfer[] transferTypes, DropTargetListener listener) {
 		table.addDropSupport(operations, transferTypes, listener);
@@ -403,7 +419,8 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	}
 
 	/**
-	 * @see org.eclipse.jface.viewers.TreeViewer#setSelection(org.eclipse.jface.viewers.ISelection, boolean)
+	 * @see org.eclipse.jface.viewers.TreeViewer#setSelection(org.eclipse.jface.viewers.ISelection,
+	 *      boolean)
 	 */
 	public void setSelection(ISelection selection, boolean reveal) {
 		table.setSelection(selection, reveal);
@@ -442,35 +459,40 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.StructuredViewer#doFindInputItem(java.lang.Object)
 	 */
 	@Override
 	protected Widget doFindInputItem(Object element) {
-		//TODO
+		// TODO
 		return null;
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.StructuredViewer#doFindItem(java.lang.Object)
 	 */
 	@Override
 	protected Widget doFindItem(Object element) {
-		//TODO
+		// TODO
 		return null;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.jface.viewers.StructuredViewer#doUpdateItem(org.eclipse.swt.widgets.Widget, java.lang.Object, boolean)
+	 * 
+	 * @see org.eclipse.jface.viewers.StructuredViewer#doUpdateItem(org.eclipse.swt.widgets.Widget,
+	 *      java.lang.Object, boolean)
 	 */
 	@Override
 	protected void doUpdateItem(Widget item, Object element, boolean fullMap) {
-		//TODO
+		// TODO
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.StructuredViewer#getSelectionFromWidget()
 	 */
 	@Override
@@ -492,6 +514,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.StructuredViewer#internalRefresh(java.lang.Object)
 	 */
 	@Override
@@ -502,6 +525,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.StructuredViewer#reveal(java.lang.Object)
 	 */
 	@Override
@@ -511,7 +535,9 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.jface.viewers.StructuredViewer#setSelectionToWidget(java.util.List, boolean)
+	 * 
+	 * @see org.eclipse.jface.viewers.StructuredViewer#setSelectionToWidget(java.util.List,
+	 *      boolean)
 	 */
 	@Override
 	protected void setSelectionToWidget(@SuppressWarnings("rawtypes") List elements, boolean reveal) {
@@ -521,19 +547,29 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#getControl()
 	 */
 	@Override
 	public Control getControl() {
 		return control;
 	}
-		
+
 	/**
-	 * @param locked the locked to set
+	 * @param locked
+	 *            the locked to set
 	 */
 	public void setLocked(boolean locked) {
 		this.locked = locked;
 		updateButtons();
+		table.getTable().setEnabled(!locked);
+	}
+
+	/**
+	 * @return if it is locked
+	 */
+	public boolean isLocked() {
+		return locked;
 	}
 
 	/**
@@ -558,38 +594,50 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	}
 
 	private boolean shouldEnableAdd(StructuredSelection selection) {
-		Object[] elements = ((IStructuredContentProvider)table.getContentProvider()).getElements(table.getInput());
+		if (table.getContentProvider() == null) {
+			return false;
+		}
+		Object[] elements = ((IStructuredContentProvider) table.getContentProvider()).getElements(table.getInput());
 		return !locked && ((upperBound == -1) || (elements.length < upperBound));
 	}
-	
+
 	private boolean shouldEnableRemove(StructuredSelection selection) {
-		Object[] elements = ((IStructuredContentProvider)table.getContentProvider()).getElements(table.getInput());
+		if (table.getContentProvider() == null) {
+			return false;
+		}
+		Object[] elements = ((IStructuredContentProvider) table.getContentProvider()).getElements(table.getInput());
 		return !locked && ((lowerBound == 0) || (elements.length > lowerBound));
 	}
-	
+
 	private boolean shouldEnableUp(StructuredSelection selection) {
+		if (table.getContentProvider() == null) {
+			return false;
+		}
 		Object selectedElement = selection.getFirstElement();
-		Object[] elements = ((IStructuredContentProvider)table.getContentProvider()).getElements(table.getInput());
+		Object[] elements = ((IStructuredContentProvider) table.getContentProvider()).getElements(table.getInput());
 		if (elements != null) {
 			List<?> listInput = Arrays.asList(elements);
-			return !locked && (listInput.size() > 1  && listInput.indexOf(selectedElement) > 0);
+			return !locked && (listInput.size() > 1 && listInput.indexOf(selectedElement) > 0);
 		}
 		return false;
 	}
 
 	private boolean shouldEnableDown(StructuredSelection selection) {
+		if (table.getContentProvider() == null) {
+			return false;
+		}
 		Object selectedElement = selection.getFirstElement();
-		Object[] elements = ((IStructuredContentProvider)table.getContentProvider()).getElements(table.getInput());
+		Object[] elements = ((IStructuredContentProvider) table.getContentProvider()).getElements(table.getInput());
 		if (elements != null) {
 			List<?> listInput = Arrays.asList(elements);
-			return !locked && (listInput.size() > 1)  && (listInput.indexOf(selectedElement) < listInput.size() - 1);
+			return !locked && (listInput.size() > 1) && (listInput.indexOf(selectedElement) < listInput.size() - 1);
 		}
 		return false;
 	}
 
 	/**
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
-	 *
+	 * 
 	 */
 	public interface MultiLinePropertyViewerListener {
 
@@ -597,47 +645,58 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 		 * Handle a "add" request.
 		 */
 		void add();
-		
+
 		/**
 		 * Handle a "edit" request.
-		 * @param editedElement Edited Element.
+		 * 
+		 * @param editedElement
+		 *            Edited Element.
 		 */
 		void edit(Object editedElement);
-		
+
 		/**
 		 * Handle a "remove" request.
-		 * @param removedElement Removed Element.
+		 * 
+		 * @param removedElement
+		 *            Removed Element.
 		 */
 		void remove(Object removedElement);
-		
+
 		/**
 		 * Handle a "remove" request for several elements.
-		 * @param removedElements Removed Elements.
+		 * 
+		 * @param removedElements
+		 *            Removed Elements.
 		 */
 		void removeAll(Collection<?> removedElements);
-		
+
 		/**
 		 * Handle a "move up" request.
-		 * @param movedElement Moved Element.
+		 * 
+		 * @param movedElement
+		 *            Moved Element.
 		 */
 		void moveUp(Object movedElement);
-		
+
 		/**
 		 * Handle a "move down" request.
-		 * @param movedElement Moved Element.
+		 * 
+		 * @param movedElement
+		 *            Moved Element.
 		 */
 		void moveDown(Object movedElement);
-		
+
 	}
-	
+
 	/**
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
-	 *
+	 * 
 	 */
 	private abstract class MultiLinePropertyViewerSelectionAdapter extends SelectionAdapter {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 		 */
 		public void widgetSelected(SelectionEvent e) {
@@ -653,20 +712,19 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 				}
 			}
 		}
-		
+
 		public abstract void fireSingleSelection(Object selection);
-		
+
 		protected void fireMultiSelection(List<?> selection) {
-			//do nothing
+			// do nothing
 		}
 	}
 
-	
 	private static final class ColumnSettings {
-		
+
 		private String name;
 		private int width;
-		
+
 		/**
 		 * @param name
 		 * @param width
@@ -675,7 +733,6 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 			this.name = name;
 			this.width = width;
 		}
-		
-		
+
 	}
 }

@@ -29,8 +29,6 @@ import org.eclipse.emf.eef.editor.internal.widgets.TreeEEFViewer.SelectionInterp
 import org.eclipse.emf.eef.editor.internal.widgets.TreeEEFViewer.TreeEEFViewerListener;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.TargetedEditingEvent;
 import org.eclipse.emf.eef.runtime.ui.swt.util.EEFViewerInput;
@@ -98,7 +96,7 @@ public class TreeContentsPropertyEditor extends PropertyEditorImpl implements Mu
 			@Override
 			public Object[] getChildren(Object object) {
 				if (object == input) {
-					EList<?> children = (EList<?>)((EObject)input).eGet(TreeContentsPropertyEditor.this.propertyBinding);
+					EList<?> children = (EList<?>)eefEditingServiceProvider.getEditingService(view.getEditingComponent().getEObject()).getValue(view.getEditingComponent().getEditingContext(), (EObject) object, elementEditor);
 					return children.toArray(); 
 				}
 				return super.getChildren(object);
@@ -146,8 +144,7 @@ public class TreeContentsPropertyEditor extends PropertyEditorImpl implements Mu
 			public void handleRemove(EObject element) {
 				//Ok here it's a bit tricky. I have to find the object referencing the selected by the propertyBinding binding to the given elementEditor.
 				PropertiesEditingContext editingContext = view.getEditingComponent().getEditingContext();
-				EClassBinding binding = editingContext.getEditingComponent().getBinding();
-				EStructuralFeature bindedFeature = binding.feature(elementEditor, editingContext.getOptions().autowire());
+				EStructuralFeature bindedFeature = eefEditingServiceProvider.getEditingService(view.getEditingComponent().getEObject()).featureFromEditor(editingContext, elementEditor);
 				EObject target = null;
 				// First I check if the propertyBinding where I have to remove the element is its containing propertyBinding (a crossreferencer don't find this information)
 				EMFService emfService = emfServiceProvider.getEMFService(element.eClass().getEPackage());

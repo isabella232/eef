@@ -15,15 +15,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.event.EventAdmin;
 
 /**
- * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
+ * @author <a href="mailto:nathalie.lepine@obeo.fr">Nathalie Lepine</a>
  * 
  */
-public final class ModelChangesNotifierImpl extends AbstractModelChangesNotifier {
+public final class SettingsChangesNotifierImpl extends AbstractModelChangesNotifier {
 
 	/**
 	 * @param eventAdmin
 	 */
-	public ModelChangesNotifierImpl(final EventAdmin eventAdmin) {
+	public SettingsChangesNotifierImpl(final EventAdmin eventAdmin) {
 		super(eventAdmin);
 	}
 
@@ -36,9 +36,9 @@ public final class ModelChangesNotifierImpl extends AbstractModelChangesNotifier
 		String topic;
 		if (notification.getNotifier() instanceof EObject) {
 			EObject notifier = (EObject) notification.getNotifier();
-			topic = EEF_EVENT_BASE_TOPIC + EEF_ECLASS_NOTIFICATION_TOPIC + notifier.eClass().getEPackage().getName() + "_" + notifier.eClass().getName();
+			topic = EEF_EVENT_BASE_SETTINGS + EEF_ECLASS_NOTIFICATION_TOPIC + notifier.eClass().getEPackage().getName() + "_" + notifier.eClass().getName();
 		} else {
-			topic = EEF_EVENT_BASE_TOPIC + EEF_GLOBAL_NOTIFICATION_TOPIC;
+			topic = EEF_EVENT_BASE_SETTINGS + EEF_GLOBAL_NOTIFICATION_TOPIC;
 		}
 		return topic;
 	}

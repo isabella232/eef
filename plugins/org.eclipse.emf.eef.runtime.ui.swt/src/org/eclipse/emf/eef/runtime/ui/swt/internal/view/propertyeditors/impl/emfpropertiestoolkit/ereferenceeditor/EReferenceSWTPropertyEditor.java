@@ -30,7 +30,7 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLinePropertyViewer>, FilterablePropertyEditor {
 
@@ -51,6 +51,7 @@ public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLineP
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public MultiLinePropertyViewer getViewer() {
@@ -59,6 +60,7 @@ public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLineP
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.SWTPropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(final Composite parent) {
@@ -69,6 +71,7 @@ public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLineP
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer#buildAdditionnalActionControls(org.eclipse.swt.widgets.Composite)
 			 */
 			@Override
@@ -77,7 +80,7 @@ public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLineP
 					((SWTViewService) view.getViewService()).createHelpButton(view.getEditingComponent(), parent, elementEditor);
 				}
 			}
-			
+
 		};
 		for (EObject subEditor : elementEditor.eContents()) {
 			if (subEditor instanceof ElementEditor) {
@@ -91,9 +94,10 @@ public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLineP
 		layoutData.horizontalSpan = 2;
 		multiLinePropertyViewer.setLayoutData(layoutData);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#addFilter(org.eclipse.jface.viewers.ViewerFilter)
 	 */
 	public void addFilter(ViewerFilter filter) {
@@ -102,6 +106,7 @@ public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLineP
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#removeFilter(org.eclipse.jface.viewers.ViewerFilter)
 	 */
 	public void removeFilter(ViewerFilter filter) {
@@ -110,6 +115,7 @@ public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLineP
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor#getFilters()
 	 */
 	public Collection<ViewerFilter> getFilters() {
@@ -118,19 +124,29 @@ public class EReferenceSWTPropertyEditor implements SWTPropertyEditor<MultiLineP
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
-		multiLinePropertyViewer.setLocked(true);		
+		multiLinePropertyViewer.setLocked(true);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		multiLinePropertyViewer.setLocked(false);		
+		multiLinePropertyViewer.setLocked(false);
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return multiLinePropertyViewer.isLocked();
+	}
 
 }

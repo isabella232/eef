@@ -25,13 +25,13 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControlWrapperViewer<Button>> {
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected Button checkbox;
-	
+
 	private EEFControlWrapperViewer<Button> wrapperViewer;
 
 	/**
@@ -45,22 +45,22 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public EEFControlWrapperViewer<Button> getViewer() {
 		if (wrapperViewer == null) {
 			wrapperViewer = new EEFControlWrapperViewer<Button>() {
 
-
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.ui.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
 				 */
 				@Override
 				public Button getMainControl() {
 					return checkbox;
 				}
-
 
 			};
 		}
@@ -69,7 +69,9 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit, org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.FormPropertyEditor#build(org.eclipse.ui.forms.widgets.FormToolkit,
+	 *      org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(FormToolkit toolkit, Composite parent) {
 		ViewService viewService = view.getViewService();
@@ -78,11 +80,11 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 		checkboxData.horizontalSpan = 2;
 		checkbox.setLayoutData(checkboxData);
 		if (viewService instanceof SWTViewService) {
-			SWTViewService swtViewService = (SWTViewService)viewService;
+			SWTViewService swtViewService = (SWTViewService) viewService;
 			swtViewService.setID(checkbox, elementEditor.getQualifiedIdentifier());
 			swtViewService.setEEFtype(checkbox, "eef::Checkbox"); //$NON-NLS-1$
 			if (viewService instanceof PlatformAwareViewService) {
-				((PlatformAwareViewService)viewService).createHelpButton(view.getEditingComponent(), toolkit, parent, elementEditor);
+				((PlatformAwareViewService) viewService).createHelpButton(view.getEditingComponent(), toolkit, parent, elementEditor);
 			} else {
 				swtViewService.createHelpButton(view.getEditingComponent(), parent, elementEditor);
 			}
@@ -91,6 +93,7 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
@@ -99,10 +102,20 @@ public class CheckboxFormPropertyEditor implements FormPropertyEditor<EEFControl
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
 		checkbox.setEnabled(true);
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return !checkbox.isEnabled();
 	}
 
 }

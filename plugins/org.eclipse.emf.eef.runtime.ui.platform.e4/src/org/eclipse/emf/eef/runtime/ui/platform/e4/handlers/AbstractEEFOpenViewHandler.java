@@ -13,7 +13,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.model.utils.ApplicationModelBuilder;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.parts.E4EEFPart;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils;
@@ -27,8 +27,9 @@ import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.URIEditingInput;
 @SuppressWarnings("restriction")
 public abstract class AbstractEEFOpenViewHandler {
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Execute
-	public void execute(IEclipseContext context, EModelService modelService, EPartService partService, EEFServiceRegistry serviceRegistry, PlatformRelatedUIUtils uiUtils, MApplication applicationModel) throws InvocationTargetException, InterruptedException {
+	public void execute(IEclipseContext context, EModelService modelService, EPartService partService, EditingContextFactoryProvider editingContextFactoryProvider, PlatformRelatedUIUtils uiUtils, MApplication applicationModel) throws InvocationTargetException, InterruptedException {
 		ApplicationModelBuilder builder = new ApplicationModelBuilder(applicationModel);
 		builder.addPartDescriptorIfNeeded(ApplicationModelBuilder.EEF_PART_DESCRIPTOR);
 		MElementContainer partStack = (MElementContainer) modelService.find(getElementContainerID(), applicationModel);
@@ -36,7 +37,7 @@ public abstract class AbstractEEFOpenViewHandler {
 		MPart mPart = partService.createPart(ApplicationModelBuilder.EEF_PART_DESCRIPTOR);
 		partStack.getChildren().add(mPart);
 		partService.showPart(mPart, PartState.ACTIVATE);
-		EditingInput editingInput = getEditingInput(context, mPart, uiUtils);
+		EditingInput editingInput = getEditingInput(context, editingContextFactoryProvider, mPart, uiUtils);
 		E4EEFPart partImpl = (E4EEFPart) mPart.getObject();
 		partImpl.setInput(editingInput);
 		if (editingInput instanceof URIEditingInput) {
@@ -51,7 +52,7 @@ public abstract class AbstractEEFOpenViewHandler {
 	 * @param uiUtils
 	 * @return
 	 */
-	protected abstract EditingInput getEditingInput(IEclipseContext context, MPart mPart, PlatformRelatedUIUtils uiUtils);
+	protected abstract EditingInput getEditingInput(IEclipseContext context, EditingContextFactoryProvider editingContextFactoryProvider, MPart mPart, PlatformRelatedUIUtils uiUtils);
 
 	/**
 	 * Defines the element where to open the EEF part

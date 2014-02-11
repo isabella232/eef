@@ -23,15 +23,14 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EDatePickerSWTPropertyEditor extends StandardSWTPropertyEditor<SingleLinePropertyViewer> {
-	
+
 	private EditUIProvidersFactory editUIProvidersFactory;
 	private ImageManager imageManager;
 
 	private SingleLinePropertyViewer eDatePicker;
-
 
 	/**
 	 * @param editUIProvidersFactory
@@ -47,6 +46,7 @@ public class EDatePickerSWTPropertyEditor extends StandardSWTPropertyEditor<Sing
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public SingleLinePropertyViewer getViewer() {
@@ -55,6 +55,7 @@ public class EDatePickerSWTPropertyEditor extends StandardSWTPropertyEditor<Sing
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.StandardSWTPropertyEditor#createEditorContents(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -68,6 +69,4 @@ public class EDatePickerSWTPropertyEditor extends StandardSWTPropertyEditor<Sing
 		eDatePicker.getControl().setLayoutData(layoutData);
 	}
 
-	
-	
 }

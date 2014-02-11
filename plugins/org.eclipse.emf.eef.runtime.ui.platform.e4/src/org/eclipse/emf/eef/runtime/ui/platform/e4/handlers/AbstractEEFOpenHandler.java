@@ -10,6 +10,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.EditingInput;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.impl.URIEditingInput;
@@ -26,7 +27,7 @@ public abstract class AbstractEEFOpenHandler extends AbstractEEFOpenViewHandler 
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler#getEditingInput(org.eclipse.e4.core.contexts.IEclipseContext, org.eclipse.e4.ui.model.application.ui.basic.MPart, org.eclipse.swt.widgets.Shell)
 	 */
-	protected EditingInput getEditingInput(IEclipseContext context, MPart mPart, PlatformRelatedUIUtils uiUtils) {
+	protected EditingInput getEditingInput(IEclipseContext context, EditingContextFactoryProvider editingContextFactoryProvider, MPart mPart, PlatformRelatedUIUtils uiUtils) {
 		EditingInput editingInput = null;
 		String[] filterExtensions = getFilterExtensions();
 		String path = uiUtils.selectModelFile(context, filterExtensions);

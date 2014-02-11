@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class TreeContentsSWTPropertyEditor implements SWTPropertyEditor<TreeEEFViewer> {
 
@@ -34,7 +34,7 @@ public class TreeContentsSWTPropertyEditor implements SWTPropertyEditor<TreeEEFV
 
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
-	
+
 	private TreeEEFViewer viewer;
 
 	public TreeContentsSWTPropertyEditor(EMFServiceProvider emfServiceProvider, ImageManager imageManager, EditingDomain editingDomain, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
@@ -47,6 +47,7 @@ public class TreeContentsSWTPropertyEditor implements SWTPropertyEditor<TreeEEFV
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(Composite parent) {
@@ -59,10 +60,10 @@ public class TreeContentsSWTPropertyEditor implements SWTPropertyEditor<TreeEEFV
 		layoutData.horizontalSpan = 3;
 		viewer.getControl().setLayoutData(layoutData);
 	}
-	
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public TreeEEFViewer getViewer() {
@@ -71,19 +72,29 @@ public class TreeContentsSWTPropertyEditor implements SWTPropertyEditor<TreeEEFV
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
-		
+
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		
+
 	}
-	
-	
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return false;
+	}
+
 }

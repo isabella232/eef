@@ -10,12 +10,19 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.samples.conference.*;
+import org.eclipse.emf.samples.conference.Conference;
+import org.eclipse.emf.samples.conference.ConferenceFactory;
+import org.eclipse.emf.samples.conference.ConferencePackage;
+import org.eclipse.emf.samples.conference.GENDER;
+import org.eclipse.emf.samples.conference.Participant;
+import org.eclipse.emf.samples.conference.Room;
+import org.eclipse.emf.samples.conference.Schedule;
+import org.eclipse.emf.samples.conference.Session;
+import org.eclipse.emf.samples.conference.SessionSchedule;
+import org.eclipse.emf.samples.conference.SessionType;
+import org.eclipse.emf.samples.conference.Venue;
 
 /**
  * <!-- begin-user-doc -->

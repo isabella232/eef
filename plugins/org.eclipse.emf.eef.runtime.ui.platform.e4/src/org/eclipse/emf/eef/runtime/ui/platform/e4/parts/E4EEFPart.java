@@ -5,14 +5,13 @@ package org.eclipse.emf.eef.runtime.ui.platform.e4.parts;
 
 
 import java.io.IOException;
-
 import java.io.InputStream;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -31,9 +30,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.E4EEFSupportConstants;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.EditingInput;
@@ -55,20 +54,19 @@ public class E4EEFPart {
 	@Inject
 	private MDirtyable dirty;
 
-	@Inject
-	private EEFServiceRegistry serviceRegistry;
 	private MPart mPart;
+	private EditingContextFactoryProvider editingContextFactoryProvider;
 	private UISynchronize uiSynchronize;
 	private PlatformRelatedUIUtils uiUtils;
 
 
 	/**
-	 * @param serviceRegistry
 	 * @param parent
 	 */
 	@Inject
-	public E4EEFPart(MPart mPart, EEFServiceRegistry serviceRegistry, PlatformRelatedUIUtils uiUtils, UISynchronize uiSynchronize) {
+	public E4EEFPart(MPart mPart, EditingContextFactoryProvider editingContextFactoryProvider, PlatformRelatedUIUtils uiUtils, UISynchronize uiSynchronize) {
 		this.mPart = mPart;
+		this.editingContextFactoryProvider = editingContextFactoryProvider;
 		this.uiSynchronize = uiSynchronize;
 		this.uiUtils = uiUtils;
 	}
@@ -103,7 +101,7 @@ public class E4EEFPart {
 		} else if (input instanceof URIEditingInput) {
 			Resource resource = editingDomain.getResourceSet().getResource(((URIEditingInput) input).getUri(), true);
 			EObject root = resource.getContents().get(0);
-			PropertiesEditingContextFactory contextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, root);
+			PropertiesEditingContextFactory contextFactory = editingContextFactoryProvider.getEditingContextFactory(root);
 			//TODO: is the ED always an AFED ?
 			PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext((AdapterFactoryEditingDomain)editingDomain, root);
 			editingContext.getOptions().setOption(E4EEFSupportConstants.MODELPART_OPTION_KEY, mPart);

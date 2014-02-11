@@ -18,9 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.EcoreUtil.UsageCrossReferencer;
-import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -64,7 +62,7 @@ public class SelectionMEEFVContentProvider implements ITreeContentProvider {
 			// Let search in the class ResourceSet, if exists (but it should exist!), all the binding referencing this propertyBinding.
 			Collection<Setting> find = UsageCrossReferencer.find(selectedFeature, selectedFeature.eResource().getResourceSet());
 			for (Setting setting : find) {
-				if (EditingModelPackage.Literals.PROPERTY_BINDING__FEATURE == setting.getEStructuralFeature()) {
+				if (EditingModelPackage.Literals.ESTRUCTURAL_FEATURE_BINDING__FEATURE == setting.getEStructuralFeature()) {
 					result.add(setting.getEObject());
 				}
 			}

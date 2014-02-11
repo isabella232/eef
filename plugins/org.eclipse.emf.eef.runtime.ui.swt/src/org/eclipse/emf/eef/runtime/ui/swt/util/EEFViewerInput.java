@@ -19,7 +19,7 @@ import org.eclipse.emf.eef.views.ElementEditor;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public final class EEFViewerInput {
+public class EEFViewerInput {
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private PropertiesEditingContext editingContext;
@@ -56,6 +56,13 @@ public final class EEFViewerInput {
 			return null;
 		}
  	}
+
+	/**
+	 * @return the elementEditor
+	 */
+	public final ElementEditor getElementEditor() {
+		return elementEditor;
+	}
 
 	/**
 	 * @return

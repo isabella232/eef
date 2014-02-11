@@ -7,4 +7,5 @@
    <reference bind="setViewHandlerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider" name="ViewHandlerProvider" policy="static"/>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
    <reference bind="setEEFToolkitProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider" name="EEFToolkitProvider" policy="static"/>
+   <reference bind="setEventAdmin" cardinality="1..1" interface="org.osgi.service.event.EventAdmin" name="EventAdmin" policy="static"/>
 </scr:component>

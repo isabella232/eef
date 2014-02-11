@@ -75,11 +75,13 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, EventHandler, DefaultService {
 
 	private EventAdmin eventAdmin;
+
+	protected ViewHandlerProvider viewHandlerProvider;
 
 	private EEFBindingSettingsProvider bindingSettingsProvider;
 	private PropertiesEditingPolicyProvider editingPolicyProvider;
@@ -101,28 +103,39 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	}
 
 	/**
-	 * @param eventAdmin the eventAdmin to set
+	 * @param eventAdmin
+	 *            the eventAdmin to set
 	 */
 	public void setEventAdmin(EventAdmin eventAdmin) {
 		this.eventAdmin = eventAdmin;
 	}
 
 	/**
-	 * @param bindingSettingsProvider the bindingSettingsProvider to set
+	 * @param bindingSettingsProvider
+	 *            the bindingSettingsProvider to set
 	 */
 	public void setBindingSettingsProvider(EEFBindingSettingsProvider bindingSettingsProvider) {
 		this.bindingSettingsProvider = bindingSettingsProvider;
 	}
 
 	/**
-	 * @param editingPolicyProvider the editingPolicyProvider to set
+	 * @param viewHandlerProvider
+	 */
+	public final void setViewHandlerProvider(ViewHandlerProvider viewHandlerProvider) {
+		this.viewHandlerProvider = viewHandlerProvider;
+	}
+
+	/**
+	 * @param editingPolicyProvider
+	 *            the editingPolicyProvider to set
 	 */
 	public void setEditingPolicyProvider(PropertiesEditingPolicyProvider editingPolicyProvider) {
 		this.editingPolicyProvider = editingPolicyProvider;
 	}
 
 	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
+	 * @param emfServiceProvider
+	 *            the emfServiceProvider to set
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
@@ -150,14 +163,16 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	}
 
 	/**
-	 * @param lockPolicyFactoryProvider the lockPolicyFactoryProvider to set
+	 * @param lockPolicyFactoryProvider
+	 *            the lockPolicyFactoryProvider to set
 	 */
 	public void setLockPolicyFactoryProvider(EEFLockPolicyFactoryProvider lockPolicyFactoryProvider) {
 		this.lockPolicyFactoryProvider = lockPolicyFactoryProvider;
 	}
 
 	/**
-	 * @param lockManager the lockManager to set
+	 * @param lockManager
+	 *            the lockManager to set
 	 */
 	public void setLockManagerProvider(EEFLockManagerProvider lockManagerProvider) {
 		this.lockManagerProvider = lockManagerProvider;
@@ -165,6 +180,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(EObject element) {
@@ -173,6 +189,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#getPolicyProvider()
 	 */
 	public PropertiesEditingPolicyProvider getPolicyProvider() {
@@ -181,6 +198,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#createComponent(org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext)
 	 */
 	public PropertiesEditingComponent createComponent(PropertiesEditingContext editingContext) {
@@ -204,8 +222,10 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 					ReflectiveEEFBindingSettings<PropertiesEditingModel> bindingSettings = new ReflectiveEEFBindingSettings<PropertiesEditingModel>((PropertiesEditingModel) eefDescription);
 					component = new ReflectivePropertiesEditingComponent<PropertiesEditingModel>(bindingSettings, eObject);
 				} else {
-					// Ok it's ugly, but I assume it's a view. In this bundle, I didn't have knowledge of eef.runtime.ui.views metamodel
-					// but, I suppose that I can only use ReflectivePEContext with PEM and View from eef.runtime.ui.views metamodel.
+					// Ok it's ugly, but I assume it's a view. In this bundle, I
+					// didn't have knowledge of eef.runtime.ui.views metamodel
+					// but, I suppose that I can only use ReflectivePEContext
+					// with PEM and View from eef.runtime.ui.views metamodel.
 					EObjectView view = EditingModelFactory.eINSTANCE.createEObjectView();
 					view.setDefinition(eefDescription);
 					ReflectiveEEFBindingSettings<View> bindingSettings = new ReflectiveEEFBindingSettings<View>(view);
@@ -225,6 +245,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void disposeComponent(PropertiesEditingComponent component) {
@@ -233,6 +254,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#getLockManager(java.lang.Object)
 	 */
 	public EEFLockManager getLockManager(Object view) {
@@ -241,71 +263,71 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#notifyChanged(PropertiesEditingComponent, Notification)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#notifyModelChanged(PropertiesEditingComponent,
+	 *      Notification)
 	 */
-	public void notifyChanged(PropertiesEditingComponent editingComponent, Notification msg) {
+	public void notifyModelChanged(PropertiesEditingComponent editingComponent, Notification msg) {
 		PropertiesEditingModel editingModel = editingComponent.getEditingModel();
 		if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
 			EObject source = editingComponent.getEObject();
 			EMFService service = emfServiceProvider.getEMFService(source.eClass().getEPackage());
-			EStructuralFeature structuralFeature = service.mapFeature(source, (EStructuralFeature)msg.getFeature());
+			EStructuralFeature structuralFeature = service.mapFeature(source, (EStructuralFeature) msg.getFeature());
 			EClassBinding binding = editingModel.binding(source);
 			Object propertyEditor = binding.propertyEditor(source, structuralFeature, editingComponent.getEditingContext().getOptions().autowire());
 			for (Object view : editingComponent.getViews()) {
 				if (view != null) {
-					//FIXME: inject this ??
-					ViewHandlerProvider viewHandlerProvider = editingComponent.getEditingContext().getViewHandlerProvider();
 					ViewHandler<?> viewHandler = viewHandlerProvider.getViewHandler(editingComponent.getDescriptorForView(view));
 					switch (msg.getEventType()) {
 					case Notification.SET:
 						try {
 							viewHandler.setValue(view, propertyEditor, msg.getNewValue());
 						} catch (ViewHandlingException e) {
-							//NOTE: Silent catch
+							// NOTE: Silent catch
 						}
 						break;
 					case Notification.UNSET:
 						try {
-							viewHandler.unsetValue(view, propertyEditor);						
+							viewHandler.unsetValue(view, propertyEditor);
 						} catch (ViewHandlingException e) {
-							//NOTE: Silent catch
+							// NOTE: Silent catch
 						}
 						break;
 					case Notification.ADD:
 						try {
-							viewHandler.addValue(view, propertyEditor, msg.getNewValue());						
+							viewHandler.addValue(view, propertyEditor, msg.getNewValue());
 						} catch (ViewHandlingException e) {
-							//NOTE: Silent catch
+							// NOTE: Silent catch
 						}
 						break;
 					case Notification.ADD_MANY:
 						try {
-							viewHandler.addAllValues(view, propertyEditor, (Collection<?>) msg.getNewValue());						
+							viewHandler.addAllValues(view, propertyEditor, (Collection<?>) msg.getNewValue());
 						} catch (ViewHandlingException e) {
-							//NOTE: Silent catch
+							// NOTE: Silent catch
 						}
 						break;
 					case Notification.REMOVE:
 						try {
-							viewHandler.removeValue(view, propertyEditor, msg.getOldValue());						
+							viewHandler.removeValue(view, propertyEditor, msg.getOldValue());
 						} catch (ViewHandlingException e) {
-							//NOTE: Silent catch
+							// NOTE: Silent catch
 						}
 						break;
 					case Notification.REMOVE_MANY:
 						try {
-							viewHandler.removeAllValues(view, propertyEditor, (Collection<?>) msg.getOldValue());						
+							viewHandler.removeAllValues(view, propertyEditor, (Collection<?>) msg.getOldValue());
 						} catch (ViewHandlingException e) {
-							//NOTE: Silent catch
+							// NOTE: Silent catch
 						}
 						break;
 					case Notification.MOVE:
 						try {
-							//TODO: find the good index
+							// TODO: find the good index
 							int newIndex = 0;
-							viewHandler.moveValue(view, propertyEditor, msg.getNewValue(), newIndex );						
+							viewHandler.moveValue(view, propertyEditor, msg.getNewValue(), newIndex);
 						} catch (ViewHandlingException e) {
-							//NOTE: Silent catch
+							// NOTE: Silent catch
 						}
 						break;
 					default:
@@ -313,12 +335,18 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 					}
 				}
 			}
-		}			
+		}
+	}
+
+	public void notifySettingsChanged(PropertiesEditingComponent editingComponent, Notification msg) {
+
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#firePropertiesChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#firePropertiesChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
+	 *      org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public synchronized void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		if (!(editingEvent instanceof UIPropertiesEditingEvent)) {
@@ -339,6 +367,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#delayedApplyingPropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 * @processing
 	 */
@@ -348,13 +377,16 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#fireLockChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#fireLockChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
+	 *      org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent)
 	 */
 	public void fireLockChanged(final PropertiesEditingComponent editingComponent, final EEFLockEvent lockEvent) {
 		executeOnViews(editingComponent, new Function<Object, Void>() {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see com.google.common.base.Function#apply(java.lang.Object)
 			 */
 			public Void apply(Object view) {
@@ -368,7 +400,10 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#execute(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy, org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#execute(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
+	 *      org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy,
+	 *      org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public void execute(PropertiesEditingComponent editingComponent, PropertiesEditingPolicy editingPolicy, PropertiesEditingContext policyEditingContext) {
 		PropertiesEditingEvent editingEvent = null;
@@ -380,13 +415,13 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 				if (valueDiagnostic.getSeverity() != Diagnostic.OK && valueDiagnostic instanceof BasicDiagnostic) {
 					editingComponent.propagateEvent(new PropertiesValidationEditingEvent(editingEvent, valueDiagnostic));
 					return;
-				} 
+				}
 			}
 		}
 		editingPolicy.execute(policyEditingContext);
 		if (editingEvent != null) {
 			editingComponent.propagateEvent(editingEvent);
-			if (editingComponent.getEditingContext().getOptions().validateEditing()) {		
+			if (editingComponent.getEditingContext().getOptions().validateEditing()) {
 				Diagnostic validate = validate(editingComponent);
 				highlightNotificationResult(editingComponent, editingEvent, validate, false);
 				editingComponent.propagateEvent(new PropertiesValidationEditingEvent(editingEvent, validate));
@@ -396,6 +431,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#initLockPolicies(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void initLockPolicies(PropertiesEditingComponent editingComponent) {
@@ -412,7 +448,9 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#executeOnViews(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, com.google.common.base.Function)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#executeOnViews(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
+	 *      com.google.common.base.Function)
 	 */
 	public void executeOnViews(PropertiesEditingComponent editingComponent, Function<Object, Void> function) {
 		for (Object view : editingComponent.getViews()) {
@@ -461,6 +499,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#validate()
 	 * @processing
 	 */
@@ -472,7 +511,9 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * Validate the change described by the given event.
-	 * @param editingEvent {@link PropertiesEditingEvent} notifying a view change.
+	 * 
+	 * @param editingEvent
+	 *            {@link PropertiesEditingEvent} notifying a view change.
 	 * @return the {@link Diagnostic} of this validation.
 	 * @processing
 	 */
@@ -482,11 +523,11 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 		// At this point, I consider that only binding with EStructuralFeature are able to validate a editing value
 		// TODO: Skipped test on EEnum to process later.
 		if (editingEvent.getNewValue() != null && feature instanceof EAttribute && !(feature.getEType() instanceof EEnum)) {
-			EAttribute attribute = (EAttribute)feature;
+			EAttribute attribute = (EAttribute) feature;
 			try {
 				Object newValue = editingEvent.getNewValue();
 				if (newValue instanceof String) {
-					newValue = EcoreUtil.createFromString(attribute.getEAttributeType(), (String)newValue);
+					newValue = EcoreUtil.createFromString(attribute.getEAttributeType(), (String) newValue);
 				}
 				ret = Diagnostician.INSTANCE.validate(attribute.getEAttributeType(), newValue);
 			} catch (IllegalArgumentException iae) {
@@ -494,7 +535,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 			} catch (WrappedException we) {
 				ret = BasicDiagnostic.toDiagnostic(we);
 			} catch (NullPointerException e) {
-				// A suspicious error occurred (e.g. on Enum) let's go on. 
+				// A suspicious error occurred (e.g. on Enum) let's go on.
 			}
 		}
 		return ret;
@@ -513,15 +554,22 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.osgi.service.event.EventHandler#handleEvent(org.osgi.service.event.Event)
 	 * @processing
 	 */
 	public void handleEvent(Event event) {
 		if (event.getProperty("notification") instanceof Notification) {
 			Notification notification = (Notification) event.getProperty("notification");
-			for (PropertiesEditingComponent editingComponent : Lists.newArrayList(editingComponents)) {
-				if (editingComponent.isAffectingEvent(notification)) {
-					notifyChanged(editingComponent, notification);
+			if (event.getTopic().startsWith(ModelChangesNotifier.EEF_EVENT_BASE_TOPIC)) {
+				for (PropertiesEditingComponent editingComponent : Lists.newArrayList(editingComponents)) {
+					if (editingComponent.isAffectingEvent(notification)) {
+						notifyModelChanged(editingComponent, notification);
+					}
+				}
+			} else if (event.getTopic().startsWith(ModelChangesNotifier.EEF_EVENT_BASE_SETTINGS)) {
+				for (PropertiesEditingComponent editingComponent : Lists.newArrayList(editingComponents)) {
+					notifySettingsChanged(editingComponent, notification);
 				}
 			}
 		}
@@ -529,6 +577,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#initModelChangesNotifierIfNeeded(org.eclipse.emf.common.notify.Notifier)
 	 */
 	public void initModelChangesNotifierIfNeeded(Notifier notifier) {
@@ -541,6 +590,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#registerEditingComponentAsEventHandler(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void registerEditingComponentAsEventHandler(PropertiesEditingComponent editingComponent) {
@@ -549,6 +599,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.notify.ModelChangesNotificationManager#unregisterEditingComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void unregisterEditingComponent(PropertiesEditingComponent editingComponent) {

@@ -33,13 +33,13 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class SingleLinePropertyViewer extends Viewer {
 
 	private Composite parent;
 	private int styles;
-		
+
 	private Composite control;
 	private Text text;
 	private Button setButton;
@@ -47,7 +47,7 @@ public class SingleLinePropertyViewer extends Viewer {
 
 	private ILabelProvider labelProvider;
 	private ImageManager imageManager;
-	
+
 	private EEFViewerInput input;
 	private Collection<SingleLinePropertyViewerListener> listeners;
 
@@ -174,6 +174,7 @@ public class SingleLinePropertyViewer extends Viewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#getControl()
 	 */
 	@Override
@@ -183,6 +184,7 @@ public class SingleLinePropertyViewer extends Viewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#getInput()
 	 */
 	@Override
@@ -192,6 +194,7 @@ public class SingleLinePropertyViewer extends Viewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#getSelection()
 	 */
 	@Override
@@ -202,6 +205,7 @@ public class SingleLinePropertyViewer extends Viewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#refresh()
 	 */
 	@Override
@@ -221,24 +225,27 @@ public class SingleLinePropertyViewer extends Viewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#setInput(java.lang.Object)
 	 */
 	@Override
 	public void setInput(Object input) {
-		assert input instanceof EEFViewerInput:"Only EEFViewerInput are managed by this viewer.";
+		assert input instanceof EEFViewerInput : "Only EEFViewerInput are managed by this viewer.";
 		this.input = (EEFViewerInput) input;
 		refresh();
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.jface.viewers.Viewer#setSelection(org.eclipse.jface.viewers.ISelection, boolean)
+	 * 
+	 * @see org.eclipse.jface.viewers.Viewer#setSelection(org.eclipse.jface.viewers.ISelection,
+	 *      boolean)
 	 */
 	@Override
 	public void setSelection(ISelection selection, boolean reveal) {
 		// I don't think this method should be called on this viewer.
 	}
-	
+
 	/**
 	 * @param locked
 	 *            the locked to set
@@ -246,6 +253,13 @@ public class SingleLinePropertyViewer extends Viewer {
 	public void setLocked(boolean locked) {
 		this.locked = locked;
 		updateButtons();
+	}
+
+	/**
+	 * @return if it is locked
+	 */
+	public boolean isLocked() {
+		return locked;
 	}
 
 	/**
@@ -261,7 +275,6 @@ public class SingleLinePropertyViewer extends Viewer {
 		return !locked && (input != null);
 	}
 
-	
 	public interface SingleLinePropertyViewerListener {
 
 		/**

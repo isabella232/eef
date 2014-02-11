@@ -24,60 +24,85 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import com.google.common.base.Function;
 
 public interface PropertiesBindingHandler extends EEFService<EObject> {
-	
+
 	/**
 	 * @return the current {@link PropertiesEditingPolicyProvider}.
 	 */
 	PropertiesEditingPolicyProvider getPolicyProvider();
-	
+
 	/**
 	 * Creates a new {@link PropertiesEditingComponent}.
-	 * @param editingContext the {@link PropertiesEditingContext} asking the component. 
+	 * 
+	 * @param editingContext
+	 *            the {@link PropertiesEditingContext} asking the component.
 	 * @return the created {@link PropertiesEditingComponent}.
 	 */
 	PropertiesEditingComponent createComponent(PropertiesEditingContext editingContext);
-	
+
 	/**
-	 * Executes operations to be done to dispose the given {@link PropertiesEditingComponent}.
-	 * @param component {@link PropertiesEditingComponent} to dispose.
+	 * Executes operations to be done to dispose the given
+	 * {@link PropertiesEditingComponent}.
+	 * 
+	 * @param component
+	 *            {@link PropertiesEditingComponent} to dispose.
 	 */
 	void disposeComponent(PropertiesEditingComponent component);
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent);
-	
+
 	/**
 	 * Notifies the current component of a lock change.
-	 * @param editingComponent {@link PropertiesEditingComponent} the editingComponent to lock.
-	 * @param lockEvent {@link EEFLockEvent} describing the lock change.
+	 * 
+	 * @param editingComponent
+	 *            {@link PropertiesEditingComponent} the editingComponent to
+	 *            lock.
+	 * @param lockEvent
+	 *            {@link EEFLockEvent} describing the lock change.
 	 */
 	void fireLockChanged(PropertiesEditingComponent editingComponent, EEFLockEvent lockEvent);
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#execute(org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy, org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#execute(org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy,
+	 *      org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
 	void execute(PropertiesEditingComponent editingComponent, PropertiesEditingPolicy editingPolicy, PropertiesEditingContext policyEditingContext);
 
 	/**
-	 * Executes a {@link Function} on all the created {@link ViewHandler} by the current {@link PropertiesEditingComponent}.
-	 * @param function the {@link Function} to execute. 
+	 * Executes a {@link Function} on all the created {@link ViewHandler} by the
+	 * current {@link PropertiesEditingComponent}.
+	 * 
+	 * @param function
+	 *            the {@link Function} to execute.
 	 */
 	void executeOnViews(PropertiesEditingComponent editingComponent, Function<Object, Void> function);
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#notifyChanged(Notification)
 	 */
-	void notifyChanged(PropertiesEditingComponent editingComponent, Notification msg);
-	
+	void notifyModelChanged(PropertiesEditingComponent editingComponent, Notification msg);
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#notifyChanged(Notification)
+	 */
+	void notifySettingsChanged(PropertiesEditingComponent editingComponent, Notification msg);
+
 	/**
 	 * Initializes the {@link EEFLockPolicy} to use in the given component.
-	 * @param editingComponent the {@link PropertiesEditingComponent} to initialize.
+	 * 
+	 * @param editingComponent
+	 *            the {@link PropertiesEditingComponent} to initialize.
 	 */
 	void initLockPolicies(PropertiesEditingComponent editingComponent);
-	
+
 }

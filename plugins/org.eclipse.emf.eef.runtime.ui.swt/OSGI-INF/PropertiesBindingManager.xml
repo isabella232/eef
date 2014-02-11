@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler">
-   <implementation class="org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingHandlerImpl"/>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.swt.binding.PropertiesBindingHandlerUI">
+   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.internal.binding.PropertiesBindingHandlerUIImpl"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler"/>
       <provide interface="org.osgi.service.event.EventHandler"/>
    </service>
-   <property name="event.topics" value="org/eclipse/emf/eef/model/*"/>
+   <property name="event.topics" value="org/eclipse/emf/eef/*"/>
    <reference bind="setBindingSettingsProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider" name="EEFBindingSettingsProvider" policy="static"/>
    <reference bind="setViewHandlerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider" name="ViewHandlerProvider" policy="static"/>
    <reference bind="setEditingPolicyProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider" name="PropertiesEditingPolicyProvider" policy="static"/>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
-   <reference bind="setEEFEditingServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider" name="EEFEditingServiceProvider" policy="static"/>
    <reference bind="setEEFNotifierProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider" name="EEFNotifierProvider" policy="static"/>
    <reference bind="setLockPolicyFactoryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactoryProvider" name="EEFLockPolicyFactoryProvider" policy="static"/>
    <reference bind="setLockManagerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider" name="EEFLockManagerProvider" policy="static"/>
    <reference bind="setEventAdmin" cardinality="1..1" interface="org.osgi.service.event.EventAdmin" name="EventAdmin" policy="static"/>
+   <property name="priority.over" type="String" value="org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler"/>
 </scr:component>

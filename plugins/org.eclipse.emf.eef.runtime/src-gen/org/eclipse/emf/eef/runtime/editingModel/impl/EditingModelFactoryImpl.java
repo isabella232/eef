@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.emf.eef.runtime.editingModel.*;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
@@ -24,6 +23,8 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
+import org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding;
+import org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 

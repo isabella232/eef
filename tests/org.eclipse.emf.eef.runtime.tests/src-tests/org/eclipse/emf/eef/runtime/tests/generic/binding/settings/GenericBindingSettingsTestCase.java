@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
@@ -65,33 +67,22 @@ public class GenericBindingSettingsTestCase extends AbstractGenericBindingSettin
 	 */
 	@Parameters
 	public static Collection<Object[]> data() throws Exception {
-
+		Resource resource = new ResourceImpl();
 		EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
-		Object[][] data = new Object[][] {
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getString()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getInt()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getDouble()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getDoubleObject()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getInteger()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getIntObject()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getFloat()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getFloatObject()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getLong()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getLongObject()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getShort()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getShortObject()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getUnsignedByte()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getUnsignedByteObject()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getUnsignedInt()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getUnsignedIntObject()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getUnsignedLong()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getUnsignedShort()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getUnsignedShortObject()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getByte()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getByteObject()),
-				GenericBindingSettingsUtil.createEObjectWithSingleBooleanAttribute(ePackage, XMLTypePackage.eINSTANCE.getBoolean()),
-				GenericBindingSettingsUtil.createEObjectWithSingleBooleanAttribute(ePackage, XMLTypePackage.eINSTANCE.getBooleanObject()),
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, XMLTypePackage.eINSTANCE.getDecimal()),
+		ePackage.setNsURI("http://testEEF");
+		resource.getContents().add(ePackage);
+		Object[][] data = new Object[][] { GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C1", XMLTypePackage.eINSTANCE.getString()), GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C13", XMLTypePackage.eINSTANCE.getInt()),
+				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C2", XMLTypePackage.eINSTANCE.getDouble()), GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C14", XMLTypePackage.eINSTANCE.getDoubleObject()),
+				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C3", XMLTypePackage.eINSTANCE.getInteger()), GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C15", XMLTypePackage.eINSTANCE.getIntObject()),
+				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C4", XMLTypePackage.eINSTANCE.getFloat()), GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C16", XMLTypePackage.eINSTANCE.getFloatObject()),
+				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C5", XMLTypePackage.eINSTANCE.getLong()), GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C17", XMLTypePackage.eINSTANCE.getLongObject()),
+				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C6", XMLTypePackage.eINSTANCE.getShort()), GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C18", XMLTypePackage.eINSTANCE.getShortObject()),
+				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C7", XMLTypePackage.eINSTANCE.getUnsignedByte()), GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C19", XMLTypePackage.eINSTANCE.getUnsignedByteObject()),
+				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C8", XMLTypePackage.eINSTANCE.getUnsignedInt()), GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C20", XMLTypePackage.eINSTANCE.getUnsignedIntObject()),
+				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C9", XMLTypePackage.eINSTANCE.getUnsignedLong()), GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C21", XMLTypePackage.eINSTANCE.getUnsignedShort()),
+				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C10", XMLTypePackage.eINSTANCE.getUnsignedShortObject()), GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C22", XMLTypePackage.eINSTANCE.getByte()),
+				GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C11", XMLTypePackage.eINSTANCE.getByteObject()), GenericBindingSettingsUtil.createEObjectWithSingleBooleanAttribute(ePackage, "C23", XMLTypePackage.eINSTANCE.getBoolean()),
+				GenericBindingSettingsUtil.createEObjectWithSingleBooleanAttribute(ePackage, "C12", XMLTypePackage.eINSTANCE.getBooleanObject()), GenericBindingSettingsUtil.createEObjectWithSingleStringAttribute(ePackage, "C24", XMLTypePackage.eINSTANCE.getDecimal()),
 				// attribute 0..*
 				// TODO : uncomment with multi valued editor
 				/*
@@ -174,26 +165,25 @@ public class GenericBindingSettingsTestCase extends AbstractGenericBindingSettin
 				 * XMLTypePackage.eINSTANCE.getDateTime()),
 				 */
 				// enum
-				GenericBindingSettingsUtil.createEObjectWithSingleEnum(ePackage),
+				GenericBindingSettingsUtil.createEObjectWithSingleEnum(ePackage, "C25"),
 				// date
-				GenericBindingSettingsUtil.createEObjectWithSingleDate(ePackage, XMLTypePackage.eINSTANCE.getDate()),
-				GenericBindingSettingsUtil.createEObjectWithSingleDate(ePackage, XMLTypePackage.eINSTANCE.getDateTime()),
+				GenericBindingSettingsUtil.createEObjectWithSingleDate(ePackage, "C26", XMLTypePackage.eINSTANCE.getDate()), GenericBindingSettingsUtil.createEObjectWithSingleDate(ePackage, "C36", XMLTypePackage.eINSTANCE.getDateTime()),
 				// commentaire
-				GenericBindingSettingsUtil.createEObjectWithSingleStringAttributeComment(ePackage, XMLTypePackage.eINSTANCE.getString()),
+				GenericBindingSettingsUtil.createEObjectWithSingleStringAttributeComment(ePackage, "C27", XMLTypePackage.eINSTANCE.getString()),
 				// reference 0..1
-				GenericBindingSettingsUtil.createEObjectWithSingleReference(ePackage),
+				GenericBindingSettingsUtil.createEObjectWithSingleReference(ePackage, "C28", "C29"),
 				// reference 0..*
-				GenericBindingSettingsUtil.createEObjectWithMultiReference(ePackage),
+				GenericBindingSettingsUtil.createEObjectWithMultiReference(ePackage, "C30", "C31"),
 				// composition 0..1
-				GenericBindingSettingsUtil.createEObjectWithSingleComposition(ePackage),
+				GenericBindingSettingsUtil.createEObjectWithSingleComposition(ePackage, "C32", "C33"),
 				// composition 0..*
-				GenericBindingSettingsUtil.createEObjectWithMultiComposition(ePackage), };
+				GenericBindingSettingsUtil.createEObjectWithMultiComposition(ePackage, "C34", "C35"), };
 		return Arrays.asList(data);
 	}
 
 	@Test
 	public void testGenericBindingSettings() throws Exception {
-		GenericBindingSettings genericBindingSettings = initGenericBindingSettings();
+		GenericBindingSettings genericBindingSettings = initGenericBindingSettings(eClass.eResource());
 		PropertiesEditingModel propertiesEditingModel = genericBindingSettings.getEEFDescription(eObject);
 
 		// test EClass binding

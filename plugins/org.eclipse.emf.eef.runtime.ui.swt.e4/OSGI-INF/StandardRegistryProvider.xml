@@ -5,4 +5,5 @@
       <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
       <provide interface="org.eclipse.emf.eef.runtime.ui.swt.e4.services.resources.RegistryProvider"/>
    </service>
+   <reference bind="setEEFLogger" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.logging.EEFLogger" name="EEFLogger" policy="static"/>
 </scr:component>

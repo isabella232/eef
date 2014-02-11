@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.jdt.jdttoolkit;
 
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.emf.eef.runtime.ui.jdt.internal.jdttoolkit.propertyeditors.JavaClassChooserPropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
@@ -18,6 +17,7 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>

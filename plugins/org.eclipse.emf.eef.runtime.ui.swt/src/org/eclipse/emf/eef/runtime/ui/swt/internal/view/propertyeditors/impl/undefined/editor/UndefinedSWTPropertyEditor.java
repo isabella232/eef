@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Label;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class UndefinedSWTPropertyEditor extends AbstractUndefinedPropertyEditor implements SWTPropertyEditor<EEFControlWrapperViewer<Label>> {
 
@@ -38,15 +38,16 @@ public class UndefinedSWTPropertyEditor extends AbstractUndefinedPropertyEditor 
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public EEFControlWrapperViewer<Label> getViewer() {
 		if (wrapperViewer == null) {
 			wrapperViewer = new EEFControlWrapperViewer<Label>() {
 
-
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.ui.propertyeditors.util.EEFControlWrapperViewer#getMainControl()
 				 */
 				@Override
@@ -54,14 +55,14 @@ public class UndefinedSWTPropertyEditor extends AbstractUndefinedPropertyEditor 
 					return label;
 				}
 
-
 			};
 		}
 		return wrapperViewer;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.SWTPropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(Composite parent) {
@@ -74,18 +75,29 @@ public class UndefinedSWTPropertyEditor extends AbstractUndefinedPropertyEditor 
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#lock()
 	 */
 	public void lock() {
-		//Do nothing.
+		// Do nothing.
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#unlock()
 	 */
 	public void unlock() {
-		//Do nothing.
+		// Do nothing.
 	}
-	
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#isLocked()
+	 */
+	public boolean isLocked() {
+		return false;
+	}
+
 }

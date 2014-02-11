@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.swt.e4.E4EditUIProvidersFactory">
    <implementation class="org.eclipse.emf.eef.runtime.ui.swt.e4.viewer.E4EditUIProvidersFactory"/>
+   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
+   <reference bind="setImageManager" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager" name="ImageManager" policy="static"/>
+   <reference bind="setRegistryProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.ui.swt.e4.services.resources.RegistryProvider" name="RegistryProvider" policy="static"/>
    <service>
-      <provide interface="org.eclipse.emf.eef.runtime.services.EEFService"/>
       <provide interface="org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory"/>
    </service>
 </scr:component>

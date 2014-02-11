@@ -85,7 +85,12 @@ public class TreeContentsPropertyEditorFactory extends WidgetPropertyEditorFacto
 		} else {
 			propertyEditorViewer = new TreeContentsSWTPropertyEditor(eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getImageManager(), editingDomain, view, viewElement);
 		}
-		return new TreeContentsPropertyEditor(editorContext.view.getEditingComponent().getEditingContext().getContextFactoryProvider(), eefExtendedToolkit.getEMFServiceProvider(), view, viewElement,
+		return new TreeContentsPropertyEditor(
+				editorContext.view.getEditingComponent().getEditingContext().getContextFactoryProvider(), 
+				eefExtendedToolkit.getEMFServiceProvider(), 
+				eefExtendedToolkit.getEEFEditingServiceProvider(), 
+				view, 
+				viewElement,
 				propertyEditorViewer);
 	}
 

@@ -18,9 +18,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.utils.EditingInput;
@@ -39,10 +38,7 @@ public class OpenScheduleViewHandler extends AbstractEEFOpenViewHandler {
 	@Inject
 	@Named(IServiceConstants.ACTIVE_PART)
 	private MPart activePart;
-	
-	@Inject
-	private EEFServiceRegistry serviceRegistry;
-	
+		
 	@CanExecute
 	public boolean canExecute(@Named(IServiceConstants.ACTIVE_PART)MPart activePart) {
 		return activePart != null;
@@ -50,10 +46,10 @@ public class OpenScheduleViewHandler extends AbstractEEFOpenViewHandler {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler#getEditingInput(org.eclipse.e4.core.contexts.IEclipseContext, org.eclipse.e4.ui.model.application.ui.basic.MPart, org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils)
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler#getEditingInput(org.eclipse.e4.core.contexts.IEclipseContext, org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider, org.eclipse.e4.ui.model.application.ui.basic.MPart, org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils)
 	 */
 	@Override
-	protected EditingInput getEditingInput(IEclipseContext context, MPart mPart, PlatformRelatedUIUtils uiUtils) {
+	protected EditingInput getEditingInput(IEclipseContext context, EditingContextFactoryProvider editingContextFactoryProvider, MPart mPart, PlatformRelatedUIUtils uiUtils) {
 		EditingInput editingInput = activePart.getContext().get(EditingInput.class);
 		if (editingInput instanceof URIEditingInput) {
 			EditingDomain editingDomain = editingInput.getEditingDomain();
@@ -61,9 +57,9 @@ public class OpenScheduleViewHandler extends AbstractEEFOpenViewHandler {
 			Resource resource = editingDomain.getResourceSet().getResource(uri, true);
 			EObject root = resource.getContents().get(0);
 			if (root instanceof Conference) {
-				PropertiesEditingContextFactory contextFactory = serviceRegistry.getService(PropertiesEditingContextFactory.class, root);
 				//TODO: is the ED always an AFED ?
-				PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext((AdapterFactoryEditingDomain)editingDomain, ((Conference) root).getSchedule());
+				Conference conference = (Conference) root;
+				PropertiesEditingContext editingContext = editingContextFactoryProvider.getEditingContextFactory(conference).createPropertiesEditingContext((AdapterFactoryEditingDomain)editingDomain, conference.getSchedule());
 				return new EditingContextEditingInput(uri, (DomainAwarePropertiesEditingContext) editingContext);
 			}
 		} 

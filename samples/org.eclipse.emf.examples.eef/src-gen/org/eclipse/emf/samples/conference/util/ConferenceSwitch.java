@@ -10,8 +10,14 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.samples.conference.*;
+import org.eclipse.emf.samples.conference.Conference;
+import org.eclipse.emf.samples.conference.ConferencePackage;
+import org.eclipse.emf.samples.conference.Participant;
+import org.eclipse.emf.samples.conference.Room;
+import org.eclipse.emf.samples.conference.Schedule;
+import org.eclipse.emf.samples.conference.Session;
+import org.eclipse.emf.samples.conference.SessionSchedule;
+import org.eclipse.emf.samples.conference.Venue;
 
 /**
  * <!-- begin-user-doc -->
