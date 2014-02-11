@@ -24,6 +24,8 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindi
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit;
 
+import com.google.common.collect.Lists;
+
 /**
  * Test for Generic Binding Settings.
  * 
@@ -41,7 +43,7 @@ public class AbstractGenericBindingSettingsTestCase {
 	 * @return GenericBindingSettings
 	 * @throws PriorityCircularityException
 	 */
-	public GenericBindingSettings initGenericBindingSettings(Resource resource) throws PriorityCircularityException {
+	public GenericBindingSettings initGenericBindingSettings(Resource... resource) throws PriorityCircularityException {
 		GenericBindingSettings genericBindingSettings = new GenericBindingSettings();
 		EEFToolkitProviderImpl eefToolkitProvider = new EEFToolkitProviderImpl();
 		Map<String, Object> options = new HashMap<String, Object>();
@@ -57,7 +59,7 @@ public class AbstractGenericBindingSettingsTestCase {
 		emfServiceProvider.addService(new EMFServiceImpl(), properties);
 		genericBindingSettings.setEMFServiceProvider(emfServiceProvider);
 		ResourceSet resourceSet = genericBindingSettings.getEditingModelEnvironment().getResourceSet();
-		resourceSet.getResources().add(resource);
+		resourceSet.getResources().addAll(Lists.newArrayList(resource));
 		return genericBindingSettings;
 	}
 }
