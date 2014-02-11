@@ -37,22 +37,31 @@ public interface EEFEditingService extends EEFService<EObject> {
 	EStructuralFeature featureFromEditor(PropertiesEditingContext editingContext, Object editor);
 
 	/**
-	 * Returns the value for the property binding for the given EObject.
+	 * Returns the value of the editor for the given EObject.
 	 * @param editingContext current {@link PropertiesEditingContext}.
-	 * @param target EObject to inspect. Can be <code>null</code>, in this case editingContext.getEditingComponent().getEObject() will be used.
+	 * @param target EObject to inspect.
+	 * @param editor the concerning editor.
+	 * @return the value for the given editor.
+	 */
+	Object getValue(PropertiesEditingContext editingContext, EObject target, Object editor);
+	
+	/**
+	 * Returns the value of the given sub-{@link PropertyBinding} for the given EObject.
+	 * @param editingContext current {@link PropertiesEditingContext}.
+	 * @param target EObject to inspect.
 	 * @param propertyBinding the concerning {@link PropertyBinding}.
 	 * @return the value for the given {@link PropertyBinding}.
 	 */
-	Object getValue(PropertiesEditingContext editingContext, EObject target);
+	Object getValueOfSubbinding(PropertiesEditingContext editingContext, EObject target, PropertyBinding propertyBinding);
 	
 	/**
 	 * Returns the choice of value for the property binding for the given EObject.
 	 * @param editingContext current {@link PropertiesEditingContext}.
-	 * @param target EObject to inspect. Can be <code>null</code>, in this case editingContext.getEditingComponent().getEObject() will be used.
-	 * @param propertyBinding the concerning {@link PropertyBinding}.
+	 * @param target EObject to inspect.
+	 * @param editor the concerning view.
 	 * @return the choice of value for the given {@link PropertyBinding}.
 	 */
-	Object getChoiceOfValue(PropertiesEditingContext editingContext, EObject target, PropertyBinding propertyBinding);
+	Object getChoiceOfValue(PropertiesEditingContext editingContext, EObject target, Object editor);
 	
 	/**
 	 * Defines if the given binding is a {@link EClassBinding} generated for a view rendering need or not.

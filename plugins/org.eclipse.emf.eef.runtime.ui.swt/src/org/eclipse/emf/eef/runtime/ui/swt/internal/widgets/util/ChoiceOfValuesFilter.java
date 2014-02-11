@@ -14,13 +14,8 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
-import org.eclipse.emf.eef.runtime.util.EMFService;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
@@ -32,27 +27,24 @@ import com.google.common.collect.Lists;
  */
 public class ChoiceOfValuesFilter extends ViewerFilter {
 
-	private final EMFServiceProvider emfServiceProvider;
 	private final EEFEditingServiceProvider eefEditingServiceProvider;
 	private final PropertiesEditingContext editingContext;
 	private final EObject editedElement;
-	private final PropertyBinding propertyBinding;
+	private final Object editor;
 	private final SelectionMode mode;
 	
 	/**
-	 * @param emfServiceProvider
 	 * @param eefEditingServiceProvider
 	 * @param editingContext
 	 * @param editedElement
-	 * @param propertyBinding
+	 * @param editor
 	 * @param mode
 	 */
-	public ChoiceOfValuesFilter(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editingContext, EObject editedElement, PropertyBinding propertyBinding, SelectionMode mode) {
-		this.emfServiceProvider = emfServiceProvider;
+	public ChoiceOfValuesFilter(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editingContext, EObject editedElement, Object editor, SelectionMode mode) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.editingContext = editingContext;
 		this.editedElement = editedElement;
-		this.propertyBinding = propertyBinding;
+		this.editor = editor;
 		this.mode = mode;
 	}
 
@@ -75,16 +67,7 @@ public class ChoiceOfValuesFilter extends ViewerFilter {
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
 		Collection<?> choiceOfValues = null;
 		Collection<Notifier> intermediateChoices = Lists.newArrayList();
-		Object serviceResult = null;
-		if (propertyBinding.getValueProvider() != null) {
-			serviceResult = eefEditingServiceProvider.getEditingService(editedElement).getChoiceOfValue(editingContext, editedElement, propertyBinding);
-		} else {
-			if (propertyBinding instanceof EStructuralFeatureBinding) {
-				EMFService emfService = emfServiceProvider.getEMFService(editedElement.eClass().getEPackage());
-				EStructuralFeature feature = emfService.mapFeature(editedElement, ((EStructuralFeatureBinding) propertyBinding).getFeature());
-				serviceResult = emfService.choiceOfValues(editingContext.getAdapterFactory(), editedElement, feature);
-			}
-		}
+		Object serviceResult = eefEditingServiceProvider.getEditingService(editedElement).getChoiceOfValue(editingContext, editedElement, editor);
 		if (serviceResult instanceof Collection<?>) {
 			choiceOfValues = (Collection<?>) serviceResult;
 		} else if (serviceResult != null) {

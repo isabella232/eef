@@ -61,9 +61,14 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 	 */
 	public void init() {
 		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), elementEditor));
-		ILabelProvider labelProvider = editUIProvidersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext(), elementEditor);
-		propertyEditorViewer.getViewer().setLabelProvider(labelProvider);
 		PropertyBinding propertyBinding = view.getEditingComponent().getBinding().propertyBinding(elementEditor, view.getEditingComponent().getEditingContext().getOptions().autowire());
+		ILabelProvider labelProvider;
+		if (propertyBinding != null) {
+			labelProvider = editUIProvidersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext(), propertyBinding);
+		} else {
+			labelProvider = editUIProvidersFactory.createLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory());
+		}
+		propertyEditorViewer.getViewer().setLabelProvider(labelProvider);
 		if (propertyBinding instanceof EStructuralFeatureBinding) {
 			propertyEditorViewer.getViewer().setLowerBound(((EStructuralFeatureBinding) propertyBinding).getFeature().getLowerBound());
 			propertyEditorViewer.getViewer().setUpperBound(((EStructuralFeatureBinding) propertyBinding).getFeature().getUpperBound());

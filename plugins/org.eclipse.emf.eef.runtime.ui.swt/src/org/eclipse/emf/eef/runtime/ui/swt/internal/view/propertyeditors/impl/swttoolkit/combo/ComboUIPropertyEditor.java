@@ -53,7 +53,7 @@ public interface ComboUIPropertyEditor {
 			Object choiceOfValues = null;
 			if (inputElement instanceof ComboContentProviderInput) {
 				PropertiesEditingContext contentProviderContext = ((ComboContentProviderInput) inputElement).getEditingContext();
-				EEFEditingService service = contentProviderContext.getEEFEditingServiceProvider().getEditingService((((ComboContentProviderInput) inputElement).getEditingContext().getEditingComponent().getEObject().eClass().getEPackage()));
+				EEFEditingService service = contentProviderContext.getEEFEditingServiceProvider().getEditingService((((ComboContentProviderInput) inputElement).getEditingContext().getEditingComponent().getEObject()));
 				choiceOfValues = service.getChoiceOfValue(contentProviderContext, contentProviderContext.getEditingComponent().getEObject(), ((ComboContentProviderInput) inputElement).getElementEditor());
 			} else {
 				choiceOfValues = inputElement;

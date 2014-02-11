@@ -144,11 +144,10 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 				dialog.setImageManager(imageManager);
 				dialog.addFilter(
 						new ChoiceOfValuesFilter(
-								EComboPropertyEditor.this.emfServiceProvider,
 								EComboPropertyEditor.this.eefEditingServiceProvider,
 								view.getEditingComponent().getEditingContext(), 
 								view.getEditingComponent().getEObject(), 
-								EComboPropertyEditor.this.propertyBinding, 
+								elementEditor, 
 								EEFSWTConstants.DEFAULT_SELECTION_MODE));
 				Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
 				if (!filters.isEmpty()) {

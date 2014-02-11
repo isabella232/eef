@@ -26,14 +26,13 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
-import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor;
 import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EditingStrategyNotFoundException;
+import org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -41,15 +40,6 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
  */
 public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	
-	private EMFServiceProvider emfServiceProvider;
-	
-	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
-	 */
-	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
@@ -100,23 +90,23 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	protected final void performSet(final SemanticPropertiesEditingContext editingContext, final EObject eObject, final Object value) {
 		try {
-			new EObjectEditingStrategyProcessor<Void>(editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__SETTER) {
+			new EEFEditingStrategy<Void>(editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__SETTER) {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
-				protected Void processBySetter(JavaBody<Void> setter) {
+				protected Void processByAccessor(JavaBody<Void> accessor) {
 					EList<Object> parameters = new BasicEList<Object>();
 					parameters.add(value);
-					setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+					accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
 					return null;
 				}
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
@@ -138,21 +128,21 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	protected final void performUnset(final SemanticPropertiesEditingContext editingContext, final EObject eObject) {
 		try {
-			new EObjectEditingStrategyProcessor<Void>(editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__UNSETTER) {
+			new EEFEditingStrategy<Void>(editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__UNSETTER) {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
-				protected Void processBySetter(JavaBody<Void> setter) {
-					setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, new BasicEList<Object>());
+				protected Void processByAccessor(JavaBody<Void> accessor) {
+					accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, new BasicEList<Object>());
 					return null;
 				}
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
@@ -182,23 +172,23 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	@SuppressWarnings("unchecked")
 	protected final void performAdd(final SemanticPropertiesEditingContext editingContext, final EObject eObject, final Object newValue) {
 		try {
-			new EObjectEditingStrategyProcessor<Void>(editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
+			new EEFEditingStrategy<Void>(editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
-				protected Void processBySetter(JavaBody<Void> setter) {
+				protected Void processByAccessor(JavaBody<Void> accessor) {
 					EList<Object> parameters = new BasicEList<Object>();
 					parameters.add(newValue);
-					setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+					accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
 					return null;
 				}
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
@@ -235,23 +225,23 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	@SuppressWarnings("unchecked")
 	protected final void performAddMany(final SemanticPropertiesEditingContext editingContext, final EObject eObject, final Collection<?> newValues) {
 		try {
-			new EObjectEditingStrategyProcessor<Void>(editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
+			new EEFEditingStrategy<Void>(editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
-				protected Void processBySetter(JavaBody<Void> setter) {
+				protected Void processByAccessor(JavaBody<Void> accessor) {
 					EList<Object> parameters = new BasicEList<Object>();
 					parameters.addAll(newValues);
-					setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+					accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
 					return null;
 				}
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
@@ -282,23 +272,23 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	@SuppressWarnings("unchecked")
 	protected final void performRemove(final SemanticPropertiesEditingContext editingContext, final EObject eObject, final Object oldValue) {
 		try {
-			new EObjectEditingStrategyProcessor<Void>(editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+			new EEFEditingStrategy<Void>(editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
-				protected Void processBySetter(JavaBody<Void> setter) {
+				protected Void processByAccessor(JavaBody<Void> accessor) {
 					EList<Object> parameters = new BasicEList<Object>();
 					parameters.add(oldValue);
-					setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+					accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
 					return null;
 				}
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
@@ -319,23 +309,23 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	@SuppressWarnings("unchecked")
 	protected final void performRemoveMany(final SemanticPropertiesEditingContext editingContext, final EObject eObject, final Collection<?> oldValues) {
 		try {
-			new EObjectEditingStrategyProcessor<Void>(editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+			new EEFEditingStrategy<Void>(editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
-				protected Void processBySetter(JavaBody<Void> setter) {
+				protected Void processByAccessor(JavaBody<Void> accessor) {
 					EList<Object> parameters = new BasicEList<Object>();
 					parameters.addAll(oldValues);
-					setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+					accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
 					return null;
 				}
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
@@ -355,21 +345,21 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	protected final void performMove(final SemanticPropertiesEditingContext editingContext, final EObject eObject, final Integer oldIndex, final Integer newIndex) {
 		try {
-			new EObjectEditingStrategyProcessor<Void>(editingContext, null) {
+			new EEFEditingStrategy<Void>(editingContext, null) {
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
-				protected Void processBySetter(JavaBody<Void> setter) {
+				protected Void processByAccessor(JavaBody<Void> accessor) {
 					// Unreachable
 					return null;
 				}
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {

@@ -15,7 +15,6 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
-import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -26,15 +25,14 @@ public class PropertyBindingLabelProvider extends AdapterFactoryLabelProvider {
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;	
 	private PropertiesEditingContext editingContext;
-	private ElementEditor elementEditor;
+	private final PropertyBinding propertyBinding;
 
 
-
-	public PropertyBindingLabelProvider(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editingContext, ElementEditor elementEditor) {
+	public PropertyBindingLabelProvider(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editingContext, PropertyBinding propertyBinding) {
 		super(editingContext.getAdapterFactory());
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.editingContext = editingContext;
-		this.elementEditor = elementEditor;
+		this.propertyBinding = propertyBinding;
 	}
 
 	/**
@@ -43,10 +41,10 @@ public class PropertyBindingLabelProvider extends AdapterFactoryLabelProvider {
 	 */
 	@Override
 	public Image getColumnImage(Object object, int columnIndex) {
-		PropertyBinding propertyBinding = editingContext.getEditingComponent().getBinding().propertyBinding(elementEditor, editingContext.getOptions().autowire());
-		if (propertyBinding != null && object instanceof EObject && propertyBinding.getSubPropertyBindings().size() > columnIndex) {
-			EObject element= (EObject) object;
-			Object target = eefEditingServiceProvider.getEditingService(element).getValue(editingContext, element, propertyBinding.getSubPropertyBindings().get(columnIndex));
+		if (object instanceof EObject && propertyBinding.getSubPropertyBindings().size() > columnIndex) {
+			PropertyBinding subBinding = propertyBinding.getSubPropertyBindings().get(columnIndex);
+			EObject src = (EObject) object;
+			Object target = eefEditingServiceProvider.getEditingService(src).getValueOfSubbinding(editingContext, editingContext.getEditingComponent().getEObject(), subBinding);
 			return getImage(target);
 		}
 		return super.getColumnImage(object, columnIndex);
@@ -58,10 +56,10 @@ public class PropertyBindingLabelProvider extends AdapterFactoryLabelProvider {
 	 */
 	@Override
 	public String getColumnText(Object object, int columnIndex) {
-		PropertyBinding propertyBinding = editingContext.getEditingComponent().getBinding().propertyBinding(elementEditor, editingContext.getOptions().autowire());
 		if (object instanceof EObject && propertyBinding.getSubPropertyBindings().size() > columnIndex) {
-			EObject element= (EObject) object;
-			Object target = eefEditingServiceProvider.getEditingService(element).getValue(editingContext, element, propertyBinding.getSubPropertyBindings().get(columnIndex));
+			PropertyBinding subBinding = propertyBinding.getSubPropertyBindings().get(columnIndex);
+			EObject src = (EObject) object;
+			Object target = eefEditingServiceProvider.getEditingService(src).getValueOfSubbinding(editingContext, editingContext.getEditingComponent().getEObject(), subBinding);
 			return getText(target);
 		}
 		return super.getColumnText(object, columnIndex);

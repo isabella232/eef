@@ -12,7 +12,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.viewer;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.views.ElementEditor;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 
@@ -46,8 +46,9 @@ public interface EditUIProvidersFactory {
 	/**
 	 * Create an {@link ILabelProvider} for EEF viewers using the given {@link PropertiesEditingContext}.
 	 * @param editingContext the current {@link PropertiesEditingContext}.
+	 * @param propertyBinding the {@link PropertyBinding} describing the current feature binding.
 	 * @return the label provider to use in EEF viewers.
 	 */
-	ILabelProvider createPropertyBindingLabelProvider(PropertiesEditingContext editingContext, ElementEditor elementEditor);
+	ILabelProvider createPropertyBindingLabelProvider(PropertiesEditingContext editingContext, PropertyBinding propertyBinding);
 	
 }

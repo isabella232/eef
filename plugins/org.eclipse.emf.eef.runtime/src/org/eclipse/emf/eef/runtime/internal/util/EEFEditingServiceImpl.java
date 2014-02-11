@@ -30,7 +30,9 @@ import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EditingStrategyNotFoundException;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.query.JavaBody;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.util.EEFEditingService;
 import org.eclipse.emf.eef.runtime.util.EMFService;
@@ -101,23 +103,87 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getChoiceOfValue(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getValue(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, java.lang.Object)
 	 */
-	public Object getChoiceOfValue(PropertiesEditingContext editingContext, EObject target, PropertyBinding propertyBinding) {
-		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
-		EObject computedTarget = target != null ? target:editingComponent.getEObject();
-		if (propertyBinding.getValueProvider() != null) {
-			return propertyBinding.getValueProvider().invoke(editingComponent.getBindingSettings().getClass().getClassLoader(), computedTarget, new BasicEList<Object>());
+	public Object getValue(final PropertiesEditingContext editingContext, final EObject target, Object editor) {
+		EEFEditingStrategy<Object> strategy = new EEFEditingStrategy<Object>(editingContext, editor, EditingModelPackage.Literals.PROPERTY_BINDING__GETTER) {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+			 */
+			@Override
+			protected Object processByAccessor(JavaBody<Void> accessor) {
+				return accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), target, new BasicEList<Object>());
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+			 */
+			@Override
+			protected Object processByFeature(EStructuralFeature feature) {
+				return target.eGet(feature);
+			}
+			
+		};			
+		try {
+			return strategy.process();
+		} catch (EditingStrategyNotFoundException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getValueOfSubbinding(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 */
+	public Object getValueOfSubbinding(PropertiesEditingContext editingContext, EObject target, PropertyBinding propertyBinding) {
+		if (propertyBinding.getGetter() != null) {
+			return propertyBinding.getGetter().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), target, new BasicEList<Object>());
 		} else {
 			if (propertyBinding instanceof EStructuralFeatureBinding) {
-				EMFService emfService = emfServiceProvider.getEMFService(computedTarget.eClass().getEPackage());
-				EStructuralFeature bindedFeature = ((EStructuralFeatureBinding) propertyBinding).getFeature();				
-				EStructuralFeature feature = emfService.mapFeature(computedTarget, bindedFeature);
-				return emfService.choiceOfValues(editingContext.getAdapterFactory(), computedTarget, feature);
-			} else {
-				//Not sure of this case
-				return computedTarget;
+				EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+				if (!target.eClass().getEAllStructuralFeatures().contains(feature)) {
+					feature = emfServiceProvider.getEMFService(target.eClass().getEPackage()).mapFeature(target, feature);
+				}
+				return target.eGet(feature);
 			}
+		}
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getChoiceOfValue(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, java.lang.Object)
+	 */
+	public Object getChoiceOfValue(final PropertiesEditingContext editingContext, final EObject target, final Object editor) {
+		EEFEditingStrategy<Object> strategy = new EEFEditingStrategy<Object>(editingContext, editor, EditingModelPackage.Literals.PROPERTY_BINDING__VALUE_PROVIDER) {
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+			 */
+			@Override
+			protected Object processByAccessor(JavaBody<Void> accessor) {
+				return accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), target, new BasicEList<Object>());
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+			 */
+			@Override
+			protected Object processByFeature(EStructuralFeature feature) {
+				EMFService emfService = emfServiceProvider.getEMFService(target.eClass().getEPackage());
+				return emfService.choiceOfValues(editingContext.getAdapterFactory(), target, feature);
+			}
+			
+		};
+		try {
+			return strategy.process();
+		} catch (EditingStrategyNotFoundException e) {
+			return null;
 		}
 	}
 

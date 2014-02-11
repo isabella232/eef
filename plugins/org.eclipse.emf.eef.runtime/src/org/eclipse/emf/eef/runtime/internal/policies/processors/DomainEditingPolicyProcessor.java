@@ -43,8 +43,8 @@ import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.internal.context.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor;
 import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EditingStrategyNotFoundException;
+import org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
@@ -155,28 +155,28 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	protected final Command performSet(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Object value) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__SETTER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__SETTER) {
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processBySetter(final JavaBody<Void> setter) {
+					protected Command processByAccessor(final JavaBody<Void> accessor) {
 						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
 						return new ChangeCommand(changeRecorder) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.add(value);
-								setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+								accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
 							}
 						};
 					}
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
 					protected Command processByFeature(EStructuralFeature feature) {
@@ -203,26 +203,26 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	protected final Command performUnset(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__UNSETTER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__UNSETTER) {
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processBySetter(final JavaBody<Void> setter) {
+					protected Command processByAccessor(final JavaBody<Void> accessor) {
 						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
 						return new ChangeCommand(changeRecorder) {
 							@Override
 							protected void doExecute() {
-								setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, new BasicEList<Object>());
+								accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, new BasicEList<Object>());
 							}
 						};
 					}
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
 					protected Command processByFeature(EStructuralFeature feature) {
@@ -245,28 +245,28 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	protected final Command performAdd(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Object newValue) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processBySetter(final JavaBody<Void> setter) {
+					protected Command processByAccessor(final JavaBody<Void> accessor) {
 						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
 						return new ChangeCommand(changeRecorder) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.add(newValue);
-								setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+								accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
 							}
 						};
 					}
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
 					protected Command processByFeature(EStructuralFeature feature) {
@@ -298,28 +298,28 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	protected final Command performAddMany(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Collection<?> newValues) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processBySetter(final JavaBody<Void> setter) {
+					protected Command processByAccessor(final JavaBody<Void> accessor) {
 						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
 						return new ChangeCommand(changeRecorder) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.addAll(newValues);
-								setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+								accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
 							}
 						};
 					}
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
 					protected Command processByFeature(EStructuralFeature feature) {
@@ -356,28 +356,28 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	protected final Command performRemove(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Object oldValue) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processBySetter(final JavaBody<Void> setter) {
+					protected Command processByAccessor(final JavaBody<Void> accessor) {
 						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
 						return new ChangeCommand(changeRecorder) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.add(oldValue);
-								setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+								accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
 							}
 						};
 					}
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
 					protected Command processByFeature(EStructuralFeature feature) {
@@ -396,28 +396,28 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	protected final Command performRemoveMany(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Collection<?> oldValues) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processBySetter(final JavaBody<Void> setter) {
+					protected Command processByAccessor(final JavaBody<Void> accessor) {
 						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
 						return new ChangeCommand(changeRecorder) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.addAll(oldValues);
-								setter.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+								accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
 							}
 						};
 					}
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
 					protected Command processByFeature(EStructuralFeature feature) {
@@ -436,20 +436,21 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	protected final Command performMove(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Integer oldIndex, final Integer newIndex) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				new EObjectEditingStrategyProcessor<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, null) {
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processBySetter(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processBySetter(final JavaBody<Void> setter) {
+					protected Command processByAccessor(JavaBody<Void> accessor) {
+						//Unreachable
 						return null;
 					}
 
 					/**
 					 * {@inheritDoc}
-					 * @see org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EObjectEditingStrategyProcessor#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
 					protected Command processByFeature(EStructuralFeature feature) {

@@ -8,44 +8,53 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.eef.runtime.internal.policies.editingstrategy;
+package org.eclipse.emf.eef.runtime.internal.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EditingStrategyNotFoundException;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
+import org.eclipse.emf.eef.runtime.util.EMFService;
 
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public abstract class EObjectEditingStrategyProcessor<T> {
+public abstract class EEFEditingStrategy<T> {
 	
-	private final SemanticPropertiesEditingContext editingContext;
-	private final EReference settingReference;
+	private final PropertiesEditingContext editingContext;
+	private final Object editor;
+	private final EReference accessorReference;
 
-	public EObjectEditingStrategyProcessor(SemanticPropertiesEditingContext editingContext, EReference settingReference) {
+	public EEFEditingStrategy(PropertiesEditingContext editingContext, Object editor, EReference accessorReference) {
 		this.editingContext = editingContext;
-		this.settingReference = settingReference;
+		this.editor = editor;
+		this.accessorReference = accessorReference;
 	}
+	
+	public EEFEditingStrategy(SemanticPropertiesEditingContext editingContext, EReference settingReference) {
+		this(editingContext, editingContext.getEditingEvent().getAffectedEditor(), settingReference);
+	}		
 
 	/**
 	 * @return the editingContext
 	 */
-	public final SemanticPropertiesEditingContext getEditingContext() {
+	public final PropertiesEditingContext getEditingContext() {
 		return editingContext;
 	}
 	
 	/**
-	 * @return the settingReference
+	 * @return the accessorReference
 	 */
 	public final EReference getSettingReference() {
-		return settingReference;
+		return accessorReference;
 	}
 
 	/**
@@ -54,30 +63,37 @@ public abstract class EObjectEditingStrategyProcessor<T> {
 	 * @throws EditingStrategyNotFoundException unable a to find a valid editing strategy given the context.
 	 */
 	public final T process() throws EditingStrategyNotFoundException {
-		Object view = editingContext.getEditingEvent().getAffectedEditor();
 		boolean autowire = editingContext.getOptions().autowire();
 		EClassBinding binding = editingContext.getEditingComponent().getBinding();
-		PropertyBinding propertyBinding = binding.propertyBinding(view, autowire);
+		EObject editedObject = editingContext.getEditingComponent().getEObject();
+		EMFService emfService = editingContext.getEMFServiceProvider().getEMFService(editedObject.eClass().getEPackage());
+		PropertyBinding propertyBinding = binding.propertyBinding(editor, autowire);
 		if (propertyBinding != null) {
-			if (settingReference != null && propertyBinding.eGet(settingReference) != null) {
-				return processBySetter((JavaBody<Void>) propertyBinding.eGet(settingReference));
+			if (accessorReference != null && propertyBinding.eGet(accessorReference) != null) {
+				return processByAccessor((JavaBody<Void>) propertyBinding.eGet(accessorReference));
 			} else if (propertyBinding instanceof EStructuralFeatureBinding) {
-				return processByFeature(((EStructuralFeatureBinding) propertyBinding).getFeature());
+				EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+				if (!editedObject.eClass().getEAllStructuralFeatures().contains(feature)) {
+					EStructuralFeature mappedFeature = emfService.mapFeature(editedObject, feature);
+					return processByFeature(mappedFeature);
+				} else {
+					return processByFeature(feature);
+				}
 			}
 		} else {
 			if (autowire) {
 				EStructuralFeature eStructuralFeature = null;
-				if (view instanceof String) {
-					eStructuralFeature = binding.getEClass().getEStructuralFeature((String)view);
+				if (editor instanceof String) {
+					eStructuralFeature = binding.getEClass().getEStructuralFeature((String)editor);
 				}
-				if (view instanceof EObject) {
-					// Here we dont have an PropertyBinding to help us. We check if the view is an EObject (fon instance an ElementEditor)
+				if (editor instanceof EObject) {
+					// Here we don't have an PropertyBinding to help us. We check if the editor is an EObject (for instance an ElementEditor)
 					// We looking for an "name" structural feature and if this feature is type of String, we try to associate this name
 					// with a structural feature of the handled EClass. For instance if an ElementEditor (which has a "name" feature) is named
 					// "active" and the current EClass has a feature named "active", we return this feature.
-					EStructuralFeature nameFeature = ((EObject) view).eClass().getEStructuralFeature("name");
+					EStructuralFeature nameFeature = ((EObject) editor).eClass().getEStructuralFeature("name");
 					if (nameFeature != null && "java.lang.String".equals(nameFeature.getEType().getInstanceClassName())) {
-						eStructuralFeature = binding.getEClass().getEStructuralFeature((String)((EObject) view).eGet(nameFeature));
+						eStructuralFeature = binding.getEClass().getEStructuralFeature((String)((EObject) editor).eGet(nameFeature));
 					}
 				}
 				if (eStructuralFeature != null) {
@@ -91,10 +107,10 @@ public abstract class EObjectEditingStrategyProcessor<T> {
 	
 	/**
 	 * Describes the editing strategy via a Java Setter.
-	 * @param setter the setter to use.
+	 * @param accessor the accessor to use.
 	 * @return the editing strategy result. 
 	 */
-	protected abstract T processBySetter(JavaBody<Void> setter);
+	protected abstract T processByAccessor(JavaBody<Void> accessor);
 
 	/**
 	 * Describes the editing strategy via an {@link EStructuralFeature}.

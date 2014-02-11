@@ -12,7 +12,6 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl
 
 import java.util.Collection;
 
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
@@ -77,11 +76,10 @@ public class EComboE3PropertyEditor extends EComboPropertyEditor {
 				dialog.setImageManager(imageManager);
 				dialog.addFilter(
 						new ChoiceOfValuesFilter(
-								emfServiceProvider,
 								eefEditingServiceProvider,
 								view.getEditingComponent().getEditingContext(), 
 								view.getEditingComponent().getEObject(), 
-								propertyBinding, 
+								elementEditor, 
 								EEFSWTConstants.DEFAULT_SELECTION_MODE));
 				Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
 				if (!filters.isEmpty()) {

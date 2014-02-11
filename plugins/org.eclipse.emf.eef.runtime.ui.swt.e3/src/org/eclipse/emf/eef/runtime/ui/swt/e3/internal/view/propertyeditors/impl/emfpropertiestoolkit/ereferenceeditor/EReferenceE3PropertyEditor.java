@@ -12,7 +12,6 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl
 
 import java.util.Collection;
 
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
@@ -80,11 +79,10 @@ public class EReferenceE3PropertyEditor extends EReferencePropertyEditor {
 				dialog.setImageManager(imageManager);
 				dialog.addFilter(
 						new ChoiceOfValuesFilter(
-								emfServiceProvider,
 								eefEditingServiceProvider,
 								view.getEditingComponent().getEditingContext(), 
 								view.getEditingComponent().getEObject(), 
-								EReferenceE3PropertyEditor.this.propertyBinding, 
+								elementEditor, 
 								EEFSWTConstants.DEFAULT_SELECTION_MODE));
 				dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
 				if (dialog.open() == Window.OK) {

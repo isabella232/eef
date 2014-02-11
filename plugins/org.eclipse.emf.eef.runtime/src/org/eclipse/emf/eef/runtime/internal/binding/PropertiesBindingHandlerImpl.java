@@ -131,14 +131,14 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	/**
 	 * @return the eefEditingServiceProvider
 	 */
-	public EEFEditingServiceProvider getEefEditingServiceProvider() {
+	public EEFEditingServiceProvider getEEFEditingServiceProvider() {
 		return eefEditingServiceProvider;
 	}
 
 	/**
 	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
 	 */
-	public void setEefEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 

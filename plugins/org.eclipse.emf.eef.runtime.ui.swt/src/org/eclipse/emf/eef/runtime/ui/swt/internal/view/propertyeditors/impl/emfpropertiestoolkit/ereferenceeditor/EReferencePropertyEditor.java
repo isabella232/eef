@@ -81,9 +81,14 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 	 */
 	public void init() {
 		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), elementEditor));
-		ILabelProvider labelProvider = editUIProvidersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext(), elementEditor);
-		propertyEditorViewer.getViewer().setLabelProvider(labelProvider);
 		PropertyBinding propertyBinding = view.getEditingComponent().getBinding().propertyBinding(elementEditor, view.getEditingComponent().getEditingContext().getOptions().autowire());
+		ILabelProvider labelProvider;
+		if (propertyBinding != null) {
+			labelProvider = editUIProvidersFactory.createPropertyBindingLabelProvider(view.getEditingComponent().getEditingContext(), propertyBinding);
+		} else {
+			labelProvider = editUIProvidersFactory.createLabelProvider(view.getEditingComponent().getEditingContext().getAdapterFactory());
+		}
+		propertyEditorViewer.getViewer().setLabelProvider(labelProvider);
 		if (propertyBinding instanceof EStructuralFeatureBinding) {
 			EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
 			propertyEditorViewer.getViewer().setLowerBound(feature.getLowerBound());
@@ -198,7 +203,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 				PropertiesEditingComponent editingComponent = view.getEditingComponent();
 				EObject editedObject = editingComponent.getEObject();
 				EObject editedElement = editedObject;
-				Object currentValue = eefEditingServiceProvider.getEditingService(editedObject).getValue(editingComponent.getEditingContext(), editedElement);
+				Object currentValue = eefEditingServiceProvider.getEditingService(editedObject).getValue(editingComponent.getEditingContext(), editedElement, elementEditor);
 				if (currentValue instanceof List<?>) {
 					int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
 					if (oldIndex > 0) {
@@ -246,11 +251,10 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 				dialog.setImageManager(imageManager);
 				dialog.addFilter(
 						new ChoiceOfValuesFilter(
-								emfServiceProvider,
 								eefEditingServiceProvider,
 								view.getEditingComponent().getEditingContext(), 
-								view.getEditingComponent().getEObject(), 
-								propertyBinding, 
+								view.getEditingComponent().getEObject(),
+								elementEditor,
 								EEFSWTConstants.DEFAULT_SELECTION_MODE));
 				Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
 				if (!filters.isEmpty()) {
