@@ -15,6 +15,7 @@ import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.parts.E4EEFPart;
 import org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils;
@@ -40,10 +41,10 @@ public class OpenSessionsViewHandler extends AbstractEEFOpenViewHandler {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler#getEditingInput(org.eclipse.e4.core.contexts.IEclipseContext, org.eclipse.e4.ui.model.application.ui.basic.MPart, org.eclipse.swt.widgets.Shell)
+	 * @see org.eclipse.emf.eef.runtime.ui.platform.e4.handlers.AbstractEEFOpenViewHandler#getEditingInput(org.eclipse.e4.core.contexts.IEclipseContext, org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider, org.eclipse.e4.ui.model.application.ui.basic.MPart, org.eclipse.emf.eef.runtime.ui.platform.e4.services.PlatformRelatedUIUtils)
 	 */
 	@Override
-	protected EditingInput getEditingInput(IEclipseContext context, MPart mPart, PlatformRelatedUIUtils uiUtils) {
+	protected EditingInput getEditingInput(IEclipseContext context, EditingContextFactoryProvider editingContextFactoryProvider, MPart mPart, PlatformRelatedUIUtils uiUtils) {
 		return activePart.getContext().get(EditingInput.class);
 	}
 

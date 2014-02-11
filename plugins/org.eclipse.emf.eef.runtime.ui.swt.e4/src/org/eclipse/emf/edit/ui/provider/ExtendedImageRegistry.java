@@ -27,7 +27,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.provider.ComposedImage;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
+import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -42,12 +42,9 @@ import org.eclipse.swt.widgets.Display;
 public class ExtendedImageRegistry 
 {
   protected HashMap<Object, Image> table = new HashMap<Object, Image>(10);
+ 
+  private EEFLogger eefLogger;
   
-  /**
-   * @eefspecific 
-   */
-  private EEFServiceRegistry serviceRegistry;
-
   public ExtendedImageRegistry() 
   {
     Display display = Display.getCurrent();
@@ -59,7 +56,14 @@ public class ExtendedImageRegistry
     hookDisplayDispose(display);
   }
 
-  protected static Object resourceURL = 
+  /**
+ * @param eefLogger the eefLogger to set
+ */
+public void setEEFLogger(EEFLogger eefLogger) {
+	this.eefLogger = eefLogger;
+}
+
+protected static Object resourceURL = 
     EMFEditPlugin.INSTANCE.getImage("full/obj16/Resource");
   
   protected static String resourceURLPrefix = resourceURL.toString() + "#";
@@ -70,21 +74,7 @@ public class ExtendedImageRegistry
   protected static String createChildURLPrefix = 
     EMFEditPlugin.INSTANCE.getImage("full/ctool16/CreateChild").toString() + "#";
 
-  /**
-   * @return the {@link EEFServiceRegistry} used for this class.
-   */
-  public EEFServiceRegistry getServiceRegistry() {
-	return serviceRegistry;
-  }
-  
-  /**
-   * Sets the {@link EEFServiceRegistry} to use in order to get EEF related services.
-   * @param serviceRegistry the {@link EEFServiceRegistry} to use.
-   * @eefspecific
-   */
-  public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-	this.serviceRegistry = serviceRegistry;
-  }
+ 
 
   public Image getImage(Object object) 
   {

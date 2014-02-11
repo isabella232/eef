@@ -15,16 +15,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.edit.provider.IItemColorProvider;
+import org.eclipse.emf.eef.runtime.logging.EEFLogger;
+import org.eclipse.jface.resource.ColorDescriptor;
+import org.eclipse.jface.resource.DeviceResourceException;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
-
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.edit.provider.IItemColorProvider;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
-import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
-import org.eclipse.jface.resource.ColorDescriptor;
-import org.eclipse.jface.resource.DeviceResourceException;
 
 
 /**
@@ -33,14 +31,12 @@ import org.eclipse.jface.resource.DeviceResourceException;
  */
 public class ExtendedColorRegistry
 {
+	
+	private EEFLogger eefLogger;
+	
   protected Display display;
   protected HashMap<Collection<?>, Color> table = new HashMap<Collection<?>, Color>(10);
   
-  /**
-   * @eefspecific 
-   */
-  private EEFServiceRegistry serviceRegistry;
-
   public ExtendedColorRegistry()
   {
     display = Display.getCurrent();
@@ -54,15 +50,13 @@ public class ExtendedColorRegistry
   }
 
   /**
-   * Sets the {@link EEFServiceRegistry} to use in order to get EEF related services.
-   * @param serviceRegistry the {@link EEFServiceRegistry} to use.
-   * @eefspecific
-   */
-  public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-	this.serviceRegistry = serviceRegistry;
-  }
+ * @param eefLogger the eefLogger to set
+ */
+public void setEEFLogger(EEFLogger eefLogger) {
+	this.eefLogger = eefLogger;
+}
 
-  public Color getColor(Color foregroundColor, Color backgroundColor, Object object)
+public Color getColor(Color foregroundColor, Color backgroundColor, Object object)
   {
     if (object instanceof Color)
     {
@@ -88,8 +82,7 @@ public class ExtendedColorRegistry
           catch (DeviceResourceException exception)
           {
         	//@eefspecific
-        	EEFLogger logger = serviceRegistry.getService(EEFLogger.class, this);
-            logger.logError("org.eclipse.emf.eef.runtime.ui.swt.e4.e4", "An error occured", exception);
+        	  eefLogger.logError("org.eclipse.emf.eef.runtime.ui.swt.e4.e4", "An error occured", exception);
           }
         }
         else if (object instanceof URI)
@@ -135,8 +128,7 @@ public class ExtendedColorRegistry
           catch (DeviceResourceException exception)
           {
           	//@eefspecific
-          	EEFLogger logger = serviceRegistry.getService(EEFLogger.class, this);
-            logger.logError("org.eclipse.emf.eef.runtime.ui.swt.e4.e4", "An error occured", exception);
+        	  eefLogger.logError("org.eclipse.emf.eef.runtime.ui.swt.e4.e4", "An error occured", exception);
           }
         }
 

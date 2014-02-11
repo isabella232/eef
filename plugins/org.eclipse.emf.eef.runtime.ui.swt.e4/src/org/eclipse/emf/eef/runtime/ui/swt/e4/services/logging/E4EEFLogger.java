@@ -6,15 +6,15 @@ package org.eclipse.emf.eef.runtime.ui.swt.e4.services.logging;
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.services.log.Logger;
-import org.eclipse.emf.eef.runtime.services.impl.AbstractEEFService;
-import org.eclipse.emf.eef.runtime.services.logging.EEFLogger;
+import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class E4EEFLogger extends AbstractEEFService<Object> implements EEFLogger {
+@SuppressWarnings("restriction")
+public class E4EEFLogger implements EEFLogger {
 
 	@Inject
 	private Logger logger;

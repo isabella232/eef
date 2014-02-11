@@ -26,7 +26,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
@@ -38,9 +37,8 @@ import org.eclipse.emf.edit.provider.ITableItemColorProvider;
 import org.eclipse.emf.edit.provider.ITableItemFontProvider;
 import org.eclipse.emf.edit.provider.ITableItemLabelProvider;
 import org.eclipse.emf.edit.provider.IViewerNotification;
-import org.eclipse.emf.eef.runtime.services.EEFServiceRegistry;
 import org.eclipse.emf.eef.runtime.ui.swt.e4.services.resources.RegistryProvider;
-import org.eclipse.emf.eef.runtime.ui.swt.services.resources.ImageManager;
+import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 
 
 /**
@@ -156,12 +154,6 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
   protected AdapterFactory adapterFactory;
   
   /**
-   * This keep track of the {@link EEFServiceRegistry} to use in order to get EEF-specific services.
-   * @eefspecific 
-   */
-  protected EEFServiceRegistry serviceRegistry;
-
-  /**
    * The font that will be used when no font is specified.
    */
   protected Font defaultFont;
@@ -181,7 +173,25 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
    */
   protected Collection<ILabelProviderListener> labelProviderListeners;
 
+  private ImageManager imageManager;
+  
+  private RegistryProvider registryProvider;
+  
   /**
+ * @param imageManager the imageManager to set
+ */
+public void setImageManager(ImageManager imageManager) {
+	this.imageManager = imageManager;
+}
+
+/**
+ * @param registryProvider the registryProvider to set
+ */
+public void setRegistryProvider(RegistryProvider registryProvider) {
+	this.registryProvider = registryProvider;
+}
+
+/**
    * Whether label update notifications are fired.
    */
   protected boolean isFireLabelUpdateNotifications;
@@ -240,15 +250,6 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
     this.adapterFactory = adapterFactory;
   }
   
-  /**
-   * Set the {@link EEFServiceRegistry} to use.
-   * @param serviceRegistry the {@link EEFServiceRegistry} to use.
-   * @eefspecific 
-   */
-  public void setServiceRegistry(EEFServiceRegistry serviceRegistry) {
-	this.serviceRegistry = serviceRegistry;
-  }
-
 /**
    * Return the default font.
    */
@@ -369,14 +370,13 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
     {
       image = "full/obj16/RealValue";
     }
-    ImageManager manager = serviceRegistry.getService(ImageManager.class, this);
-    return manager.getImage(org.eclipse.emf.edit.EMFEditPlugin.INSTANCE, image);
+    return imageManager.getImage(org.eclipse.emf.edit.EMFEditPlugin.INSTANCE, image);
 //    return getImageFromObject(EMFEditPlugin.INSTANCE.getImage(image));
   }
 
   protected Image getImageFromObject(Object object)
   {
-	ExtendedImageRegistry imageRegistry = serviceRegistry.getService(RegistryProvider.class, this).getImageRegistry();
+	ExtendedImageRegistry imageRegistry = registryProvider.getImageRegistry();
     return imageRegistry.getImage(object);
   }
 
@@ -453,7 +453,7 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
 
   protected Color getColorFromObject(Object object)
   {
-	ExtendedColorRegistry colorRegistry = serviceRegistry.getService(RegistryProvider.class, this).getColorRegistry();
+	ExtendedColorRegistry colorRegistry = registryProvider.getColorRegistry();
     return object == null ? null : colorRegistry.getColor(defaultForeground, defaultBackground, object);
   }
 
