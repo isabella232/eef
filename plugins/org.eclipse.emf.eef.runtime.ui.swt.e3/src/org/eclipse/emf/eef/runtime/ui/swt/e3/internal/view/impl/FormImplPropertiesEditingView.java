@@ -62,7 +62,10 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 		boolean autowire = editingComponent.getEditingContext().getOptions().autowire();
 		for (EObject content : viewDescriptor.eContents()) {
 			//TODO: In case of Container, we should check that at least 1 subElementEditor is binded.
-			if (content instanceof Container || eefEditingServiceProvider.getEditingService(binding).isReflectiveBinding(binding) || binding.propertyBinding(content, autowire) != null) {
+			if (content instanceof Container 
+					|| eefEditingServiceProvider.getEditingService(binding).isReflectiveBinding(binding) 
+					|| binding.propertyBinding(content, autowire) != null
+					|| eefEditingServiceProvider.getEditingService(binding).featureFromEditor(editingComponent.getEditingContext(), content) != null) {
 				buildElement(toolkit, contentsComposite, binding.propertyBinding(content, autowire), content);
 			}
 		}
@@ -101,7 +104,10 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 						Composite viewerControl = (Composite) ((Viewer) propertyEditor.getPropertyEditorViewer().getViewer()).getControl();
 						if ((Viewer) propertyEditor.getPropertyEditorViewer().getViewer() instanceof Viewer) {
 							//TODO: In case of Container, we should check that at least 1 subElementEditor is binded.
-							if (content instanceof Container || binding.propertyBinding(content, autowire) != null) {
+							if (content instanceof Container 
+									|| eefEditingServiceProvider.getEditingService(binding).isReflectiveBinding(binding) 
+									|| binding.propertyBinding(content, autowire) != null
+									|| eefEditingServiceProvider.getEditingService(binding).featureFromEditor(editingComponent.getEditingContext(), content) != null) {
 								buildElement(toolkit, viewerControl, binding.propertyBinding(subContent, autowire), subContent);
 							}
 						}

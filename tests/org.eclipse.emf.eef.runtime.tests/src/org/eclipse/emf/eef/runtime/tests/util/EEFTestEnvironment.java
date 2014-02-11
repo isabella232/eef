@@ -648,7 +648,9 @@ public class EEFTestEnvironment {
 
 		public Collection<EEFServiceDescriptor<EEFEditingService>> createEEFEditingServices() {
 			Collection<EEFServiceDescriptor<EEFEditingService>> services = new ArrayList<EEFServiceDescriptor<EEFEditingService>>();
-			EEFServiceDescriptor<EEFEditingService> descriptor = new EEFServiceDescriptor<EEFEditingService>(EEFEditingServiceImpl.class.getName(), new EEFEditingServiceImpl());
+			EEFEditingServiceImpl service = new EEFEditingServiceImpl();
+			service.setEMFServiceProvider(getEMFServiceProvider());
+			EEFServiceDescriptor<EEFEditingService> descriptor = new EEFServiceDescriptor<EEFEditingService>(EEFEditingServiceImpl.class.getName(), service);
 			services.add(descriptor);
 			return services;
 		}
@@ -701,7 +703,6 @@ public class EEFTestEnvironment {
 			Collection<EEFServiceDescriptor<ViewService>> result = new ArrayList<EEFServiceDescriptor<ViewService>>();
 			PlatformAwareViewServiceImpl viewService = new PlatformAwareViewServiceImpl();
 			viewService.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
-			viewService.setEMFServiceProvider(getEMFServiceProvider());
 			result.add(new EEFServiceDescriptor<ViewService>("viewservice.default", viewService));
 			return result;
 		}
@@ -709,9 +710,11 @@ public class EEFTestEnvironment {
 		public Collection<EEFServiceDescriptor<EEFToolkit<Composite>>> createEditorProviders() {
 			Collection<EEFServiceDescriptor<EEFToolkit<Composite>>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EEFToolkit<Composite>>>();
 			SWTPlatformAwareToolkit swtToolkit = new SWTPlatformAwareToolkit();
+			swtToolkit.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
 			swtToolkit.setEditUIProvidersFactory(getEditUIProvidersFactory());
 			result.add(new EEFServiceDescriptor<EEFToolkit<Composite>>("toolkitservice.swt", swtToolkit));
 			EMFPropertiesPlatformAwareToolkit emfPropertiesToolkit = new EMFPropertiesPlatformAwareToolkit();
+			emfPropertiesToolkit.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
 			emfPropertiesToolkit.setEditUIProvidersFactory(getEditUIProvidersFactory());
 			emfPropertiesToolkit.setImageManager(getImageManager());
 			result.add(new EEFServiceDescriptor<EEFToolkit<Composite>>("toolkitservice.emfproperties", emfPropertiesToolkit));
@@ -799,6 +802,7 @@ public class EEFTestEnvironment {
 			Collection<EEFServiceDescriptor<EEFLockManager>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<EEFLockManager>>();
 			EditingViewLockManager lockManager = new EditingViewLockManager();
 			lockManager.setEEFNotifierProvider(getEEFNotifierProvider());
+			lockManager.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
 			EEFServiceDescriptor<EEFLockManager> desc = new EEFServiceDescriptor<EEFLockManager>("lockmanager.editingview", lockManager);
 			result.add(desc);
 			desc = new EEFServiceDescriptor<EEFLockManager>("lockmanager.default", new NullLockManager());
@@ -809,6 +813,7 @@ public class EEFTestEnvironment {
 		public Collection<EEFServiceDescriptor<PropertiesEditingPolicyProvider>> createPolicyProvider() {
 			Collection<EEFServiceDescriptor<PropertiesEditingPolicyProvider>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<PropertiesEditingPolicyProvider>>();
 			PropertiesEditingPolicyProviderImpl policyProvider = new PropertiesEditingPolicyProviderImpl();
+			policyProvider.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
 			policyProvider.setEditingPolicyRequestFactoryProvider(getPolicyRequestFactoryProvider());
 			policyProvider.setEditingPolicyProcessorProvider(getPolicyProcessorProvider());
 			EEFServiceDescriptor<PropertiesEditingPolicyProvider> desc = new EEFServiceDescriptor<PropertiesEditingPolicyProvider>("propertieseditingpolicyprovider.default", policyProvider);
@@ -1001,6 +1006,7 @@ public class EEFTestEnvironment {
 				properties.put(EEFTestEnvironment.COMPONENT_NAME_KEY, PropertiesBindingHandlerImpl.class.getName());
 					PropertiesBindingHandlerImpl service = new PropertiesBindingHandlerImpl();
 					service.setEMFServiceProvider(getEMFServiceProvider());
+					service.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
 					service.setEditingPolicyProvider(getEditingPolicyProvider());
 					service.setEEFNotifierProvider(getEEFNotifierProvider());
 					service.setLockPolicyFactoryProvider(getLockPolicyFactoryProvider());

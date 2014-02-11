@@ -50,20 +50,6 @@ public class EClassBindingResolverTests {
 
 	/**
 	 * Here the "EClass" EClass is binded to the view SampleView. No PropertyBinding is
-	 * specified. The "propertyBinding" method on the "name" editor (just "name" String) should
-	 * return EcorePackage.Literals.ENAMED_ELEMENT__NAME.
-	 */
-	@Test
-	public void testFeatureSearchOnCompositeViewBindingWithoutPropertyBinding() {
-		PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
-			.bindClass(EcorePackage.Literals.ECLASS)
-				.withView(SampleView.class)
-			.build();
-		assertEquals(EcorePackage.Literals.ENAMED_ELEMENT__NAME, ((EStructuralFeatureBinding)editingModel.getBindings().get(0).propertyBinding("name", true)).getFeature());
-	}
-
-	/**
-	 * Here the "EClass" EClass is binded to the view SampleView. No PropertyBinding is
 	 * specified. The "editor" method on the EcorePackage.Literals.ENAMED_ELEMENT__NAME propertyBinding should
 	 * return the "name" editor (just "name" String) .
 	 */
@@ -108,25 +94,6 @@ public class EClassBindingResolverTests {
 			.build();
 		editingModel.setEMFServiceProvider(emfServiceProvider);
 		assertEquals("title", editingModel.getBindings().get(0).propertyEditor(sample, EcorePackage.Literals.ENAMED_ELEMENT__NAME, true));
-	}
-
-	/**
-	 * Here the "EClass" EClass is binded to a "Sample" {@link View}. No PropertyBinding is
-	 * specified. The "propertyBinding" method on the "abstract" {@link ElementEditor} should
-	 * return EcorePackage.Literals.ECLASS__ABSTRACT.
-	 */
-	@Test
-	public void testFeatureSearchOnEEFViewBindingWithoutPropertyBinding() {
-		View sampleView = ViewsFactory.eINSTANCE.createView();
-		sampleView.setName("Sample View");
-		ElementEditor abstractEditor = ViewsFactory.eINSTANCE.createElementEditor();
-		abstractEditor.setName("abstract");
-		sampleView.getElements().add(abstractEditor);
-		PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
-			.bindClass(EcorePackage.Literals.ECLASS)
-				.withView(sampleView)
-			.build();
-		assertEquals(EcorePackage.Literals.ECLASS__ABSTRACT, (((EStructuralFeatureBinding)editingModel.getBindings().get(0).propertyBinding(abstractEditor, true)).getFeature()));
 	}
 
 	/**

@@ -22,6 +22,7 @@ import org.eclipse.emf.eef.runtime.policies.EditingPolicyWithProcessor;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -29,10 +30,18 @@ import org.eclipse.emf.eef.runtime.services.DefaultService;
  */
 public class PropertiesEditingPolicyProviderImpl implements PropertiesEditingPolicyProvider, DefaultService {
 
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private EditingPolicyRequestFactoryProvider editingPolicyRequestFactoryProvider;
 	private EditingPolicyProcessorProvider editingPolicyProcessorProvider;
 	
 	private PropertiesEditingPolicy nullEditingPolicy;
+
+	/**
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 */
+	public final void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
+	}
 
 	/**
 	 * @param editingPolicyRequestFactoryProvider the editingPolicyRequestFactoryProvider to set
@@ -65,7 +74,7 @@ public class PropertiesEditingPolicyProviderImpl implements PropertiesEditingPol
 		if (!(requestFactory instanceof NullEditingPolicyRequestFactory)) {
 			EditingPolicyProcessor processor = editingPolicyProcessorProvider.getProcessor(context);
 			if (!(processor instanceof NullEditingPolicyProcessor)) {
-				return new EditingPolicyWithProcessor(requestFactory.createProcessing(context), processor);
+				return new EditingPolicyWithProcessor(eefEditingServiceProvider, requestFactory.createProcessing(context), processor);
 			}
 		}
 		return getNullEditingPolicy();

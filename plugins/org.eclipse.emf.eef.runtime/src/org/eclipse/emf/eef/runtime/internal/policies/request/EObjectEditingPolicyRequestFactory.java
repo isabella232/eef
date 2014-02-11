@@ -13,8 +13,6 @@ package org.eclipse.emf.eef.runtime.internal.policies.request;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.TargetedEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
@@ -42,15 +40,12 @@ public class EObjectEditingPolicyRequestFactory implements EditingPolicyRequestF
 	public EditingPolicyRequest createProcessing(SemanticPropertiesEditingContext editingContext) {
 		EditingPolicyRequest.Builder requestBuilder = new EditingPolicyRequest.Builder();
 		PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContext) editingContext).getEditingEvent();
-		EClassBinding binding = editingContext.getEditingComponent().getBinding();
-		PropertyBinding propertyBinding = binding.propertyBinding(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
 		EObject editedObject;
 		if (editingEvent instanceof TargetedEditingEvent) {
 			editedObject = ((TargetedEditingEvent) editingEvent).getTarget();
 		} else {
 			editedObject = (EObject)editingContext.getEditingComponent().getEObject();
 		}
-		if (propertyBinding != null) {
 			requestBuilder.setEditingContext(editingContext);
 			requestBuilder.setTarget(editedObject);
 			switch (editingEvent.getEventType()) {
@@ -91,7 +86,6 @@ public class EObjectEditingPolicyRequestFactory implements EditingPolicyRequestF
 				requestBuilder.setValue(editingEvent.getNewValue());
 				break;
 			}
-		}
 		return requestBuilder.build();
 	}
 

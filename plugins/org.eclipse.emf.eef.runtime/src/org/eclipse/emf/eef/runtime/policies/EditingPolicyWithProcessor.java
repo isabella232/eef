@@ -20,10 +20,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.TargetedEditingEvent;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 
 
@@ -33,6 +32,7 @@ import org.eclipse.emf.eef.runtime.util.EMFService;
  */
 public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 	
+	private final EEFEditingServiceProvider eefEditingServiceProvider;
 	private final EditingPolicyRequest request;
 	private final EditingPolicyProcessor processor;
 
@@ -40,7 +40,8 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 	 * @param request
 	 * @param processor
 	 */
-	public EditingPolicyWithProcessor(EditingPolicyRequest request, EditingPolicyProcessor processor) {
+	public EditingPolicyWithProcessor(EEFEditingServiceProvider eefEditingServiceProvider, EditingPolicyRequest request, EditingPolicyProcessor processor) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.request = request;
 		this.processor = processor;
 	}
@@ -57,29 +58,24 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 		} else {
 			eObject = editingContext.getEditingComponent().getEObject();
 		}
-		PropertyBinding propertyBinding = editingContext.getEditingComponent().getBinding().propertyBinding(editingEvent.getAffectedEditor(), editingContext.getOptions().autowire());
-		if (propertyBinding instanceof EStructuralFeatureBinding) {
-			EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
-			if (feature != null) {
-				if (!eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
-					EMFService emfService = editingContext.getEMFServiceProvider().getEMFService(eObject.eClass().getEPackage());
-					feature = emfService.mapFeature(eObject, feature);
-				}
-				if (eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
-					boolean validationResult = false;
-					Object currentValue = eObject.eGet(feature);
-					if (feature instanceof EAttribute) {
-						validationResult = validateAttributeEditing(editingEvent, feature, currentValue);
-					} else if (feature instanceof EReference) {
-						validationResult = validateReferenceEditing(editingEvent, eObject, feature, currentValue);
-					}
-					return new EditingPolicyValidation(this, validationResult);
-				}
+		EStructuralFeature feature = eefEditingServiceProvider.getEditingService(eObject).featureFromEditor(editingContext, editingEvent.getAffectedEditor());
+		if (feature != null) {
+			if (!eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
+				EMFService emfService = editingContext.getEMFServiceProvider().getEMFService(eObject.eClass().getEPackage());
+				feature = emfService.mapFeature(eObject, feature);
 			}
-			return new EditingPolicyValidation(this, false, "The feature doesn't seem to affected the edited element.");
-		} else {
-			return new EditingPolicyValidation(this, true, "No structural feature specified, unable to validate the value.");
+			if (eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
+				boolean validationResult = false;
+				Object currentValue = eObject.eGet(feature);
+				if (feature instanceof EAttribute) {
+					validationResult = validateAttributeEditing(editingEvent, feature, currentValue);
+				} else if (feature instanceof EReference) {
+					validationResult = validateReferenceEditing(editingEvent, eObject, feature, currentValue);
+				}
+				return new EditingPolicyValidation(this, validationResult);
+			}
 		}
+		return new EditingPolicyValidation(this, false, "The feature doesn't seem to affected the edited element.");
 	}
 
 	/**
