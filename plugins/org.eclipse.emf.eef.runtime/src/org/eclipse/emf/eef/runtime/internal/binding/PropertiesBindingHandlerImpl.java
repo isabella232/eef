@@ -272,7 +272,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 		if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
 			EObject source = editingComponent.getEObject();
 			EMFService service = emfServiceProvider.getEMFService(source.eClass().getEPackage());
-			EStructuralFeature structuralFeature = service.mapFeature(source, (EStructuralFeature) msg.getFeature());
+			EStructuralFeature structuralFeature = service.mapFeature(source.eClass(), (EStructuralFeature) msg.getFeature());
 			EClassBinding binding = editingModel.binding(source);
 			Object propertyEditor = binding.propertyEditor(source, structuralFeature, editingComponent.getEditingContext().getOptions().autowire());
 			for (Object view : editingComponent.getViews()) {

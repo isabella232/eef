@@ -90,7 +90,7 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 			}
 		}
 		if (associatedFeature != null && !editedObject.eClass().getEAllStructuralFeatures().contains(associatedFeature)) {
-			associatedFeature = emfServiceProvider.getEMFService(editedObject.eClass().getEPackage()).mapFeature(editedObject, associatedFeature);
+			associatedFeature = emfServiceProvider.getEMFService(editedObject.eClass().getEPackage()).mapFeature(editedObject.eClass(), associatedFeature);
 		}
 		return associatedFeature;
 	}
@@ -139,7 +139,7 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 			if (propertyBinding instanceof EStructuralFeatureBinding) {
 				EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
 				if (!target.eClass().getEAllStructuralFeatures().contains(feature)) {
-					feature = emfServiceProvider.getEMFService(target.eClass().getEPackage()).mapFeature(target, feature);
+					feature = emfServiceProvider.getEMFService(target.eClass().getEPackage()).mapFeature(target.eClass(), feature);
 				}
 				return target.eGet(feature);
 			}

@@ -62,7 +62,7 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 		if (feature != null) {
 			if (!eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
 				EMFService emfService = editingContext.getEMFServiceProvider().getEMFService(eObject.eClass().getEPackage());
-				feature = emfService.mapFeature(eObject, feature);
+				feature = emfService.mapFeature(eObject.eClass(), feature);
 			}
 			if (eObject.eClass().getEAllStructuralFeatures().contains(feature)) {
 				boolean validationResult = false;

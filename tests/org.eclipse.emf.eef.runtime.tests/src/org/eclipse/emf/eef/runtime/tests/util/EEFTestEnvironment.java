@@ -697,6 +697,7 @@ public class EEFTestEnvironment {
 		public Collection<EEFServiceDescriptor<ViewService>> createViewServices() {
 			Collection<EEFServiceDescriptor<ViewService>> result = new ArrayList<EEFServiceDescriptor<ViewService>>();
 			PlatformAwareViewServiceImpl viewService = new PlatformAwareViewServiceImpl();
+			viewService.setEMFServiceProvider(getEMFServiceProvider());
 			viewService.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
 			result.add(new EEFServiceDescriptor<ViewService>("viewservice.default", viewService));
 			return result;

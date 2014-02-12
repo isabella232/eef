@@ -77,14 +77,14 @@ public interface EMFService extends EEFService<EPackage> {
 	/**
 	 * Try to find a corresponding feature on the given EObject
 	 * 
-	 * @param editedObject
-	 *            {@link EObject} to process.
+	 * @param source
+	 *            {@link EClass} to process.
 	 * @param feature
 	 *            {@link EStructuralFeature} feature to map.
 	 * @return the corresponding feature if founded, <code>null</code>
 	 *         otherwise.
 	 */
-	EStructuralFeature mapFeature(EObject editedObject, EStructuralFeature feature);
+	EStructuralFeature mapFeature(EClass source, EStructuralFeature feature);
 
 	/**
 	 * Returns the highest notifier accessible from the given EObject. The

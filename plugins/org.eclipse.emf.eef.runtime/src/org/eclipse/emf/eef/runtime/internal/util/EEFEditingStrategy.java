@@ -74,7 +74,7 @@ public abstract class EEFEditingStrategy<T> {
 			} else if (propertyBinding instanceof EStructuralFeatureBinding) {
 				EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
 				if (!editedObject.eClass().getEAllStructuralFeatures().contains(feature)) {
-					EStructuralFeature mappedFeature = emfService.mapFeature(editedObject, feature);
+					EStructuralFeature mappedFeature = emfService.mapFeature(editedObject.eClass(), feature);
 					return processByFeature(mappedFeature);
 				} else {
 					return processByFeature(feature);

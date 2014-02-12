@@ -21,11 +21,13 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.ui.util.ViewService;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
 
@@ -34,8 +36,16 @@ import org.eclipse.emf.eef.views.View;
  */
 public abstract class ViewServiceImpl implements ViewService {
 	
+	protected EMFServiceProvider emfServiceProvider;
 	protected EEFEditingServiceProvider eefEditingServiceProvider;
 	
+	/**
+	 * @param emfServiceProvider the emfServiceProvider to set
+	 */
+	public final void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
+
 	/**
 	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
 	 */
@@ -79,11 +89,15 @@ public abstract class ViewServiceImpl implements ViewService {
 	 * @see org.eclipse.emf.eef.runtime.ui.util.ViewService#getHelpContent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
 	 */
 	public final String getHelpContent(PropertiesEditingComponent editingComponent, Object editor) {
-		if (!eefEditingServiceProvider.getEditingService(editingComponent.getBinding()).isReflectiveBinding(editingComponent.getBinding())) {
+		EClassBinding binding = editingComponent.getBinding();
+		if (!eefEditingServiceProvider.getEditingService(binding).isReflectiveBinding(binding)) {
 			EStructuralFeature feature = eefEditingServiceProvider.getEditingService(editingComponent.getEObject()).featureFromEditor(editingComponent.getEditingContext(), editor);
 			if (feature != null) {
-				EditingOptions options = editingComponent.getBinding().getEditingModel().getOptions();
+				EditingOptions options = binding.getEditingModel().getOptions();
 				if (options == null || options.getFeatureDocumentationProvider() == FeatureDocumentationProvider.GENMODEL_PROPERTY_DESCRIPTION) {
+					if (!binding.getEClass().getEAllStructuralFeatures().contains(feature)) {
+						feature = emfServiceProvider.getEMFService(editingComponent.getEObject().eClass().getEPackage()).mapFeature(binding.getEClass(), feature);
+					}
 					EditingModelEnvironment editingModelEnvironment = editingComponent.getBindingSettings().getEditingModelEnvironment();
 					EObject genFeature = editingModelEnvironment.genFeature(feature);
 					if (genFeature != null) {

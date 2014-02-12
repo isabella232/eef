@@ -133,25 +133,21 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#mapFeature(org.eclipse.emf.ecore.EObject,
-	 *      org.eclipse.emf.ecore.EStructuralFeature)
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#mapFeature(org.eclipse.emf.ecore.EClass, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
-	public EStructuralFeature mapFeature(final EObject editedObject, final EStructuralFeature feature) {
+	public EStructuralFeature mapFeature(final EClass source, final EStructuralFeature feature) {
 		if (feature != null) {
-			if (editedObject.eClass().getEAllStructuralFeatures().contains(feature)) {
+			if (source.getEAllStructuralFeatures().contains(feature)) {
 				// If the EObject contains the feature then we return this
 				// feature
 				return feature;
 			} else {
-				if (feature.eResource().getURI().isPlatform() && !editedObject.eClass().eResource().getURI().isPlatform()) {
-					// This is a case managed by this helper: the editingModel
-					// refers to the Ecore file and the EObject is created
-					// frome the registered metamodel
-					for (EStructuralFeature srcFeature : editedObject.eClass().getEAllStructuralFeatures()) {
-						if (srcFeature.getName().equals(feature.getName())) {
-							return srcFeature;
-						}
+				// This is a case managed by this helper: the editingModel
+				// refers to the Ecore file and the EObject is created
+				// from the registered metamodel
+				for (EStructuralFeature srcFeature : source.getEAllStructuralFeatures()) {
+					if (srcFeature.getName().equals(feature.getName())) {
+						return srcFeature;
 					}
 				}
 			}

@@ -31,8 +31,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
+import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -116,19 +116,19 @@ public class GenericBindingSettingsWithGenModelTestCase extends AbstractGenericB
 		assertEquals("4 property binding", 4, classBinding.getPropertyBindings().size());
 
 		// test attribute 1 : text
-		PropertyBinding propertyBinding1 = classBinding.getPropertyBindings().get(0);
+		EStructuralFeatureBinding propertyBinding1 = (EStructuralFeatureBinding)classBinding.getPropertyBindings().get(0);
 		checkPropertyBinding(propertyBinding1, eAttribute1_String, GenericBindingSettings.TEXT_WIDGET_NAME, false, GenericBindingSettingsUtil.CLASS1);
 
 		// test attribute 2 : text area
-		propertyBinding1 = classBinding.getPropertyBindings().get(1);
+		propertyBinding1 = (EStructuralFeatureBinding) classBinding.getPropertyBindings().get(1);
 		checkPropertyBinding(propertyBinding1, eAttribute2_StringMultiLine, GenericBindingSettings.TEXTAREA_WIDGET_NAME, false, GenericBindingSettingsUtil.CLASS1);
 
 		// test attribute 3 : enum
-		propertyBinding1 = classBinding.getPropertyBindings().get(2);
+		propertyBinding1 = (EStructuralFeatureBinding) classBinding.getPropertyBindings().get(2);
 		checkPropertyBinding(propertyBinding1, eAttribute3_EnumMultiLine, GenericBindingSettings.COMBO_WIDGET_NAME, false, GenericBindingSettingsUtil.CLASS1);
 
 		// test reference : ref
-		propertyBinding1 = classBinding.getPropertyBindings().get(3);
+		propertyBinding1 = (EStructuralFeatureBinding) classBinding.getPropertyBindings().get(3);
 		checkPropertyBinding(propertyBinding1, eReference_MultiLine, GenericBindingSettings.ECOMBO_EDITOR_WIDGET_NAME, false, GenericBindingSettingsUtil.CLASS1);
 
 	}
@@ -153,11 +153,11 @@ public class GenericBindingSettingsWithGenModelTestCase extends AbstractGenericB
 		assertEquals("2 property binding", 2, classBinding.getPropertyBindings().size());
 
 		// test attribute 2 : textarea read only
-		PropertyBinding propertyBinding1 = classBinding.getPropertyBindings().get(0);
+		EStructuralFeatureBinding propertyBinding1 = (EStructuralFeatureBinding) classBinding.getPropertyBindings().get(0);
 		checkPropertyBinding(propertyBinding1, eAttribute2_StringMultiLine, GenericBindingSettings.TEXTAREA_WIDGET_NAME, true, GenericBindingSettingsUtil.CLASS1);
 
 		// test attribute 3 : enum
-		propertyBinding1 = classBinding.getPropertyBindings().get(1);
+		propertyBinding1 = (EStructuralFeatureBinding) classBinding.getPropertyBindings().get(1);
 		checkPropertyBinding(propertyBinding1, eAttribute3_EnumMultiLine, GenericBindingSettings.COMBO_WIDGET_NAME, true, GenericBindingSettingsUtil.CLASS1);
 
 	}
@@ -182,19 +182,19 @@ public class GenericBindingSettingsWithGenModelTestCase extends AbstractGenericB
 		assertEquals("4 property binding", 4, classBinding.getPropertyBindings().size());
 
 		// test attribute 1 : text
-		PropertyBinding propertyBinding1 = classBinding.getPropertyBindings().get(0);
+		EStructuralFeatureBinding propertyBinding1 = (EStructuralFeatureBinding) classBinding.getPropertyBindings().get(0);
 		checkPropertyBinding(propertyBinding1, eAttribute1_String, GenericBindingSettings.TEXT_WIDGET_NAME, false, category1);
 
 		// test attribute 2 : text area
-		propertyBinding1 = classBinding.getPropertyBindings().get(1);
+		propertyBinding1 = (EStructuralFeatureBinding) classBinding.getPropertyBindings().get(1);
 		checkPropertyBinding(propertyBinding1, eAttribute2_StringMultiLine, GenericBindingSettings.TEXTAREA_WIDGET_NAME, true, GenericBindingSettingsUtil.CLASS1);
 
 		// test attribute 3 : enum
-		propertyBinding1 = classBinding.getPropertyBindings().get(2);
+		propertyBinding1 = (EStructuralFeatureBinding) classBinding.getPropertyBindings().get(2);
 		checkPropertyBinding(propertyBinding1, eAttribute3_EnumMultiLine, GenericBindingSettings.COMBO_WIDGET_NAME, true, category2);
 
 		// test reference : ref
-		propertyBinding1 = classBinding.getPropertyBindings().get(3);
+		propertyBinding1 = (EStructuralFeatureBinding) classBinding.getPropertyBindings().get(3);
 		checkPropertyBinding(propertyBinding1, eReference_MultiLine, GenericBindingSettings.ECOMBO_EDITOR_WIDGET_NAME, false, category1);
 
 	}
@@ -205,7 +205,7 @@ public class GenericBindingSettingsWithGenModelTestCase extends AbstractGenericB
 	 * @param textWidgetName
 	 * @param category
 	 */
-	public void checkPropertyBinding(PropertyBinding propertyBinding1, EStructuralFeature eStructuralFeature, String textWidgetName, boolean isReadOnly, String category) {
+	public void checkPropertyBinding(EStructuralFeatureBinding propertyBinding1, EStructuralFeature eStructuralFeature, String textWidgetName, boolean isReadOnly, String category) {
 		assertEquals("Bad feature", eStructuralFeature, propertyBinding1.getFeature());
 
 		// test property binding editor
