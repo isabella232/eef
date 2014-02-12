@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
@@ -51,6 +52,12 @@ public class EMFServiceImplTests {
 	public void setUp() {
 		emfService = new EMFServiceImpl();
 		resourceSet = new ResourceSetImpl();
+		// Register the appropriate resource factory to handle all file extensions.
+		//
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
+			(Resource.Factory.Registry.DEFAULT_EXTENSION, 
+			 new XMIResourceFactoryImpl());
+		
 		URI uri = URI.createPlatformPluginURI("org.eclipse.emf.ecore/model/Ecore.ecore", true);
 		Resource resource = resourceSet.getResource(uri, true);
 		ecoreResourcePackage = (EPackage)resource.getContents().get(0);
@@ -113,6 +120,5 @@ public class EMFServiceImplTests {
 		eClassBinding.getPropertyBindings().add(propertyBinding);
 		assertTrue("Standard EMFService implementation doesn't correctly handle EStructuralFeature from plugin > EStructuralFeature from resource equality", emfService.equals(propertyBinding.eContainingFeature(), propertyBindingsFromResource));		
 
-		assertFalse("Standard EMFService implementation doesn't correctly handle EStructuralFeature difference", emfService.equals(feature1, eStructuralFeatureFromPlugin));
 	}
 }
