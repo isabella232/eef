@@ -39,7 +39,7 @@ public interface Query<TYPE> extends EObject {
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	Body<TYPE> getBody();
+	Body getBody();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.query.Query#getBody <em>Body</em>}' containment reference.
@@ -49,6 +49,6 @@ public interface Query<TYPE> extends EObject {
 	 * @see #getBody()
 	 * @generated
 	 */
-	void setBody(Body<TYPE> value);
+	void setBody(Body value);
 
 } // Query

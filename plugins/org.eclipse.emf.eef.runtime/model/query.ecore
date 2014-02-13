@@ -5,32 +5,16 @@
     nsURI="http://www.eclipse.org/emf/eef/query/1.0" nsPrefix="eef-query">
   <eClassifiers xsi:type="ecore:EClass" name="Query" abstract="true">
     <eTypeParameters name="TYPE"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" containment="true">
-      <eGenericType eClassifier="#//Body">
-        <eTypeArguments eTypeParameter="#//Query/TYPE"/>
-      </eGenericType>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//Body"
+        containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Body" abstract="true">
-    <eTypeParameters name="TYPE"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="JavaBody">
-    <eTypeParameters name="TYPE"/>
-    <eOperations name="invoke" lowerBound="1">
-      <eGenericType eTypeParameter="#//JavaBody/TYPE"/>
-      <eParameters name="loader" lowerBound="1" eType="#//ClassLoader"/>
-      <eParameters name="target" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
-      <eParameters name="parameters" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
-    </eOperations>
+  <eClassifiers xsi:type="ecore:EClass" name="Body" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaBody" eSuperTypes="#//Body">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="bundle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualifiedClass" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="method" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="static" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eGenericSuperTypes eClassifier="#//Body">
-      <eTypeArguments eTypeParameter="#//JavaBody/TYPE"/>
-    </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Filter" abstract="true">
     <eGenericSuperTypes eClassifier="#//Query">

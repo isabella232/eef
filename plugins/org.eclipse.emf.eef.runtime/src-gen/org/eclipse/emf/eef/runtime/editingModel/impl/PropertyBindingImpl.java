@@ -10,10 +10,8 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EModelElementImpl;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -81,7 +79,7 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 	 * @generated
 	 * @ordered
 	 */
-	protected JavaBody<Object> getter;
+	protected JavaBody getter;
 
 	/**
 	 * The cached value of the '{@link #getValueProvider() <em>Value Provider</em>}' containment reference.
@@ -91,7 +89,7 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 	 * @generated
 	 * @ordered
 	 */
-	protected JavaBody<EList<Object>> valueProvider;
+	protected JavaBody valueProvider;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -184,7 +182,7 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JavaBody<Object> getGetter() {
+	public JavaBody getGetter() {
 		return getter;
 	}
 
@@ -193,8 +191,8 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetGetter(JavaBody<Object> newGetter, NotificationChain msgs) {
-		JavaBody<Object> oldGetter = getter;
+	public NotificationChain basicSetGetter(JavaBody newGetter, NotificationChain msgs) {
+		JavaBody oldGetter = getter;
 		getter = newGetter;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTY_BINDING__GETTER, oldGetter, newGetter);
@@ -208,7 +206,7 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setGetter(JavaBody<Object> newGetter) {
+	public void setGetter(JavaBody newGetter) {
 		if (newGetter != getter) {
 			NotificationChain msgs = null;
 			if (getter != null)
@@ -227,7 +225,7 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JavaBody<EList<Object>> getValueProvider() {
+	public JavaBody getValueProvider() {
 		return valueProvider;
 	}
 
@@ -236,8 +234,8 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetValueProvider(JavaBody<EList<Object>> newValueProvider, NotificationChain msgs) {
-		JavaBody<EList<Object>> oldValueProvider = valueProvider;
+	public NotificationChain basicSetValueProvider(JavaBody newValueProvider, NotificationChain msgs) {
+		JavaBody oldValueProvider = valueProvider;
 		valueProvider = newValueProvider;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER, oldValueProvider, newValueProvider);
@@ -251,7 +249,7 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValueProvider(JavaBody<EList<Object>> newValueProvider) {
+	public void setValueProvider(JavaBody newValueProvider) {
 		if (newValueProvider != valueProvider) {
 			NotificationChain msgs = null;
 			if (valueProvider != null)
@@ -263,30 +261,6 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER, newValueProvider, newValueProvider));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public Object getValue(ClassLoader loader, EObject target) {
-		if (getGetter() != null) {
-			return getGetter().invoke(loader, target, new BasicEList<Object>());
-		}
-		return null;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public EList<Object> getChoiceOfValue(ClassLoader loader, EObject target) {
-		if (getValueProvider() != null) {
-			return getValueProvider().invoke(loader, target, new BasicEList<Object>());
-		}
-		return new BasicEList<Object>();
 	}
 
 	/**
@@ -354,10 +328,10 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 				getSettings().addAll((Collection<? extends EditorSettings>)newValue);
 				return;
 			case EditingModelPackage.PROPERTY_BINDING__GETTER:
-				setGetter((JavaBody<Object>)newValue);
+				setGetter((JavaBody)newValue);
 				return;
 			case EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER:
-				setValueProvider((JavaBody<EList<Object>>)newValue);
+				setValueProvider((JavaBody)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -381,10 +355,10 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 				getSettings().clear();
 				return;
 			case EditingModelPackage.PROPERTY_BINDING__GETTER:
-				setGetter((JavaBody<Object>)null);
+				setGetter((JavaBody)null);
 				return;
 			case EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER:
-				setValueProvider((JavaBody<EList<Object>>)null);
+				setValueProvider((JavaBody)null);
 				return;
 		}
 		super.eUnset(featureID);

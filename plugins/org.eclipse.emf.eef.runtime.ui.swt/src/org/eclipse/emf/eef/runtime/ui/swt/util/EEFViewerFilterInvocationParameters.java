@@ -8,22 +8,25 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.samples.conference.accessors;
+package org.eclipse.emf.eef.runtime.ui.swt.util;
 
+import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.util.EEFInvocationParameters;
-import org.eclipse.emf.samples.conference.Conference;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ConferenceAccessor {
+public interface EEFViewerFilterInvocationParameters extends EEFInvocationParameters {
+	
+	/**
+	 * @return the current editing view.
+	 */
+	PropertiesEditingView<?> getEditingView();
+	
+	/**
+	 * @return the element to test.
+	 */
+	Object getElement();
 
-	public String getConferenceName(EEFInvocationParameters parameters) {
-		StringBuilder builder = new StringBuilder("Conference: ");
-		builder.append(((Conference)parameters.getEditedObject()).getName());
-		return builder.toString();
-	}
-	
-	
 }

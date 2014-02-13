@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.util.EEFInvoker">
+   <implementation class="org.eclipse.emf.eef.runtime.internal.util.EEFInvokerImpl"/>
+   <service>
+      <provide interface="org.eclipse.emf.eef.runtime.util.EEFInvoker"/>
+   </service>
+   <reference bind="setEEFLogger" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.logging.EEFLogger" name="EEFLogger" policy="static"/>
+</scr:component>

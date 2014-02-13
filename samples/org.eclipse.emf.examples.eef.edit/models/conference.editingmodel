@@ -7,52 +7,53 @@
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.2"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.0"/>
+        <getter qualifiedClass="org.eclipse.emf.samples.conference.accessors.ConferenceAccessor" method="getConferenceName"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/name"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/overview"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.1"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/overview"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/venues"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.1/@elements.0"/>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/venues"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/participants"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0"/>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/participants"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/sessions"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0"/>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/sessions"/>
       </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.3"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.0/@elements.0"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/name"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/getToTheVenue"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.0/@elements.1"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/getToTheVenue"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/rooms"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.1/@elements.0"/>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/rooms"/>
       </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Room"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.4"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Room/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.4/@elements.0/@elements.0"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Room/name"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Room/capacity"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.4/@elements.0/@elements.1"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Room/capacity"/>
       </propertyBindings>
     </bindings>
     <bindings>
@@ -60,88 +61,88 @@
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.5"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.6"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/firstname"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.0"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/firstname"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/lastname"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.1"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/lastname"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/gender"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.2"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/gender"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/jobTitle"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.3"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/jobTitle"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/bio"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.1/@elements.0"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/bio"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/isRegistered"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.6/@elements.0/@elements.0"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/isRegistered"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/attending"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.6/@elements.1/@elements.0"/>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/attending"/>
       </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.7"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/title"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.0"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/title"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/type"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.1"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/type"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/speakers"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.2"/>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/speakers"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/description"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.0"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/description"/>
       </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.8"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/session"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.0"/>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/session"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/room"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.1"/>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/room"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/date"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.2"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/date"/>
       </propertyBindings>
     </bindings>
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Schedule"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.9"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Schedule/sessions"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0"/>
         <subPropertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-          <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/session"/>
           <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0/@subElementEditors.0"/>
+          <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/session"/>
         </subPropertyBindings>
         <subPropertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-          <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/room"/>
           <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0/@subElementEditors.1"/>
+          <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/room"/>
         </subPropertyBindings>
         <subPropertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-          <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/date"/>
           <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0/@subElementEditors.2"/>
+          <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/date"/>
         </subPropertyBindings>
+        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Schedule/sessions"/>
       </propertyBindings>
     </bindings>
     <involvedModels href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#/"/>

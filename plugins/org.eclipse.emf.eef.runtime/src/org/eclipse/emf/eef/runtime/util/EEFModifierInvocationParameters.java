@@ -8,22 +8,17 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.samples.conference.accessors;
-
-import org.eclipse.emf.eef.runtime.util.EEFInvocationParameters;
-import org.eclipse.emf.samples.conference.Conference;
+package org.eclipse.emf.eef.runtime.util;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ConferenceAccessor {
+public interface EEFModifierInvocationParameters extends EEFInvocationParameters {
+	
+	/**
+	 * @return the value of the modification.
+	 */
+	Object getValue();
 
-	public String getConferenceName(EEFInvocationParameters parameters) {
-		StringBuilder builder = new StringBuilder("Conference: ");
-		builder.append(((Conference)parameters.getEditedObject()).getName());
-		return builder.toString();
-	}
-	
-	
 }

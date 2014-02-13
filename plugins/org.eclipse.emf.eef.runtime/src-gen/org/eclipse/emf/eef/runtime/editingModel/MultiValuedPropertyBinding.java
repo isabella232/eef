@@ -6,7 +6,6 @@
  */
 package org.eclipse.emf.eef.runtime.editingModel;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
 
 /**
@@ -38,10 +37,10 @@ public interface MultiValuedPropertyBinding extends PropertyBinding {
 	 * @return the value of the '<em>Adder</em>' containment reference.
 	 * @see #setAdder(JavaBody)
 	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getMultiValuedPropertyBinding_Adder()
-	 * @model type="org.eclipse.emf.eef.runtime.query.JavaBody<org.eclipse.emf.eef.runtime.editingModel.Void>" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	JavaBody<Void> getAdder();
+	JavaBody getAdder();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding#getAdder <em>Adder</em>}' containment reference.
@@ -51,7 +50,7 @@ public interface MultiValuedPropertyBinding extends PropertyBinding {
 	 * @see #getAdder()
 	 * @generated
 	 */
-	void setAdder(JavaBody<Void> value);
+	void setAdder(JavaBody value);
 
 	/**
 	 * Returns the value of the '<em><b>Remover</b></em>' containment reference.
@@ -64,10 +63,10 @@ public interface MultiValuedPropertyBinding extends PropertyBinding {
 	 * @return the value of the '<em>Remover</em>' containment reference.
 	 * @see #setRemover(JavaBody)
 	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getMultiValuedPropertyBinding_Remover()
-	 * @model type="org.eclipse.emf.eef.runtime.query.JavaBody<org.eclipse.emf.eef.runtime.editingModel.Void>" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	JavaBody<Void> getRemover();
+	JavaBody getRemover();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding#getRemover <em>Remover</em>}' containment reference.
@@ -77,22 +76,6 @@ public interface MultiValuedPropertyBinding extends PropertyBinding {
 	 * @see #getRemover()
 	 * @generated
 	 */
-	void setRemover(JavaBody<Void> value);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model dataType="org.eclipse.emf.eef.runtime.editingModel.Void" required="true" loaderDataType="org.eclipse.emf.eef.runtime.query.ClassLoader" loaderRequired="true" targetRequired="true"
-	 * @generated
-	 */
-	Void addValue(ClassLoader loader, EObject target, Object value);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model dataType="org.eclipse.emf.eef.runtime.editingModel.Void" required="true" loaderDataType="org.eclipse.emf.eef.runtime.query.ClassLoader" loaderRequired="true" targetRequired="true"
-	 * @generated
-	 */
-	Void removeValue(ClassLoader loader, EObject target, Object value);
+	void setRemover(JavaBody value);
 
 } // MultiValuedPropertyBinding

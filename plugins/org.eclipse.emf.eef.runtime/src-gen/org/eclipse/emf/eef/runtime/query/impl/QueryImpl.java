@@ -38,7 +38,7 @@ public abstract class QueryImpl<TYPE> extends EObjectImpl implements Query<TYPE>
 	 * @generated
 	 * @ordered
 	 */
-	protected Body<TYPE> body;
+	protected Body body;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -64,7 +64,7 @@ public abstract class QueryImpl<TYPE> extends EObjectImpl implements Query<TYPE>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Body<TYPE> getBody() {
+	public Body getBody() {
 		return body;
 	}
 
@@ -73,8 +73,8 @@ public abstract class QueryImpl<TYPE> extends EObjectImpl implements Query<TYPE>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetBody(Body<TYPE> newBody, NotificationChain msgs) {
-		Body<TYPE> oldBody = body;
+	public NotificationChain basicSetBody(Body newBody, NotificationChain msgs) {
+		Body oldBody = body;
 		body = newBody;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, QueryPackage.QUERY__BODY, oldBody, newBody);
@@ -88,7 +88,7 @@ public abstract class QueryImpl<TYPE> extends EObjectImpl implements Query<TYPE>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBody(Body<TYPE> newBody) {
+	public void setBody(Body newBody) {
 		if (newBody != body) {
 			NotificationChain msgs = null;
 			if (body != null)
@@ -135,12 +135,11 @@ public abstract class QueryImpl<TYPE> extends EObjectImpl implements Query<TYPE>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case QueryPackage.QUERY__BODY:
-				setBody((Body<TYPE>)newValue);
+				setBody((Body)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -155,7 +154,7 @@ public abstract class QueryImpl<TYPE> extends EObjectImpl implements Query<TYPE>
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case QueryPackage.QUERY__BODY:
-				setBody((Body<TYPE>)null);
+				setBody((Body)null);
 				return;
 		}
 		super.eUnset(featureID);

@@ -20,7 +20,7 @@ import org.eclipse.emf.eef.runtime.query.QueryPackage;
  *
  * @generated
  */
-public abstract class BodyImpl<TYPE> extends EObjectImpl implements Body<TYPE> {
+public abstract class BodyImpl extends EObjectImpl implements Body {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

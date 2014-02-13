@@ -103,8 +103,8 @@ public class QueryFactoryImpl extends EFactoryImpl implements QueryFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public <TYPE> JavaBody<TYPE> createJavaBody() {
-		JavaBodyImpl<TYPE> javaBody = new JavaBodyImpl<TYPE>();
+	public JavaBody createJavaBody() {
+		JavaBodyImpl javaBody = new JavaBodyImpl();
 		return javaBody;
 	}
 

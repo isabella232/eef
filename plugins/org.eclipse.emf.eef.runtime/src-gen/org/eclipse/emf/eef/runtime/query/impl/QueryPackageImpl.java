@@ -10,10 +10,8 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EGenericType;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.eef.runtime.query.Body;
 import org.eclipse.emf.eef.runtime.query.Filter;
@@ -201,15 +199,6 @@ public class QueryPackageImpl extends EPackageImpl implements QueryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJavaBody_Static() {
-		return (EAttribute)javaBodyEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getFilter() {
 		return filterEClass;
 	}
@@ -269,7 +258,6 @@ public class QueryPackageImpl extends EPackageImpl implements QueryPackage {
 		createEAttribute(javaBodyEClass, JAVA_BODY__BUNDLE);
 		createEAttribute(javaBodyEClass, JAVA_BODY__QUALIFIED_CLASS);
 		createEAttribute(javaBodyEClass, JAVA_BODY__METHOD);
-		createEAttribute(javaBodyEClass, JAVA_BODY__STATIC);
 
 		filterEClass = createEClass(FILTER);
 
@@ -303,19 +291,14 @@ public class QueryPackageImpl extends EPackageImpl implements QueryPackage {
 		setNsURI(eNS_URI);
 
 		// Create type parameters
-		ETypeParameter queryEClass_TYPE = addETypeParameter(queryEClass, "TYPE");
-		addETypeParameter(bodyEClass, "TYPE");
-		ETypeParameter javaBodyEClass_TYPE = addETypeParameter(javaBodyEClass, "TYPE");
+		addETypeParameter(queryEClass, "TYPE");
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		EGenericType g1 = createEGenericType(this.getBody());
-		EGenericType g2 = createEGenericType(javaBodyEClass_TYPE);
-		g1.getETypeArguments().add(g2);
-		javaBodyEClass.getEGenericSuperTypes().add(g1);
-		g1 = createEGenericType(this.getQuery());
-		g2 = createEGenericType(ecorePackage.getEBooleanObject());
+		javaBodyEClass.getESuperTypes().add(this.getBody());
+		EGenericType g1 = createEGenericType(this.getQuery());
+		EGenericType g2 = createEGenericType(ecorePackage.getEBooleanObject());
 		g1.getETypeArguments().add(g2);
 		filterEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(this.getQuery());
@@ -325,10 +308,7 @@ public class QueryPackageImpl extends EPackageImpl implements QueryPackage {
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(queryEClass, Query.class, "Query", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		g1 = createEGenericType(this.getBody());
-		g2 = createEGenericType(queryEClass_TYPE);
-		g1.getETypeArguments().add(g2);
-		initEReference(getQuery_Body(), g1, null, "body", null, 1, 1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getQuery_Body(), this.getBody(), null, "body", null, 1, 1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(bodyEClass, Body.class, "Body", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -336,14 +316,6 @@ public class QueryPackageImpl extends EPackageImpl implements QueryPackage {
 		initEAttribute(getJavaBody_Bundle(), ecorePackage.getEString(), "bundle", null, 0, 1, JavaBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJavaBody_QualifiedClass(), ecorePackage.getEString(), "qualifiedClass", null, 1, 1, JavaBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJavaBody_Method(), ecorePackage.getEString(), "method", null, 1, 1, JavaBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJavaBody_Static(), ecorePackage.getEBoolean(), "static", null, 0, 1, JavaBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		EOperation op = addEOperation(javaBodyEClass, null, "invoke", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEJavaObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEJavaObject(), "parameters", 0, -1, IS_UNIQUE, IS_ORDERED);
-		g1 = createEGenericType(javaBodyEClass_TYPE);
-		initEOperation(op, g1);
 
 		initEClass(filterEClass, Filter.class, "Filter", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

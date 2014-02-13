@@ -70,7 +70,7 @@ public abstract class EEFEditingStrategy<T> {
 		PropertyBinding propertyBinding = binding.propertyBinding(editor, autowire);
 		if (propertyBinding != null) {
 			if (accessorReference != null && propertyBinding.eGet(accessorReference) != null) {
-				return processByAccessor((JavaBody<Void>) propertyBinding.eGet(accessorReference));
+				return processByAccessor((JavaBody)propertyBinding.eGet(accessorReference));
 			} else if (propertyBinding instanceof EStructuralFeatureBinding) {
 				EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
 				if (!editedObject.eClass().getEAllStructuralFeatures().contains(feature)) {
@@ -110,7 +110,7 @@ public abstract class EEFEditingStrategy<T> {
 	 * @param accessor the accessor to use.
 	 * @return the editing strategy result. 
 	 */
-	protected abstract T processByAccessor(JavaBody<Void> accessor);
+	protected abstract T processByAccessor(JavaBody accessor);
 
 	/**
 	 * Describes the editing strategy via an {@link EStructuralFeature}.

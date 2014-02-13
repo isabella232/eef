@@ -6,7 +6,6 @@
  */
 package org.eclipse.emf.eef.runtime.editingModel;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
 
 /**
@@ -38,10 +37,10 @@ public interface MonoValuedPropertyBinding extends PropertyBinding {
 	 * @return the value of the '<em>Setter</em>' containment reference.
 	 * @see #setSetter(JavaBody)
 	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getMonoValuedPropertyBinding_Setter()
-	 * @model type="org.eclipse.emf.eef.runtime.query.JavaBody<org.eclipse.emf.eef.runtime.editingModel.Void>" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	JavaBody<Void> getSetter();
+	JavaBody getSetter();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding#getSetter <em>Setter</em>}' containment reference.
@@ -51,7 +50,7 @@ public interface MonoValuedPropertyBinding extends PropertyBinding {
 	 * @see #getSetter()
 	 * @generated
 	 */
-	void setSetter(JavaBody<Void> value);
+	void setSetter(JavaBody value);
 
 	/**
 	 * Returns the value of the '<em><b>Unsetter</b></em>' containment reference.
@@ -64,10 +63,10 @@ public interface MonoValuedPropertyBinding extends PropertyBinding {
 	 * @return the value of the '<em>Unsetter</em>' containment reference.
 	 * @see #setUnsetter(JavaBody)
 	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getMonoValuedPropertyBinding_Unsetter()
-	 * @model type="org.eclipse.emf.eef.runtime.query.JavaBody<org.eclipse.emf.eef.runtime.editingModel.Void>" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	JavaBody<Void> getUnsetter();
+	JavaBody getUnsetter();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding#getUnsetter <em>Unsetter</em>}' containment reference.
@@ -77,22 +76,6 @@ public interface MonoValuedPropertyBinding extends PropertyBinding {
 	 * @see #getUnsetter()
 	 * @generated
 	 */
-	void setUnsetter(JavaBody<Void> value);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model dataType="org.eclipse.emf.eef.runtime.editingModel.Void" required="true" loaderDataType="org.eclipse.emf.eef.runtime.query.ClassLoader" loaderRequired="true" targetRequired="true"
-	 * @generated
-	 */
-	Void setValue(ClassLoader loader, EObject target, Object value);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model dataType="org.eclipse.emf.eef.runtime.editingModel.Void" required="true" loaderDataType="org.eclipse.emf.eef.runtime.query.ClassLoader" loaderRequired="true" targetRequired="true"
-	 * @generated
-	 */
-	Void unsetValue(ClassLoader loader, EObject target, Object value);
+	void setUnsetter(JavaBody value);
 
 } // MonoValuedPropertyBinding

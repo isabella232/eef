@@ -42,76 +42,28 @@
   <eClassifiers xsi:type="ecore:EClass" name="View" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="Editor" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="PropertyBinding">
-    <eOperations name="getValue" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
-      <eParameters name="loader" lowerBound="1" eType="ecore:EDataType query.ecore#//ClassLoader"/>
-      <eParameters name="target" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-    </eOperations>
-    <eOperations name="getChoiceOfValue" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
-      <eParameters name="loader" lowerBound="1" eType="ecore:EDataType query.ecore#//ClassLoader"/>
-      <eParameters name="target" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="editor" lowerBound="1"
         eType="#//Editor" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subPropertyBindings" upperBound="-1"
         eType="#//PropertyBinding" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="settings" upperBound="-1"
         eType="#//EditorSettings" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="getter" containment="true">
-      <eGenericType eClassifier="ecore:EClass query.ecore#//JavaBody">
-        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
-      </eGenericType>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="valueProvider" containment="true">
-      <eGenericType eClassifier="ecore:EClass query.ecore#//JavaBody">
-        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
-          <eTypeArguments eClassifier="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
-        </eTypeArguments>
-      </eGenericType>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="getter" eType="ecore:EClass query.ecore#//JavaBody"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueProvider" eType="ecore:EClass query.ecore#//JavaBody"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MonoValuedPropertyBinding" eSuperTypes="#//PropertyBinding">
-    <eOperations name="setValue" lowerBound="1" eType="#//Void">
-      <eParameters name="loader" lowerBound="1" eType="ecore:EDataType query.ecore#//ClassLoader"/>
-      <eParameters name="target" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
-    </eOperations>
-    <eOperations name="unsetValue" lowerBound="1" eType="#//Void">
-      <eParameters name="loader" lowerBound="1" eType="ecore:EDataType query.ecore#//ClassLoader"/>
-      <eParameters name="target" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
-    </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="setter" containment="true">
-      <eGenericType eClassifier="ecore:EClass query.ecore#//JavaBody">
-        <eTypeArguments eClassifier="#//Void"/>
-      </eGenericType>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="unsetter" containment="true">
-      <eGenericType eClassifier="ecore:EClass query.ecore#//JavaBody">
-        <eTypeArguments eClassifier="#//Void"/>
-      </eGenericType>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="setter" eType="ecore:EClass query.ecore#//JavaBody"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unsetter" eType="ecore:EClass query.ecore#//JavaBody"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MultiValuedPropertyBinding" eSuperTypes="#//PropertyBinding">
-    <eOperations name="addValue" lowerBound="1" eType="#//Void">
-      <eParameters name="loader" lowerBound="1" eType="ecore:EDataType query.ecore#//ClassLoader"/>
-      <eParameters name="target" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
-    </eOperations>
-    <eOperations name="removeValue" lowerBound="1" eType="#//Void">
-      <eParameters name="loader" lowerBound="1" eType="ecore:EDataType query.ecore#//ClassLoader"/>
-      <eParameters name="target" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
-    </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="adder" containment="true">
-      <eGenericType eClassifier="ecore:EClass query.ecore#//JavaBody">
-        <eTypeArguments eClassifier="#//Void"/>
-      </eGenericType>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="remover" containment="true">
-      <eGenericType eClassifier="ecore:EClass query.ecore#//JavaBody">
-        <eTypeArguments eClassifier="#//Void"/>
-      </eGenericType>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adder" eType="ecore:EClass query.ecore#//JavaBody"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="remover" eType="ecore:EClass query.ecore#//JavaBody"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EStructuralFeatureBinding" eSuperTypes="#//MonoValuedPropertyBinding #//MultiValuedPropertyBinding">
     <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"

@@ -10,23 +10,14 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.internal.viewer.filters;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.List;
-
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.query.Filter;
-import org.eclipse.emf.eef.runtime.query.JavaBody;
-import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.util.EEFViewerFilterInvocationParametersImpl;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.util.ReflectService;
-import org.eclipse.emf.eef.runtime.util.ReflectServiceProvider;
+import org.eclipse.emf.eef.runtime.util.EEFInvokerProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.widgets.Composite;
-
-import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -34,17 +25,15 @@ import com.google.common.collect.Lists;
  */
 public class JavaViewerFilter extends ViewerFilter {
 	
-	private ReflectServiceProvider reflectServiceProvider;
-	private EEFLogger logger;
+	private EEFInvokerProvider eefInvokerProvider;
 	
 	private ClassLoader loader;
 	private Filter filter;
 	private PropertiesEditingContext editingContext;
 	private PropertiesEditingView<Composite> editingView;
 
-	public JavaViewerFilter(ReflectServiceProvider reflectServiceProvider, EEFLogger logger, PropertiesEditingContext editingContext, PropertiesEditingView<Composite> editingView, ClassLoader loader, Filter filter) {
-		this.reflectServiceProvider = reflectServiceProvider;
-		this.logger = logger;
+	public JavaViewerFilter(EEFInvokerProvider eefInvokerProvider, PropertiesEditingContext editingContext, PropertiesEditingView<Composite> editingView, ClassLoader loader, Filter filter) {
+		this.eefInvokerProvider = eefInvokerProvider;
 		this.editingContext = editingContext;
 		this.editingView = editingView;
 		this.loader = loader;
@@ -57,34 +46,9 @@ public class JavaViewerFilter extends ViewerFilter {
 	 */
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
-		JavaBody<Boolean> body = (JavaBody<Boolean>) filter.getBody();
-		String qualifiedClass = body.getQualifiedClass();
-		try {
-			Class<?> loadClass = loader.loadClass(qualifiedClass);
-			List<Object> applicableArguments = Lists.newArrayList();
-			applicableArguments.add(editingContext);
-			applicableArguments.add(editingContext.getEditingComponent());
-			applicableArguments.add(editingView);
-			applicableArguments.add(element);
-			ReflectService reflectService = reflectServiceProvider.getReflectService(loadClass);
-			Method method = reflectService.getApplicableMethod(loadClass, body.getMethod(), applicableArguments);
-			if (method != null) {
-				Object instance = body.isStatic()?null:loadClass.newInstance();
-				Boolean invocationResult = (Boolean) reflectService.invokeMethod(method, instance, applicableArguments);
-				return invocationResult;
-			}
-		} catch (ClassNotFoundException e) {
-			logger.logError(EEFRuntimeUISWT.PLUGIN_ID, "Unable to load the class " + qualifiedClass, e);
-			return true;
-		} catch (IllegalAccessException e) {
-			logger.logError(EEFRuntimeUISWT.PLUGIN_ID, "Unable to create a new instance of the class " + qualifiedClass, e);
-			return true;
-		} catch (InvocationTargetException e) {
-			logger.logError(EEFRuntimeUISWT.PLUGIN_ID, "Unable to execute the method " + body.getMethod() + " of the class " + qualifiedClass, e);
-			return true;
-		} catch (InstantiationException e) {
-			logger.logError(EEFRuntimeUISWT.PLUGIN_ID, "Unable to create a new instance of the class " + qualifiedClass, e);
-			return true;
+		Object invoke = eefInvokerProvider.getInvoker(filter.getBody()).invoke(loader, filter.getBody(), new EEFViewerFilterInvocationParametersImpl(editingContext, editingView, element));
+		if (invoke instanceof Boolean) {
+			return (Boolean) invoke;
 		}
 		return true;
 	}

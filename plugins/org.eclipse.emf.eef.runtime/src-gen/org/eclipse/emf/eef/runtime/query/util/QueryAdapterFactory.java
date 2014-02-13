@@ -78,11 +78,11 @@ public class QueryAdapterFactory extends AdapterFactoryImpl {
 				return createQueryAdapter();
 			}
 			@Override
-			public <TYPE> Adapter caseBody(Body<TYPE> object) {
+			public Adapter caseBody(Body object) {
 				return createBodyAdapter();
 			}
 			@Override
-			public <TYPE> Adapter caseJavaBody(JavaBody<TYPE> object) {
+			public Adapter caseJavaBody(JavaBody object) {
 				return createJavaBodyAdapter();
 			}
 			@Override

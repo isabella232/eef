@@ -41,7 +41,7 @@ public class EReferenceFilterImpl extends EModelElementImpl implements EReferenc
 	 * @generated
 	 * @ordered
 	 */
-	protected Body<Boolean> body;
+	protected Body body;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -67,7 +67,7 @@ public class EReferenceFilterImpl extends EModelElementImpl implements EReferenc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Body<Boolean> getBody() {
+	public Body getBody() {
 		return body;
 	}
 
@@ -76,8 +76,8 @@ public class EReferenceFilterImpl extends EModelElementImpl implements EReferenc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetBody(Body<Boolean> newBody, NotificationChain msgs) {
-		Body<Boolean> oldBody = body;
+	public NotificationChain basicSetBody(Body newBody, NotificationChain msgs) {
+		Body oldBody = body;
 		body = newBody;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.EREFERENCE_FILTER__BODY, oldBody, newBody);
@@ -91,7 +91,7 @@ public class EReferenceFilterImpl extends EModelElementImpl implements EReferenc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBody(Body<Boolean> newBody) {
+	public void setBody(Body newBody) {
 		if (newBody != body) {
 			NotificationChain msgs = null;
 			if (body != null)
@@ -138,12 +138,11 @@ public class EReferenceFilterImpl extends EModelElementImpl implements EReferenc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case EditingModelPackage.EREFERENCE_FILTER__BODY:
-				setBody((Body<Boolean>)newValue);
+				setBody((Body)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -158,7 +157,7 @@ public class EReferenceFilterImpl extends EModelElementImpl implements EReferenc
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case EditingModelPackage.EREFERENCE_FILTER__BODY:
-				setBody((Body<Boolean>)null);
+				setBody((Body)null);
 				return;
 		}
 		super.eUnset(featureID);

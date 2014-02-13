@@ -11,13 +11,12 @@
 package org.eclipse.emf.eef.runtime.ui.swt.internal.viewer.filters;
 
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.query.Filter;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilder;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
-import org.eclipse.emf.eef.runtime.util.ReflectServiceProvider;
+import org.eclipse.emf.eef.runtime.util.EEFInvokerProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.widgets.Composite;
@@ -28,8 +27,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class ViewerFilterBuilderImpl implements ViewerFilterBuilder, DefaultService {
 
-	private ReflectServiceProvider reflectServiceProvider;
-	private EEFLogger logger;
+	private EEFInvokerProvider eefInvokerProvider;
 	
 	private ViewerFilter nullViewerFilter;
 
@@ -40,19 +38,12 @@ public class ViewerFilterBuilderImpl implements ViewerFilterBuilder, DefaultServ
 	public boolean serviceFor(Filter element) {
 		return true;
 	}
-
+	
 	/**
-	 * @param reflectServiceProvider the reflectServiceProvider to set
+	 * @param eefInvokerProvider the eefInvokerProvider to set
 	 */
-	public void setReflectServiceProvider(ReflectServiceProvider reflectServiceProvider) {
-		this.reflectServiceProvider = reflectServiceProvider;
-	}
-
-	/**
-	 * @param logger the logger to set
-	 */
-	public void setLogger(EEFLogger logger) {
-		this.logger = logger;
+	public final void setEEFInvokerProvider(EEFInvokerProvider eefInvokerProvider) {
+		this.eefInvokerProvider = eefInvokerProvider;
 	}
 
 	/**
@@ -60,8 +51,8 @@ public class ViewerFilterBuilderImpl implements ViewerFilterBuilder, DefaultServ
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilder#buildFilter(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.query.Filter)
 	 */
 	public ViewerFilter buildFilter(PropertiesEditingContext editingContext, PropertiesEditingView<Composite> editingView, Filter filter) {
-		if (filter.getBody() instanceof JavaBody<?>) {
-			return new JavaViewerFilter(reflectServiceProvider, logger, editingContext, editingView, editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), filter);
+		if (filter.getBody() instanceof JavaBody) {
+			return new JavaViewerFilter(eefInvokerProvider, editingContext, editingView, editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), filter);
 		}
 		return getNullViewerFilter();
 	}

@@ -45,9 +45,12 @@ import org.eclipse.emf.eef.runtime.internal.context.DomainPropertiesEditingConte
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EditingStrategyNotFoundException;
 import org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy;
+import org.eclipse.emf.eef.runtime.internal.util.EEFInvocationParametersImpl;
+import org.eclipse.emf.eef.runtime.internal.util.EEFModifierInvocationParametersImpl;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
+import org.eclipse.emf.eef.runtime.util.EEFInvokerProvider;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
@@ -58,12 +61,20 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	private EMFServiceProvider emfServiceProvider;
+	private EEFInvokerProvider eefInvokerProvider;
 	
 	/**
 	 * @param emfServiceProvider the emfServiceProvider to set
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @param eefInvokerProvider the eefInvokerProvider to set
+	 */
+	public final void setEEFInvokerProvider(EEFInvokerProvider eefInvokerProvider) {
+		this.eefInvokerProvider = eefInvokerProvider;
 	}
 
 	/**
@@ -162,14 +173,14 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processByAccessor(final JavaBody<Void> accessor) {
+					protected Command processByAccessor(final JavaBody accessor) {
 						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
 						return new ChangeCommand(changeRecorder) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.add(value);
-								accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, value));
 							}
 						};
 					}
@@ -210,12 +221,12 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processByAccessor(final JavaBody<Void> accessor) {
+					protected Command processByAccessor(final JavaBody accessor) {
 						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
 						return new ChangeCommand(changeRecorder) {
 							@Override
 							protected void doExecute() {
-								accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, new BasicEList<Object>());
+								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFInvocationParametersImpl(editingContext));
 							}
 						};
 					}
@@ -252,14 +263,14 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processByAccessor(final JavaBody<Void> accessor) {
+					protected Command processByAccessor(final JavaBody accessor) {
 						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
 						return new ChangeCommand(changeRecorder) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.add(newValue);
-								accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, newValue));
 							}
 						};
 					}
@@ -305,14 +316,14 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processByAccessor(final JavaBody<Void> accessor) {
+					protected Command processByAccessor(final JavaBody accessor) {
 						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
 						return new ChangeCommand(changeRecorder) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.addAll(newValues);
-								accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, newValues));
 							}
 						};
 					}
@@ -363,14 +374,14 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processByAccessor(final JavaBody<Void> accessor) {
+					protected Command processByAccessor(final JavaBody accessor) {
 						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
 						return new ChangeCommand(changeRecorder) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.add(oldValue);
-								accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, oldValue));
 							}
 						};
 					}
@@ -403,14 +414,14 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processByAccessor(final JavaBody<Void> accessor) {
+					protected Command processByAccessor(final JavaBody accessor) {
 						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
 						return new ChangeCommand(changeRecorder) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.addAll(oldValues);
-								accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), eObject, parameters);
+								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, oldValues));
 							}
 						};
 					}
@@ -443,7 +454,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
-					protected Command processByAccessor(JavaBody<Void> accessor) {
+					protected Command processByAccessor(JavaBody accessor) {
 						//Unreachable
 						return null;
 					}

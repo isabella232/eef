@@ -6,11 +6,7 @@
  */
 package org.eclipse.emf.eef.runtime.query.impl;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
@@ -26,13 +22,12 @@ import org.eclipse.emf.eef.runtime.query.QueryPackage;
  *   <li>{@link org.eclipse.emf.eef.runtime.query.impl.JavaBodyImpl#getBundle <em>Bundle</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.query.impl.JavaBodyImpl#getQualifiedClass <em>Qualified Class</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.query.impl.JavaBodyImpl#getMethod <em>Method</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.query.impl.JavaBodyImpl#isStatic <em>Static</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE> {
+public class JavaBodyImpl extends BodyImpl implements JavaBody {
 	/**
 	 * The default value of the '{@link #getBundle() <em>Bundle</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -92,26 +87,6 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 	 * @ordered
 	 */
 	protected String method = METHOD_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #isStatic() <em>Static</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isStatic()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean STATIC_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isStatic() <em>Static</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isStatic()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean static_ = STATIC_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -194,50 +169,7 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, QueryPackage.JAVA_BODY__METHOD, oldMethod, method));
 	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isStatic() {
-		return static_;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setStatic(boolean newStatic) {
-		boolean oldStatic = static_;
-		static_ = newStatic;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, QueryPackage.JAVA_BODY__STATIC, oldStatic, static_));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public TYPE invoke(ClassLoader loader, Object target, EList<Object> parameters) {
-		try {
-			Class<?> clazz = loader.loadClass(getQualifiedClass());
-			Method zeMethod = getMethod(clazz, getMethod(), parameters);
-			return (TYPE) zeMethod.invoke(target, parameters);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -252,8 +184,6 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 				return getQualifiedClass();
 			case QueryPackage.JAVA_BODY__METHOD:
 				return getMethod();
-			case QueryPackage.JAVA_BODY__STATIC:
-				return isStatic();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -274,9 +204,6 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 				return;
 			case QueryPackage.JAVA_BODY__METHOD:
 				setMethod((String)newValue);
-				return;
-			case QueryPackage.JAVA_BODY__STATIC:
-				setStatic((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -299,9 +226,6 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 			case QueryPackage.JAVA_BODY__METHOD:
 				setMethod(METHOD_EDEFAULT);
 				return;
-			case QueryPackage.JAVA_BODY__STATIC:
-				setStatic(STATIC_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -320,8 +244,6 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 				return QUALIFIED_CLASS_EDEFAULT == null ? qualifiedClass != null : !QUALIFIED_CLASS_EDEFAULT.equals(qualifiedClass);
 			case QueryPackage.JAVA_BODY__METHOD:
 				return METHOD_EDEFAULT == null ? method != null : !METHOD_EDEFAULT.equals(method);
-			case QueryPackage.JAVA_BODY__STATIC:
-				return static_ != STATIC_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -342,31 +264,9 @@ public class JavaBodyImpl<TYPE> extends BodyImpl<TYPE> implements JavaBody<TYPE>
 		result.append(qualifiedClass);
 		result.append(", method: ");
 		result.append(method);
-		result.append(", static: ");
-		result.append(static_);
 		result.append(')');
 		return result.toString();
 	}
 	
-	private Method getMethod(Class<?> clazz, String name, EList<Object> parameters) {
-		for (Method method : clazz.getMethods()) {
-			Class<?>[] parameterTypes = method.getParameterTypes();
-			int length = parameterTypes.length;
-			if (name.equals(method.getName()) && parameters.size() == length) {
-				boolean valid = true;
-				int i = 0;
-				while (i < length && valid) {
-					Class<?> type = parameterTypes[i];
-					if (!type.isInstance(parameters.get(i))) {
-						valid = false;
-					}
-				}
-				if (valid) {
-					return method;
-				}
-			}
-		}
-		return null;
-	}
 
 } //JavaBodyImpl

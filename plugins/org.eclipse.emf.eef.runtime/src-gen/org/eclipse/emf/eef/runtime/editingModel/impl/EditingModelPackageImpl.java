@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -765,64 +764,16 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		initEReference(getPropertyBinding_Editor(), this.getEditor(), null, "editor", null, 1, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyBinding_SubPropertyBindings(), this.getPropertyBinding(), null, "subPropertyBindings", null, 0, -1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyBinding_Settings(), this.getEditorSettings(), null, "settings", null, 0, -1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		EGenericType g1 = createEGenericType(theQueryPackage.getJavaBody());
-		EGenericType g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		initEReference(getPropertyBinding_Getter(), g1, null, "getter", null, 0, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		g1 = createEGenericType(theQueryPackage.getJavaBody());
-		g2 = createEGenericType(ecorePackage.getEEList());
-		g1.getETypeArguments().add(g2);
-		EGenericType g3 = createEGenericType(theEcorePackage.getEJavaObject());
-		g2.getETypeArguments().add(g3);
-		initEReference(getPropertyBinding_ValueProvider(), g1, null, "valueProvider", null, 0, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		op = addEOperation(propertyBindingEClass, ecorePackage.getEJavaObject(), "getValue", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theQueryPackage.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theEcorePackage.getEObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(propertyBindingEClass, ecorePackage.getEJavaObject(), "getChoiceOfValue", 0, -1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theQueryPackage.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theEcorePackage.getEObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
+		initEReference(getPropertyBinding_Getter(), theQueryPackage.getJavaBody(), null, "getter", null, 0, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPropertyBinding_ValueProvider(), theQueryPackage.getJavaBody(), null, "valueProvider", null, 0, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(monoValuedPropertyBindingEClass, MonoValuedPropertyBinding.class, "MonoValuedPropertyBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		g1 = createEGenericType(theQueryPackage.getJavaBody());
-		g2 = createEGenericType(this.getVoid());
-		g1.getETypeArguments().add(g2);
-		initEReference(getMonoValuedPropertyBinding_Setter(), g1, null, "setter", null, 0, 1, MonoValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		g1 = createEGenericType(theQueryPackage.getJavaBody());
-		g2 = createEGenericType(this.getVoid());
-		g1.getETypeArguments().add(g2);
-		initEReference(getMonoValuedPropertyBinding_Unsetter(), g1, null, "unsetter", null, 0, 1, MonoValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		op = addEOperation(monoValuedPropertyBindingEClass, this.getVoid(), "setValue", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theQueryPackage.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theEcorePackage.getEObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEJavaObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(monoValuedPropertyBindingEClass, this.getVoid(), "unsetValue", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theQueryPackage.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theEcorePackage.getEObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEJavaObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+		initEReference(getMonoValuedPropertyBinding_Setter(), theQueryPackage.getJavaBody(), null, "setter", null, 0, 1, MonoValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMonoValuedPropertyBinding_Unsetter(), theQueryPackage.getJavaBody(), null, "unsetter", null, 0, 1, MonoValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(multiValuedPropertyBindingEClass, MultiValuedPropertyBinding.class, "MultiValuedPropertyBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		g1 = createEGenericType(theQueryPackage.getJavaBody());
-		g2 = createEGenericType(this.getVoid());
-		g1.getETypeArguments().add(g2);
-		initEReference(getMultiValuedPropertyBinding_Adder(), g1, null, "adder", null, 0, 1, MultiValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		g1 = createEGenericType(theQueryPackage.getJavaBody());
-		g2 = createEGenericType(this.getVoid());
-		g1.getETypeArguments().add(g2);
-		initEReference(getMultiValuedPropertyBinding_Remover(), g1, null, "remover", null, 0, 1, MultiValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		op = addEOperation(multiValuedPropertyBindingEClass, this.getVoid(), "addValue", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theQueryPackage.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theEcorePackage.getEObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEJavaObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(multiValuedPropertyBindingEClass, this.getVoid(), "removeValue", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theQueryPackage.getClassLoader(), "loader", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theEcorePackage.getEObject(), "target", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEJavaObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+		initEReference(getMultiValuedPropertyBinding_Adder(), theQueryPackage.getJavaBody(), null, "adder", null, 0, 1, MultiValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMultiValuedPropertyBinding_Remover(), theQueryPackage.getJavaBody(), null, "remover", null, 0, 1, MultiValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eStructuralFeatureBindingEClass, EStructuralFeatureBinding.class, "EStructuralFeatureBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEStructuralFeatureBinding_Feature(), theEcorePackage.getEStructuralFeature(), null, "feature", null, 1, 1, EStructuralFeatureBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

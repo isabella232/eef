@@ -10,18 +10,23 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.util;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface ReflectServiceProvider {
-
+public interface EEFInvocationParameters {
 	
 	/**
-	 * Returns the most appropriate {@link ReflectService} for the given class.
-	 * @param clazz the class to process.
-	 * @return the most appropriate {@link ReflectService}.
+	 * @return the current {@link PropertiesEditingContext}.
 	 */
-	ReflectService getReflectService(Class<?> clazz);
+	PropertiesEditingContext getEditingContext();
 	
+	/**
+	 * @return the edited {@link EObject}.
+	 */
+	EObject getEditedObject();
+
 }

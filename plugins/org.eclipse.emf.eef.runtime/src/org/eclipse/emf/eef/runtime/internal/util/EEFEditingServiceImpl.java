@@ -13,7 +13,6 @@ package org.eclipse.emf.eef.runtime.internal.util;
 import java.util.Collection;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -35,6 +34,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.util.EEFEditingService;
+import org.eclipse.emf.eef.runtime.util.EEFInvokerProvider;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
@@ -47,12 +47,20 @@ import com.google.common.collect.Sets;
 public class EEFEditingServiceImpl implements EEFEditingService, DefaultService {
 
 	private EMFServiceProvider emfServiceProvider;
+	private EEFInvokerProvider eefInvokerProvider;
 	
 	/**
 	 * @param emfServiceProvider the emfServiceProvider to set
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @param eefInvokerProvider the eefInvokerProvider to set
+	 */
+	public final void setEEFInvokerProvider(EEFInvokerProvider eefInvokerProvider) {
+		this.eefInvokerProvider = eefInvokerProvider;
 	}
 
 	/**
@@ -107,8 +115,8 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 			 */
 			@Override
-			protected Object processByAccessor(JavaBody<Void> accessor) {
-				return accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), target, new BasicEList<Object>());
+			protected Object processByAccessor(JavaBody accessor) {
+				return eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFInvocationParametersImpl(editingContext));
 			}
 
 			/**
@@ -134,7 +142,8 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 	 */
 	public Object getValueOfSubbinding(PropertiesEditingContext editingContext, EObject target, PropertyBinding propertyBinding) {
 		if (propertyBinding.getGetter() != null) {
-			return propertyBinding.getGetter().invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), target, new BasicEList<Object>());
+			JavaBody accessor = propertyBinding.getGetter();
+			return eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFInvocationParametersImpl(editingContext));
 		} else {
 			if (propertyBinding instanceof EStructuralFeatureBinding) {
 				EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
@@ -159,8 +168,8 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 			 */
 			@Override
-			protected Object processByAccessor(JavaBody<Void> accessor) {
-				return accessor.invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), target, new BasicEList<Object>());
+			protected Object processByAccessor(JavaBody accessor) {
+				return eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFInvocationParametersImpl(editingContext));
 			}
 
 			/**

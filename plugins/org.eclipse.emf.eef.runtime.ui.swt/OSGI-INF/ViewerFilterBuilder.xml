@@ -4,6 +4,5 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilder"/>
    </service>
-   <reference bind="setReflectServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.ReflectServiceProvider" name="ReflectServiceProvider" policy="static"/>
-   <reference bind="setLogger" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.logging.EEFLogger" name="EEFLogger" policy="static"/>
+   <reference bind="setEEFInvokerProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EEFInvokerProvider" name="EEFInvokerProvider" policy="static"/>
 </scr:component>

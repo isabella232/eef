@@ -8,24 +8,21 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.eef.runtime.internal.util;
+package org.eclipse.emf.eef.runtime.util;
 
-import org.eclipse.emf.eef.runtime.services.EEFServiceProviderImpl;
-import org.eclipse.emf.eef.runtime.util.ReflectService;
-import org.eclipse.emf.eef.runtime.util.ReflectServiceProvider;
+import org.eclipse.emf.eef.runtime.query.Body;
+import org.eclipse.emf.eef.runtime.services.EEFServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class ReflectServiceProviderImpl extends EEFServiceProviderImpl<Class<?>, ReflectService> implements ReflectServiceProvider {
-
+public interface EEFInvokerProvider extends EEFServiceProvider<Body, EEFInvoker> {
+	
 	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.ReflectServiceProvider#getReflectService(java.lang.Class)
+	 * @param body {@link Body} to invoke.
+	 * @return a {@link EEFInvoker} able to handle the given body.
 	 */
-	public ReflectService getReflectService(Class<?> clazz) {
-		return getService(clazz);
-	}
+	EEFInvoker getInvoker(Body body);
 
 }

@@ -145,22 +145,13 @@ public interface QueryPackage extends EPackage {
 	int JAVA_BODY__METHOD = BODY_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Static</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JAVA_BODY__STATIC = BODY_FEATURE_COUNT + 3;
-
-	/**
 	 * The number of structural features of the '<em>Java Body</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int JAVA_BODY_FEATURE_COUNT = BODY_FEATURE_COUNT + 4;
+	int JAVA_BODY_FEATURE_COUNT = BODY_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.query.impl.FilterImpl <em>Filter</em>}' class.
@@ -305,17 +296,6 @@ public interface QueryPackage extends EPackage {
 	EAttribute getJavaBody_Method();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.eef.runtime.query.JavaBody#isStatic <em>Static</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Static</em>'.
-	 * @see org.eclipse.emf.eef.runtime.query.JavaBody#isStatic()
-	 * @see #getJavaBody()
-	 * @generated
-	 */
-	EAttribute getJavaBody_Static();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.query.Filter <em>Filter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -429,14 +409,6 @@ public interface QueryPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute JAVA_BODY__METHOD = eINSTANCE.getJavaBody_Method();
-
-		/**
-		 * The meta object literal for the '<em><b>Static</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute JAVA_BODY__STATIC = eINSTANCE.getJavaBody_Static();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.query.impl.FilterImpl <em>Filter</em>}' class.

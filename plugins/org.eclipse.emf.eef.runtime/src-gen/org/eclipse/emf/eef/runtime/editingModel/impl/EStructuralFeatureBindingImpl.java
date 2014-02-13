@@ -8,9 +8,7 @@ package org.eclipse.emf.eef.runtime.editingModel.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -43,7 +41,7 @@ public class EStructuralFeatureBindingImpl extends MonoValuedPropertyBindingImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected JavaBody<Void> adder;
+	protected JavaBody adder;
 	/**
 	 * The cached value of the '{@link #getRemover() <em>Remover</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -52,7 +50,7 @@ public class EStructuralFeatureBindingImpl extends MonoValuedPropertyBindingImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected JavaBody<Void> remover;
+	protected JavaBody remover;
 	/**
 	 * The cached value of the '{@link #getFeature() <em>Feature</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -87,7 +85,7 @@ public class EStructuralFeatureBindingImpl extends MonoValuedPropertyBindingImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JavaBody<Void> getAdder() {
+	public JavaBody getAdder() {
 		return adder;
 	}
 
@@ -96,8 +94,8 @@ public class EStructuralFeatureBindingImpl extends MonoValuedPropertyBindingImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetAdder(JavaBody<Void> newAdder, NotificationChain msgs) {
-		JavaBody<Void> oldAdder = adder;
+	public NotificationChain basicSetAdder(JavaBody newAdder, NotificationChain msgs) {
+		JavaBody oldAdder = adder;
 		adder = newAdder;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.ESTRUCTURAL_FEATURE_BINDING__ADDER, oldAdder, newAdder);
@@ -111,7 +109,7 @@ public class EStructuralFeatureBindingImpl extends MonoValuedPropertyBindingImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAdder(JavaBody<Void> newAdder) {
+	public void setAdder(JavaBody newAdder) {
 		if (newAdder != adder) {
 			NotificationChain msgs = null;
 			if (adder != null)
@@ -130,7 +128,7 @@ public class EStructuralFeatureBindingImpl extends MonoValuedPropertyBindingImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JavaBody<Void> getRemover() {
+	public JavaBody getRemover() {
 		return remover;
 	}
 
@@ -139,8 +137,8 @@ public class EStructuralFeatureBindingImpl extends MonoValuedPropertyBindingImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetRemover(JavaBody<Void> newRemover, NotificationChain msgs) {
-		JavaBody<Void> oldRemover = remover;
+	public NotificationChain basicSetRemover(JavaBody newRemover, NotificationChain msgs) {
+		JavaBody oldRemover = remover;
 		remover = newRemover;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.ESTRUCTURAL_FEATURE_BINDING__REMOVER, oldRemover, newRemover);
@@ -154,7 +152,7 @@ public class EStructuralFeatureBindingImpl extends MonoValuedPropertyBindingImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRemover(JavaBody<Void> newRemover) {
+	public void setRemover(JavaBody newRemover) {
 		if (newRemover != remover) {
 			NotificationChain msgs = null;
 			if (remover != null)
@@ -211,28 +209,6 @@ public class EStructuralFeatureBindingImpl extends MonoValuedPropertyBindingImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Void addValue(ClassLoader loader, EObject target, Object value) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Void removeValue(ClassLoader loader, EObject target, Object value) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -268,15 +244,14 @@ public class EStructuralFeatureBindingImpl extends MonoValuedPropertyBindingImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case EditingModelPackage.ESTRUCTURAL_FEATURE_BINDING__ADDER:
-				setAdder((JavaBody<Void>)newValue);
+				setAdder((JavaBody)newValue);
 				return;
 			case EditingModelPackage.ESTRUCTURAL_FEATURE_BINDING__REMOVER:
-				setRemover((JavaBody<Void>)newValue);
+				setRemover((JavaBody)newValue);
 				return;
 			case EditingModelPackage.ESTRUCTURAL_FEATURE_BINDING__FEATURE:
 				setFeature((EStructuralFeature)newValue);
@@ -294,10 +269,10 @@ public class EStructuralFeatureBindingImpl extends MonoValuedPropertyBindingImpl
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case EditingModelPackage.ESTRUCTURAL_FEATURE_BINDING__ADDER:
-				setAdder((JavaBody<Void>)null);
+				setAdder((JavaBody)null);
 				return;
 			case EditingModelPackage.ESTRUCTURAL_FEATURE_BINDING__REMOVER:
-				setRemover((JavaBody<Void>)null);
+				setRemover((JavaBody)null);
 				return;
 			case EditingModelPackage.ESTRUCTURAL_FEATURE_BINDING__FEATURE:
 				setFeature((EStructuralFeature)null);
@@ -356,36 +331,6 @@ public class EStructuralFeatureBindingImpl extends MonoValuedPropertyBindingImpl
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getValue(java.lang.ClassLoader, org.eclipse.emf.ecore.EObject)
-	 */
-	@Override
-	public Object getValue(ClassLoader loader, EObject target) {
-		// TODO Auto-generated method stub
-		return super.getValue(loader, target);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#setValue(java.lang.ClassLoader, org.eclipse.emf.ecore.EObject, java.lang.Object)
-	 */
-	@Override
-	public Void setValue(ClassLoader loader, EObject target, Object value) {
-		// TODO Auto-generated method stub
-		return super.setValue(loader, target, value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getChoiceOfValue(java.lang.ClassLoader, org.eclipse.emf.ecore.EObject)
-	 */
-	@Override
-	public EList<Object> getChoiceOfValue(ClassLoader loader, EObject target) {
-		// TODO Auto-generated method stub
-		return super.getChoiceOfValue(loader, target);
 	}
 
 } //EStructuralFeatureBindingImpl

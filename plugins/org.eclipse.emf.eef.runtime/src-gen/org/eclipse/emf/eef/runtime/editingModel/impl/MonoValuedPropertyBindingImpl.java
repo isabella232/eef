@@ -8,9 +8,7 @@ package org.eclipse.emf.eef.runtime.editingModel.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
@@ -40,7 +38,7 @@ public class MonoValuedPropertyBindingImpl extends PropertyBindingImpl implement
 	 * @generated
 	 * @ordered
 	 */
-	protected JavaBody<Void> setter;
+	protected JavaBody setter;
 
 	/**
 	 * The cached value of the '{@link #getUnsetter() <em>Unsetter</em>}' containment reference.
@@ -50,7 +48,7 @@ public class MonoValuedPropertyBindingImpl extends PropertyBindingImpl implement
 	 * @generated
 	 * @ordered
 	 */
-	protected JavaBody<Void> unsetter;
+	protected JavaBody unsetter;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -76,7 +74,7 @@ public class MonoValuedPropertyBindingImpl extends PropertyBindingImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JavaBody<Void> getSetter() {
+	public JavaBody getSetter() {
 		return setter;
 	}
 
@@ -85,8 +83,8 @@ public class MonoValuedPropertyBindingImpl extends PropertyBindingImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetSetter(JavaBody<Void> newSetter, NotificationChain msgs) {
-		JavaBody<Void> oldSetter = setter;
+	public NotificationChain basicSetSetter(JavaBody newSetter, NotificationChain msgs) {
+		JavaBody oldSetter = setter;
 		setter = newSetter;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.MONO_VALUED_PROPERTY_BINDING__SETTER, oldSetter, newSetter);
@@ -100,7 +98,7 @@ public class MonoValuedPropertyBindingImpl extends PropertyBindingImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSetter(JavaBody<Void> newSetter) {
+	public void setSetter(JavaBody newSetter) {
 		if (newSetter != setter) {
 			NotificationChain msgs = null;
 			if (setter != null)
@@ -119,7 +117,7 @@ public class MonoValuedPropertyBindingImpl extends PropertyBindingImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JavaBody<Void> getUnsetter() {
+	public JavaBody getUnsetter() {
 		return unsetter;
 	}
 
@@ -128,8 +126,8 @@ public class MonoValuedPropertyBindingImpl extends PropertyBindingImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetUnsetter(JavaBody<Void> newUnsetter, NotificationChain msgs) {
-		JavaBody<Void> oldUnsetter = unsetter;
+	public NotificationChain basicSetUnsetter(JavaBody newUnsetter, NotificationChain msgs) {
+		JavaBody oldUnsetter = unsetter;
 		unsetter = newUnsetter;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.MONO_VALUED_PROPERTY_BINDING__UNSETTER, oldUnsetter, newUnsetter);
@@ -143,7 +141,7 @@ public class MonoValuedPropertyBindingImpl extends PropertyBindingImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setUnsetter(JavaBody<Void> newUnsetter) {
+	public void setUnsetter(JavaBody newUnsetter) {
 		if (newUnsetter != unsetter) {
 			NotificationChain msgs = null;
 			if (unsetter != null)
@@ -155,36 +153,6 @@ public class MonoValuedPropertyBindingImpl extends PropertyBindingImpl implement
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.MONO_VALUED_PROPERTY_BINDING__UNSETTER, newUnsetter, newUnsetter));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public Void setValue(ClassLoader loader, EObject target, Object value) {
-		if (getSetter() != null) {
-			BasicEList<Object> parameters = new BasicEList<Object>();
-			parameters.add(value);
-			getSetter().invoke(loader, target, parameters);
-		}
-		return null;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public Void unsetValue(ClassLoader loader, EObject target, Object value) {
-		if (getUnsetter() != null) {
-			BasicEList<Object> parameters = new BasicEList<Object>();
-			if (value != null) {	
-				parameters.add(value);
-			}
-			getSetter().invoke(loader, target, parameters);
-		}
-		return null;
 	}
 
 	/**
@@ -224,15 +192,14 @@ public class MonoValuedPropertyBindingImpl extends PropertyBindingImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case EditingModelPackage.MONO_VALUED_PROPERTY_BINDING__SETTER:
-				setSetter((JavaBody<Void>)newValue);
+				setSetter((JavaBody)newValue);
 				return;
 			case EditingModelPackage.MONO_VALUED_PROPERTY_BINDING__UNSETTER:
-				setUnsetter((JavaBody<Void>)newValue);
+				setUnsetter((JavaBody)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -247,10 +214,10 @@ public class MonoValuedPropertyBindingImpl extends PropertyBindingImpl implement
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case EditingModelPackage.MONO_VALUED_PROPERTY_BINDING__SETTER:
-				setSetter((JavaBody<Void>)null);
+				setSetter((JavaBody)null);
 				return;
 			case EditingModelPackage.MONO_VALUED_PROPERTY_BINDING__UNSETTER:
-				setUnsetter((JavaBody<Void>)null);
+				setUnsetter((JavaBody)null);
 				return;
 		}
 		super.eUnset(featureID);

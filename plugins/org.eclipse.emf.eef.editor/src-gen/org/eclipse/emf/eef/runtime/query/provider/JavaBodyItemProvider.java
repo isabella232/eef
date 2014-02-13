@@ -59,15 +59,37 @@ public class JavaBodyItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addBundlePropertyDescriptor(object);
 			addQualifiedClassPropertyDescriptor(object);
 			addMethodPropertyDescriptor(object);
-			addStaticPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Qualified Class propertyBinding.
+	 * This adds a property descriptor for the Bundle feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addBundlePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_JavaBody_bundle_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_JavaBody_bundle_feature", "_UI_JavaBody_type"),
+				 QueryPackage.Literals.JAVA_BODY__BUNDLE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Qualified Class feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -89,7 +111,7 @@ public class JavaBodyItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Method propertyBinding.
+	 * This adds a property descriptor for the Method feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -106,28 +128,6 @@ public class JavaBodyItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Static propertyBinding.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addStaticPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_JavaBody_static_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_JavaBody_static_feature", "_UI_JavaBody_type"),
-				 QueryPackage.Literals.JAVA_BODY__STATIC,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -152,10 +152,7 @@ public class JavaBodyItemProvider
 	@Override
 	public String getText(Object object) {
 		StringBuilder builder = new StringBuilder();
-		JavaBody<?> javaBody = (JavaBody<?>)object;
-		if (javaBody.isStatic()) {
-			builder.append("static ");
-		}
+		JavaBody javaBody = (JavaBody)object;
 		builder.append("method:");
 		if (javaBody.getQualifiedClass() != null && !javaBody.getQualifiedClass().isEmpty()) {
 			builder.append(javaBody.getQualifiedClass());
@@ -184,9 +181,9 @@ public class JavaBodyItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(JavaBody.class)) {
+			case QueryPackage.JAVA_BODY__BUNDLE:
 			case QueryPackage.JAVA_BODY__QUALIFIED_CLASS:
 			case QueryPackage.JAVA_BODY__METHOD:
-			case QueryPackage.JAVA_BODY__STATIC:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

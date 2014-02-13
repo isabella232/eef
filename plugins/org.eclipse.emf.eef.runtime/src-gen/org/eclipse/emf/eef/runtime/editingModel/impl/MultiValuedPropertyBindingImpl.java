@@ -8,9 +8,7 @@ package org.eclipse.emf.eef.runtime.editingModel.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
@@ -40,7 +38,7 @@ public class MultiValuedPropertyBindingImpl extends PropertyBindingImpl implemen
 	 * @generated
 	 * @ordered
 	 */
-	protected JavaBody<Void> adder;
+	protected JavaBody adder;
 
 	/**
 	 * The cached value of the '{@link #getRemover() <em>Remover</em>}' containment reference.
@@ -50,7 +48,7 @@ public class MultiValuedPropertyBindingImpl extends PropertyBindingImpl implemen
 	 * @generated
 	 * @ordered
 	 */
-	protected JavaBody<Void> remover;
+	protected JavaBody remover;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -76,7 +74,7 @@ public class MultiValuedPropertyBindingImpl extends PropertyBindingImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JavaBody<Void> getAdder() {
+	public JavaBody getAdder() {
 		return adder;
 	}
 
@@ -85,8 +83,8 @@ public class MultiValuedPropertyBindingImpl extends PropertyBindingImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetAdder(JavaBody<Void> newAdder, NotificationChain msgs) {
-		JavaBody<Void> oldAdder = adder;
+	public NotificationChain basicSetAdder(JavaBody newAdder, NotificationChain msgs) {
+		JavaBody oldAdder = adder;
 		adder = newAdder;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.MULTI_VALUED_PROPERTY_BINDING__ADDER, oldAdder, newAdder);
@@ -100,7 +98,7 @@ public class MultiValuedPropertyBindingImpl extends PropertyBindingImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAdder(JavaBody<Void> newAdder) {
+	public void setAdder(JavaBody newAdder) {
 		if (newAdder != adder) {
 			NotificationChain msgs = null;
 			if (adder != null)
@@ -119,7 +117,7 @@ public class MultiValuedPropertyBindingImpl extends PropertyBindingImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JavaBody<Void> getRemover() {
+	public JavaBody getRemover() {
 		return remover;
 	}
 
@@ -128,8 +126,8 @@ public class MultiValuedPropertyBindingImpl extends PropertyBindingImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetRemover(JavaBody<Void> newRemover, NotificationChain msgs) {
-		JavaBody<Void> oldRemover = remover;
+	public NotificationChain basicSetRemover(JavaBody newRemover, NotificationChain msgs) {
+		JavaBody oldRemover = remover;
 		remover = newRemover;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.MULTI_VALUED_PROPERTY_BINDING__REMOVER, oldRemover, newRemover);
@@ -143,7 +141,7 @@ public class MultiValuedPropertyBindingImpl extends PropertyBindingImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRemover(JavaBody<Void> newRemover) {
+	public void setRemover(JavaBody newRemover) {
 		if (newRemover != remover) {
 			NotificationChain msgs = null;
 			if (remover != null)
@@ -155,34 +153,6 @@ public class MultiValuedPropertyBindingImpl extends PropertyBindingImpl implemen
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.MULTI_VALUED_PROPERTY_BINDING__REMOVER, newRemover, newRemover));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public Void addValue(ClassLoader loader, EObject target, Object value) {
-		if (getAdder() != null) {
-			BasicEList<Object> parameters = new BasicEList<Object>();
-			parameters.add(value);
-			getAdder().invoke(loader, target, parameters);
-		}
-		return null;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public Void removeValue(ClassLoader loader, EObject target, Object value) {
-		if (getRemover() != null) {
-			BasicEList<Object> parameters = new BasicEList<Object>();
-			parameters.add(value);
-			getRemover().invoke(loader, target, parameters);
-		} 
-		return null;
 	}
 
 	/**
@@ -222,15 +192,14 @@ public class MultiValuedPropertyBindingImpl extends PropertyBindingImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case EditingModelPackage.MULTI_VALUED_PROPERTY_BINDING__ADDER:
-				setAdder((JavaBody<Void>)newValue);
+				setAdder((JavaBody)newValue);
 				return;
 			case EditingModelPackage.MULTI_VALUED_PROPERTY_BINDING__REMOVER:
-				setRemover((JavaBody<Void>)newValue);
+				setRemover((JavaBody)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -245,10 +214,10 @@ public class MultiValuedPropertyBindingImpl extends PropertyBindingImpl implemen
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case EditingModelPackage.MULTI_VALUED_PROPERTY_BINDING__ADDER:
-				setAdder((JavaBody<Void>)null);
+				setAdder((JavaBody)null);
 				return;
 			case EditingModelPackage.MULTI_VALUED_PROPERTY_BINDING__REMOVER:
-				setRemover((JavaBody<Void>)null);
+				setRemover((JavaBody)null);
 				return;
 		}
 		super.eUnset(featureID);

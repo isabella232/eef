@@ -98,13 +98,13 @@ public class QuerySwitch<T> {
 				return result;
 			}
 			case QueryPackage.BODY: {
-				Body<?> body = (Body<?>)theEObject;
+				Body body = (Body)theEObject;
 				T result = caseBody(body);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case QueryPackage.JAVA_BODY: {
-				JavaBody<?> javaBody = (JavaBody<?>)theEObject;
+				JavaBody javaBody = (JavaBody)theEObject;
 				T result = caseJavaBody(javaBody);
 				if (result == null) result = caseBody(javaBody);
 				if (result == null) result = defaultCase(theEObject);
@@ -154,7 +154,7 @@ public class QuerySwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <TYPE> T caseBody(Body<TYPE> object) {
+	public T caseBody(Body object) {
 		return null;
 	}
 
@@ -169,7 +169,7 @@ public class QuerySwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <TYPE> T caseJavaBody(JavaBody<TYPE> object) {
+	public T caseJavaBody(JavaBody object) {
 		return null;
 	}
 

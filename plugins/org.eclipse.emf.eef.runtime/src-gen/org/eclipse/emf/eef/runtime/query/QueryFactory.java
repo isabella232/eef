@@ -32,7 +32,7 @@ public interface QueryFactory extends EFactory {
 	 * @return a new object of class '<em>Java Body</em>'.
 	 * @generated
 	 */
-	<TYPE> JavaBody<TYPE> createJavaBody();
+	JavaBody createJavaBody();
 
 	/**
 	 * Returns a new object of class '<em>Navigation</em>'.
