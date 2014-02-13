@@ -10,17 +10,20 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.unit.util;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
@@ -34,7 +37,7 @@ import org.junit.Test;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EMFServiceImplTests {
 
@@ -60,10 +63,10 @@ public class EMFServiceImplTests {
 		
 		URI uri = URI.createPlatformPluginURI("org.eclipse.emf.ecore/model/Ecore.ecore", true);
 		Resource resource = resourceSet.getResource(uri, true);
-		ecoreResourcePackage = (EPackage)resource.getContents().get(0);
+		ecoreResourcePackage = (EPackage) resource.getContents().get(0);
 		uri = URI.createPlatformPluginURI("org.eclipse.emf.eef.runtime/model/editingModel.ecore", true);
 		resource = resourceSet.getResource(uri, true);
-		editingModelResourcePackage = (EPackage)resource.getContents().get(0);
+		editingModelResourcePackage = (EPackage) resource.getContents().get(0);
 		editingModelPluginPackage = EditingModelFactory.eINSTANCE.createEClassBinding().eClass().getEPackage();
 	}
 
@@ -118,7 +121,42 @@ public class EMFServiceImplTests {
 		EClassBinding eClassBinding = EditingModelFactory.eINSTANCE.createEClassBinding();
 		PropertyBinding propertyBinding = EditingModelFactory.eINSTANCE.createPropertyBinding();
 		eClassBinding.getPropertyBindings().add(propertyBinding);
-		assertTrue("Standard EMFService implementation doesn't correctly handle EStructuralFeature from plugin > EStructuralFeature from resource equality", emfService.equals(propertyBinding.eContainingFeature(), propertyBindingsFromResource));		
+		assertTrue("Standard EMFService implementation doesn't correctly handle EStructuralFeature from plugin > EStructuralFeature from resource equality", emfService.equals(propertyBinding.eContainingFeature(), propertyBindingsFromResource));
 
+	}
+
+	@Test
+	public void testMapEClass() {
+		EClass eClass1 = EcoreFactory.eINSTANCE.createEClass();
+		EClassifier eClassFromResourceSet = ecoreResourcePackage.getEClassifier("EClass");
+		assertEquals("Standard EMFService implementation doesn't correctly handle MapEClass", eClassFromResourceSet, emfService.mapEClass(ecoreResourcePackage, eClass1.eClass()));
+		assertEquals("Standard EMFService implementation doesn't correctly handle MapEClass", eClass1.eClass(), emfService.mapEClass(eClass1.eClass().getEPackage(), (EClass) eClassFromResourceSet));
+	}
+
+	@Test
+	public void testMapEFeature() {
+		EClass eClass1 = EcoreFactory.eINSTANCE.createEClass();
+
+		EClass eClassFromResourceSet = (EClass) ecoreResourcePackage.getEClassifier("EClass");
+		EStructuralFeature featureFromResourceSet = eClassFromResourceSet.getEStructuralFeature("name");
+
+		assertEquals("Standard EMFService implementation doesn't correctly handle MapEFeature", featureFromResourceSet, emfService.mapFeature(eClassFromResourceSet, EcorePackage.eINSTANCE.getENamedElement_Name()));
+		assertEquals("Standard EMFService implementation doesn't correctly handle MapEFeature", eClass1.eClass().getEStructuralFeature("name"), emfService.mapFeature(eClass1.eClass(), featureFromResourceSet));
+	}
+
+	@Test
+	public void testHighestNotifier() {
+		assertEquals("Standard EMFService implementation doesn't correctly handle HighestNotifier", resourceSet, emfService.highestNotifier(ecoreResourcePackage));
+		assertEquals("Standard EMFService implementation doesn't correctly handle HighestNotifier", resourceSet, emfService.highestNotifier(ecoreResourcePackage.eContents().get(0)));
+		assertEquals("Standard EMFService implementation doesn't correctly handle HighestNotifier", resourceSet, emfService.highestNotifier(ecoreResourcePackage.eContents().get(0).eContents().get(0)));
+
+		Resource resource = new ResourceImpl();
+		EStructuralFeature feature1 = EcoreFactory.eINSTANCE.createEAttribute();
+		feature1.setName("attribute");
+		EClass eClass1 = EcoreFactory.eINSTANCE.createEClass();
+		eClass1.getEStructuralFeatures().add(feature1);
+		resource.getContents().add(eClass1);
+		assertEquals("Standard EMFService implementation doesn't correctly handle HighestNotifier", resource, emfService.highestNotifier(eClass1));
+		assertEquals("Standard EMFService implementation doesn't correctly handle HighestNotifier", resource, emfService.highestNotifier(feature1));
 	}
 }
