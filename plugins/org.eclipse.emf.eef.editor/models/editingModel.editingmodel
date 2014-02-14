@@ -4,11 +4,11 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EClassBinding"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EClassBinding/eClass"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EClassBinding/views"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.1"/>
       </propertyBindings>
@@ -16,15 +16,15 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertiesEditingModel"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertiesEditingModel/id"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertiesEditingModel/name"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0/@elements.1"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertiesEditingModel/involvedModels"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0/@elements.2"/>
       </propertyBindings>
@@ -32,7 +32,7 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EObjectView"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.2"/>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EObjectView/definition"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0"/>
       </propertyBindings>
@@ -42,22 +42,22 @@
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.3"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.6"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.5"/>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding/feature"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.0"/>
         <settings xsi:type="eef-model:EReferenceFilter">
           <body xsi:type="eef-query:JavaBody" qualifiedClass="org.eclipse.emf.eef.editor.internal.filters.PropertyBindingFilter" method="bindableFeature"/>
         </settings>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding/editor"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.1"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding/subPropertyBindings"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding/settings"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.6/@elements.0"/>
       </propertyBindings>
@@ -65,7 +65,7 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EObjectEditor"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.4"/>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EObjectEditor/definition"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.4/@elements.0"/>
         <settings xsi:type="eef-model:EReferenceFilter">
@@ -76,7 +76,7 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EReferenceFilter"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.8"/>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.ecore#//Query/body"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0"/>
       </propertyBindings>
@@ -84,15 +84,15 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.ecore#//JavaBody"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.7"/>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.ecore#//JavaBody/qualifiedClass"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.ecore#//JavaBody/method"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.0"/>
       </propertyBindings>
-      <propertyBindings>
+      <propertyBindings  xsi:type="eef-model:EStructuralFeatureBinding">
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.ecore#//JavaBody/static"/>
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.1"/>
       </propertyBindings>
