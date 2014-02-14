@@ -4,5 +4,6 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings"/>
    </service>
-   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="dynamic"/>
-</scr:component>
+   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
+
+   <reference bind="setEEFLogger" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.logging.EEFLogger" name="EEFLogger" policy="static"/></scr:component>

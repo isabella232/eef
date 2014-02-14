@@ -84,7 +84,8 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<P
 			 */
 			public boolean apply(EPackage input) {
 				EMFService emfService = emfServiceProvider.getEMFService(element);
-				return ((emfService != null && emfService.equals(element, input)) || element == input);
+				boolean b = (emfService != null && emfService.equals(element, input)) || element == input;
+				return b;
 			}
 
 		}, new Function<EClassBinding, EPackage>() {

@@ -16,8 +16,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.binding.settings.AbstractEEFBindingSettings;
+import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 
 import com.google.common.collect.Lists;
 
@@ -26,6 +28,15 @@ import com.google.common.collect.Lists;
  *
  */
 public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
+
+	private EEFLogger eefLogger;
+	
+	/**
+	 * @param eefLogger the eefLogger to set
+	 */
+	public final void setEEFLogger(EEFLogger eefLogger) {
+		this.eefLogger = eefLogger;
+	}
 
 	/**
 	 * This method can be overridden by subclasses to provide their own EditingModel.
@@ -56,7 +67,9 @@ public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 				Resource resource = getEditingModelEnvironment().getResourceSet().getResource(modelURI, true);
 				result.addAll(getAllEditingModels(resource));
 			} catch (WrappedException e) {
-				//Unable to load the file. Nothing to do.
+				if (eefLogger != null) {
+					eefLogger.logError(EEFRuntime.PLUGIN_ID, "Unable to load the EEF Settings from " + modelURI.toString() + " file.", e);
+				}
 			}
 		} else if (getEditingModel() != null) {
 			result.add(getEditingModel());
