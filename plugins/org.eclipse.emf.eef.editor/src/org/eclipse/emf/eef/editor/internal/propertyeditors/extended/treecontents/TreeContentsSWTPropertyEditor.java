@@ -15,6 +15,7 @@ import org.eclipse.emf.eef.editor.internal.widgets.TreeEEFViewer;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.SWTPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
@@ -28,6 +29,7 @@ import org.eclipse.swt.widgets.Composite;
 public class TreeContentsSWTPropertyEditor implements SWTPropertyEditor<TreeEEFViewer> {
 
 	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private ImageManager imageManager;
 
 	private EditingDomain editingDomain;
@@ -37,10 +39,11 @@ public class TreeContentsSWTPropertyEditor implements SWTPropertyEditor<TreeEEFV
 
 	private TreeEEFViewer viewer;
 
-	public TreeContentsSWTPropertyEditor(EMFServiceProvider emfServiceProvider, ImageManager imageManager, EditingDomain editingDomain, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+	public TreeContentsSWTPropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, ImageManager imageManager, EditingDomain editingDomain, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.emfServiceProvider = emfServiceProvider;
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.imageManager = imageManager;
 		this.editingDomain = editingDomain;
 	}
@@ -53,7 +56,9 @@ public class TreeContentsSWTPropertyEditor implements SWTPropertyEditor<TreeEEFV
 	public void build(Composite parent) {
 		this.viewer = new TreeEEFViewer(parent, SWT.NONE);
 		viewer.setEMFServiceProvider(emfServiceProvider);
+		viewer.setEEFEditingServiceProvider(eefEditingServiceProvider);
 		viewer.setImageManager(imageManager);
+		viewer.setEditingDomain(editingDomain);
 		viewer.createContents();
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.heightHint = view.getViewSettings().getMultiEditorHeight();

@@ -18,6 +18,7 @@ import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl.SWTImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
+import org.eclipse.emf.eef.runtime.ui.swt.view.SWTPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.util.ViewServiceProvider;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
@@ -171,6 +172,25 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 			return view;
 		}
 		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#refreshGraphical(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 */
+	public void refreshGraphical(PropertiesEditingComponent editingComponent, Object view) {
+		if (view instanceof SWTPropertiesEditingView) {
+			final SWTPropertiesEditingView editingView = (SWTPropertiesEditingView) view;
+			((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
+				public void run() {
+					final Composite container = editingView.getContents().getParent();
+					editingView.disposeContents();
+					editingView.createContents(container);
+					editingView.getContents().getParent().layout();
+					editingView.getContents().getParent().redraw();
+				}
+			});
+		}
 	}
 
 	/**

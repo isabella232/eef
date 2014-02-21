@@ -13,7 +13,9 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.handle.editingview;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.impl.FormImplPropertiesEditingView;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl.SWTImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -69,6 +71,29 @@ public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditing
 			return view;
 		}
 		return super.createView(editingComponent, viewDescriptor, args);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#refreshGraphical(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 */
+	public void refreshGraphical(PropertiesEditingComponent editingComponent, Object view) {
+		if (view instanceof FormPropertiesEditingView) {
+			final FormPropertiesEditingView editingView = (FormPropertiesEditingView) view;
+			final FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+			((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
+				public void run() {
+					Composite contents = editingView.getContents();
+					if (contents != null && !contents.isDisposed()) {
+						Composite container = contents.getParent();
+						editingView.disposeContents();
+						editingView.createContents(toolkit, container);
+					}
+				}
+			});
+		} else {
+			super.refreshGraphical(editingComponent, view);
+		}
 	}
 
 }

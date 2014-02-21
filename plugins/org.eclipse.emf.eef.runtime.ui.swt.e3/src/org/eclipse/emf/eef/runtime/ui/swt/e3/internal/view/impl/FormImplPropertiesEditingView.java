@@ -74,6 +74,15 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView#disposeContents()
+	 */
+	public void disposeContents() {
+		contentsComposite.dispose();
+		this.propertyEditors.clear();
+	}
+
 	private void buildElement(FormToolkit toolkit, Composite currentContainer, PropertyBinding propertyBinding, EObject content) {
 		if (content instanceof ElementEditor) {
 			ElementEditor elementEditor = (ElementEditor) content;

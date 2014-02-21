@@ -63,4 +63,9 @@ public interface PropertiesEditingView<T> extends PropertiesEditingListener {
 	 */
 	T getContents();
 	
+	/**
+	 * Disposes the contents of the view.
+	 */
+	void disposeContents();
+
 }

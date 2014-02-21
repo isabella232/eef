@@ -269,7 +269,18 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 */
 	public void notifyModelChanged(PropertiesEditingComponent editingComponent, Notification msg) {
 		PropertiesEditingModel editingModel = editingComponent.getEditingModel();
-		if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
+		if (editingComponent instanceof ReflectivePropertiesEditingComponent<?>) {
+			//TODO: optimize this
+			for (Object view : editingComponent.getViews()) {
+				if (view != null) {
+					View viewDescriptor = editingComponent.getDescriptorForView(view);
+					ViewHandler<?> viewHandler = viewHandlerProvider.getViewHandler(viewDescriptor);
+					viewHandler.refreshGraphical(editingComponent, view);
+				}
+			}
+			
+			
+		} else if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
 			EObject source = editingComponent.getEObject();
 			EMFService service = emfServiceProvider.getEMFService(source.eClass().getEPackage());
 			EStructuralFeature structuralFeature = service.mapFeature(source.eClass(), (EStructuralFeature) msg.getFeature());

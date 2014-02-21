@@ -50,6 +50,13 @@ public interface ViewHandler<T> extends EEFService<View> {
 	 * @return the handled view.
 	 */
 	T createView(PropertiesEditingComponent component, View descriptor, Object... args) throws ViewConstructionException;
+	
+	/**
+	 * Graphically refresh the view corresponding to the given descriptor.
+	 * @param editingComponent editingComponent owning the view to refresh.
+	 * @param view the view to refresh.
+	 */
+	void refreshGraphical(PropertiesEditingComponent editingComponent, Object view);
 
 	/**
 	 * Initializes a view with the current EObject properties.

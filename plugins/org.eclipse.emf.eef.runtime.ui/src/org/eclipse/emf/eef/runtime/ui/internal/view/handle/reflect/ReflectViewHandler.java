@@ -99,6 +99,14 @@ public class ReflectViewHandler<T> implements ViewHandler<T> {
 
 	/**
 	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#refreshGraphical(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 */
+	public void refreshGraphical(PropertiesEditingComponent editingComponent, Object view) {
+		//TODO: I'm not sure what I've to do in this case.
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#initView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
 	 *      java.lang.Object)

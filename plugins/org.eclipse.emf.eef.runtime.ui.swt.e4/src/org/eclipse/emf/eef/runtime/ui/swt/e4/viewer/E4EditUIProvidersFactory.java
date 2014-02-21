@@ -7,12 +7,13 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.e4.internal.providers.PropertyBindingLabelProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.e4.services.resources.RegistryProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 
@@ -23,7 +24,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 public class E4EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	private AdapterFactory adapterFactory;
-	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private ImageManager imageManager;
 	private RegistryProvider registryProvider;
 	
@@ -36,10 +37,10 @@ public class E4EditUIProvidersFactory implements EditUIProvidersFactory {
 	}
 
 	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
+	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
 	 */
-	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
-		this.emfServiceProvider = emfServiceProvider;
+	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
@@ -81,7 +82,7 @@ public class E4EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory#createLabelProvider(org.eclipse.emf.common.notify.AdapterFactory)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory#createLabelProvider(org.eclipse.emf.common.notify.AdapterFactory)
 	 */
 	public ILabelProvider createLabelProvider(AdapterFactory adapterFactory) {
 		AdapterFactoryLabelProvider adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(adapterFactory);
@@ -92,13 +93,10 @@ public class E4EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory#createPropertyBindingLabelProvider(org.eclipse.emf.common.notify.AdapterFactory, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory#createPropertyBindingLabelProvider(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
 	 */
-	public ILabelProvider createPropertyBindingLabelProvider(AdapterFactory adapterFactory, PropertyBinding binding) {
-		PropertyBindingLabelProvider propertyBindingLabelProvider = new PropertyBindingLabelProvider(emfServiceProvider, adapterFactory, binding);
-		propertyBindingLabelProvider.setImageManager(imageManager);
-		propertyBindingLabelProvider.setRegistryProvider(registryProvider);
-		return propertyBindingLabelProvider;
+	public ILabelProvider createPropertyBindingLabelProvider(PropertiesEditingContext editingContext, PropertyBinding propertyBinding) {
+		return new PropertyBindingLabelProvider(eefEditingServiceProvider, editingContext, propertyBinding);
 	}
 
 }

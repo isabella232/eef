@@ -81,9 +81,9 @@ public class TreeContentsPropertyEditorFactory extends WidgetPropertyEditorFacto
 		EEFEditingService editingService = eefExtendedToolkit.getEEFEditingServiceProvider().getEditingService(view.getEditingComponent().getEObject());
 		EditingDomain editingDomain = editingService.searchEditingDomain(view.getEditingComponent().getEditingContext());
 		if (toolkit != null) {
-			propertyEditorViewer = new TreeContentsFormPropertyEditor(eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getImageManager(), editingDomain, view, viewElement);
+			propertyEditorViewer = new TreeContentsFormPropertyEditor(eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getEEFEditingServiceProvider(), eefExtendedToolkit.getImageManager(), editingDomain, view, viewElement);
 		} else {
-			propertyEditorViewer = new TreeContentsSWTPropertyEditor(eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getImageManager(), editingDomain, view, viewElement);
+			propertyEditorViewer = new TreeContentsSWTPropertyEditor(eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getEEFEditingServiceProvider(), eefExtendedToolkit.getImageManager(), editingDomain, view, viewElement);
 		}
 		return new TreeContentsPropertyEditor(
 				editorContext.view.getEditingComponent().getEditingContext().getContextFactoryProvider(), 

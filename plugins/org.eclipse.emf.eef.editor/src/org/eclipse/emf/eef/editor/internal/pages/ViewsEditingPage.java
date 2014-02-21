@@ -167,15 +167,17 @@ public class ViewsEditingPage extends FormPage {
 		layoutPage(viewsSection, viewSettingsSection, previewSection);
 		((EEFReflectiveEditor)getEditor()).addNotifiable(new Notifiable() {
 			
-			public void notifyChanged(Notification notification) {
-				if (notification.getNotifier() instanceof ViewsRepository) {
+			public void notifyChanged(final Notification notification) {
 					pageContainer.getDisplay().asyncExec(new Runnable() {
 
 						public void run() {
+							if (notification.getNotifier() instanceof ViewsRepository) {
 							refreshPageTitle();
+							} else {
+								viewPreviewViewer.refresh();
+							}
 						}
 					});
-				}
 			}
 		});
 	}

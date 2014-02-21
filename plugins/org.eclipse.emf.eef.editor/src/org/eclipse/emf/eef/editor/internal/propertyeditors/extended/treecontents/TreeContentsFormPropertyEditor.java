@@ -16,6 +16,7 @@ import org.eclipse.emf.eef.editor.internal.widgets.TreeEEFViewer;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.swt.SWT;
@@ -29,8 +30,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  */
 public class TreeContentsFormPropertyEditor implements FormPropertyEditor<TreeEEFViewer> {
 
-	private EMFServiceProvider emfServiceProvider;
-	private ImageManager imageManager;
+	private final EMFServiceProvider emfServiceProvider;
+	private final EEFEditingServiceProvider eefEditingServiceProvider;
+	private final ImageManager imageManager;
 
 	private EditingDomain editingDomain;
 
@@ -43,10 +45,11 @@ public class TreeContentsFormPropertyEditor implements FormPropertyEditor<TreeEE
 	 * @param editingDomain
 	 *            can be null;
 	 */
-	public TreeContentsFormPropertyEditor(EMFServiceProvider emfServiceProvider, ImageManager imageManager, EditingDomain editingDomain, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
+	public TreeContentsFormPropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, ImageManager imageManager, EditingDomain editingDomain, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		this.view = view;
 		this.elementEditor = elementEditor;
 		this.emfServiceProvider = emfServiceProvider;
+		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.imageManager = imageManager;
 		this.editingDomain = editingDomain;
 	}
@@ -60,6 +63,7 @@ public class TreeContentsFormPropertyEditor implements FormPropertyEditor<TreeEE
 	public void build(FormToolkit toolkit, Composite parent) {
 		this.viewer = new FormTreeEEFViewer(toolkit, parent, SWT.NONE);
 		viewer.setEMFServiceProvider(emfServiceProvider);
+		viewer.setEEFEditingServiceProvider(eefEditingServiceProvider);
 		viewer.setImageManager(imageManager);
 		viewer.setEditingDomain(editingDomain);
 		viewer.createContents();

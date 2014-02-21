@@ -133,7 +133,7 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#isAffectingEvent(org.eclipse.emf.common.notify.Notification)
 	 */
 	public boolean isAffectingEvent(Notification notification) {
-		return false;
+		return isConcerningNotifier(notification.getNotifier());
 	}
 
 	/**
@@ -150,6 +150,24 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 	 */
 	public void propagateEvent(PropertiesEditingEvent event) {
 		// Nothing to do.
+	}
+
+	//If the modified element is the displayed view or an element contained in the view, then I need to be notified.
+	private boolean isConcerningNotifier(Object notifier) {
+		if (notifier == getEObject()) {
+			return true;
+		} else {
+			if (notifier instanceof EObject) {
+				EObject parent = ((EObject) notifier).eContainer();
+				while (parent != null) {
+					if (parent == getEObject()) {
+						return true;
+					}
+					parent = parent.eContainer();
+				}
+			}
+		}
+		return false;
 	}
 
 	

@@ -26,4 +26,5 @@ public interface FormPropertiesEditingView extends PropertiesEditingView<Composi
 	 * @param composite owning {@link Composite}.
 	 */
 	void createContents(FormToolkit toolkit, Composite composite);
+	
 }

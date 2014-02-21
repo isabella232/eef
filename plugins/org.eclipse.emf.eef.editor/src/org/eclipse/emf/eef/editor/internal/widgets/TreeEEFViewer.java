@@ -105,7 +105,7 @@ public class TreeEEFViewer extends ContentViewer {
 	/**
 	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
 	 */
-	public final void setEefEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
+	public final void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
