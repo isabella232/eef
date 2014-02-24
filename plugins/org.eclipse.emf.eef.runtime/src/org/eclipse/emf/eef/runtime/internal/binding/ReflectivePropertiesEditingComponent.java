@@ -22,6 +22,7 @@ import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
@@ -32,10 +33,10 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class ReflectivePropertiesEditingComponent<T extends EObject> extends AbstractPropertiesEditingComponent<T> {
-	
+
 	private List<View> descriptors;
 	private EClassBinding binding;
 
@@ -49,6 +50,7 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingModel()
 	 */
 	public PropertiesEditingModel getEditingModel() {
@@ -58,6 +60,7 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getBinding()
 	 */
 	public EClassBinding getBinding() {
@@ -69,6 +72,10 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 				eAnnotation.getDetails().put(BINDING_KIND_KIND, REFLECTIVE_BINDING_KIND);
 				binding.getEAnnotations().add(eAnnotation);
 				binding.getViews().add((View) bindingSettings.getEEFDescription(source));
+			} else if (bindingSettings.getEEFDescription(source) instanceof EClassBinding) {
+				binding = (EClassBinding) source;
+			} else if (bindingSettings.getEEFDescription(source) instanceof PropertyBinding && bindingSettings.getEEFDescription(source).eContainer() instanceof EClassBinding) {
+				binding = (EClassBinding) source.eContainer();
 			}
 		}
 		return binding;
@@ -76,6 +83,7 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewDescriptors()
 	 */
 	public List<View> getViewDescriptors() {
@@ -83,6 +91,10 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 			descriptors = Lists.newArrayList();
 			if (bindingSettings.getEEFDescription(source) instanceof View) {
 				descriptors.add((View) bindingSettings.getEEFDescription(source));
+			} else if (bindingSettings.getEEFDescription(source) instanceof EClassBinding) {
+				descriptors.addAll(((EClassBinding) bindingSettings.getEEFDescription(source)).getViews());
+			} else if (bindingSettings.getEEFDescription(source) instanceof PropertyBinding && bindingSettings.getEEFDescription(source).eContainer() instanceof EClassBinding) {
+				descriptors.addAll(((EClassBinding) bindingSettings.getEEFDescription(source).eContainer()).getViews());
 			}
 		}
 		return descriptors;
@@ -90,6 +102,7 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#addEditingListener(org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener)
 	 */
 	public void addEditingListener(PropertiesEditingListener listener) {
@@ -98,6 +111,7 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#removeEditingListener(org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener)
 	 */
 	public void removeEditingListener(PropertiesEditingListener listener) {
@@ -106,6 +120,7 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getLockPolicies()
 	 */
 	public Collection<EEFLockPolicy> getLockPolicies() {
@@ -114,6 +129,7 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#setLockPolicies(java.util.Collection)
 	 */
 	public void setLockPolicies(Collection<EEFLockPolicy> lockPolicies) {
@@ -122,6 +138,7 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#enableLockPolicy(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy)
 	 */
 	public boolean enableLockPolicy(EEFLockPolicy lockPolicy) {
@@ -130,6 +147,7 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#isAffectingEvent(org.eclipse.emf.common.notify.Notification)
 	 */
 	public boolean isAffectingEvent(Notification notification) {
@@ -138,6 +156,7 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewChangeNotifier()
 	 */
 	public ViewChangeNotifier getViewChangeNotifier() {
@@ -146,13 +165,15 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#propagateEvent(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public void propagateEvent(PropertiesEditingEvent event) {
 		// Nothing to do.
 	}
 
-	//If the modified element is the displayed view or an element contained in the view, then I need to be notified.
+	// If the modified element is the displayed view or an element contained in
+	// the view, then I need to be notified.
 	private boolean isConcerningNotifier(Object notifier) {
 		if (notifier == getEObject()) {
 			return true;
@@ -170,5 +191,4 @@ public class ReflectivePropertiesEditingComponent<T extends EObject> extends Abs
 		return false;
 	}
 
-	
 }

@@ -38,6 +38,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.internal.binding.settings.ReflectiveEEFBindingSettings;
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
@@ -149,14 +150,16 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	}
 
 	/**
-	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 * @param eefEditingServiceProvider
+	 *            the eefEditingServiceProvider to set
 	 */
 	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
-	 * @param eefNotifierProvider the eefNotifierProvider to set
+	 * @param eefNotifierProvider
+	 *            the eefNotifierProvider to set
 	 */
 	public void setEEFNotifierProvider(EEFNotifierProvider eefNotifierProvider) {
 		this.eefNotifierProvider = eefNotifierProvider;
@@ -209,7 +212,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 		} else if (editingContext instanceof ReflectivePropertiesEditingContext) {
 			eObject = ((ReflectivePropertiesEditingContext) editingContext).getEObject();
 		}
-		if (eObject != null) {
+		if (eObject != null && eObject.eClass() != null) {
 			EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 			Notifier highestNotifier = emfService.highestNotifier(eObject);
 			initModelChangesNotifierIfNeeded(highestNotifier);
@@ -221,6 +224,12 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 				if (eefDescription instanceof PropertiesEditingModel) {
 					ReflectiveEEFBindingSettings<PropertiesEditingModel> bindingSettings = new ReflectiveEEFBindingSettings<PropertiesEditingModel>((PropertiesEditingModel) eefDescription);
 					component = new ReflectivePropertiesEditingComponent<PropertiesEditingModel>(bindingSettings, eObject);
+				} else if (eefDescription instanceof EClassBinding) {
+					ReflectiveEEFBindingSettings<EClassBinding> bindingSettings = new ReflectiveEEFBindingSettings<EClassBinding>((EClassBinding) eefDescription);
+					component = new ReflectivePropertiesEditingComponent<EClassBinding>(bindingSettings, eObject);
+				} else if (eefDescription instanceof PropertyBinding) {
+					ReflectiveEEFBindingSettings<PropertyBinding> bindingSettings = new ReflectiveEEFBindingSettings<PropertyBinding>((PropertyBinding) eefDescription);
+					component = new ReflectivePropertiesEditingComponent<PropertyBinding>(bindingSettings, eObject);
 				} else {
 					// Ok it's ugly, but I assume it's a view. In this bundle, I
 					// didn't have knowledge of eef.runtime.ui.views metamodel
@@ -270,7 +279,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	public void notifyModelChanged(PropertiesEditingComponent editingComponent, Notification msg) {
 		PropertiesEditingModel editingModel = editingComponent.getEditingModel();
 		if (editingComponent instanceof ReflectivePropertiesEditingComponent<?>) {
-			//TODO: optimize this
+			// TODO: optimize this
 			for (Object view : editingComponent.getViews()) {
 				if (view != null) {
 					View viewDescriptor = editingComponent.getDescriptorForView(view);
@@ -278,8 +287,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 					viewHandler.refreshGraphical(editingComponent, view);
 				}
 			}
-			
-			
+
 		} else if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
 			EObject source = editingComponent.getEObject();
 			EMFService service = emfServiceProvider.getEMFService(source.eClass().getEPackage());
@@ -531,7 +539,8 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	private Diagnostic validateValue(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		Diagnostic ret = Diagnostic.OK_INSTANCE;
 		EStructuralFeature feature = eefEditingServiceProvider.getEditingService(editingComponent.getEObject()).featureFromEditor(editingComponent.getEditingContext(), editingEvent.getAffectedEditor());
-		// At this point, I consider that only binding with EStructuralFeature are able to validate a editing value
+		// At this point, I consider that only binding with EStructuralFeature
+		// are able to validate a editing value
 		// TODO: Skipped test on EEnum to process later.
 		if (editingEvent.getNewValue() != null && feature instanceof EAttribute && !(feature.getEType() instanceof EEnum)) {
 			EAttribute attribute = (EAttribute) feature;
