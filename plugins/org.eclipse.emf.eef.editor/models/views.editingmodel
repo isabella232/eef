@@ -62,6 +62,7 @@
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//DocumentedElement/documentation"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.2"/>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//ElementEditor/readOnly"/>
       </propertyBindings>
     </bindings>
