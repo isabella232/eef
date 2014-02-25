@@ -122,8 +122,8 @@ public class FormImplPropertiesEditingView extends AbstractPropertiesEditingView
 						if ((Viewer) propertyEditor.getPropertyEditorViewer().getViewer() instanceof Viewer) {
 							// TODO: In case of Container, we should check that
 							// at least 1 subElementEditor is binded.
-							if (content instanceof Container || eefEditingServiceProvider.getEditingService(binding).isReflectiveBinding(binding) || binding.propertyBinding(content, autowire) != null
-									|| eefEditingServiceProvider.getEditingService(binding).featureFromEditor(editingComponent.getEditingContext(), content) != null) {
+							if (subContent instanceof Container || eefEditingServiceProvider.getEditingService(binding).isReflectiveBinding(binding) || binding.propertyBinding(subContent, autowire) != null
+									|| eefEditingServiceProvider.getEditingService(binding).featureFromEditor(editingComponent.getEditingContext(), subContent) != null) {
 								buildElement(toolkit, viewerControl, subContent);
 							}
 						}
