@@ -13,11 +13,11 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.handle.editingview;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
-import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.impl.FormImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.view.FormPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl.SWTImplPropertiesEditingView;
+import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.view.handle.exceptions.ViewConstructionException;
 import org.eclipse.emf.eef.views.View;
@@ -75,7 +75,9 @@ public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditing
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#refreshGraphical(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#refreshGraphical(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
+	 *      java.lang.Object)
 	 */
 	public void refreshGraphical(PropertiesEditingComponent editingComponent, Object view) {
 		if (view instanceof FormPropertiesEditingView) {

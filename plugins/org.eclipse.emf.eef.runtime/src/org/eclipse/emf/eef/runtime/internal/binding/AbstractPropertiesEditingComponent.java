@@ -24,7 +24,7 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public abstract class AbstractPropertiesEditingComponent<T extends EObject> implements PropertiesEditingComponent {
 
@@ -32,8 +32,7 @@ public abstract class AbstractPropertiesEditingComponent<T extends EObject> impl
 	protected EEFBindingSettings<T> bindingSettings;
 	protected EObject source;
 	protected final BiMap<View, Object> descriptorsToViews;
-	
-	
+
 	/**
 	 * @param bindingSettings
 	 * @param source
@@ -46,6 +45,7 @@ public abstract class AbstractPropertiesEditingComponent<T extends EObject> impl
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEObject()
 	 * @state
 	 */
@@ -55,6 +55,7 @@ public abstract class AbstractPropertiesEditingComponent<T extends EObject> impl
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingContext()
 	 * @state
 	 */
@@ -64,15 +65,18 @@ public abstract class AbstractPropertiesEditingComponent<T extends EObject> impl
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#setEditingContext(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 * @state
 	 */
 	public void setEditingContext(PropertiesEditingContext editingContext) {
 		this.editingContext = editingContext;
+		// editingContext
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getBindingSettings()
 	 */
 	public EEFBindingSettings<T> getBindingSettings() {
@@ -81,7 +85,9 @@ public abstract class AbstractPropertiesEditingComponent<T extends EObject> impl
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#setViewForDescriptor(java.lang.Object, org.eclipse.emf.eef.runtime.editingModel.View)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#setViewForDescriptor(java.lang.Object,
+	 *      org.eclipse.emf.eef.runtime.editingModel.View)
 	 */
 	public void setViewForDescriptor(View descriptor, Object view) {
 		descriptorsToViews.put(descriptor, view);
@@ -89,6 +95,7 @@ public abstract class AbstractPropertiesEditingComponent<T extends EObject> impl
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getDescriptorForView(java.lang.Object)
 	 */
 	public View getDescriptorForView(Object view) {
@@ -97,6 +104,7 @@ public abstract class AbstractPropertiesEditingComponent<T extends EObject> impl
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViews()
 	 */
 	public List<Object> getViews() {
@@ -109,6 +117,7 @@ public abstract class AbstractPropertiesEditingComponent<T extends EObject> impl
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#removeView(java.lang.Object)
 	 */
 	public void removeView(Object view) {
@@ -117,12 +126,13 @@ public abstract class AbstractPropertiesEditingComponent<T extends EObject> impl
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#dispose()
 	 * @state
 	 */
 	public void dispose() {
 		editingContext.disposeComponent(this);
-		
+
 		// Making a blank component to be sure to not reuse it!
 		bindingSettings = null;
 		source = null;

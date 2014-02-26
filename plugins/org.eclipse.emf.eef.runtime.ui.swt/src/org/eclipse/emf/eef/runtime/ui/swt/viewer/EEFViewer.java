@@ -49,8 +49,8 @@ import org.eclipse.swt.widgets.Control;
 import com.google.common.collect.Lists;
 
 /**
- * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- * TODO: ADD PartFilter management
+ * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a> TODO: ADD
+ *         PartFilter management
  */
 public class EEFViewer extends ContentViewer implements IEEFViewer {
 
@@ -64,8 +64,10 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	private List<EEFViewerFilter> filters;
 
 	/**
-	 * @param parent {@link Composite} containing this viewer.
-	 * @param style viewer.
+	 * @param parent
+	 *            {@link Composite} containing this viewer.
+	 * @param style
+	 *            viewer.
 	 */
 	public EEFViewer(Composite parent, int style) {
 		control = new Composite(parent, SWT.NONE);
@@ -96,6 +98,7 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#getControl()
 	 */
 	public Control getControl() {
@@ -103,7 +106,9 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	}
 
 	/**
-	 * @param dynamicTabHeader <code>true</code> if the TabHeaders must be dynamic (i.e. disappear when there is only one view).
+	 * @param dynamicTabHeader
+	 *            <code>true</code> if the TabHeaders must be dynamic (i.e.
+	 *            disappear when there is only one view).
 	 */
 	public void setDynamicTabHeader(boolean dynamicTabHeader) {
 		this.dynamicTabHeader = dynamicTabHeader;
@@ -111,25 +116,29 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.ContentViewer#setContentProvider(org.eclipse.jface.viewers.IContentProvider)
 	 */
 	public void setContentProvider(IContentProvider contentProvider) {
-		assert contentProvider instanceof EEFContentProvider:"The content provider of this viewer must implement EEFContentProvider interface.";
+		assert contentProvider instanceof EEFContentProvider : "The content provider of this viewer must implement EEFContentProvider interface.";
 		super.setContentProvider(contentProvider);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.jface.viewers.Viewer#inputChanged(java.lang.Object, java.lang.Object)
+	 * 
+	 * @see org.eclipse.jface.viewers.Viewer#inputChanged(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	protected void inputChanged(Object input, Object oldInput) {
-		assert input instanceof PropertiesEditingContext:"Bad input type for EEFViewer. Expecting PropertiesEditingContext.";
-		this.input = (PropertiesEditingContext)input;
+		assert input instanceof PropertiesEditingContext : "Bad input type for EEFViewer. Expecting PropertiesEditingContext.";
+		this.input = (PropertiesEditingContext) input;
 		refresh();
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#refresh()
 	 */
 	public void refresh() {
@@ -142,13 +151,13 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 				ViewHandler<?> viewHandler = input.getViewHandlerProvider().getViewHandler(descriptor);
 				if (viewHandler instanceof PropertiesEditingViewHandler) {
 					PropertiesEditingViewHandler propertiesEditingViewHandler = (PropertiesEditingViewHandler) viewHandler;
-					org.eclipse.emf.eef.views.View viewDescriptor = (org.eclipse.emf.eef.views.View) ((EObjectView)descriptor).getDefinition();
+					org.eclipse.emf.eef.views.View viewDescriptor = (org.eclipse.emf.eef.views.View) ((EObjectView) descriptor).getDefinition();
 					boolean filtered = isFiltered(viewDescriptor);
 					if (filtered) {
 						try {
 							CTabItem item = new CTabItem(folder, SWT.NONE);
 							item.setText(viewDescriptor.getName());
-							PropertiesEditingView<Composite> view = propertiesEditingViewHandler.createView(component, descriptor,  folder);
+							PropertiesEditingView<Composite> view = propertiesEditingViewHandler.createView(component, descriptor, folder);
 							view.getContents().setLayoutData(new GridData(GridData.FILL_BOTH));
 							propertiesEditingViewHandler.initView(component, view);
 							item.setControl(view.getContents());
@@ -174,7 +183,7 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 				}
 				i++;
 			}
-			if (dynamicTabHeader ) {
+			if (dynamicTabHeader) {
 				if (folder.getItemCount() > 1) {
 					folder.setTabHeight(SWT.DEFAULT);
 				} else {
@@ -215,7 +224,7 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 			for (int i = 0; i < items.length; i++) {
 				CTabItem cTabItem = items[i];
 
-				if (!cTabItem.getControl().isDisposed())
+				if (cTabItem.getControl() != null && !cTabItem.getControl().isDisposed())
 					cTabItem.getControl().dispose();
 				if (!cTabItem.isDisposed())
 					cTabItem.dispose();
@@ -240,26 +249,31 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	}
 
 	/**
-	 * @param layoutData the layoutData to set
+	 * @param layoutData
+	 *            the layoutData to set
 	 */
 	public void setLayoutData(Object layoutData) {
 		control.setLayoutData(layoutData);
 	}
-	
+
 	/**
 	 * Add a listener to the component of the context.
-	 * @param listener {@link PropertiesEditingListener} to add.
+	 * 
+	 * @param listener
+	 *            {@link PropertiesEditingListener} to add.
 	 */
 	public void addEditingListener(PropertiesEditingListener listener) {
-		((EEFContentProvider)getContentProvider()).addEditingListener(listener);
+		((EEFContentProvider) getContentProvider()).addEditingListener(listener);
 	}
 
 	/**
 	 * Remove a listener to the component of the context.
-	 * @param listener {@link PropertiesEditingListener} to remove.
+	 * 
+	 * @param listener
+	 *            {@link PropertiesEditingListener} to remove.
 	 */
 	public void removeEditingListener(PropertiesEditingListener listener) {
-		((EEFContentProvider)getContentProvider()).removeEditingListener(listener);
+		((EEFContentProvider) getContentProvider()).removeEditingListener(listener);
 	}
 
 	/**
@@ -312,7 +326,8 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	 * Sets the filters, replacing any previous filters, and triggers
 	 * refiltering and resorting of the elements.
 	 * 
-	 * @param filters an array of viewer filters
+	 * @param filters
+	 *            an array of viewer filters
 	 */
 	public void setFilters(EEFViewerFilter[] filters) {
 		if (filters.length == 0) {
@@ -322,7 +337,7 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 			refresh();
 		}
 	}
-	
+
 	/**
 	 * Discards this viewer's filters and triggers refiltering and resorting of
 	 * the elements.
@@ -335,10 +350,12 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	}
 
 	/*
-	 * =============================== Selection management ================================
+	 * =============================== Selection management
+	 * ================================
 	 */
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.Viewer#getSelection()
 	 */
 	public ISelection getSelection() {
@@ -347,14 +364,17 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.jface.viewers.Viewer#setSelection(org.eclipse.jface.viewers.ISelection, boolean)
+	 * 
+	 * @see org.eclipse.jface.viewers.Viewer#setSelection(org.eclipse.jface.viewers.ISelection,
+	 *      boolean)
 	 */
 	public void setSelection(ISelection selection, boolean reveal) {
 
 	}
 
 	/*
-	 * ================================= Scroll management =================================
+	 * ================================= Scroll management
+	 * =================================
 	 */
 	/**
 	 * update the scroll composite size

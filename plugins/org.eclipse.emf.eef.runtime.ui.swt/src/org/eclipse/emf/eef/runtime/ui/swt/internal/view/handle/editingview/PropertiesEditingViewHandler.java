@@ -13,7 +13,9 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview;
 import java.util.Collection;
 
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
+import org.eclipse.emf.eef.runtime.internal.binding.ReflectivePropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.impl.SWTImplPropertiesEditingView;
@@ -176,7 +178,9 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#refreshGraphical(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, java.lang.Object)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#refreshGraphical(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
+	 *      java.lang.Object)
 	 */
 	public void refreshGraphical(PropertiesEditingComponent editingComponent, Object view) {
 		if (view instanceof SWTPropertiesEditingView) {
@@ -200,12 +204,15 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 *      java.lang.Object)
 	 */
 	public void initView(PropertiesEditingComponent editingComponent, PropertiesEditingView<Composite> view) {
-		if (view != null && !eefEditingServiceProvider.getEditingService(editingComponent.getBinding()).isReflectiveBinding(editingComponent.getBinding())) {
+		EClassBinding binding = editingComponent.getBinding();
+		if (view != null && !(editingComponent instanceof ReflectivePropertiesEditingComponent<?>)) {
 			UnmodifiableIterator<ElementEditor> elementEditors = Iterators.filter(view.getViewModel().eAllContents(), ElementEditor.class);
 			while (elementEditors.hasNext()) {
 				ElementEditor elementEditor = elementEditors.next();
-				PropertyEditor propertyEditor = view.getPropertyEditor(elementEditor);
-				propertyEditor.init();
+				if (binding.propertyBinding(elementEditor, editingComponent.getEditingContext().getOptions().autowire()) != null || eefEditingServiceProvider.getEditingService(binding).featureFromEditor(editingComponent.getEditingContext(), elementEditor) != null) {
+					PropertyEditor propertyEditor = view.getPropertyEditor(elementEditor);
+					propertyEditor.init();
+				}
 			}
 			EEFLockManager lockManager = lockManagerProvider.getLockManager(view);
 			lockManager.initView(view);
