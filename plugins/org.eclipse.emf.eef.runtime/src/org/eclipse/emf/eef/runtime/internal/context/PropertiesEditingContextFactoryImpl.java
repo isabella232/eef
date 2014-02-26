@@ -118,6 +118,8 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 			context = new DomainPropertiesEditingContext(parentContext, eObject);
 		} else if (parentContext instanceof EObjectPropertiesEditingContext) {
 			context = new EObjectPropertiesEditingContext(parentContext, eObject);
+		} else if (parentContext instanceof SemanticPropertiesEditingContext){
+			context = new EObjectPropertiesEditingContext(parentContext, eObject);
 		} else {
 			throw new IllegalArgumentException("Unable to process this context as a parent");
 		}

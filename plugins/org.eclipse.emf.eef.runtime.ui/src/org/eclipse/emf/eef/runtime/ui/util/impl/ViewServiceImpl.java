@@ -144,6 +144,9 @@ public abstract class ViewServiceImpl implements ViewService {
 		} else if (resource != null) {
 			return resource;
 		}
+		if (sourceInput instanceof EObject) {
+			return EcoreUtil.getRootContainer((EObject) sourceInput);
+		}
 		return sourceInput;
 	}
 
