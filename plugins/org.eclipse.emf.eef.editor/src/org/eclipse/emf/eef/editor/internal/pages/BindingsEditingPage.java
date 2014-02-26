@@ -77,7 +77,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
-import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.forms.IFormColors;
@@ -111,7 +110,6 @@ public class BindingsEditingPage extends FormPage {
 	private ToolBar bindingSettingsActions;
 
 	private FilteredTree metamodelViewer;
-	private TreeViewer modelViewer;
 	private MultiEEFViewer bindingSettingsViewer;
 
 	private SelectionBroker selectionBroker;
@@ -346,7 +344,6 @@ public class BindingsEditingPage extends FormPage {
 		layoutData.widthHint = UIConstants.WIDTH_HINT;
 		tabFolder.setLayoutData(layoutData);
 		createMetamodelViewer(toolkit, tabFolder);
-		createModelViewer(toolkit, tabFolder);
 	}
 
 	private void createMetamodelViewer(FormToolkit toolkit, CTabFolder tabFolder) {
@@ -423,14 +420,6 @@ public class BindingsEditingPage extends FormPage {
 		CTabItem metamodelItem = new CTabItem(tabFolder, SWT.NONE);
 		metamodelItem.setControl(metamodelViewer);
 		metamodelItem.setText("Metamodel");
-	}
-
-	private void createModelViewer(FormToolkit toolkit, CTabFolder tabFolder) {
-		Tree modelTree = toolkit.createTree(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
-		modelViewer = new TreeViewer(modelTree);
-		CTabItem modelItem = new CTabItem(tabFolder, SWT.NONE);
-		modelItem.setControl(modelTree);
-		modelItem.setText("Model");
 	}
 
 	private void createBindingSettingsSectionContents(FormToolkit toolkit, Composite bindingSettingsContainer) {
