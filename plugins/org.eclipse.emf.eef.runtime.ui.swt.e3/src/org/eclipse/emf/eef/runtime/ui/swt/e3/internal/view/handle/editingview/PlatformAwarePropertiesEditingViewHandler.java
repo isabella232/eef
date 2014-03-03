@@ -83,16 +83,18 @@ public class PlatformAwarePropertiesEditingViewHandler extends PropertiesEditing
 		if (view instanceof FormPropertiesEditingView) {
 			final FormPropertiesEditingView editingView = (FormPropertiesEditingView) view;
 			final FormToolkit toolkit = editingComponent.getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
-			((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
-				public void run() {
-					Composite contents = editingView.getContents();
-					if (contents != null && !contents.isDisposed()) {
-						Composite container = contents.getParent();
-						editingView.disposeContents();
-						editingView.createContents(toolkit, container);
+			if (!editingView.getContents().isDisposed()) {
+				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
+					public void run() {
+						Composite contents = editingView.getContents();
+						if (contents != null && !contents.isDisposed()) {
+							Composite container = contents.getParent();
+							editingView.disposeContents();
+							editingView.createContents(toolkit, container);
+						}
 					}
-				}
-			});
+				});
+			}
 		} else {
 			super.refreshGraphical(editingComponent, view);
 		}
