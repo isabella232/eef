@@ -17,45 +17,51 @@ import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
- * This is the central singleton for the Views editor plugin.
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
+ * This is the central singleton for the Views editor plugin. <!--
+ * begin-user-doc --> <!-- end-user-doc -->
+ * 
  * @generated
  */
 public final class EditingModelEditPlugin extends EMFPlugin {
+
 	/**
-	 * Keep track of the singleton.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Keep track of the singleton. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @generated
 	 */
 	public static final EditingModelEditPlugin INSTANCE = new EditingModelEditPlugin();
-	
+
 	/**
-	 * Keep track of the singleton.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * @not-generated
+	 */
+	public static final String EDITOR_EXTENSION = INSTANCE.getString("_UI_EditingModelEditorFilenameExtensions");
+	/**
+	 * @not-generated
+	 */
+	public static final String PLUGIN_ID = "org.eclipse.emf.eef.editor";
+
+	/**
+	 * Keep track of the singleton. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @generated
 	 */
 	private static Implementation plugin;
 
 	/**
-	 * Create the instance.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Create the instance. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EditingModelEditPlugin() {
-		super
-			(new ResourceLocator [] {
-				EEFRuntimeUISWT.getResourceLocator()
-			});
+		super(new ResourceLocator[] { EEFRuntimeUISWT.getResourceLocator() });
 	}
 
 	/**
-	 * Returns the singleton instance of the Eclipse plugin.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the singleton instance of the Eclipse plugin. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
 	 * @return the singleton instance.
 	 * @generated
 	 */
@@ -63,33 +69,33 @@ public final class EditingModelEditPlugin extends EMFPlugin {
 	public ResourceLocator getPluginResourceLocator() {
 		return plugin;
 	}
-	
+
 	/**
-	 * Returns the singleton instance of the Eclipse plugin.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the singleton instance of the Eclipse plugin. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
 	 * @return the singleton instance.
 	 * @generated
 	 */
 	public static Implementation getPlugin() {
 		return plugin;
 	}
-	
+
 	/**
-	 * The actual implementation of the Eclipse <b>Plugin</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The actual implementation of the Eclipse <b>Plugin</b>. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static class Implementation extends EclipseUIPlugin {
-		
+
 		private ServiceTracker eefEditingServiceTracker;
 		private ServiceTracker lockManagerProviderTracker;
 		private ServiceTracker imageManagerTracker;
-		
-		
+
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 		 */
 		@Override
@@ -105,6 +111,7 @@ public final class EditingModelEditPlugin extends EMFPlugin {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 		 */
 		@Override
@@ -115,29 +122,28 @@ public final class EditingModelEditPlugin extends EMFPlugin {
 		}
 
 		/**
-		 * Creates an instance.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * Creates an instance. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		public Implementation() {
 			super();
-	
+
 			// Remember the static instance.
 			//
 			plugin = this;
 		}
-		
+
 		public EEFEditingService getEEFEditingService() {
-			return (EEFEditingService)eefEditingServiceTracker.getService();
+			return (EEFEditingService) eefEditingServiceTracker.getService();
 		}
-		
+
 		public EEFLockManagerProvider getLockManagerProvider() {
 			return (EEFLockManagerProvider) lockManagerProviderTracker.getService();
 		}
-		
+
 		public ImageManager getImageManager() {
-			return (ImageManager)imageManagerTracker.getService();
+			return (ImageManager) imageManagerTracker.getService();
 		}
 
 	}

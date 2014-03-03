@@ -78,7 +78,7 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class ViewsEditingPage extends FormPage {
 
@@ -89,9 +89,9 @@ public class ViewsEditingPage extends FormPage {
 	private EMFService emfService;
 	private SelectionService selectionService;
 	private ViewerService viewerService;
-	
+
 	private AdapterFactory adapterFactory;
-	
+
 	private Composite pageContainer;
 	private FormToolkit toolkit;
 	private Form innerForm;
@@ -102,7 +102,7 @@ public class ViewsEditingPage extends FormPage {
 	private EEFViewer viewPreviewViewer;
 
 	private boolean viewsSortedAlphabetically = false;
-	
+
 	/**
 	 * @param editor
 	 * @param adapterFactory
@@ -113,35 +113,40 @@ public class ViewsEditingPage extends FormPage {
 	}
 
 	/**
-	 * @param editingContextFactoryProvider the contextFactoryProvider to set
+	 * @param editingContextFactoryProvider
+	 *            the contextFactoryProvider to set
 	 */
 	public void setContextFactoryProvider(EditingContextFactoryProvider editingContextFactoryProvider) {
 		this.contextFactoryProvider = editingContextFactoryProvider;
 	}
 
 	/**
-	 * @param imageManager the imageManager to set
+	 * @param imageManager
+	 *            the imageManager to set
 	 */
 	public void setImageManager(ImageManager imageManager) {
 		this.imageManager = imageManager;
 	}
 
 	/**
-	 * @param emfService the emfService to set
+	 * @param emfService
+	 *            the emfService to set
 	 */
 	public void setEMFService(EMFService emfService) {
 		this.emfService = emfService;
 	}
 
 	/**
-	 * @param selectionService the selectionService to set
+	 * @param selectionService
+	 *            the selectionService to set
 	 */
 	public void setSelectionService(SelectionService selectionService) {
 		this.selectionService = selectionService;
 	}
 
 	/**
-	 * @param viewerService the viewerService to set
+	 * @param viewerService
+	 *            the viewerService to set
 	 */
 	public void setViewerService(ViewerService viewerService) {
 		this.viewerService = viewerService;
@@ -149,6 +154,7 @@ public class ViewsEditingPage extends FormPage {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.ui.forms.editor.FormPage#createFormContent(org.eclipse.ui.forms.IManagedForm)
 	 */
 	@Override
@@ -165,19 +171,24 @@ public class ViewsEditingPage extends FormPage {
 		Composite viewSettingsSection = createViewSettingsSection(toolkit, pageContainer);
 		Composite previewSection = createPreviewSection(toolkit, pageContainer);
 		layoutPage(viewsSection, viewSettingsSection, previewSection);
-		((EEFReflectiveEditor)getEditor()).addNotifiable(new Notifiable() {
-			
-			public void notifyChanged(final Notification notification) {
-					pageContainer.getDisplay().asyncExec(new Runnable() {
+		((EEFReflectiveEditor) getEditor()).addNotifiable(new Notifiable() {
 
-						public void run() {
-							if (notification.getNotifier() instanceof ViewsRepository) {
+			public void notifyChanged(final Notification notification) {
+				notification.getNotifier();
+				pageContainer.getDisplay().asyncExec(new Runnable() {
+
+					public void run() {
+						if (notification.getNotifier() instanceof ViewsRepository) {
 							refreshPageTitle();
-							} else {
-								viewPreviewViewer.refresh();
-							}
+						} else {
+							viewPreviewViewer.refresh();
 						}
-					});
+					}
+				});
+			}
+
+			public int getIndex() {
+				return 2;
 			}
 		});
 	}
@@ -189,7 +200,7 @@ public class ViewsEditingPage extends FormPage {
 		viewsContainer.setLayout(new GridLayout(1, false));
 		createViewsSectionContents(toolkit, viewsContainer);
 		viewsSection.setClient(viewsContainer);
-		ToolBar toolbar  = new ToolBar(viewsSection, SWT.NONE);
+		ToolBar toolbar = new ToolBar(viewsSection, SWT.NONE);
 		ToolItem add = new ToolItem(toolbar, SWT.PUSH);
 		add.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "Add"));
 		add.setToolTipText("Creates a new view in the repository");
@@ -205,13 +216,16 @@ public class ViewsEditingPage extends FormPage {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.editor.internal.pages.ViewsEditingPage.MoveSelectedViewAdapter#createCommand(org.eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject, org.eclipse.emf.eef.views.View, int)
+			 * 
+			 * @see org.eclipse.emf.eef.editor.internal.pages.ViewsEditingPage.MoveSelectedViewAdapter#createCommand(org.eclipse.emf.edit.domain.EditingDomain,
+			 *      org.eclipse.emf.ecore.EObject,
+			 *      org.eclipse.emf.eef.views.View, int)
 			 */
 			@Override
 			protected Command createCommand(EditingDomain editingDomain, EObject viewContainer, View view, int currentIndex) {
 				return editingDomain.createCommand(MoveCommand.class, new CommandParameter(viewContainer, view.eContainingFeature(), view, currentIndex - 1));
 			}
-			
+
 		});
 		moveDownView = new ToolItem(toolbar, SWT.PUSH);
 		moveDownView.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "ArrowDown"));
@@ -219,19 +233,22 @@ public class ViewsEditingPage extends FormPage {
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.editor.internal.pages.ViewsEditingPage.MoveSelectedViewAdapter#createCommand(org.eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject, org.eclipse.emf.eef.views.View, int)
+			 * 
+			 * @see org.eclipse.emf.eef.editor.internal.pages.ViewsEditingPage.MoveSelectedViewAdapter#createCommand(org.eclipse.emf.edit.domain.EditingDomain,
+			 *      org.eclipse.emf.ecore.EObject,
+			 *      org.eclipse.emf.eef.views.View, int)
 			 */
 			@Override
 			protected Command createCommand(EditingDomain editingDomain, EObject viewContainer, View view, int currentIndex) {
 				return editingDomain.createCommand(MoveCommand.class, new CommandParameter(viewContainer, view.eContainingFeature(), view, currentIndex + 1));
 			}
-			
+
 		});
 		updateViewsSection();
 
 		Separator sep = new Separator();
 		sep.fill(toolbar, 4);
-		
+
 		final ToolItem alphaSort = new ToolItem(toolbar, SWT.CHECK);
 		alphaSort.setImage(imageManager.getImage(EditingModelEditPlugin.getPlugin(), "AlphaSort"));
 		alphaSort.setToolTipText("Sort alphabetically views");
@@ -239,6 +256,7 @@ public class ViewsEditingPage extends FormPage {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 			 */
 			@Override
@@ -246,15 +264,15 @@ public class ViewsEditingPage extends FormPage {
 				viewsSortedAlphabetically = !viewsSortedAlphabetically;
 				updateViewsSection();
 			}
-			
+
 		});
 		views.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
-			
+
 			public void selectionChanged(SelectionChangedEvent event) {
 				if (event.getSelection() != null && !event.getSelection().isEmpty()) {
 					delete.setEnabled(true);
 					EObject view = selectionService.unwrapSelection(event.getSelection());
-					EditingDomain domain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
+					EditingDomain domain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
 					PropertiesEditingContext editingContext = contextFactoryProvider.getEditingContextFactory(view).createPropertiesEditingContext(domain, adapterFactory, view);
 					editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, ViewsEditingPage.this.toolkit);
 					viewSettingsViewer.setInput(editingContext);
@@ -272,7 +290,7 @@ public class ViewsEditingPage extends FormPage {
 		viewsSection.setTextClient(toolbar);
 		return viewsSection;
 	}
-	
+
 	private Composite createViewSettingsSection(FormToolkit toolkit, Composite container) {
 		Section viewSettingsSection = toolkit.createSection(container, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		viewSettingsSection.setText("View Settings");
@@ -313,16 +331,16 @@ public class ViewsEditingPage extends FormPage {
 		previewSection.setLayoutData(previewData);
 	}
 
-
 	private void createViewsSectionContents(FormToolkit toolkit, Composite container) {
 		views = new FilteredTree(container, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL, new PatternFilter(), true);
 		toolkit.adapt(views);
 		views.getViewer().setContentProvider(new AdapterFactoryContentProvider(adapterFactory) {
 
 			private final Object[] nullChildren = new Object[0];
-			
+
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider#getChildren(java.lang.Object)
 			 */
 			@Override
@@ -335,6 +353,7 @@ public class ViewsEditingPage extends FormPage {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider#hasChildren(java.lang.Object)
 			 */
 			@Override
@@ -344,31 +363,30 @@ public class ViewsEditingPage extends FormPage {
 				}
 				return super.hasChildren(object);
 			}
-				
+
 		});
 		views.setLayoutData(new GridData(GridData.FILL_BOTH));
 		views.getViewer().setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-		EditingDomain domain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
+		EditingDomain domain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
 		ResourceSet resourceSet = domain.getResourceSet();
 		views.getViewer().setInput(emfService.findEditedViewsRepository(resourceSet));
 	}
 
-	
 	private void createViewSettingsSectionContents(FormToolkit toolkit, Composite bindingSettingsContainer) {
 		viewSettingsViewer = new EEFViewer(bindingSettingsContainer, SWT.BORDER);
 		viewSettingsViewer.setContentProvider(new EEFContentProvider());
 		viewerService.updateViewerBackground(toolkit, viewSettingsViewer);
 	}
-	
+
 	private void createPreviewSectionContents(FormToolkit toolkit, Composite previewContainer) {
 		viewPreviewViewer = new EEFViewer(previewContainer, SWT.BORDER);
 		viewPreviewViewer.setContentProvider(new EEFContentProvider());
 		viewerService.updateViewerBackground(toolkit, viewPreviewViewer);
 	}
-	
+
 	private void refreshPageTitle() {
 		if (innerForm != null) {
-			ResourceSet resourceSet = ((IEditingDomainProvider)getEditor()).getEditingDomain().getResourceSet();
+			ResourceSet resourceSet = ((IEditingDomainProvider) getEditor()).getEditingDomain().getResourceSet();
 			ViewsRepository editedViewsRepository = emfService.findEditedViewsRepository(resourceSet);
 			String formLabel = "Views";
 			if (editedViewsRepository != null) {
@@ -380,7 +398,7 @@ public class ViewsEditingPage extends FormPage {
 						innerForm.setImage(image);
 					}
 				}
-			} 
+			}
 			innerForm.setText(formLabel);
 		}
 	}
@@ -389,7 +407,7 @@ public class ViewsEditingPage extends FormPage {
 		pageContainer.layout(true);
 		pageContainer.getParent().layout(true);
 	}
-	
+
 	private void updateViewsSection() {
 		TreeViewer viewer = views.getViewer();
 		if (viewsSortedAlphabetically) {
@@ -405,8 +423,8 @@ public class ViewsEditingPage extends FormPage {
 			if (viewer.getSorter() != null) {
 				viewer.setSorter(null);
 			}
-			if (viewer.getSelection() instanceof StructuredSelection && !((StructuredSelection)viewer.getSelection()).isEmpty()) {
-				StructuredSelection selection = (StructuredSelection)viewer.getSelection();
+			if (viewer.getSelection() instanceof StructuredSelection && !((StructuredSelection) viewer.getSelection()).isEmpty()) {
+				StructuredSelection selection = (StructuredSelection) viewer.getSelection();
 				View selectedElement = (View) selection.getFirstElement();
 				EObject eContainer = selectedElement.eContainer();
 				List<?> eViews = (List<?>) eContainer.eGet(selectedElement.eContainmentFeature());
@@ -430,7 +448,7 @@ public class ViewsEditingPage extends FormPage {
 				moveUpView.setToolTipText("No view selected.");
 				moveDownView.setEnabled(false);
 				moveDownView.setToolTipText("No view selected");
-				
+
 			}
 		}
 		viewer.refresh();
@@ -440,6 +458,7 @@ public class ViewsEditingPage extends FormPage {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 		 */
 		@Override
@@ -448,19 +467,20 @@ public class ViewsEditingPage extends FormPage {
 			ViewsRepository repository = (ViewsRepository) views.getViewer().getInput();
 			view.setName("View" + (repository.getViews().size() + 1));
 			IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(repository, IEditingDomainItemProvider.class);
-			EditingDomain editingDomain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
-			Command cmd = provider.createCommand(repository, editingDomain, AddCommand.class , new CommandParameter(repository, ViewsPackage.Literals.VIEWS_REPOSITORY__VIEWS, Lists.newArrayList(view)));
+			EditingDomain editingDomain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
+			Command cmd = provider.createCommand(repository, editingDomain, AddCommand.class, new CommandParameter(repository, ViewsPackage.Literals.VIEWS_REPOSITORY__VIEWS, Lists.newArrayList(view)));
 			editingDomain.getCommandStack().execute(cmd);
 			views.getViewer().refresh();
 			views.getViewer().setSelection(new StructuredSelection(view));
 		}
-		
+
 	}
-	
+
 	private class DeleteViewAdapter extends SelectionAdapter {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 		 */
 		@Override
@@ -468,18 +488,18 @@ public class ViewsEditingPage extends FormPage {
 			ISelection selection = views.getViewer().getSelection();
 			if (selection != null && !selection.isEmpty()) {
 				View view = selectionService.unwrapSelection(selection);
-				EditingDomain editingDomain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
+				EditingDomain editingDomain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
 				Command cmd = editingDomain.createCommand(DeleteCommand.class, new CommandParameter(null, null, Lists.newArrayList(view)));
 				editingDomain.getCommandStack().execute(cmd);
-			} 		
+			}
 		}
-		
+
 	}
-	
+
 	private abstract class MoveSelectedViewAdapter extends SelectionAdapter {
 
 		private Viewer viewer;
-		
+
 		/**
 		 * @param viewer
 		 */
@@ -489,12 +509,13 @@ public class ViewsEditingPage extends FormPage {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 		 */
 		@Override
 		public void widgetSelected(SelectionEvent e) {
-			EditingDomain editingDomain = ((IEditingDomainProvider)getEditor()).getEditingDomain();
-			StructuredSelection selection = (StructuredSelection)viewer.getSelection();
+			EditingDomain editingDomain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
+			StructuredSelection selection = (StructuredSelection) viewer.getSelection();
 			View selectedElement = (View) selection.getFirstElement();
 			EObject eContainer = selectedElement.eContainer();
 			List<?> eViews = (List<?>) eContainer.eGet(selectedElement.eContainmentFeature());

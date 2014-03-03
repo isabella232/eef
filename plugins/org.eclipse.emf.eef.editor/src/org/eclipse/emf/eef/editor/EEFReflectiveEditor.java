@@ -6,7 +6,6 @@
  */
 package org.eclipse.emf.eef.editor;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -30,6 +29,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
@@ -70,9 +70,15 @@ import org.eclipse.emf.eef.editor.internal.pages.ViewsEditingPage;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
 import org.eclipse.emf.eef.editor.internal.services.SelectionService;
 import org.eclipse.emf.eef.editor.internal.services.ViewerService;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.util.EditingModelEditorResourceSet;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
+import org.eclipse.emf.eef.view.listener.EEFViewPartListener;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -109,13 +115,16 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import com.google.common.collect.Lists;
 
-
 /**
  * This is an example of a EditingModel model editor.
  */
 public class EEFReflectiveEditor extends FormEditor implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IGotoMarker {
+
+	public static final String ID = "org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelEditorID";
+
 	/**
-	 * This keeps track of the editing domain that is used to track all changes to the model.
+	 * This keeps track of the editing domain that is used to track all changes
+	 * to the model.
 	 */
 	protected AdapterFactoryEditingDomain editingDomain;
 
@@ -135,10 +144,12 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	protected ISelectionChangedListener selectionChangedListener;
 
 	/**
-	 * This keeps track of all the {@link org.eclipse.jface.viewers.ISelectionChangedListener}s that are listening to this editor.
+	 * This keeps track of all the
+	 * {@link org.eclipse.jface.viewers.ISelectionChangedListener}s that are
+	 * listening to this editor.
 	 */
 	protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
-	
+
 	private Collection<Notifiable> notifiables = Lists.newArrayList();
 
 	/**
@@ -147,40 +158,42 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	protected ISelection editorSelection = StructuredSelection.EMPTY;
 
 	/**
-	 * The MarkerHelper is responsible for creating workspace resource markers presented
-	 * in Eclipse's Problems View.
+	 * The MarkerHelper is responsible for creating workspace resource markers
+	 * presented in Eclipse's Problems View.
 	 */
 	protected MarkerHelper markerHelper = new EditUIMarkerHelper();
 
 	/**
 	 * This listens for when the outline becomes active
 	 */
-	protected IPartListener partListener =
-		new IPartListener() {
-			public void partActivated(IWorkbenchPart p) {
-				if (p instanceof PropertySheet) {
-					if (((PropertySheet)p).getCurrentPage() == propertySheetPage) {
-						getActionBarContributor().setActiveEditor(EEFReflectiveEditor.this);
-						handleActivate();
-					}
-				}
-				else if (p == EEFReflectiveEditor.this) {
+	protected IPartListener partListener = new IPartListener() {
+		public void partActivated(IWorkbenchPart p) {
+			if (p instanceof PropertySheet) {
+				if (((PropertySheet) p).getCurrentPage() == propertySheetPage) {
+					getActionBarContributor().setActiveEditor(EEFReflectiveEditor.this);
 					handleActivate();
 				}
+			} else if (p == EEFReflectiveEditor.this) {
+				handleActivate();
 			}
-			public void partBroughtToTop(IWorkbenchPart p) {
-				// Ignore.
-			}
-			public void partClosed(IWorkbenchPart p) {
-				// Ignore.
-			}
-			public void partDeactivated(IWorkbenchPart p) {
-				// Ignore.
-			}
-			public void partOpened(IWorkbenchPart p) {
-				// Ignore.
-			}
-		};
+		}
+
+		public void partBroughtToTop(IWorkbenchPart p) {
+			// Ignore.
+		}
+
+		public void partClosed(IWorkbenchPart p) {
+			// Ignore.
+		}
+
+		public void partDeactivated(IWorkbenchPart p) {
+			// Ignore.
+		}
+
+		public void partOpened(IWorkbenchPart p) {
+			// Ignore.
+		}
+	};
 
 	/**
 	 * Resources that have been removed since last activation.
@@ -208,136 +221,131 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	protected boolean updateProblemIndication = true;
 
 	/**
-	 * Adapter used to update the problem indication when resources are demanded loaded.
+	 * Adapter used to update the problem indication when resources are demanded
+	 * loaded.
 	 */
-	protected EContentAdapter problemIndicationAdapter = 
-		new EContentAdapter() {
-			@Override
-			public void notifyChanged(Notification notification) {
-				if (notification.getNotifier() instanceof Resource) {
-					switch (notification.getFeatureID(Resource.class)) {
-						case Resource.RESOURCE__IS_LOADED:
-						case Resource.RESOURCE__ERRORS:
-						case Resource.RESOURCE__WARNINGS: {
-							Resource resource = (Resource)notification.getNotifier();
-							Diagnostic diagnostic = analyzeResourceProblems(resource, null);
-							if (diagnostic.getSeverity() != Diagnostic.OK) {
-								resourceToDiagnosticMap.put(resource, diagnostic);
-							}
-							else {
-								resourceToDiagnosticMap.remove(resource);
-							}
-
-							if (updateProblemIndication) {
-								getSite().getShell().getDisplay().asyncExec
-									(new Runnable() {
-										 public void run() {
-											 updateProblemIndication();
-										 }
-									 });
-							}
-							break;
-						}
+	protected EContentAdapter problemIndicationAdapter = new EContentAdapter() {
+		@Override
+		public void notifyChanged(Notification notification) {
+			if (notification.getNotifier() instanceof Resource) {
+				switch (notification.getFeatureID(Resource.class)) {
+				case Resource.RESOURCE__IS_LOADED:
+				case Resource.RESOURCE__ERRORS:
+				case Resource.RESOURCE__WARNINGS: {
+					Resource resource = (Resource) notification.getNotifier();
+					Diagnostic diagnostic = analyzeResourceProblems(resource, null);
+					if (diagnostic.getSeverity() != Diagnostic.OK) {
+						resourceToDiagnosticMap.put(resource, diagnostic);
+					} else {
+						resourceToDiagnosticMap.remove(resource);
 					}
-				}
-				else {
-					super.notifyChanged(notification);
-				}
-			}
 
-			@Override
-			protected void setTarget(Resource target) {
-				basicSetTarget(target);
+					if (updateProblemIndication) {
+						getSite().getShell().getDisplay().asyncExec(new Runnable() {
+							public void run() {
+								updateProblemIndication();
+							}
+						});
+					}
+					break;
+				}
+				}
+			} else {
+				super.notifyChanged(notification);
 			}
+		}
 
-			@Override
-			protected void unsetTarget(Resource target) {
-				basicUnsetTarget(target);
-			}
-		};
+		@Override
+		protected void setTarget(Resource target) {
+			basicSetTarget(target);
+		}
+
+		@Override
+		protected void unsetTarget(Resource target) {
+			basicUnsetTarget(target);
+		}
+	};
 
 	/**
 	 * This listens for workspace changes.
 	 */
-	protected IResourceChangeListener resourceChangeListener =
-		new IResourceChangeListener() {
-			public void resourceChanged(IResourceChangeEvent event) {
-				IResourceDelta delta = event.getDelta();
-				try {
-					class ResourceDeltaVisitor implements IResourceDeltaVisitor {
-						protected ResourceSet resourceSet = editingDomain.getResourceSet();
-						protected Collection<Resource> changedResources = new ArrayList<Resource>();
-						protected Collection<Resource> removedResources = new ArrayList<Resource>();
+	protected IResourceChangeListener resourceChangeListener = new IResourceChangeListener() {
+		public void resourceChanged(IResourceChangeEvent event) {
+			IResourceDelta delta = event.getDelta();
+			try {
+				class ResourceDeltaVisitor implements IResourceDeltaVisitor {
+					protected ResourceSet resourceSet = editingDomain.getResourceSet();
+					protected Collection<Resource> changedResources = new ArrayList<Resource>();
+					protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
-						public boolean visit(IResourceDelta delta) {
-							if (delta.getResource().getType() == IResource.FILE) {
-								if (delta.getKind() == IResourceDelta.REMOVED ||
-								    delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS) {
-									Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
-									if (resource != null) {
-										if (delta.getKind() == IResourceDelta.REMOVED) {
-											removedResources.add(resource);
-										}
-										else if (!savedResources.remove(resource)) {
-											changedResources.add(resource);
-										}
+					public boolean visit(IResourceDelta delta) {
+						if (delta.getResource().getType() == IResource.FILE) {
+							if (delta.getKind() == IResourceDelta.REMOVED || delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS) {
+								Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
+								if (resource != null) {
+									if (delta.getKind() == IResourceDelta.REMOVED) {
+										removedResources.add(resource);
+									} else if (!savedResources.remove(resource)) {
+										changedResources.add(resource);
 									}
 								}
 							}
-
-							return true;
 						}
 
-						public Collection<Resource> getChangedResources() {
-							return changedResources;
-						}
-
-						public Collection<Resource> getRemovedResources() {
-							return removedResources;
-						}
+						return true;
 					}
 
-					final ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
-					delta.accept(visitor);
-
-					if (!visitor.getRemovedResources().isEmpty()) {
-						getSite().getShell().getDisplay().asyncExec
-							(new Runnable() {
-								 public void run() {
-									 removedResources.addAll(visitor.getRemovedResources());
-									 if (!isDirty()) {
-										 getSite().getPage().closeEditor(EEFReflectiveEditor.this, false);
-									 }
-								 }
-							 });
+					public Collection<Resource> getChangedResources() {
+						return changedResources;
 					}
 
-					if (!visitor.getChangedResources().isEmpty()) {
-						getSite().getShell().getDisplay().asyncExec
-							(new Runnable() {
-								 public void run() {
-									 changedResources.addAll(visitor.getChangedResources());
-									 if (getSite().getPage().getActiveEditor() == EEFReflectiveEditor.this) {
-										 handleActivate();
-									 }
-								 }
-							 });
+					public Collection<Resource> getRemovedResources() {
+						return removedResources;
 					}
 				}
-				catch (CoreException exception) {
-					EditingModelEditPlugin.INSTANCE.log(exception);
+
+				final ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
+				delta.accept(visitor);
+
+				if (!visitor.getRemovedResources().isEmpty()) {
+					getSite().getShell().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							removedResources.addAll(visitor.getRemovedResources());
+							if (!isDirty()) {
+								getSite().getPage().closeEditor(EEFReflectiveEditor.this, false);
+							}
+						}
+					});
 				}
+
+				if (!visitor.getChangedResources().isEmpty()) {
+					getSite().getShell().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							changedResources.addAll(visitor.getChangedResources());
+							if (getSite().getPage().getActiveEditor() == EEFReflectiveEditor.this) {
+								handleActivate();
+							}
+						}
+					});
+				}
+			} catch (CoreException exception) {
+				EditingModelEditPlugin.INSTANCE.log(exception);
 			}
-		};
+		}
+	};
+
+	private AdapterFactoryEditingDomain editingDomainForOtherModel;
+
+	private EEFViewPartListener viewListener;
 
 	public void addNotifiable(Notifiable notifiable) {
 		notifiables.add(notifiable);
 	}
-	
+
 	public void removeNotifiable(Notifiable notifiable) {
 		notifiables.remove(notifiable);
 	}
-		
+
 	/**
 	 * Handles activation of the editor or it's associated views.
 	 */
@@ -345,24 +353,22 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 		// Recompute the read only state.
 		//
 		if (editingDomain.getResourceToReadOnlyMap() != null) {
-		  editingDomain.getResourceToReadOnlyMap().clear();
+			editingDomain.getResourceToReadOnlyMap().clear();
 
-		  // Refresh any actions that may become enabled or disabled.
-		  //
-		  setSelection(getSelection());
+			// Refresh any actions that may become enabled or disabled.
+			//
+			setSelection(getSelection());
 		}
 
 		if (!removedResources.isEmpty()) {
 			if (handleDirtyConflict()) {
 				getSite().getPage().closeEditor(EEFReflectiveEditor.this, false);
-			}
-			else {
+			} else {
 				removedResources.clear();
 				changedResources.clear();
 				savedResources.clear();
 			}
-		}
-		else if (!changedResources.isEmpty()) {
+		} else if (!changedResources.isEmpty()) {
 			changedResources.removeAll(savedResources);
 			handleChangedResources();
 			changedResources.clear();
@@ -386,8 +392,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 					resource.unload();
 					try {
 						resource.load(Collections.EMPTY_MAP);
-					}
-					catch (IOException exception) {
+					} catch (IOException exception) {
 						if (!resourceToDiagnosticMap.containsKey(resource)) {
 							resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
 						}
@@ -403,19 +408,14 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 			updateProblemIndication();
 		}
 	}
-  
+
 	/**
-	 * Updates the problems indication with the information described in the specified diagnostic.
+	 * Updates the problems indication with the information described in the
+	 * specified diagnostic.
 	 */
 	protected void updateProblemIndication() {
 		if (updateProblemIndication) {
-			BasicDiagnostic diagnostic =
-				new BasicDiagnostic
-					(Diagnostic.OK,
-					 "org.eclipse.emf.eef.runtime.editor",
-					 0,
-					 null,
-					 new Object [] { editingDomain.getResourceSet() });
+			BasicDiagnostic diagnostic = new BasicDiagnostic(Diagnostic.OK, "org.eclipse.emf.eef.runtime.editor", 0, null, new Object[] { editingDomain.getResourceSet() });
 			for (Diagnostic childDiagnostic : resourceToDiagnosticMap.values()) {
 				if (childDiagnostic.getSeverity() != Diagnostic.OK) {
 					diagnostic.add(childDiagnostic);
@@ -424,12 +424,11 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 
 			int lastEditorPage = getPageCount() - 1;
 			if (lastEditorPage >= 0 && getEditor(lastEditorPage) instanceof ProblemEditorPart) {
-				((ProblemEditorPart)getEditor(lastEditorPage)).setDiagnostic(diagnostic);
+				((ProblemEditorPart) getEditor(lastEditorPage)).setDiagnostic(diagnostic);
 				if (diagnostic.getSeverity() != Diagnostic.OK) {
 					setActivePage(lastEditorPage);
 				}
-			}
-			else if (diagnostic.getSeverity() != Diagnostic.OK) {
+			} else if (diagnostic.getSeverity() != Diagnostic.OK) {
 				ProblemEditorPart problemEditorPart = new ProblemEditorPart();
 				problemEditorPart.setDiagnostic(diagnostic);
 				problemEditorPart.setMarkerHelper(markerHelper);
@@ -438,8 +437,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 					setPageText(lastEditorPage, problemEditorPart.getPartName());
 					setActivePage(lastEditorPage);
 					showTabs();
-				}
-				catch (PartInitException exception) {
+				} catch (PartInitException exception) {
 					EditingModelEditPlugin.INSTANCE.log(exception);
 				}
 			}
@@ -449,8 +447,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 				if (diagnostic.getSeverity() != Diagnostic.OK) {
 					try {
 						markerHelper.createMarkers(diagnostic);
-					}
-					catch (CoreException exception) {
+					} catch (CoreException exception) {
 						EditingModelEditPlugin.INSTANCE.log(exception);
 					}
 				}
@@ -462,11 +459,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	 * Shows a dialog that asks if conflicting changes should be discarded.
 	 */
 	protected boolean handleDirtyConflict() {
-		return
-			MessageDialog.openQuestion
-				(getSite().getShell(),
-				 getString("_UI_FileConflict_label"),
-				 getString("_WARN_FileConflict"));
+		return MessageDialog.openQuestion(getSite().getShell(), getString("_UI_FileConflict_label"), getString("_WARN_FileConflict"));
 	}
 
 	/**
@@ -490,33 +483,33 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 		adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
-		// Create the command stack that will notify this editor as commands are executed.
+		// Create the command stack that will notify this editor as commands are
+		// executed.
 		//
 		BasicCommandStack commandStack = new BasicCommandStack();
 
-		// Add a listener to set the most recent command's affected objects to be the selection of the viewer with focus.
+		// Add a listener to set the most recent command's affected objects to
+		// be the selection of the viewer with focus.
 		//
-		commandStack.addCommandStackListener
-			(new CommandStackListener() {
-				 public void commandStackChanged(final EventObject event) {
-					 getContainer().getDisplay().asyncExec
-						 (new Runnable() {
-							  public void run() {
-								  firePropertyChange(IEditorPart.PROP_DIRTY);
+		commandStack.addCommandStackListener(new CommandStackListener() {
+			public void commandStackChanged(final EventObject event) {
+				getContainer().getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						firePropertyChange(IEditorPart.PROP_DIRTY);
 
-								  // Try to select the affected objects.
-								  //
-								  Command mostRecentCommand = ((CommandStack)event.getSource()).getMostRecentCommand();
-								  if (mostRecentCommand != null) {
-									  setSelectionToViewer(mostRecentCommand.getAffectedObjects());
-								  }
-								  if (propertySheetPage != null && !propertySheetPage.getControl().isDisposed()) {
-									  propertySheetPage.refresh();
-								  }
-							  }
-						  });
-				 }
-			 });
+						// Try to select the affected objects.
+						//
+						Command mostRecentCommand = ((CommandStack) event.getSource()).getMostRecentCommand();
+						if (mostRecentCommand != null) {
+							setSelectionToViewer(mostRecentCommand.getAffectedObjects());
+						}
+						if (propertySheetPage != null && !propertySheetPage.getControl().isDisposed()) {
+							propertySheetPage.refresh();
+						}
+					}
+				});
+			}
+		});
 
 		// Create the editing domain with a special command stack.
 		//
@@ -524,12 +517,13 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.edit.domain.IEditingDomainProvider#getEditingDomain()
 			 */
 			public EditingDomain getEditingDomain() {
 				return editingDomain;
 			}
-			
+
 		});
 		editingDomain.setResourceToReadOnlyMap(new HashMap<Resource, Boolean>());
 	}
@@ -542,23 +536,25 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 		// Make sure it's okay.
 		//
 		if (theSelection != null && !theSelection.isEmpty()) {
-			Runnable runnable =
-				new Runnable() {
-					public void run() {
-						// Try to select the items in the current content viewer of the editor.
-						// TODO
-//						if (currentViewer != null) {
-//							currentViewer.setSelection(new StructuredSelection(theSelection.toArray()), true);
-//						}
-					}
-				};
+			Runnable runnable = new Runnable() {
+				public void run() {
+					// Try to select the items in the current content viewer of
+					// the editor.
+					// TODO
+					// if (currentViewer != null) {
+					// currentViewer.setSelection(new
+					// StructuredSelection(theSelection.toArray()), true);
+					// }
+				}
+			};
 			getSite().getShell().getDisplay().asyncExec(runnable);
 		}
 	}
 
 	/**
-	 * This returns the editing domain as required by the {@link IEditingDomainProvider} interface.
-	 * This is important for implementing the static methods of {@link AdapterFactoryEditingDomain}
+	 * This returns the editing domain as required by the
+	 * {@link IEditingDomainProvider} interface. This is important for
+	 * implementing the static methods of {@link AdapterFactoryEditingDomain}
 	 * and for supporting {@link org.eclipse.emf.edit.ui.action.CommandAction}.
 	 */
 	public EditingDomain getEditingDomain() {
@@ -566,14 +562,15 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	}
 
 	/**
-	 * This creates a context menu for the viewer and adds a listener as well registering the menu for extension.
+	 * This creates a context menu for the viewer and adds a listener as well
+	 * registering the menu for extension.
 	 */
 	protected void createContextMenuFor(StructuredViewer viewer) {
 		MenuManager contextMenu = new MenuManager("#PopUp");
 		contextMenu.add(new Separator("additions"));
 		contextMenu.setRemoveAllWhenShown(true);
 		contextMenu.addMenuListener(this);
-		Menu menu= contextMenu.createContextMenu(viewer.getControl());
+		Menu menu = contextMenu.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
 
@@ -584,128 +581,217 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	}
 
 	/**
-	 * This is the method called to load a resource into the editing domain's resource set based on the editor's input.
+	 * This is the method called to load a resource into the editing domain's
+	 * resource set based on the editor's input.
+	 * 
+	 * @param contextFactoryProvider
 	 */
-	public void createModel() {
+	public void createModel(EditingContextFactoryProvider contextFactoryProvider) {
 		URI resourceURI = EditUIUtil.getURI(getEditorInput());
 		Exception exception = null;
 		Resource resource = null;
 		try {
-			// Load the resource through the editing domain.
-			//
-			resource = editingDomain.getResourceSet().getResource(resourceURI, true);
-		}
-		catch (Exception e) {
+			// si l'input est un editing model
+			if (EditingModelEditPlugin.EDITOR_EXTENSION.equals(resourceURI.fileExtension())) {
+				// create another editing domain
+				createEditingDomainForOtherModels();
+				// Load the resource through the editing domain.
+				//
+				resource = editingDomain.getResourceSet().getResource(resourceURI, true);
+			} else {
+				// if does not exist : find it from Generic Binding Settings or
+				// EEFBindingsSettings
+				// resource = getEditingModel(contextFactoryProvider,
+				// resourceURI);
+			}
+
+		} catch (Exception e) {
 			exception = e;
 			resource = editingDomain.getResourceSet().getResource(resourceURI, false);
 		}
 
 		Diagnostic diagnostic = analyzeResourceProblems(resource, exception);
 		if (diagnostic.getSeverity() != Diagnostic.OK) {
-			resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
+			resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
 		}
 		editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
 		editingDomain.getResourceSet().eAdapters().add(new EContentAdapter() {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.ecore.util.EContentAdapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
 			 */
 			@Override
 			public void notifyChanged(Notification notification) {
 				super.notifyChanged(notification);
 				for (Notifiable notifiable : notifiables) {
-					notifiable.notifyChanged(notification);
+					if (getCurrentPage() == notifiable.getIndex() && isPageNotification(notification)) {
+						notifiable.notifyChanged(notification);
+					}
 				}
 			}
-			
+
+		});
+	}
+
+	protected boolean isPageNotification(Notification notification) {
+		return notification.getEventType() < Notification.REMOVING_ADAPTER && !(notification.getNotifier() instanceof Resource);
+	}
+
+	/**
+	 * @param contextFactoryProvider
+	 * @param resourceURI
+	 * @return
+	 */
+	public Resource getEditingModel(EditingContextFactoryProvider contextFactoryProvider, URI resourceURI) {
+		Resource resource = null;
+		Resource modelResource = editingDomainForOtherModel.getResourceSet().getResource(resourceURI, true);
+
+		if (!modelResource.getContents().isEmpty()) {
+			EObject root = modelResource.getContents().get(0);
+
+			// get PropertiesEditingModel
+			PropertiesEditingContext propertiesEditingContext = contextFactoryProvider.getEditingContextFactory(root).createPropertiesEditingContext(editingDomain, root);
+			PropertiesEditingModel editingModel = propertiesEditingContext.getEditingComponent().getEditingModel();
+
+			if (editingModel != null) {
+				String segment = resourceURI.segment(resourceURI.segmentCount() - 1);
+				String uri = resourceURI.toString().substring(0, segment.length() - 1);
+				URI editingModelURI = URI.createURI(uri + root.eClass().getEPackage().getName() + "." + EditingModelEditPlugin.EDITOR_EXTENSION, true);
+				Resource editingModelResource = editingDomain.getResourceSet().createResource(editingModelURI);
+				editingModelResource.getContents().add(editingModel);
+				if (!editingModel.getBindings().isEmpty()) {
+					EClassBinding classBinding = editingModel.getBindings().get(0);
+					if (!classBinding.getViews().isEmpty() && classBinding.getViews().get(0) instanceof EObjectView) {
+						EObjectView view = (EObjectView) classBinding.getViews().get(0);
+						editingModelResource.getContents().add(view.getDefinition().eContainer());
+					}
+
+				}
+				for (EObject eObject : editingModel.getInvolvedModels()) {
+					editingDomain.getResourceSet().getResources().add(eObject.eResource());
+				}
+				resource = editingModelResource;
+			} else {
+				resource = editingDomain.getResourceSet().getResource(resourceURI, false);
+				EditingModelEditPlugin.INSTANCE.log(new Status(Status.ERROR, EditingModelEditPlugin.PLUGIN_ID, "No editing model has been found"));
+			}
+		} else {
+			resource = editingDomain.getResourceSet().getResource(resourceURI, false);
+		}
+		return resource;
+	}
+
+	/**
+	 * Create editing domain for other models
+	 */
+	public void createEditingDomainForOtherModels() {
+		BasicCommandStack commandStack = new BasicCommandStack();
+		editingDomainForOtherModel = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new EditingModelEditorResourceSet() {
+
+			/**
+			 * {@inheritDoc}
+			 * 
+			 * @see org.eclipse.emf.edit.domain.IEditingDomainProvider#getEditingDomain()
+			 */
+			public EditingDomain getEditingDomain() {
+				return editingDomainForOtherModel;
+			}
+
 		});
 	}
 
 	/**
-	 * Returns a diagnostic describing the errors and warnings listed in the resource
-	 * and the specified exception (if any).
+	 * Returns a diagnostic describing the errors and warnings listed in the
+	 * resource and the specified exception (if any).
 	 */
 	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
 		if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty()) {
-			BasicDiagnostic basicDiagnostic =
-				new BasicDiagnostic
-					(Diagnostic.ERROR,
-					 "org.eclipse.emf.eef.runtime.editor",
-					 0,
-					 getString("_UI_CreateModelError_message", resource.getURI()),
-					 new Object [] { exception == null ? (Object)resource : exception });
+			BasicDiagnostic basicDiagnostic = new BasicDiagnostic(Diagnostic.ERROR, "org.eclipse.emf.eef.runtime.editor", 0, getString("_UI_CreateModelError_message", resource.getURI()), new Object[] { exception == null ? (Object) resource : exception });
 			basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
 			return basicDiagnostic;
-		}
-		else if (exception != null) {
-			return
-				new BasicDiagnostic
-					(Diagnostic.ERROR,
-					 "org.eclipse.emf.eef.runtime.editor",
-					 0,
-					 getString("_UI_CreateModelError_message", resource.getURI()),
-					 new Object[] { exception });
-		}
-		else {
+		} else if (exception != null) {
+			return new BasicDiagnostic(Diagnostic.ERROR, "org.eclipse.emf.eef.runtime.editor", 0, getString("_UI_CreateModelError_message", resource.getURI()), new Object[] { exception });
+		} else {
 			return Diagnostic.OK_INSTANCE;
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.ui.forms.editor.FormEditor#addPages()
 	 */
 	@Override
 	protected void addPages() {
 		try {
-			createModel();
+			EditingContextFactoryProvider contextFactoryProvider = E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider();
 
-			// Only creates the other pages if there is something that can be edited
+			createModel(contextFactoryProvider);
+
+			// Only creates the other pages if there is something that can be
+			// edited
 			//
 			if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
 				EMFService emfService = new EMFService();
 				SelectionService selectionService = new SelectionService();
 				ViewerService viewerService = new ViewerService(EditingModelEditPlugin.getPlugin().getLockManagerProvider());
-				
+
 				OverviewPage overviewPage = new OverviewPage(this, adapterFactory);
-				overviewPage.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
+				overviewPage.setContextFactoryProvider(contextFactoryProvider);
 				overviewPage.setEMFService(emfService);
 				overviewPage.setImageManager(EditingModelEditPlugin.getPlugin().getImageManager());
 				addPage(overviewPage);
-				
+
 				BindingsEditingPage bindingEditingPage = new BindingsEditingPage(this, adapterFactory);
 				bindingEditingPage.setEMFService(emfService);
 				bindingEditingPage.setEEFEditingService(EditingModelEditPlugin.getPlugin().getEEFEditingService());
 				bindingEditingPage.setSelectionService(selectionService);
 				bindingEditingPage.setViewerService(viewerService);
-				bindingEditingPage.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
+				bindingEditingPage.setContextFactoryProvider(contextFactoryProvider);
 				bindingEditingPage.setImageManager(EditingModelEditPlugin.getPlugin().getImageManager());
 				bindingEditingPage.setInput(editingDomain.getResourceSet());
 				addPage(bindingEditingPage);
-				
+
 				ViewsEditingPage viewsEditingPage = new ViewsEditingPage(this, adapterFactory);
-				viewsEditingPage.setContextFactoryProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider());
+				viewsEditingPage.setContextFactoryProvider(contextFactoryProvider);
 				viewsEditingPage.setImageManager(EditingModelEditPlugin.getPlugin().getImageManager());
 				viewsEditingPage.setEMFService(emfService);
 				viewsEditingPage.setSelectionService(selectionService);
 				viewsEditingPage.setViewerService(viewerService);
 				addPage(viewsEditingPage);
+
 			}
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * If there is just one page in the multi-page editor part,
-	 * this hides the single tab at the bottom.
+	 * @return the editingDomainForOtherModel
+	 */
+	public EditingDomain getEditingDomainForOtherModel() {
+		return editingDomainForOtherModel;
+	}
+
+	/**
+	 * @param editingDomainForOtherModel
+	 *            the editingDomainForOtherModel to set
+	 */
+	public void setEditingDomainForOtherModel(AdapterFactoryEditingDomain editingDomainForOtherModel) {
+		this.editingDomainForOtherModel = editingDomainForOtherModel;
+	}
+
+	/**
+	 * If there is just one page in the multi-page editor part, this hides the
+	 * single tab at the bottom.
 	 */
 	protected void hideTabs() {
 		if (getPageCount() <= 1) {
 			setPageText(0, "");
 			if (getContainer() instanceof CTabFolder) {
-				((CTabFolder)getContainer()).setTabHeight(1);
+				((CTabFolder) getContainer()).setTabHeight(1);
 				Point point = getContainer().getSize();
 				getContainer().setSize(point.x, point.y + 6);
 			}
@@ -713,14 +799,14 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	}
 
 	/**
-	 * If there is more than one page in the multi-page editor part,
-	 * this shows the tabs at the bottom.
+	 * If there is more than one page in the multi-page editor part, this shows
+	 * the tabs at the bottom.
 	 */
 	protected void showTabs() {
 		if (getPageCount() > 1) {
 			setPageText(0, getString("_UI_SelectionPage_label"));
 			if (getContainer() instanceof CTabFolder) {
-				((CTabFolder)getContainer()).setTabHeight(SWT.DEFAULT);
+				((CTabFolder) getContainer()).setTabHeight(SWT.DEFAULT);
 				Point point = getContainer().getSize();
 				getContainer().setSize(point.x, point.y - 6);
 			}
@@ -735,11 +821,9 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	public Object getAdapter(Class key) {
 		if (key.equals(IPropertySheetPage.class)) {
 			return getPropertySheetPage();
-		}
-		else if (key.equals(IGotoMarker.class)) {
+		} else if (key.equals(IGotoMarker.class)) {
 			return this;
-		}
-		else {
+		} else {
 			return super.getAdapter(key);
 		}
 	}
@@ -749,20 +833,19 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	 */
 	public IPropertySheetPage getPropertySheetPage() {
 		if (propertySheetPage == null) {
-			propertySheetPage =
-				new ExtendedPropertySheetPage(editingDomain) {
-					@Override
-					public void setSelectionToViewer(List<?> selection) {
-						EEFReflectiveEditor.this.setSelectionToViewer(selection);
-						EEFReflectiveEditor.this.setFocus();
-					}
+			propertySheetPage = new ExtendedPropertySheetPage(editingDomain) {
+				@Override
+				public void setSelectionToViewer(List<?> selection) {
+					EEFReflectiveEditor.this.setSelectionToViewer(selection);
+					EEFReflectiveEditor.this.setFocus();
+				}
 
-					@Override
-					public void setActionBars(IActionBars actionBars) {
-						super.setActionBars(actionBars);
-						getActionBarContributor().shareGlobalActions(this, actionBars);
-					}
-				};
+				@Override
+				public void setActionBars(IActionBars actionBars) {
+					super.setActionBars(actionBars);
+					getActionBarContributor().shareGlobalActions(this, actionBars);
+				}
+			};
 			propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
 		}
 
@@ -770,15 +853,17 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	}
 
 	/**
-	 * This is for implementing {@link IEditorPart} and simply tests the command stack.
+	 * This is for implementing {@link IEditorPart} and simply tests the command
+	 * stack.
 	 */
 	@Override
 	public boolean isDirty() {
-		return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
+		return ((BasicCommandStack) editingDomain.getCommandStack()).isSaveNeeded();
 	}
 
 	/**
-	 * This is for implementing {@link IEditorPart} and simply saves the model file.
+	 * This is for implementing {@link IEditorPart} and simply saves the model
+	 * file.
 	 */
 	@Override
 	public void doSave(IProgressMonitor progressMonitor) {
@@ -787,34 +872,33 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
 		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
 
-		// Do the work within an operation because this is a long running activity that modifies the workbench.
+		// Do the work within an operation because this is a long running
+		// activity that modifies the workbench.
 		//
-		WorkspaceModifyOperation operation =
-			new WorkspaceModifyOperation() {
-				// This is the method that gets invoked when the operation runs.
+		WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
+			// This is the method that gets invoked when the operation runs.
+			//
+			@Override
+			public void execute(IProgressMonitor monitor) {
+				// Save the resources to the file system.
 				//
-				@Override
-				public void execute(IProgressMonitor monitor) {
-					// Save the resources to the file system.
-					//
-					boolean first = true;
-					for (Resource resource : editingDomain.getResourceSet().getResources()) {
-						if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource)) {
-							try {
-								long timeStamp = resource.getTimeStamp();
-								resource.save(saveOptions);
-								if (resource.getTimeStamp() != timeStamp) {
-									savedResources.add(resource);
-								}
+				boolean first = true;
+				for (Resource resource : editingDomain.getResourceSet().getResources()) {
+					if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource)) {
+						try {
+							long timeStamp = resource.getTimeStamp();
+							resource.save(saveOptions);
+							if (resource.getTimeStamp() != timeStamp) {
+								savedResources.add(resource);
 							}
-							catch (Exception exception) {
-								resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
-							}
-							first = false;
+						} catch (Exception exception) {
+							resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
 						}
+						first = false;
 					}
 				}
-			};
+			}
+		};
 
 		updateProblemIndication = false;
 		try {
@@ -824,10 +908,9 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 
 			// Refresh the necessary state.
 			//
-			((BasicCommandStack)editingDomain.getCommandStack()).saveIsDone();
+			((BasicCommandStack) editingDomain.getCommandStack()).saveIsDone();
 			firePropertyChange(IEditorPart.PROP_DIRTY);
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			// Something went wrong that shouldn't.
 			//
 			EditingModelEditPlugin.INSTANCE.log(exception);
@@ -837,8 +920,9 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	}
 
 	/**
-	 * This returns whether something has been persisted to the URI of the specified resource.
-	 * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
+	 * This returns whether something has been persisted to the URI of the
+	 * specified resource. The implementation uses the URI converter from the
+	 * editor's resource set to try to open an input stream.
 	 */
 	protected boolean isPersisted(Resource resource) {
 		boolean result = false;
@@ -848,8 +932,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 				result = true;
 				stream.close();
 			}
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			// Ignore
 		}
 		return result;
@@ -885,10 +968,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 		(editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
 		setInputWithNotify(editorInput);
 		setPartName(editorInput.getName());
-		IProgressMonitor progressMonitor =
-			getActionBars().getStatusLineManager() != null ?
-				getActionBars().getStatusLineManager().getProgressMonitor() :
-				new NullProgressMonitor();
+		IProgressMonitor progressMonitor = getActionBars().getStatusLineManager() != null ? getActionBars().getStatusLineManager().getProgressMonitor() : new NullProgressMonitor();
 		doSave(progressMonitor);
 	}
 
@@ -902,12 +982,11 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 					URI uri = URI.createURI(uriAttribute);
 					EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
 					if (eObject != null) {
-					  setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
+						setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
 					}
 				}
 			}
-		}
-		catch (CoreException exception) {
+		} catch (CoreException exception) {
 			EditingModelEditPlugin.INSTANCE.log(exception);
 		}
 	}
@@ -922,6 +1001,8 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 		setPartName(editorInput.getName());
 		site.setSelectionProvider(this);
 		site.getPage().addPartListener(partListener);
+		viewListener = new EEFViewPartListener();
+		site.getPage().addPartListener(viewListener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
 	}
 
@@ -947,15 +1028,17 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	}
 
 	/**
-	 * This implements {@link org.eclipse.jface.viewers.ISelectionProvider} to return this editor's overall selection.
+	 * This implements {@link org.eclipse.jface.viewers.ISelectionProvider} to
+	 * return this editor's overall selection.
 	 */
 	public ISelection getSelection() {
 		return editorSelection;
 	}
 
 	/**
-	 * This implements {@link org.eclipse.jface.viewers.ISelectionProvider} to set this editor's overall selection.
-	 * Calling this result will notify the listeners.
+	 * This implements {@link org.eclipse.jface.viewers.ISelectionProvider} to
+	 * set this editor's overall selection. Calling this result will notify the
+	 * listeners.
 	 */
 	public void setSelection(ISelection selection) {
 		editorSelection = selection;
@@ -976,20 +1059,21 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	 * This looks up a string in plugin.properties, making a substitution.
 	 */
 	private static String getString(String key, Object s1) {
-		return EditingModelEditPlugin.INSTANCE.getString(key, new Object [] { s1 });
+		return EditingModelEditPlugin.INSTANCE.getString(key, new Object[] { s1 });
 	}
 
 	/**
-	 * This implements {@link org.eclipse.jface.action.IMenuListener} to help fill the context menus with contributions from the Edit menu.
+	 * This implements {@link org.eclipse.jface.action.IMenuListener} to help
+	 * fill the context menus with contributions from the Edit menu.
 	 */
 	public void menuAboutToShow(IMenuManager menuManager) {
-		((IMenuListener)getEditorSite().getActionBarContributor()).menuAboutToShow(menuManager);
+		((IMenuListener) getEditorSite().getActionBarContributor()).menuAboutToShow(menuManager);
 	}
 
 	/**
 	 */
 	public EditingDomainActionBarContributor getActionBarContributor() {
-		return (EditingDomainActionBarContributor)getEditorSite().getActionBarContributor();
+		return (EditingDomainActionBarContributor) getEditorSite().getActionBarContributor();
 	}
 
 	/**
@@ -1013,6 +1097,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
 
 		getSite().getPage().removePartListener(partListener);
+		getSite().getPage().removePartListener(viewListener);
 
 		adapterFactory.dispose();
 

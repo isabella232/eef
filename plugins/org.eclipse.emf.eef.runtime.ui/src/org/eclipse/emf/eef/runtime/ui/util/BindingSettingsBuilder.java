@@ -84,7 +84,7 @@ public class BindingSettingsBuilder {
 	 *            Container
 	 * @param editingModelEnvironment
 	 */
-	public void bindEStructuralFeature(EObject eObject, EClassBinding eClassBinding, View createdView, EditingModelEnvironment editingModelEnvironment) {
+	public void bindEStructuralFeature(EClass eObject, EClassBinding eClassBinding, View createdView, EditingModelEnvironment editingModelEnvironment) {
 		for (EStructuralFeature feature : eClassBinding.getEClass().getEAllStructuralFeatures()) {
 			// get editable information from genmodel if exists
 			boolean isReadonly = false;
@@ -176,7 +176,7 @@ public class BindingSettingsBuilder {
 	 * @return the group
 	 * 
 	 */
-	public Container getGroup(EObject eObject, View createdView, Container createdGroup, EObject genFeature) {
+	public Container getGroup(EClass eObject, View createdView, Container createdGroup, EObject genFeature) {
 		EStructuralFeature esf;
 		esf = genFeature.eClass().getEStructuralFeature(GENFEATURE_PROPERTY_CATEGORY);
 		if (esf != null) {
@@ -190,7 +190,7 @@ public class BindingSettingsBuilder {
 			} else {
 				Container group = getGroup(category, createdView);
 				if (group == null) {
-					return createContainerViewForEClassBinding(eObject, category, createdView);
+					return createContainerViewForEClassBinding(category, createdView);
 				}
 				return group;
 			}
@@ -264,9 +264,9 @@ public class BindingSettingsBuilder {
 	 *            EObject
 	 * @return the created org.eclipse.emf.eef.views.View
 	 */
-	public org.eclipse.emf.eef.views.View createViewForEClassBinding(EObject eObject) {
+	public org.eclipse.emf.eef.views.View createViewForEClassBinding(EClass eObject) {
 		org.eclipse.emf.eef.views.View createdView = ViewsFactory.eINSTANCE.createView();
-		createdView.setName(eObject.eClass().getName());
+		createdView.setName(eObject.getName());
 		viewsRepository.getViews().add(createdView);
 		return createdView;
 	}
@@ -278,8 +278,8 @@ public class BindingSettingsBuilder {
 	 *            org.eclipse.emf.eef.views.View
 	 * @return the new container
 	 */
-	public Container createContainerViewForEClassBinding(EObject eObject, org.eclipse.emf.eef.views.View view) {
-		return createContainerViewForEClassBinding(eObject, eObject.eClass().getName(), view);
+	public Container createContainerViewForEClassBinding(EClass eObject, org.eclipse.emf.eef.views.View view) {
+		return createContainerViewForEClassBinding(eObject.getName(), view);
 	}
 
 	/**
@@ -289,7 +289,7 @@ public class BindingSettingsBuilder {
 	 *            org.eclipse.emf.eef.views.View
 	 * @return the new container
 	 */
-	public Container createContainerViewForEClassBinding(EObject eObject, String name, org.eclipse.emf.eef.views.View view) {
+	public Container createContainerViewForEClassBinding(String name, org.eclipse.emf.eef.views.View view) {
 		Container newGroup = ViewsFactory.eINSTANCE.createContainer();
 		newGroup.setName(name);
 		newGroup.setRepresentation(toolkitProvider.getWidgetByName(GROUP_CONTAINER_NAME));
@@ -321,11 +321,11 @@ public class BindingSettingsBuilder {
 	 *            View
 	 * @return if the default group already exists
 	 */
-	public Container getDefaultGroup(final EObject eObject, org.eclipse.emf.eef.views.View view) {
+	public Container getDefaultGroup(final EClass eObject, org.eclipse.emf.eef.views.View view) {
 		Iterable<Container> containerFilter = Iterables.filter(view.getElements(), Container.class);
 		Iterable<Container> filter = Iterables.filter(containerFilter, new Predicate<Container>() {
 			public boolean apply(Container arg0) {
-				return !Strings.isNullOrEmpty(eObject.eClass().getName()) && eObject.eClass().getName().equals(arg0.getName());
+				return !Strings.isNullOrEmpty(eObject.getName()) && eObject.getName().equals(arg0.getName());
 			}
 		});
 		return Iterables.getFirst(filter, null);
@@ -336,9 +336,9 @@ public class BindingSettingsBuilder {
 	 *            EObject
 	 * @return if the eobject class is already binding
 	 */
-	public boolean existEClassBinding(EObject eObject) {
+	public boolean existEClassBinding(EClass eObject) {
 		for (EClassBinding eClassBinding : propertiesEditingModel.getBindings()) {
-			if (eClassBinding.getEClass().equals(eObject.eClass())) {
+			if (eClassBinding.getEClass().getName().equals(eObject.getName()) && eClassBinding.getEClass().getEPackage().getNsURI().equals(eObject.getEPackage().getNsURI())) {
 				return true;
 			}
 		}

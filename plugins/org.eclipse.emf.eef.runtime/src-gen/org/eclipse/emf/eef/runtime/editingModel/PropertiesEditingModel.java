@@ -7,6 +7,7 @@
 package org.eclipse.emf.eef.runtime.editingModel;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
@@ -152,6 +153,14 @@ public interface PropertiesEditingModel extends EModelElement {
 	 * @generated
 	 */
 	EClassBinding binding(EObject eObject);
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model eObjectRequired="true"
+	 * @generated
+	 */
+	EClassBinding binding(EClass eClass);
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
@@ -126,6 +127,23 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<P
 				editingModel.setEMFServiceProvider(emfServiceProvider);
 			}
 			if (editingModel.binding(eObject) != null) {
+				return editingModel;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getEEFDescription(org.eclipse.emf.ecore.EClass)
+	 */
+	public PropertiesEditingModel getEEFDescription(EClass eClass) {
+		for (PropertiesEditingModel editingModel : getEditingModels()) {
+			if (editingModel.getEMFServiceProvider() == null) {
+				editingModel.setEMFServiceProvider(emfServiceProvider);
+			}
+			if (editingModel.binding(eClass) != null) {
 				return editingModel;
 			}
 		}

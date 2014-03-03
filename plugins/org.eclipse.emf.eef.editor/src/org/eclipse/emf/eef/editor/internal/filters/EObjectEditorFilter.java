@@ -22,12 +22,14 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.View;
+import org.eclipse.emf.eef.runtime.ui.swt.util.EEFViewerFilterInvocationParameters;
+import org.eclipse.emf.eef.runtime.util.EEFInvocationParameters;
 
 import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EObjectEditorFilter {
 
@@ -36,22 +38,24 @@ public class EObjectEditorFilter {
 	 * @param element
 	 * @return
 	 */
-	public boolean bindableEditor(PropertiesEditingComponent currentComponent, Notifier element) {
-		EClassBinding editedBinding = getEditedBinding(currentComponent);
-		if (editedBinding != null && editedBinding.getEClass() != null) {
-			
-			if (computeAncestors(editedBinding).contains(element)) {
-				return true;
-			} else if (element instanceof EObject && isAnElementOfBindedViews(editedBinding, (EObject) element)){
-				return true;
-			} else {
-				return false;
+	public boolean bindableEditor(EEFInvocationParameters parameters) {
+		if (parameters instanceof EEFViewerFilterInvocationParameters) {
+			EClassBinding editedBinding = getEditedBinding(parameters.getEditingContext().getEditingComponent());
+			if (editedBinding != null && editedBinding.getEClass() != null) {
+
+				if (computeAncestors(editedBinding).contains(((EEFViewerFilterInvocationParameters) parameters).getElement())) {
+					return true;
+				} else if (((EEFViewerFilterInvocationParameters) parameters).getElement() instanceof EObject && isAnElementOfBindedViews(editedBinding, (EObject) ((EEFViewerFilterInvocationParameters) parameters).getElement())) {
+					return true;
+				} else {
+					return false;
+				}
 			}
+
 		}
 		return true;
 	}
-	
-	
+
 	private EClassBinding getEditedBinding(PropertiesEditingComponent editingComponent) {
 		PropertiesEditingContext context = editingComponent.getEditingContext();
 		while (context != null) {
@@ -68,7 +72,7 @@ public class EObjectEditorFilter {
 		}
 		return null;
 	}
-	
+
 	private EClassBinding findBindingInAncestors(EObject root) {
 		EObject parent = root;
 		while (parent != null) {
@@ -80,11 +84,11 @@ public class EObjectEditorFilter {
 		}
 		return null;
 	}
-	
+
 	private List<Notifier> computeAncestors(EClassBinding root) {
 		List<Notifier> result = Lists.newArrayList();
 		for (View view : root.getViews()) {
-			if (view instanceof EObjectView) { 
+			if (view instanceof EObjectView) {
 				Notifier parent = ((EObjectView) view).getDefinition();
 				while (parent != null) {
 					result.add(parent);
@@ -105,7 +109,7 @@ public class EObjectEditorFilter {
 		}
 		return result;
 	}
-	
+
 	private boolean isAnElementOfBindedViews(EClassBinding binding, EObject element) {
 		for (View view : binding.getViews()) {
 			if (view instanceof EObjectView) {

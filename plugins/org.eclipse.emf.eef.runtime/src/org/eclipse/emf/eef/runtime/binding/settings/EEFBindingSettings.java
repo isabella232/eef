@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.binding.settings;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
@@ -22,7 +23,7 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
  * 
  */
 public interface EEFBindingSettings<T extends EObject> extends EEFService<EPackage> {
-	
+
 	/**
 	 * @return the editingModelEnvironment of this provider.
 	 */
@@ -30,15 +31,30 @@ public interface EEFBindingSettings<T extends EObject> extends EEFService<EPacka
 
 	/**
 	 * Returns an element describing the editing forms to edit the given object.
-	 * @param eObject the {@link EObject} to edit.
+	 * 
+	 * @param eObject
+	 *            the {@link EObject} to edit.
 	 * @return the EEF description.
 	 */
 	T getEEFDescription(EObject eObject);
 
 	/**
-	 * Method allowing users to filter the {@link EEFLockPolicy}s applied on a {@link PropertiesEditingComponent}. 
-	 * @param lockPolicy {@link EEFLockPolicy} to process.
-	 * @return <code>true</code> if the given policy must be applied on the edited elements.
+	 * Returns an element describing the editing forms to edit the given object.
+	 * 
+	 * @param eClass
+	 *            the {@link EClass} to edit.
+	 * @return the EEF description.
+	 */
+	T getEEFDescription(EClass eClass);
+
+	/**
+	 * Method allowing users to filter the {@link EEFLockPolicy}s applied on a
+	 * {@link PropertiesEditingComponent}.
+	 * 
+	 * @param lockPolicy
+	 *            {@link EEFLockPolicy} to process.
+	 * @return <code>true</code> if the given policy must be applied on the
+	 *         edited elements.
 	 */
 	boolean enableLockPolicy(EEFLockPolicy lockPolicy);
 

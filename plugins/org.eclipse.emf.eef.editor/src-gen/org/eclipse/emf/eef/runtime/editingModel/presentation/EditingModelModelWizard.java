@@ -6,7 +6,6 @@
  */
 package org.eclipse.emf.eef.runtime.editingModel.presentation;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,19 +25,38 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
+import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.presentation.util.EditingModelEditorResourceSet;
+import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
+import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
+import org.eclipse.emf.eef.view.EEFReflectiveView;
 import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.ViewsPackage;
 import org.eclipse.emf.eef.views.ViewsRepository;
@@ -56,111 +74,118 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
+import com.google.common.base.Strings;
 
 /**
- * This is a simple wizard for creating a new model file.
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
+ * This is a simple wizard for creating a new model file. <!-- begin-user-doc
+ * --> <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class EditingModelModelWizard extends Wizard implements INewWizard {
 	/**
-	 * The supported extensions for created files.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The supported extensions for created files. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public static final List<String> FILE_EXTENSIONS =
-		Collections.unmodifiableList(Arrays.asList(EditingModelEditPlugin.INSTANCE.getString("_UI_EditingModelEditorFilenameExtensions").split("\\s*,\\s*")));
+	public static final List<String> FILE_EXTENSIONS = Collections.unmodifiableList(Arrays.asList(EditingModelEditPlugin.INSTANCE.getString("_UI_EditingModelEditorFilenameExtensions").split("\\s*,\\s*")));
 
 	/**
-	 * A formatted list of supported file extensions, suitable for display.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * A formatted list of supported file extensions, suitable for display. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public static final String FORMATTED_FILE_EXTENSIONS =
-		EditingModelEditPlugin.INSTANCE.getString("_UI_EditingModelEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
+	public static final String FORMATTED_FILE_EXTENSIONS = EditingModelEditPlugin.INSTANCE.getString("_UI_EditingModelEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
 
 	/**
-	 * This caches an instance of the model package.
-	 * <!-- begin-user-doc -->
+	 * This caches an instance of the model package. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EditingModelPackage editingModelPackage = EditingModelPackage.eINSTANCE;
 
 	/**
-	 * This caches an instance of the model factory.
-	 * <!-- begin-user-doc -->
+	 * This caches an instance of the model factory. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EditingModelFactory editingModelFactory = editingModelPackage.getEditingModelFactory();
 
 	/**
-	 * This caches an instance of the model package.
-	 * <!-- begin-user-doc -->
+	 * This caches an instance of the model package. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ViewsPackage viewsModelPackage = ViewsPackage.eINSTANCE;
 
 	/**
-	 * This caches an instance of the model factory.
-	 * <!-- begin-user-doc -->
+	 * This caches an instance of the model factory. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ViewsFactory viewsModelFactory = viewsModelPackage.getViewsFactory();
 
 	/**
-	 * This is the file creation page.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This is the file creation page. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @generated
 	 */
 	protected EditingModelModelWizardNewFileCreationPage newFileCreationPage;
-	
+
 	/**
-	 * Remember the selection during initialization for populating the default container.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Remember the selection during initialization for populating the default
+	 * container. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected IStructuredSelection selection;
 
 	/**
-	 * Remember the workbench during initialization.
-	 * <!-- begin-user-doc -->
+	 * Remember the workbench during initialization. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected IWorkbench workbench;
 
 	/**
 	 * Caches the names of the types that can be created as the root object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected List<String> initialObjectNames;
 
+	private ModelToChoosePage secondPage;
+
+	private AdapterFactoryEditingDomain editingDomain;
+
+	private ComposedAdapterFactory adapterFactory;
+
 	/**
-	 * This just records the information.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This just records the information. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -172,8 +197,8 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 
 	/**
 	 * Returns the names of the types that can be created as the root object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected Collection<String> getInitialObjectNames() {
@@ -181,7 +206,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			initialObjectNames = new ArrayList<String>();
 			for (EClassifier eClassifier : editingModelPackage.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
-					EClass eClass = (EClass)eClassifier;
+					EClass eClass = (EClass) eClassifier;
 					if (!eClass.isAbstract()) {
 						initialObjectNames.add(eClass.getName());
 					}
@@ -194,6 +219,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 
 	/**
 	 * Create a new {@link PropertiesEditingModel}.
+	 * 
 	 * @generated NOT
 	 */
 	protected EObject createEditingModel() {
@@ -202,6 +228,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 
 	/**
 	 * Create a new {@link ViewsRepository}.
+	 * 
 	 * @generated NOT
 	 */
 	protected EObject createViewsRepository() {
@@ -209,9 +236,9 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	}
 
 	/**
-	 * Do the work after everything is specified.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Do the work after everything is specified. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	@Override
@@ -223,25 +250,76 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 
 			// Do the work within an operation.
 			//
-			WorkspaceModifyOperation operation =
-				new WorkspaceModifyOperation() {
-					@Override
-					protected void execute(IProgressMonitor progressMonitor) {
-						try {
-							// Create a resource set
-							//
-							ResourceSet resourceSet = new ResourceSetImpl();
+			WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
+				@Override
+				protected void execute(IProgressMonitor progressMonitor) {
+					try {
+						// Create a resource set
+						//
+						ResourceSet resourceSet = new ResourceSetImpl();
 
-							// Get the URI of the model file.
-							//
-							URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString(), true);
+						// Get the URI of the model file.
+						//
+						URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString(), true);
 
-							// Create a resource for this file.
-							//
-							Resource resource = resourceSet.createResource(fileURI);
+						// Create a resource for this file.
+						//
+						Resource resource = resourceSet.createResource(fileURI);
 
-							// Add the initial model object to the contents.
-							//
+						// Add the initial model object to the contents.
+						//
+						if (secondPage.isValidURI() && secondPage.getURI() != null && !Strings.isNullOrEmpty(secondPage.getURI().toString())) {
+							URI resourceURI = secondPage.getURI();
+							createEditingDomain();
+							Resource modelResource = editingDomain.getResourceSet().getResource(resourceURI, true);
+
+							if (!modelResource.getContents().isEmpty()) {
+								EObject root = modelResource.getContents().get(0);
+
+								// get PropertiesEditingModel
+								EditingContextFactoryProvider contextFactoryProvider = E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider();
+								PropertiesEditingContext propertiesEditingContext = contextFactoryProvider.getEditingContextFactory(root).createPropertiesEditingContext(editingDomain, root);
+
+								EEFBindingSettings<?> bindingSettings = propertiesEditingContext.getEditingComponent().getBindingSettings();
+								if (bindingSettings instanceof GenericBindingSettings) {
+									for (EClassifier content : root.eClass().getEPackage().getEClassifiers()) {
+										if (content instanceof EClass) {
+											((GenericBindingSettings) bindingSettings).getEEFDescription((EClass) content);
+										}
+									}
+								}
+
+								PropertiesEditingModel editingModel = propertiesEditingContext.getEditingComponent().getEditingModel();
+
+								if (editingModel != null) {
+									resource.getContents().add(editingModel);
+									ViewsRepository viewsRepository = null;
+									if (!editingModel.getBindings().isEmpty()) {
+										EClassBinding classBinding = editingModel.getBindings().get(0);
+										if (!classBinding.getViews().isEmpty() && classBinding.getViews().get(0) instanceof EObjectView) {
+											EObjectView view = (EObjectView) classBinding.getViews().get(0);
+											if (view.getDefinition().eContainer() instanceof ViewsRepository) {
+												viewsRepository = (ViewsRepository) view.getDefinition().eContainer();
+												resource.getContents().add(viewsRepository);
+											}
+										}
+									}
+									for (EObject eObject : editingModel.getInvolvedModels()) {
+										editingDomain.getResourceSet().getResources().add(eObject.eResource());
+									}
+									EcoreUtil.resolveAll(editingDomain.getResourceSet());
+								} else {
+									EObject rootObject = createEditingModel();
+									if (rootObject != null) {
+										resource.getContents().add(rootObject);
+									}
+									rootObject = createViewsRepository();
+									if (rootObject != null) {
+										resource.getContents().add(rootObject);
+									}
+								}
+							}
+						} else {
 							EObject rootObject = createEditingModel();
 							if (rootObject != null) {
 								resource.getContents().add(rootObject);
@@ -250,21 +328,20 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 							if (rootObject != null) {
 								resource.getContents().add(rootObject);
 							}
-							
-							// Save the contents of the resource to the file system.
-							//
-							Map<Object, Object> options = new HashMap<Object, Object>();
-							options.put(XMLResource.OPTION_ENCODING, "UTF-8");
-							resource.save(options);
 						}
-						catch (Exception exception) {
-							EditingModelEditPlugin.INSTANCE.log(exception);
-						}
-						finally {
-							progressMonitor.done();
-						}
+
+						// Save the contents of the resource to the file system.
+						//
+						Map<Object, Object> options = new HashMap<Object, Object>();
+						options.put(XMLResource.OPTION_ENCODING, "UTF-8");
+						resource.save(options);
+					} catch (Exception exception) {
+						EditingModelEditPlugin.INSTANCE.log(exception);
+					} finally {
+						progressMonitor.done();
 					}
-				};
+				}
+			};
 
 			getContainer().run(false, false, operation);
 
@@ -275,45 +352,75 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			final IWorkbenchPart activePart = page.getActivePart();
 			if (activePart instanceof ISetSelectionTarget) {
 				final ISelection targetSelection = new StructuredSelection(modelFile);
-				getShell().getDisplay().asyncExec
-					(new Runnable() {
-						 public void run() {
-							 ((ISetSelectionTarget)activePart).selectReveal(targetSelection);
-						 }
-					 });
+				getShell().getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						((ISetSelectionTarget) activePart).selectReveal(targetSelection);
+					}
+				});
 			}
 
 			// Open an editor on the new file.
 			//
+			IEditorPart editor = null;
 			try {
-				page.openEditor
-					(new FileEditorInput(modelFile),
-					 workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());					 	 
-			}
-			catch (PartInitException exception) {
+				editor = page.openEditor(new FileEditorInput(modelFile), workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
+			} catch (PartInitException exception) {
 				MessageDialog.openError(workbenchWindow.getShell(), EditingModelEditPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
 				return false;
 			}
 
+			// populate EEF Reflexive view
+			EEFReflectiveView eefView = (EEFReflectiveView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(EEFReflectiveView.ID);
+			if (eefView == null) {
+				eefView = (EEFReflectiveView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EEFReflectiveView.ID);
+			}
+			if (eefView != null && editor instanceof EEFReflectiveEditor) {
+				((EEFReflectiveEditor) editor).setEditingDomainForOtherModel(editingDomain);
+				eefView.setInput(((EEFReflectiveEditor) editor).getEditingDomainForOtherModel());
+			}
+
 			return true;
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			EditingModelEditPlugin.INSTANCE.log(exception);
 			return false;
 		}
 	}
 
 	/**
-	 * This is the one page of the wizard.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Create editing domain for other models
+	 */
+	public void createEditingDomain() {
+		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+
+		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new EditingModelItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+		BasicCommandStack commandStack = new BasicCommandStack();
+		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new EditingModelEditorResourceSet() {
+
+			/**
+			 * {@inheritDoc}
+			 * 
+			 * @see org.eclipse.emf.edit.domain.IEditingDomainProvider#getEditingDomain()
+			 */
+			public EditingDomain getEditingDomain() {
+				return editingDomain;
+			}
+
+		});
+	}
+
+	/**
+	 * This is the one page of the wizard. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public class EditingModelModelWizardNewFileCreationPage extends WizardNewFileCreationPage {
 		/**
-		 * Pass in the selection.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * Pass in the selection. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		public EditingModelModelWizardNewFileCreationPage(String pageId, IStructuredSelection selection) {
@@ -321,9 +428,9 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		}
 
 		/**
-		 * The framework calls this to see if the file is correct.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The framework calls this to see if the file is correct. <!--
+		 * begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		@Override
@@ -332,7 +439,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 				String extension = new Path(getFileName()).getFileExtension();
 				if (extension == null || !FILE_EXTENSIONS.contains(extension)) {
 					String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension";
-					setErrorMessage(EditingModelEditPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
+					setErrorMessage(EditingModelEditPlugin.INSTANCE.getString(key, new Object[] { FORMATTED_FILE_EXTENSIONS }));
 					return false;
 				}
 				return true;
@@ -341,8 +448,8 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		}
 
 		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		public IFile getModelFile() {
@@ -351,37 +458,34 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	}
 
 	/**
-	 * This is the page where the type of object to create is selected.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This is the page where the type of object to create is selected. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public class EditingModelModelWizardInitialObjectCreationPage extends WizardPage {
 		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		protected Combo initialObjectField;
 
 		/**
-		 * @generated
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * @generated <!-- begin-user-doc --> <!-- end-user-doc -->
 		 */
 		protected List<String> encodings;
 
 		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		protected Combo encodingField;
 
 		/**
-		 * Pass in the selection.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * Pass in the selection. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		public EditingModelModelWizardInitialObjectCreationPage(String pageId) {
@@ -389,8 +493,8 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		}
 
 		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		public void createControl(Composite parent) {
@@ -462,20 +566,19 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		}
 
 		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		protected ModifyListener validator =
-			new ModifyListener() {
-				public void modifyText(ModifyEvent e) {
-					setPageComplete(validatePage());
-				}
-			};
+		protected ModifyListener validator = new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				setPageComplete(validatePage());
+			}
+		};
 
 		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		protected boolean validatePage() {
@@ -483,8 +586,8 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		}
 
 		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		@Override
@@ -494,8 +597,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 				if (initialObjectField.getItemCount() == 1) {
 					initialObjectField.clearSelection();
 					encodingField.setFocus();
-				}
-				else {
+				} else {
 					encodingField.clearSelection();
 					initialObjectField.setFocus();
 				}
@@ -503,8 +605,8 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		}
 
 		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		public String getInitialObjectName() {
@@ -519,8 +621,8 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		}
 
 		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		public String getEncoding() {
@@ -528,30 +630,29 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		}
 
 		/**
-		 * Returns the label for the specified type name.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * Returns the label for the specified type name. <!-- begin-user-doc
+		 * --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		protected String getLabel(String typeName) {
 			try {
 				return EditingModelEditPlugin.INSTANCE.getString("_UI_" + typeName + "_type");
-			}
-			catch(MissingResourceException mre) {
+			} catch (MissingResourceException mre) {
 				EditingModelEditPlugin.INSTANCE.log(mre);
 			}
 			return typeName;
 		}
 
 		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		protected Collection<String> getEncodings() {
 			if (encodings == null) {
 				encodings = new ArrayList<String>();
-				for (StringTokenizer stringTokenizer = new StringTokenizer(EditingModelEditPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); ) {
+				for (StringTokenizer stringTokenizer = new StringTokenizer(EditingModelEditPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens();) {
 					encodings.add(stringTokenizer.nextToken());
 				}
 			}
@@ -560,12 +661,12 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	}
 
 	/**
-	 * The framework calls this to create the contents of the wizard.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The framework calls this to create the contents of the wizard. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
-		@Override
+	@Override
 	public void addPages() {
 		// Create a page, set the title, and the initial model file name.
 		//
@@ -575,7 +676,8 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		newFileCreationPage.setFileName(EditingModelEditPlugin.INSTANCE.getString("_UI_EditingModelEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0));
 		addPage(newFileCreationPage);
 
-		// Try and get the resource selection to determine a current directory for the file dialog.
+		// Try and get the resource selection to determine a current directory
+		// for the file dialog.
 		//
 		if (selection != null && !selection.isEmpty()) {
 			// Get the resource...
@@ -584,7 +686,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			if (selectedElement instanceof IResource) {
 				// Get the resource parent, if its a file.
 				//
-				IResource selectedResource = (IResource)selectedElement;
+				IResource selectedResource = (IResource) selectedElement;
 				if (selectedResource.getType() == IResource.FILE) {
 					selectedResource = selectedResource.getParent();
 				}
@@ -601,7 +703,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 					String defaultModelBaseFilename = EditingModelEditPlugin.INSTANCE.getString("_UI_EditingModelEditorFilenameDefaultBase");
 					String defaultModelFilenameExtension = FILE_EXTENSIONS.get(0);
 					String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension;
-					for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i) {
+					for (int i = 1; ((IContainer) selectedResource).findMember(modelFilename) != null; ++i) {
 						modelFilename = defaultModelBaseFilename + i + "." + defaultModelFilenameExtension;
 					}
 					newFileCreationPage.setFileName(modelFilename);
@@ -609,12 +711,14 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			}
 		}
 
+		secondPage = new ModelToChoosePage(selection);
+		addPage(secondPage);
+
 	}
 
 	/**
-	 * Get the file from the page.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Get the file from the page. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public IFile getModelFile() {

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.internal.binding.settings;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
@@ -71,6 +72,15 @@ public class ReflectiveEEFBindingSettings<T extends EObject> implements EEFBindi
 	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getEEFDescription(org.eclipse.emf.ecore.EObject)
 	 */
 	public T getEEFDescription(EObject eObject) {
+		return eefDescription;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getEEFDescription(org.eclipse.emf.ecore.EObject)
+	 */
+	public T getEEFDescription(EClass eClass) {
 		return eefDescription;
 	}
 

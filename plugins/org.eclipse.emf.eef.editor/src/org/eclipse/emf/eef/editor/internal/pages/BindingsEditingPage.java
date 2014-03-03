@@ -224,6 +224,7 @@ public class BindingsEditingPage extends FormPage {
 		((EEFReflectiveEditor) getEditor()).addNotifiable(new Notifiable() {
 
 			public void notifyChanged(final Notification notification) {
+
 				metamodelViewer.getViewer().getControl().getDisplay().asyncExec(new Runnable() {
 
 					public void run() {
@@ -231,12 +232,18 @@ public class BindingsEditingPage extends FormPage {
 							setBindingPreviewViewerInput();
 						}
 						metamodelViewer.getViewer().refresh();
-						bindingSettingsViewer.refresh();
+						if (Notification.MOVE != notification.getEventType()) {
+							bindingSettingsViewer.refresh();
+						}
 						bindingPreviewViewer.refresh();
 						refreshPageTitle();
 
 					}
 				});
+			}
+
+			public int getIndex() {
+				return 1;
 			}
 		});
 	}
@@ -578,11 +585,14 @@ public class BindingsEditingPage extends FormPage {
 		public void selectionChanged(SelectionChangedEvent event) {
 			if (event.getSource() == metamodelViewer) {
 				EObject selection = selectionService.unwrapSelection(event.getSelection());
-				bindingSettingsViewer.setInput(selection);
-				lockFields();
-				updateBindingSettingsActionsState(selection);
+				EObject currentSelection = (EObject) bindingSettingsViewer.getInput();
+				if (!selection.equals(currentSelection)) {
+					bindingSettingsViewer.setInput(selection);
+					lockFields();
+					updateBindingSettingsActionsState(selection);
 
-				setBindingPreviewViewerInput();
+					setBindingPreviewViewerInput();
+				}
 			}
 
 		}

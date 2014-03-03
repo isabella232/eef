@@ -193,6 +193,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 				for (MultiLinePropertyViewerListener listener : listeners) {
 					listener.moveUp(selection);
 				}
+				table.setSelection(new StructuredSelection(selection));
 			}
 		});
 
@@ -214,6 +215,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 				for (MultiLinePropertyViewerListener listener : listeners) {
 					listener.moveDown(selection);
 				}
+				table.setSelection(new StructuredSelection(selection));
 			}
 		});
 		buildAdditionnalActionControls(control);
