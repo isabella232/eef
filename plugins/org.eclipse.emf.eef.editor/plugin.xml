@@ -85,5 +85,20 @@
             contributorClass="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelActionBarContributor">
       </editor>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="org.eclipse.emf.eef.editor.category"
+            class="org.eclipse.emf.eef.view.EEFReflectiveView"
+            icon="icons/overview_obj.gif"
+            id="org.eclipse.emf.eef.view.EEFReflexiveView"
+            name="EEF Reflective View"
+            restorable="true">
+      </view>
+      <category
+            id="org.eclipse.emf.eef.editor.category"
+            name="EEF">
+      </category>
+   </extension>
 
 </plugin>
