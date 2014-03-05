@@ -23,9 +23,9 @@ public class BindingHandlerProviderImpl extends EEFServiceProviderImpl<EObject, 
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider#getBindingManager(org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider#getBindingHandler(org.eclipse.emf.ecore.EObject)
 	 */
-	public PropertiesBindingHandler getBindingManager(EObject target) {
+	public PropertiesBindingHandler getBindingHandler(EObject target) {
 		return getService(target);
 	}
 

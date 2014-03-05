@@ -12,6 +12,7 @@ package org.eclipse.emf.eef.runtime.binding;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
@@ -29,6 +30,11 @@ public interface PropertiesBindingHandler extends EEFService<EObject> {
 	 * @return the current {@link PropertiesEditingPolicyProvider}.
 	 */
 	PropertiesEditingPolicyProvider getPolicyProvider();
+
+	/**
+	 * @return the current {@link EEFBindingSettingsProvider}
+	 */
+	EEFBindingSettingsProvider getBindingSettingsProvider();
 
 	/**
 	 * Creates a new {@link PropertiesEditingComponent}.

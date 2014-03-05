@@ -78,6 +78,7 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.util.EditingModelEditorResourceSet;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
+import org.eclipse.emf.eef.view.EEFReflectiveView;
 import org.eclipse.emf.eef.view.listener.EEFViewPartListener;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -104,6 +105,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -337,6 +339,8 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	private AdapterFactoryEditingDomain editingDomainForOtherModel;
 
 	private EEFViewPartListener viewListener;
+
+	private PropertiesEditingModel editingModel;
 
 	public void addNotifiable(Notifiable notifiable) {
 		notifiables.add(notifiable);
@@ -598,6 +602,10 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 				// Load the resource through the editing domain.
 				//
 				resource = editingDomain.getResourceSet().getResource(resourceURI, true);
+				if (!resource.getContents().isEmpty() && resource.getContents().get(0) instanceof PropertiesEditingModel) {
+					editingModel = (PropertiesEditingModel) resource.getContents().get(0);
+				}
+
 			} else {
 				// if does not exist : find it from Generic Binding Settings or
 				// EEFBindingsSettings
@@ -626,7 +634,9 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 			public void notifyChanged(Notification notification) {
 				super.notifyChanged(notification);
 				for (Notifiable notifiable : notifiables) {
-					if (getCurrentPage() == notifiable.getIndex() && isPageNotification(notification)) {
+					if ((getCurrentPage() == notifiable.getIndex() && isPageNotification(notification))) {
+						notifiable.notifyChanged(notification);
+					} else if (notifiable.getIndex() < -1 && isPageNotification(notification) && !(notification.getNotifier() instanceof ResourceSet)) {
 						notifiable.notifyChanged(notification);
 					}
 				}
@@ -762,10 +772,42 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 				viewsEditingPage.setViewerService(viewerService);
 				addPage(viewsEditingPage);
 
+				if (!containsNotifiableView()) {
+					addNotifiable(new Notifiable() {
+
+						public void notifyChanged(final Notification notification) {
+							getContainer().getDisplay().asyncExec(new Runnable() {
+
+								public void run() {
+									if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null) {
+										final EEFReflectiveView eefView = (EEFReflectiveView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(EEFReflectiveView.ID);
+										if (eefView != null) {
+											eefView.refresh();
+										}
+									}
+								}
+							});
+						}
+
+						public int getIndex() {
+							return -2;
+						}
+					});
+				}
+
 			}
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public boolean containsNotifiableView() {
+		for (Notifiable notifiable : notifiables) {
+			if (notifiable.getIndex() < 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -1116,5 +1158,9 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	 */
 	protected boolean showOutlineView() {
 		return true;
+	}
+
+	public PropertiesEditingModel getEditingModel() {
+		return editingModel;
 	}
 }

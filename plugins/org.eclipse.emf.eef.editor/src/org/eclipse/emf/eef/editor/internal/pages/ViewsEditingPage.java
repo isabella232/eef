@@ -35,6 +35,8 @@ import org.eclipse.emf.eef.editor.internal.services.SelectionService;
 import org.eclipse.emf.eef.editor.internal.services.ViewerService;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.internal.context.ReflectivePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
@@ -174,7 +176,6 @@ public class ViewsEditingPage extends FormPage {
 		((EEFReflectiveEditor) getEditor()).addNotifiable(new Notifiable() {
 
 			public void notifyChanged(final Notification notification) {
-				notification.getNotifier();
 				pageContainer.getDisplay().asyncExec(new Runnable() {
 
 					public void run() {
@@ -182,6 +183,10 @@ public class ViewsEditingPage extends FormPage {
 							refreshPageTitle();
 						} else {
 							viewPreviewViewer.refresh();
+							Object input = viewPreviewViewer.getInput();
+							if (input instanceof ReflectivePropertiesEditingContext) {
+								views.getViewer().setSelection(new StructuredSelection(((ReflectivePropertiesEditingContext) input).getEObject()));
+							}
 						}
 					}
 				});
@@ -270,15 +275,19 @@ public class ViewsEditingPage extends FormPage {
 
 			public void selectionChanged(SelectionChangedEvent event) {
 				if (event.getSelection() != null && !event.getSelection().isEmpty()) {
-					delete.setEnabled(true);
 					EObject view = selectionService.unwrapSelection(event.getSelection());
-					EditingDomain domain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
-					PropertiesEditingContext editingContext = contextFactoryProvider.getEditingContextFactory(view).createPropertiesEditingContext(domain, adapterFactory, view);
-					editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, ViewsEditingPage.this.toolkit);
-					viewSettingsViewer.setInput(editingContext);
+					PropertiesEditingContext currentSelection = (PropertiesEditingContext) viewSettingsViewer.getInput();
+					if (currentSelection == null || (currentSelection instanceof EObjectPropertiesEditingContext && !view.equals(((EObjectPropertiesEditingContext) currentSelection).getEObject()))) {
+						delete.setEnabled(true);
+						EditingDomain domain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
+						PropertiesEditingContext editingContext = contextFactoryProvider.getEditingContextFactory(view).createPropertiesEditingContext(domain, adapterFactory, view);
+						editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, ViewsEditingPage.this.toolkit);
+						viewSettingsViewer.setInput(editingContext);
+					}
 					PropertiesEditingContext reflectEditingContext = contextFactoryProvider.getEditingContextFactory(view).createReflectivePropertiesEditingContext(adapterFactory, view);
 					reflectEditingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, ViewsEditingPage.this.toolkit);
 					viewPreviewViewer.setInput(reflectEditingContext);
+
 				} else {
 					delete.setEnabled(false);
 				}
@@ -302,7 +311,7 @@ public class ViewsEditingPage extends FormPage {
 	}
 
 	private Composite createPreviewSection(FormToolkit toolkit, Composite container) {
-		Section previewSection = toolkit.createSection(container, Section.TITLE_BAR);
+		Section previewSection = toolkit.createSection(container, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		previewSection.setText("Preview");
 		Composite previewContainer = toolkit.createComposite(previewSection);
 		previewContainer.setLayout(new GridLayout(1, false));

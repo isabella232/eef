@@ -11,7 +11,6 @@
 package org.eclipse.emf.eef.view;
 
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.notify.Notification;
@@ -27,31 +26,37 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider.FontAndColorProvider;
+import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.editor.internal.actions.ExtendedLoadResourceAction;
-import org.eclipse.emf.eef.editor.internal.services.EMFService;
+import org.eclipse.emf.eef.editor.internal.binding.settings.EditorBindingSettings;
+import org.eclipse.emf.eef.editor.internal.notify.Notifiable;
 import org.eclipse.emf.eef.editor.internal.services.SelectionService;
 import org.eclipse.emf.eef.editor.internal.services.ViewerService;
+import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
+import org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
-import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.util.EditingModelEditorResourceSet;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
+import org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingHandlerImpl;
+import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.PropertiesBindingHandlerUIImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.emf.eef.runtime.util.EEFEditingService;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -63,7 +68,6 @@ import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -71,6 +75,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.forms.widgets.Form;
@@ -79,7 +85,6 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ViewPart;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * @author <a href="mailto:nathalie.lepine@obeo.fr">Nathalie Lepine</a>
@@ -92,7 +97,6 @@ public class EEFReflectiveView extends ViewPart {
 	 */
 	public static final String ID = "org.eclipse.emf.eef.view.EEFReflexiveView";
 
-	private EMFService emfService;
 	private EEFEditingService eefEditingService;
 	private SelectionService selectionService;
 	private ViewerService viewerService;
@@ -119,7 +123,6 @@ public class EEFReflectiveView extends ViewPart {
 	 * Constructor.
 	 */
 	public EEFReflectiveView() {
-		emfService = new EMFService();
 		selectionService = new SelectionService();
 		viewerService = new ViewerService(EditingModelEditPlugin.getPlugin().getLockManagerProvider());
 		contextFactoryProvider = E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider();
@@ -155,7 +158,7 @@ public class EEFReflectiveView extends ViewPart {
 		toolkit = new FormToolkit(composite.getDisplay());
 		innerForm = toolkit.createForm(composite);
 		toolkit.decorateFormHeading(innerForm);
-		refreshPageTitle();
+		// innerForm.setText("Bindings");
 
 		Composite parent = innerForm.getBody();
 		parent.setLayout(new FillLayout());
@@ -189,16 +192,42 @@ public class EEFReflectiveView extends ViewPart {
 					super.notifyChanged(notification);
 					modelViewer.getViewer().refresh();
 					bindingPreviewViewer.refresh();
-					refreshPageTitle();
 				}
 			}
 
 		});
+
+		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null) {
+			IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+			if (activeEditor instanceof EEFReflectiveEditor) {
+				if (!((EEFReflectiveEditor) activeEditor).containsNotifiableView()) {
+					((EEFReflectiveEditor) activeEditor).addNotifiable(new Notifiable() {
+
+						public void notifyChanged(final Notification notification) {
+
+							final EEFReflectiveView eefView = (EEFReflectiveView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(EEFReflectiveView.ID);
+							if (eefView != null) {
+								bindingPreviewViewer.getControl().getDisplay().asyncExec(new Runnable() {
+
+									public void run() {
+										eefView.refresh();
+									}
+								});
+							}
+						}
+
+						public int getIndex() {
+							return -1;
+						}
+					});
+				}
+			}
+		}
+
 	}
 
 	@Override
 	public void setFocus() {
-		
 
 	}
 
@@ -328,24 +357,6 @@ public class EEFReflectiveView extends ViewPart {
 		viewerService.updateViewerBackground(toolkit, bindingPreviewViewer);
 	}
 
-	private void refreshPageTitle() {
-		if (innerForm != null && getEditingDomain() != null) {
-			PropertiesEditingModel editedEditingModel = emfService.findEditedEditingModel(getEditingDomain().getResourceSet());
-			String formLabel = "Bindings";
-			if (editedEditingModel != null) {
-				IItemLabelProvider labelProvider = (IItemLabelProvider) adapterFactory.adapt(editedEditingModel, IItemLabelProvider.class);
-				if (labelProvider != null) {
-					formLabel = labelProvider.getText(editedEditingModel);
-					Image image = imageManager.getImageFromObject(labelProvider.getImage(editedEditingModel));
-					if (image != null) {
-						innerForm.setImage(image);
-					}
-				}
-			}
-			innerForm.setText(formLabel);
-		}
-	}
-
 	private void refreshPageLayout() {
 		pageContainer.layout(true);
 		pageContainer.getParent().layout(true);
@@ -416,6 +427,8 @@ public class EEFReflectiveView extends ViewPart {
 
 		private TreeViewer viewer;
 
+		private DelegatingBindingHandlerProvider bindingHandlerProvider;
+
 		public SelectionBroker(SelectionService selectionService, ViewerService viewerService, TreeViewer metamodelViewer) {
 			this.selectionService = selectionService;
 			this.viewer = metamodelViewer;
@@ -430,15 +443,27 @@ public class EEFReflectiveView extends ViewPart {
 			if (event.getSource() == viewer) {
 				EObject selection = selectionService.unwrapSelection(event.getSelection());
 				if (selection != null) {
-					PropertiesEditingContext propertiesEditingContext = contextFactoryProvider.getEditingContextFactory(selection).createPropertiesEditingContext(adapterFactory, selection);
+					final EObjectPropertiesEditingContext propertiesEditingContext = (EObjectPropertiesEditingContext) contextFactoryProvider.getEditingContextFactory(selection).createPropertiesEditingContext(adapterFactory, selection);
+
+					propertiesEditingContext.setBindingManagerProvider(getBindingHandlerProvider(propertiesEditingContext));
+
+					// propertiesEditingContext.getEditingComponent();
 					propertiesEditingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, toolkit);
-					EClassBinding binding = propertiesEditingContext.getEditingComponent().getBinding();
-					PropertiesEditingContext reflectEditingContext = contextFactoryProvider.getEditingContextFactory(binding).createReflectivePropertiesEditingContext(adapterFactory, binding);
-					reflectEditingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, toolkit);
 					bindingPreviewViewer.setInput(propertiesEditingContext);
 				}
 			}
 
+		}
+
+		/**
+		 * @param propertiesEditingContext
+		 * @return the bindingHandlerProvider
+		 */
+		public DelegatingBindingHandlerProvider getBindingHandlerProvider(EObjectPropertiesEditingContext propertiesEditingContext) {
+			if (bindingHandlerProvider == null) {
+				bindingHandlerProvider = new DelegatingBindingHandlerProvider(propertiesEditingContext.getEMFServiceProvider(), propertiesEditingContext.getBindingManagerProvider());
+			}
+			return bindingHandlerProvider;
 		}
 
 	}
@@ -452,4 +477,93 @@ public class EEFReflectiveView extends ViewPart {
 			modelViewer.getViewer().setInput(editingDomain.getResourceSet());
 		}
 	}
+
+	public void refresh() {
+		bindingPreviewViewer.refresh();
+	}
+
+	private class DelegatingBindingHandlerProvider implements BindingHandlerProvider {
+
+		private EMFServiceProvider emfServiceProvider;
+		private DelegatingBindingHandler bindingHandler;
+		private BindingHandlerProvider delegatedBindingHandlerProvider;
+
+		/**
+		 * @param emfServiceProvider
+		 *            EMFServiceProvider
+		 * @param bindingHandlerProvider
+		 */
+		public DelegatingBindingHandlerProvider(EMFServiceProvider emfServiceProvider, BindingHandlerProvider bindingHandlerProvider) {
+			this.emfServiceProvider = emfServiceProvider;
+			this.delegatedBindingHandlerProvider = bindingHandlerProvider;
+		}
+
+		/**
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider#getBindingHandler(org.eclipse.emf.ecore.EObject)
+		 */
+		public PropertiesBindingHandler getBindingHandler(EObject target) {
+			if (bindingHandler == null) {
+				bindingHandler = new DelegatingBindingHandler(emfServiceProvider, (PropertiesBindingHandlerImpl) delegatedBindingHandlerProvider.getBindingHandler(target));
+			}
+			return bindingHandler;
+		}
+
+	}
+
+	private class DelegatingBindingHandler extends PropertiesBindingHandlerUIImpl {
+
+		private EEFBindingSettingsProvider bindingSettingsProvider;
+
+		/**
+		 * @param emfServiceProvider
+		 *            EMFServiceProvider
+		 * @param propertiesBindingHandler
+		 * @param delegatedBindingHandlerProvider
+		 */
+		public DelegatingBindingHandler(EMFServiceProvider emfServiceProvider, PropertiesBindingHandlerImpl propertiesBindingHandler) {
+			setEMFServiceProvider(emfServiceProvider);
+			setLockPolicyFactoryProvider(propertiesBindingHandler.getLockPolicyFactoryProvider());
+		}
+
+		/**
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingHandlerImpl#getBindingSettingsProvider()
+		 */
+		public EEFBindingSettingsProvider getBindingSettingsProvider() {
+			if (bindingSettingsProvider == null) {
+				bindingSettingsProvider = new DelegatingBindingSettingsProvider(getEMFServiceProvider());
+			}
+			return bindingSettingsProvider;
+		}
+
+	}
+
+	private class DelegatingBindingSettingsProvider implements EEFBindingSettingsProvider {
+
+		private EMFServiceProvider emfServiceProvider;
+
+		/**
+		 * @param emfServiceProvider
+		 *            EMFServiceProvider
+		 */
+		public DelegatingBindingSettingsProvider(EMFServiceProvider emfServiceProvider) {
+			this.emfServiceProvider = emfServiceProvider;
+		}
+
+		/**
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider#getBindingSettings(org.eclipse.emf.ecore.EPackage)
+		 */
+		public <T extends EObject> EEFBindingSettings<T> getBindingSettings(EPackage ePackage) {
+			EditorBindingSettings editorBindingSettings = new EditorBindingSettings();
+			editorBindingSettings.setEMFServiceProvider(emfServiceProvider);
+			return (EEFBindingSettings<T>) editorBindingSettings;
+		}
+
+	}
+
 }

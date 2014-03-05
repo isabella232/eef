@@ -120,6 +120,13 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	}
 
 	/**
+	 * @return the bindingSettingsProvider
+	 */
+	public EEFBindingSettingsProvider getBindingSettingsProvider() {
+		return bindingSettingsProvider;
+	}
+
+	/**
 	 * @param viewHandlerProvider
 	 */
 	public final void setViewHandlerProvider(ViewHandlerProvider viewHandlerProvider) {
@@ -140,6 +147,13 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
+	}
+
+	/**
+	 * @return the emfServiceProvider
+	 */
+	public EMFServiceProvider getEMFServiceProvider() {
+		return emfServiceProvider;
 	}
 
 	/**
@@ -171,6 +185,20 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 */
 	public void setLockPolicyFactoryProvider(EEFLockPolicyFactoryProvider lockPolicyFactoryProvider) {
 		this.lockPolicyFactoryProvider = lockPolicyFactoryProvider;
+	}
+
+	/**
+	 * @return the lockPolicyFactoryProvider
+	 */
+	public EEFLockPolicyFactoryProvider getLockPolicyFactoryProvider() {
+		return lockPolicyFactoryProvider;
+	}
+
+	/**
+	 * @return the lockManagerProvider
+	 */
+	public EEFLockManagerProvider getLockManagerProvider() {
+		return lockManagerProvider;
 	}
 
 	/**
@@ -217,7 +245,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 			Notifier highestNotifier = emfService.highestNotifier(eObject);
 			initModelChangesNotifierIfNeeded(highestNotifier);
 			if (editingContext instanceof EObjectPropertiesEditingContext) {
-				EEFBindingSettings<PropertiesEditingModel> bindingSettings = bindingSettingsProvider.getBindingSettings(eObject.eClass().getEPackage());
+				EEFBindingSettings<PropertiesEditingModel> bindingSettings = getBindingSettingsProvider().getBindingSettings(eObject.eClass().getEPackage());
 				component = new PropertiesEditingComponentImpl(bindingSettings, eObject);
 			} else if (editingContext instanceof ReflectivePropertiesEditingContext) {
 				EObject eefDescription = ((ReflectivePropertiesEditingContext) editingContext).getEObject();

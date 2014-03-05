@@ -90,7 +90,7 @@ public abstract class EEFToolkitImpl<T> implements EEFToolkit<T> {
 	 * @param editingEvent
 	 */
 	public final void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
-		editingComponent.getEditingContext().getBindingManagerProvider().getBindingManager(editingComponent.getEObject()).firePropertiesChanged(editingComponent, editingEvent);
+		editingComponent.getEditingContext().getBindingManagerProvider().getBindingHandler(editingComponent.getEObject()).firePropertiesChanged(editingComponent, editingEvent);
 	}
 
 	/**

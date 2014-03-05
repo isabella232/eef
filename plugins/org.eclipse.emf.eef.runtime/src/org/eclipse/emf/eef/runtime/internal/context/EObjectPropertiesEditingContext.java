@@ -185,7 +185,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
 		if (component == null) {
-			component = bindingHandlerProvider.getBindingManager(eObject).createComponent(this);
+			component = bindingHandlerProvider.getBindingHandler(eObject).createComponent(this);
 		}
 		return component;
 	}
@@ -210,7 +210,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void disposeComponent(PropertiesEditingComponent editingComponent) {
-		bindingHandlerProvider.getBindingManager(editingComponent.getEObject()).disposeComponent(editingComponent);
+		bindingHandlerProvider.getBindingHandler(editingComponent.getEObject()).disposeComponent(editingComponent);
 	}
 
 	/**

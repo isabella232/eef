@@ -160,7 +160,7 @@ public class ReflectivePropertiesEditingContext implements PropertiesEditingCont
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
 		if (component == null) {
-			component = bindingHandlerProvider.getBindingManager(eObject).createComponent(this);
+			component = bindingHandlerProvider.getBindingHandler(eObject).createComponent(this);
 		}
 		return component;
 	}

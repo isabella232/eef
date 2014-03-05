@@ -173,11 +173,11 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 			EObject editedElement = (EObject)value;
 			PropertiesEditingContextFactory factory = editingContext.getContextFactoryProvider().getEditingContextFactory(editedElement);
 			PropertiesEditingContext subPropertiesEditingContext = factory.createPropertiesEditingContext(editingContext, editedElement);
-			PropertiesEditingPolicyProvider editingPolicyProvider = editingContext.getBindingManagerProvider().getBindingManager(editedElement).getPolicyProvider();
+			PropertiesEditingPolicyProvider editingPolicyProvider = editingContext.getBindingManagerProvider().getBindingHandler(editedElement).getPolicyProvider();
 			//I'm quite confident in this cast 
 			PropertiesEditingPolicy subElementEditingPolicy = editingPolicyProvider.getEditingPolicy((SemanticPropertiesEditingContext) subPropertiesEditingContext);
 			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
-			editingContext.getBindingManagerProvider().getBindingManager(editingComponent.getEObject()).execute(editingComponent, subElementEditingPolicy, subPropertiesEditingContext);
+			editingContext.getBindingManagerProvider().getBindingHandler(editingComponent.getEObject()).execute(editingComponent, subElementEditingPolicy, subPropertiesEditingContext);
 		}
 	}
 
