@@ -142,9 +142,9 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	 * @see org.eclipse.jface.viewers.Viewer#refresh()
 	 */
 	public void refresh() {
+		clear();
 		if (input != null) {
 			int selectionIndex = folder.getSelectionIndex();
-			clear();
 			PropertiesEditingComponent component = input.getEditingComponent();
 			int i = 1;
 			for (org.eclipse.emf.eef.runtime.editingModel.View descriptor : component.getViewDescriptors()) {
@@ -230,13 +230,15 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 					cTabItem.dispose();
 			}
 		}
-		PropertiesEditingComponent editingComponent = input.getEditingComponent();
-		List<Object> views = editingComponent.getViews();
-		for (Object view : views) {
-			View descriptor = editingComponent.getDescriptorForView(view);
-			if (descriptor != null) {
-				ViewHandler<?> viewHandler = input.getViewHandlerProvider().getViewHandler(descriptor);
-				viewHandler.dispose(editingComponent, view);
+		if (input != null) {
+			PropertiesEditingComponent editingComponent = input.getEditingComponent();
+			List<Object> views = editingComponent.getViews();
+			for (Object view : views) {
+				View descriptor = editingComponent.getDescriptorForView(view);
+				if (descriptor != null) {
+					ViewHandler<?> viewHandler = input.getViewHandlerProvider().getViewHandler(descriptor);
+					viewHandler.dispose(editingComponent, view);
+				}
 			}
 		}
 	}

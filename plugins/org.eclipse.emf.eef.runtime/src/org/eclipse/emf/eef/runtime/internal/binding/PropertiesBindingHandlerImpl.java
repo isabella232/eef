@@ -112,6 +112,13 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	}
 
 	/**
+	 * @return the eventAdmin
+	 */
+	public EventAdmin getEventAdmin() {
+		return eventAdmin;
+	}
+
+	/**
 	 * @param bindingSettingsProvider
 	 *            the bindingSettingsProvider to set
 	 */

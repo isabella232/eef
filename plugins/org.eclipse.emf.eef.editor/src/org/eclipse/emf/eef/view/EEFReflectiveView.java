@@ -472,6 +472,7 @@ public class EEFReflectiveView extends ViewPart {
 		if (editingDomain == null) {
 			setEditingDomain(null);
 			modelViewer.getViewer().setInput(new ResourceSetImpl());
+			bindingPreviewViewer.setInput(null);
 		} else {
 			setEditingDomain(editingDomain);
 			modelViewer.getViewer().setInput(editingDomain.getResourceSet());
@@ -515,6 +516,7 @@ public class EEFReflectiveView extends ViewPart {
 	private class DelegatingBindingHandler extends PropertiesBindingHandlerUIImpl {
 
 		private EEFBindingSettingsProvider bindingSettingsProvider;
+		private PropertiesBindingHandlerImpl propertiesBindingHandler;
 
 		/**
 		 * @param emfServiceProvider
@@ -523,8 +525,10 @@ public class EEFReflectiveView extends ViewPart {
 		 * @param delegatedBindingHandlerProvider
 		 */
 		public DelegatingBindingHandler(EMFServiceProvider emfServiceProvider, PropertiesBindingHandlerImpl propertiesBindingHandler) {
+			this.propertiesBindingHandler = propertiesBindingHandler;
 			setEMFServiceProvider(emfServiceProvider);
 			setLockPolicyFactoryProvider(propertiesBindingHandler.getLockPolicyFactoryProvider());
+			setEventAdmin(propertiesBindingHandler.getEventAdmin());
 		}
 
 		/**
@@ -534,7 +538,7 @@ public class EEFReflectiveView extends ViewPart {
 		 */
 		public EEFBindingSettingsProvider getBindingSettingsProvider() {
 			if (bindingSettingsProvider == null) {
-				bindingSettingsProvider = new DelegatingBindingSettingsProvider(getEMFServiceProvider());
+				bindingSettingsProvider = new DelegatingBindingSettingsProvider(getEMFServiceProvider(), propertiesBindingHandler.getBindingSettingsProvider());
 			}
 			return bindingSettingsProvider;
 		}
@@ -544,13 +548,16 @@ public class EEFReflectiveView extends ViewPart {
 	private class DelegatingBindingSettingsProvider implements EEFBindingSettingsProvider {
 
 		private EMFServiceProvider emfServiceProvider;
+		private EEFBindingSettingsProvider eefBindingSettingsProvider;
 
 		/**
 		 * @param emfServiceProvider
 		 *            EMFServiceProvider
+		 * @param eefBindingSettingsProvider
 		 */
-		public DelegatingBindingSettingsProvider(EMFServiceProvider emfServiceProvider) {
+		public DelegatingBindingSettingsProvider(EMFServiceProvider emfServiceProvider, EEFBindingSettingsProvider eefBindingSettingsProvider) {
 			this.emfServiceProvider = emfServiceProvider;
+			this.eefBindingSettingsProvider = eefBindingSettingsProvider;
 		}
 
 		/**
@@ -559,7 +566,7 @@ public class EEFReflectiveView extends ViewPart {
 		 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider#getBindingSettings(org.eclipse.emf.ecore.EPackage)
 		 */
 		public <T extends EObject> EEFBindingSettings<T> getBindingSettings(EPackage ePackage) {
-			EditorBindingSettings editorBindingSettings = new EditorBindingSettings();
+			EditorBindingSettings editorBindingSettings = new EditorBindingSettings(eefBindingSettingsProvider);
 			editorBindingSettings.setEMFServiceProvider(emfServiceProvider);
 			return (EEFBindingSettings<T>) editorBindingSettings;
 		}

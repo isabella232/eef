@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
@@ -42,6 +43,11 @@ public class EditorBindingSettings implements EEFBindingSettings<PropertiesEditi
 	 * Properties editing model.
 	 */
 	private ResourceSet resourceSet;
+	private EEFBindingSettingsProvider eefBindingSettingsProvider;
+
+	public EditorBindingSettings(EEFBindingSettingsProvider eefBindingSettingsProvider) {
+		this.eefBindingSettingsProvider = eefBindingSettingsProvider;
+	}
 
 	/**
 	 * (non-Javadoc)
@@ -99,13 +105,15 @@ public class EditorBindingSettings implements EEFBindingSettings<PropertiesEditi
 				PropertiesEditingModel editingModel = ((EEFReflectiveEditor) activeEditor).getEditingModel();
 				if (editingModel != null) {
 					editingModel.setEMFServiceProvider(emfServiceProvider);
-					return editingModel;
+					if (editingModel.binding(eClass) != null) {
+						return editingModel;
+					}
 				}
 
 			}
 		}
 
-		return propertiesEditingModel;
+		return (PropertiesEditingModel) eefBindingSettingsProvider.getBindingSettings(eClass.getEPackage()).getEEFDescription(eClass);
 	}
 
 	/**
