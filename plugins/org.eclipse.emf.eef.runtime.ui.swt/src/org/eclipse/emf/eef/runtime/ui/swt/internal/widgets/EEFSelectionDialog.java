@@ -21,8 +21,10 @@ import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.jface.dialogs.TrayDialog;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -50,17 +52,17 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EEFSelectionDialog extends TrayDialog {
 
 	private ImageManager imageManager;
-	
+
 	private String title;
 	private TreeViewer selectionViewer;
 	private boolean multi;
 	private Menu addModelMenu;
-	
+
 	private AdapterFactory adapterFactory;
 	private IContentProvider contentProvider;
 	private IBaseLabelProvider labelProvider;
@@ -70,7 +72,7 @@ public class EEFSelectionDialog extends TrayDialog {
 	private EditUIProvidersFactory providersFactory;
 
 	private Text urisToLoad;
-	
+
 	/**
 	 * @param parent
 	 */
@@ -82,6 +84,7 @@ public class EEFSelectionDialog extends TrayDialog {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets.Shell)
 	 */
 	@Override
@@ -92,23 +95,25 @@ public class EEFSelectionDialog extends TrayDialog {
 		}
 		newShell.setSize(UIConstants.EEF_SELECTION_DIALOG_WIDTH, UIConstants.EEF_SELECTION_DIALOG_HEIGHT);
 	}
-	
+
 	/**
 	 * @return the title
 	 */
 	public String getTitle() {
 		return title;
 	}
-	
+
 	/**
-	 * @param title the title to set
+	 * @param title
+	 *            the title to set
 	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	/**
-	 * @param input the input to set
+	 * @param input
+	 *            the input to set
 	 */
 	public void setInput(Object input) {
 		this.input = input;
@@ -123,6 +128,7 @@ public class EEFSelectionDialog extends TrayDialog {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#isResizable()
 	 */
 	protected boolean isResizable() {
@@ -138,6 +144,7 @@ public class EEFSelectionDialog extends TrayDialog {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createDialogArea(Composite parent) {
@@ -152,26 +159,31 @@ public class EEFSelectionDialog extends TrayDialog {
 		}
 		selectionViewer = createSelectionViewer(control, style);
 		selectionViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
-		
+
 		for (ViewerFilter filter : filters) {
 			selectionViewer.addFilter(filter);
 		}
-		
+
 		selectionViewer.setContentProvider(getContentProvider());
 		selectionViewer.setLabelProvider(getLabelProvider());
 		selectionViewer.setInput(input);
 		selectionViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			
 
 			public void selectionChanged(SelectionChangedEvent event) {
 				StructuredSelection sSel = (StructuredSelection) selectionViewer.getSelection();
 				if (sSel.size() == 0) {
 					EEFSelectionDialog.this.selection = null;
 				} else if (sSel.size() == 1) {
-					EEFSelectionDialog.this.selection = sSel.getFirstElement();					
+					EEFSelectionDialog.this.selection = sSel.getFirstElement();
 				} else {
 					EEFSelectionDialog.this.selection = sSel.toList();
 				}
+			}
+		});
+		selectionViewer.addDoubleClickListener(new IDoubleClickListener() {
+
+			public void doubleClick(DoubleClickEvent event) {
+				okPressed();
 			}
 		});
 		Group modelLoading = new Group(control, SWT.BORDER);
@@ -188,9 +200,10 @@ public class EEFSelectionDialog extends TrayDialog {
 		}
 		addModel.setToolTipText("Load model...");
 		addModel.addSelectionListener(new SelectionAdapter() {
-			
+
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 			 */
 			@Override
@@ -201,12 +214,12 @@ public class EEFSelectionDialog extends TrayDialog {
 				addModelMenu = new Menu(e.display.getActiveShell(), SWT.POP_UP);
 				Menu menu = addModelMenu;
 				buildLoadModelMenu(menu);
-				
-				Rectangle rect = addModel.getBounds ();
-				Point pt = new Point (rect.x, rect.y + rect.height);
-				pt = addModel.getParent().toDisplay (pt);
-				addModelMenu.setLocation (pt.x, pt.y);
-				addModelMenu.setVisible (true);
+
+				Rectangle rect = addModel.getBounds();
+				Point pt = new Point(rect.x, rect.y + rect.height);
+				pt = addModel.getParent().toDisplay(pt);
+				addModelMenu.setLocation(pt.x, pt.y);
+				addModelMenu.setVisible(true);
 			}
 		});
 		final Button loadModel = new Button(modelLoading, SWT.PUSH);
@@ -219,51 +232,57 @@ public class EEFSelectionDialog extends TrayDialog {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 			 */
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				loadModels();
 			}
-			
+
 		});
 		return control;
 	}
 
 	/**
 	 * Creates the selection viewer.
-	 * @param parent the parent control.
-	 * @param style the viewer style.
-	 * @return the created viewer. 
+	 * 
+	 * @param parent
+	 *            the parent control.
+	 * @param style
+	 *            the viewer style.
+	 * @return the created viewer.
 	 */
 	protected TreeViewer createSelectionViewer(Composite parent, int style) {
 		return new TreeViewer(parent, style);
 	}
 
 	/**
-	 * @param adapterFactory the adapterFactory to set
+	 * @param adapterFactory
+	 *            the adapterFactory to set
 	 */
 	public void setAdapterFactory(AdapterFactory adapterFactory) {
 		this.adapterFactory = adapterFactory;
 	}
-	
+
 	/**
-	 * @param providersFactory the {@link EditUIProvidersFactory} to use in this dialog.
+	 * @param providersFactory
+	 *            the {@link EditUIProvidersFactory} to use in this dialog.
 	 */
 	public void setEditUIProvidersFactory(EditUIProvidersFactory providersFactory) {
 		this.providersFactory = providersFactory;
 	}
 
 	/**
-	 * @param imageManager the imageManager to set
+	 * @param imageManager
+	 *            the imageManager to set
 	 */
 	public void setImageManager(ImageManager imageManager) {
 		this.imageManager = imageManager;
 	}
 
 	/**
-	 * @return the contentProvider
-	 * TODO: need a real improvement
+	 * @return the contentProvider TODO: need a real improvement
 	 */
 	public IContentProvider getContentProvider() {
 		if (contentProvider == null && providersFactory != null) {
@@ -273,7 +292,8 @@ public class EEFSelectionDialog extends TrayDialog {
 	}
 
 	/**
-	 * @param contentProvider the contentProvider to set
+	 * @param contentProvider
+	 *            the contentProvider to set
 	 */
 	public void setContentProvider(IContentProvider contentProvider) {
 		this.contentProvider = contentProvider;
@@ -290,7 +310,8 @@ public class EEFSelectionDialog extends TrayDialog {
 	}
 
 	/**
-	 * @param labelProvider the labelProvider to set
+	 * @param labelProvider
+	 *            the labelProvider to set
 	 */
 	public void setLabelProvider(IBaseLabelProvider labelProvider) {
 		this.labelProvider = labelProvider;
@@ -309,15 +330,17 @@ public class EEFSelectionDialog extends TrayDialog {
 	public void addFilter(ViewerFilter filter) {
 		this.filters.add(filter);
 	}
-	
+
 	/**
 	 * Adds a URI to the list of URI to load.
-	 * @param uri the {@link URI} to add.
+	 * 
+	 * @param uri
+	 *            the {@link URI} to add.
 	 */
 	protected final void addURIsToLoad(String uri) {
 		StringBuilder builder = new StringBuilder(urisToLoad.getText());
 		if (builder.length() > 0) {
-			builder.append(' ');			
+			builder.append(' ');
 		}
 		if (uri.indexOf(' ') > 0) {
 			builder.append("\"");
@@ -331,15 +354,18 @@ public class EEFSelectionDialog extends TrayDialog {
 
 	/**
 	 * Builds the "Load Model" menu.
-	 * @param menu the "Load Model" {@link Menu}.
+	 * 
+	 * @param menu
+	 *            the "Load Model" {@link Menu}.
 	 */
 	protected void buildLoadModelMenu(Menu menu) {
-		MenuItem filesystemItem = new MenuItem (menu, SWT.PUSH);
+		MenuItem filesystemItem = new MenuItem(menu, SWT.PUSH);
 		filesystemItem.setText("From filesystem...");
 		filesystemItem.addSelectionListener(new SelectionAdapter() {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 			 */
 			@Override
@@ -353,7 +379,7 @@ public class EEFSelectionDialog extends TrayDialog {
 			}
 		});
 	}
-	
+
 	private void loadModels() {
 		String urisText = urisToLoad.getText();
 		if (urisText != null) {
@@ -413,5 +439,5 @@ public class EEFSelectionDialog extends TrayDialog {
 		}
 		return result;
 	}
-	
+
 }

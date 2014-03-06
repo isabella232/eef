@@ -10,7 +10,12 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.e3.viewer;
 
+import java.util.List;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -22,17 +27,20 @@ import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 
+import com.google.common.collect.Lists;
+
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class E3EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private AdapterFactory adapterFactory;
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(Object element) {
@@ -41,6 +49,7 @@ public class E3EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory#getAdapterFactory()
 	 */
 	public AdapterFactory getAdapterFactory() {
@@ -51,7 +60,8 @@ public class E3EditUIProvidersFactory implements EditUIProvidersFactory {
 	}
 
 	/**
-	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 * @param eefEditingServiceProvider
+	 *            the eefEditingServiceProvider to set
 	 */
 	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
@@ -59,6 +69,7 @@ public class E3EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory#createContentProvider(org.eclipse.emf.common.notify.AdapterFactory)
 	 */
 	public IContentProvider createContentProvider(AdapterFactory adapterFactory) {
@@ -66,11 +77,31 @@ public class E3EditUIProvidersFactory implements EditUIProvidersFactory {
 		if (af == null) {
 			af = getAdapterFactory();
 		}
-		return new AdapterFactoryContentProvider(af);
+		return new AdapterFactoryContentProvider(af) {
+
+			/**
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider#getElements(java.lang.Object)
+			 */
+			@Override
+			public Object[] getElements(Object object) {
+				if (object instanceof ResourceSet) {
+					List<EObject> result = Lists.newArrayList();
+					for (Resource resource : ((ResourceSet) object).getResources()) {
+						result.addAll(resource.getContents());
+					}
+					return result.toArray();
+				}
+				return super.getElements(object);
+			}
+
+		};
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory#createLabelProvider(org.eclipse.emf.common.notify.AdapterFactory)
 	 */
 	public ILabelProvider createLabelProvider(AdapterFactory adapterFactory) {
@@ -79,7 +110,9 @@ public class E3EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory#createPropertyBindingLabelProvider(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory#createPropertyBindingLabelProvider(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+	 *      org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
 	 */
 	public ILabelProvider createPropertyBindingLabelProvider(PropertiesEditingContext editingContext, PropertyBinding propertyBinding) {
 		return new PropertyBindingLabelProvider(eefEditingServiceProvider, editingContext, propertyBinding);
