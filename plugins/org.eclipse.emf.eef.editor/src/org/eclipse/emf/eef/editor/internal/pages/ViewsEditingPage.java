@@ -436,21 +436,23 @@ public class ViewsEditingPage extends FormPage {
 				StructuredSelection selection = (StructuredSelection) viewer.getSelection();
 				View selectedElement = (View) selection.getFirstElement();
 				EObject eContainer = selectedElement.eContainer();
-				List<?> eViews = (List<?>) eContainer.eGet(selectedElement.eContainmentFeature());
-				int index = eViews.indexOf(selectedElement);
-				if (index > 0) {
-					moveUpView.setEnabled(true);
-					moveUpView.setToolTipText("Move up the selected view.");
-				} else {
-					moveUpView.setEnabled(false);
-					moveUpView.setToolTipText("Unable to move up the selected view.");
-				}
-				if (index < eViews.size() - 1) {
-					moveDownView.setEnabled(true);
-					moveDownView.setToolTipText("Move down the selected view");
-				} else {
-					moveDownView.setEnabled(false);
-					moveDownView.setToolTipText("Unable to move down the selected view");
+				if (eContainer != null) {
+					List<?> eViews = (List<?>) eContainer.eGet(selectedElement.eContainmentFeature());
+					int index = eViews.indexOf(selectedElement);
+					if (index > 0) {
+						moveUpView.setEnabled(true);
+						moveUpView.setToolTipText("Move up the selected view.");
+					} else {
+						moveUpView.setEnabled(false);
+						moveUpView.setToolTipText("Unable to move up the selected view.");
+					}
+					if (index < eViews.size() - 1) {
+						moveDownView.setEnabled(true);
+						moveDownView.setToolTipText("Move down the selected view");
+					} else {
+						moveDownView.setEnabled(false);
+						moveDownView.setToolTipText("Unable to move down the selected view");
+					}
 				}
 			} else {
 				moveUpView.setEnabled(false);
