@@ -62,7 +62,9 @@ public abstract class AbstractModelChangesNotifier extends EContentAdapter imple
 		Map<String, Object> properties = Maps.newHashMap();
 		properties.put("notification", notification);
 		Event event = new Event(topic, properties);
-		eventAdmin.postEvent(event);
+		if (eventAdmin != null) {
+			eventAdmin.postEvent(event);
+		}
 	}
 
 	/**

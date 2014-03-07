@@ -781,7 +781,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 								public void run() {
 									if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null) {
 										final EEFReflectiveView eefView = (EEFReflectiveView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(EEFReflectiveView.ID);
-										if (eefView != null) {
+										if (eefView != null && !getEditingDomainForOtherModel().equals(eefView.getEditingDomain())) {
 											eefView.refresh();
 										}
 									}

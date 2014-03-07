@@ -248,7 +248,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 			eObject = ((ReflectivePropertiesEditingContext) editingContext).getEObject();
 		}
 		if (eObject != null && eObject.eClass() != null) {
-			EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
+			EMFService emfService = getEMFServiceProvider().getEMFService(eObject.eClass().getEPackage());
 			Notifier highestNotifier = emfService.highestNotifier(eObject);
 			initModelChangesNotifierIfNeeded(highestNotifier);
 			if (editingContext instanceof EObjectPropertiesEditingContext) {
@@ -302,7 +302,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#getLockManager(java.lang.Object)
 	 */
 	public EEFLockManager getLockManager(Object view) {
-		return lockManagerProvider.getLockManager(view);
+		return getLockManagerProvider().getLockManager(view);
 	}
 
 	/**
@@ -318,20 +318,20 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 			for (Object view : editingComponent.getViews()) {
 				if (view != null) {
 					View viewDescriptor = editingComponent.getDescriptorForView(view);
-					ViewHandler<?> viewHandler = viewHandlerProvider.getViewHandler(viewDescriptor);
+					ViewHandler<?> viewHandler = getViewHandlerProvider().getViewHandler(viewDescriptor);
 					viewHandler.refreshGraphical(editingComponent, view);
 				}
 			}
 
 		} else if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
 			EObject source = editingComponent.getEObject();
-			EMFService service = emfServiceProvider.getEMFService(source.eClass().getEPackage());
+			EMFService service = getEMFServiceProvider().getEMFService(source.eClass().getEPackage());
 			EStructuralFeature structuralFeature = service.mapFeature(source.eClass(), (EStructuralFeature) msg.getFeature());
 			EClassBinding binding = editingModel.binding(source);
 			Object propertyEditor = binding.propertyEditor(source, structuralFeature, editingComponent.getEditingContext().getOptions().autowire());
 			for (Object view : editingComponent.getViews()) {
 				if (view != null) {
-					ViewHandler<?> viewHandler = viewHandlerProvider.getViewHandler(editingComponent.getDescriptorForView(view));
+					ViewHandler<?> viewHandler = getViewHandlerProvider().getViewHandler(editingComponent.getDescriptorForView(view));
 					switch (msg.getEventType()) {
 					case Notification.SET:
 						try {
@@ -408,7 +408,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 			EditingContextFactoryProvider contextFactoryProvider = editingContext.getContextFactoryProvider();
 			PropertiesEditingContextFactory service = contextFactoryProvider.getEditingContextFactory(editingComponent.getEObject());
 			SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) service.createSemanticPropertiesEditingContext(editingContext, editingEvent);
-			PropertiesEditingPolicy editingPolicy = editingPolicyProvider.getEditingPolicy(semanticEditingContext);
+			PropertiesEditingPolicy editingPolicy = getEditingPolicyProvider().getEditingPolicy(semanticEditingContext);
 			if (editingEvent.delayedChanges()) {
 				delayedApplyingPropertiesChanged(editingComponent, editingEvent);
 			} else {
@@ -444,7 +444,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 			 * @see com.google.common.base.Function#apply(java.lang.Object)
 			 */
 			public Void apply(Object view) {
-				lockManagerProvider.getLockManager(view).fireLockChange(editingComponent, view, lockEvent);
+				getLockManagerProvider().getLockManager(view).fireLockChange(editingComponent, view, lockEvent);
 				return null;
 			}
 
@@ -490,7 +490,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 */
 	public void initLockPolicies(PropertiesEditingComponent editingComponent) {
 		List<EEFLockPolicy> result = Lists.newArrayList();
-		Collection<EEFLockPolicyFactory> factories = lockPolicyFactoryProvider.getLockPolicyFactories(editingComponent.getEObject());
+		Collection<EEFLockPolicyFactory> factories = getLockPolicyFactoryProvider().getLockPolicyFactories(editingComponent.getEObject());
 		for (EEFLockPolicyFactory factory : factories) {
 			EEFLockPolicy lockPolicy = factory.createLockPolicy();
 			if (editingComponent.enableLockPolicy(lockPolicy)) {
@@ -527,7 +527,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 				notification = new ValidationBasedNotification(valueDiagnostic);
 			}
 			for (Object view : editingComponent.getViews()) {
-				EEFNotifier notifier = eefNotifierProvider.getNotifier(view);
+				EEFNotifier notifier = getEEFNotifierProvider().getNotifier(view);
 				if (notifier != null) {
 					notifier.notify(view, notification);
 				}
@@ -535,14 +535,14 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 		} else {
 			if (notifyEditor) {
 				for (Object view : editingComponent.getViews()) {
-					EEFNotifier notifier = eefNotifierProvider.getNotifier(view);
+					EEFNotifier notifier = getEEFNotifierProvider().getNotifier(view);
 					if (notifier != null) {
 						notifier.clearEditorNotification(view, editingEvent.getAffectedEditor());
 					}
 				}
 			} else {
 				for (Object view : editingComponent.getViews()) {
-					EEFNotifier notifier = eefNotifierProvider.getNotifier(view);
+					EEFNotifier notifier = getEEFNotifierProvider().getNotifier(view);
 					if (notifier != null) {
 						notifier.clearViewNotification(view);
 					}
@@ -573,7 +573,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 */
 	private Diagnostic validateValue(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		Diagnostic ret = Diagnostic.OK_INSTANCE;
-		EStructuralFeature feature = eefEditingServiceProvider.getEditingService(editingComponent.getEObject()).featureFromEditor(editingComponent.getEditingContext(), editingEvent.getAffectedEditor());
+		EStructuralFeature feature = getEEFEditingServiceProvider().getEditingService(editingComponent.getEObject()).featureFromEditor(editingComponent.getEditingContext(), editingEvent.getAffectedEditor());
 		// At this point, I consider that only binding with EStructuralFeature
 		// are able to validate a editing value
 		// TODO: Skipped test on EEnum to process later.
@@ -638,9 +638,30 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	public void initModelChangesNotifierIfNeeded(Notifier notifier) {
 		Adapter existingAdapter = EcoreUtil.getExistingAdapter(notifier, ModelChangesNotifier.class);
 		if (existingAdapter == null) {
-			notifier.eAdapters().add(new ModelChangesNotifierImpl(eventAdmin));
+			notifier.eAdapters().add(new ModelChangesNotifierImpl(getEventAdmin()));
 		}
 
+	}
+
+	/**
+	 * @return the viewHandlerProvider
+	 */
+	public ViewHandlerProvider getViewHandlerProvider() {
+		return viewHandlerProvider;
+	}
+
+	/**
+	 * @return the editingPolicyProvider
+	 */
+	public PropertiesEditingPolicyProvider getEditingPolicyProvider() {
+		return editingPolicyProvider;
+	}
+
+	/**
+	 * @return the eefNotifierProvider
+	 */
+	public EEFNotifierProvider getEEFNotifierProvider() {
+		return eefNotifierProvider;
 	}
 
 	/**

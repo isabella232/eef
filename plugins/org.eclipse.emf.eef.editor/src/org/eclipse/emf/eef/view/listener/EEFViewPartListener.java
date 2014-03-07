@@ -50,7 +50,9 @@ public class EEFViewPartListener implements IPartListener {
 	public void partClosed(IWorkbenchPart part) {
 		if (part instanceof EEFReflectiveEditor && PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null) {
 			IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(EEFReflectiveView.ID);
-			if (view instanceof EEFReflectiveView) {
+			IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+			boolean isEEFActiveEditor = activeEditor instanceof EEFReflectiveEditor && !((EEFReflectiveView) view).getEditingDomain().equals(((EEFReflectiveEditor) activeEditor).getEditingDomainForOtherModel());
+			if (view instanceof EEFReflectiveView && (isEEFActiveEditor || activeEditor == null)) {
 				((EEFReflectiveView) view).setInput(null);
 			}
 		}
@@ -82,7 +84,7 @@ public class EEFViewPartListener implements IPartListener {
 			IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 			if (activeEditor instanceof EEFReflectiveEditor) {
 				EditingDomain domain = ((EEFReflectiveEditor) activeEditor).getEditingDomainForOtherModel();
-				if (domain != null && !domain.getResourceSet().getResources().isEmpty() && !domain.equals(view.getEditingDomain())) {
+				if (domain != null && !domain.equals(view.getEditingDomain())) {
 					view.setInput(domain);
 				}
 			}
@@ -91,7 +93,7 @@ public class EEFViewPartListener implements IPartListener {
 			IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(EEFReflectiveView.ID);
 			if (view instanceof EEFReflectiveView) {
 				EditingDomain domain = editor.getEditingDomainForOtherModel();
-				if (domain != null && !domain.getResourceSet().getResources().isEmpty() && !domain.equals(((EEFReflectiveView) view).getEditingDomain())) {
+				if (domain != null && !domain.equals(((EEFReflectiveView) view).getEditingDomain())) {
 					((EEFReflectiveView) view).setInput(domain);
 				}
 			}
