@@ -56,7 +56,6 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -406,13 +405,14 @@ public class ViewsEditingPage extends FormPage {
 			if (viewer.getSorter() == null) {
 				ViewerSorter sorter = new ViewerSorter();
 				viewer.setSorter(sorter);
+				viewer.refresh();
 			}
 		} else {
 			if (viewer.getSorter() != null) {
 				viewer.setSorter(null);
+				viewer.refresh();
 			}
 		}
-		viewer.refresh();
 	}
 
 	/**
@@ -487,7 +487,7 @@ public class ViewsEditingPage extends FormPage {
 		public void widgetSelected(SelectionEvent e) {
 			ISelection selection = views.getViewer().getSelection();
 			if (selection != null && !selection.isEmpty()) {
-				View view = selectionService.unwrapSelection(selection);
+				EObject view = selectionService.unwrapSelection(selection);
 				EditingDomain editingDomain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
 				Command cmd = editingDomain.createCommand(DeleteCommand.class, new CommandParameter(null, null, Lists.newArrayList(view)));
 				editingDomain.getCommandStack().execute(cmd);
@@ -496,35 +496,4 @@ public class ViewsEditingPage extends FormPage {
 
 	}
 
-	private abstract class MoveSelectedViewAdapter extends SelectionAdapter {
-
-		private Viewer viewer;
-
-		/**
-		 * @param viewer
-		 */
-		public MoveSelectedViewAdapter(Viewer viewer) {
-			this.viewer = viewer;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-		 */
-		@Override
-		public void widgetSelected(SelectionEvent e) {
-			EditingDomain editingDomain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
-			StructuredSelection selection = (StructuredSelection) viewer.getSelection();
-			View selectedElement = (View) selection.getFirstElement();
-			EObject eContainer = selectedElement.eContainer();
-			List<?> eViews = (List<?>) eContainer.eGet(selectedElement.eContainmentFeature());
-			int index = eViews.indexOf(selectedElement);
-			Command cmd = createCommand(editingDomain, eContainer, selectedElement, index);
-			editingDomain.getCommandStack().execute(cmd);
-			updateViewsSection();
-		}
-
-		protected abstract Command createCommand(EditingDomain editingDomain, EObject viewContainer, View view, int currentIndex);
-	}
 }
