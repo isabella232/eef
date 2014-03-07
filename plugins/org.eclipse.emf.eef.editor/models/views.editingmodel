@@ -16,7 +16,6 @@
     <bindings>
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//View"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.2"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0"/>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//ViewElement/name"/>
@@ -24,10 +23,6 @@
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.1"/>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//DocumentedElement/documentation"/>
-      </propertyBindings>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0"/>
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime.ui/model/views.ecore#//Container/elements"/>
       </propertyBindings>
     </bindings>
     <bindings>

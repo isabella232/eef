@@ -20,11 +20,13 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.DeleteCommand;
-import org.eclipse.emf.edit.command.MoveCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
+import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
@@ -37,12 +39,14 @@ import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.ReflectivePropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.emf.eef.views.View;
+import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.ViewsPackage;
 import org.eclipse.emf.eef.views.ViewsRepository;
@@ -55,6 +59,8 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -91,14 +97,13 @@ public class ViewsEditingPage extends FormPage {
 	private EMFService emfService;
 	private SelectionService selectionService;
 	private ViewerService viewerService;
+	private PropertiesEditingPolicyProvider editingPolicyProvider;
 
 	private AdapterFactory adapterFactory;
 
 	private Composite pageContainer;
 	private FormToolkit toolkit;
 	private Form innerForm;
-	private ToolItem moveUpView;
-	private ToolItem moveDownView;
 	private FilteredTree views;
 	private EEFViewer viewSettingsViewer;
 	private EEFViewer viewPreviewViewer;
@@ -152,6 +157,21 @@ public class ViewsEditingPage extends FormPage {
 	 */
 	public void setViewerService(ViewerService viewerService) {
 		this.viewerService = viewerService;
+	}
+
+	/**
+	 * @return the editingPolicyProvider
+	 */
+	public PropertiesEditingPolicyProvider getEditingPolicyProvider() {
+		return editingPolicyProvider;
+	}
+
+	/**
+	 * @param editingPolicyProvider
+	 *            the editingPolicyProvider to set
+	 */
+	public void setEditingPolicyProvider(PropertiesEditingPolicyProvider editingPolicyProvider) {
+		this.editingPolicyProvider = editingPolicyProvider;
 	}
 
 	/**
@@ -215,44 +235,10 @@ public class ViewsEditingPage extends FormPage {
 		delete.setToolTipText("Delete the selected view of the repository");
 		delete.addSelectionListener(new DeleteViewAdapter());
 
-		moveUpView = new ToolItem(toolbar, SWT.PUSH);
-		moveUpView.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "ArrowUp"));
-		moveUpView.addSelectionListener(new MoveSelectedViewAdapter(views.getViewer()) {
-
-			/**
-			 * {@inheritDoc}
-			 * 
-			 * @see org.eclipse.emf.eef.editor.internal.pages.ViewsEditingPage.MoveSelectedViewAdapter#createCommand(org.eclipse.emf.edit.domain.EditingDomain,
-			 *      org.eclipse.emf.ecore.EObject,
-			 *      org.eclipse.emf.eef.views.View, int)
-			 */
-			@Override
-			protected Command createCommand(EditingDomain editingDomain, EObject viewContainer, View view, int currentIndex) {
-				return editingDomain.createCommand(MoveCommand.class, new CommandParameter(viewContainer, view.eContainingFeature(), view, currentIndex - 1));
-			}
-
-		});
-		moveDownView = new ToolItem(toolbar, SWT.PUSH);
-		moveDownView.setImage(imageManager.getImage(EEFRuntimeUISWT.getResourceLocator(), "ArrowDown"));
-		moveDownView.addSelectionListener(new MoveSelectedViewAdapter(views.getViewer()) {
-
-			/**
-			 * {@inheritDoc}
-			 * 
-			 * @see org.eclipse.emf.eef.editor.internal.pages.ViewsEditingPage.MoveSelectedViewAdapter#createCommand(org.eclipse.emf.edit.domain.EditingDomain,
-			 *      org.eclipse.emf.ecore.EObject,
-			 *      org.eclipse.emf.eef.views.View, int)
-			 */
-			@Override
-			protected Command createCommand(EditingDomain editingDomain, EObject viewContainer, View view, int currentIndex) {
-				return editingDomain.createCommand(MoveCommand.class, new CommandParameter(viewContainer, view.eContainingFeature(), view, currentIndex + 1));
-			}
-
-		});
 		updateViewsSection();
 
 		Separator sep = new Separator();
-		sep.fill(toolbar, 4);
+		sep.fill(toolbar, 2);
 
 		final ToolItem alphaSort = new ToolItem(toolbar, SWT.CHECK);
 		alphaSort.setImage(imageManager.getImage(EditingModelEditPlugin.getPlugin(), "AlphaSort"));
@@ -278,16 +264,21 @@ public class ViewsEditingPage extends FormPage {
 					EObject view = selectionService.unwrapSelection(event.getSelection());
 					PropertiesEditingContext currentSelection = (PropertiesEditingContext) viewSettingsViewer.getInput();
 					if (currentSelection == null || (currentSelection instanceof EObjectPropertiesEditingContext && !view.equals(((EObjectPropertiesEditingContext) currentSelection).getEObject()))) {
-						delete.setEnabled(true);
 						EditingDomain domain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
 						PropertiesEditingContext editingContext = contextFactoryProvider.getEditingContextFactory(view).createPropertiesEditingContext(domain, adapterFactory, view);
 						editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, ViewsEditingPage.this.toolkit);
 						viewSettingsViewer.setInput(editingContext);
 					}
-					PropertiesEditingContext reflectEditingContext = contextFactoryProvider.getEditingContextFactory(view).createReflectivePropertiesEditingContext(adapterFactory, view);
+					View containerView = getViewContainer(view);
+					PropertiesEditingContext reflectEditingContext = contextFactoryProvider.getEditingContextFactory(containerView).createReflectivePropertiesEditingContext(adapterFactory, containerView);
 					reflectEditingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, ViewsEditingPage.this.toolkit);
 					viewPreviewViewer.setInput(reflectEditingContext);
 
+					if (view instanceof ViewsRepository) {
+						delete.setEnabled(false);
+					} else {
+						delete.setEnabled(true);
+					}
 				} else {
 					delete.setEnabled(false);
 				}
@@ -345,32 +336,17 @@ public class ViewsEditingPage extends FormPage {
 		toolkit.adapt(views);
 		views.getViewer().setContentProvider(new AdapterFactoryContentProvider(adapterFactory) {
 
-			private final Object[] nullChildren = new Object[0];
-
 			/**
-			 * {@inheritDoc}
+			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider#getChildren(java.lang.Object)
+			 * @see org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider#getElements(java.lang.Object)
 			 */
 			@Override
-			public Object[] getChildren(Object object) {
-				if (object instanceof View) {
-					return nullChildren;
+			public Object[] getElements(Object object) {
+				if (object instanceof List) {
+					return ((List) object).toArray();
 				}
-				return super.getChildren(object);
-			}
-
-			/**
-			 * {@inheritDoc}
-			 * 
-			 * @see org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider#hasChildren(java.lang.Object)
-			 */
-			@Override
-			public boolean hasChildren(Object object) {
-				if (object instanceof View) {
-					return false;
-				}
-				return super.hasChildren(object);
+				return super.getElements(object);
 			}
 
 		});
@@ -378,7 +354,14 @@ public class ViewsEditingPage extends FormPage {
 		views.getViewer().setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 		EditingDomain domain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
 		ResourceSet resourceSet = domain.getResourceSet();
-		views.getViewer().setInput(emfService.findEditedViewsRepository(resourceSet));
+		ViewsRepository viewsRepository = emfService.findEditedViewsRepository(resourceSet);
+		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
+		Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
+		views.getViewer().addDragSupport(dndOperations, transfers, new ViewerDragAdapter(views.getViewer()));
+		views.getViewer().addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(domain, views.getViewer()));
+		views.getViewer().setInput(Lists.newArrayList(viewsRepository));
+		views.getViewer().expandToLevel(2);
+		// views.getViewer().setUseHashlookup(true);
 	}
 
 	private void createViewSettingsSectionContents(FormToolkit toolkit, Composite bindingSettingsContainer) {
@@ -424,45 +407,24 @@ public class ViewsEditingPage extends FormPage {
 				ViewerSorter sorter = new ViewerSorter();
 				viewer.setSorter(sorter);
 			}
-			moveUpView.setEnabled(false);
-			moveUpView.setToolTipText("You cannot reorder views when the viewer is alphabetically sorted.");
-			moveDownView.setEnabled(false);
-			moveDownView.setToolTipText("You cannot reorder views when the viewer is alphabetically sorted.");
 		} else {
 			if (viewer.getSorter() != null) {
 				viewer.setSorter(null);
 			}
-			if (viewer.getSelection() instanceof StructuredSelection && !((StructuredSelection) viewer.getSelection()).isEmpty()) {
-				StructuredSelection selection = (StructuredSelection) viewer.getSelection();
-				View selectedElement = (View) selection.getFirstElement();
-				EObject eContainer = selectedElement.eContainer();
-				if (eContainer != null) {
-					List<?> eViews = (List<?>) eContainer.eGet(selectedElement.eContainmentFeature());
-					int index = eViews.indexOf(selectedElement);
-					if (index > 0) {
-						moveUpView.setEnabled(true);
-						moveUpView.setToolTipText("Move up the selected view.");
-					} else {
-						moveUpView.setEnabled(false);
-						moveUpView.setToolTipText("Unable to move up the selected view.");
-					}
-					if (index < eViews.size() - 1) {
-						moveDownView.setEnabled(true);
-						moveDownView.setToolTipText("Move down the selected view");
-					} else {
-						moveDownView.setEnabled(false);
-						moveDownView.setToolTipText("Unable to move down the selected view");
-					}
-				}
-			} else {
-				moveUpView.setEnabled(false);
-				moveUpView.setToolTipText("No view selected.");
-				moveDownView.setEnabled(false);
-				moveDownView.setToolTipText("No view selected");
-
-			}
 		}
 		viewer.refresh();
+	}
+
+	/**
+	 * @param firstElement
+	 * @return
+	 */
+	public View getViewContainer(Object firstElement) {
+		while (firstElement instanceof EObject && !(firstElement instanceof View)) {
+			firstElement = ((EObject) firstElement).eContainer();
+		}
+		View selectedElement = (View) firstElement;
+		return selectedElement;
 	}
 
 	private class AddViewAdapter extends SelectionAdapter {
@@ -474,15 +436,42 @@ public class ViewsEditingPage extends FormPage {
 		 */
 		@Override
 		public void widgetSelected(SelectionEvent e) {
-			View view = ViewsFactory.eINSTANCE.createView();
-			ViewsRepository repository = (ViewsRepository) views.getViewer().getInput();
-			view.setName("View" + (repository.getViews().size() + 1));
-			IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(repository, IEditingDomainItemProvider.class);
-			EditingDomain editingDomain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
-			Command cmd = provider.createCommand(repository, editingDomain, AddCommand.class, new CommandParameter(repository, ViewsPackage.Literals.VIEWS_REPOSITORY__VIEWS, Lists.newArrayList(view)));
-			editingDomain.getCommandStack().execute(cmd);
-			views.getViewer().refresh();
-			views.getViewer().setSelection(new StructuredSelection(view));
+			ISelection selection = views.getViewer().getSelection();
+			if (selection != null && !selection.isEmpty()) {
+				EObject eObject = selectionService.unwrapSelection(selection);
+				if (eObject instanceof ViewsRepository) {
+					View view = ViewsFactory.eINSTANCE.createView();
+					ViewsRepository repository = (ViewsRepository) eObject;
+					view.setName("View" + (repository.getViews().size() + 1));
+					IEditingDomainItemProvider provider = (IEditingDomainItemProvider) adapterFactory.adapt(repository, IEditingDomainItemProvider.class);
+					EditingDomain editingDomain = ((IEditingDomainProvider) getEditor()).getEditingDomain();
+					Command cmd = provider.createCommand(repository, editingDomain, AddCommand.class, new CommandParameter(repository, ViewsPackage.Literals.VIEWS_REPOSITORY__VIEWS, Lists.newArrayList(view)));
+					editingDomain.getCommandStack().execute(cmd);
+					views.getViewer().refresh();
+					views.getViewer().setSelection(new StructuredSelection(view));
+				} else if (eObject instanceof View) {
+					// contextFactoryProvider.getEditingContextFactory(eObject).createPropertiesEditingContext(adapterFactory,
+					// eObject)
+					// new PropertiesEditingEventImpl(view, elementEditor,
+					// PropertiesEditingEvent.SET, null, null);
+					//
+					// PropertiesEditingContextFactory service =
+					// contextFactoryProvider.getEditingContextFactory(editingComponent.getEObject());
+					// SemanticPropertiesEditingContext semanticEditingContext =
+					// (SemanticPropertiesEditingContext)
+					// service.createSemanticPropertiesEditingContext(editingContext,
+					// editingEvent);
+					// PropertiesEditingPolicy editingPolicy =
+					// getEditingPolicyProvider().getEditingPolicy(semanticEditingContext);
+					//
+					//
+					// contextFactoryProvider.getEditingContextFactory(eObject).createSemanticPropertiesEditingContext(parentContext,
+					// editingEvent);
+					// getEditingPolicyProvider().getEditingPolicy(context)
+				} else if (eObject instanceof ViewElement) {
+
+				}
+			}
 		}
 
 	}

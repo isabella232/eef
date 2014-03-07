@@ -12,9 +12,11 @@ package org.eclipse.emf.eef.view;
 
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -28,8 +30,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
-import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
-import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider.FontAndColorProvider;
 import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
@@ -67,9 +67,12 @@ import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactoryProvider;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider;
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.dnd.DND;
@@ -182,6 +185,7 @@ public class EEFReflectiveView extends ViewPart {
 				refreshPageLayout();
 			}
 		});
+		((SashForm) pageContainer).setWeights(new int[] { 25, 75 });
 
 		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null) {
 			IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
@@ -260,7 +264,7 @@ public class EEFReflectiveView extends ViewPart {
 	}
 
 	private void createModelViewer(FormToolkit toolkit, Composite tabFolder) {
-		modelViewer = new FilteredTree(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE, new PatternFilter(), true);
+		modelViewer = new FilteredTree(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE | SWT.BORDER, new PatternFilter(), true);
 		modelViewer.getViewer().setContentProvider(new AdapterFactoryContentProvider(adapterFactory) {
 
 			/**
@@ -316,9 +320,8 @@ public class EEFReflectiveView extends ViewPart {
 		modelViewer.getViewer().setLabelProvider(provider);
 
 		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
-		Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
-		modelViewer.getViewer().addDragSupport(dndOperations, transfers, new ViewerDragAdapter(modelViewer.getViewer()));
-		modelViewer.getViewer().addDropSupport(dndOperations, transfers, new org.eclipse.emf.eef.view.ViewerDropAdapter(modelViewer.getViewer()) {
+		Transfer[] transfers = new Transfer[] { LocalSelectionTransfer.getTransfer() };
+		modelViewer.getViewer().addDropSupport(dndOperations, transfers, new ViewerDropAdapter(modelViewer.getViewer()) {
 
 			@Override
 			public boolean validateDrop(Object target, int operation, TransferData transferType) {
@@ -327,8 +330,20 @@ public class EEFReflectiveView extends ViewPart {
 
 			@Override
 			public boolean performDrop(Object data) {
-				if (data instanceof Resource) {
-					editingDomain.getResourceSet().getResources().add((Resource) data);
+				if (data instanceof StructuredSelection) {
+					Object selection = selectionService.unwrapSelection((StructuredSelection) data);
+					if (selection instanceof IFile) {
+						URI uri = URI.createPlatformResourceURI(((IFile) selection).getFullPath().toString(), true);
+						editingDomain.getResourceSet().getResource(uri, true);
+					} else if (selection instanceof List<?>) {
+						for (Object file : ((List<?>) selection)) {
+							if (file instanceof IFile) {
+								URI uri = URI.createPlatformResourceURI(((IFile) file).getFullPath().toString(), true);
+								editingDomain.getResourceSet().getResource(uri, true);
+							}
+						}
+					}
+
 				}
 				return false;
 			}
@@ -487,6 +502,7 @@ public class EEFReflectiveView extends ViewPart {
 					if ((notification.getNotifier() instanceof ResourceSet || notification.getNotifier() instanceof Resource) && (notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.REMOVE)) {
 						super.notifyChanged(notification);
 						modelViewer.getViewer().refresh();
+						Object input = modelViewer.getViewer().getInput();
 						bindingPreviewViewer.refresh();
 					}
 				}

@@ -770,6 +770,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 				viewsEditingPage.setEMFService(emfService);
 				viewsEditingPage.setSelectionService(selectionService);
 				viewsEditingPage.setViewerService(viewerService);
+				viewsEditingPage.setEditingPolicyProvider(EditingModelEditPlugin.getPlugin().getEditingPolicyProvider());
 				addPage(viewsEditingPage);
 
 				if (!containsNotifiableView()) {

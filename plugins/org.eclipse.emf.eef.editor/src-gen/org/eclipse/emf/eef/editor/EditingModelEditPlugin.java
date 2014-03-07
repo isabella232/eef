@@ -9,6 +9,7 @@ package org.eclipse.emf.eef.editor;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.ui.EclipseUIPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.util.EEFEditingService;
@@ -92,6 +93,7 @@ public final class EditingModelEditPlugin extends EMFPlugin {
 		private ServiceTracker eefEditingServiceTracker;
 		private ServiceTracker lockManagerProviderTracker;
 		private ServiceTracker imageManagerTracker;
+		private ServiceTracker editingPolicyProviderTracker;
 
 		/**
 		 * {@inheritDoc}
@@ -107,6 +109,8 @@ public final class EditingModelEditPlugin extends EMFPlugin {
 			lockManagerProviderTracker.open();
 			imageManagerTracker = new ServiceTracker(context, ImageManager.class.getName(), null);
 			imageManagerTracker.open();
+			editingPolicyProviderTracker = new ServiceTracker(context, PropertiesEditingPolicyProvider.class.getName(), null);
+			editingPolicyProviderTracker.open();
 		}
 
 		/**
@@ -119,6 +123,8 @@ public final class EditingModelEditPlugin extends EMFPlugin {
 			super.stop(context);
 			lockManagerProviderTracker.close();
 			imageManagerTracker.close();
+			eefEditingServiceTracker.close();
+			editingPolicyProviderTracker.close();
 		}
 
 		/**
@@ -146,6 +152,9 @@ public final class EditingModelEditPlugin extends EMFPlugin {
 			return (ImageManager) imageManagerTracker.getService();
 		}
 
+		public PropertiesEditingPolicyProvider getEditingPolicyProvider() {
+			return (PropertiesEditingPolicyProvider) editingPolicyProviderTracker.getService();
+		}
 	}
 
 }

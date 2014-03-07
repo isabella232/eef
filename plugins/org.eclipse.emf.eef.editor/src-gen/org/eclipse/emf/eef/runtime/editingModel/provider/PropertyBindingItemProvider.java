@@ -151,7 +151,7 @@ public class PropertyBindingItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @not-generated
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
@@ -160,13 +160,13 @@ public class PropertyBindingItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR,
-				 EditingModelFactory.eINSTANCE.createJavaEditor()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR,
 				 EditingModelFactory.eINSTANCE.createEObjectEditor()));
 
+		newChildDescriptors.add
+		(createChildParameter
+				(EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR,
+						EditingModelFactory.eINSTANCE.createJavaEditor()));
+		
 		newChildDescriptors.add
 			(createChildParameter
 				(EditingModelPackage.Literals.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS,
