@@ -53,7 +53,6 @@ import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
-import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.ViewsPackage;
 import org.eclipse.emf.eef.views.ViewsRepository;
@@ -551,7 +550,6 @@ public class ViewsEditingPage extends FormPage {
 		} else if (editedObject instanceof ElementEditor) {
 			createdObject = ViewsFactory.eINSTANCE.createElementEditor();
 			((ElementEditor) createdObject).setName("Editor" + (((ElementEditor) editedObject).getSubElementEditors().size() + 1));
-			((ElementEditor) editedObject).getSubElementEditors().add((ElementEditor) createdObject);
 			feature = ViewsPackage.Literals.ELEMENT_EDITOR__SUB_ELEMENT_EDITORS;
 		} else if (editedObject instanceof Container) {
 			if (ViewsPackage.eINSTANCE.getElementEditor().getName().equals(data.getName())) {
@@ -561,7 +559,6 @@ public class ViewsEditingPage extends FormPage {
 				createdObject = ViewsFactory.eINSTANCE.createContainer();
 				((Container) createdObject).setName("Container" + (((Container) editedObject).getElements().size() + 1));
 			}
-			((Container) editedObject).getElements().add((ViewElement) createdObject);
 			feature = ViewsPackage.Literals.CONTAINER__ELEMENTS;
 		}
 		if (createdObject != null) {
