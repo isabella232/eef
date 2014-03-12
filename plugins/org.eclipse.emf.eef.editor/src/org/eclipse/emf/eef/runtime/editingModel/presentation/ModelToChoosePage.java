@@ -83,7 +83,7 @@ public class ModelToChoosePage extends WizardPage {
 
 		Label label = new Label(composite, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label.setText("Model to filter:");
+		label.setText("Model:");
 
 		text = new Text(composite, SWT.BORDER);
 		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));

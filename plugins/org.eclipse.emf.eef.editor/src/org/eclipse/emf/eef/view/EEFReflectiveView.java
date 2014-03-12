@@ -502,7 +502,6 @@ public class EEFReflectiveView extends ViewPart {
 					if ((notification.getNotifier() instanceof ResourceSet || notification.getNotifier() instanceof Resource) && (notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.REMOVE)) {
 						super.notifyChanged(notification);
 						modelViewer.getViewer().refresh();
-						Object input = modelViewer.getViewer().getInput();
 						bindingPreviewViewer.refresh();
 					}
 				}
