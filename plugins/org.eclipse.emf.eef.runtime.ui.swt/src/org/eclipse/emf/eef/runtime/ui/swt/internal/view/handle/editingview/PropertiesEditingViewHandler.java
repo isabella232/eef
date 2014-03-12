@@ -162,7 +162,8 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.view.handle.ViewHandler#createView(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
 	 *      org.eclipse.emf.eef.runtime.editingModel.View, java.lang.Object[])
 	 */
-	public PropertiesEditingView<Composite> createView(PropertiesEditingComponent editingComponent, org.eclipse.emf.eef.runtime.editingModel.View viewDescriptor, Object... args) throws ViewConstructionException {
+	public PropertiesEditingView<Composite> createView(PropertiesEditingComponent editingComponent, org.eclipse.emf.eef.runtime.editingModel.View viewDescriptor, Object... args)
+			throws ViewConstructionException {
 		if (viewDescriptor instanceof EObjectView && ((EObjectView) viewDescriptor).getDefinition() instanceof View && args.length > 0 && args[0] instanceof Composite) {
 			PropertiesEditingView<Composite> view = new SWTImplPropertiesEditingView(editingComponent, (View) ((EObjectView) viewDescriptor).getDefinition());
 			((SWTImplPropertiesEditingView) view).setEEFEditingServiceProvider(eefEditingServiceProvider);
@@ -209,7 +210,8 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 			UnmodifiableIterator<ElementEditor> elementEditors = Iterators.filter(view.getViewModel().eAllContents(), ElementEditor.class);
 			while (elementEditors.hasNext()) {
 				ElementEditor elementEditor = elementEditors.next();
-				if (binding.propertyBinding(elementEditor, editingComponent.getEditingContext().getOptions().autowire()) != null || eefEditingServiceProvider.getEditingService(binding).featureFromEditor(editingComponent.getEditingContext(), elementEditor) != null) {
+				if (binding.propertyBinding(elementEditor, editingComponent.getEditingContext().getOptions().autowire()) != null
+						|| eefEditingServiceProvider.getEditingService(binding).featureFromEditor(editingComponent.getEditingContext(), elementEditor) != null) {
 					PropertyEditor propertyEditor = view.getPropertyEditor(elementEditor);
 					propertyEditor.init();
 				}
@@ -233,7 +235,7 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 					public void run() {
 						if (field instanceof ElementEditor) {
 							PropertyEditor propertyEditor = editingView.getPropertyEditor((ViewElement) field);
-							if (propertyEditor instanceof MonovaluedPropertyEditor) {
+							if (propertyEditor instanceof MonovaluedPropertyEditor && !((Composite) editingView.getContents()).isDisposed()) {
 								((MonovaluedPropertyEditor) propertyEditor).setValue(value);
 							}
 						}
@@ -252,12 +254,12 @@ public class PropertiesEditingViewHandler implements ViewHandler<PropertiesEditi
 	public void unsetValue(final Object view, final Object field) throws ViewHandlingException {
 		if (view instanceof PropertiesEditingView) {
 			final PropertiesEditingView<?> editingView = ((PropertiesEditingView<?>) view);
-			if (editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
+			if (!((Composite) editingView.getContents()).isDisposed() && editingView.getViewService() instanceof SWTViewService && editingView.getContents() instanceof Composite) {
 				((SWTViewService) editingView.getViewService()).executeSyncUIRunnable(((Composite) editingView.getContents()).getDisplay(), new Runnable() {
 					public void run() {
 						if (field instanceof ElementEditor) {
 							PropertyEditor propertyEditor = editingView.getPropertyEditor((ViewElement) field);
-							if (propertyEditor instanceof MonovaluedPropertyEditor) {
+							if (propertyEditor instanceof MonovaluedPropertyEditor && !((Composite) editingView.getContents()).isDisposed()) {
 								((MonovaluedPropertyEditor) propertyEditor).unsetValue();
 							}
 						}
