@@ -32,7 +32,7 @@ import com.google.common.collect.Maps;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EditingViewNotifier implements EEFNotifier {
 
@@ -44,6 +44,7 @@ public class EditingViewNotifier implements EEFNotifier {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(Object element) {
@@ -52,7 +53,9 @@ public class EditingViewNotifier implements EEFNotifier {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#notify(java.lang.Object, org.eclipse.emf.eef.runtime.view.notify.EEFNotification)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#notify(java.lang.Object,
+	 *      org.eclipse.emf.eef.runtime.view.notify.EEFNotification)
 	 */
 	public void notify(Object view, final EEFNotification notification) {
 		if (view instanceof PropertiesEditingView) {
@@ -74,6 +77,7 @@ public class EditingViewNotifier implements EEFNotifier {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearViewNotification(java.lang.Object)
 	 */
 	public void clearViewNotification(Object view) {
@@ -88,7 +92,9 @@ public class EditingViewNotifier implements EEFNotifier {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearEditorNotification(java.lang.Object, java.lang.Object)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.view.notify.EEFNotifier#clearEditorNotification(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	public void clearEditorNotification(Object view, Object editor) {
 		if (view instanceof PropertiesEditingView) {
@@ -134,9 +140,9 @@ public class EditingViewNotifier implements EEFNotifier {
 			if (notification.getKind() == EEFNotification.ERROR) {
 				image = EEFSWTConstants.ERROR_DECORATOR;
 			} else if (notification.getKind() == EEFNotification.WARNING) {
-				image = EEFSWTConstants.WARNING_DECORATOR;	
+				image = EEFSWTConstants.WARNING_DECORATOR;
 			} else if (notification.getKind() == EEFNotification.LOCK) {
-				image = EEFSWTConstants.LOCK_DECORATOR;	
+				image = EEFSWTConstants.LOCK_DECORATOR;
 			}
 			if (image != null) {
 				decoration.setDescriptionText(notification.getMessage());
@@ -158,6 +164,7 @@ public class EditingViewNotifier implements EEFNotifier {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see java.lang.Runnable#run()
 		 */
 		public void run() {
@@ -167,23 +174,25 @@ public class EditingViewNotifier implements EEFNotifier {
 				Object viewer = propertyEditor.getPropertyEditorViewer().getViewer();
 				if (viewer instanceof Viewer) {
 					final Control control = ((Viewer) viewer).getControl();
-					DecorationSettings settings = decorationSettings.get(view);
-					if (settings != null) {
-						ControlDecoration existingDecoration = settings.decorations.get(editor);
-						if (existingDecoration != null) {
-							updateDecoration(existingDecoration, notification);
+					if (!control.isDisposed()) {
+						DecorationSettings settings = decorationSettings.get(view);
+						if (settings != null) {
+							ControlDecoration existingDecoration = settings.decorations.get(editor);
+							if (existingDecoration != null) {
+								updateDecoration(existingDecoration, notification);
+							} else {
+								ControlDecoration decoration = decorateControl(control, notification);
+								if (decoration != null) {
+									settings.decorations.put(editor, decoration);
+								}
+							}
 						} else {
 							ControlDecoration decoration = decorateControl(control, notification);
 							if (decoration != null) {
+								settings = new DecorationSettings();
+								decorationSettings.put(view, settings);
 								settings.decorations.put(editor, decoration);
 							}
-						}
-					} else {
-						ControlDecoration decoration = decorateControl(control, notification);
-						if (decoration != null) {
-							settings = new DecorationSettings();
-							decorationSettings.put(view, settings);
-							settings.decorations.put(editor, decoration);
 						}
 					}
 				}
@@ -203,6 +212,7 @@ public class EditingViewNotifier implements EEFNotifier {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see java.lang.Runnable#run()
 		 */
 		public void run() {
@@ -234,6 +244,7 @@ public class EditingViewNotifier implements EEFNotifier {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see java.lang.Runnable#run()
 		 */
 		public void run() {
@@ -259,6 +270,7 @@ public class EditingViewNotifier implements EEFNotifier {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see java.lang.Runnable#run()
 		 */
 		public void run() {

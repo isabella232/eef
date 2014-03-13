@@ -25,13 +25,12 @@ import org.eclipse.emf.eef.runtime.notify.TargetedEditingEvent;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 
-
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
-	
+
 	private final EEFEditingServiceProvider eefEditingServiceProvider;
 	private final EditingPolicyRequest request;
 	private final EditingPolicyProcessor processor;
@@ -48,6 +47,7 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#validateEditing(org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
 	public EditingPolicyValidation validateEditing(SemanticPropertiesEditingContext editingContext) {
@@ -74,12 +74,18 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 				}
 				return new EditingPolicyValidation(this, validationResult);
 			}
+		} else {
+			Object currentValue = eefEditingServiceProvider.getEditingService(eObject).getValue(editingContext, eObject, editingEvent.getAffectedEditor());
+			if (request.getValue() != null && !request.getValue().equals(currentValue)) {
+				return new EditingPolicyValidation(this, true, "Editing a feature by accessor. Unable to check validity of the value.");
+			}
 		}
 		return new EditingPolicyValidation(this, false, "The feature doesn't seem to affected the edited element.");
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public final void execute(PropertiesEditingContext editingContext) {
@@ -92,9 +98,9 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 		if (editingEvent.getNewValue() != null) {
 			if (feature instanceof EAttribute && editingEvent.getNewValue() instanceof String) {
 				try {
-					newValue = EcoreUtil.createFromString(((EAttribute)feature).getEAttributeType(), (String)editingEvent.getNewValue());
+					newValue = EcoreUtil.createFromString(((EAttribute) feature).getEAttributeType(), (String) editingEvent.getNewValue());
 				} catch (Exception e) {
-					//Silent catch
+					// Silent catch
 				}
 			}
 			if (newValue == null) {
@@ -109,12 +115,12 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 		if (feature.isMany()) {
 			switch (editingEvent.getEventType()) {
 			case PropertiesEditingEvent.ADD:
-				return !((Collection<?>)currentValue).contains(request.getValue());
+				return !((Collection<?>) currentValue).contains(request.getValue());
 			case PropertiesEditingEvent.ADD_MANY:
 				// TODO: need specifications
 				return true;
 			case PropertiesEditingEvent.REMOVE:
-				return ((Collection<?>)currentValue).contains(editingEvent.getOldValue());
+				return ((Collection<?>) currentValue).contains(editingEvent.getOldValue());
 			case PropertiesEditingEvent.REMOVE_MANY:
 				// TODO: need specifications
 				return true;
@@ -122,7 +128,7 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 				Object newValue = editingEvent.getNewValue();
 				if (newValue instanceof Integer) {
 					Integer newIndex = (Integer) newValue;
-					return newIndex >= 0 && newIndex < ((List<?>)editedEObject.eGet(feature)).size();
+					return newIndex >= 0 && newIndex < ((List<?>) editedEObject.eGet(feature)).size();
 				}
 			default:
 				return false;

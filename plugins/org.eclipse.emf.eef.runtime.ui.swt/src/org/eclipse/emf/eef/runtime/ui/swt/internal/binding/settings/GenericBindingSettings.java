@@ -66,7 +66,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 * Properties editing model.
 	 */
 	private ResourceSet resourceSet;
-	private Map<String, Resource> mapURI2PropertiesEditingModel = new HashMap<String, Resource>();
+	private Map<String, Resource> mapURI2PropertiesEditingModelResource = new HashMap<String, Resource>();
 	private EventAdmin eventAdmin;
 
 	public static final String PROPERTIES_EDITING_MODEL_NAME = "Generic Binding Settings";
@@ -254,7 +254,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 		PropertiesEditingModel propertiesEditingModel = null;
 		Resource resource = null;
 		String uri = eObject.getEPackage().getNsURI();
-		if (mapURI2PropertiesEditingModel.get(uri) == null) {
+		if (mapURI2PropertiesEditingModelResource.get(uri) == null) {
 			propertiesEditingModel = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
 			propertiesEditingModel.setId(PROPERTIES_EDITING_MODEL_ID);
 			propertiesEditingModel.setName(PROPERTIES_EDITING_MODEL_NAME);
@@ -264,14 +264,14 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 			ViewsRepository viewsRepository = ViewsFactory.eINSTANCE.createViewsRepository();
 			resource.getContents().add(viewsRepository);
 			getResourceSet().getResources().add(resource);
-			mapURI2PropertiesEditingModel.put(uri, resource);
+			mapURI2PropertiesEditingModelResource.put(uri, resource);
 
 			// bind genmodel if exist
 			bindGenModel(eObject, propertiesEditingModel);
 			EPackage ePackage = getEPackageFromResourceSet(eObject);
 			propertiesEditingModel.getInvolvedModels().add(ePackage);
 		} else {
-			resource = mapURI2PropertiesEditingModel.get(uri);
+			resource = mapURI2PropertiesEditingModelResource.get(uri);
 			if (!getResourceSet().getResources().contains(resource)) {
 				getResourceSet().getResources().add(resource);
 			}
@@ -300,7 +300,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 * @return map
 	 */
 	public Map<String, Resource> getMapURI2PropertiesEditingModel() {
-		return mapURI2PropertiesEditingModel;
+		return mapURI2PropertiesEditingModelResource;
 	}
 
 	/**
@@ -327,6 +327,15 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 */
 	public boolean enableLockPolicy(EEFLockPolicy lockPolicy) {
 		return false;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getEditingModel(org.eclipse.emf.ecore.EPackage)
+	 */
+	public PropertiesEditingModel getEditingModel(EPackage ePackage) {
+		return getPropertiesEditionModel(mapURI2PropertiesEditingModelResource.get(ePackage.getNsURI()));
 	}
 
 }

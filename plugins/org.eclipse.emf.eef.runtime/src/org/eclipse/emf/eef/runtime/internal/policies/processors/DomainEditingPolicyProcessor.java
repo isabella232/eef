@@ -56,22 +56,24 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	private EMFServiceProvider emfServiceProvider;
 	private EEFInvokerProvider eefInvokerProvider;
-	
+
 	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
+	 * @param emfServiceProvider
+	 *            the emfServiceProvider to set
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
 	}
 
 	/**
-	 * @param eefInvokerProvider the eefInvokerProvider to set
+	 * @param eefInvokerProvider
+	 *            the eefInvokerProvider to set
 	 */
 	public final void setEEFInvokerProvider(EEFInvokerProvider eefInvokerProvider) {
 		this.eefInvokerProvider = eefInvokerProvider;
@@ -79,6 +81,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(PropertiesEditingContext element) {
@@ -87,6 +90,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest)
 	 */
 	public final void process(PropertiesEditingContext editingContext, EditingPolicyRequest behavior) {
@@ -99,46 +103,46 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	/**
 	 * Executes the given command in the given context.
-	 * @param domainEditingContext {@link SemanticDomainPropertiesEditingContext} where to perform the command.
-	 * @param command {@link Command} to execute.
+	 * 
+	 * @param domainEditingContext
+	 *            {@link SemanticDomainPropertiesEditingContext} where to
+	 *            perform the command.
+	 * @param command
+	 *            {@link Command} to execute.
 	 */
 	private void executeCommand(DomainAwarePropertiesEditingContext domainEditingContext, Command command) {
 		if (domainEditingContext.getOptions().liveMode()) {
 			domainEditingContext.getEditingDomain().getCommandStack().execute(command);
 		} else {
-		    // If the command is executable, record and execute it.
-		    //
-		    if (command != null)
-		    {
-		      if (command.canExecute())
-		      {
-		        try
-		        {
-		          command.execute();
-		        }
-		        catch (AbortExecutionException exception)
-		        {
-		          command.dispose();
-		        }
-		        catch (RuntimeException exception)
-		        {
-		          handleError(exception);  
-		          command.dispose();
-		        }
-		      }
-		      else
-		      {
-		        command.dispose();
-		      }
-		    }							
+			// If the command is executable, record and execute it.
+			//
+			if (command != null) {
+				if (command.canExecute()) {
+					try {
+						command.execute();
+					} catch (AbortExecutionException exception) {
+						command.dispose();
+					} catch (RuntimeException exception) {
+						handleError(exception);
+						command.dispose();
+					}
+				} else {
+					command.dispose();
+				}
+			}
 		}
 	}
 
 	/**
-	 * Converts a {@link EditingPolicyRequest} to an EMF {@link Command}. The returned value can be <code>null</code>,
-	 * in this case the processing is cancelled.
-	 * @param domainEditingContext {@link DomainPropertiesEditingContext} where the command will be performed.
-	 * @param request {@link EditingPolicyRequest} to process.
+	 * Converts a {@link EditingPolicyRequest} to an EMF {@link Command}. The
+	 * returned value can be <code>null</code>, in this case the processing is
+	 * cancelled.
+	 * 
+	 * @param domainEditingContext
+	 *            {@link DomainPropertiesEditingContext} where the command will
+	 *            be performed.
+	 * @param request
+	 *            {@link EditingPolicyRequest} to process.
 	 * @return the {@link Command} to execute.
 	 */
 	protected Command convertToCommand(final DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyRequest request) {
@@ -166,16 +170,19 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	protected final Command performSet(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Object value) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__SETTER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__SETTER) {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
 					protected Command processByAccessor(final JavaBody accessor) {
-						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
-						return new ChangeCommand(changeRecorder) {
+						ChangeRecorder changeRecorder = new ChangeRecorder();
+						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
+						Notifier highestNotifier = emfService.highestNotifier(eObject);
+						return new ChangeCommand(changeRecorder, highestNotifier) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
@@ -187,6 +194,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
@@ -195,7 +203,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 							return null;
 						} else {
 							if (value instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-								return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)value));
+								return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String) value));
 							} else {
 								return SetCommand.create(editingContext.getEditingDomain(), eObject, feature, value);
 							}
@@ -214,10 +222,11 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	protected final Command performUnset(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__UNSETTER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__UNSETTER) {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
@@ -233,6 +242,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
@@ -252,14 +262,15 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		// Should I return null of IdentityCommand.INSTANCE.
 		return null;
 	}
-	
+
 	protected final Command performAdd(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Object newValue) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
@@ -277,6 +288,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
@@ -285,14 +297,14 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 							return null;
 						} else {
 							if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-								return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
-							} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)){
+								return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String) newValue));
+							} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
 								EClass newValueClass = (EClass) newValue;
-								EClass referenceType = ((EReference)feature).getEReferenceType();
+								EClass referenceType = ((EReference) feature).getEReferenceType();
 								if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
-									return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.create(newValueClass));							
+									return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.create(newValueClass));
 								}
-							} 
+							}
 							return AddCommand.create(editingContext.getEditingDomain(), eObject, feature, newValue);
 						}
 					}
@@ -305,14 +317,15 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		// Should I return null of IdentityCommand.INSTANCE.
 		return null;
 	}
-	
+
 	protected final Command performAddMany(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Collection<?> newValues) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
@@ -330,6 +343,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
@@ -340,12 +354,12 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 							CompoundCommand cc = new CompoundCommand("EEF add many command");
 							for (Object newValue : newValues) {
 								if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-									cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue)));
-								} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)){
+									cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String) newValue)));
+								} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
 									EClass newValueClass = (EClass) newValue;
-									EClass referenceType = ((EReference)feature).getEReferenceType();
+									EClass referenceType = ((EReference) feature).getEReferenceType();
 									if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
-										cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.create(newValueClass)));							
+										cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, EcoreUtil.create(newValueClass)));
 									}
 								} else {
 									cc.append(AddCommand.create(editingContext.getEditingDomain(), eObject, feature, newValue));
@@ -363,14 +377,15 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		// Should I return null of IdentityCommand.INSTANCE.
 		return null;
 	}
-	
+
 	protected final Command performRemove(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Object oldValue) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
@@ -388,6 +403,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
@@ -403,14 +419,15 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		// Should I return null of IdentityCommand.INSTANCE.
 		return null;
 	}
-	
+
 	protected final Command performRemoveMany(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Collection<?> oldValues) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
@@ -428,6 +445,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
@@ -443,29 +461,31 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		// Should I return null of IdentityCommand.INSTANCE.
 		return null;
 	}
-	
+
 	protected final Command performMove(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Integer oldIndex, final Integer newIndex) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext)editingContext, null) {
+				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, null) {
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 					 */
 					@Override
 					protected Command processByAccessor(JavaBody accessor) {
-						//Unreachable
+						// Unreachable
 						return null;
 					}
 
 					/**
 					 * {@inheritDoc}
+					 * 
 					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 					 */
 					@Override
 					protected Command processByFeature(EStructuralFeature feature) {
-						Object movedObject = ((List<?>)eObject.eGet(feature)).get(oldIndex);
+						Object movedObject = ((List<?>) eObject.eGet(feature)).get(oldIndex);
 						return MoveCommand.create(editingContext.getEditingDomain(), eObject, feature, movedObject, newIndex);
 					}
 				}.process();
@@ -477,7 +497,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		// Should I return null of IdentityCommand.INSTANCE.
 		return null;
 	}
-	
+
 	private ChangeRecorder createChangeRecorder(final EObject eObject) {
 		EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 		Notifier highestNotifier = emfService.highestNotifier(eObject);
@@ -485,7 +505,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		if (highestNotifier instanceof ResourceSet) {
 			changeRecorder = new ChangeRecorder((ResourceSet) highestNotifier);
 		} else if (highestNotifier instanceof Resource) {
-			changeRecorder = new ChangeRecorder((Resource) highestNotifier);					
+			changeRecorder = new ChangeRecorder((Resource) highestNotifier);
 		} else {
 			changeRecorder = new ChangeRecorder((EObject) highestNotifier);
 		}
@@ -493,12 +513,12 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	}
 
 	/**
-	 * Handles an exception thrown during command execution by logging it with the plugin.
+	 * Handles an exception thrown during command execution by logging it with
+	 * the plugin.
 	 */
 	private void handleError(Exception exception) {
-		//TODO: remove dependency to CommonPlugin
+		// TODO: remove dependency to CommonPlugin
 		CommonPlugin.INSTANCE.log(new WrappedException(CommonPlugin.INSTANCE.getString("_UI_IgnoreException_exception"), exception).fillInStackTrace());
 	}
-
 
 }

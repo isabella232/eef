@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
@@ -46,6 +47,15 @@ public interface EEFBindingSettings<T extends EObject> extends EEFService<EPacka
 	 * @return the EEF description.
 	 */
 	T getEEFDescription(EClass eClass);
+
+	/**
+	 * Returns an ed to edit the given object.
+	 * 
+	 * @param ePackage
+	 *            the {@link EPackage} to edit.
+	 * @return the properties editing model.
+	 */
+	PropertiesEditingModel getEditingModel(EPackage ePackage);
 
 	/**
 	 * Method allowing users to filter the {@link EEFLockPolicy}s applied on a

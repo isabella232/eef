@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import org.osgi.service.event.EventAdmin;
@@ -91,6 +92,15 @@ public class ReflectiveEEFBindingSettings<T extends EObject> implements EEFBindi
 	 */
 	public boolean enableLockPolicy(EEFLockPolicy lockPolicy) {
 		return true;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getEditingModel(org.eclipse.emf.ecore.EPackage)
+	 */
+	public PropertiesEditingModel getEditingModel(EPackage ePackage) {
+		return (PropertiesEditingModel) eefDescription;
 	}
 
 }

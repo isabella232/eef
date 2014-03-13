@@ -33,6 +33,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 /**
@@ -181,4 +182,16 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<P
 		return true;
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getEditingModel(org.eclipse.emf.ecore.EPackage)
+	 */
+	public PropertiesEditingModel getEditingModel(EPackage ePackage) {
+		Iterable<EClass> filter = Iterables.filter(ePackage.getEClassifiers(), EClass.class);
+		if (!Iterables.isEmpty(filter)) {
+			return getEEFDescription(filter.iterator().next());
+		}
+		return null;
+	}
 }

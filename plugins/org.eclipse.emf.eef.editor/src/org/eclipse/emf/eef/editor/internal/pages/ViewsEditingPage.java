@@ -43,7 +43,6 @@ import org.eclipse.emf.eef.editor.internal.services.ViewerService;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.internal.context.ReflectivePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
@@ -218,8 +217,8 @@ public class ViewsEditingPage extends FormPage {
 						} else {
 							viewPreviewViewer.refresh();
 							Object input = viewSettingsViewer.getInput();
-							if (input instanceof ReflectivePropertiesEditingContext) {
-								views.getViewer().setSelection(new StructuredSelection(((ReflectivePropertiesEditingContext) input).getEObject()));
+							if (input instanceof EObjectPropertiesEditingContext) {
+								views.getViewer().setSelection(new StructuredSelection(((EObjectPropertiesEditingContext) input).getEObject()));
 							}
 						}
 					}

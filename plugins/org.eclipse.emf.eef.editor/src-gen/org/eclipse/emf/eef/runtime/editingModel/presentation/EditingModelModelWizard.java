@@ -30,6 +30,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -45,10 +46,7 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
-import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
-import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
@@ -271,39 +269,37 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 						if (secondPage.isValidURI() && secondPage.getURI() != null && !Strings.isNullOrEmpty(secondPage.getURI().toString())) {
 							URI resourceURI = secondPage.getURI();
 							createEditingDomain();
-							Resource modelResource = editingDomain.getResourceSet().getResource(resourceURI, true);
+							Resource modelResource = null;
+							if (!secondPage.isModel()) {
+								ResourceSet rs = new ResourceSetImpl();
+								modelResource = rs.getResource(resourceURI, true);
+							} else {
+								modelResource = editingDomain.getResourceSet().getResource(resourceURI, true);
+							}
 
 							if (!modelResource.getContents().isEmpty()) {
 								EObject root = modelResource.getContents().get(0);
 
-								// get PropertiesEditingModel
-								EditingContextFactoryProvider contextFactoryProvider = E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider();
-								PropertiesEditingContext propertiesEditingContext = contextFactoryProvider.getEditingContextFactory(root).createPropertiesEditingContext(editingDomain, root);
+								EPackage ePackage = root.eClass().getEPackage();
+								if (!secondPage.isModel() && root instanceof EPackage) {
+									ePackage = (EPackage) root;
+								}
 
-								EEFBindingSettings<?> bindingSettings = propertiesEditingContext.getEditingComponent().getBindingSettings();
+								EEFBindingSettingsProvider bindingSettingsProvider = E3EEFRuntimeUIPlatformPlugin.getPlugin().getBindingSettingsProvider();
+								EEFBindingSettings bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
+
 								if (bindingSettings instanceof GenericBindingSettings) {
-									for (EClassifier content : root.eClass().getEPackage().getEClassifiers()) {
+									for (EClassifier content : ePackage.getEClassifiers()) {
 										if (content instanceof EClass) {
 											((GenericBindingSettings) bindingSettings).getEEFDescription((EClass) content);
 										}
 									}
 								}
 
-								PropertiesEditingModel editingModel = propertiesEditingContext.getEditingComponent().getEditingModel();
+								PropertiesEditingModel editingModel = bindingSettings.getEditingModel(ePackage);
 
 								if (editingModel != null) {
-									resource.getContents().add(editingModel);
-									ViewsRepository viewsRepository = null;
-									if (!editingModel.getBindings().isEmpty()) {
-										EClassBinding classBinding = editingModel.getBindings().get(0);
-										if (!classBinding.getViews().isEmpty() && classBinding.getViews().get(0) instanceof EObjectView) {
-											EObjectView view = (EObjectView) classBinding.getViews().get(0);
-											if (view.getDefinition().eContainer() instanceof ViewsRepository) {
-												viewsRepository = (ViewsRepository) view.getDefinition().eContainer();
-												resource.getContents().add(viewsRepository);
-											}
-										}
-									}
+									resource.getContents().addAll(EcoreUtil.copyAll(editingModel.eResource().getContents()));
 									for (EObject eObject : editingModel.getInvolvedModels()) {
 										editingDomain.getResourceSet().getResources().add(eObject.eResource());
 									}
@@ -712,6 +708,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		}
 
 		secondPage = new ModelToChoosePage(selection);
+		secondPage.setEditingDomain(editingDomain);
 		addPage(secondPage);
 
 	}

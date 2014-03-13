@@ -23,6 +23,8 @@ import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 
+import com.google.common.collect.Iterables;
+
 /**
  * Generic binding settings for EObject.
  * 
@@ -152,6 +154,19 @@ public class EditorBindingSettings implements EEFBindingSettings<PropertiesEditi
 			editingModelEnvironment = new EditingModelEnvironmentImpl(null);
 		}
 		return editingModelEnvironment;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getEditingModel(org.eclipse.emf.ecore.EPackage)
+	 */
+	public PropertiesEditingModel getEditingModel(EPackage ePackage) {
+		Iterable<EClass> filter = Iterables.filter(ePackage.getEClassifiers(), EClass.class);
+		if (!Iterables.isEmpty(filter)) {
+			return getEEFDescription(filter.iterator().next());
+		}
+		return null;
 	}
 
 }

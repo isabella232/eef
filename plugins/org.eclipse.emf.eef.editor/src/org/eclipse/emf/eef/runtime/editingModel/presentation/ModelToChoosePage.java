@@ -10,13 +10,15 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.editingModel.presentation;
 
-import java.io.File;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.ui.action.LoadResourceAction.LoadResourceDialog;
+import org.eclipse.emf.eef.editor.internal.actions.ExtendedLoadResourceAction.ExtendedLoadResourceDialog;
+import org.eclipse.jface.layout.PixelConverter;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -27,13 +29,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
+import com.google.common.base.Strings;
+
 /**
- * Wizard page to choose the model.
+ * Wizard page to choose the model or metamodel to initialize in editing model.
  * 
  * @author <a href="mailto:nathalie.lepine@obeo.fr">Nathalie Lepine</a>
  * 
@@ -41,13 +43,19 @@ import org.eclipse.swt.widgets.Text;
 public class ModelToChoosePage extends WizardPage {
 
 	private Text text;
-	private Button btnFromWorkspace;
+	private Text text2;
 	private Button btnFromFileSystem;
+	private Button btnFromFileSystem2;
+	private Button fromModelRadio;
+	private Button fromMetamodelRadio;
+
 	/**
 	 * Model chosen URI .
 	 */
 	private URI createURI;
 	private IFile selectedModel;
+	private boolean isModel = true;
+	private EditingDomain editingDomain;
 
 	/**
 	 * Default constructor.
@@ -58,8 +66,8 @@ public class ModelToChoosePage extends WizardPage {
 	 */
 	protected ModelToChoosePage(IStructuredSelection selection) {
 		super("Model selection");
-		setTitle("Select a model.");
-		setDescription("Select the model.");
+		setTitle("Select a model or a metamodel.");
+		setDescription("Initialize editing model with chosen model.");
 		if (selection.getFirstElement() instanceof IFile) {
 			selectedModel = (IFile) selection.getFirstElement();
 		}
@@ -71,22 +79,93 @@ public class ModelToChoosePage extends WizardPage {
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NONE);
-		setControl(container);
-		container.setLayout(new GridLayout(1, false));
+		Composite projectGroup = new Composite(parent, SWT.NONE);
+		setControl(projectGroup);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 3;
+		layout.makeColumnsEqualWidth = false;
+		layout.marginWidth = 0;
+		projectGroup.setLayout(layout);
+		projectGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		Composite composite = new Composite(container, SWT.NONE);
-		composite.setLayout(new GridLayout(2, false));
-		GridData gd_composite = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_composite.widthHint = 568;
-		composite.setLayoutData(gd_composite);
+		// radio button
+		fromModelRadio = new Button(projectGroup, SWT.RADIO);
+		fromModelRadio.setText("Select model:");
+		this.text = new Text(projectGroup, SWT.BORDER);
 
-		Label label = new Label(composite, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label.setText("Model:");
+		GridData directoryPathData = new GridData(SWT.FILL, SWT.NONE, true, false);
+		directoryPathData.widthHint = new PixelConverter(text).convertWidthInCharsToPixels(25);
+		text.setLayoutData(directoryPathData);
 
-		text = new Text(composite, SWT.BORDER);
-		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		// browse button
+		btnFromFileSystem = new Button(projectGroup, SWT.PUSH);
+		btnFromFileSystem.setText("Browse");
+		setButtonLayoutData(btnFromFileSystem);
+
+		// radio button
+		fromMetamodelRadio = new Button(projectGroup, SWT.RADIO);
+		fromMetamodelRadio.setText("Select metamodel:");
+		text2 = new Text(projectGroup, SWT.BORDER);
+
+		GridData archivePathData = new GridData(SWT.FILL, SWT.NONE, true, false);
+		archivePathData.widthHint = new PixelConverter(text2).convertWidthInCharsToPixels(25);
+		text2.setLayoutData(archivePathData);
+		btnFromFileSystem2 = new Button(projectGroup, SWT.PUSH);
+		btnFromFileSystem2.setText("Browse");
+		setButtonLayoutData(btnFromFileSystem2);
+
+		// init selection and enable
+		fromModelRadio.setSelection(true);
+		text2.setEnabled(false);
+		btnFromFileSystem2.setEnabled(false);
+
+		// add listener on buttons
+		btnFromFileSystem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(final SelectionEvent e) {
+				handleBrowseFileSystem();
+				if (createURI != null) {
+					text.setText(createURI.toString());
+				}
+			}
+		});
+
+		btnFromFileSystem2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(final SelectionEvent e) {
+				handleBrowseFileSystem2();
+				if (createURI != null) {
+					text2.setText(createURI.toString());
+				}
+			}
+		});
+
+		fromModelRadio.addSelectionListener(new SelectionAdapter() {
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse
+			 * .swt.events.SelectionEvent)
+			 */
+			public void widgetSelected(SelectionEvent e) {
+				modelRadioSelected();
+			}
+		});
+
+		fromMetamodelRadio.addSelectionListener(new SelectionAdapter() {
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse
+			 * .swt.events.SelectionEvent)
+			 */
+			public void widgetSelected(SelectionEvent e) {
+				metamodelRadioSelected();
+			}
+		});
+
 		text.addListener(SWT.Modify, new Listener() {
 
 			public void handleEvent(Event event) {
@@ -94,41 +173,51 @@ public class ModelToChoosePage extends WizardPage {
 				setPageComplete(isPageComplete());
 			}
 		});
+
+		text2.addListener(SWT.Modify, new Listener() {
+
+			public void handleEvent(Event event) {
+				createURI = URI.createURI(text2.getText());
+				setPageComplete(isPageComplete());
+			}
+		});
+
+		// init text model
 		if (selectedModel != null) {
 			createURI = URI.createPlatformResourceURI(selectedModel.getFullPath().toString(), true);
-			text.setText(createURI.toString());
+			if (isModel) {
+				text.setText(createURI.toString());
+			} else {
+				text2.setText(createURI.toString());
+			}
 		}
-
-		Composite buttonsComposite = new Composite(container, SWT.NONE);
-		buttonsComposite.setLayout(new GridLayout(2, false));
-		buttonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-
-		btnFromWorkspace = new Button(buttonsComposite, SWT.NONE);
-		btnFromWorkspace.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, false, 1, 1));
-		btnFromWorkspace.setText("From workspace...");
-
-		btnFromWorkspace.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				handleBrowseWorkspace();
-			}
-		});
-
-		btnFromFileSystem = new Button(buttonsComposite, SWT.NONE);
-		btnFromFileSystem.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-		btnFromFileSystem.setText("From file system...");
-
-		btnFromFileSystem.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				handleBrowseFileSystem();
-			}
-		});
 
 		setPageComplete(false);
 		setErrorMessage(null);
 		setMessage(null);
 
+	}
+
+	private void metamodelRadioSelected() {
+		if (fromMetamodelRadio.getSelection()) {
+			text.setEnabled(false);
+			btnFromFileSystem.setEnabled(false);
+			text2.setEnabled(true);
+			btnFromFileSystem2.setEnabled(true);
+			text2.setFocus();
+			isModel = false;
+		}
+	}
+
+	private void modelRadioSelected() {
+		if (fromModelRadio.getSelection()) {
+			text.setEnabled(true);
+			btnFromFileSystem.setEnabled(true);
+			text2.setEnabled(false);
+			btnFromFileSystem2.setEnabled(false);
+			text.setFocus();
+			isModel = true;
+		}
 	}
 
 	/**
@@ -142,14 +231,24 @@ public class ModelToChoosePage extends WizardPage {
 	 * Open file dialog on Browse file system.
 	 */
 	protected void handleBrowseFileSystem() {
-		FileDialog fileDialog = new FileDialog(getShell());
-		fileDialog.open();
+		LoadResourceDialog loadResourceDialog = new LoadResourceDialog(getShell());
+		loadResourceDialog.open();
 
-		String filterPath = fileDialog.getFilterPath();
-		String fileName = fileDialog.getFileName();
-		if (fileName != null) {
-			createURI = URI.createFileURI(filterPath + File.separator + fileName);
-			text.setText(createURI.toString());
+		if (!Strings.isNullOrEmpty(loadResourceDialog.getURIText()) && !loadResourceDialog.getURIs().isEmpty()) {
+			createURI = loadResourceDialog.getURIs().get(0);
+		}
+
+	}
+
+	/**
+	 * Open file dialog on Browse file system.
+	 */
+	protected void handleBrowseFileSystem2() {
+		ExtendedLoadResourceDialog loadResourceDialog = new ExtendedLoadResourceDialog(getShell(), editingDomain);
+		loadResourceDialog.open();
+
+		if (!Strings.isNullOrEmpty(loadResourceDialog.getURIText()) && !loadResourceDialog.getURIs().isEmpty()) {
+			createURI = loadResourceDialog.getURIs().get(0);
 		}
 
 	}
@@ -180,11 +279,6 @@ public class ModelToChoosePage extends WizardPage {
 	public boolean isPageComplete() {
 		return isValidURI();
 	}
-
-	// @Override
-	// public boolean canFlipToNextPage() {
-	// return isValidURI() && getNextPage() != null;
-	// }
 
 	/**
 	 * @return is the text URI is valid.
@@ -221,6 +315,17 @@ public class ModelToChoosePage extends WizardPage {
 	public void dispose() {
 		createURI = null;
 		super.dispose();
+	}
+
+	/**
+	 * @return the isModel
+	 */
+	public boolean isModel() {
+		return isModel;
+	}
+
+	public void setEditingDomain(EditingDomain editingDomain) {
+		this.editingDomain = editingDomain;
 	}
 
 }

@@ -416,7 +416,7 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 		public void updateControlListener() {
 			removeControlListener();
 			Control control2 = folder.getSelection().getControl();
-			if (control2 != null) {
+			if (control2 != null && !control2.isDisposed()) {
 				listener.listenedControl = control2;
 				control2.addControlListener(listener);
 			}
