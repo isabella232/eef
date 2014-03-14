@@ -76,7 +76,7 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 			}
 		} else {
 			Object currentValue = eefEditingServiceProvider.getEditingService(eObject).getValue(editingContext, eObject, editingEvent.getAffectedEditor());
-			if (request.getValue() != null && !request.getValue().equals(currentValue)) {
+			if ((request.getValue() != null && !request.getValue().equals(currentValue)) || request.getValue() == null) {
 				return new EditingPolicyValidation(this, true, "Editing a feature by accessor. Unable to check validity of the value.");
 			}
 		}

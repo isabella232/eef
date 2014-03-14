@@ -22,13 +22,12 @@ import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EditingStra
 import org.eclipse.emf.eef.runtime.query.JavaBody;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 
-
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public abstract class EEFEditingStrategy<T> {
-	
+
 	private final PropertiesEditingContext editingContext;
 	private final Object editor;
 	private final EReference accessorReference;
@@ -38,10 +37,10 @@ public abstract class EEFEditingStrategy<T> {
 		this.editor = editor;
 		this.accessorReference = accessorReference;
 	}
-	
+
 	public EEFEditingStrategy(SemanticPropertiesEditingContext editingContext, EReference settingReference) {
 		this(editingContext, editingContext.getEditingEvent().getAffectedEditor(), settingReference);
-	}		
+	}
 
 	/**
 	 * @return the editingContext
@@ -49,7 +48,7 @@ public abstract class EEFEditingStrategy<T> {
 	public final PropertiesEditingContext getEditingContext() {
 		return editingContext;
 	}
-	
+
 	/**
 	 * @return the accessorReference
 	 */
@@ -58,9 +57,12 @@ public abstract class EEFEditingStrategy<T> {
 	}
 
 	/**
-	 * Performs a editing strategy responding to the given {@link SemanticPropertiesEditingContext}.
+	 * Performs a editing strategy responding to the given
+	 * {@link SemanticPropertiesEditingContext}.
+	 * 
 	 * @return the editing strategy result.
-	 * @throws EditingStrategyNotFoundException unable a to find a valid editing strategy given the context.
+	 * @throws EditingStrategyNotFoundException
+	 *             unable a to find a valid editing strategy given the context.
 	 */
 	public final T process() throws EditingStrategyNotFoundException {
 		boolean autowire = editingContext.getOptions().autowire();
@@ -70,7 +72,7 @@ public abstract class EEFEditingStrategy<T> {
 		PropertyBinding propertyBinding = binding.propertyBinding(editor, autowire);
 		if (propertyBinding != null) {
 			if (accessorReference != null && propertyBinding.eGet(accessorReference) != null) {
-				return processByAccessor((JavaBody)propertyBinding.eGet(accessorReference));
+				return processByAccessor((JavaBody) propertyBinding.eGet(accessorReference));
 			} else if (propertyBinding instanceof EStructuralFeatureBinding) {
 				EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
 				if (!editedObject.eClass().getEAllStructuralFeatures().contains(feature)) {
@@ -84,39 +86,48 @@ public abstract class EEFEditingStrategy<T> {
 			if (autowire) {
 				EStructuralFeature eStructuralFeature = null;
 				if (editor instanceof String) {
-					eStructuralFeature = binding.getEClass().getEStructuralFeature((String)editor);
+					eStructuralFeature = binding.getEClass().getEStructuralFeature((String) editor);
 				}
 				if (editor instanceof EObject) {
-					// Here we don't have an PropertyBinding to help us. We check if the editor is an EObject (for instance an ElementEditor)
-					// We looking for an "name" structural feature and if this feature is type of String, we try to associate this name
-					// with a structural feature of the handled EClass. For instance if an ElementEditor (which has a "name" feature) is named
-					// "active" and the current EClass has a feature named "active", we return this feature.
+					// Here we don't have an PropertyBinding to help us. We
+					// check if the editor is an EObject (for instance an
+					// ElementEditor)
+					// We looking for an "name" structural feature and if this
+					// feature is type of String, we try to associate this name
+					// with a structural feature of the handled EClass. For
+					// instance if an ElementEditor (which has a "name" feature)
+					// is named
+					// "active" and the current EClass has a feature named
+					// "active", we return this feature.
 					EStructuralFeature nameFeature = ((EObject) editor).eClass().getEStructuralFeature("name");
 					if (nameFeature != null && "java.lang.String".equals(nameFeature.getEType().getInstanceClassName())) {
-						eStructuralFeature = binding.getEClass().getEStructuralFeature((String)((EObject) editor).eGet(nameFeature));
+						eStructuralFeature = binding.getEClass().getEStructuralFeature((String) ((EObject) editor).eGet(nameFeature));
 					}
 				}
 				if (eStructuralFeature != null) {
-					return processByFeature(eStructuralFeature);
+					return processByFeature(editingContext.getEMFServiceProvider().getEMFService(editingContext.getEditingComponent().getEObject().eClass().getEPackage()).mapFeature(editingContext.getEditingComponent().getEObject().eClass(), eStructuralFeature));
 				}
 			}
 		}
 		throw new EditingStrategyNotFoundException("Unable to find a valid Editing Strategy.");
 	}
 
-	
 	/**
 	 * Describes the editing strategy via a Java Setter.
-	 * @param accessor the accessor to use.
-	 * @return the editing strategy result. 
+	 * 
+	 * @param accessor
+	 *            the accessor to use.
+	 * @return the editing strategy result.
 	 */
 	protected abstract T processByAccessor(JavaBody accessor);
 
 	/**
 	 * Describes the editing strategy via an {@link EStructuralFeature}.
-	 * @param feature the {@link EStructuralFeature} to use.
+	 * 
+	 * @param feature
+	 *            the {@link EStructuralFeature} to use.
 	 * @return the editing strategy result.
 	 */
 	protected abstract T processByFeature(EStructuralFeature feature);
-		
+
 }
