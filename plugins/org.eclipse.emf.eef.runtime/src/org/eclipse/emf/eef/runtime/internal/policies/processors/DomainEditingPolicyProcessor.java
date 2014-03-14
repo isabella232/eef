@@ -29,8 +29,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.ChangeCommand;
@@ -231,8 +229,10 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					 */
 					@Override
 					protected Command processByAccessor(final JavaBody accessor) {
-						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
-						return new ChangeCommand(changeRecorder) {
+						ChangeRecorder changeRecorder = new ChangeRecorder();
+						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
+						Notifier highestNotifier = emfService.highestNotifier(eObject);
+						return new ChangeCommand(changeRecorder, highestNotifier) {
 							@Override
 							protected void doExecute() {
 								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFInvocationParametersImpl(editingContext));
@@ -275,8 +275,10 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					 */
 					@Override
 					protected Command processByAccessor(final JavaBody accessor) {
-						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
-						return new ChangeCommand(changeRecorder) {
+						ChangeRecorder changeRecorder = new ChangeRecorder();
+						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
+						Notifier highestNotifier = emfService.highestNotifier(eObject);
+						return new ChangeCommand(changeRecorder, highestNotifier) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
@@ -330,8 +332,10 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					 */
 					@Override
 					protected Command processByAccessor(final JavaBody accessor) {
-						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
-						return new ChangeCommand(changeRecorder) {
+						ChangeRecorder changeRecorder = new ChangeRecorder();
+						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
+						Notifier highestNotifier = emfService.highestNotifier(eObject);
+						return new ChangeCommand(changeRecorder, highestNotifier) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
@@ -390,8 +394,10 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					 */
 					@Override
 					protected Command processByAccessor(final JavaBody accessor) {
-						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
-						return new ChangeCommand(changeRecorder) {
+						ChangeRecorder changeRecorder = new ChangeRecorder();
+						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
+						Notifier highestNotifier = emfService.highestNotifier(eObject);
+						return new ChangeCommand(changeRecorder, highestNotifier) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
@@ -432,8 +438,10 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					 */
 					@Override
 					protected Command processByAccessor(final JavaBody accessor) {
-						ChangeRecorder changeRecorder = createChangeRecorder(eObject);
-						return new ChangeCommand(changeRecorder) {
+						ChangeRecorder changeRecorder = new ChangeRecorder();
+						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
+						Notifier highestNotifier = emfService.highestNotifier(eObject);
+						return new ChangeCommand(changeRecorder, highestNotifier) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
@@ -496,20 +504,6 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		}
 		// Should I return null of IdentityCommand.INSTANCE.
 		return null;
-	}
-
-	private ChangeRecorder createChangeRecorder(final EObject eObject) {
-		EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
-		Notifier highestNotifier = emfService.highestNotifier(eObject);
-		ChangeRecorder changeRecorder = null;
-		if (highestNotifier instanceof ResourceSet) {
-			changeRecorder = new ChangeRecorder((ResourceSet) highestNotifier);
-		} else if (highestNotifier instanceof Resource) {
-			changeRecorder = new ChangeRecorder((Resource) highestNotifier);
-		} else {
-			changeRecorder = new ChangeRecorder((EObject) highestNotifier);
-		}
-		return changeRecorder;
 	}
 
 	/**
