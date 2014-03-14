@@ -142,8 +142,10 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	 * @see org.eclipse.jface.viewers.Viewer#refresh()
 	 */
 	public void refresh() {
-		clear();
-		if (input != null) {
+		if (input == null) {
+			clear();
+		} else {
+			clear();
 			int selectionIndex = folder.getSelectionIndex();
 			PropertiesEditingComponent component = input.getEditingComponent();
 			int i = 1;

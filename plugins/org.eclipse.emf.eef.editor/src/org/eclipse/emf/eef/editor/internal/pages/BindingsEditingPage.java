@@ -586,7 +586,7 @@ public class BindingsEditingPage extends FormPage {
 			if (event.getSource() == metamodelViewer) {
 				EObject selection = selectionService.unwrapSelection(event.getSelection());
 				EObject currentSelection = (EObject) bindingSettingsViewer.getInput();
-				if (!selection.equals(currentSelection)) {
+				if (selection != null && !selection.equals(currentSelection)) {
 					bindingSettingsViewer.setInput(selection);
 					lockFields();
 					updateBindingSettingsActionsState(selection);

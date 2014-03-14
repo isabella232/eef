@@ -62,6 +62,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.emf.eef.runtime.util.EEFEditingService;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
@@ -607,6 +608,36 @@ public class EEFReflectiveView extends ViewPart {
 		 */
 		public EEFLockPolicyFactoryProvider getLockPolicyFactoryProvider() {
 			return propertiesBindingHandler.getLockPolicyFactoryProvider();
+		}
+
+		/**
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingHandlerImpl#getViewHandlerProvider()
+		 */
+		@Override
+		public ViewHandlerProvider getViewHandlerProvider() {
+			return propertiesBindingHandler.getViewHandlerProvider();
+		}
+
+		/**
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingHandlerImpl#getEditingPolicyProvider()
+		 */
+		@Override
+		public PropertiesEditingPolicyProvider getEditingPolicyProvider() {
+			return propertiesBindingHandler.getEditingPolicyProvider();
+		}
+
+		/**
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingHandlerImpl#getEEFNotifierProvider()
+		 */
+		@Override
+		public EEFNotifierProvider getEEFNotifierProvider() {
+			return propertiesBindingHandler.getEEFNotifierProvider();
 		}
 
 		/**
