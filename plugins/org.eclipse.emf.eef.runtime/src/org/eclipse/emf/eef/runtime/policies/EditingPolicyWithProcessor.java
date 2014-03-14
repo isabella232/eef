@@ -130,6 +130,9 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 					Integer newIndex = (Integer) newValue;
 					return newIndex >= 0 && newIndex < ((List<?>) editedEObject.eGet(feature)).size();
 				}
+				break;
+			case PropertiesEditingEvent.EDIT:
+				return true;
 			default:
 				return false;
 			}
