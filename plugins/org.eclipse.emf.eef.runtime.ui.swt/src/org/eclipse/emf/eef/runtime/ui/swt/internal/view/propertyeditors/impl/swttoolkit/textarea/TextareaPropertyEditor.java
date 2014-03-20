@@ -55,10 +55,14 @@ public class TextareaPropertyEditor extends PropertyEditorImpl implements Monova
 	public void init() {
 		EObject eObject = view.getEditingComponent().getEObject();
 		Object value = eefEditingServiceProvider.getEditingService(eObject).getValue(view.getEditingComponent().getEditingContext(), eObject, elementEditor);
+		String text = "";
 		if (value instanceof String) {
-			propertyEditorControl.getViewer().getMainControl().setText((String) value);
+			text = (String) value;
 		} else {
-			propertyEditorControl.getViewer().getMainControl().setText(value == null ? "" : value.toString());
+			text = value == null ? "" : value.toString();
+		}
+		if (text == null || !text.equals(propertyEditorControl.getViewer().getMainControl().getText())) {
+			propertyEditorControl.getViewer().getMainControl().setText(text);
 		}
 		initListeners();
 	}

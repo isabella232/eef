@@ -29,12 +29,12 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
-public class TextPropertyEditor extends PropertyEditorImpl implements  MonovaluedPropertyEditor {
+public class TextPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;
-	
+
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<EEFControlWrapperViewer<Text>> propertyEditorControl;
@@ -54,21 +54,27 @@ public class TextPropertyEditor extends PropertyEditorImpl implements  Monovalue
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
 	public void init() {
 		EObject eObject = view.getEditingComponent().getEObject();
 		Object value = eefEditingServiceProvider.getEditingService(eObject).getValue(view.getEditingComponent().getEditingContext(), eObject, elementEditor);
+		String text = "";
 		if (value instanceof String) {
-			propertyEditorControl.getViewer().getMainControl().setText((String) value);
+			text = (String) value;
 		} else {
-			propertyEditorControl.getViewer().getMainControl().setText(value == null?"":value.toString());			
+			text = value == null ? "" : value.toString();
+		}
+		if (text == null || !text.equals(propertyEditorControl.getViewer().getMainControl().getText())) {
+			propertyEditorControl.getViewer().getMainControl().setText(text);
 		}
 		initListeners();
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#getPropertyEditorViewer()
 	 */
 	public PropertyEditorViewer<?> getPropertyEditorViewer() {
@@ -77,27 +83,33 @@ public class TextPropertyEditor extends PropertyEditorImpl implements  Monovalue
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
+		String text = "";
 		if (value == null) {
-			propertyEditorControl.getViewer().getMainControl().setText("");
+			text = "";
 		} else if (value instanceof String) {
-			propertyEditorControl.getViewer().getMainControl().setText((String) value);
+			text = (String) value;
 		} else if (value instanceof EObject) {
-			Adapter adapt = view.getEditingComponent().getEditingContext().getAdapterFactory().adapt((EObject)value, IItemLabelProvider.class);
+			Adapter adapt = view.getEditingComponent().getEditingContext().getAdapterFactory().adapt((EObject) value, IItemLabelProvider.class);
 			if (adapt instanceof IItemLabelProvider) {
-				propertyEditorControl.getViewer().getMainControl().setText(((IItemLabelProvider) adapt).getText(value));
+				text = ((IItemLabelProvider) adapt).getText(value);
 			} else {
-				propertyEditorControl.getViewer().getMainControl().setText(value.toString());
+				text = value.toString();
 			}
 		} else {
-			propertyEditorControl.getViewer().getMainControl().setText(value.toString());
+			text = value.toString();
+		}
+		if (text == null || !text.equals(propertyEditorControl.getViewer().getMainControl().getText())) {
+			propertyEditorControl.getViewer().getMainControl().setText(text);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#unsetValue()
 	 */
 	public void unsetValue() {
@@ -106,12 +118,12 @@ public class TextPropertyEditor extends PropertyEditorImpl implements  Monovalue
 
 	private void initListeners() {
 		propertyEditorControl.getViewer().getMainControl().addModifyListener(new ModifyListener() {
-			
+
 			public void modifyText(ModifyEvent e) {
 				if (view.getEditingComponent() != null)
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer().getMainControl().getText(),true));
+					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer().getMainControl().getText(), false));
 			}
 		});
-	}		
+	}
 
 }
