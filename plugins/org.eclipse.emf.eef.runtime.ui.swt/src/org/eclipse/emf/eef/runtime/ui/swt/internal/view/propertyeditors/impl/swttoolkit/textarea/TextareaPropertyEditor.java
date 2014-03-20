@@ -118,7 +118,7 @@ public class TextareaPropertyEditor extends PropertyEditorImpl implements Monova
 
 			public void modifyText(ModifyEvent e) {
 				if (view.getEditingComponent() != null)
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer().getMainControl().getText(), true));
+					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer().getMainControl().getText()));
 			}
 		});
 	}

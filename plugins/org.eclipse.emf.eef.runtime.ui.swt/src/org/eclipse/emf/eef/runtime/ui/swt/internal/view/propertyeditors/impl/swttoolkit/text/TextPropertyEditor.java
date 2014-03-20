@@ -121,7 +121,7 @@ public class TextPropertyEditor extends PropertyEditorImpl implements Monovalued
 
 			public void modifyText(ModifyEvent e) {
 				if (view.getEditingComponent() != null)
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer().getMainControl().getText(), false));
+					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer().getMainControl().getText()));
 			}
 		});
 	}
