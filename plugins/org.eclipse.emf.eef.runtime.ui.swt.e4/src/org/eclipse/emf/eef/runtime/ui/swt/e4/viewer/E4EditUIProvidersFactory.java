@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class E4EditUIProvidersFactory implements EditUIProvidersFactory {
 
@@ -27,9 +27,10 @@ public class E4EditUIProvidersFactory implements EditUIProvidersFactory {
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private ImageManager imageManager;
 	private RegistryProvider registryProvider;
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(Object element) {
@@ -37,21 +38,24 @@ public class E4EditUIProvidersFactory implements EditUIProvidersFactory {
 	}
 
 	/**
-	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 * @param eefEditingServiceProvider
+	 *            the eefEditingServiceProvider to set
 	 */
 	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
-	 * @param imageManager the imageManager to set
+	 * @param imageManager
+	 *            the imageManager to set
 	 */
 	public void setImageManager(ImageManager imageManager) {
 		this.imageManager = imageManager;
 	}
 
 	/**
-	 * @param registryProvider the registryProvider to set
+	 * @param registryProvider
+	 *            the registryProvider to set
 	 */
 	public void setRegistryProvider(RegistryProvider registryProvider) {
 		this.registryProvider = registryProvider;
@@ -59,6 +63,7 @@ public class E4EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory#getAdapterFactory()
 	 */
 	public AdapterFactory getAdapterFactory() {
@@ -70,6 +75,7 @@ public class E4EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.viewer.EditUIProvidersFactory#createContentProvider(org.eclipse.emf.common.notify.AdapterFactory)
 	 */
 	public IContentProvider createContentProvider(AdapterFactory adapterFactory) {
@@ -82,6 +88,7 @@ public class E4EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory#createLabelProvider(org.eclipse.emf.common.notify.AdapterFactory)
 	 */
 	public ILabelProvider createLabelProvider(AdapterFactory adapterFactory) {
@@ -93,10 +100,15 @@ public class E4EditUIProvidersFactory implements EditUIProvidersFactory {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory#createPropertyBindingLabelProvider(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory#createPropertyBindingLabelProvider(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+	 *      org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
 	 */
 	public ILabelProvider createPropertyBindingLabelProvider(PropertiesEditingContext editingContext, PropertyBinding propertyBinding) {
-		return new PropertyBindingLabelProvider(eefEditingServiceProvider, editingContext, propertyBinding);
+		PropertyBindingLabelProvider adapterFactoryLabelProvider = new PropertyBindingLabelProvider(eefEditingServiceProvider, editingContext, propertyBinding);
+		adapterFactoryLabelProvider.setImageManager(imageManager);
+		adapterFactoryLabelProvider.setRegistryProvider(registryProvider);
+		return adapterFactoryLabelProvider;
 	}
 
 }
