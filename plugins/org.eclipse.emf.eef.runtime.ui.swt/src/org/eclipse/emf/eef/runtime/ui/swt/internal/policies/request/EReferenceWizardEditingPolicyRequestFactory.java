@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public abstract class EReferenceWizardEditingPolicyRequestFactory implements EditingPolicyRequestFactory {
 
@@ -43,21 +43,24 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory implements Edi
 	private EditUIProvidersFactory editUIProvidersFactory;
 
 	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
+	 * @param emfServiceProvider
+	 *            the emfServiceProvider to set
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
 	}
 
 	/**
-	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 * @param eefEditingServiceProvider
+	 *            the eefEditingServiceProvider to set
 	 */
 	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	/**
-	 * @param editUIProvidersFactory the editUIProvidersFactory to set
+	 * @param editUIProvidersFactory
+	 *            the editUIProvidersFactory to set
 	 */
 	public void setEditUIProvidersFactory(EditUIProvidersFactory editUIProvidersFactory) {
 		this.editUIProvidersFactory = editUIProvidersFactory;
@@ -65,6 +68,7 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory implements Edi
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(PropertiesEditingContext editingContext) {
@@ -76,7 +80,8 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory implements Edi
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory#createProcessing(org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
 	public EditingPolicyRequest createProcessing(SemanticPropertiesEditingContext editingContext) {
@@ -87,7 +92,7 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory implements Edi
 		requestBuilder.setTarget(editingContext.getEditingComponent().getEObject());
 		requestBuilder.setEditingContext(editingContext);
 		if (propertyBinding instanceof EStructuralFeatureBinding) {
-			EReference feature = (EReference)((EStructuralFeatureBinding)propertyBinding).getFeature();
+			EReference feature = (EReference) ((EStructuralFeatureBinding) propertyBinding).getFeature();
 			requestBuilder.setValue(defineEObjectToSet(editingContext, (EReference) feature));
 			if (feature.isMany()) {
 				requestBuilder.setProcessingKind(ProcessingKind.ADD);
@@ -95,13 +100,14 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory implements Edi
 				requestBuilder.setProcessingKind(ProcessingKind.SET);
 			}
 		} else {
-			//TODO: TBD but I think it will be a little tricky in this case :)
+			// TODO: TBD but I think it will be a little tricky in this case :)
 		}
 		return requestBuilder.build();
 	}
 
 	/**
-	 * @param editedReference {@link EReference} to edit.
+	 * @param editedReference
+	 *            {@link EReference} to edit.
 	 * @return the {@link EObject} to set in thce given {@link EReference}.
 	 */
 	protected EObject defineEObjectToSet(PropertiesEditingContext editingContext, EReference editedReference) {
@@ -114,15 +120,19 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory implements Edi
 
 			/**
 			 * {@inheritDoc}
-			 * @see org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard#attachToResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.emf.ecore.EObject)
+			 * 
+			 * @see org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard#attachToResource(org.eclipse.emf.ecore.resource.Resource,
+			 *      org.eclipse.emf.ecore.EObject)
 			 */
 			@Override
 			protected void attachToResource(Resource resource, EObject eObject) {
 				EReferenceWizardEditingPolicyRequestFactory.this.attachToResource(editingContext, resource, eObject);
+				editingContext.startEditing();
 			}
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard#detachFromResource(org.eclipse.emf.ecore.EObject)
 			 */
 			@Override
@@ -131,7 +141,7 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory implements Edi
 			}
 
 		};
-		//TODO: use a UI helper for providing the shell 
+		// TODO: use a UI helper for providing the shell
 		EEFWizardDialog wDialog = new EEFWizardDialog(new Shell(), wizard);
 		int open = wDialog.open();
 		if (open == Window.CANCEL) {
@@ -143,14 +153,20 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory implements Edi
 
 	/**
 	 * Attaches the created object to the given {@link Resource}.
-	 * @param resource {@link Resource} to process.
-	 * @param createdEObject the {@link EObject} to attach.
+	 * 
+	 * @param resource
+	 *            {@link Resource} to process.
+	 * @param createdEObject
+	 *            the {@link EObject} to attach.
 	 */
 	protected abstract void attachToResource(PropertiesEditingContext editingContext, Resource resource, EObject createdEObject);
 
 	/**
-	 * Detaches the given object from its resource if it is contained as a root element.
-	 * @param eObject the {@link EObject} to attach.
+	 * Detaches the given object from its resource if it is contained as a root
+	 * element.
+	 * 
+	 * @param eObject
+	 *            the {@link EObject} to attach.
 	 */
 	protected abstract void detachFromResource(PropertiesEditingContext editingContext, EObject eObject);
 }

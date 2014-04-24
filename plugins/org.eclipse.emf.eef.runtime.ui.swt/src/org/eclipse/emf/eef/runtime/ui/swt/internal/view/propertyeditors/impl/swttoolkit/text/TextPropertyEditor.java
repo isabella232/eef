@@ -45,7 +45,8 @@ public class TextPropertyEditor extends PropertyEditorImpl implements Monovalued
 	 * @param elementEditor
 	 * @param propertyEditorViewer
 	 */
-	public TextPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<EEFControlWrapperViewer<Text>> propertyEditorViewer) {
+	public TextPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor,
+			PropertyEditorViewer<EEFControlWrapperViewer<Text>> propertyEditorViewer) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.view = view;
 		this.elementEditor = elementEditor;
@@ -121,7 +122,8 @@ public class TextPropertyEditor extends PropertyEditorImpl implements Monovalued
 
 			public void modifyText(ModifyEvent e) {
 				if (view.getEditingComponent() != null)
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer().getMainControl().getText(), false));
+					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer()
+							.getMainControl().getText(), true));
 			}
 		});
 	}

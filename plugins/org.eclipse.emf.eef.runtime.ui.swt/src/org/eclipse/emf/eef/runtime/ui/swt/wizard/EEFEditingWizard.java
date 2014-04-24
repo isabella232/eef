@@ -45,7 +45,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EEFEditingWizard extends Wizard {
 
@@ -61,7 +61,8 @@ public class EEFEditingWizard extends Wizard {
 	private PropertiesEditingContext subContext;
 
 	/**
-	 * @param context {@link PropertiesEditingContext} to use in this wizard.
+	 * @param context
+	 *            {@link PropertiesEditingContext} to use in this wizard.
 	 */
 	public EEFEditingWizard(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingContext context) {
 		this.contextFactoryProvider = contextFactoryProvider;
@@ -71,10 +72,12 @@ public class EEFEditingWizard extends Wizard {
 		this.context = context;
 		this.setWindowTitle(context.getEditingComponent().getEObject().eClass().getName());
 		context.getOptions().setMessageManager(initMessageManager());
+		context.startEditing();
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
 	public void addPages() {
@@ -86,7 +89,7 @@ public class EEFEditingWizard extends Wizard {
 			EEFEditingService editingService = eefEditingServiceProvider.getEditingService(context.getEditingComponent().getEObject());
 			if (editingService.isAddingInContainmentEvent(context, semanticEditingContext.getEditingEvent())) {
 				EReference editedReference = (EReference) editingService.featureFromEditor(semanticEditingContext, semanticEditingContext.getEditingEvent().getAffectedEditor());
-				if (editedReference != null) { 
+				if (editedReference != null) {
 					Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(context.getAdapterFactory(), context.getEditingComponent().getEObject(), editedReference);
 					if (listOfInstanciableType.size() > 0) {
 						if (listOfInstanciableType.size() > 1) {
@@ -94,14 +97,15 @@ public class EEFEditingWizard extends Wizard {
 							creationPage.setInput(listOfInstanciableType);
 							addPage(creationPage);
 						} else {
-							createdObject= EcoreUtil.create(listOfInstanciableType.iterator().next());
+							createdObject = EcoreUtil.create(listOfInstanciableType.iterator().next());
 							createObject(createdObject);
 						}
 					} else {
-						//FIXME: I've got a pb
+						// FIXME: I've got a pb
 					}
 				} else {
-					//What ??? How can I have isAddingInContainment == true and a PropertyBinding which isn't a ESFBinding ?
+					// What ??? How can I have isAddingInContainment == true and
+					// a PropertyBinding which isn't a ESFBinding ?
 				}
 			}
 		}
@@ -117,23 +121,31 @@ public class EEFEditingWizard extends Wizard {
 
 	/**
 	 * Attaches the given {@link EObject} to a {@link Resource}.
-	 * @param resource target {@link Resource}.
-	 * @param eObject the {@link EObject} to attach.
+	 * 
+	 * @param resource
+	 *            target {@link Resource}.
+	 * @param eObject
+	 *            the {@link EObject} to attach.
 	 */
 	protected void attachToResource(Resource resource, EObject eObject) {
-		//Note: Only used in EReferenceWizardEditingPolicy, very tricky but I don't have a better way. 
+		// Note: Only used in EReferenceWizardEditingPolicy, very tricky but I
+		// don't have a better way.
 	}
 
 	/**
 	 * Detaches the given {@link EObject} from its {@link Resource} if exists.
-	 * @param eObject the {@link EObject} to detach.
+	 * 
+	 * @param eObject
+	 *            the {@link EObject} to detach.
 	 */
 	protected void detachFromResource(EObject eObject) {
-		//Note: Only used in EReferenceWizardEditingPolicy, very tricky but I don't have a better way. 
+		// Note: Only used in EReferenceWizardEditingPolicy, very tricky but I
+		// don't have a better way.
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
 	public boolean performFinish() {
@@ -143,6 +155,7 @@ public class EEFEditingWizard extends Wizard {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#performCancel()
 	 */
 	public boolean performCancel() {
@@ -158,6 +171,7 @@ public class EEFEditingWizard extends Wizard {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.util.PropertiesEditingMessageManagerImpl#updateStatus(java.lang.String)
 			 */
 			@Override
@@ -169,6 +183,7 @@ public class EEFEditingWizard extends Wizard {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.util.PropertiesEditingMessageManagerImpl#updateError(java.lang.String)
 			 */
 			@Override
@@ -180,6 +195,7 @@ public class EEFEditingWizard extends Wizard {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.util.PropertiesEditingMessageManagerImpl#updateWarning(java.lang.String)
 			 */
 			@Override
@@ -189,12 +205,11 @@ public class EEFEditingWizard extends Wizard {
 				}
 			}
 
-
 		};
 	}
 
 	/**
-	 * @param createdObject 
+	 * @param createdObject
 	 * 
 	 */
 	private void createObject(EObject createdObject) {
@@ -219,7 +234,8 @@ public class EEFEditingWizard extends Wizard {
 		}
 
 		/**
-		 * @param input the instanciable types
+		 * @param input
+		 *            the instanciable types
 		 */
 		public void setInput(Collection<EClass> input) {
 			this.instanciableTypes = input;
@@ -227,6 +243,7 @@ public class EEFEditingWizard extends Wizard {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 		 */
 		public void createControl(Composite parent) {
@@ -239,7 +256,6 @@ public class EEFEditingWizard extends Wizard {
 			radio.setLabelProvider(editUIProvidersFactory.createLabelProvider(context.getAdapterFactory()));
 			radio.setInput(instanciableTypes);
 			radio.addSelectionChangedListener(new ISelectionChangedListener() {
-
 
 				public void selectionChanged(SelectionChangedEvent event) {
 					StructuredSelection selection = (StructuredSelection) event.getSelection();
@@ -278,7 +294,8 @@ public class EEFEditingWizard extends Wizard {
 		}
 
 		/**
-		 * @param context the context to use.
+		 * @param context
+		 *            the context to use.
 		 */
 		public void setInput(PropertiesEditingContext context) {
 			this.context = context;
@@ -290,6 +307,7 @@ public class EEFEditingWizard extends Wizard {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 		 */
 		public void createControl(Composite parent) {
@@ -304,6 +322,7 @@ public class EEFEditingWizard extends Wizard {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.jface.dialogs.DialogPage#dispose()
 		 */
 		@Override
@@ -312,6 +331,6 @@ public class EEFEditingWizard extends Wizard {
 			viewer.clear();
 		}
 
-	}	
+	}
 
 }

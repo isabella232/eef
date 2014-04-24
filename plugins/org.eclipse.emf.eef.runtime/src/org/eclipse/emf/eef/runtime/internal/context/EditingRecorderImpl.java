@@ -18,15 +18,25 @@ import org.eclipse.emf.eef.runtime.context.EditingRecorder;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EditingRecorderImpl implements EditingRecorder {
 
 	private ChangeRecorder changeRecorder;
 	private ChangeDescription modificationsRecording;
-	
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.context.EditingRecorder#getChangeRecorder()
+	 */
+	public ChangeRecorder getChangeRecorder() {
+		return changeRecorder;
+	}
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.EditingRecorder#initRecording(org.eclipse.emf.ecore.EObject)
 	 */
 	public void initRecording(EObject src) {
@@ -41,7 +51,7 @@ public class EditingRecorderImpl implements EditingRecorder {
 			this.changeRecorder = new ChangeRecorder(src);
 		}
 	}
-	
+
 	// Stop the modifications recording.
 	private void endRecording() {
 		modificationsRecording = changeRecorder.endRecording();
@@ -49,6 +59,7 @@ public class EditingRecorderImpl implements EditingRecorder {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.EditingRecorder#stopEditing()
 	 */
 	public void stopEditing() {
@@ -57,6 +68,7 @@ public class EditingRecorderImpl implements EditingRecorder {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.EditingRecorder#cancelEditing()
 	 */
 	public void cancelEditing() {
@@ -68,23 +80,29 @@ public class EditingRecorderImpl implements EditingRecorder {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.EditingRecorder#undoEditing()
 	 */
 	public void undoEditing() {
-		if (changeRecorder.isRecording()) {
-			endRecording();
-		}
-		if (modificationsRecording != null) {
-			modificationsRecording.applyAndReverse();
+		if (changeRecorder != null) {
+			if (changeRecorder.isRecording()) {
+				endRecording();
+			}
+			if (modificationsRecording != null) {
+				modificationsRecording.applyAndReverse();
+			}
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.EditingRecorder#dispose()
 	 */
 	public void dispose() {
-		changeRecorder.dispose();		
+		if (changeRecorder != null) {
+			changeRecorder.dispose();
+		}
 	}
 
 }

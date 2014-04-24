@@ -21,12 +21,13 @@ import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EObjectEditingPolicyRequestFactory implements EditingPolicyRequestFactory {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(PropertiesEditingContext element) {
@@ -34,7 +35,8 @@ public class EObjectEditingPolicyRequestFactory implements EditingPolicyRequestF
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory#createProcessing(org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
 	public EditingPolicyRequest createProcessing(SemanticPropertiesEditingContext editingContext) {
@@ -44,48 +46,48 @@ public class EObjectEditingPolicyRequestFactory implements EditingPolicyRequestF
 		if (editingEvent instanceof TargetedEditingEvent) {
 			editedObject = ((TargetedEditingEvent) editingEvent).getTarget();
 		} else {
-			editedObject = (EObject)editingContext.getEditingComponent().getEObject();
+			editedObject = (EObject) editingContext.getEditingComponent().getEObject();
 		}
-			requestBuilder.setEditingContext(editingContext);
-			requestBuilder.setTarget(editedObject);
-			switch (editingEvent.getEventType()) {
-			case PropertiesEditingEvent.SET:
-				requestBuilder.setProcessingKind(ProcessingKind.SET);
-				requestBuilder.setValue(editingEvent.getNewValue());
-				break;
-			case PropertiesEditingEvent.UNSET:
-				requestBuilder.setProcessingKind(ProcessingKind.UNSET);
-				break;
-			case PropertiesEditingEvent.EDIT:
-				requestBuilder.setProcessingKind(ProcessingKind.EDIT);
-				requestBuilder.setValue(editingEvent.getNewValue());
-				break;
-			case PropertiesEditingEvent.ADD:
-				requestBuilder.setProcessingKind(ProcessingKind.ADD);
-				requestBuilder.setValue(editingEvent.getNewValue());
-				break;
-			case PropertiesEditingEvent.ADD_MANY:
-				requestBuilder.setProcessingKind(ProcessingKind.ADD_MANY);
-				requestBuilder.setValue(editingEvent.getNewValue());
-				break;	
-			case PropertiesEditingEvent.REMOVE:
-				requestBuilder.setProcessingKind(ProcessingKind.REMOVE);
-				requestBuilder.setValue(editingEvent.getOldValue());
-				break;
-			case PropertiesEditingEvent.REMOVE_MANY:
-				requestBuilder.setProcessingKind(ProcessingKind.REMOVE_MANY);
-				requestBuilder.setValue(editingEvent.getOldValue());
-				break;
-			case PropertiesEditingEvent.MOVE:
-				requestBuilder.setProcessingKind(ProcessingKind.MOVE);
-				requestBuilder.setOldIndex((Integer)editingEvent.getOldValue());
-				requestBuilder.setNewIndex((Integer)editingEvent.getNewValue());
-				break;
-			default:
-				requestBuilder.setProcessingKind(ProcessingKind.SET);
-				requestBuilder.setValue(editingEvent.getNewValue());
-				break;
-			}
+		requestBuilder.setEditingContext(editingContext);
+		requestBuilder.setTarget(editedObject);
+		switch (editingEvent.getEventType()) {
+		case PropertiesEditingEvent.SET:
+			requestBuilder.setProcessingKind(ProcessingKind.SET);
+			requestBuilder.setValue(editingEvent.getNewValue());
+			break;
+		case PropertiesEditingEvent.UNSET:
+			requestBuilder.setProcessingKind(ProcessingKind.UNSET);
+			break;
+		case PropertiesEditingEvent.EDIT:
+			requestBuilder.setProcessingKind(ProcessingKind.EDIT);
+			requestBuilder.setValue(editingEvent.getNewValue());
+			break;
+		case PropertiesEditingEvent.ADD:
+			requestBuilder.setProcessingKind(ProcessingKind.ADD);
+			requestBuilder.setValue(editingEvent.getNewValue());
+			break;
+		case PropertiesEditingEvent.ADD_MANY:
+			requestBuilder.setProcessingKind(ProcessingKind.ADD_MANY);
+			requestBuilder.setValue(editingEvent.getNewValue());
+			break;
+		case PropertiesEditingEvent.REMOVE:
+			requestBuilder.setProcessingKind(ProcessingKind.REMOVE);
+			requestBuilder.setValue(editingEvent.getOldValue());
+			break;
+		case PropertiesEditingEvent.REMOVE_MANY:
+			requestBuilder.setProcessingKind(ProcessingKind.REMOVE_MANY);
+			requestBuilder.setValue(editingEvent.getOldValue());
+			break;
+		case PropertiesEditingEvent.MOVE:
+			requestBuilder.setProcessingKind(ProcessingKind.MOVE);
+			requestBuilder.setOldIndex((Integer) editingEvent.getOldValue());
+			requestBuilder.setNewIndex((Integer) editingEvent.getNewValue());
+			break;
+		default:
+			requestBuilder.setProcessingKind(ProcessingKind.SET);
+			requestBuilder.setValue(editingEvent.getNewValue());
+			break;
+		}
 		return requestBuilder.build();
 	}
 

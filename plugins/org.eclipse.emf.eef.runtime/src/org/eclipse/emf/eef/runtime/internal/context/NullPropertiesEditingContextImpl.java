@@ -12,6 +12,7 @@ package org.eclipse.emf.eef.runtime.internal.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
@@ -25,7 +26,7 @@ import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class NullPropertiesEditingContextImpl implements PropertiesEditingContext, NullPropertiesEditingContext {
 
@@ -37,6 +38,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEMFServiceProvider()
 	 */
 	public EMFServiceProvider getEMFServiceProvider() {
@@ -45,6 +47,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEEFEditingServiceProvider()
 	 */
 	public EEFEditingServiceProvider getEEFEditingServiceProvider() {
@@ -53,6 +56,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getBindingManagerProvider()
 	 */
 	public BindingHandlerProvider getBindingManagerProvider() {
@@ -61,6 +65,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getContextFactoryProvider()
 	 */
 	public EditingContextFactoryProvider getContextFactoryProvider() {
@@ -69,6 +74,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getViewHandlerProvider()
 	 */
 	public ViewHandlerProvider getViewHandlerProvider() {
@@ -77,6 +83,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getParentContext()
 	 */
 	public PropertiesEditingContext getParentContext() {
@@ -85,6 +92,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getEditingComponent()
 	 */
 	public PropertiesEditingComponent getEditingComponent() {
@@ -93,6 +101,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getAdapterFactory()
 	 */
 	public AdapterFactory getAdapterFactory() {
@@ -101,6 +110,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getOptions()
 	 */
 	public ContextOptions getOptions() {
@@ -109,6 +119,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#disposeComponent(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent)
 	 */
 	public void disposeComponent(PropertiesEditingComponent editingComponent) {
@@ -116,7 +127,26 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 	}
 
 	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getChangeRecorder()
+	 */
+	public ChangeRecorder getChangeRecorder() {
+		return null;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#startEditing()
+	 */
+	public void startEditing() {
+		// Do nothing
+	}
+
+	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#stopEditing()
 	 */
 	public void stopEditing() {
@@ -125,6 +155,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#cancelEditing()
 	 */
 	public void cancelEditing() {
@@ -133,6 +164,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#undoEditing()
 	 */
 	public void undoEditing() {
@@ -141,6 +173,7 @@ public class NullPropertiesEditingContextImpl implements PropertiesEditingContex
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#dispose()
 	 */
 	public void dispose() {

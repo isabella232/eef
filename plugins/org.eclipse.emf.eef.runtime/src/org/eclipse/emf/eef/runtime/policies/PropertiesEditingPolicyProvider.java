@@ -16,7 +16,7 @@ import org.eclipse.emf.eef.runtime.services.EEFService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public interface PropertiesEditingPolicyProvider extends EEFService<PropertiesEditingContext> {
 
@@ -25,5 +25,5 @@ public interface PropertiesEditingPolicyProvider extends EEFService<PropertiesEd
 	 * @return
 	 */
 	PropertiesEditingPolicy getEditingPolicy(SemanticPropertiesEditingContext context);
-		
+
 }

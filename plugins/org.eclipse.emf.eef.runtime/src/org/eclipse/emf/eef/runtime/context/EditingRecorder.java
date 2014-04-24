@@ -11,19 +11,22 @@
 package org.eclipse.emf.eef.runtime.context;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public interface EditingRecorder {
 
 	/**
 	 * Initialize the modifications recording.
-	 * @param src the source {@link EObject}.
+	 * 
+	 * @param src
+	 *            the source {@link EObject}.
 	 */
 	void initRecording(EObject src);
-	
+
 	/**
 	 * Stop the recording of editing operations in this context.
 	 */
@@ -38,12 +41,15 @@ public interface EditingRecorder {
 	 * Undo all the editing operations in this context.
 	 */
 	void undoEditing();
-	
-	
+
 	/**
 	 * Disposes this recorder.
 	 */
 	void dispose();
 
-	
+	/**
+	 * @return the {@link ChangeRecorder} of the current recorder.
+	 */
+	ChangeRecorder getChangeRecorder();
+
 }

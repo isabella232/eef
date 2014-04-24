@@ -23,6 +23,7 @@ Service-Component: OSGI-INF/SWTViewService.xml,
  OSGI-INF/ViewerFilterBuilder.xml,
  OSGI-INF/ViewerFilterBuilderProvider.xml,
  OSGI-INF/WizardEditingPolicyProcessor.xml,
+ OSGI-INF/WizardDomainEditingPolicyProcessor.xml,
  OSGI-INF/PropertiesBindingManager.xml,
  OSGI-INF/GenericBindingSettings.xml
 Import-Package: com.google.common.base;version="10.0.1",

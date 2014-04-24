@@ -271,7 +271,6 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 			setLockManagerProvider(viewHandler.getLockManagerProvider());
 			createContents(tabbedPropertySheetPage.getWidgetFactory(), parentComposite);
 			parentComposite.layout();
-			viewHandler.initView(editingComponent, this);
 		}
 	}
 

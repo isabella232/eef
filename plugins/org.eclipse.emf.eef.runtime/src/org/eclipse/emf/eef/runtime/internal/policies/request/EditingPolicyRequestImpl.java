@@ -16,36 +16,35 @@ import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EditingPolicyRequestImpl implements EditingPolicyRequest {
 
 	private ProcessingKind processingKind;
-	
+
 	private SemanticPropertiesEditingContext editingContext;
 	private EObject target;
 	private Object value;
 	private int newIndex;
 	private int oldIndex;
 
-	
 	/**
 	 * @param processingKind
 	 * @param target
 	 * @param value
 	 */
 	public EditingPolicyRequestImpl(SemanticPropertiesEditingContext editingContext, ProcessingKind processingKind, EObject target, Object value) {
-		this.editingContext = editingContext;
-		this.processingKind = processingKind;
-		this.target = target;
+		this(editingContext, processingKind, target);
 		this.value = value;
 	}
 
 	/**
+	 * @param editingContext
 	 * @param processingKind
 	 * @param target
 	 */
 	public EditingPolicyRequestImpl(SemanticPropertiesEditingContext editingContext, ProcessingKind processingKind, EObject target) {
+		this.editingContext = editingContext;
 		this.processingKind = processingKind;
 		this.target = target;
 	}
@@ -57,17 +56,9 @@ public class EditingPolicyRequestImpl implements EditingPolicyRequest {
 	 * @param oldIndex
 	 */
 	public EditingPolicyRequestImpl(SemanticPropertiesEditingContext editingContext, ProcessingKind processingKind, EObject target, int newIndex, int oldIndex) {
-		this.processingKind = processingKind;
-		this.target = target;
+		this(editingContext, processingKind, target);
 		this.newIndex = newIndex;
 		this.oldIndex = oldIndex;
-	}
-
-	/**
-	 * @return the editingContext
-	 */
-	public SemanticPropertiesEditingContext getEditingContext() {
-		return editingContext;
 	}
 
 	/**

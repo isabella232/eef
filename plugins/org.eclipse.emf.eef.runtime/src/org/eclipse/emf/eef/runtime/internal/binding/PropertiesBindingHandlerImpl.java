@@ -402,7 +402,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler#firePropertiesChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
 	 *      org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
-	public synchronized void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
+	public void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		if (!(editingEvent instanceof UIPropertiesEditingEvent)) {
 			PropertiesEditingContext editingContext = editingComponent.getEditingContext();
 			EditingContextFactoryProvider contextFactoryProvider = editingContext.getContextFactoryProvider();

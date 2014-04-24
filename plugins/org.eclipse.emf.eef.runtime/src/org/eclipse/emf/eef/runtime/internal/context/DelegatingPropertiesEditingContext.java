@@ -11,6 +11,7 @@
 package org.eclipse.emf.eef.runtime.internal.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
@@ -22,14 +23,15 @@ import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public abstract class DelegatingPropertiesEditingContext implements PropertiesEditingContext {
 
 	protected PropertiesEditingContext delegatingContext;
-	
+
 	/**
-	 * @param delegatingContext {@link PropertiesEditingContext} to use for delegation.
+	 * @param delegatingContext
+	 *            {@link PropertiesEditingContext} to use for delegation.
 	 */
 	public DelegatingPropertiesEditingContext(PropertiesEditingContext delegatingContext) {
 		this.delegatingContext = delegatingContext;
@@ -84,6 +86,7 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getParentContext()
 	 */
 	public PropertiesEditingContext getParentContext() {
@@ -100,6 +103,7 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getAdapterFactory()
 	 */
 	public AdapterFactory getAdapterFactory() {
@@ -108,6 +112,7 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getOptions()
 	 */
 	public ContextOptions getOptions() {
@@ -123,6 +128,24 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	}
 
 	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getChangeRecorder()
+	 */
+	public ChangeRecorder getChangeRecorder() {
+		return delegatingContext.getChangeRecorder();
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#startEditing()
+	 */
+	public void startEditing() {
+		delegatingContext.startEditing();
+	}
+
+	/**
 	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#stopEditing()
 	 */
@@ -132,6 +155,7 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#cancelEditing()
 	 */
 	public void cancelEditing() {
@@ -140,6 +164,7 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#undoEditing()
 	 */
 	public void undoEditing() {
@@ -148,6 +173,7 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#dispose()
 	 */
 	public void dispose() {

@@ -31,12 +31,12 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class ComboPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;
-	
+
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<ComboViewer> propertyEditorControl;
@@ -56,6 +56,7 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
 	public void init() {
@@ -69,6 +70,7 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#getPropertyEditorViewer()
 	 */
 	public PropertyEditorViewer<?> getPropertyEditorViewer() {
@@ -77,18 +79,20 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
 		if (value instanceof ISelection) {
 			propertyEditorControl.getViewer().setSelection((ISelection) value);
 		} else {
-			propertyEditorControl.getViewer().setSelection(new StructuredSelection(value));			
+			propertyEditorControl.getViewer().setSelection(new StructuredSelection(value));
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#unsetValue()
 	 */
 	public void unsetValue() {

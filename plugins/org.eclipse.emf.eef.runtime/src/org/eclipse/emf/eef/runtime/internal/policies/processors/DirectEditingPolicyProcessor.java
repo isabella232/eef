@@ -21,9 +21,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EditingStrategyNotFoundException;
@@ -32,21 +30,20 @@ import org.eclipse.emf.eef.runtime.internal.util.EEFInvocationParametersImpl;
 import org.eclipse.emf.eef.runtime.internal.util.EEFModifierInvocationParametersImpl;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
-import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy;
-import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.query.JavaBody;
 import org.eclipse.emf.eef.runtime.util.EEFInvokerProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
-	
+
 	private EEFInvokerProvider eefInvokerProvider;
-	
+
 	/**
-	 * @param eefInvokerProvider the eefInvokerProvider to set
+	 * @param eefInvokerProvider
+	 *            the eefInvokerProvider to set
 	 */
 	public final void setEEFInvokerProvider(EEFInvokerProvider eefInvokerProvider) {
 		this.eefInvokerProvider = eefInvokerProvider;
@@ -54,6 +51,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(PropertiesEditingContext element) {
@@ -62,7 +60,9 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+	 *      org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest)
 	 */
 	public void process(PropertiesEditingContext editingContext, EditingPolicyRequest request) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
@@ -106,6 +106,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
@@ -118,23 +119,24 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
 					if (value != null) {
 						if (value instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-							eObject.eSet(feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String)value));
+							eObject.eSet(feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String) value));
 						} else {
 							eObject.eSet(feature, value);
 						}
 					}
 					return null;
 				}
-				
+
 			}.process();
 		} catch (EditingStrategyNotFoundException e) {
-			//Do nothing
+			// Do nothing
 		}
 	}
 
@@ -144,6 +146,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
@@ -154,6 +157,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
@@ -161,24 +165,15 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 					eObject.eUnset(feature);
 					return null;
 				}
-				
+
 			}.process();
 		} catch (EditingStrategyNotFoundException e) {
-			//Do nothing
+			// Do nothing
 		}
 	}
 
-	protected final void performEdit(SemanticPropertiesEditingContext editingContext, EObject eObject, Object value) {
-		if (value instanceof EObject) {
-			EObject editedElement = (EObject)value;
-			PropertiesEditingContextFactory factory = editingContext.getContextFactoryProvider().getEditingContextFactory(editedElement);
-			PropertiesEditingContext subPropertiesEditingContext = factory.createPropertiesEditingContext(editingContext, editedElement);
-			PropertiesEditingPolicyProvider editingPolicyProvider = editingContext.getBindingManagerProvider().getBindingHandler(editedElement).getPolicyProvider();
-			//I'm quite confident in this cast 
-			PropertiesEditingPolicy subElementEditingPolicy = editingPolicyProvider.getEditingPolicy((SemanticPropertiesEditingContext) subPropertiesEditingContext);
-			PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
-			editingContext.getBindingManagerProvider().getBindingHandler(editingComponent.getEObject()).execute(editingComponent, subElementEditingPolicy, subPropertiesEditingContext);
-		}
+	protected void performEdit(SemanticPropertiesEditingContext editingContext, EObject eObject, Object value) {
+		// Do nothing in this case.
 	}
 
 	@SuppressWarnings("unchecked")
@@ -188,6 +183,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
@@ -200,6 +196,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
@@ -207,18 +204,18 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 					if (newValue != null) {
 						if (feature.isMany()) {
 							if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-								((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
+								((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String) newValue));
 							} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
 								EClass newValueClass = (EClass) newValue;
-								EClass referenceType = ((EReference)feature).getEReferenceType();
+								EClass referenceType = ((EReference) feature).getEReferenceType();
 								if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
-									((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.create(newValueClass));				
+									((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.create(newValueClass));
 								}
 							} else {
 								if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
-									((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.create((EClass) newValue));						
+									((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.create((EClass) newValue));
 								} else {
-									((Collection<Object>)eObject.eGet(feature)).add(newValue);
+									((Collection<Object>) eObject.eGet(feature)).add(newValue);
 								}
 							}
 						} else {
@@ -227,10 +224,10 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 					}
 					return null;
 				}
-				
+
 			}.process();
 		} catch (EditingStrategyNotFoundException e) {
-			//Do nothing
+			// Do nothing
 		}
 	}
 
@@ -241,6 +238,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
@@ -253,6 +251,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
@@ -261,12 +260,12 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 						if (feature.isMany()) {
 							for (Object newValue : newValues) {
 								if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-									((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String)newValue));
+									((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String) newValue));
 								} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
-									((Collection<Object>)eObject.eGet(feature)).add(EcoreUtil.create((EClass) newValue));						
+									((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.create((EClass) newValue));
 								} else {
-									((Collection<Object>)eObject.eGet(feature)).add(newValue);
-								}				
+									((Collection<Object>) eObject.eGet(feature)).add(newValue);
+								}
 							}
 						} else {
 							throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
@@ -274,10 +273,10 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 					}
 					return null;
 				}
-				
+
 			}.process();
 		} catch (EditingStrategyNotFoundException e) {
-			//Do nothing
+			// Do nothing
 		}
 	}
 
@@ -288,6 +287,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
@@ -300,21 +300,22 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
 					if (feature.isMany()) {
-						((Collection<Object>)eObject.eGet(feature)).remove(oldValue);
+						((Collection<Object>) eObject.eGet(feature)).remove(oldValue);
 					} else {
 						throw new IllegalArgumentException("Cannot _REMOVE_ a value to a single feature.");
 					}
 					return null;
 				}
-				
+
 			}.process();
 		} catch (EditingStrategyNotFoundException e) {
-			//Do nothing
+			// Do nothing
 		}
 	}
 
@@ -325,6 +326,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
@@ -337,21 +339,22 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
 					if (feature.isMany()) {
-						((Collection<Object>)eObject.eGet(feature)).removeAll(oldValues);
+						((Collection<Object>) eObject.eGet(feature)).removeAll(oldValues);
 					} else {
 						throw new IllegalArgumentException("Cannot _REMOVE_ a value to a single feature.");
 					}
 					return null;
 				}
-				
+
 			}.process();
 		} catch (EditingStrategyNotFoundException e) {
-			//Do nothing
+			// Do nothing
 		}
 	}
 
@@ -361,6 +364,7 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 				 */
 				@Override
@@ -371,22 +375,23 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
 					Object currentValue = eObject.eGet(feature);
 					if (currentValue instanceof EList<?>) {
-						((EList<?>)eObject.eGet(feature)).move(newIndex, oldIndex);
+						((EList<?>) eObject.eGet(feature)).move(newIndex, oldIndex);
 					} else {
 						throw new IllegalArgumentException("Cannot _MOVE_ a value in this feature.");
 					}
 					return null;
 				}
-				
+
 			}.process();
 		} catch (EditingStrategyNotFoundException e) {
-			//Do nothing
+			// Do nothing
 		}
 	}
 }

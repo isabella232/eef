@@ -30,7 +30,7 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EReferenceEditingPolicyRequestFactory implements EditingPolicyRequestFactory {
 
@@ -38,14 +38,16 @@ public class EReferenceEditingPolicyRequestFactory implements EditingPolicyReque
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 
 	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
+	 * @param emfServiceProvider
+	 *            the emfServiceProvider to set
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
 	}
 
 	/**
-	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 * @param eefEditingServiceProvider
+	 *            the eefEditingServiceProvider to set
 	 */
 	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
@@ -53,6 +55,7 @@ public class EReferenceEditingPolicyRequestFactory implements EditingPolicyReque
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(PropertiesEditingContext editingContext) {
@@ -64,7 +67,8 @@ public class EReferenceEditingPolicyRequestFactory implements EditingPolicyReque
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory#createProcessing(org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
 	public EditingPolicyRequest createProcessing(SemanticPropertiesEditingContext editingContext) {
@@ -73,7 +77,7 @@ public class EReferenceEditingPolicyRequestFactory implements EditingPolicyReque
 		requestBuilder.setEditingContext(editingContext);
 		PropertyBinding propertyBinding = editingContext.getEditingComponent().getBinding().propertyBinding(editingContext.getEditingEvent().getAffectedEditor(), editingContext.getOptions().autowire());
 		if (propertyBinding instanceof EStructuralFeatureBinding) {
-			EReference feature = (EReference)((EStructuralFeatureBinding)propertyBinding).getFeature();
+			EReference feature = (EReference) ((EStructuralFeatureBinding) propertyBinding).getFeature();
 			requestBuilder.setValue(defineEObjectToSet(editingContext, feature));
 			if (feature.isMany()) {
 				requestBuilder.setProcessingKind(ProcessingKind.ADD);
@@ -81,26 +85,28 @@ public class EReferenceEditingPolicyRequestFactory implements EditingPolicyReque
 				requestBuilder.setProcessingKind(ProcessingKind.SET);
 			}
 		} else {
-			//TODO: TBD but I think it will be a little tricky in this case :)
+			// TODO: TBD but I think it will be a little tricky in this case
+			// :)
 		}
 		return requestBuilder.build();
 	}
 
 	/**
-	 * @param editedReference {@link EReference} to edit.
+	 * @param editedReference
+	 *            {@link EReference} to edit.
 	 * @return the {@link EObject} to set in thce given {@link EReference}.
 	 */
 	private EObject defineEObjectToSet(PropertiesEditingContext editingContext, EReference editedReference) {
 		EObject createdEObject = null;
 		if (editedReference.getEReferenceType() != null && !editedReference.getEReferenceType().isAbstract()) {
-			createdEObject  = EcoreUtil.create(editedReference.getEReferenceType());
+			createdEObject = EcoreUtil.create(editedReference.getEReferenceType());
 		} else {
 			EMFService emfService = emfServiceProvider.getEMFService(editingContext.getEditingComponent().getEObject().eClass().getEPackage());
 			Collection<EClass> listOfInstanciableType = emfService.listOfInstanciableType(null, editingContext.getEditingComponent().getEObject(), editedReference);
 			if (listOfInstanciableType.size() > 0) {
 				createdEObject = EcoreUtil.create(listOfInstanciableType.iterator().next());
 			} else {
-				//TODO: logging ?
+				// TODO: logging ?
 			}
 		}
 		return createdEObject;

@@ -34,13 +34,13 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EContainmentPropertyEditor extends PropertyEditorImpl implements MultivaluedPropertyEditor {
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private EditUIProvidersFactory editUIProvidersFactory;
-	
+
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer;
@@ -57,6 +57,7 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
 	public void init() {
@@ -83,6 +84,7 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#getPropertyEditorViewer()
 	 */
 	public PropertyEditorViewer<?> getPropertyEditorViewer() {
@@ -91,6 +93,7 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#addValue(java.lang.Object)
 	 */
 	public void addValue(Object value) {
@@ -99,6 +102,7 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#addAllValues(java.util.Collection)
 	 */
 	public void addAllValues(Collection<?> values) {
@@ -107,6 +111,7 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#removeValue(java.lang.Object)
 	 */
 	public void removeValue(Object value) {
@@ -115,6 +120,7 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#removeAllValues(java.util.Collection)
 	 */
 	public void removeAllValues(Collection<?> values) {
@@ -123,7 +129,9 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#moveValue(java.lang.Object, int)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#moveValue(java.lang.Object,
+	 *      int)
 	 */
 	public void moveValue(Object value, int newIndex) {
 		propertyEditorViewer.getViewer().refresh();
@@ -138,7 +146,11 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#removeAll(java.util.Collection)
+				 * 
+				 * @see 
+				 *      org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer
+				 *      .getViewer().ReferenceEditorListener#removeAll(java.util
+				 *      .Collection)
 				 */
 				public void removeAll(Collection<?> removedElements) {
 					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE_MANY, removedElements, null));
@@ -147,7 +159,11 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#remove(java.lang.Object)
+				 * 
+				 * @see 
+				 *      org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer
+				 *      .getViewer().ReferenceEditorListener#remove(java.lang.
+				 *      Object)
 				 */
 				public void remove(Object removedElement) {
 					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE, removedElement, null));
@@ -156,13 +172,17 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#moveUp(java.lang.Object)
+				 * 
+				 * @see 
+				 *      org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer
+				 *      .getViewer().ReferenceEditorListener#moveUp(java.lang.
+				 *      Object)
 				 */
 				public void moveUp(Object movedElement) {
 					EObject editedElement = view.getEditingComponent().getEObject();
 					Object currentValue = eefEditingServiceProvider.getEditingService(editedElement).getValue(view.getEditingComponent().getEditingContext(), editedElement, elementEditor);
 					if (currentValue instanceof List<?>) {
-						int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
+						int oldIndex = ((List<?>) currentValue).indexOf(movedElement);
 						if (oldIndex > 0) {
 							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
 							propertyEditorViewer.getViewer().refresh();
@@ -172,13 +192,17 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#moveDown(java.lang.Object)
+				 * 
+				 * @see 
+				 *      org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer
+				 *      .getViewer().ReferenceEditorListener#moveDown(java.lang.
+				 *      Object)
 				 */
 				public void moveDown(Object movedElement) {
 					EObject editedElement = view.getEditingComponent().getEObject();
-					Object currentValue =  eefEditingServiceProvider.getEditingService(editedElement).getValue(view.getEditingComponent().getEditingContext(), editedElement, elementEditor);
+					Object currentValue = eefEditingServiceProvider.getEditingService(editedElement).getValue(view.getEditingComponent().getEditingContext(), editedElement, elementEditor);
 					if (currentValue instanceof List<?>) {
-						int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
+						int oldIndex = ((List<?>) currentValue).indexOf(movedElement);
 						if (oldIndex < ((List<?>) currentValue).size()) {
 							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
 							propertyEditorViewer.getViewer().refresh();
@@ -188,7 +212,11 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#edit(java.lang.Object)
+				 * 
+				 * @see 
+				 *      org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer
+				 *      .getViewer().ReferenceEditorListener#edit(java.lang.
+				 *      Object)
 				 */
 				public void edit(Object editedElement) {
 					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.EDIT, null, editedElement));
@@ -197,10 +225,14 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 
 				/**
 				 * {@inheritDoc}
-				 * @see org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer.getViewer().ReferenceEditorListener#add()
+				 * 
+				 * @see 
+				 *      org.eclipse.emf.eef.runtime.ui.widgets.propertyEditorViewer
+				 *      .getViewer().ReferenceEditorListener#add()
 				 */
 				public void add() {
 					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, null));
+					propertyEditorViewer.getViewer().refresh();
 				}
 			};
 			propertyEditorViewer.getViewer().addReferenceEditorListener(listener);

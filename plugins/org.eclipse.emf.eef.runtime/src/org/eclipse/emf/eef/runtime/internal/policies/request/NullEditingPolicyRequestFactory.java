@@ -18,12 +18,13 @@ import org.eclipse.emf.eef.runtime.services.DefaultService;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class NullEditingPolicyRequestFactory implements EditingPolicyRequestFactory, DefaultService {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(PropertiesEditingContext element) {
@@ -31,7 +32,8 @@ public class NullEditingPolicyRequestFactory implements EditingPolicyRequestFact
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyRequestFactory#createProcessing(org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
 	public EditingPolicyRequest createProcessing(SemanticPropertiesEditingContext editingContext) {

@@ -81,7 +81,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.handle.editingview.Pl
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesPlatformAwareToolkit;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.swttoolkit.SWTPlatformAwareToolkit;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.viewer.E3EditUIProvidersFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.processors.WizardEditingPolicyProcessor;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.processors.WizardDomainEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceBatchWizardEditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceDirectWizardEditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceLiveWizardEditingPolicyRequest;
@@ -682,7 +682,7 @@ public class EEFTestEnvironment {
 			services.add(descriptor);
 			descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(DomainEditingPolicyProcessor.class.getName(), new DomainEditingPolicyProcessor(), DirectEditingPolicyProcessor.class.getName());
 			services.add(descriptor);
-			descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(WizardEditingPolicyProcessor.class.getName(), new WizardEditingPolicyProcessor(), DomainEditingPolicyProcessor.class.getName(), DirectEditingPolicyProcessor.class.getName());
+			descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(WizardDomainEditingPolicyProcessor.class.getName(), new WizardDomainEditingPolicyProcessor(), DomainEditingPolicyProcessor.class.getName(), DirectEditingPolicyProcessor.class.getName());
 			services.add(descriptor);
 			return services;
 		}

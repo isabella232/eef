@@ -20,31 +20,33 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 
+import com.google.common.base.Preconditions;
+
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EventTimer {
 
 	private PropertiesBindingHandler bindingManager;
-	
-	private static Future<?> currentFuture;
-	private final ScheduledExecutorService executor;
-	
+
+	private Future<?> currentFuture;
+	private ScheduledExecutorService executor;
+
 	public EventTimer(PropertiesBindingHandler bindingManager) {
 		this.bindingManager = bindingManager;
 		executor = Executors.newSingleThreadScheduledExecutor();
 	}
 
 	public void schedule(final PropertiesEditingComponent editingComponent, final PropertiesEditingEvent editingEvent) {
+		Preconditions.checkNotNull(editingEvent);
 		if (currentFuture != null && !currentFuture.isDone()) {
 			currentFuture.cancel(true);
 		}
 		final ScheduledFuture<?> future = executor.schedule(new DelayFirePropertiesChange(bindingManager, editingComponent, editingEvent), editingComponent.getEditingContext().getOptions().delayedFirePropertiesChangedDelay(), TimeUnit.MILLISECONDS);
 		setCurrentExecutingFuture(future);
 	}
-	
-	
+
 	private void setCurrentExecutingFuture(Future<?> f) {
 		currentFuture = f;
 	}
@@ -54,7 +56,7 @@ public class EventTimer {
 		private PropertiesBindingHandler bindingManager;
 		private PropertiesEditingComponent editingComponent;
 		private PropertiesEditingEvent editingEvent;
-		
+
 		/**
 		 * @param bindingManager
 		 * @param editingComponent
@@ -66,18 +68,16 @@ public class EventTimer {
 			this.editingEvent = editingEvent;
 		}
 
-
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see java.lang.Runnable#run()
 		 */
 		public void run() {
 			editingEvent.setDelayed(false);
 			bindingManager.firePropertiesChanged(editingComponent, editingEvent);
 		}
-		
-		
-		
+
 	}
 
 }
