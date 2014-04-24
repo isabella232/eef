@@ -93,6 +93,7 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 			editingContext.startEditing();
 		}
 		processor.process(editingContext, request);
+		editingContext.stopEditing();
 	}
 
 	private boolean validateAttributeEditing(PropertiesEditingEvent editingEvent, EStructuralFeature feature, Object currentValue) {

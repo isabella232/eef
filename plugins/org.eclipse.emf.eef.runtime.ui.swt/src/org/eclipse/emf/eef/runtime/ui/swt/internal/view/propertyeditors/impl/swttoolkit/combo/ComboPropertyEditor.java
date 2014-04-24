@@ -27,8 +27,6 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 
-import com.google.common.collect.Lists;
-
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  * 
@@ -96,19 +94,18 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#unsetValue()
 	 */
 	public void unsetValue() {
-		propertyEditorControl.getViewer().setInput(new StructuredSelection(Lists.newArrayList()));
 	}
 
 	private void initListeners() {
 		propertyEditorControl.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
-			
+
 			public void selectionChanged(SelectionChangedEvent event) {
 				if (view.getEditingComponent() != null) {
-					Object value = ((StructuredSelection)propertyEditorControl.getViewer().getSelection()).getFirstElement();
+					Object value = ((StructuredSelection) propertyEditorControl.getViewer().getSelection()).getFirstElement();
 					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, value));
 				}
 			}
 		});
-	}		
+	}
 
 }

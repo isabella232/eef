@@ -55,6 +55,7 @@ public class EditingRecorderImpl implements EditingRecorder {
 	// Stop the modifications recording.
 	private void endRecording() {
 		modificationsRecording = changeRecorder.endRecording();
+		dispose();
 	}
 
 	/**
