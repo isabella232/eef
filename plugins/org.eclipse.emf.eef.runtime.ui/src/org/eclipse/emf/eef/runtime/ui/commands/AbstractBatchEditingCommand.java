@@ -10,21 +10,21 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.commands;
 
-
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  */
 public abstract class AbstractBatchEditingCommand extends AbstractCommand {
 
-	protected PropertiesEditingContext editingContext;
+	protected SemanticPropertiesEditingContext editingContext;
 
 	/**
 	 * @param editionContext
 	 */
-	public AbstractBatchEditingCommand(PropertiesEditingContext editionContext) {
+	public AbstractBatchEditingCommand(SemanticPropertiesEditingContext editionContext) {
 		this.editingContext = editionContext;
 	}
 
@@ -41,6 +41,7 @@ public abstract class AbstractBatchEditingCommand extends AbstractCommand {
 
 	/**
 	 * Edit the model with a {@link PropertiesEditingContext} in Batch mode.
+	 * 
 	 * @return <code>true</code> if the editing successful.
 	 */
 	protected abstract boolean prepareBatchEditing();

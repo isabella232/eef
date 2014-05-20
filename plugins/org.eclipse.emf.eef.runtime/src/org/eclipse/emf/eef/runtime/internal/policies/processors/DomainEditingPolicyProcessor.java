@@ -167,7 +167,8 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	protected final Command performSet(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Object value) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__SETTER) {
+				final SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
+				return new EEFEditingStrategy<Command>(semanticEditingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__SETTER) {
 
 					/**
 					 * {@inheritDoc}
@@ -178,7 +179,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					protected Command processByAccessor(final JavaBody accessor) {
 						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 						Notifier highestNotifier = emfService.highestNotifier(eObject);
-						return new EEFChangeCommand(editingContext.getChangeRecorder(), highestNotifier) {
+						return new EEFChangeCommand(semanticEditingContext.getChangeRecorder(), highestNotifier) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
@@ -217,6 +218,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	protected final Command performUnset(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			final SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
 			try {
 				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__UNSETTER) {
 
@@ -229,7 +231,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					protected Command processByAccessor(final JavaBody accessor) {
 						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 						Notifier highestNotifier = emfService.highestNotifier(eObject);
-						return new EEFChangeCommand(editingContext.getChangeRecorder(), highestNotifier) {
+						return new EEFChangeCommand(semanticEditingContext.getChangeRecorder(), highestNotifier) {
 							@Override
 							protected void doExecute() {
 								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFInvocationParametersImpl(editingContext));
@@ -262,6 +264,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	protected final Command performAdd(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Object newValue) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			final SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
 			try {
 				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
 
@@ -274,7 +277,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					protected Command processByAccessor(final JavaBody accessor) {
 						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 						Notifier highestNotifier = emfService.highestNotifier(eObject);
-						return new EEFChangeCommand(editingContext.getChangeRecorder(), highestNotifier) {
+						return new EEFChangeCommand(semanticEditingContext.getChangeRecorder(), highestNotifier) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
@@ -318,6 +321,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	protected final Command performAddMany(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Collection<?> newValues) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			final SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
 			try {
 				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
 
@@ -330,7 +334,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					protected Command processByAccessor(final JavaBody accessor) {
 						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 						Notifier highestNotifier = emfService.highestNotifier(eObject);
-						return new EEFChangeCommand(editingContext.getChangeRecorder(), highestNotifier) {
+						return new EEFChangeCommand(semanticEditingContext.getChangeRecorder(), highestNotifier) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
@@ -379,6 +383,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	protected final Command performRemove(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Object oldValue) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			final SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
 			try {
 				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
 
@@ -391,7 +396,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					protected Command processByAccessor(final JavaBody accessor) {
 						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 						Notifier highestNotifier = emfService.highestNotifier(eObject);
-						return new EEFChangeCommand(editingContext.getChangeRecorder(), highestNotifier) {
+						return new EEFChangeCommand(semanticEditingContext.getChangeRecorder(), highestNotifier) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
@@ -422,6 +427,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	protected final Command performRemoveMany(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Collection<?> oldValues) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
+			final SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
 			try {
 				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
 
@@ -434,7 +440,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 					protected Command processByAccessor(final JavaBody accessor) {
 						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 						Notifier highestNotifier = emfService.highestNotifier(eObject);
-						return new EEFChangeCommand(editingContext.getChangeRecorder(), highestNotifier) {
+						return new EEFChangeCommand(semanticEditingContext.getChangeRecorder(), highestNotifier) {
 							@Override
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();

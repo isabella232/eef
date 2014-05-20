@@ -42,22 +42,24 @@ import com.google.common.collect.Sets;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EEFEditingServiceImpl implements EEFEditingService, DefaultService {
 
 	private EMFServiceProvider emfServiceProvider;
 	private EEFInvokerProvider eefInvokerProvider;
-	
+
 	/**
-	 * @param emfServiceProvider the emfServiceProvider to set
+	 * @param emfServiceProvider
+	 *            the emfServiceProvider to set
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
 	}
 
 	/**
-	 * @param eefInvokerProvider the eefInvokerProvider to set
+	 * @param eefInvokerProvider
+	 *            the eefInvokerProvider to set
 	 */
 	public final void setEEFInvokerProvider(EEFInvokerProvider eefInvokerProvider) {
 		this.eefInvokerProvider = eefInvokerProvider;
@@ -65,15 +67,18 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(EObject element) {
 		return true;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#featureFromEditor(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, java.lang.Object)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#featureFromEditor(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+	 *      java.lang.Object)
 	 */
 	public EStructuralFeature featureFromEditor(PropertiesEditingContext editingContext, Object editor) {
 		EStructuralFeature associatedFeature = null;
@@ -84,16 +89,20 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 		} else if (propertyBinding == null && editingContext.getOptions().autowire()) {
 			EClassBinding binding = editingContext.getEditingComponent().getBinding();
 			if (editor instanceof String) {
-				associatedFeature = binding.getEClass().getEStructuralFeature((String)editor);
+				associatedFeature = binding.getEClass().getEStructuralFeature((String) editor);
 			}
 			if (editor instanceof EObject) {
-				// Here we don't have an PropertyBinding to help us. We check if the editor is an EObject (for instance an ElementEditor)
-				// We looking for an "name" structural feature and if this feature is type of String, we try to associate this name
-				// with a structural feature of the handled EClass. For instance if an ElementEditor (which has a "name" feature) is named
-				// "active" and the current EClass has a feature named "active", we return this feature.
+				// Here we don't have an PropertyBinding to help us. We check if
+				// the editor is an EObject (for instance an ElementEditor)
+				// We looking for an "name" structural feature and if this
+				// feature is type of String, we try to associate this name
+				// with a structural feature of the handled EClass. For instance
+				// if an ElementEditor (which has a "name" feature) is named
+				// "active" and the current EClass has a feature named "active",
+				// we return this feature.
 				EStructuralFeature nameFeature = ((EObject) editor).eClass().getEStructuralFeature("name");
 				if (nameFeature != null && "java.lang.String".equals(nameFeature.getEType().getInstanceClassName())) {
-					associatedFeature = binding.getEClass().getEStructuralFeature((String)((EObject) editor).eGet(nameFeature));
+					associatedFeature = binding.getEClass().getEStructuralFeature((String) ((EObject) editor).eGet(nameFeature));
 				}
 			}
 		}
@@ -105,13 +114,16 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getValue(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, java.lang.Object)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getValue(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+	 *      org.eclipse.emf.ecore.EObject, java.lang.Object)
 	 */
 	public Object getValue(final PropertiesEditingContext editingContext, final EObject target, Object editor) {
 		EEFEditingStrategy<Object> strategy = new EEFEditingStrategy<Object>(editingContext, editor, EditingModelPackage.Literals.PROPERTY_BINDING__GETTER) {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 			 */
 			@Override
@@ -121,14 +133,15 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 			 */
 			@Override
 			protected Object processByFeature(EStructuralFeature feature) {
 				return target.eGet(feature);
 			}
-			
-		};			
+
+		};
 		try {
 			return strategy.process();
 		} catch (EditingStrategyNotFoundException e) {
@@ -138,7 +151,10 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getValueOfSubbinding(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getValueOfSubbinding(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+	 *      org.eclipse.emf.ecore.EObject,
+	 *      org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
 	 */
 	public Object getValueOfSubbinding(PropertiesEditingContext editingContext, EObject target, PropertyBinding propertyBinding) {
 		if (propertyBinding.getGetter() != null) {
@@ -158,13 +174,16 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getChoiceOfValue(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.ecore.EObject, java.lang.Object)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getChoiceOfValue(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+	 *      org.eclipse.emf.ecore.EObject, java.lang.Object)
 	 */
 	public Object getChoiceOfValue(final PropertiesEditingContext editingContext, final EObject target, final Object editor) {
 		EEFEditingStrategy<Object> strategy = new EEFEditingStrategy<Object>(editingContext, editor, EditingModelPackage.Literals.PROPERTY_BINDING__VALUE_PROVIDER) {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
 			 */
 			@Override
@@ -174,6 +193,7 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
 			 */
 			@Override
@@ -181,7 +201,7 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 				EMFService emfService = emfServiceProvider.getEMFService(target.eClass().getEPackage());
 				return emfService.choiceOfValues(editingContext.getAdapterFactory(), target, feature);
 			}
-			
+
 		};
 		try {
 			return strategy.process();
@@ -192,6 +212,7 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#isReflectiveBinding(org.eclipse.emf.eef.runtime.editingModel.EClassBinding)
 	 */
 	public boolean isReflectiveBinding(EClassBinding binding) {
@@ -203,30 +224,32 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 		}
 		return false;
 	}
+
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#isAddingInContainmentEvent(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext, org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#isAddingInContainmentEvent(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+	 *      org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public boolean isAddingInContainmentEvent(PropertiesEditingContext context, PropertiesEditingEvent editingEvent) {
-		PropertyBinding propertyBinding = context.getEditingComponent().getBinding().propertyBinding(editingEvent.getAffectedEditor(), context.getOptions().autowire());
-		EStructuralFeature feature;
-		if (propertyBinding instanceof EStructuralFeatureBinding) {
-			feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+		if (editingEvent.getAffectedEditor() != null) {
+			PropertyBinding propertyBinding = context.getEditingComponent().getBinding().propertyBinding(editingEvent.getAffectedEditor(), context.getOptions().autowire());
+			EStructuralFeature feature;
+			if (propertyBinding instanceof EStructuralFeatureBinding) {
+				feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
+			} else {
+				feature = null;
+			}
+			return feature != null && feature instanceof EReference && ((EReference) feature).isContainment() && editingEvent.getNewValue() == null
+					&& (((editingEvent.getEventType() == PropertiesEditingEvent.ADD) && feature.isMany()) || ((editingEvent.getEventType() == PropertiesEditingEvent.SET) && !feature.isMany()));
 		} else {
-			feature = null;
+			return false;
 		}
-		return feature != null 
-				&& feature instanceof EReference 
-				&& ((EReference)feature).isContainment() 
-				&& editingEvent.getNewValue() == null 
-				&& (
-						((editingEvent.getEventType() == PropertiesEditingEvent.ADD) && feature.isMany())
-						|| ((editingEvent.getEventType() == PropertiesEditingEvent.SET) && !feature.isMany())
-					);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#canBeReferencedByEditingModel(org.eclipse.emf.ecore.EObject)
 	 */
 	public boolean canBeReferencedByEditingModel(EObject target) {
@@ -235,13 +258,15 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#referencingEEFElement(org.eclipse.emf.ecore.EObject)
 	 */
 	public Collection<EObject> referencingEEFElement(EObject target) {
 		Set<EObject> result = Sets.newHashSet();
-		// Only Ecore elements can be processed and only if they are loaded in a ResourceSet.
+		// Only Ecore elements can be processed and only if they are loaded in a
+		// ResourceSet.
 		if (canBeReferencedByEditingModel(target) && target.eResource() != null && target.eResource().getResourceSet() != null) {
-			//TODO: can be optimized
+			// TODO: can be optimized
 			Collection<Setting> usages = UsageCrossReferencer.find(target, target.eResource().getResourceSet());
 			EStructuralFeature revelantFeature = null;
 			if (target instanceof EPackage) {
@@ -264,6 +289,7 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#searchEditingDomain(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public EditingDomain searchEditingDomain(PropertiesEditingContext editingContext) {

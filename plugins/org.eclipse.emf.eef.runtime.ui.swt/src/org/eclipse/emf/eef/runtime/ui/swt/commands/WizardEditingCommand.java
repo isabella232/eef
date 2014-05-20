@@ -10,9 +10,8 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.commands;
 
-
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.ui.commands.AbstractBatchEditingCommand;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard;
@@ -39,7 +38,7 @@ public class WizardEditingCommand extends AbstractBatchEditingCommand {
 	 * @param editUIProvidersFactory
 	 * @param editionContext
 	 */
-	public WizardEditingCommand(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingContext editionContext) {
+	public WizardEditingCommand(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, SemanticPropertiesEditingContext editionContext) {
 		super(editionContext);
 		this.contextFactoryProvider = contextFactoryProvider;
 		this.emfServiceProvider = emfServiceProvider;
@@ -49,16 +48,16 @@ public class WizardEditingCommand extends AbstractBatchEditingCommand {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.commands.AbstractBatchEditingCommand#prepareBatchEditing()
 	 */
 	@Override
 	protected boolean prepareBatchEditing() {
 		EEFEditingWizard wizard = new EEFEditingWizard(contextFactoryProvider, emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, editingContext);
-		//TODO: use a UI helper for providing the shell 
+		// TODO: use a UI helper for providing the shell
 		EEFWizardDialog wDialog = new EEFWizardDialog(new Shell(), wizard);
 		int open = wDialog.open();
 		return (open == Window.OK);
 	}
 
-	
 }

@@ -11,7 +11,6 @@
 package org.eclipse.emf.eef.runtime.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
@@ -83,32 +82,6 @@ public interface PropertiesEditingContext {
 	 *            the {@link PropertiesEditingComponent} to dispose.
 	 */
 	void disposeComponent(PropertiesEditingComponent editingComponent);
-
-	/**
-	 * @return the {@link ChangeRecorder} recording the changes implies by the
-	 *         current context.
-	 */
-	ChangeRecorder getChangeRecorder();
-
-	/**
-	 * start the recording of editing operations in this context.
-	 */
-	void startEditing();
-
-	/**
-	 * stop the recording of editing operations in this context.
-	 */
-	void stopEditing();
-
-	/**
-	 * Cancel all the editing operations in this context.
-	 */
-	void cancelEditing();
-
-	/**
-	 * Undo all the editing operations in this context.
-	 */
-	void undoEditing();
 
 	/**
 	 * Dispose the current context.

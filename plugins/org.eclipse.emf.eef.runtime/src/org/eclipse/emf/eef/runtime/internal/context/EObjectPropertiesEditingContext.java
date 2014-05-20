@@ -12,11 +12,9 @@ package org.eclipse.emf.eef.runtime.internal.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
-import org.eclipse.emf.eef.runtime.context.EditingRecorder;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.impl.ContextOptions;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
@@ -40,8 +38,6 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	protected AdapterFactory adapterFactory;
 	protected ContextOptions options;
 
-	protected EditingRecorder editingRecorder;
-
 	private PropertiesEditingComponent component;
 
 	/**
@@ -54,7 +50,6 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 		this.adapterFactory = adapterFactory;
 		this.eObject = eObject;
 		this.options = new ContextOptions();
-		this.editingRecorder = new EditingRecorderImpl();
 	}
 
 	/**
@@ -66,7 +61,7 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	EObjectPropertiesEditingContext(PropertiesEditingContext parentContext, EObject eObject) {
 		this.eObject = eObject;
 		this.options = new ContextOptions(parentContext.getOptions());
-		this.editingRecorder = new EditingRecorderImpl();
+		// this.editingRecorder = new EditingRecorderImpl();
 		this.parentContext = parentContext;
 	}
 
@@ -227,64 +222,11 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	}
 
 	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getChangeRecorder()
-	 */
-	public ChangeRecorder getChangeRecorder() {
-		return editingRecorder.getChangeRecorder();
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#startEditing()
-	 */
-	public void startEditing() {
-		editingRecorder.initRecording(eObject);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#stopEditing()
-	 */
-	public void stopEditing() {
-		editingRecorder.stopEditing();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#cancelEditing()
-	 */
-	public void cancelEditing() {
-		editingRecorder.cancelEditing();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#undoEditing()
-	 */
-	public void undoEditing() {
-		editingRecorder.undoEditing();
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#dispose()
 	 */
 	public void dispose() {
-		editingRecorder.dispose();
-	}
-
-	/**
-	 * @return the editingRecorder
-	 */
-	protected EditingRecorder getEditingRecorder() {
-		return editingRecorder;
 	}
 
 }

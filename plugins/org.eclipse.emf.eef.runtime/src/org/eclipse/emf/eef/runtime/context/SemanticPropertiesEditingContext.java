@@ -14,12 +14,13 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
-public interface SemanticPropertiesEditingContext extends PropertiesEditingContext {
-	
+public interface SemanticPropertiesEditingContext extends RecordingPropertiesEditingContext {
+
 	/**
-	 * @return the {@link PropertiesEditingEvent} which have generated this context.
+	 * @return the {@link PropertiesEditingEvent} which have generated this
+	 *         context.
 	 */
 	PropertiesEditingEvent getEditingEvent();
 

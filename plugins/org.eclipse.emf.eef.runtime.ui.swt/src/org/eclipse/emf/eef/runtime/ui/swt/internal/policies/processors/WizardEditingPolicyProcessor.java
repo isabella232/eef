@@ -5,11 +5,9 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.policies.processors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.processors.DirectEditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFEditingWizard;
 import org.eclipse.emf.eef.runtime.ui.swt.wizard.EEFWizardDialog;
@@ -68,11 +66,7 @@ public class WizardEditingPolicyProcessor extends DirectEditingPolicyProcessor {
 	 */
 	@Override
 	protected void performEdit(SemanticPropertiesEditingContext editingContext, EObject eObject, Object value) {
-		PropertiesEditingContextFactory editingContextFactory = editingContext.getContextFactoryProvider().getEditingContextFactory((EObject) value);
-		PropertiesEditingContext context = editingContextFactory.createPropertiesEditingContext(editingContext, (EObject) value);
-		context.getOptions().setBatchMode(true);
-		context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
-		EEFEditingWizard wizard = new EEFEditingWizard(editingContext.getContextFactoryProvider(), emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, context);
+		EEFEditingWizard wizard = new EEFEditingWizard(editingContext.getContextFactoryProvider(), emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, editingContext);
 		// TODO: use a UI helper for providing the shell
 		EEFWizardDialog wDialog = new EEFWizardDialog(new Shell(), wizard);
 		int open = wDialog.open();

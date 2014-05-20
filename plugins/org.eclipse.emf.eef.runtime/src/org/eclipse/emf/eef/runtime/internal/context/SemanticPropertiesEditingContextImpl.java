@@ -43,7 +43,7 @@ public class SemanticPropertiesEditingContextImpl extends DelegatingPropertiesEd
 		this.editingEvent = editingEvent;
 		this.options = new ContextOptions(parentContext.getOptions());
 		this.editingRecorder = new EditingRecorderImpl();
-		// editingRecorder.initRecording(parentContext.getEditingComponent().getEObject());
+		editingRecorder.initRecording(parentContext.getEditingComponent().getEObject());
 	}
 
 	/**

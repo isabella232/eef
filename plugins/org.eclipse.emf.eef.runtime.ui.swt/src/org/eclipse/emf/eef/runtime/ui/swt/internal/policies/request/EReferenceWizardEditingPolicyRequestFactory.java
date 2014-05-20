@@ -110,11 +110,11 @@ public abstract class EReferenceWizardEditingPolicyRequestFactory implements Edi
 	 *            {@link EReference} to edit.
 	 * @return the {@link EObject} to set in thce given {@link EReference}.
 	 */
-	protected EObject defineEObjectToSet(PropertiesEditingContext editingContext, EReference editedReference) {
+	protected EObject defineEObjectToSet(SemanticPropertiesEditingContext editingContext, EReference editedReference) {
 		return createObjectAndOpenWizard(editingContext, editedReference);
 	}
 
-	private EObject createObjectAndOpenWizard(final PropertiesEditingContext editingContext, EReference editedReference) {
+	private EObject createObjectAndOpenWizard(final SemanticPropertiesEditingContext editingContext, EReference editedReference) {
 		editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
 		EEFEditingWizard wizard = new EEFEditingWizard(editingContext.getContextFactoryProvider(), emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, editingContext) {
 

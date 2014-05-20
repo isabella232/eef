@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.RecordingPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.TargetedEditingEvent;
@@ -89,11 +90,13 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#execute(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext)
 	 */
 	public final void execute(PropertiesEditingContext editingContext) {
-		if (editingContext.getChangeRecorder() == null) {
-			editingContext.startEditing();
+		if (editingContext instanceof RecordingPropertiesEditingContext && ((RecordingPropertiesEditingContext) editingContext).getChangeRecorder() == null) {
+			((RecordingPropertiesEditingContext) editingContext).startEditing();
 		}
 		processor.process(editingContext, request);
-		editingContext.stopEditing();
+		if (editingContext instanceof RecordingPropertiesEditingContext) {
+			((RecordingPropertiesEditingContext) editingContext).stopEditing();
+		}
 	}
 
 	private boolean validateAttributeEditing(PropertiesEditingEvent editingEvent, EStructuralFeature feature, Object currentValue) {

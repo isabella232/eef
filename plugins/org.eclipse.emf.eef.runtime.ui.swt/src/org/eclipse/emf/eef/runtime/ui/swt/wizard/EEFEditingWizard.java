@@ -21,6 +21,8 @@ import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.ERadioEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
@@ -54,7 +56,7 @@ public class EEFEditingWizard extends Wizard {
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private EditUIProvidersFactory editUIProvidersFactory;
 
-	private PropertiesEditingContext context;
+	private SemanticPropertiesEditingContext context;
 	private PropertiesEditingWizardPage editingPage;
 	private ElementCreationWizardPage creationPage;
 	private EObject createdObject;
@@ -64,7 +66,7 @@ public class EEFEditingWizard extends Wizard {
 	 * @param context
 	 *            {@link PropertiesEditingContext} to use in this wizard.
 	 */
-	public EEFEditingWizard(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, PropertiesEditingContext context) {
+	public EEFEditingWizard(EditingContextFactoryProvider contextFactoryProvider, EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, SemanticPropertiesEditingContext context) {
 		this.contextFactoryProvider = contextFactoryProvider;
 		this.emfServiceProvider = emfServiceProvider;
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
@@ -82,7 +84,6 @@ public class EEFEditingWizard extends Wizard {
 	 */
 	public void addPages() {
 		editingPage = new PropertiesEditingWizardPage();
-		editingPage.setInput(context);
 		if (context instanceof SemanticPropertiesEditingContext) {
 			SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) context;
 			EMFService emfService = emfServiceProvider.getEMFService(context.getEditingComponent().getEObject().eClass().getEPackage());
@@ -107,7 +108,16 @@ public class EEFEditingWizard extends Wizard {
 					// What ??? How can I have isAddingInContainment == true and
 					// a PropertyBinding which isn't a ESFBinding ?
 				}
+			} else if (semanticEditingContext.getEditingEvent().getEventType() == PropertiesEditingEvent.EDIT) {
+				EObject editedObject = (EObject) context.getEditingEvent().getNewValue();
+				PropertiesEditingContextFactory editingContextFactory = context.getContextFactoryProvider().getEditingContextFactory(editedObject);
+				PropertiesEditingContext editingContext = editingContextFactory.createPropertiesEditingContext(context, editedObject);
+				editingContext.getOptions().setBatchMode(true);
+				editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
+				editingPage.setInput(editingContext);
 			}
+		} else {
+			editingPage.setInput(context);
 		}
 		addPage(editingPage);
 	}

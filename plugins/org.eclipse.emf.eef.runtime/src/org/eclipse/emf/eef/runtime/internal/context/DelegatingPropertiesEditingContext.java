@@ -11,7 +11,6 @@
 package org.eclipse.emf.eef.runtime.internal.context;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
@@ -125,50 +124,6 @@ public abstract class DelegatingPropertiesEditingContext implements PropertiesEd
 	 */
 	public void disposeComponent(PropertiesEditingComponent editingComponent) {
 		delegatingContext.disposeComponent(editingComponent);
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#getChangeRecorder()
-	 */
-	public ChangeRecorder getChangeRecorder() {
-		return delegatingContext.getChangeRecorder();
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#startEditing()
-	 */
-	public void startEditing() {
-		delegatingContext.startEditing();
-	}
-
-	/**
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#stopEditing()
-	 */
-	public void stopEditing() {
-		delegatingContext.stopEditing();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#cancelEditing()
-	 */
-	public void cancelEditing() {
-		delegatingContext.cancelEditing();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#undoEditing()
-	 */
-	public void undoEditing() {
-		delegatingContext.undoEditing();
 	}
 
 	/**
