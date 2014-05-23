@@ -325,67 +325,66 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 
 		} else if (msg.getFeature() instanceof EStructuralFeature && editingModel != null) {
 			EObject source = editingComponent.getEObject();
-			EMFService service = getEMFServiceProvider().getEMFService(source.eClass().getEPackage());
-			EStructuralFeature structuralFeature = service.mapFeature(source.eClass(), (EStructuralFeature) msg.getFeature());
-			EClassBinding binding = editingModel.binding(source);
-			Object propertyEditor = binding.propertyEditor(source, structuralFeature, editingComponent.getEditingContext().getOptions().autowire());
-			for (Object view : editingComponent.getViews()) {
-				if (view != null) {
-					ViewHandler<?> viewHandler = getViewHandlerProvider().getViewHandler(editingComponent.getDescriptorForView(view));
-					switch (msg.getEventType()) {
-					case Notification.SET:
-						try {
-							viewHandler.setValue(view, propertyEditor, msg.getNewValue());
-						} catch (ViewHandlingException e) {
-							// NOTE: Silent catch
+			Collection<Object> affectedEditors = eefEditingServiceProvider.getEditingService(source).affectedEditors(editingComponent, msg);
+			for (Object propertyEditor : affectedEditors) {
+				for (Object view : editingComponent.getViews()) {
+					if (view != null) {
+						ViewHandler<?> viewHandler = getViewHandlerProvider().getViewHandler(editingComponent.getDescriptorForView(view));
+						switch (msg.getEventType()) {
+						case Notification.SET:
+							try {
+								viewHandler.setValue(view, propertyEditor, msg.getNewValue());
+							} catch (ViewHandlingException e) {
+								// NOTE: Silent catch
+							}
+							break;
+						case Notification.UNSET:
+							try {
+								viewHandler.unsetValue(view, propertyEditor);
+							} catch (ViewHandlingException e) {
+								// NOTE: Silent catch
+							}
+							break;
+						case Notification.ADD:
+							try {
+								viewHandler.addValue(view, propertyEditor, msg.getNewValue());
+							} catch (ViewHandlingException e) {
+								// NOTE: Silent catch
+							}
+							break;
+						case Notification.ADD_MANY:
+							try {
+								viewHandler.addAllValues(view, propertyEditor, (Collection<?>) msg.getNewValue());
+							} catch (ViewHandlingException e) {
+								// NOTE: Silent catch
+							}
+							break;
+						case Notification.REMOVE:
+							try {
+								viewHandler.removeValue(view, propertyEditor, msg.getOldValue());
+							} catch (ViewHandlingException e) {
+								// NOTE: Silent catch
+							}
+							break;
+						case Notification.REMOVE_MANY:
+							try {
+								viewHandler.removeAllValues(view, propertyEditor, (Collection<?>) msg.getOldValue());
+							} catch (ViewHandlingException e) {
+								// NOTE: Silent catch
+							}
+							break;
+						case Notification.MOVE:
+							try {
+								// TODO: find the good index
+								int newIndex = 0;
+								viewHandler.moveValue(view, propertyEditor, msg.getNewValue(), newIndex);
+							} catch (ViewHandlingException e) {
+								// NOTE: Silent catch
+							}
+							break;
+						default:
+							break;
 						}
-						break;
-					case Notification.UNSET:
-						try {
-							viewHandler.unsetValue(view, propertyEditor);
-						} catch (ViewHandlingException e) {
-							// NOTE: Silent catch
-						}
-						break;
-					case Notification.ADD:
-						try {
-							viewHandler.addValue(view, propertyEditor, msg.getNewValue());
-						} catch (ViewHandlingException e) {
-							// NOTE: Silent catch
-						}
-						break;
-					case Notification.ADD_MANY:
-						try {
-							viewHandler.addAllValues(view, propertyEditor, (Collection<?>) msg.getNewValue());
-						} catch (ViewHandlingException e) {
-							// NOTE: Silent catch
-						}
-						break;
-					case Notification.REMOVE:
-						try {
-							viewHandler.removeValue(view, propertyEditor, msg.getOldValue());
-						} catch (ViewHandlingException e) {
-							// NOTE: Silent catch
-						}
-						break;
-					case Notification.REMOVE_MANY:
-						try {
-							viewHandler.removeAllValues(view, propertyEditor, (Collection<?>) msg.getOldValue());
-						} catch (ViewHandlingException e) {
-							// NOTE: Silent catch
-						}
-						break;
-					case Notification.MOVE:
-						try {
-							// TODO: find the good index
-							int newIndex = 0;
-							viewHandler.moveValue(view, propertyEditor, msg.getNewValue(), newIndex);
-						} catch (ViewHandlingException e) {
-							// NOTE: Silent catch
-						}
-						break;
-					default:
-						break;
 					}
 				}
 			}

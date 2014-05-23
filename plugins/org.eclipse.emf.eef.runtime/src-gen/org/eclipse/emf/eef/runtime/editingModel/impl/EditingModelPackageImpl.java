@@ -10,11 +10,13 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
@@ -28,8 +30,6 @@ import org.eclipse.emf.eef.runtime.editingModel.EditorSettings;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
-import org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding;
-import org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
@@ -83,20 +83,6 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * @generated
 	 */
 	private EClass propertyBindingEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass monoValuedPropertyBindingEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass multiValuedPropertyBindingEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -402,71 +388,8 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPropertyBinding_Getter() {
-		return (EReference)propertyBindingEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getPropertyBinding_ValueProvider() {
-		return (EReference)propertyBindingEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getMonoValuedPropertyBinding() {
-		return monoValuedPropertyBindingEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getMonoValuedPropertyBinding_Setter() {
-		return (EReference)monoValuedPropertyBindingEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getMonoValuedPropertyBinding_Unsetter() {
-		return (EReference)monoValuedPropertyBindingEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getMultiValuedPropertyBinding() {
-		return multiValuedPropertyBindingEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getMultiValuedPropertyBinding_Adder() {
-		return (EReference)multiValuedPropertyBindingEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getMultiValuedPropertyBinding_Remover() {
-		return (EReference)multiValuedPropertyBindingEClass.getEStructuralFeatures().get(1);
+	public EAttribute getPropertyBinding_BindingCustomizer() {
+		return (EAttribute)propertyBindingEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -644,16 +567,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		createEReference(propertyBindingEClass, PROPERTY_BINDING__EDITOR);
 		createEReference(propertyBindingEClass, PROPERTY_BINDING__SUB_PROPERTY_BINDINGS);
 		createEReference(propertyBindingEClass, PROPERTY_BINDING__SETTINGS);
-		createEReference(propertyBindingEClass, PROPERTY_BINDING__GETTER);
-		createEReference(propertyBindingEClass, PROPERTY_BINDING__VALUE_PROVIDER);
-
-		monoValuedPropertyBindingEClass = createEClass(MONO_VALUED_PROPERTY_BINDING);
-		createEReference(monoValuedPropertyBindingEClass, MONO_VALUED_PROPERTY_BINDING__SETTER);
-		createEReference(monoValuedPropertyBindingEClass, MONO_VALUED_PROPERTY_BINDING__UNSETTER);
-
-		multiValuedPropertyBindingEClass = createEClass(MULTI_VALUED_PROPERTY_BINDING);
-		createEReference(multiValuedPropertyBindingEClass, MULTI_VALUED_PROPERTY_BINDING__ADDER);
-		createEReference(multiValuedPropertyBindingEClass, MULTI_VALUED_PROPERTY_BINDING__REMOVER);
+		createEAttribute(propertyBindingEClass, PROPERTY_BINDING__BINDING_CUSTOMIZER);
 
 		eStructuralFeatureBindingEClass = createEClass(ESTRUCTURAL_FEATURE_BINDING);
 		createEReference(eStructuralFeatureBindingEClass, ESTRUCTURAL_FEATURE_BINDING__FEATURE);
@@ -716,10 +630,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		monoValuedPropertyBindingEClass.getESuperTypes().add(this.getPropertyBinding());
-		multiValuedPropertyBindingEClass.getESuperTypes().add(this.getPropertyBinding());
-		eStructuralFeatureBindingEClass.getESuperTypes().add(this.getMonoValuedPropertyBinding());
-		eStructuralFeatureBindingEClass.getESuperTypes().add(this.getMultiValuedPropertyBinding());
+		eStructuralFeatureBindingEClass.getESuperTypes().add(this.getPropertyBinding());
 		javaViewEClass.getESuperTypes().add(this.getView());
 		eObjectViewEClass.getESuperTypes().add(this.getView());
 		javaEditorEClass.getESuperTypes().add(this.getEditor());
@@ -764,16 +675,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		initEReference(getPropertyBinding_Editor(), this.getEditor(), null, "editor", null, 1, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyBinding_SubPropertyBindings(), this.getPropertyBinding(), null, "subPropertyBindings", null, 0, -1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyBinding_Settings(), this.getEditorSettings(), null, "settings", null, 0, -1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPropertyBinding_Getter(), theQueryPackage.getJavaBody(), null, "getter", null, 0, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPropertyBinding_ValueProvider(), theQueryPackage.getJavaBody(), null, "valueProvider", null, 0, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(monoValuedPropertyBindingEClass, MonoValuedPropertyBinding.class, "MonoValuedPropertyBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMonoValuedPropertyBinding_Setter(), theQueryPackage.getJavaBody(), null, "setter", null, 0, 1, MonoValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMonoValuedPropertyBinding_Unsetter(), theQueryPackage.getJavaBody(), null, "unsetter", null, 0, 1, MonoValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(multiValuedPropertyBindingEClass, MultiValuedPropertyBinding.class, "MultiValuedPropertyBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMultiValuedPropertyBinding_Adder(), theQueryPackage.getJavaBody(), null, "adder", null, 0, 1, MultiValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMultiValuedPropertyBinding_Remover(), theQueryPackage.getJavaBody(), null, "remover", null, 0, 1, MultiValuedPropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPropertyBinding_BindingCustomizer(), ecorePackage.getEString(), "bindingCustomizer", null, 0, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eStructuralFeatureBindingEClass, EStructuralFeatureBinding.class, "EStructuralFeatureBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEStructuralFeatureBinding_Feature(), theEcorePackage.getEStructuralFeature(), null, "feature", null, 1, 1, EStructuralFeatureBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -10,6 +10,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.editingModel.*;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
@@ -21,8 +22,6 @@ import org.eclipse.emf.eef.runtime.editingModel.Editor;
 import org.eclipse.emf.eef.runtime.editingModel.EditorSettings;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
-import org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding;
-import org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.View;
@@ -104,14 +103,6 @@ public class EditingModelAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter casePropertyBinding(PropertyBinding object) {
 				return createPropertyBindingAdapter();
-			}
-			@Override
-			public Adapter caseMonoValuedPropertyBinding(MonoValuedPropertyBinding object) {
-				return createMonoValuedPropertyBindingAdapter();
-			}
-			@Override
-			public Adapter caseMultiValuedPropertyBinding(MultiValuedPropertyBinding object) {
-				return createMultiValuedPropertyBindingAdapter();
 			}
 			@Override
 			public Adapter caseEStructuralFeatureBinding(EStructuralFeatureBinding object) {
@@ -254,34 +245,6 @@ public class EditingModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPropertyBindingAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding <em>Mono Valued Property Binding</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding
-	 * @generated
-	 */
-	public Adapter createMonoValuedPropertyBindingAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding <em>Multi Valued Property Binding</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding
-	 * @generated
-	 */
-	public Adapter createMultiValuedPropertyBindingAdapter() {
 		return null;
 	}
 

@@ -227,7 +227,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getJavaView()
 	 * @generated
 	 */
-	int JAVA_VIEW = 8;
+	int JAVA_VIEW = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl <em>Property Binding</em>}' class.
@@ -267,22 +267,13 @@ public interface EditingModelPackage extends EPackage {
 	int PROPERTY_BINDING__SETTINGS = 2;
 
 	/**
-	 * The feature id for the '<em><b>Getter</b></em>' containment reference.
+	 * The feature id for the '<em><b>Binding Customizer</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_BINDING__GETTER = 3;
-
-	/**
-	 * The feature id for the '<em><b>Value Provider</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROPERTY_BINDING__VALUE_PROVIDER = 4;
+	int PROPERTY_BINDING__BINDING_CUSTOMIZER = 3;
 
 	/**
 	 * The number of structural features of the '<em>Property Binding</em>' class.
@@ -291,171 +282,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_BINDING_FEATURE_COUNT = 5;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.MonoValuedPropertyBindingImpl <em>Mono Valued Property Binding</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.MonoValuedPropertyBindingImpl
-	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getMonoValuedPropertyBinding()
-	 * @generated
-	 */
-	int MONO_VALUED_PROPERTY_BINDING = 5;
-
-	/**
-	 * The feature id for the '<em><b>Editor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MONO_VALUED_PROPERTY_BINDING__EDITOR = PROPERTY_BINDING__EDITOR;
-
-	/**
-	 * The feature id for the '<em><b>Sub Property Bindings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MONO_VALUED_PROPERTY_BINDING__SUB_PROPERTY_BINDINGS = PROPERTY_BINDING__SUB_PROPERTY_BINDINGS;
-
-	/**
-	 * The feature id for the '<em><b>Settings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MONO_VALUED_PROPERTY_BINDING__SETTINGS = PROPERTY_BINDING__SETTINGS;
-
-	/**
-	 * The feature id for the '<em><b>Getter</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MONO_VALUED_PROPERTY_BINDING__GETTER = PROPERTY_BINDING__GETTER;
-
-	/**
-	 * The feature id for the '<em><b>Value Provider</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MONO_VALUED_PROPERTY_BINDING__VALUE_PROVIDER = PROPERTY_BINDING__VALUE_PROVIDER;
-
-	/**
-	 * The feature id for the '<em><b>Setter</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MONO_VALUED_PROPERTY_BINDING__SETTER = PROPERTY_BINDING_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Unsetter</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MONO_VALUED_PROPERTY_BINDING__UNSETTER = PROPERTY_BINDING_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Mono Valued Property Binding</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MONO_VALUED_PROPERTY_BINDING_FEATURE_COUNT = PROPERTY_BINDING_FEATURE_COUNT + 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.MultiValuedPropertyBindingImpl <em>Multi Valued Property Binding</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.MultiValuedPropertyBindingImpl
-	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getMultiValuedPropertyBinding()
-	 * @generated
-	 */
-	int MULTI_VALUED_PROPERTY_BINDING = 6;
-
-	/**
-	 * The feature id for the '<em><b>Editor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MULTI_VALUED_PROPERTY_BINDING__EDITOR = PROPERTY_BINDING__EDITOR;
-
-	/**
-	 * The feature id for the '<em><b>Sub Property Bindings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MULTI_VALUED_PROPERTY_BINDING__SUB_PROPERTY_BINDINGS = PROPERTY_BINDING__SUB_PROPERTY_BINDINGS;
-
-	/**
-	 * The feature id for the '<em><b>Settings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MULTI_VALUED_PROPERTY_BINDING__SETTINGS = PROPERTY_BINDING__SETTINGS;
-
-	/**
-	 * The feature id for the '<em><b>Getter</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MULTI_VALUED_PROPERTY_BINDING__GETTER = PROPERTY_BINDING__GETTER;
-
-	/**
-	 * The feature id for the '<em><b>Value Provider</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MULTI_VALUED_PROPERTY_BINDING__VALUE_PROVIDER = PROPERTY_BINDING__VALUE_PROVIDER;
-
-	/**
-	 * The feature id for the '<em><b>Adder</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MULTI_VALUED_PROPERTY_BINDING__ADDER = PROPERTY_BINDING_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Remover</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MULTI_VALUED_PROPERTY_BINDING__REMOVER = PROPERTY_BINDING_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Multi Valued Property Binding</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MULTI_VALUED_PROPERTY_BINDING_FEATURE_COUNT = PROPERTY_BINDING_FEATURE_COUNT + 2;
+	int PROPERTY_BINDING_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EStructuralFeatureBindingImpl <em>EStructural Feature Binding</em>}' class.
@@ -465,7 +292,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEStructuralFeatureBinding()
 	 * @generated
 	 */
-	int ESTRUCTURAL_FEATURE_BINDING = 7;
+	int ESTRUCTURAL_FEATURE_BINDING = 5;
 
 	/**
 	 * The feature id for the '<em><b>Editor</b></em>' containment reference.
@@ -474,7 +301,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ESTRUCTURAL_FEATURE_BINDING__EDITOR = MONO_VALUED_PROPERTY_BINDING__EDITOR;
+	int ESTRUCTURAL_FEATURE_BINDING__EDITOR = PROPERTY_BINDING__EDITOR;
 
 	/**
 	 * The feature id for the '<em><b>Sub Property Bindings</b></em>' containment reference list.
@@ -483,7 +310,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ESTRUCTURAL_FEATURE_BINDING__SUB_PROPERTY_BINDINGS = MONO_VALUED_PROPERTY_BINDING__SUB_PROPERTY_BINDINGS;
+	int ESTRUCTURAL_FEATURE_BINDING__SUB_PROPERTY_BINDINGS = PROPERTY_BINDING__SUB_PROPERTY_BINDINGS;
 
 	/**
 	 * The feature id for the '<em><b>Settings</b></em>' containment reference list.
@@ -492,61 +319,16 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ESTRUCTURAL_FEATURE_BINDING__SETTINGS = MONO_VALUED_PROPERTY_BINDING__SETTINGS;
+	int ESTRUCTURAL_FEATURE_BINDING__SETTINGS = PROPERTY_BINDING__SETTINGS;
 
 	/**
-	 * The feature id for the '<em><b>Getter</b></em>' containment reference.
+	 * The feature id for the '<em><b>Binding Customizer</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ESTRUCTURAL_FEATURE_BINDING__GETTER = MONO_VALUED_PROPERTY_BINDING__GETTER;
-
-	/**
-	 * The feature id for the '<em><b>Value Provider</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ESTRUCTURAL_FEATURE_BINDING__VALUE_PROVIDER = MONO_VALUED_PROPERTY_BINDING__VALUE_PROVIDER;
-
-	/**
-	 * The feature id for the '<em><b>Setter</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ESTRUCTURAL_FEATURE_BINDING__SETTER = MONO_VALUED_PROPERTY_BINDING__SETTER;
-
-	/**
-	 * The feature id for the '<em><b>Unsetter</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ESTRUCTURAL_FEATURE_BINDING__UNSETTER = MONO_VALUED_PROPERTY_BINDING__UNSETTER;
-
-	/**
-	 * The feature id for the '<em><b>Adder</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ESTRUCTURAL_FEATURE_BINDING__ADDER = MONO_VALUED_PROPERTY_BINDING_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Remover</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ESTRUCTURAL_FEATURE_BINDING__REMOVER = MONO_VALUED_PROPERTY_BINDING_FEATURE_COUNT + 1;
+	int ESTRUCTURAL_FEATURE_BINDING__BINDING_CUSTOMIZER = PROPERTY_BINDING__BINDING_CUSTOMIZER;
 
 	/**
 	 * The feature id for the '<em><b>Feature</b></em>' reference.
@@ -555,7 +337,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ESTRUCTURAL_FEATURE_BINDING__FEATURE = MONO_VALUED_PROPERTY_BINDING_FEATURE_COUNT + 2;
+	int ESTRUCTURAL_FEATURE_BINDING__FEATURE = PROPERTY_BINDING_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>EStructural Feature Binding</em>' class.
@@ -564,7 +346,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ESTRUCTURAL_FEATURE_BINDING_FEATURE_COUNT = MONO_VALUED_PROPERTY_BINDING_FEATURE_COUNT + 3;
+	int ESTRUCTURAL_FEATURE_BINDING_FEATURE_COUNT = PROPERTY_BINDING_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' attribute.
@@ -592,7 +374,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEObjectView()
 	 * @generated
 	 */
-	int EOBJECT_VIEW = 9;
+	int EOBJECT_VIEW = 7;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' reference.
@@ -620,7 +402,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getJavaEditor()
 	 * @generated
 	 */
-	int JAVA_EDITOR = 10;
+	int JAVA_EDITOR = 8;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' attribute.
@@ -648,7 +430,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEObjectEditor()
 	 * @generated
 	 */
-	int EOBJECT_EDITOR = 11;
+	int EOBJECT_EDITOR = 9;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' reference.
@@ -676,7 +458,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEditingOptions()
 	 * @generated
 	 */
-	int EDITING_OPTIONS = 12;
+	int EDITING_OPTIONS = 10;
 
 	/**
 	 * The feature id for the '<em><b>Feature Documentation Provider</b></em>' attribute.
@@ -704,7 +486,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEditorSettings()
 	 * @generated
 	 */
-	int EDITOR_SETTINGS = 13;
+	int EDITOR_SETTINGS = 11;
 
 	/**
 	 * The number of structural features of the '<em>Editor Settings</em>' class.
@@ -723,7 +505,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getEReferenceFilter()
 	 * @generated
 	 */
-	int EREFERENCE_FILTER = 14;
+	int EREFERENCE_FILTER = 12;
 
 	/**
 	 * The feature id for the '<em><b>Body</b></em>' containment reference.
@@ -751,7 +533,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getFeatureDocumentationProvider()
 	 * @generated
 	 */
-	int FEATURE_DOCUMENTATION_PROVIDER = 15;
+	int FEATURE_DOCUMENTATION_PROVIDER = 13;
 
 	/**
 	 * The meta object id for the '<em>Void</em>' data type.
@@ -761,7 +543,7 @@ public interface EditingModelPackage extends EPackage {
 	 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getVoid()
 	 * @generated
 	 */
-	int VOID = 16;
+	int VOID = 14;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel <em>Properties Editing Model</em>}'.
@@ -967,90 +749,15 @@ public interface EditingModelPackage extends EPackage {
 	EReference getPropertyBinding_Settings();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getGetter <em>Getter</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getBindingCustomizer <em>Binding Customizer</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Getter</em>'.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getGetter()
+	 * @return the meta object for the attribute '<em>Binding Customizer</em>'.
+	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getBindingCustomizer()
 	 * @see #getPropertyBinding()
 	 * @generated
 	 */
-	EReference getPropertyBinding_Getter();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getValueProvider <em>Value Provider</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Value Provider</em>'.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getValueProvider()
-	 * @see #getPropertyBinding()
-	 * @generated
-	 */
-	EReference getPropertyBinding_ValueProvider();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding <em>Mono Valued Property Binding</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Mono Valued Property Binding</em>'.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding
-	 * @generated
-	 */
-	EClass getMonoValuedPropertyBinding();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding#getSetter <em>Setter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Setter</em>'.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding#getSetter()
-	 * @see #getMonoValuedPropertyBinding()
-	 * @generated
-	 */
-	EReference getMonoValuedPropertyBinding_Setter();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding#getUnsetter <em>Unsetter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Unsetter</em>'.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding#getUnsetter()
-	 * @see #getMonoValuedPropertyBinding()
-	 * @generated
-	 */
-	EReference getMonoValuedPropertyBinding_Unsetter();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding <em>Multi Valued Property Binding</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Multi Valued Property Binding</em>'.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding
-	 * @generated
-	 */
-	EClass getMultiValuedPropertyBinding();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding#getAdder <em>Adder</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Adder</em>'.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding#getAdder()
-	 * @see #getMultiValuedPropertyBinding()
-	 * @generated
-	 */
-	EReference getMultiValuedPropertyBinding_Adder();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding#getRemover <em>Remover</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Remover</em>'.
-	 * @see org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding#getRemover()
-	 * @see #getMultiValuedPropertyBinding()
-	 * @generated
-	 */
-	EReference getMultiValuedPropertyBinding_Remover();
+	EAttribute getPropertyBinding_BindingCustomizer();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding <em>EStructural Feature Binding</em>}'.
@@ -1385,72 +1092,12 @@ public interface EditingModelPackage extends EPackage {
 		EReference PROPERTY_BINDING__SETTINGS = eINSTANCE.getPropertyBinding_Settings();
 
 		/**
-		 * The meta object literal for the '<em><b>Getter</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Binding Customizer</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROPERTY_BINDING__GETTER = eINSTANCE.getPropertyBinding_Getter();
-
-		/**
-		 * The meta object literal for the '<em><b>Value Provider</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference PROPERTY_BINDING__VALUE_PROVIDER = eINSTANCE.getPropertyBinding_ValueProvider();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.MonoValuedPropertyBindingImpl <em>Mono Valued Property Binding</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.MonoValuedPropertyBindingImpl
-		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getMonoValuedPropertyBinding()
-		 * @generated
-		 */
-		EClass MONO_VALUED_PROPERTY_BINDING = eINSTANCE.getMonoValuedPropertyBinding();
-
-		/**
-		 * The meta object literal for the '<em><b>Setter</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MONO_VALUED_PROPERTY_BINDING__SETTER = eINSTANCE.getMonoValuedPropertyBinding_Setter();
-
-		/**
-		 * The meta object literal for the '<em><b>Unsetter</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MONO_VALUED_PROPERTY_BINDING__UNSETTER = eINSTANCE.getMonoValuedPropertyBinding_Unsetter();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.MultiValuedPropertyBindingImpl <em>Multi Valued Property Binding</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.MultiValuedPropertyBindingImpl
-		 * @see org.eclipse.emf.eef.runtime.editingModel.impl.EditingModelPackageImpl#getMultiValuedPropertyBinding()
-		 * @generated
-		 */
-		EClass MULTI_VALUED_PROPERTY_BINDING = eINSTANCE.getMultiValuedPropertyBinding();
-
-		/**
-		 * The meta object literal for the '<em><b>Adder</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MULTI_VALUED_PROPERTY_BINDING__ADDER = eINSTANCE.getMultiValuedPropertyBinding_Adder();
-
-		/**
-		 * The meta object literal for the '<em><b>Remover</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MULTI_VALUED_PROPERTY_BINDING__REMOVER = eINSTANCE.getMultiValuedPropertyBinding_Remover();
+		EAttribute PROPERTY_BINDING__BINDING_CUSTOMIZER = eINSTANCE.getPropertyBinding_BindingCustomizer();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.eef.runtime.editingModel.impl.EStructuralFeatureBindingImpl <em>EStructural Feature Binding</em>}' class.

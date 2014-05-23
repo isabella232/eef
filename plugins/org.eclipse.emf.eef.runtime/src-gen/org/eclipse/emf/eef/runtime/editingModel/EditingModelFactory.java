@@ -62,24 +62,6 @@ public interface EditingModelFactory extends EFactory {
 	PropertyBinding createPropertyBinding();
 
 	/**
-	 * Returns a new object of class '<em>Mono Valued Property Binding</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Mono Valued Property Binding</em>'.
-	 * @generated
-	 */
-	MonoValuedPropertyBinding createMonoValuedPropertyBinding();
-
-	/**
-	 * Returns a new object of class '<em>Multi Valued Property Binding</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Multi Valued Property Binding</em>'.
-	 * @generated
-	 */
-	MultiValuedPropertyBinding createMultiValuedPropertyBinding();
-
-	/**
 	 * Returns a new object of class '<em>EStructural Feature Binding</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

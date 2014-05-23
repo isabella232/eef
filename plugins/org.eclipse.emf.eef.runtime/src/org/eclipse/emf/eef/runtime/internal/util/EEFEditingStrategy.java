@@ -11,35 +11,40 @@
 package org.eclipse.emf.eef.runtime.internal.util;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer;
+import org.eclipse.emf.eef.runtime.binding.MonoPropertyBindingCustomizer;
+import org.eclipse.emf.eef.runtime.binding.MultiPropertyBindingCustomizer;
+import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.internal.binding.NullModifierCustomizer;
 import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EditingStrategyNotFoundException;
-import org.eclipse.emf.eef.runtime.query.JavaBody;
 import org.eclipse.emf.eef.runtime.util.EMFService;
+
+import com.google.common.base.Strings;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  * 
  */
-public abstract class EEFEditingStrategy<T> {
+public abstract class EEFEditingStrategy<T, U> {
 
 	private final PropertiesEditingContext editingContext;
 	private final Object editor;
-	private final EReference accessorReference;
+	private final int accessorKind;
 
-	public EEFEditingStrategy(PropertiesEditingContext editingContext, Object editor, EReference accessorReference) {
+	public EEFEditingStrategy(PropertiesEditingContext editingContext, Object editor, int accessorKind) {
 		this.editingContext = editingContext;
 		this.editor = editor;
-		this.accessorReference = accessorReference;
+		this.accessorKind = accessorKind;
 	}
 
-	public EEFEditingStrategy(SemanticPropertiesEditingContext editingContext, EReference settingReference) {
-		this(editingContext, editingContext.getEditingEvent().getAffectedEditor(), settingReference);
+	public EEFEditingStrategy(SemanticPropertiesEditingContext editingContext, int accessorKind) {
+		this(editingContext, editingContext.getEditingEvent().getAffectedEditor(), accessorKind);
 	}
 
 	/**
@@ -50,10 +55,10 @@ public abstract class EEFEditingStrategy<T> {
 	}
 
 	/**
-	 * @return the accessorReference
+	 * @return the accessorKind
 	 */
-	public final EReference getSettingReference() {
-		return accessorReference;
+	public int getAccessorKind() {
+		return accessorKind;
 	}
 
 	/**
@@ -71,8 +76,9 @@ public abstract class EEFEditingStrategy<T> {
 		EMFService emfService = editingContext.getEMFServiceProvider().getEMFService(editedObject.eClass().getEPackage());
 		PropertyBinding propertyBinding = binding.propertyBinding(editor, autowire);
 		if (propertyBinding != null) {
-			if (accessorReference != null && propertyBinding.eGet(accessorReference) != null) {
-				return processByAccessor((JavaBody) propertyBinding.eGet(accessorReference));
+			EEFModifierCustomizer<U> customization = getCustomization(propertyBinding, accessorKind);
+			if (customization != null && !(customization instanceof NullModifierCustomizer)) {
+				return processByAccessor(customization);
 			} else if (propertyBinding instanceof EStructuralFeatureBinding) {
 				EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
 				if (!editedObject.eClass().getEAllStructuralFeatures().contains(feature)) {
@@ -112,6 +118,62 @@ public abstract class EEFEditingStrategy<T> {
 		throw new EditingStrategyNotFoundException("Unable to find a valid Editing Strategy.");
 	}
 
+	private EEFModifierCustomizer<U> getCustomization(PropertyBinding propertyBinding, int accessorKind) {
+		EEFModifierCustomizer<?> result = null;
+		String bindingCustomizer = propertyBinding.getBindingCustomizer();
+		if (!Strings.isNullOrEmpty(bindingCustomizer)) {
+			ClassLoader classLoader = editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader();
+			try {
+				Class<PropertyBindingCustomizer> loadClass = (Class<PropertyBindingCustomizer>) classLoader.loadClass(bindingCustomizer);
+				PropertyBindingCustomizer newInstance = loadClass.newInstance();
+				switch (accessorKind) {
+				case PropertyBindingCustomizer.GETTER:
+					result = newInstance.getGetter();
+					break;
+				case PropertyBindingCustomizer.VALUES_PROVIDER:
+					result = newInstance.getValuesProvider();
+					break;
+				case MonoPropertyBindingCustomizer.SETTER:
+					if (newInstance instanceof MonoPropertyBindingCustomizer) {
+						result = ((MonoPropertyBindingCustomizer) newInstance).getSetter();
+						break;
+					}
+				case MonoPropertyBindingCustomizer.UNSETTER:
+					if (newInstance instanceof MonoPropertyBindingCustomizer) {
+						result = ((MonoPropertyBindingCustomizer) newInstance).getUnsetter();
+						break;
+					}
+				case MultiPropertyBindingCustomizer.ADDER:
+					if (newInstance instanceof MultiPropertyBindingCustomizer) {
+						result = ((MultiPropertyBindingCustomizer) newInstance).getAdder();
+						break;
+					}
+				case MultiPropertyBindingCustomizer.REMOVER:
+					if (newInstance instanceof MultiPropertyBindingCustomizer) {
+						result = ((MultiPropertyBindingCustomizer) newInstance).getRemover();
+						break;
+					}
+				default:
+					result = new NullModifierCustomizer<Object>();
+					break;
+				}
+			} catch (ClassNotFoundException e) {
+				// TODO: log
+				result = new NullModifierCustomizer<Object>();
+			} catch (ClassCastException e) {
+				// TODO: log
+				result = new NullModifierCustomizer<Object>();
+			} catch (InstantiationException e) {
+				// TODO: log
+				result = new NullModifierCustomizer<Object>();
+			} catch (IllegalAccessException e) {
+				// TODO: log
+				result = new NullModifierCustomizer<Object>();
+			}
+		}
+		return (EEFModifierCustomizer<U>) result;
+	}
+
 	/**
 	 * Describes the editing strategy via a Java Setter.
 	 * 
@@ -119,7 +181,7 @@ public abstract class EEFEditingStrategy<T> {
 	 *            the accessor to use.
 	 * @return the editing strategy result.
 	 */
-	protected abstract T processByAccessor(JavaBody accessor);
+	protected abstract T processByAccessor(EEFModifierCustomizer<U> modifierCustomizer);
 
 	/**
 	 * Describes the editing strategy via an {@link EStructuralFeature}.

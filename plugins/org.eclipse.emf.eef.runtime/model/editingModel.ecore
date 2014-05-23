@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="editingModel"
-    nsURI="http://www.eclipse.org/emf/eef/editingmodel/1.0.0" nsPrefix="eef-model">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="editingModel" nsURI="http://www.eclipse.org/emf/eef/editingmodel/1.0.0"
+    nsPrefix="eef-model">
   <eClassifiers xsi:type="ecore:EClass" name="PropertiesEditingModel">
     <eOperations name="binding" eType="#//EClassBinding">
       <eParameters name="eObject" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
@@ -48,24 +47,9 @@
         eType="#//PropertyBinding" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="settings" upperBound="-1"
         eType="#//EditorSettings" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="getter" eType="ecore:EClass query.ecore#//JavaBody"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="valueProvider" eType="ecore:EClass query.ecore#//JavaBody"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bindingCustomizer" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MonoValuedPropertyBinding" eSuperTypes="#//PropertyBinding">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="setter" eType="ecore:EClass query.ecore#//JavaBody"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="unsetter" eType="ecore:EClass query.ecore#//JavaBody"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MultiValuedPropertyBinding" eSuperTypes="#//PropertyBinding">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="adder" eType="ecore:EClass query.ecore#//JavaBody"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="remover" eType="ecore:EClass query.ecore#//JavaBody"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EStructuralFeatureBinding" eSuperTypes="#//MonoValuedPropertyBinding #//MultiValuedPropertyBinding">
+  <eClassifiers xsi:type="ecore:EClass" name="EStructuralFeatureBinding" eSuperTypes="#//PropertyBinding">
     <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"
         eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
   </eClassifiers>

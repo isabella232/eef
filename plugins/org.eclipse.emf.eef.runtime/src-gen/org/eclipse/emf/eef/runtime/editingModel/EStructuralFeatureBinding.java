@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @model
  * @generated
  */
-public interface EStructuralFeatureBinding extends MonoValuedPropertyBinding, MultiValuedPropertyBinding {
+public interface EStructuralFeatureBinding extends PropertyBinding {
 	/**
 	 * Returns the value of the '<em><b>Feature</b></em>' reference.
 	 * <!-- begin-user-doc -->

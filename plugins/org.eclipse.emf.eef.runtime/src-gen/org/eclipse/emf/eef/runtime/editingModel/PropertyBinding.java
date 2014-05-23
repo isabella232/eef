@@ -8,7 +8,7 @@ package org.eclipse.emf.eef.runtime.editingModel;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.eef.runtime.query.JavaBody;
+import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,8 +21,7 @@ import org.eclipse.emf.eef.runtime.query.JavaBody;
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getEditor <em>Editor</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSubPropertyBindings <em>Sub Property Bindings</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSettings <em>Settings</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getGetter <em>Getter</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getValueProvider <em>Value Provider</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getBindingCustomizer <em>Binding Customizer</em>}</li>
  * </ul>
  * </p>
  *
@@ -91,55 +90,29 @@ public interface PropertyBinding extends EModelElement {
 	EList<EditorSettings> getSettings();
 
 	/**
-	 * Returns the value of the '<em><b>Getter</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Binding Customizer</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Getter</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Binding Customizer</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Getter</em>' containment reference.
-	 * @see #setGetter(JavaBody)
-	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertyBinding_Getter()
-	 * @model containment="true"
+	 * @return the value of the '<em>Binding Customizer</em>' attribute.
+	 * @see #setBindingCustomizer(String)
+	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertyBinding_BindingCustomizer()
+	 * @model
 	 * @generated
 	 */
-	JavaBody getGetter();
+	String getBindingCustomizer();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getGetter <em>Getter</em>}' containment reference.
+	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getBindingCustomizer <em>Binding Customizer</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Getter</em>' containment reference.
-	 * @see #getGetter()
+	 * @param value the new value of the '<em>Binding Customizer</em>' attribute.
+	 * @see #getBindingCustomizer()
 	 * @generated
 	 */
-	void setGetter(JavaBody value);
-
-	/**
-	 * Returns the value of the '<em><b>Value Provider</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Value Provider</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Value Provider</em>' containment reference.
-	 * @see #setValueProvider(JavaBody)
-	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertyBinding_ValueProvider()
-	 * @model containment="true"
-	 * @generated
-	 */
-	JavaBody getValueProvider();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getValueProvider <em>Value Provider</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Value Provider</em>' containment reference.
-	 * @see #getValueProvider()
-	 * @generated
-	 */
-	void setValueProvider(JavaBody value);
+	void setBindingCustomizer(String value);
 
 } // PropertyBinding

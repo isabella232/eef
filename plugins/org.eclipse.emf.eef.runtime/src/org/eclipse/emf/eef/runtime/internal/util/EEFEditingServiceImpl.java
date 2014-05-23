@@ -13,6 +13,8 @@ package org.eclipse.emf.eef.runtime.internal.util;
 import java.util.Collection;
 import java.util.Set;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -22,22 +24,33 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.EcoreUtil.UsageCrossReferencer;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.Editor;
+import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
+import org.eclipse.emf.eef.runtime.editingModel.JavaView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.internal.binding.NullModifierCustomizer;
 import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EditingStrategyNotFoundException;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.query.JavaBody;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.util.EEFEditingService;
-import org.eclipse.emf.eef.runtime.util.EEFInvokerProvider;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -47,7 +60,6 @@ import com.google.common.collect.Sets;
 public class EEFEditingServiceImpl implements EEFEditingService, DefaultService {
 
 	private EMFServiceProvider emfServiceProvider;
-	private EEFInvokerProvider eefInvokerProvider;
 
 	/**
 	 * @param emfServiceProvider
@@ -55,14 +67,6 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
-	}
-
-	/**
-	 * @param eefInvokerProvider
-	 *            the eefInvokerProvider to set
-	 */
-	public final void setEEFInvokerProvider(EEFInvokerProvider eefInvokerProvider) {
-		this.eefInvokerProvider = eefInvokerProvider;
 	}
 
 	/**
@@ -119,16 +123,16 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 	 *      org.eclipse.emf.ecore.EObject, java.lang.Object)
 	 */
 	public Object getValue(final PropertiesEditingContext editingContext, final EObject target, Object editor) {
-		EEFEditingStrategy<Object> strategy = new EEFEditingStrategy<Object>(editingContext, editor, EditingModelPackage.Literals.PROPERTY_BINDING__GETTER) {
+		EEFEditingStrategy<Object, Object> strategy = new EEFEditingStrategy<Object, Object>(editingContext, editor, PropertyBindingCustomizer.GETTER) {
 
 			/**
-			 * {@inheritDoc}
+			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 			 */
 			@Override
-			protected Object processByAccessor(JavaBody accessor) {
-				return eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFInvocationParametersImpl(editingContext));
+			protected Object processByAccessor(EEFModifierCustomizer<Object> modifierCustomizer) {
+				return modifierCustomizer.execute(new EEFInvocationParametersImpl(editingContext));
 			}
 
 			/**
@@ -156,20 +160,35 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 	 *      org.eclipse.emf.ecore.EObject,
 	 *      org.eclipse.emf.eef.runtime.editingModel.PropertyBinding)
 	 */
-	public Object getValueOfSubbinding(PropertiesEditingContext editingContext, EObject target, PropertyBinding propertyBinding) {
-		if (propertyBinding.getGetter() != null) {
-			JavaBody accessor = propertyBinding.getGetter();
-			return eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFInvocationParametersImpl(editingContext));
-		} else {
-			if (propertyBinding instanceof EStructuralFeatureBinding) {
-				EStructuralFeature feature = ((EStructuralFeatureBinding) propertyBinding).getFeature();
-				if (!target.eClass().getEAllStructuralFeatures().contains(feature)) {
-					feature = emfServiceProvider.getEMFService(target.eClass().getEPackage()).mapFeature(target.eClass(), feature);
-				}
+	public Object getValueOfSubbinding(final PropertiesEditingContext editingContext, final EObject target, PropertyBinding propertyBinding) {
+		EEFEditingStrategy<Object, Object> strategy = new EEFEditingStrategy<Object, Object>(editingContext, propertyBinding, PropertyBindingCustomizer.VALUES_PROVIDER) {
+
+			/**
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
+			 */
+			@Override
+			protected Object processByAccessor(EEFModifierCustomizer<Object> modifierCustomizer) {
+				return modifierCustomizer.execute(new EEFInvocationParametersImpl(editingContext));
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * 
+			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByFeature(org.eclipse.emf.ecore.EStructuralFeature)
+			 */
+			@Override
+			protected Object processByFeature(EStructuralFeature feature) {
 				return target.eGet(feature);
 			}
+
+		};
+		try {
+			return strategy.process();
+		} catch (EditingStrategyNotFoundException e) {
+			return null;
 		}
-		return null;
 	}
 
 	/**
@@ -179,16 +198,16 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 	 *      org.eclipse.emf.ecore.EObject, java.lang.Object)
 	 */
 	public Object getChoiceOfValue(final PropertiesEditingContext editingContext, final EObject target, final Object editor) {
-		EEFEditingStrategy<Object> strategy = new EEFEditingStrategy<Object>(editingContext, editor, EditingModelPackage.Literals.PROPERTY_BINDING__VALUE_PROVIDER) {
+		EEFEditingStrategy<Object, Object> strategy = new EEFEditingStrategy<Object, Object>(editingContext, editor, PropertyBindingCustomizer.VALUES_PROVIDER) {
 
 			/**
-			 * {@inheritDoc}
+			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+			 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 			 */
 			@Override
-			protected Object processByAccessor(JavaBody accessor) {
-				return eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFInvocationParametersImpl(editingContext));
+			protected Object processByAccessor(EEFModifierCustomizer<Object> modifierCustomizer) {
+				return modifierCustomizer.execute(new EEFInvocationParametersImpl(editingContext));
 			}
 
 			/**
@@ -301,6 +320,162 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 			currentEditingContext = currentEditingContext.getParentContext();
 		}
 		return null;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#isAffectingEventDueToCustomization(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+	 *      org.eclipse.emf.common.notify.Notification)
+	 */
+	public boolean isAffectingEventDueToCustomization(PropertiesEditingContext context, Notification notification) {
+		for (PropertyBinding propertyBinding : context.getEditingComponent().getBinding().getPropertyBindings()) {
+			if (isAffectingEventDueToCustomization(context, propertyBinding, notification)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#isAffectingEventDueToCustomization(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+	 *      org.eclipse.emf.eef.runtime.editingModel.PropertyBinding,
+	 *      org.eclipse.emf.common.notify.Notification)
+	 */
+	public boolean isAffectingEventDueToCustomization(PropertiesEditingContext context, PropertyBinding propertyBinding, Notification notification) {
+		if (!Strings.isNullOrEmpty(propertyBinding.getBindingCustomizer())) {
+			EEFModifierCustomizer<Boolean> eventFilter = getEventFilterFromCustomizer(propertyBinding, context.getEditingComponent().getBindingSettings());
+			if (!(eventFilter instanceof NullModifierCustomizer)) {
+				if (eventFilter.execute(new EEFNotificationFilterInvocationParametersImpl(context, notification))) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	// public EEFModifierCustomizer<Boolean> getBindingCustomizer(EClassBinding
+	// binding, PropertiesEditingContext context, Notification notification) {
+	// for (PropertyBinding propertyBinding : binding.getPropertyBindings()) {
+	// if (!Strings.isNullOrEmpty(propertyBinding.getBindingCustomizer())) {
+	//
+	// EEFModifierCustomizer<Boolean> eventFilter =
+	// getEventFilterFromCustomizer(propertyBinding,
+	// context.getEditingComponent().getBindingSettings());
+	// if (!(eventFilter instanceof NullModifierCustomizer)) {
+	// if (eventFilter.execute(new
+	// EEFNotificationFilterInvocationParametersImpl(context, notification))) {
+	// return eventFilter;
+	// }
+	// }
+	// }
+	// }
+	// return new NullModifierCustomizer<Boolean>();
+	// }
+
+	public EEFModifierCustomizer<Boolean> getEventFilterFromCustomizer(PropertyBinding propertyBinding, EEFBindingSettings<?> bindingSettings) {
+		EEFModifierCustomizer<Boolean> result = null;
+		String bindingCustomizer = propertyBinding.getBindingCustomizer();
+		if (!Strings.isNullOrEmpty(bindingCustomizer)) {
+			ClassLoader classLoader = bindingSettings.getClass().getClassLoader();
+			try {
+				Class<PropertyBindingCustomizer> loadClass = (Class<PropertyBindingCustomizer>) classLoader.loadClass(bindingCustomizer);
+				PropertyBindingCustomizer newInstance = loadClass.newInstance();
+				result = newInstance.getEventFilter();
+			} catch (ClassNotFoundException e) {
+				// TODO: log
+				result = new NullModifierCustomizer<Boolean>();
+			} catch (ClassCastException e) {
+				// TODO: log
+				result = new NullModifierCustomizer<Boolean>();
+			} catch (InstantiationException e) {
+				// TODO: log
+				result = new NullModifierCustomizer<Boolean>();
+			} catch (IllegalAccessException e) {
+				// TODO: log
+				result = new NullModifierCustomizer<Boolean>();
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#affectedEditors(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
+	 *      org.eclipse.emf.common.notify.Notification)
+	 */
+	public Collection<Object> affectedEditors(PropertiesEditingComponent editingComponent, Notification notification) {
+		Collection<Object> result = Lists.newArrayList();
+		EClassBinding eclassBinding = editingComponent.getBinding();
+		EStructuralFeature structuralFeature = (EStructuralFeature) notification.getFeature();
+		for (PropertyBinding binding : eclassBinding.getPropertyBindings()) {
+			if (isBindedFeature(editingComponent, binding, structuralFeature) || isEditorAffectedByNotificationDueToCustomization(editingComponent, binding, notification)) {
+				Editor editor = binding.getEditor();
+				if (editor instanceof EObjectEditor) {
+					result.add(((EObjectEditor) editor).getDefinition());
+				} else if (editor instanceof JavaEditor) {
+					result.add(((JavaEditor) editor).getDefinition());
+				} else {
+					result.add(editor);
+				}
+			}
+		}
+		if (editingComponent.getEditingContext().getOptions().autowire() && result.isEmpty()) {
+			for (Object view : eclassBinding.getViews()) {
+				if (view instanceof EObjectView) {
+					TreeIterator<EObject> eAllContents = ((EObjectView) view).getDefinition().eAllContents();
+					while (eAllContents.hasNext()) {
+						EObject next = eAllContents.next();
+						EStructuralFeature nameFeature = next.eClass().getEStructuralFeature("name");
+						if (nameFeature != null) {
+							Object name = next.eGet(nameFeature);
+							if (name instanceof String && name.equals(structuralFeature.getName())) {
+								result.add(next);
+							}
+						}
+					}
+				}
+			}
+			if (Collections2.filter(eclassBinding.getViews(), new Predicate<Object>() {
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see com.google.common.base.Predicate#apply(java.lang.Object)
+				 */
+				public boolean apply(Object input) {
+					return input instanceof JavaView;
+				}
+
+			}).size() > 0 && structuralFeature != null) {
+				result.add(structuralFeature.getName());
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @param editingComponent
+	 * @param binding
+	 * @param structuralFeature
+	 * @return
+	 */
+	private boolean isBindedFeature(PropertiesEditingComponent editingComponent, PropertyBinding binding, EStructuralFeature structuralFeature) {
+		EMFService emfService = emfServiceProvider.getEMFService(editingComponent.getEObject().eClass().getEPackage());
+		return binding instanceof EStructuralFeatureBinding && structuralFeature != null && emfService.equals(((EStructuralFeatureBinding) binding).getFeature(), structuralFeature);
+	}
+
+	/**
+	 * @param editingComponent
+	 * @param binding
+	 * @param notification
+	 * @return
+	 */
+	private boolean isEditorAffectedByNotificationDueToCustomization(PropertiesEditingComponent editingComponent, PropertyBinding binding, Notification notification) {
+		return !Strings.isNullOrEmpty(binding.getBindingCustomizer()) && isAffectingEventDueToCustomization(editingComponent.getEditingContext(), binding, notification);
 	}
 
 }

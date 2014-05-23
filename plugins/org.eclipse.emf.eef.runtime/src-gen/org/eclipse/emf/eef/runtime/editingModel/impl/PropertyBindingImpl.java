@@ -17,11 +17,11 @@ import org.eclipse.emf.ecore.impl.EModelElementImpl;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.Editor;
 import org.eclipse.emf.eef.runtime.editingModel.EditorSettings;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
-import org.eclipse.emf.eef.runtime.query.JavaBody;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,8 +33,7 @@ import org.eclipse.emf.eef.runtime.query.JavaBody;
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getEditor <em>Editor</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getSubPropertyBindings <em>Sub Property Bindings</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getSettings <em>Settings</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getGetter <em>Getter</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getValueProvider <em>Value Provider</em>}</li>
+ *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getBindingCustomizer <em>Binding Customizer</em>}</li>
  * </ul>
  * </p>
  *
@@ -72,24 +71,24 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 	protected EList<EditorSettings> settings;
 
 	/**
-	 * The cached value of the '{@link #getGetter() <em>Getter</em>}' containment reference.
+	 * The default value of the '{@link #getBindingCustomizer() <em>Binding Customizer</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getGetter()
+	 * @see #getBindingCustomizer()
 	 * @generated
 	 * @ordered
 	 */
-	protected JavaBody getter;
+	protected static final String BINDING_CUSTOMIZER_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getValueProvider() <em>Value Provider</em>}' containment reference.
+	 * The cached value of the '{@link #getBindingCustomizer() <em>Binding Customizer</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getValueProvider()
+	 * @see #getBindingCustomizer()
 	 * @generated
 	 * @ordered
 	 */
-	protected JavaBody valueProvider;
+	protected String bindingCustomizer = BINDING_CUSTOMIZER_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -182,8 +181,8 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JavaBody getGetter() {
-		return getter;
+	public String getBindingCustomizer() {
+		return bindingCustomizer;
 	}
 
 	/**
@@ -191,76 +190,11 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetGetter(JavaBody newGetter, NotificationChain msgs) {
-		JavaBody oldGetter = getter;
-		getter = newGetter;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTY_BINDING__GETTER, oldGetter, newGetter);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setGetter(JavaBody newGetter) {
-		if (newGetter != getter) {
-			NotificationChain msgs = null;
-			if (getter != null)
-				msgs = ((InternalEObject)getter).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EditingModelPackage.PROPERTY_BINDING__GETTER, null, msgs);
-			if (newGetter != null)
-				msgs = ((InternalEObject)newGetter).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - EditingModelPackage.PROPERTY_BINDING__GETTER, null, msgs);
-			msgs = basicSetGetter(newGetter, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTY_BINDING__GETTER, newGetter, newGetter));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public JavaBody getValueProvider() {
-		return valueProvider;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetValueProvider(JavaBody newValueProvider, NotificationChain msgs) {
-		JavaBody oldValueProvider = valueProvider;
-		valueProvider = newValueProvider;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER, oldValueProvider, newValueProvider);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setValueProvider(JavaBody newValueProvider) {
-		if (newValueProvider != valueProvider) {
-			NotificationChain msgs = null;
-			if (valueProvider != null)
-				msgs = ((InternalEObject)valueProvider).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER, null, msgs);
-			if (newValueProvider != null)
-				msgs = ((InternalEObject)newValueProvider).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER, null, msgs);
-			msgs = basicSetValueProvider(newValueProvider, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER, newValueProvider, newValueProvider));
+	public void setBindingCustomizer(String newBindingCustomizer) {
+		String oldBindingCustomizer = bindingCustomizer;
+		bindingCustomizer = newBindingCustomizer;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTY_BINDING__BINDING_CUSTOMIZER, oldBindingCustomizer, bindingCustomizer));
 	}
 
 	/**
@@ -277,10 +211,6 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 				return ((InternalEList<?>)getSubPropertyBindings()).basicRemove(otherEnd, msgs);
 			case EditingModelPackage.PROPERTY_BINDING__SETTINGS:
 				return ((InternalEList<?>)getSettings()).basicRemove(otherEnd, msgs);
-			case EditingModelPackage.PROPERTY_BINDING__GETTER:
-				return basicSetGetter(null, msgs);
-			case EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER:
-				return basicSetValueProvider(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -299,10 +229,8 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 				return getSubPropertyBindings();
 			case EditingModelPackage.PROPERTY_BINDING__SETTINGS:
 				return getSettings();
-			case EditingModelPackage.PROPERTY_BINDING__GETTER:
-				return getGetter();
-			case EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER:
-				return getValueProvider();
+			case EditingModelPackage.PROPERTY_BINDING__BINDING_CUSTOMIZER:
+				return getBindingCustomizer();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -327,11 +255,8 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 				getSettings().clear();
 				getSettings().addAll((Collection<? extends EditorSettings>)newValue);
 				return;
-			case EditingModelPackage.PROPERTY_BINDING__GETTER:
-				setGetter((JavaBody)newValue);
-				return;
-			case EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER:
-				setValueProvider((JavaBody)newValue);
+			case EditingModelPackage.PROPERTY_BINDING__BINDING_CUSTOMIZER:
+				setBindingCustomizer((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -354,11 +279,8 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 			case EditingModelPackage.PROPERTY_BINDING__SETTINGS:
 				getSettings().clear();
 				return;
-			case EditingModelPackage.PROPERTY_BINDING__GETTER:
-				setGetter((JavaBody)null);
-				return;
-			case EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER:
-				setValueProvider((JavaBody)null);
+			case EditingModelPackage.PROPERTY_BINDING__BINDING_CUSTOMIZER:
+				setBindingCustomizer(BINDING_CUSTOMIZER_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -378,12 +300,26 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 				return subPropertyBindings != null && !subPropertyBindings.isEmpty();
 			case EditingModelPackage.PROPERTY_BINDING__SETTINGS:
 				return settings != null && !settings.isEmpty();
-			case EditingModelPackage.PROPERTY_BINDING__GETTER:
-				return getter != null;
-			case EditingModelPackage.PROPERTY_BINDING__VALUE_PROVIDER:
-				return valueProvider != null;
+			case EditingModelPackage.PROPERTY_BINDING__BINDING_CUSTOMIZER:
+				return BINDING_CUSTOMIZER_EDEFAULT == null ? bindingCustomizer != null : !BINDING_CUSTOMIZER_EDEFAULT.equals(bindingCustomizer);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (bindingCustomizer: ");
+		result.append(bindingCustomizer);
+		result.append(')');
+		return result.toString();
 	}
 
 } //PropertyBindingImpl

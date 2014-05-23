@@ -12,7 +12,6 @@ package org.eclipse.emf.eef.runtime.internal.policies.processors;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -21,33 +20,23 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer;
+import org.eclipse.emf.eef.runtime.binding.MonoPropertyBindingCustomizer;
+import org.eclipse.emf.eef.runtime.binding.MultiPropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EditingStrategyNotFoundException;
 import org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy;
 import org.eclipse.emf.eef.runtime.internal.util.EEFInvocationParametersImpl;
 import org.eclipse.emf.eef.runtime.internal.util.EEFModifierInvocationParametersImpl;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
-import org.eclipse.emf.eef.runtime.query.JavaBody;
-import org.eclipse.emf.eef.runtime.util.EEFInvokerProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  * 
  */
 public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
-
-	private EEFInvokerProvider eefInvokerProvider;
-
-	/**
-	 * @param eefInvokerProvider
-	 *            the eefInvokerProvider to set
-	 */
-	public final void setEEFInvokerProvider(EEFInvokerProvider eefInvokerProvider) {
-		this.eefInvokerProvider = eefInvokerProvider;
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -102,19 +91,16 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	protected final void performSet(final SemanticPropertiesEditingContext editingContext, final EObject eObject, final Object value) {
 		try {
-			new EEFEditingStrategy<Void>(editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__SETTER) {
+			new EEFEditingStrategy<Void, Void>(editingContext, MonoPropertyBindingCustomizer.SETTER) {
 
 				/**
-				 * {@inheritDoc}
+				 * (non-Javadoc)
 				 * 
-				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 				 */
 				@Override
-				protected Void processByAccessor(JavaBody accessor) {
-					EList<Object> parameters = new BasicEList<Object>();
-					parameters.add(value);
-					eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, value));
-					return null;
+				protected Void processByAccessor(EEFModifierCustomizer<Void> modifierCustomizer) {
+					return modifierCustomizer.execute(new EEFModifierInvocationParametersImpl(editingContext, value));
 				}
 
 				/**
@@ -142,17 +128,16 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	protected final void performUnset(final SemanticPropertiesEditingContext editingContext, final EObject eObject) {
 		try {
-			new EEFEditingStrategy<Void>(editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__UNSETTER) {
+			new EEFEditingStrategy<Void, Void>(editingContext, MonoPropertyBindingCustomizer.UNSETTER) {
 
 				/**
-				 * {@inheritDoc}
+				 * (non-Javadoc)
 				 * 
-				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 				 */
 				@Override
-				protected Void processByAccessor(JavaBody accessor) {
-					eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFInvocationParametersImpl(editingContext));
-					return null;
+				protected Void processByAccessor(EEFModifierCustomizer<Void> modifierCustomizer) {
+					return modifierCustomizer.execute(new EEFInvocationParametersImpl(editingContext));
 				}
 
 				/**
@@ -179,19 +164,16 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	@SuppressWarnings("unchecked")
 	protected final void performAdd(final SemanticPropertiesEditingContext editingContext, final EObject eObject, final Object newValue) {
 		try {
-			new EEFEditingStrategy<Void>(editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
+			new EEFEditingStrategy<Void, Void>(editingContext, MultiPropertyBindingCustomizer.ADDER) {
 
 				/**
-				 * {@inheritDoc}
+				 * (non-Javadoc)
 				 * 
-				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 				 */
 				@Override
-				protected Void processByAccessor(JavaBody accessor) {
-					EList<Object> parameters = new BasicEList<Object>();
-					parameters.add(newValue);
-					eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, newValue));
-					return null;
+				protected Void processByAccessor(EEFModifierCustomizer<Void> modifierCustomizer) {
+					return modifierCustomizer.execute(new EEFModifierInvocationParametersImpl(editingContext, newValue));
 				}
 
 				/**
@@ -234,19 +216,16 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	@SuppressWarnings("unchecked")
 	protected final void performAddMany(final SemanticPropertiesEditingContext editingContext, final EObject eObject, final Collection<?> newValues) {
 		try {
-			new EEFEditingStrategy<Void>(editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
+			new EEFEditingStrategy<Void, Void>(editingContext, MultiPropertyBindingCustomizer.ADDER) {
 
 				/**
-				 * {@inheritDoc}
+				 * (non-Javadoc)
 				 * 
-				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 				 */
 				@Override
-				protected Void processByAccessor(JavaBody accessor) {
-					EList<Object> parameters = new BasicEList<Object>();
-					parameters.addAll(newValues);
-					eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, newValues));
-					return null;
+				protected Void processByAccessor(EEFModifierCustomizer<Void> modifierCustomizer) {
+					return modifierCustomizer.execute(new EEFModifierInvocationParametersImpl(editingContext, newValues));
 				}
 
 				/**
@@ -283,19 +262,16 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	@SuppressWarnings("unchecked")
 	protected final void performRemove(final SemanticPropertiesEditingContext editingContext, final EObject eObject, final Object oldValue) {
 		try {
-			new EEFEditingStrategy<Void>(editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+			new EEFEditingStrategy<Void, Void>(editingContext, MultiPropertyBindingCustomizer.REMOVER) {
 
 				/**
-				 * {@inheritDoc}
+				 * (non-Javadoc)
 				 * 
-				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 				 */
 				@Override
-				protected Void processByAccessor(JavaBody accessor) {
-					EList<Object> parameters = new BasicEList<Object>();
-					parameters.add(oldValue);
-					eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, oldValue));
-					return null;
+				protected Void processByAccessor(EEFModifierCustomizer<Void> modifierCustomizer) {
+					return modifierCustomizer.execute(new EEFModifierInvocationParametersImpl(editingContext, oldValue));
 				}
 
 				/**
@@ -322,19 +298,16 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 	@SuppressWarnings("unchecked")
 	protected final void performRemoveMany(final SemanticPropertiesEditingContext editingContext, final EObject eObject, final Collection<?> oldValues) {
 		try {
-			new EEFEditingStrategy<Void>(editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+			new EEFEditingStrategy<Void, Void>(editingContext, MultiPropertyBindingCustomizer.REMOVER) {
 
 				/**
-				 * {@inheritDoc}
+				 * (non-Javadoc)
 				 * 
-				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 				 */
 				@Override
-				protected Void processByAccessor(JavaBody accessor) {
-					EList<Object> parameters = new BasicEList<Object>();
-					parameters.addAll(oldValues);
-					eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, oldValues));
-					return null;
+				protected Void processByAccessor(EEFModifierCustomizer<Void> modifierCustomizer) {
+					return modifierCustomizer.execute(new EEFModifierInvocationParametersImpl(editingContext, oldValues));
 				}
 
 				/**
@@ -360,16 +333,16 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	protected final void performMove(final SemanticPropertiesEditingContext editingContext, final EObject eObject, final Integer oldIndex, final Integer newIndex) {
 		try {
-			new EEFEditingStrategy<Void>(editingContext, null) {
+			new EEFEditingStrategy<Void, Void>(editingContext, -1) {
 
 				/**
-				 * {@inheritDoc}
+				 * (non-Javadoc)
 				 * 
-				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+				 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 				 */
 				@Override
-				protected Void processByAccessor(JavaBody accessor) {
-					// Unreachable
+				protected Void processByAccessor(EEFModifierCustomizer<Void> modifierCustomizer) {
+					// TODO Auto-generated method stub
 					return null;
 				}
 

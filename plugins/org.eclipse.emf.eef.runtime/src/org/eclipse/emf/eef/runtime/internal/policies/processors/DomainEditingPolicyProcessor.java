@@ -33,11 +33,13 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.MoveCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer;
+import org.eclipse.emf.eef.runtime.binding.MonoPropertyBindingCustomizer;
+import org.eclipse.emf.eef.runtime.binding.MultiPropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.commands.EEFChangeCommand;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
-import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.internal.context.DomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.context.SemanticDomainPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.internal.policies.editingstrategy.EditingStrategyNotFoundException;
@@ -46,8 +48,6 @@ import org.eclipse.emf.eef.runtime.internal.util.EEFInvocationParametersImpl;
 import org.eclipse.emf.eef.runtime.internal.util.EEFModifierInvocationParametersImpl;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
-import org.eclipse.emf.eef.runtime.query.JavaBody;
-import org.eclipse.emf.eef.runtime.util.EEFInvokerProvider;
 import org.eclipse.emf.eef.runtime.util.EMFService;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
@@ -58,7 +58,6 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 
 	private EMFServiceProvider emfServiceProvider;
-	private EEFInvokerProvider eefInvokerProvider;
 
 	/**
 	 * @param emfServiceProvider
@@ -66,14 +65,6 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	 */
 	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
 		this.emfServiceProvider = emfServiceProvider;
-	}
-
-	/**
-	 * @param eefInvokerProvider
-	 *            the eefInvokerProvider to set
-	 */
-	public final void setEEFInvokerProvider(EEFInvokerProvider eefInvokerProvider) {
-		this.eefInvokerProvider = eefInvokerProvider;
 	}
 
 	/**
@@ -168,15 +159,15 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
 				final SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
-				return new EEFEditingStrategy<Command>(semanticEditingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__SETTER) {
+				return new EEFEditingStrategy<Command, Void>(semanticEditingContext, MonoPropertyBindingCustomizer.SETTER) {
 
 					/**
-					 * {@inheritDoc}
+					 * (non-Javadoc)
 					 * 
-					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 					 */
 					@Override
-					protected Command processByAccessor(final JavaBody accessor) {
+					protected Command processByAccessor(final EEFModifierCustomizer<Void> modifierCustomizer) {
 						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 						Notifier highestNotifier = emfService.highestNotifier(eObject);
 						return new EEFChangeCommand(semanticEditingContext.getChangeRecorder(), highestNotifier) {
@@ -184,7 +175,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.add(value);
-								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, value));
+								modifierCustomizer.execute(new EEFModifierInvocationParametersImpl(editingContext, value));
 							}
 						};
 					}
@@ -220,21 +211,21 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			final SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__UNSETTER) {
+				return new EEFEditingStrategy<Command, Void>((SemanticPropertiesEditingContext) editingContext, MonoPropertyBindingCustomizer.UNSETTER) {
 
 					/**
-					 * {@inheritDoc}
+					 * (non-Javadoc)
 					 * 
-					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 					 */
 					@Override
-					protected Command processByAccessor(final JavaBody accessor) {
+					protected Command processByAccessor(final EEFModifierCustomizer<Void> modifierCustomizer) {
 						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 						Notifier highestNotifier = emfService.highestNotifier(eObject);
 						return new EEFChangeCommand(semanticEditingContext.getChangeRecorder(), highestNotifier) {
 							@Override
 							protected void doExecute() {
-								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFInvocationParametersImpl(editingContext));
+								modifierCustomizer.execute(new EEFInvocationParametersImpl(editingContext));
 							}
 						};
 					}
@@ -266,15 +257,15 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			final SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
+				return new EEFEditingStrategy<Command, Void>((SemanticPropertiesEditingContext) editingContext, MultiPropertyBindingCustomizer.ADDER) {
 
 					/**
-					 * {@inheritDoc}
+					 * (non-Javadoc)
 					 * 
-					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 					 */
 					@Override
-					protected Command processByAccessor(final JavaBody accessor) {
+					protected Command processByAccessor(final EEFModifierCustomizer<Void> modifierCustomizer) {
 						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 						Notifier highestNotifier = emfService.highestNotifier(eObject);
 						return new EEFChangeCommand(semanticEditingContext.getChangeRecorder(), highestNotifier) {
@@ -282,7 +273,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.add(newValue);
-								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, newValue));
+								modifierCustomizer.execute(new EEFModifierInvocationParametersImpl(editingContext, newValue));
 							}
 						};
 					}
@@ -323,15 +314,15 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			final SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER) {
+				return new EEFEditingStrategy<Command, Void>((SemanticPropertiesEditingContext) editingContext, MultiPropertyBindingCustomizer.ADDER) {
 
 					/**
-					 * {@inheritDoc}
+					 * (non-Javadoc)
 					 * 
-					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 					 */
 					@Override
-					protected Command processByAccessor(final JavaBody accessor) {
+					protected Command processByAccessor(final EEFModifierCustomizer<Void> modifierCustomizer) {
 						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 						Notifier highestNotifier = emfService.highestNotifier(eObject);
 						return new EEFChangeCommand(semanticEditingContext.getChangeRecorder(), highestNotifier) {
@@ -339,7 +330,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.addAll(newValues);
-								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, newValues));
+								modifierCustomizer.execute(new EEFModifierInvocationParametersImpl(editingContext, newValues));
 							}
 						};
 					}
@@ -385,15 +376,15 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			final SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+				return new EEFEditingStrategy<Command, Void>((SemanticPropertiesEditingContext) editingContext, MultiPropertyBindingCustomizer.REMOVER) {
 
 					/**
-					 * {@inheritDoc}
+					 * (non-Javadoc)
 					 * 
-					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 					 */
 					@Override
-					protected Command processByAccessor(final JavaBody accessor) {
+					protected Command processByAccessor(final EEFModifierCustomizer<Void> modifierCustomizer) {
 						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 						Notifier highestNotifier = emfService.highestNotifier(eObject);
 						return new EEFChangeCommand(semanticEditingContext.getChangeRecorder(), highestNotifier) {
@@ -401,7 +392,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.add(oldValue);
-								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, oldValue));
+								modifierCustomizer.execute(new EEFModifierInvocationParametersImpl(editingContext, oldValue));
 							}
 						};
 					}
@@ -429,15 +420,15 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			final SemanticPropertiesEditingContext semanticEditingContext = (SemanticPropertiesEditingContext) editingContext;
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER) {
+				return new EEFEditingStrategy<Command, Void>((SemanticPropertiesEditingContext) editingContext, MultiPropertyBindingCustomizer.REMOVER) {
 
 					/**
-					 * {@inheritDoc}
+					 * (non-Javadoc)
 					 * 
-					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 					 */
 					@Override
-					protected Command processByAccessor(final JavaBody accessor) {
+					protected Command processByAccessor(final EEFModifierCustomizer<Void> modifierCustomizer) {
 						EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 						Notifier highestNotifier = emfService.highestNotifier(eObject);
 						return new EEFChangeCommand(semanticEditingContext.getChangeRecorder(), highestNotifier) {
@@ -445,7 +436,7 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 							protected void doExecute() {
 								EList<Object> parameters = new BasicEList<Object>();
 								parameters.addAll(oldValues);
-								eefInvokerProvider.getInvoker(accessor).invoke(editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader(), accessor, new EEFModifierInvocationParametersImpl(editingContext, oldValues));
+								modifierCustomizer.execute(new EEFModifierInvocationParametersImpl(editingContext, oldValues));
 							}
 						};
 					}
@@ -472,15 +463,15 @@ public class DomainEditingPolicyProcessor implements EditingPolicyProcessor {
 	protected final Command performMove(final DomainAwarePropertiesEditingContext editingContext, final EObject eObject, final Integer oldIndex, final Integer newIndex) {
 		if (editingContext instanceof SemanticPropertiesEditingContext) {
 			try {
-				return new EEFEditingStrategy<Command>((SemanticPropertiesEditingContext) editingContext, null) {
+				return new EEFEditingStrategy<Command, Void>((SemanticPropertiesEditingContext) editingContext, -1) {
 
 					/**
-					 * {@inheritDoc}
+					 * (non-Javadoc)
 					 * 
-					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.query.JavaBody)
+					 * @see org.eclipse.emf.eef.runtime.internal.util.EEFEditingStrategy#processByAccessor(org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer)
 					 */
 					@Override
-					protected Command processByAccessor(JavaBody accessor) {
+					protected Command processByAccessor(EEFModifierCustomizer<Void> modifierCustomizer) {
 						// Unreachable
 						return null;
 					}

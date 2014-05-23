@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.eef.runtime/src-gen"
-    editDirectory="/org.eclipse.emf.eef.editor/src-gen" editorDirectory="/org.eclipse.emf.eef.editor/src-gen"
-    modelPluginID="org.eclipse.emf.eef.runtime" modelName="EditingModel" editPluginClass="org.eclipse.emf.eef.editor.EditingModelEditPlugin"
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.eef.runtime/src-gen" editDirectory="/org.eclipse.emf.eef.editor/src-gen"
+    editorDirectory="/org.eclipse.emf.eef.editor/src-gen" modelPluginID="org.eclipse.emf.eef.runtime"
+    modelName="EditingModel" editPluginClass="org.eclipse.emf.eef.editor.EditingModelEditPlugin"
     editorPluginClass="" rootExtendsInterface="org.eclipse.emf.ecore.EModelElement"
     rootExtendsClass="org.eclipse.emf.ecore.impl.EModelElementImpl" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="5.0" copyrightFields="false" editPluginID="org.eclipse.emf.eef.runtime.editor"
@@ -50,16 +49,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//PropertyBinding/editor"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//PropertyBinding/subPropertyBindings"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//PropertyBinding/settings"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//PropertyBinding/getter"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//PropertyBinding/valueProvider"/>
-    </genClasses>
-    <genClasses ecoreClass="editingModel.ecore#//MonoValuedPropertyBinding">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//MonoValuedPropertyBinding/setter"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//MonoValuedPropertyBinding/unsetter"/>
-    </genClasses>
-    <genClasses ecoreClass="editingModel.ecore#//MultiValuedPropertyBinding">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//MultiValuedPropertyBinding/adder"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference editingModel.ecore#//MultiValuedPropertyBinding/remover"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute editingModel.ecore#//PropertyBinding/bindingCustomizer"/>
     </genClasses>
     <genClasses ecoreClass="editingModel.ecore#//EStructuralFeatureBinding">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference editingModel.ecore#//EStructuralFeatureBinding/feature"/>

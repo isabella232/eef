@@ -24,13 +24,15 @@ import org.eclipse.emf.eef.runtime.internal.binding.settings.AbstractEEFBindingS
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.ViewChangeNotifier;
+import org.eclipse.emf.eef.runtime.util.EEFEditingService;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class PropertiesEditingComponentImpl extends AbstractPropertiesEditingComponent<PropertiesEditingModel> {
 
@@ -38,10 +40,12 @@ public class PropertiesEditingComponentImpl extends AbstractPropertiesEditingCom
 	private Collection<EEFLockPolicy> lockPolicies;
 	private ViewChangeNotifier viewChangeNotifier;
 	private List<PropertiesEditingListener> listeners;
-		
+
 	/**
-	 * @param bindingSettings {@link AbstractEEFBindingSettings} providing this component.
-	 * @param source the edited {@link EObject}
+	 * @param bindingSettings
+	 *            {@link AbstractEEFBindingSettings} providing this component.
+	 * @param source
+	 *            the edited {@link EObject}
 	 */
 	public PropertiesEditingComponentImpl(EEFBindingSettings<PropertiesEditingModel> bindingSettings, EObject source) {
 		super(bindingSettings, source);
@@ -50,6 +54,7 @@ public class PropertiesEditingComponentImpl extends AbstractPropertiesEditingCom
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getEditingModel()
 	 */
 	public PropertiesEditingModel getEditingModel() {
@@ -61,6 +66,7 @@ public class PropertiesEditingComponentImpl extends AbstractPropertiesEditingCom
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getBinding()
 	 * @processing
 	 */
@@ -72,9 +78,10 @@ public class PropertiesEditingComponentImpl extends AbstractPropertiesEditingCom
 			return null;
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewDescriptors()
 	 * @processing
 	 */
@@ -88,6 +95,7 @@ public class PropertiesEditingComponentImpl extends AbstractPropertiesEditingCom
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#addEditingListener(org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener)
 	 * @state
 	 */
@@ -97,23 +105,26 @@ public class PropertiesEditingComponentImpl extends AbstractPropertiesEditingCom
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#removeEditingListener(org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener)
 	 * @state
 	 */
 	public void removeEditingListener(PropertiesEditingListener listener) {
-		listeners.remove(listener);		
+		listeners.remove(listener);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getLockPolicies()
 	 */
 	public Collection<EEFLockPolicy> getLockPolicies() {
 		return lockPolicies;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#setLockPolicies(java.util.Collection)
 	 */
 	public void setLockPolicies(Collection<EEFLockPolicy> lockPolicies) {
@@ -122,14 +133,26 @@ public class PropertiesEditingComponentImpl extends AbstractPropertiesEditingCom
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#isAffectingEvent(org.eclipse.emf.common.notify.Notification)
 	 */
 	public boolean isAffectingEvent(Notification notification) {
-		return notification.getNotifier() == source;
+		if (notification.getNotifier() == source) {
+			return true;
+		} else {
+			if (notification.getFeature() != null && bindingSettings != null) {
+				EClassBinding binding = getBindingSettings().getEEFDescription(source).binding(source);
+				EEFEditingServiceProvider eefEditingServiceProvider = getEditingContext().getEEFEditingServiceProvider();
+				EEFEditingService editingService = eefEditingServiceProvider.getEditingService(getEditingContext().getEditingComponent().getEObject());
+				return editingService.isAffectingEventDueToCustomization(getEditingContext(), notification);
+			}
+		}
+		return false;
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#enableLockPolicy(org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy)
 	 */
 	public boolean enableLockPolicy(EEFLockPolicy lockPolicy) {
@@ -142,6 +165,7 @@ public class PropertiesEditingComponentImpl extends AbstractPropertiesEditingCom
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent#getViewChangeNotifier()
 	 * @state
 	 */
@@ -168,6 +192,7 @@ public class PropertiesEditingComponentImpl extends AbstractPropertiesEditingCom
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.internal.binding.AbstractPropertiesEditingComponent#dispose()
 	 */
 	@Override

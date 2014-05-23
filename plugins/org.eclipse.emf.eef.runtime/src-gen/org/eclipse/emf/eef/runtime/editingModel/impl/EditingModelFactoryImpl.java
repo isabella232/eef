@@ -12,6 +12,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.eef.runtime.editingModel.*;
+import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
@@ -23,8 +25,6 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingOptions;
 import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.JavaView;
-import org.eclipse.emf.eef.runtime.editingModel.MonoValuedPropertyBinding;
-import org.eclipse.emf.eef.runtime.editingModel.MultiValuedPropertyBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 
@@ -75,8 +75,6 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 			case EditingModelPackage.PROPERTIES_EDITING_MODEL: return (EObject)createPropertiesEditingModel();
 			case EditingModelPackage.ECLASS_BINDING: return (EObject)createEClassBinding();
 			case EditingModelPackage.PROPERTY_BINDING: return (EObject)createPropertyBinding();
-			case EditingModelPackage.MONO_VALUED_PROPERTY_BINDING: return (EObject)createMonoValuedPropertyBinding();
-			case EditingModelPackage.MULTI_VALUED_PROPERTY_BINDING: return (EObject)createMultiValuedPropertyBinding();
 			case EditingModelPackage.ESTRUCTURAL_FEATURE_BINDING: return (EObject)createEStructuralFeatureBinding();
 			case EditingModelPackage.JAVA_VIEW: return (EObject)createJavaView();
 			case EditingModelPackage.EOBJECT_VIEW: return (EObject)createEObjectView();
@@ -161,26 +159,6 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 	public PropertyBinding createPropertyBinding() {
 		PropertyBindingImpl propertyBinding = new PropertyBindingImpl();
 		return propertyBinding;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public MonoValuedPropertyBinding createMonoValuedPropertyBinding() {
-		MonoValuedPropertyBindingImpl monoValuedPropertyBinding = new MonoValuedPropertyBindingImpl();
-		return monoValuedPropertyBinding;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public MultiValuedPropertyBinding createMultiValuedPropertyBinding() {
-		MultiValuedPropertyBindingImpl multiValuedPropertyBinding = new MultiValuedPropertyBindingImpl();
-		return multiValuedPropertyBinding;
 	}
 
 	/**
