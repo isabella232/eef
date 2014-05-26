@@ -156,10 +156,35 @@ public interface EEFEditingService extends EEFService<EObject> {
 	 */
 	boolean isAffectingEventDueToCustomization(PropertiesEditingContext context, Notification notification);
 
+	/**
+	 * @param context
+	 *            {@link PropertiesEditingContext}
+	 * @param binding
+	 *            {@link PropertyBinding}
+	 * @param notification
+	 *            {@link Notification}
+	 * @return if the binding customizer can be applied on PropertyBinding
+	 * 
+	 */
 	boolean isAffectingEventDueToCustomization(PropertiesEditingContext context, PropertyBinding binding, Notification notification);
 
+	/**
+	 * @param propertyBinding
+	 *            PropertyBinding
+	 * @param bindingSettings
+	 *            EEFBindingSettings
+	 * @return EEFModifierCustomizer on propertyBinding, NullModifierCustomizer
+	 *         if does not exist
+	 */
 	EEFModifierCustomizer<Boolean> getEventFilterFromCustomizer(PropertyBinding propertyBinding, EEFBindingSettings<?> bindingSettings);
 
+	/**
+	 * @param editingComponent
+	 *            PropertiesEditingComponent
+	 * @param notification
+	 *            Notification
+	 * @return editors list affected by the notification in editingComponent
+	 */
 	Collection<Object> affectedEditors(PropertiesEditingComponent editingComponent, Notification notification);
 
 }

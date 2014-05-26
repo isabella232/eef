@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.runtime.internal.util;
 import java.util.Collection;
 import java.util.Set;
 
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -24,6 +25,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.EcoreUtil.UsageCrossReferencer;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
@@ -356,25 +358,13 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 		return false;
 	}
 
-	// public EEFModifierCustomizer<Boolean> getBindingCustomizer(EClassBinding
-	// binding, PropertiesEditingContext context, Notification notification) {
-	// for (PropertyBinding propertyBinding : binding.getPropertyBindings()) {
-	// if (!Strings.isNullOrEmpty(propertyBinding.getBindingCustomizer())) {
-	//
-	// EEFModifierCustomizer<Boolean> eventFilter =
-	// getEventFilterFromCustomizer(propertyBinding,
-	// context.getEditingComponent().getBindingSettings());
-	// if (!(eventFilter instanceof NullModifierCustomizer)) {
-	// if (eventFilter.execute(new
-	// EEFNotificationFilterInvocationParametersImpl(context, notification))) {
-	// return eventFilter;
-	// }
-	// }
-	// }
-	// }
-	// return new NullModifierCustomizer<Boolean>();
-	// }
-
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getEventFilterFromCustomizer(org.eclipse.emf.eef.runtime.editingModel.PropertyBinding,
+	 *      org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings)
+	 */
+	@SuppressWarnings("unchecked")
 	public EEFModifierCustomizer<Boolean> getEventFilterFromCustomizer(PropertyBinding propertyBinding, EEFBindingSettings<?> bindingSettings) {
 		EEFModifierCustomizer<Boolean> result = null;
 		String bindingCustomizer = propertyBinding.getBindingCustomizer();
@@ -385,17 +375,17 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 				PropertyBindingCustomizer newInstance = loadClass.newInstance();
 				result = newInstance.getEventFilter();
 			} catch (ClassNotFoundException e) {
-				// TODO: log
 				result = new NullModifierCustomizer<Boolean>();
+				EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, e));
 			} catch (ClassCastException e) {
-				// TODO: log
 				result = new NullModifierCustomizer<Boolean>();
+				EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, e));
 			} catch (InstantiationException e) {
-				// TODO: log
 				result = new NullModifierCustomizer<Boolean>();
+				EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, e));
 			} catch (IllegalAccessException e) {
-				// TODO: log
 				result = new NullModifierCustomizer<Boolean>();
+				EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, e));
 			}
 		}
 		return result;
@@ -459,9 +449,12 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 
 	/**
 	 * @param editingComponent
+	 *            PropertiesEditingComponent
 	 * @param binding
+	 *            PropertyBinding
 	 * @param structuralFeature
-	 * @return
+	 *            EStructuralFeature
+	 * @return if the binding binds the feature
 	 */
 	private boolean isBindedFeature(PropertiesEditingComponent editingComponent, PropertyBinding binding, EStructuralFeature structuralFeature) {
 		EMFService emfService = emfServiceProvider.getEMFService(editingComponent.getEObject().eClass().getEPackage());
@@ -470,9 +463,12 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 
 	/**
 	 * @param editingComponent
+	 *            PropertiesEditingComponent
 	 * @param binding
+	 *            PropertyBinding
 	 * @param notification
-	 * @return
+	 *            Notification
+	 * @return for customized editors, if it is affected by the notification.
 	 */
 	private boolean isEditorAffectedByNotificationDueToCustomization(PropertiesEditingComponent editingComponent, PropertyBinding binding, Notification notification) {
 		return !Strings.isNullOrEmpty(binding.getBindingCustomizer()) && isAffectingEventDueToCustomization(editingComponent.getEditingContext(), binding, notification);

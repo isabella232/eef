@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.internal.util;
 
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer;
 import org.eclipse.emf.eef.runtime.binding.MonoPropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.binding.MultiPropertyBindingCustomizer;
@@ -118,6 +120,14 @@ public abstract class EEFEditingStrategy<T, U> {
 		throw new EditingStrategyNotFoundException("Unable to find a valid Editing Strategy.");
 	}
 
+	/**
+	 * @param propertyBinding
+	 *            PropertyBinding
+	 * @param accessorKind
+	 * @return the EEFModifierCustomizer associated to the accessor kind for
+	 *         propertyBinding
+	 */
+	@SuppressWarnings("unchecked")
 	private EEFModifierCustomizer<U> getCustomization(PropertyBinding propertyBinding, int accessorKind) {
 		EEFModifierCustomizer<?> result = null;
 		String bindingCustomizer = propertyBinding.getBindingCustomizer();
@@ -158,17 +168,17 @@ public abstract class EEFEditingStrategy<T, U> {
 					break;
 				}
 			} catch (ClassNotFoundException e) {
-				// TODO: log
 				result = new NullModifierCustomizer<Object>();
+				EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, e));
 			} catch (ClassCastException e) {
-				// TODO: log
 				result = new NullModifierCustomizer<Object>();
+				EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, e));
 			} catch (InstantiationException e) {
-				// TODO: log
 				result = new NullModifierCustomizer<Object>();
+				EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, e));
 			} catch (IllegalAccessException e) {
-				// TODO: log
 				result = new NullModifierCustomizer<Object>();
+				EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, e));
 			}
 		}
 		return (EEFModifierCustomizer<U>) result;
