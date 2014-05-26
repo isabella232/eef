@@ -32,6 +32,7 @@ public class EventTimer {
 
 	private Future<?> currentFuture;
 	private ScheduledExecutorService executor;
+	private Object propertyEditor;
 
 	public EventTimer(PropertiesBindingHandler bindingManager) {
 		this.bindingManager = bindingManager;
@@ -40,11 +41,20 @@ public class EventTimer {
 
 	public void schedule(final PropertiesEditingComponent editingComponent, final PropertiesEditingEvent editingEvent) {
 		Preconditions.checkNotNull(editingEvent);
-		if (currentFuture != null && !currentFuture.isDone()) {
+		if (currentFuture != null && !currentFuture.isDone() && isSamePropertyEditor(editingEvent.getAffectedEditor())) {
 			currentFuture.cancel(true);
 		}
 		final ScheduledFuture<?> future = executor.schedule(new DelayFirePropertiesChange(bindingManager, editingComponent, editingEvent), editingComponent.getEditingContext().getOptions().delayedFirePropertiesChangedDelay(), TimeUnit.MILLISECONDS);
 		setCurrentExecutingFuture(future);
+		this.propertyEditor = editingEvent.getAffectedEditor();
+	}
+
+	/**
+	 * @param propertyEditor
+	 * @return if the property editor is the same than the preceding thread
+	 */
+	private boolean isSamePropertyEditor(Object propertyEditor) {
+		return propertyEditor != null && propertyEditor.equals(this.propertyEditor);
 	}
 
 	private void setCurrentExecutingFuture(Future<?> f) {
