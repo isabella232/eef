@@ -32,10 +32,10 @@ public abstract class PropertyEditorImpl implements PropertyEditor {
 	}
 
 	/**
-	 * @param editingComponent
-	 * @param editingEvent
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#firePropertiesChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
-	protected void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
+	public final void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		propertyEditorProvider.firePropertiesChanged(editingComponent, editingEvent);
 	}
 	

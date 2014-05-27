@@ -19,7 +19,7 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.ArrayFeatureContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
@@ -97,7 +97,9 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#addValue(java.lang.Object)
 	 */
 	public void addValue(Object value) {
+		listener.disable();
 		propertyEditorViewer.getViewer().refresh();
+		listener.enable();
 	}
 
 	/**
@@ -106,7 +108,9 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#addAllValues(java.util.Collection)
 	 */
 	public void addAllValues(Collection<?> values) {
+		listener.disable();
 		propertyEditorViewer.getViewer().refresh();
+		listener.enable();
 	}
 
 	/**
@@ -115,7 +119,9 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#removeValue(java.lang.Object)
 	 */
 	public void removeValue(Object value) {
+		listener.disable();
 		propertyEditorViewer.getViewer().refresh();
+		listener.enable();
 	}
 
 	/**
@@ -124,7 +130,9 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#removeAllValues(java.util.Collection)
 	 */
 	public void removeAllValues(Collection<?> values) {
+		listener.disable();
 		propertyEditorViewer.getViewer().refresh();
+		listener.enable();
 	}
 
 	/**
@@ -134,7 +142,9 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 	 *      int)
 	 */
 	public void moveValue(Object value, int newIndex) {
+		listener.disable();
 		propertyEditorViewer.getViewer().refresh();
+		listener.enable();
 	}
 
 	/**
@@ -142,7 +152,7 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 	 */
 	protected void initListener() {
 		if (listener == null) {
-			listener = new MultiLinePropertyViewerListener() {
+			listener = new MultiLinePropertyViewerListener(this, view, elementEditor, propertyEditorViewer.getViewer()) {
 
 				/**
 				 * {@inheritDoc}
@@ -153,8 +163,10 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 				 *      .Collection)
 				 */
 				public void removeAll(Collection<?> removedElements) {
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE_MANY, removedElements, null));
-					propertyEditorViewer.getViewer().refresh();
+					if (isEnabled()) {
+						propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE_MANY, removedElements, null));
+						viewer.refresh();
+					}
 				}
 
 				/**
@@ -166,8 +178,10 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 				 *      Object)
 				 */
 				public void remove(Object removedElement) {
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE, removedElement, null));
-					propertyEditorViewer.getViewer().refresh();
+					if (isEnabled()) {
+						propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.REMOVE, removedElement, null));
+						viewer.refresh();
+					}
 				}
 
 				/**
@@ -179,13 +193,15 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 				 *      Object)
 				 */
 				public void moveUp(Object movedElement) {
-					EObject editedElement = view.getEditingComponent().getEObject();
-					Object currentValue = eefEditingServiceProvider.getEditingService(editedElement).getValue(view.getEditingComponent().getEditingContext(), editedElement, elementEditor);
-					if (currentValue instanceof List<?>) {
-						int oldIndex = ((List<?>) currentValue).indexOf(movedElement);
-						if (oldIndex > 0) {
-							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
-							propertyEditorViewer.getViewer().refresh();
+					if (isEnabled()) {
+						EObject editedElement = view.getEditingComponent().getEObject();
+						Object currentValue = eefEditingServiceProvider.getEditingService(editedElement).getValue(view.getEditingComponent().getEditingContext(), editedElement, elementEditor);
+						if (currentValue instanceof List<?>) {
+							int oldIndex = ((List<?>) currentValue).indexOf(movedElement);
+							if (oldIndex > 0) {
+								propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
+								viewer.refresh();
+							}
 						}
 					}
 				}
@@ -199,13 +215,15 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 				 *      Object)
 				 */
 				public void moveDown(Object movedElement) {
-					EObject editedElement = view.getEditingComponent().getEObject();
-					Object currentValue = eefEditingServiceProvider.getEditingService(editedElement).getValue(view.getEditingComponent().getEditingContext(), editedElement, elementEditor);
-					if (currentValue instanceof List<?>) {
-						int oldIndex = ((List<?>) currentValue).indexOf(movedElement);
-						if (oldIndex < ((List<?>) currentValue).size()) {
-							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
-							propertyEditorViewer.getViewer().refresh();
+					if (isEnabled()) {
+						EObject editedElement = view.getEditingComponent().getEObject();
+						Object currentValue = eefEditingServiceProvider.getEditingService(editedElement).getValue(view.getEditingComponent().getEditingContext(), editedElement, elementEditor);
+						if (currentValue instanceof List<?>) {
+							int oldIndex = ((List<?>) currentValue).indexOf(movedElement);
+							if (oldIndex < ((List<?>) currentValue).size()) {
+								propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
+								viewer.refresh();
+							}
 						}
 					}
 				}
@@ -219,8 +237,10 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 				 *      Object)
 				 */
 				public void edit(Object editedElement) {
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.EDIT, null, editedElement));
-					propertyEditorViewer.getViewer().refresh();
+					if (isEnabled()) {
+						propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.EDIT, null, editedElement));
+						viewer.refresh();
+					}
 				}
 
 				/**
@@ -231,8 +251,10 @@ public class EContainmentPropertyEditor extends PropertyEditorImpl implements Mu
 				 *      .getViewer().ReferenceEditorListener#add()
 				 */
 				public void add() {
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, null));
-					propertyEditorViewer.getViewer().refresh();
+					if (isEnabled()) {
+						propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, null));
+						viewer.refresh();
+					}
 				}
 			};
 			propertyEditorViewer.getViewer().addReferenceEditorListener(listener);

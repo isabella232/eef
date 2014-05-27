@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -28,4 +31,12 @@ public interface PropertyEditor {
 	 * of this editor.
 	 */
 	PropertyEditorViewer<?> getPropertyEditorViewer();
+	
+	
+	/**
+	 * Notifies the current editor of an editing event in the context of the given editing component.
+	 * @param editingComponent {@link PropertiesEditingComponent} the context where the editing event has been thrown.
+	 * @param editingEvent the {@link PropertiesEditingEvent} to process.
+	 */
+	void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent);
 }

@@ -21,7 +21,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.EEFSelectionDialog;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer.SingleLinePropertyViewerListener;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.util.EEFViewerInput;
@@ -104,7 +104,9 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
+		listener.disable();
 		propertyEditorViewer.getViewer().refresh();
+		listener.enable();
 	}
 
 	/**
@@ -112,7 +114,9 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#unsetValue()
 	 */
 	public void unsetValue() {
+		listener.disable();
 		propertyEditorViewer.getViewer().setInput(null);		
+		listener.enable();
 	}
 
 	/**
@@ -130,36 +134,38 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	 * @return the {@link SingleLinePropertyViewerListener} to add to the viewer.
 	 */
 	protected SingleLinePropertyViewerListener createPropertyViewerListener() {
-		return new SingleLinePropertyViewerListener() {
+		return new SingleLinePropertyViewerListener(this, view, elementEditor, propertyEditorViewer.getViewer()) {
 
 			/**
 			 * {@inheritDoc}
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#set()
 			 */
 			public void set() {
-				EEFSelectionDialog dialog = new EEFSelectionDialog(propertyEditorViewer.getViewer().getControl().getShell(), true);
-				dialog.setTitle("Choose the element to set to the reference:");
-				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
-				dialog.setEditUIProvidersFactory(editUIProvidersFactory);
-				dialog.setImageManager(imageManager);
-				dialog.addFilter(
-						new ChoiceOfValuesFilter(
-								EComboPropertyEditor.this.eefEditingServiceProvider,
-								view.getEditingComponent().getEditingContext(), 
-								view.getEditingComponent().getEObject(), 
-								elementEditor, 
-								EEFSWTConstants.DEFAULT_SELECTION_MODE));
-				Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
-				if (!filters.isEmpty()) {
-					for (ViewerFilter viewerFilter : filters) {
-						dialog.addFilter(viewerFilter);
+				if (isEnabled()) {
+					EEFSelectionDialog dialog = new EEFSelectionDialog(viewer.getControl().getShell(), true);
+					dialog.setTitle("Choose the element to set to the reference:");
+					dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
+					dialog.setEditUIProvidersFactory(editUIProvidersFactory);
+					dialog.setImageManager(imageManager);
+					dialog.addFilter(
+							new ChoiceOfValuesFilter(
+									eefEditingServiceProvider,
+									view.getEditingComponent().getEditingContext(), 
+									view.getEditingComponent().getEObject(), 
+									elementEditor, 
+									EEFSWTConstants.DEFAULT_SELECTION_MODE));
+					Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
+					if (!filters.isEmpty()) {
+						for (ViewerFilter viewerFilter : filters) {
+							dialog.addFilter(viewerFilter);
+						}
 					}
-				}
-				dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
-				if (dialog.open() == Window.OK) {
-					if (dialog.getSelection() != null) {
-						firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, dialog.getSelection()));
-						propertyEditorViewer.getViewer().refresh();
+					dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
+					if (dialog.open() == Window.OK) {
+						if (dialog.getSelection() != null) {
+							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, dialog.getSelection()));
+							viewer.refresh();
+						}
 					}
 				}
 			}
@@ -169,11 +175,15 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#clear()
 			 */
 			public void clear() {
-				firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.UNSET, null, null));
-				propertyEditorViewer.getViewer().refresh();
+				if (isEnabled()) {
+					propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.UNSET, null, null));
+					viewer.refresh();
+				}
 			}
 			
 		};
 	}
+	
+
 
 }

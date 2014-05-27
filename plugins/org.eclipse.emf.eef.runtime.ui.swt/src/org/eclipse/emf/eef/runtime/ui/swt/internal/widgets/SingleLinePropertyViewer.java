@@ -275,18 +275,4 @@ public class SingleLinePropertyViewer extends Viewer {
 		return !locked && (input != null);
 	}
 
-	public interface SingleLinePropertyViewerListener {
-
-		/**
-		 * Notifies a "Set" operation.
-		 */
-		void set();
-
-		/**
-		 * Notifies a "Clear" operation.
-		 */
-		void clear();
-
-	}
-
 }

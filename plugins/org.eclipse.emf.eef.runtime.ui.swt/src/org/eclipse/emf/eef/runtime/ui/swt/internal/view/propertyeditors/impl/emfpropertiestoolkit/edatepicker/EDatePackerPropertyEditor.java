@@ -18,7 +18,7 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.EEFDatePickerDialog;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer.SingleLinePropertyViewerListener;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.swt.util.EEFViewerInput;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.Composite;
 public class EDatePackerPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;
-	
+
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
@@ -85,7 +85,9 @@ public class EDatePackerPropertyEditor extends PropertyEditorImpl implements Mon
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
+		listener.disable();
 		propertyEditorViewer.getViewer().refresh();
+		listener.enable();
 	}
 
 	/**
@@ -93,7 +95,9 @@ public class EDatePackerPropertyEditor extends PropertyEditorImpl implements Mon
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#unsetValue()
 	 */
 	public void unsetValue() {
+		listener.disable();
 		propertyEditorViewer.getViewer().refresh();
+		listener.enable();
 	}
 
 	/**
@@ -101,23 +105,25 @@ public class EDatePackerPropertyEditor extends PropertyEditorImpl implements Mon
 	 */
 	protected void initListener() {
 		if (listener == null) {
-			listener = new SingleLinePropertyViewerListener() {
+			listener = new SingleLinePropertyViewerListener(this, view, elementEditor, propertyEditorViewer.getViewer()) {
 
 				/**
 				 * {@inheritDoc}
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#set()
 				 */
 				public void set() {
-					EEFDatePickerDialog dialog = new EEFDatePickerDialog(propertyEditorViewer.getViewer().getControl().getShell());
-					dialog.setTitle("Choose the date to set to the attribute:");
-					PropertiesEditingComponent editingComponent = view.getEditingComponent();
-					PropertiesEditingContext editingContext = editingComponent.getEditingContext();
-					Date date = (Date) eefEditingServiceProvider.getEditingService(editingComponent.getEObject()).getValue(editingContext, editingComponent.getEObject(), elementEditor);
-					dialog.setDate(date);
-					if (dialog.open() == Window.OK) {
-						if (dialog.getSelection() != null) {
-							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, dialog.getSelection()));
-							propertyEditorViewer.getViewer().refresh();
+					if (isEnabled()) {
+						EEFDatePickerDialog dialog = new EEFDatePickerDialog(viewer.getControl().getShell());
+						dialog.setTitle("Choose the date to set to the attribute:");
+						PropertiesEditingComponent editingComponent = view.getEditingComponent();
+						PropertiesEditingContext editingContext = editingComponent.getEditingContext();
+						Date date = (Date) eefEditingServiceProvider.getEditingService(editingComponent.getEObject()).getValue(editingContext, editingComponent.getEObject(), elementEditor);
+						dialog.setDate(date);
+						if (dialog.open() == Window.OK) {
+							if (dialog.getSelection() != null) {
+								firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, dialog.getSelection()));
+								viewer.refresh();
+							}
 						}
 					}
 				}
@@ -127,10 +133,12 @@ public class EDatePackerPropertyEditor extends PropertyEditorImpl implements Mon
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#clear()
 				 */
 				public void clear() {
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.UNSET, null, null));
-					propertyEditorViewer.getViewer().refresh();
+					if (isEnabled()) {
+						firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.UNSET, null, null));
+						viewer.refresh();
+					}
 				}
-				
+
 			};
 			propertyEditorViewer.getViewer().addSingleLinePropertyViewerListener(listener);
 		}

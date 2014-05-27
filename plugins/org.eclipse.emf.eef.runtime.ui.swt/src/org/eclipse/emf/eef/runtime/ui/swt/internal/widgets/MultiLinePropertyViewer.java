@@ -641,59 +641,6 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
 	 * 
 	 */
-	public interface MultiLinePropertyViewerListener {
-
-		/**
-		 * Handle a "add" request.
-		 */
-		void add();
-
-		/**
-		 * Handle a "edit" request.
-		 * 
-		 * @param editedElement
-		 *            Edited Element.
-		 */
-		void edit(Object editedElement);
-
-		/**
-		 * Handle a "remove" request.
-		 * 
-		 * @param removedElement
-		 *            Removed Element.
-		 */
-		void remove(Object removedElement);
-
-		/**
-		 * Handle a "remove" request for several elements.
-		 * 
-		 * @param removedElements
-		 *            Removed Elements.
-		 */
-		void removeAll(Collection<?> removedElements);
-
-		/**
-		 * Handle a "move up" request.
-		 * 
-		 * @param movedElement
-		 *            Moved Element.
-		 */
-		void moveUp(Object movedElement);
-
-		/**
-		 * Handle a "move down" request.
-		 * 
-		 * @param movedElement
-		 *            Moved Element.
-		 */
-		void moveDown(Object movedElement);
-
-	}
-
-	/**
-	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
-	 * 
-	 */
 	private abstract class MultiLinePropertyViewerSelectionAdapter extends SelectionAdapter {
 
 		/**

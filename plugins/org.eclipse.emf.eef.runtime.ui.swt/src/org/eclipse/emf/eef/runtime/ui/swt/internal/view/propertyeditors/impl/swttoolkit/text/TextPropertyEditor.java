@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.notify.EEFListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
@@ -38,7 +39,9 @@ public class TextPropertyEditor extends PropertyEditorImpl implements Monovalued
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<EEFControlWrapperViewer<Text>> propertyEditorControl;
-
+	
+	private TextEEFListener listener;
+	
 	/**
 	 * @param eefEditingServiceProvider
 	 * @param view
@@ -88,6 +91,7 @@ public class TextPropertyEditor extends PropertyEditorImpl implements Monovalued
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
+		listener.disable();
 		String text = "";
 		if (value == null) {
 			text = "";
@@ -106,6 +110,7 @@ public class TextPropertyEditor extends PropertyEditorImpl implements Monovalued
 		if (text == null || !text.equals(propertyEditorControl.getViewer().getMainControl().getText())) {
 			propertyEditorControl.getViewer().getMainControl().setText(text);
 		}
+		listener.enable();
 	}
 
 	/**
@@ -118,14 +123,28 @@ public class TextPropertyEditor extends PropertyEditorImpl implements Monovalued
 	}
 
 	private void initListeners() {
-		propertyEditorControl.getViewer().getMainControl().addModifyListener(new ModifyListener() {
-
-			public void modifyText(ModifyEvent e) {
-				if (view.getEditingComponent() != null)
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, propertyEditorControl.getViewer()
-							.getMainControl().getText(), true));
-			}
-		});
+		EEFControlWrapperViewer<Text> viewer = propertyEditorControl.getViewer();
+		listener = new TextEEFListener(this, view, elementEditor, viewer);
+		viewer.getMainControl().addModifyListener(listener);
 	}
 
+
+	private static final class TextEEFListener extends EEFListener<EEFControlWrapperViewer<Text>> implements ModifyListener {
+				
+		public TextEEFListener(TextPropertyEditor propertyEditor, PropertiesEditingView<Composite> view, ElementEditor elementEditor, EEFControlWrapperViewer<Text> viewer) {
+			super(propertyEditor, view, elementEditor, viewer);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+		 */
+		public void modifyText(ModifyEvent e) {
+			if (isEnabled() && view.getEditingComponent() != null) {
+				propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, viewer.getMainControl().getText(), true));
+			}
+		}
+		
+	}
+	
 }

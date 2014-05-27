@@ -19,7 +19,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.widgets.EEFSelectionDialog
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor.EReferencePropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.EEFSelectionDialog;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
@@ -72,42 +72,45 @@ public class EReferenceE3PropertyEditor extends EReferencePropertyEditor {
 			 */
 			@Override
 			public void add() {
-				EEFSelectionDialog dialog = new EEFSelectionDialogWithFilter(propertyEditorViewer.getViewer().getControl().getShell(), true);
-				dialog.setTitle("Choose the element to add to the reference:");
-				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
-				dialog.setEditUIProvidersFactory(editUIProvidersFactory);
-				dialog.setImageManager(imageManager);
-				dialog.addFilter(
-						new ChoiceOfValuesFilter(
-								eefEditingServiceProvider,
-								view.getEditingComponent().getEditingContext(), 
-								view.getEditingComponent().getEObject(), 
-								elementEditor, 
-								EEFSWTConstants.DEFAULT_SELECTION_MODE));
-				dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
-				if (dialog.open() == Window.OK) {
-					if (dialog.getSelection() != null) {
-						if (dialog.getSelection() instanceof Collection<?>) {
-							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD_MANY, null, dialog.getSelection()));
-						} else {
-							firePropertiesChanged(view.getEditingComponent(),new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, dialog.getSelection()));
+				if (isEnabled()) {
+					EEFSelectionDialog dialog = new EEFSelectionDialogWithFilter(propertyEditorViewer.getViewer().getControl().getShell(), true);
+					dialog.setTitle("Choose the element to add to the reference:");
+					dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
+					dialog.setEditUIProvidersFactory(editUIProvidersFactory);
+					dialog.setImageManager(imageManager);
+					dialog.addFilter(
+							new ChoiceOfValuesFilter(
+									eefEditingServiceProvider,
+									view.getEditingComponent().getEditingContext(), 
+									view.getEditingComponent().getEObject(), 
+									elementEditor, 
+									EEFSWTConstants.DEFAULT_SELECTION_MODE));
+					dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
+					if (dialog.open() == Window.OK) {
+						if (dialog.getSelection() != null) {
+							if (dialog.getSelection() instanceof Collection<?>) {
+								firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD_MANY, null, dialog.getSelection()));
+							} else {
+								firePropertiesChanged(view.getEditingComponent(),new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, dialog.getSelection()));
+							}
+							propertyEditorViewer.getViewer().refresh();				
 						}
-						propertyEditorViewer.getViewer().refresh();				
 					}
 				}
 			}
-			
+
 		};
 	}
 
-	private static class DelegatingMultiLinePropertyViewerListener implements MultiLinePropertyViewerListener {
-		
+	private static class DelegatingMultiLinePropertyViewerListener extends MultiLinePropertyViewerListener {
+
 		private MultiLinePropertyViewerListener delegatedListener;
 
 		/**
 		 * @param delegatedListener
 		 */
 		public DelegatingMultiLinePropertyViewerListener(MultiLinePropertyViewerListener delegatedListener) {
+			super(delegatedListener.getPropertyEditor(), delegatedListener.getView(), delegatedListener.getElementEditor(), delegatedListener.getViewer());
 			this.delegatedListener = delegatedListener;
 		}
 
@@ -158,7 +161,7 @@ public class EReferenceE3PropertyEditor extends EReferencePropertyEditor {
 		public void moveDown(Object movedElement) {
 			delegatedListener.moveDown(movedElement);
 		}
-		
+
 	}
-	
+
 }

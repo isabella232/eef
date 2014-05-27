@@ -13,9 +13,11 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.sw
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.notify.EEFListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.combo.ComboUIPropertyEditor.ComboContentProviderInput;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.PropertyEditorImpl;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
@@ -38,6 +40,8 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<ComboViewer> propertyEditorControl;
+	
+	private ComboListener listener;
 
 	/**
 	 * @param eefEditingServiceProvider
@@ -81,11 +85,13 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
+		listener.disable();
 		if (value instanceof ISelection) {
 			propertyEditorControl.getViewer().setSelection((ISelection) value);
 		} else {
 			propertyEditorControl.getViewer().setSelection(new StructuredSelection(value));
 		}
+		listener.enable();
 	}
 
 	/**
@@ -97,15 +103,27 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 	}
 
 	private void initListeners() {
-		propertyEditorControl.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
+		listener = new ComboListener(this, view, elementEditor, propertyEditorControl.getViewer());
+		propertyEditorControl.getViewer().addSelectionChangedListener(listener);
+	}
 
-			public void selectionChanged(SelectionChangedEvent event) {
-				if (view.getEditingComponent() != null) {
-					Object value = ((StructuredSelection) propertyEditorControl.getViewer().getSelection()).getFirstElement();
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, value));
-				}
+	private static final class ComboListener extends EEFListener<ComboViewer> implements ISelectionChangedListener {
+
+		public ComboListener(PropertyEditor propertyEditor, PropertiesEditingView<Composite> view, ElementEditor elementEditor, ComboViewer viewer) {
+			super(propertyEditor, view, elementEditor, viewer);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+		 */
+		public void selectionChanged(SelectionChangedEvent event) {
+			if (isEnabled() && view.getEditingComponent() != null) {
+				Object value = ((StructuredSelection) viewer.getSelection()).getFirstElement();
+				propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, value));
 			}
-		});
+		}
+		
 	}
 
 }

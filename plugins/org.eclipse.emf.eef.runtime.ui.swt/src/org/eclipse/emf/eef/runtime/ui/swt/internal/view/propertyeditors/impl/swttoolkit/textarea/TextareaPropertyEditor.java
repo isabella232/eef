@@ -15,9 +15,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.notify.EEFListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.PropertyEditorImpl;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
@@ -118,24 +120,15 @@ public class TextareaPropertyEditor extends PropertyEditorImpl implements Monova
 	}
 
 	private void initListeners() {
-		listener = new TextareaModifyListener(this, view, elementEditor, propertyEditorControl.getViewer().getMainControl());
-		propertyEditorControl.getViewer().getMainControl().addModifyListener(listener);
+		EEFControlWrapperViewer<Text> viewer = propertyEditorControl.getViewer();
+		listener = new TextareaModifyListener(this, view, elementEditor, viewer);
+		viewer.getMainControl().addModifyListener(listener);
 	}
 
-	private static final class TextareaModifyListener implements ModifyListener {
+	private static final class TextareaModifyListener extends EEFListener<EEFControlWrapperViewer<Text>> implements ModifyListener {
 
-		private TextareaPropertyEditor propertyEditor;
-		private PropertiesEditingView<Composite> view;
-		private ElementEditor elementEditor;
-		private Text control;
-		private boolean enabled;
-
-		public TextareaModifyListener(TextareaPropertyEditor propertyEditor, PropertiesEditingView<Composite> view, ElementEditor elementEditor, Text control) {
-			this.propertyEditor = propertyEditor;
-			this.view = view;
-			this.elementEditor = elementEditor;
-			this.control = control;
-			this.enabled = true;
+		public TextareaModifyListener(PropertyEditor propertyEditor, PropertiesEditingView<Composite> view,	ElementEditor elementEditor, EEFControlWrapperViewer<Text> viewer) {
+			super(propertyEditor, view, elementEditor, viewer);
 		}
 
 		/**
@@ -144,17 +137,10 @@ public class TextareaPropertyEditor extends PropertyEditorImpl implements Monova
 		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
 		 */
 		public void modifyText(ModifyEvent e) {
-			if (view.getEditingComponent() != null && enabled)
-				propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, control.getText(), true));
+			if (isEnabled() && view.getEditingComponent() != null)
+				propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, viewer.getMainControl().getText(), true));
 		}
 
-		public void enable() {
-			enabled = true;
-		}
-
-		public void disable() {
-			enabled = false;
-		}
 	}
 
 }

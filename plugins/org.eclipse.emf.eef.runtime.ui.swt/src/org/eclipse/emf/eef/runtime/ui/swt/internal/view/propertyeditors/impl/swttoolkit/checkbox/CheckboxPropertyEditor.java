@@ -13,15 +13,17 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.sw
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.notify.TypedPropertyChangedEvent;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.notify.EEFListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.PropertyEditorImpl;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
@@ -36,6 +38,8 @@ public class CheckboxPropertyEditor extends PropertyEditorImpl implements Monova
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer;
+	
+	private CheckboxListener listener;
 
 	/**
 	 * @param eefEditingServiceProvider
@@ -77,7 +81,9 @@ public class CheckboxPropertyEditor extends PropertyEditorImpl implements Monova
 	 */
 	public void setValue(Object value) {
 		if (value instanceof Boolean) {
+			listener.disable();
 			propertyEditorViewer.getViewer().getMainControl().setSelection((Boolean) value);
+			listener.enable();
 		}
 	}
 
@@ -90,20 +96,36 @@ public class CheckboxPropertyEditor extends PropertyEditorImpl implements Monova
 	}
 
 	private void initListeners() {
-		propertyEditorViewer.getViewer().getMainControl().addSelectionListener(new SelectionAdapter() {
+		EEFControlWrapperViewer<Button> viewer = propertyEditorViewer.getViewer();
+		listener = new CheckboxListener(this, view, elementEditor, viewer);
+		viewer.getMainControl().addSelectionListener(listener);
+	}
+	
+	private static final class CheckboxListener extends EEFListener<EEFControlWrapperViewer<Button>> implements SelectionListener {
 
-			/**
-			 * {@inheritDoc}
-			 *
-			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-			 * 	
-			 */
-			public void widgetSelected(SelectionEvent e) {
-				if (view.getEditingComponent() != null)
-					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, new Boolean(propertyEditorViewer.getViewer().getMainControl().getSelection())));
-			}
+		public CheckboxListener(PropertyEditor propertyEditor, PropertiesEditingView<Composite> view, ElementEditor elementEditor, EEFControlWrapperViewer<Button> viewer) {
+			super(propertyEditor, view, elementEditor, viewer);
+		}
 
-		});
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+		 */
+		public void widgetSelected(SelectionEvent e) {
+			if (isEnabled() && view.getEditingComponent() != null)
+				propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, new Boolean(viewer.getMainControl().getSelection())));
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+		 */
+		public void widgetDefaultSelected(SelectionEvent e) {
+			// Nothing to do...
+		}
+		
+		
+		
 	}
 
 }

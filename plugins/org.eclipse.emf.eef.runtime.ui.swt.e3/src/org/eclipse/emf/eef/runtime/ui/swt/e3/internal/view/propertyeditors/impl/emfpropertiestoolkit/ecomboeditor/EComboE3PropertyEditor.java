@@ -19,7 +19,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.widgets.EEFSelectionDialog
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.EEFSelectionDialog;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer.SingleLinePropertyViewerListener;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor;
@@ -69,44 +69,47 @@ public class EComboE3PropertyEditor extends EComboPropertyEditor {
 		return new DelegatingSingleLinePropertyViewerListener(propertyViewerListener) {
 
 			public void set() {
-				EEFSelectionDialog dialog = new EEFSelectionDialogWithFilter(propertyEditorViewer.getViewer().getControl().getShell(), true);
-				dialog.setTitle("Choose the element to set to the reference:");
-				dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
-				dialog.setEditUIProvidersFactory(editUIProvidersFactory);
-				dialog.setImageManager(imageManager);
-				dialog.addFilter(
-						new ChoiceOfValuesFilter(
-								eefEditingServiceProvider,
-								view.getEditingComponent().getEditingContext(), 
-								view.getEditingComponent().getEObject(), 
-								elementEditor, 
-								EEFSWTConstants.DEFAULT_SELECTION_MODE));
-				Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
-				if (!filters.isEmpty()) {
-					for (ViewerFilter viewerFilter : filters) {
-						dialog.addFilter(viewerFilter);
+				if (isEnabled()) {
+					EEFSelectionDialog dialog = new EEFSelectionDialogWithFilter(propertyEditorViewer.getViewer().getControl().getShell(), true);
+					dialog.setTitle("Choose the element to set to the reference:");
+					dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
+					dialog.setEditUIProvidersFactory(editUIProvidersFactory);
+					dialog.setImageManager(imageManager);
+					dialog.addFilter(
+							new ChoiceOfValuesFilter(
+									eefEditingServiceProvider,
+									view.getEditingComponent().getEditingContext(), 
+									view.getEditingComponent().getEObject(), 
+									elementEditor, 
+									EEFSWTConstants.DEFAULT_SELECTION_MODE));
+					Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
+					if (!filters.isEmpty()) {
+						for (ViewerFilter viewerFilter : filters) {
+							dialog.addFilter(viewerFilter);
+						}
 					}
-				}
-				dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
-				if (dialog.open() == Window.OK) {
-					if (dialog.getSelection() != null) {
-						firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, dialog.getSelection()));
-						propertyEditorViewer.getViewer().refresh();
+					dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
+					if (dialog.open() == Window.OK) {
+						if (dialog.getSelection() != null) {
+							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, dialog.getSelection()));
+							propertyEditorViewer.getViewer().refresh();
+						}
 					}
 				}
 			}
 
 		};
 	}
-	
-	private static class DelegatingSingleLinePropertyViewerListener implements SingleLinePropertyViewerListener {
-		
+
+	private static class DelegatingSingleLinePropertyViewerListener extends SingleLinePropertyViewerListener {
+
 		private SingleLinePropertyViewerListener delegatedListener;
 
 		/**
 		 * @param delegatedListener
 		 */
 		public DelegatingSingleLinePropertyViewerListener(SingleLinePropertyViewerListener delegatedListener) {
+			super(delegatedListener.getPropertyEditor(), delegatedListener.getView(), delegatedListener.getElementEditor(), delegatedListener.getViewer());
 			this.delegatedListener = delegatedListener;
 		}
 
@@ -125,7 +128,7 @@ public class EComboE3PropertyEditor extends EComboPropertyEditor {
 		public void clear() {
 			delegatedListener.clear();
 		}
-		
+
 	}
 
 }
