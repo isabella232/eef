@@ -128,7 +128,6 @@ public class TextPropertyEditor extends PropertyEditorImpl implements Monovalued
 		viewer.getMainControl().addModifyListener(listener);
 	}
 
-
 	private static final class TextEEFListener extends EEFListener<EEFControlWrapperViewer<Text>> implements ModifyListener {
 				
 		public TextEEFListener(TextPropertyEditor propertyEditor, PropertiesEditingView<Composite> view, ElementEditor elementEditor, EEFControlWrapperViewer<Text> viewer) {
