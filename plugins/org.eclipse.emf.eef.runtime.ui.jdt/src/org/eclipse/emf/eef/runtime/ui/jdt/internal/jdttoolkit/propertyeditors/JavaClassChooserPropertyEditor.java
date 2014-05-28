@@ -1,6 +1,13 @@
-/**
- * 
- */
+/*******************************************************************************
+ * Copyright (c) 2013 Obeo.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Obeo - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.jdt.internal.jdttoolkit.propertyeditors;
 
 import org.eclipse.core.resources.IProject;
@@ -9,7 +16,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewer.SingleLinePropertyViewerListener;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.SingleLinePropertyViewerListener;
 import org.eclipse.emf.eef.runtime.ui.swt.util.EEFViewerInput;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor;
@@ -79,7 +86,9 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
+		listener.disable();
 		propertyEditorViewer.getViewer().refresh();
+		listener.enable();
 	}
 
 	/**
@@ -87,7 +96,9 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#unsetValue()
 	 */
 	public void unsetValue() {
+		listener.disable();
 		propertyEditorViewer.getViewer().setInput(null);		
+		listener.enable();
 	}
 
 	/**
@@ -95,7 +106,7 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 	 */
 	protected void initListener() {
 		if (listener == null) {
-			listener = new SingleLinePropertyViewerListener() {
+			listener = new SingleLinePropertyViewerListener(this, view, elementEditor, propertyEditorViewer.getViewer()) {
 
 				/**
 				 * {@inheritDoc}
@@ -109,7 +120,7 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 					Object result = dialog.getFirstResult();
 					if (result instanceof IType) {
 						IType javaClass = (IType)result;
-						firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, javaClass.getClass().getName()));
+						propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, javaClass.getClass().getName()));
 					}
 				}
 
