@@ -130,7 +130,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 			context = new DomainPropertiesEditingContext(parentContext, eObject);
 		} else if (parentContext instanceof EObjectPropertiesEditingContext) {
 			context = new EObjectPropertiesEditingContext(parentContext, eObject);
-		} else if (parentContext instanceof SemanticPropertiesEditingContext){
+		} else if (parentContext instanceof SemanticPropertiesEditingContext) {
 			context = new EObjectPropertiesEditingContext(parentContext, eObject);
 		} else {
 			throw new IllegalArgumentException("Unable to process this context as a parent");
@@ -170,7 +170,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createSemanticPropertiesEditingContext(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
 	 *      org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
-	public PropertiesEditingContext createSemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent) {
+	public SemanticPropertiesEditingContext createSemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent) {
 		SemanticPropertiesEditingContext context;
 		if (parentContext instanceof DomainAwarePropertiesEditingContext) {
 			context = new SemanticDomainPropertiesEditingContext((DomainAwarePropertiesEditingContext) parentContext, editingEvent);
@@ -186,7 +186,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createReflectivePropertiesEditingContext(org.eclipse.emf.common.notify.AdapterFactory,
 	 *      org.eclipse.emf.ecore.EObject)
 	 */
-	public PropertiesEditingContext createReflectivePropertiesEditingContext(AdapterFactory adapterFactory, EObject view) {
+	public ReflectivePropertiesEditingContext createReflectivePropertiesEditingContext(AdapterFactory adapterFactory, EObject view) {
 		ReflectivePropertiesEditingContext context = new ReflectivePropertiesEditingContext(adapterFactory, view);
 		context.setEMFServiceProvider(emfServiceProvider);
 		context.setEEFEditingServiceProvider(eefEditingServiceProvider);
@@ -202,7 +202,7 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory#createReflectivePropertiesEditingContext(context,
 	 *      org.eclipse.emf.ecore.EObject)
 	 */
-	public PropertiesEditingContext createReflectivePropertiesEditingContext(PropertiesEditingContext parentContext, EObject view) {
+	public ReflectivePropertiesEditingContext createReflectivePropertiesEditingContext(PropertiesEditingContext parentContext, EObject view) {
 		ReflectivePropertiesEditingContext context = new ReflectivePropertiesEditingContext(parentContext, view);
 		context.setEMFServiceProvider(emfServiceProvider);
 		context.setEEFEditingServiceProvider(eefEditingServiceProvider);

@@ -14,6 +14,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.eef.runtime.internal.context.ReflectivePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.services.EEFService;
 
@@ -109,7 +110,7 @@ public interface PropertiesEditingContextFactory extends EEFService<EObject> {
 	 *            context.
 	 * @return the created {@link PropertiesEditingContext}.
 	 */
-	PropertiesEditingContext createSemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent);
+	SemanticPropertiesEditingContext createSemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent);
 
 	/**
 	 * Creates a reflective {@link PropertiesEditingContext} usable to preview a
@@ -121,7 +122,7 @@ public interface PropertiesEditingContextFactory extends EEFService<EObject> {
 	 *            the view to preview.
 	 * @return the create {@link PropertiesEditingContext}.
 	 */
-	PropertiesEditingContext createReflectivePropertiesEditingContext(AdapterFactory adapterFactory, EObject view);
+	ReflectivePropertiesEditingContext createReflectivePropertiesEditingContext(AdapterFactory adapterFactory, EObject view);
 
 	/**
 	 * Creates a reflective {@link PropertiesEditingContext} usable to preview a
@@ -134,6 +135,6 @@ public interface PropertiesEditingContextFactory extends EEFService<EObject> {
 	 *            the view to preview.
 	 * @return the create {@link PropertiesEditingContext}.
 	 */
-	PropertiesEditingContext createReflectivePropertiesEditingContext(PropertiesEditingContext parentContext, EObject view);
+	ReflectivePropertiesEditingContext createReflectivePropertiesEditingContext(PropertiesEditingContext parentContext, EObject view);
 
 }

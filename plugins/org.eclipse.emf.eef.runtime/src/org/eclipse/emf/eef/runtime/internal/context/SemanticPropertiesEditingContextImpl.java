@@ -43,7 +43,6 @@ public class SemanticPropertiesEditingContextImpl extends DelegatingPropertiesEd
 		this.editingEvent = editingEvent;
 		this.options = new ContextOptions(parentContext.getOptions());
 		this.editingRecorder = new EditingRecorderImpl();
-		editingRecorder.initRecording(parentContext.getEditingComponent().getEObject());
 	}
 
 	/**
@@ -87,7 +86,9 @@ public class SemanticPropertiesEditingContextImpl extends DelegatingPropertiesEd
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#startEditing()
 	 */
 	public void startEditing() {
-		editingRecorder.initRecording(parentContext.getEditingComponent().getEObject());
+		if (editingRecorder.getChangeRecorder() == null || (editingRecorder.getChangeRecorder() != null && !editingRecorder.getChangeRecorder().isRecording())) {
+			editingRecorder.initRecording(parentContext.getEditingComponent().getEObject());
+		}
 	}
 
 	/**
