@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
@@ -110,8 +111,9 @@ public class EditingModesTests extends NonUIEditingTestCase {
 	 */
 	@Test
 	public void testBatchEditingMode() {
-		editingContext.getOptions().setBatchMode(true);
-		commandStack.execute(new AbstractBatchEditingCommand(editingContext) {
+		SemanticPropertiesEditingContext semanticEditingContext = this.editingContext.getContextFactoryProvider().getEditingContextFactory(editedObject).createSemanticPropertiesEditingContext(editingContext, null);
+		semanticEditingContext.getOptions().setBatchMode(true);
+		commandStack.execute(new AbstractBatchEditingCommand(semanticEditingContext) {
 			
 			@Override
 			protected boolean prepareBatchEditing() {
@@ -138,8 +140,9 @@ public class EditingModesTests extends NonUIEditingTestCase {
 	 */
 	@Test
 	public void testCancelBatchEditing() {
-		editingContext.getOptions().setBatchMode(true);
-		commandStack.execute(new AbstractBatchEditingCommand(editingContext) {
+		SemanticPropertiesEditingContext semanticEditingContext = this.editingContext.getContextFactoryProvider().getEditingContextFactory(editedObject).createSemanticPropertiesEditingContext(editingContext, null);
+		semanticEditingContext.getOptions().setBatchMode(true);
+		commandStack.execute(new AbstractBatchEditingCommand(semanticEditingContext) {
 			
 			@Override
 			protected boolean prepareBatchEditing() {
@@ -175,6 +178,16 @@ public class EditingModesTests extends NonUIEditingTestCase {
 		 */
 		public int getExecutedCommandCount() {
 			return executedCommandCount;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * @see org.eclipse.emf.common.command.BasicCommandStack#flush()
+		 */
+		@Override
+		public void flush() {
+			super.flush();
+			executedCommandCount = 0;
 		}
 
 	}

@@ -822,6 +822,7 @@ public class EEFTestEnvironment {
 			Collection<EEFServiceDescriptor<PropertiesEditingContextFactory>> result = new ArrayList<EEFTestEnvironment.EEFServiceDescriptor<PropertiesEditingContextFactory>>();
 			PropertiesEditingContextFactoryImpl contextFactory = new PropertiesEditingContextFactoryImpl();
 			contextFactory.setEMFServiceProvider(getEMFServiceProvider());
+			contextFactory.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
 			contextFactory.setBindingManagerProvider(getBindingHandlerProvider());
 			contextFactory.setViewHandlerProvider(getViewHandlerProvider());
 			EEFServiceDescriptor<PropertiesEditingContextFactory> desc = new EEFServiceDescriptor<PropertiesEditingContextFactory>("propertieseditingcontextfactory.default", contextFactory);

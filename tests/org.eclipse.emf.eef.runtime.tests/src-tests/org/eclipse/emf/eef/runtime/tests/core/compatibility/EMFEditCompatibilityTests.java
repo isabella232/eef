@@ -30,6 +30,7 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelBuilder;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.tests.cases.NonUIEditingTestCase;
@@ -106,8 +107,9 @@ public class EMFEditCompatibilityTests extends NonUIEditingTestCase {
 	@Test
 	public void testBatchEditingMode() {
 		assertSame("Bad initiale state for this test.", ORIGINAL_ECLASS_NAME, editedEClass().getName());
-		editingContext.getOptions().setBatchMode(true);
-		((DomainAwarePropertiesEditingContext)editingContext).getEditingDomain().getCommandStack().execute(new AbstractBatchEditingCommand(editingContext) {
+		SemanticPropertiesEditingContext semanticEditingContext = this.editingContext.getContextFactoryProvider().getEditingContextFactory(editedObject).createSemanticPropertiesEditingContext(editingContext, null);
+		semanticEditingContext.getOptions().setBatchMode(true);
+		((DomainAwarePropertiesEditingContext)editingContext).getEditingDomain().getCommandStack().execute(new AbstractBatchEditingCommand(semanticEditingContext) {
 			
 			/**
 			 * {@inheritDoc}
