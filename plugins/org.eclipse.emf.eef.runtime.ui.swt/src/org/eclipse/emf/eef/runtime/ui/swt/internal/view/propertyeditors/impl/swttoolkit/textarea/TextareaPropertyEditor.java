@@ -86,7 +86,9 @@ public class TextareaPropertyEditor extends PropertyEditorImpl implements Monova
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
-		listener.disable();
+		if (listener != null) {
+			listener.disable();			
+		}
 		String newValue;
 		if (value == null) {
 			newValue = "";
@@ -107,7 +109,9 @@ public class TextareaPropertyEditor extends PropertyEditorImpl implements Monova
 		if (!newValue.equals(oldValue)) {
 			text.setText(newValue);
 		}
-		listener.enable();
+		if (listener != null) {
+			listener.enable();
+		}
 	}
 
 	/**
