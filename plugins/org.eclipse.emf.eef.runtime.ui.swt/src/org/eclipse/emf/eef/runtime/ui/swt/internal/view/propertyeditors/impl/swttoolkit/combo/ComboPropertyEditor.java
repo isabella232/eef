@@ -40,7 +40,7 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<ComboViewer> propertyEditorControl;
-	
+
 	private ComboListener listener;
 
 	/**
@@ -49,7 +49,8 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 	 * @param elementEditor
 	 * @param propertyEditorViewer
 	 */
-	public ComboPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<ComboViewer> propertyEditorViewer) {
+	public ComboPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor,
+			PropertyEditorViewer<ComboViewer> propertyEditorViewer) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.view = view;
 		this.elementEditor = elementEditor;
@@ -85,13 +86,17 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
-		listener.disable();
+		if (listener != null) {
+			listener.disable();
+		}
 		if (value instanceof ISelection) {
 			propertyEditorControl.getViewer().setSelection((ISelection) value);
 		} else {
 			propertyEditorControl.getViewer().setSelection(new StructuredSelection(value));
 		}
-		listener.enable();
+		if (listener != null) {
+			listener.enable();
+		}
 	}
 
 	/**
@@ -115,6 +120,7 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
 		 */
 		public void selectionChanged(SelectionChangedEvent event) {
@@ -123,7 +129,7 @@ public class ComboPropertyEditor extends PropertyEditorImpl implements Monovalue
 				propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, value));
 			}
 		}
-		
+
 	}
 
 }

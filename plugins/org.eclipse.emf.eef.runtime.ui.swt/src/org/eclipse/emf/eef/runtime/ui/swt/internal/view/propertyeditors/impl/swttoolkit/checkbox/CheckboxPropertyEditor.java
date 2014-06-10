@@ -29,16 +29,16 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class CheckboxPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;
-	
+
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer;
-	
+
 	private CheckboxListener listener;
 
 	/**
@@ -47,7 +47,8 @@ public class CheckboxPropertyEditor extends PropertyEditorImpl implements Monova
 	 * @param elementEditor
 	 * @param propertyEditorViewer
 	 */
-	public CheckboxPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer) {
+	public CheckboxPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor,
+			PropertyEditorViewer<EEFControlWrapperViewer<Button>> propertyEditorViewer) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.view = view;
 		this.elementEditor = elementEditor;
@@ -56,6 +57,7 @@ public class CheckboxPropertyEditor extends PropertyEditorImpl implements Monova
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
 	public void init() {
@@ -69,6 +71,7 @@ public class CheckboxPropertyEditor extends PropertyEditorImpl implements Monova
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#getPropertyEditorViewer()
 	 */
 	public PropertyEditorViewer<?> getPropertyEditorViewer() {
@@ -77,18 +80,24 @@ public class CheckboxPropertyEditor extends PropertyEditorImpl implements Monova
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
 		if (value instanceof Boolean) {
-			listener.disable();
+			if (listener != null) {
+				listener.disable();
+			}
 			propertyEditorViewer.getViewer().getMainControl().setSelection((Boolean) value);
-			listener.enable();
+			if (listener != null) {
+				listener.enable();
+			}
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#unsetValue()
 	 */
 	public void unsetValue() {
@@ -100,7 +109,7 @@ public class CheckboxPropertyEditor extends PropertyEditorImpl implements Monova
 		listener = new CheckboxListener(this, view, elementEditor, viewer);
 		viewer.getMainControl().addSelectionListener(listener);
 	}
-	
+
 	private static final class CheckboxListener extends EEFListener<EEFControlWrapperViewer<Button>> implements SelectionListener {
 
 		public CheckboxListener(PropertyEditor propertyEditor, PropertiesEditingView<Composite> view, ElementEditor elementEditor, EEFControlWrapperViewer<Button> viewer) {
@@ -109,23 +118,24 @@ public class CheckboxPropertyEditor extends PropertyEditorImpl implements Monova
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 		 */
 		public void widgetSelected(SelectionEvent e) {
 			if (isEnabled() && view.getEditingComponent() != null)
-				propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, new Boolean(viewer.getMainControl().getSelection())));
+				propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, new Boolean(viewer
+						.getMainControl().getSelection())));
 		}
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
 		 */
 		public void widgetDefaultSelected(SelectionEvent e) {
 			// Nothing to do...
 		}
-		
-		
-		
+
 	}
 
 }

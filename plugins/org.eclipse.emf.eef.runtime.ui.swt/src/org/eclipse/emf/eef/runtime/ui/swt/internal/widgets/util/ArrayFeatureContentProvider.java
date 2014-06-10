@@ -12,8 +12,13 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.provider.IChangeNotifier;
+import org.eclipse.emf.edit.provider.INotifyChangedListener;
+import org.eclipse.emf.edit.ui.provider.NotifyChangedToViewerRefresh;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -22,37 +27,50 @@ import org.eclipse.jface.viewers.Viewer;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
-public class ArrayFeatureContentProvider implements IStructuredContentProvider, ITreeContentProvider {
+public class ArrayFeatureContentProvider implements IStructuredContentProvider, ITreeContentProvider, INotifyChangedListener {
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;
+	private SWTViewService viewService;
 	private PropertiesEditingContext editingContext;
 	private ElementEditor elementEditor;
+	private Viewer viewer;
 
 	/**
 	 * @param propertyBinding
 	 */
-	public ArrayFeatureContentProvider(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingContext editingContext, ElementEditor elementEditor) {
+	public ArrayFeatureContentProvider(EEFEditingServiceProvider eefEditingServiceProvider, SWTViewService viewService, PropertiesEditingContext editingContext, ElementEditor elementEditor) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
+		this.viewService = viewService;
 		this.editingContext = editingContext;
 		this.elementEditor = elementEditor;
+		if (editingContext.getAdapterFactory() instanceof IChangeNotifier) {
+			((IChangeNotifier) editingContext.getAdapterFactory()).addListener(this);
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 	 */
-	public void dispose() {}
+	public void dispose() {
+	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+	 * 
+	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer,
+	 *      java.lang.Object, java.lang.Object)
 	 */
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {	}
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		this.viewer = viewer;
+	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
 	 */
 	public Object[] getElements(Object inputElement) {
@@ -72,6 +90,7 @@ public class ArrayFeatureContentProvider implements IStructuredContentProvider, 
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 	 */
 	public Object[] getChildren(Object parentElement) {
@@ -80,6 +99,7 @@ public class ArrayFeatureContentProvider implements IStructuredContentProvider, 
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
 	 */
 	public Object getParent(Object element) {
@@ -88,10 +108,24 @@ public class ArrayFeatureContentProvider implements IStructuredContentProvider, 
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
 	 */
 	public boolean hasChildren(Object element) {
 		return false;
 	}
 
+	public void notifyChanged(Notification notification) {
+		if (viewer != null && viewer.getControl() != null && !viewer.getControl().isDisposed()) {
+			viewService.executeAsyncUIRunnable(viewer.getControl().getDisplay(), new Runnable() {
+
+				public void run() {
+					viewer.refresh();
+				}
+			});
+		} else {
+			NotifyChangedToViewerRefresh.handleNotifyChanged(viewer, notification.getNotifier(), notification.getEventType(), notification.getFeature(), notification.getOldValue(),
+					notification.getNewValue(), notification.getPosition());
+		}
+	}
 }

@@ -30,6 +30,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyView
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.ArrayFeatureContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.util.ChoiceOfValuesFilter;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
+import org.eclipse.emf.eef.runtime.ui.swt.util.SWTViewService;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.FilterablePropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilderProvider;
@@ -48,7 +49,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EReferencePropertyEditor extends PropertyEditorImpl implements MultivaluedPropertyEditor {
 
@@ -64,7 +65,9 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 	private MultiLinePropertyViewerListener listener;
 
-	public EReferencePropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
+	public EReferencePropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory,
+			ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor,
+			PropertyEditorViewer<MultiLinePropertyViewer> propertyEditorViewer) {
 		this.emfServiceProvider = emfServiceProvider;
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.editUIProvidersFactory = editUIProvidersFactory;
@@ -77,10 +80,12 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
 	public void init() {
-		propertyEditorViewer.getViewer().setContentProvider(new ArrayFeatureContentProvider(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), elementEditor));
+		propertyEditorViewer.getViewer().setContentProvider(
+				new ArrayFeatureContentProvider(eefEditingServiceProvider, (SWTViewService) view.getViewService(), view.getEditingComponent().getEditingContext(), elementEditor));
 		PropertyBinding propertyBinding = view.getEditingComponent().getBinding().propertyBinding(elementEditor, view.getEditingComponent().getEditingContext().getOptions().autowire());
 		ILabelProvider labelProvider;
 		if (propertyBinding != null) {
@@ -101,7 +106,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 				if (editorSettings instanceof EReferenceFilter) {
 					EReferenceFilter eReferenceFilter = (EReferenceFilter) editorSettings;
 					ViewerFilter viewerFilter = filterBuilderProvider.getFilterBuilder(eReferenceFilter).buildFilter(view.getEditingComponent().getEditingContext(), view, eReferenceFilter);
-					((FilterablePropertyEditor)propertyEditorViewer).addFilter(viewerFilter);
+					((FilterablePropertyEditor) propertyEditorViewer).addFilter(viewerFilter);
 				}
 			}
 		}
@@ -114,6 +119,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#getPropertyEditorViewer()
 	 */
 	public PropertyEditorViewer<?> getPropertyEditorViewer() {
@@ -122,6 +128,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#addValue(java.lang.Object)
 	 */
 	public void addValue(Object value) {
@@ -132,6 +139,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#addAllValues(java.util.Collection)
 	 */
 	public void addAllValues(Collection<?> values) {
@@ -142,6 +150,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#removeValue(java.lang.Object)
 	 */
 	public void removeValue(Object value) {
@@ -152,6 +161,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#removeAllValues(java.util.Collection)
 	 */
 	public void removeAllValues(Collection<?> values) {
@@ -162,7 +172,9 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#moveValue(java.lang.Object, int)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MultivaluedPropertyEditor#moveValue(java.lang.Object,
+	 *      int)
 	 */
 	public void moveValue(Object value, int newIndex) {
 		listener.disable();
@@ -181,7 +193,9 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 	}
 
 	/**
-	 * Creates the listener to add to the viewer in order to process viewer events. 
+	 * Creates the listener to add to the viewer in order to process viewer
+	 * events.
+	 * 
 	 * @return the {@link MultiLinePropertyViewerListener} to add to the viewer.
 	 */
 	protected MultiLinePropertyViewerListener createPropertyViewerListener() {
@@ -189,6 +203,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener#removeAll(java.util.Collection)
 			 */
 			public void removeAll(Collection<?> removedElements) {
@@ -200,6 +215,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener#remove(java.lang.Object)
 			 */
 			public void remove(Object removedElement) {
@@ -211,6 +227,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener#moveUp(java.lang.Object)
 			 */
 			public void moveUp(Object movedElement) {
@@ -220,7 +237,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 					EObject editedElement = editedObject;
 					Object currentValue = eefEditingServiceProvider.getEditingService(editedObject).getValue(editingComponent.getEditingContext(), editedElement, elementEditor);
 					if (currentValue instanceof List<?>) {
-						int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
+						int oldIndex = ((List<?>) currentValue).indexOf(movedElement);
 						if (oldIndex > 0) {
 							propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex - 1));
 							viewer.refresh();
@@ -231,6 +248,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener#moveDown(java.lang.Object)
 			 */
 			public void moveDown(Object movedElement) {
@@ -240,7 +258,7 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 					EObject editedElement = editedObject;
 					Object currentValue = eefEditingServiceProvider.getEditingService(editedObject).getValue(editingComponent.getEditingContext(), editedElement, elementEditor);
 					if (currentValue instanceof List<?>) {
-						int oldIndex = ((List<?>)currentValue).indexOf(movedElement);
+						int oldIndex = ((List<?>) currentValue).indexOf(movedElement);
 						if (oldIndex < ((List<?>) currentValue).size()) {
 							propertyEditor.firePropertiesChanged(editingComponent, new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.MOVE, oldIndex, oldIndex + 1));
 							viewer.refresh();
@@ -251,14 +269,16 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener#edit(java.lang.Object)
 			 */
 			public void edit(Object editedElement) {
-				//TODO: We have to invoke the EditingPropertyPolicy
+				// TODO: We have to invoke the EditingPropertyPolicy
 			}
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.widgets.MultiLinePropertyViewer.MultiLinePropertyViewerListener#add()
 			 */
 			public void add() {
@@ -268,14 +288,9 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 					dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
 					dialog.setEditUIProvidersFactory(editUIProvidersFactory);
 					dialog.setImageManager(imageManager);
-					dialog.addFilter(
-							new ChoiceOfValuesFilter(
-									eefEditingServiceProvider,
-									view.getEditingComponent().getEditingContext(), 
-									view.getEditingComponent().getEObject(),
-									elementEditor,
-									EEFSWTConstants.DEFAULT_SELECTION_MODE));
-					Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
+					dialog.addFilter(new ChoiceOfValuesFilter(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), view.getEditingComponent().getEObject(), elementEditor,
+							EEFSWTConstants.DEFAULT_SELECTION_MODE));
+					Collection<ViewerFilter> filters = ((FilterablePropertyEditor) propertyEditorViewer).getFilters();
 					if (!filters.isEmpty()) {
 						for (ViewerFilter viewerFilter : filters) {
 							dialog.addFilter(viewerFilter);
@@ -285,11 +300,13 @@ public class EReferencePropertyEditor extends PropertyEditorImpl implements Mult
 					if (dialog.open() == Window.OK) {
 						if (dialog.getSelection() != null) {
 							if (dialog.getSelection() instanceof Collection<?>) {
-								propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD_MANY, null, dialog.getSelection()));
+								propertyEditor.firePropertiesChanged(view.getEditingComponent(),
+										new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD_MANY, null, dialog.getSelection()));
 							} else {
-								propertyEditor.firePropertiesChanged(view.getEditingComponent(),new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, dialog.getSelection()));
+								propertyEditor.firePropertiesChanged(view.getEditingComponent(),
+										new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.ADD, null, dialog.getSelection()));
 							}
-							viewer.refresh();				
+							viewer.refresh();
 						}
 					}
 				}

@@ -39,9 +39,9 @@ public class TextPropertyEditor extends PropertyEditorImpl implements Monovalued
 	protected PropertiesEditingView<Composite> view;
 	protected ElementEditor elementEditor;
 	protected PropertyEditorViewer<EEFControlWrapperViewer<Text>> propertyEditorControl;
-	
+
 	private TextEEFListener listener;
-	
+
 	/**
 	 * @param eefEditingServiceProvider
 	 * @param view
@@ -91,7 +91,9 @@ public class TextPropertyEditor extends PropertyEditorImpl implements Monovalued
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
-		listener.disable();
+		if (listener != null) {
+			listener.disable();
+		}
 		String text = "";
 		if (value == null) {
 			text = "";
@@ -110,7 +112,9 @@ public class TextPropertyEditor extends PropertyEditorImpl implements Monovalued
 		if (text == null || !text.equals(propertyEditorControl.getViewer().getMainControl().getText())) {
 			propertyEditorControl.getViewer().getMainControl().setText(text);
 		}
-		listener.enable();
+		if (listener != null) {
+			listener.enable();
+		}
 	}
 
 	/**
@@ -129,21 +133,23 @@ public class TextPropertyEditor extends PropertyEditorImpl implements Monovalued
 	}
 
 	private static final class TextEEFListener extends EEFListener<EEFControlWrapperViewer<Text>> implements ModifyListener {
-				
+
 		public TextEEFListener(TextPropertyEditor propertyEditor, PropertiesEditingView<Composite> view, ElementEditor elementEditor, EEFControlWrapperViewer<Text> viewer) {
 			super(propertyEditor, view, elementEditor, viewer);
 		}
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
 		 */
 		public void modifyText(ModifyEvent e) {
 			if (isEnabled() && view.getEditingComponent() != null) {
-				propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, viewer.getMainControl().getText(), true));
+				propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, TypedPropertyChangedEvent.SET, null, viewer.getMainControl()
+						.getText(), true));
 			}
 		}
-		
+
 	}
-	
+
 }

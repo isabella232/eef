@@ -3,7 +3,6 @@
  */
 package org.eclipse.emf.eef.runtime.ui.platform.e4.parts;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EventObject;
@@ -43,14 +42,14 @@ import org.eclipse.emf.eef.runtime.ui.viewer.filters.EEFViewerFilter;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 @SuppressWarnings("restriction")
 public class E4EEFPart {
 
 	private EditingDomain editingDomain;
 	private IEEFViewer viewer;
-	
+
 	@Inject
 	private MDirtyable dirty;
 
@@ -58,7 +57,6 @@ public class E4EEFPart {
 	private EditingContextFactoryProvider editingContextFactoryProvider;
 	private UISynchronize uiSynchronize;
 	private PlatformRelatedUIUtils uiUtils;
-
 
 	/**
 	 * @param parent
@@ -70,15 +68,16 @@ public class E4EEFPart {
 		this.uiSynchronize = uiSynchronize;
 		this.uiUtils = uiUtils;
 	}
-	
+
 	@PostConstruct
 	public void postConstruct() {
 		Object widget = mPart.getWidget();
 		this.viewer = uiUtils.createEEFViewer(widget);
 	}
-	
+
 	/**
-	 * @return the input {@link PropertiesEditingContext} of the nested {@link EEFViewer}.
+	 * @return the input {@link PropertiesEditingContext} of the nested
+	 *         {@link EEFViewer}.
 	 */
 	public Object getInput() {
 		return viewer.getInput();
@@ -86,48 +85,56 @@ public class E4EEFPart {
 
 	/**
 	 * Defines the new input of the nested {@link EEFViewer}.
-	 * @param input the new input.
+	 * 
+	 * @param input
+	 *            the new input.
 	 */
 	public void setInput(EditingInput input) {
 		editingDomain = input.getEditingDomain();
-		CommandStack commandStack = editingDomain.getCommandStack();
-		if (commandStack instanceof BasicCommandStack) {
-			commandStack.addCommandStackListener(new EEFCommandStackListener((BasicCommandStack) commandStack, uiSynchronize, dirty));
-		}
-		if (input instanceof EditingContextEditingInput) {
-			DomainAwarePropertiesEditingContext context = ((EditingContextEditingInput) input).getEditingContext();
-			context.getOptions().setOption(E4EEFSupportConstants.MODELPART_OPTION_KEY, mPart);
-			viewer.setInput(context);
-		} else if (input instanceof URIEditingInput) {
-			Resource resource = editingDomain.getResourceSet().getResource(((URIEditingInput) input).getUri(), true);
-			EObject root = resource.getContents().get(0);
-			PropertiesEditingContextFactory contextFactory = editingContextFactoryProvider.getEditingContextFactory(root);
-			//TODO: is the ED always an AFED ?
-			PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext((AdapterFactoryEditingDomain)editingDomain, root);
-			editingContext.getOptions().setOption(E4EEFSupportConstants.MODELPART_OPTION_KEY, mPart);
-			viewer.setInput(editingContext);
+		if (editingDomain != null) {
+			CommandStack commandStack = editingDomain.getCommandStack();
+			if (commandStack instanceof BasicCommandStack) {
+				commandStack.addCommandStackListener(new EEFCommandStackListener((BasicCommandStack) commandStack, uiSynchronize, dirty));
+			}
+			if (input instanceof EditingContextEditingInput) {
+				DomainAwarePropertiesEditingContext context = ((EditingContextEditingInput) input).getEditingContext();
+				context.getOptions().setOption(E4EEFSupportConstants.MODELPART_OPTION_KEY, mPart);
+				viewer.setInput(context);
+			} else if (input instanceof URIEditingInput) {
+				Resource resource = editingDomain.getResourceSet().getResource(((URIEditingInput) input).getUri(), true);
+				EObject root = resource.getContents().get(0);
+				PropertiesEditingContextFactory contextFactory = editingContextFactoryProvider.getEditingContextFactory(root);
+				// TODO: is the ED always an AFED ?
+				PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext((AdapterFactoryEditingDomain) editingDomain, root);
+				editingContext.getOptions().setOption(E4EEFSupportConstants.MODELPART_OPTION_KEY, mPart);
+				viewer.setInput(editingContext);
+			}
+		} else {
+			viewer.setInput(null);
 		}
 	}
-	
+
 	/**
 	 * Adds a new filter in the nested {@link EEFViewer}.
-	 * @param filter 
+	 * 
+	 * @param filter
 	 */
 	public void addFilter(EEFViewerFilter filter) {
 		viewer.addFilter(filter);
 	}
-	
+
 	/**
 	 * Removes a new filter in the nested {@link EEFViewer}.
-	 * @param filter 
+	 * 
+	 * @param filter
 	 */
 	public void removeFilter(EEFViewerFilter filter) {
 		viewer.removeFilter(filter);
 	}
-	
 
 	@Focus
-	public void onFocus() {	}
+	public void onFocus() {
+	}
 
 	@Persist
 	public void save() {
@@ -136,11 +143,12 @@ public class E4EEFPart {
 			//
 			final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
 			saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-			
+
 			Job job = new Job("Model Saving") {
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.IProgressMonitor)
 				 */
 				@Override
@@ -152,8 +160,7 @@ public class E4EEFPart {
 						if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource)) {
 							try {
 								resource.save(saveOptions);
-							}
-							catch (Exception exception) {
+							} catch (Exception exception) {
 								return new Status(IStatus.ERROR, "org.eclipse.emf.eef.runtime.ui.platform.e4.support", "An error occured during model saving.", exception);
 							}
 							first = false;
@@ -162,9 +169,9 @@ public class E4EEFPart {
 					dirty.setDirty(false);
 					return Status.OK_STATUS;
 				}
-				
+
 			};
-			
+
 			job.schedule();
 
 		}
@@ -175,7 +182,6 @@ public class E4EEFPart {
 		private BasicCommandStack commandStack;
 		private UISynchronize uiSynchronize;
 		private MDirtyable dirty;
-
 
 		/**
 		 * @param commandStack2
@@ -188,11 +194,9 @@ public class E4EEFPart {
 			this.dirty = dirty;
 		}
 
-
-
-
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.emf.common.command.CommandStackListener#commandStackChanged(java.util.EventObject)
 		 */
 		public void commandStackChanged(EventObject event) {
@@ -205,10 +209,10 @@ public class E4EEFPart {
 
 	}
 
-
 	/**
-	 * This returns whether something has been persisted to the URI of the specified resource.
-	 * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
+	 * This returns whether something has been persisted to the URI of the
+	 * specified resource. The implementation uses the URI converter from the
+	 * editor's resource set to try to open an input stream.
 	 */
 	protected boolean isPersisted(Resource resource) {
 		boolean result = false;
@@ -218,11 +222,9 @@ public class E4EEFPart {
 				result = true;
 				stream.close();
 			}
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			// Ignore
 		}
 		return result;
 	}
 }
-
