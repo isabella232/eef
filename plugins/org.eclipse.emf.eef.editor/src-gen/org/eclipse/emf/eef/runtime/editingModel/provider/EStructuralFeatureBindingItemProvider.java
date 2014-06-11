@@ -39,7 +39,7 @@ import org.eclipse.emf.eef.views.ElementEditor;
  * @generated
  */
 public class EStructuralFeatureBindingItemProvider
-	extends MonoValuedPropertyBindingItemProvider
+	extends PropertyBindingItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -107,37 +107,6 @@ public class EStructuralFeatureBindingItemProvider
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER);
-			childrenFeatures.add(EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER);
-		}
-		return childrenFeatures;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
-		// adding (see {@link AddCommand}) it as a child.
-
-		return super.getChildFeature(object, child);
-	}
-
-	/**
 	 * This returns EStructuralFeatureBinding.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -191,13 +160,6 @@ public class EStructuralFeatureBindingItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
-		switch (notification.getFeatureID(EStructuralFeatureBinding.class)) {
-			case EditingModelPackage.ESTRUCTURAL_FEATURE_BINDING__ADDER:
-			case EditingModelPackage.ESTRUCTURAL_FEATURE_BINDING__REMOVER:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
-				return;
-		}
 		super.notifyChanged(notification);
 	}
 
@@ -211,43 +173,6 @@ public class EStructuralFeatureBindingItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER,
-				 QueryFactory.eINSTANCE.createJavaBody()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER,
-				 QueryFactory.eINSTANCE.createJavaBody()));
-	}
-
-	/**
-	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
-		Object childFeature = feature;
-		Object childObject = child;
-
-		boolean qualify =
-			childFeature == EditingModelPackage.Literals.PROPERTY_BINDING__GETTER ||
-			childFeature == EditingModelPackage.Literals.PROPERTY_BINDING__VALUE_PROVIDER ||
-			childFeature == EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__SETTER ||
-			childFeature == EditingModelPackage.Literals.MONO_VALUED_PROPERTY_BINDING__UNSETTER ||
-			childFeature == EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__ADDER ||
-			childFeature == EditingModelPackage.Literals.MULTI_VALUED_PROPERTY_BINDING__REMOVER;
-
-		if (qualify) {
-			return getString
-				("_UI_CreateChild_text2",
-				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
-		}
-		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 }
