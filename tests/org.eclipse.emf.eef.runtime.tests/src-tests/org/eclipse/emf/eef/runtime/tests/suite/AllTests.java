@@ -17,7 +17,6 @@ import org.eclipse.emf.eef.runtime.tests.core.binding.PlatformResourceRegistryRe
 import org.eclipse.emf.eef.runtime.tests.core.binding.PropertyBindingTests;
 import org.eclipse.emf.eef.runtime.tests.core.binding.SampleMultiViewsEditingTests;
 import org.eclipse.emf.eef.runtime.tests.core.compatibility.EMFEditCompatibilityTests;
-import org.eclipse.emf.eef.runtime.tests.core.editingmodes.EditingModesTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.EditingListenerTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.EventsProcessingTests;
 import org.eclipse.emf.eef.runtime.tests.core.notify.PropertiesChangeDelayingTests;
@@ -45,7 +44,6 @@ import org.junit.runners.Suite;
 	// NonUIEditingTests
 	EditingListenerTests.class,
 	EventsProcessingTests.class,
-	EditingModesTests.class,
 	EMFEditCompatibilityTests.class,
 	ViewNotificationTests.class,
 	PropertiesChangeDelayingTests.class,
