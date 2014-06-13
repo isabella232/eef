@@ -38,14 +38,14 @@
         				<type>p2-installable-unit</type>
         				<artifactId>org.eclipse.equinox.ds</artifactId>
       				</dependency>
-      				<dependency>
+      				<!--dependency>
         				<type>p2-installable-unit</type>
         				<artifactId>org.eclipse.equinox.event</artifactId>
       				</dependency>
       				<dependency>
         				<type>p2-installable-unit</type>
         				<artifactId>org.eclipse.emf.codegen.ecore</artifactId>
-      				</dependency>
+      				</dependency-->
     				</dependencies>
 			        <testSuite>org.eclipse.emf.eef.runtime.tests.integration</testSuite>
 			        <testClass>org.eclipse.emf.eef.runtime.tests.integration.suite.AllTests</testClass>
