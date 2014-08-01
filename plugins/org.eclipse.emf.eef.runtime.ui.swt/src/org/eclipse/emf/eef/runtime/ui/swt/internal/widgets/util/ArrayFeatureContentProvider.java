@@ -120,7 +120,9 @@ public class ArrayFeatureContentProvider implements IStructuredContentProvider, 
 			viewService.executeAsyncUIRunnable(viewer.getControl().getDisplay(), new Runnable() {
 
 				public void run() {
-					viewer.refresh();
+					if (viewer != null && viewer.getControl() != null && !viewer.getControl().isDisposed()) {
+						viewer.refresh();
+					}
 				}
 			});
 		} else {
