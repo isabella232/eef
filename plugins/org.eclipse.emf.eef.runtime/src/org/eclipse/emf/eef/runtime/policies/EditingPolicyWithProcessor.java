@@ -51,6 +51,7 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 	 * 
 	 * @see org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicy#validateEditing(org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext)
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public EditingPolicyValidation validateEditing(SemanticPropertiesEditingContext editingContext) {
 		PropertiesEditingEvent editingEvent = editingContext.getEditingEvent();
 		EObject eObject;
@@ -77,7 +78,41 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 			}
 		} else {
 			Object currentValue = eefEditingServiceProvider.getEditingService(eObject).getValue(editingContext, eObject, editingEvent.getAffectedEditor());
-			if ((request.getValue() != null && !request.getValue().equals(currentValue)) || request.getValue() == null) {
+			boolean validated = false;
+			switch (editingEvent.getEventType()) {
+			case PropertiesEditingEvent.ADD:
+				// is not already contained
+				validated = currentValue instanceof List && !((List) currentValue).contains(request.getValue());
+				break;
+			case PropertiesEditingEvent.ADD_MANY:
+				// all are not already contained
+				validated = currentValue instanceof List && request.getValue() instanceof Collection && !((List) currentValue).containsAll((Collection) request.getValue());
+				break;
+			case PropertiesEditingEvent.EDIT:
+				// nothing
+				break;
+			case PropertiesEditingEvent.MOVE:
+				// TODO
+				break;
+			case PropertiesEditingEvent.REMOVE:
+				// is already contained
+				validated = currentValue instanceof List && ((List) currentValue).contains(request.getValue());
+				break;
+			case PropertiesEditingEvent.REMOVE_MANY:
+				// all are already contained
+				validated = currentValue instanceof List && request.getValue() instanceof Collection && ((List) currentValue).containsAll((Collection) request.getValue());
+				break;
+			case PropertiesEditingEvent.SET:
+				// different values
+				validated = ((request.getValue() != null && !request.getValue().equals(currentValue)) || request.getValue() == null);
+				break;
+			case PropertiesEditingEvent.UNSET:
+				// nothing
+				break;
+			default:
+				break;
+			}
+			if (validated) {
 				return new EditingPolicyValidation(this, true, "Editing a feature by accessor. Unable to check validity of the value.");
 			}
 		}
