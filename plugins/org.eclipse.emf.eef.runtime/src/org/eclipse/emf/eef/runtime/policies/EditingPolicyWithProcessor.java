@@ -90,9 +90,11 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 				break;
 			case PropertiesEditingEvent.EDIT:
 				// nothing
+				validated = true;
 				break;
 			case PropertiesEditingEvent.MOVE:
 				// TODO
+				validated = true;
 				break;
 			case PropertiesEditingEvent.REMOVE:
 				// is already contained
@@ -108,6 +110,7 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 				break;
 			case PropertiesEditingEvent.UNSET:
 				// nothing
+				validated = true;
 				break;
 			default:
 				break;

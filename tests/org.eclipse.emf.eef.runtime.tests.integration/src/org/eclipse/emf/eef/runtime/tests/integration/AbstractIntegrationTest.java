@@ -10,15 +10,28 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.tests.integration;
 
+import static org.junit.Assert.assertEquals;
+
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
+import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.junit.After;
 import org.junit.Before;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.FrameworkUtil;
@@ -26,22 +39,24 @@ import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class AbstractIntegrationTest {
 
-	/* Trackers */ 
+	/* Trackers */
 	private ServiceTracker editingContextFactoryProviderTracker;
 	private ServiceTracker propertiesBindingHandlerTracker;
+	private ServiceTracker emfServiceProviderTraker;
 
 	/* EEF Services */
 	private EditingContextFactoryProvider editingContextFactoryProvider;
 	private PropertiesBindingHandler propertiesBindingHandler;
-	
+	private EMFServiceProvider emfServiceProvider;
+
 	/* Editing artifacts */
 	private AdapterFactory adapterFactory;
 	private EditingDomain editingDomain;
-	
+
 	@Before
 	public void setUp() throws BundleException {
 		BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
@@ -51,14 +66,17 @@ public class AbstractIntegrationTest {
 		propertiesBindingHandlerTracker = new ServiceTracker(bundleContext, PropertiesBindingHandler.class.getName(), null);
 		propertiesBindingHandlerTracker.open();
 		propertiesBindingHandler = (PropertiesBindingHandler) propertiesBindingHandlerTracker.getService();
+		emfServiceProviderTraker = new ServiceTracker(bundleContext, EMFServiceProvider.class.getName(), null);
+		emfServiceProviderTraker.open();
+		emfServiceProvider = (EMFServiceProvider) emfServiceProviderTraker.getService();
 	}
-	
+
 	@After
 	public void tearDown() {
 		editingContextFactoryProviderTracker.close();
 		propertiesBindingHandlerTracker.close();
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -68,7 +86,7 @@ public class AbstractIntegrationTest {
 		}
 		return adapterFactory;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -92,5 +110,62 @@ public class AbstractIntegrationTest {
 	protected final PropertiesBindingHandler getPropertiesBindingHandler() {
 		return propertiesBindingHandler;
 	}
-	
+
+	/**
+	 * @return the emfServiceProvider
+	 */
+	protected EMFServiceProvider getEmfServiceProvider() {
+		return emfServiceProvider;
+	}
+
+	/**
+	 * Init PEC on EObject
+	 * 
+	 * @return PropertiesEditingComponent
+	 */
+	public PropertiesEditingComponent initPropertiesEditingComponent(EObject eObject) {
+		EditingContextFactoryProvider editingContextFactoryProvider = getEditingContextFactoryProvider();
+		PropertiesEditingContext editingContext = editingContextFactoryProvider.getEditingContextFactory(eObject).createPropertiesEditingContext(getEditingDomain(), getAdapterFactory(), eObject);
+		PropertiesEditingComponent editingComponent = editingContext.getEditingComponent();
+		editingComponent.addEditingListener(new PropertiesEditingListener() {
+
+			/**
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener#firePropertiesChanged(org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
+			 */
+			@Override
+			public void firePropertiesChanged(PropertiesEditingEvent event) {
+				if (event instanceof PropertiesValidationEditingEvent) {
+					assertEquals(BasicDiagnostic.OK, ((PropertiesValidationEditingEvent) event).getDiagnostic().getCode());
+				}
+
+			}
+		});
+		return editingComponent;
+	}
+
+	/**
+	 * init EEF Binding settings
+	 */
+	@SuppressWarnings("restriction")
+	protected void initEEFBindingSettings(final String uri) {
+		Bundle bundle = FrameworkUtil.getBundle(getClass());
+		BundleContext bundleContext = bundle.getBundleContext();
+		EEFBindingSettingsImpl bindingSettings = new EEFBindingSettingsImpl() {
+
+			/**
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl#getEditingModelPath()
+			 */
+			@Override
+			protected String getEditingModelPath() {
+				return uri;
+			}
+
+		};
+		bindingSettings.setEMFServiceProvider(getEmfServiceProvider());
+		bundleContext.registerService(EEFBindingSettings.class.getName(), bindingSettings, null);
+	}
 }
