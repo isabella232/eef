@@ -2,10 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: MTL Uml Module Runtime Plug-in
 Bundle-SymbolicName: org.eclipse.emf.eef.codegen.uml;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.4.0.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.uml2.uml,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.ocl,
