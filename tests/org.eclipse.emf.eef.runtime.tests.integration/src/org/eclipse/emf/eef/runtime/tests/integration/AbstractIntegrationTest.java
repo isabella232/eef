@@ -28,6 +28,8 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingListener;
 import org.eclipse.emf.eef.runtime.notify.PropertiesValidationEditingEvent;
+import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.junit.After;
 import org.junit.Before;
@@ -41,17 +43,21 @@ import org.osgi.util.tracker.ServiceTracker;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  * 
  */
-public class AbstractIntegrationTest {
+public abstract class AbstractIntegrationTest {
 
 	/* Trackers */
 	private ServiceTracker editingContextFactoryProviderTracker;
 	private ServiceTracker propertiesBindingHandlerTracker;
 	private ServiceTracker emfServiceProviderTraker;
+	private ServiceTracker eefEditingServiceProviderTraker;
+	private ServiceTracker editUIProvidersFactoryTraker;
 
 	/* EEF Services */
 	private EditingContextFactoryProvider editingContextFactoryProvider;
 	private PropertiesBindingHandler propertiesBindingHandler;
 	private EMFServiceProvider emfServiceProvider;
+	private EEFEditingServiceProvider eefEditingServiceProvider;
+	private EditUIProvidersFactory editUIProvidersFactory;
 
 	/* Editing artifacts */
 	private AdapterFactory adapterFactory;
@@ -69,6 +75,12 @@ public class AbstractIntegrationTest {
 		emfServiceProviderTraker = new ServiceTracker(bundleContext, EMFServiceProvider.class.getName(), null);
 		emfServiceProviderTraker.open();
 		emfServiceProvider = (EMFServiceProvider) emfServiceProviderTraker.getService();
+		eefEditingServiceProviderTraker = new ServiceTracker(bundleContext, EEFEditingServiceProvider.class.getName(), null);
+		eefEditingServiceProviderTraker.open();
+		eefEditingServiceProvider = (EEFEditingServiceProvider) eefEditingServiceProviderTraker.getService();
+		editUIProvidersFactoryTraker = new ServiceTracker(bundleContext, EditUIProvidersFactory.class.getName(), null);
+		editUIProvidersFactoryTraker.open();
+		editUIProvidersFactory = (EditUIProvidersFactory) editUIProvidersFactoryTraker.getService();
 	}
 
 	@After
@@ -119,6 +131,20 @@ public class AbstractIntegrationTest {
 	}
 
 	/**
+	 * @return the eefEditingServiceProvider
+	 */
+	public EEFEditingServiceProvider getEEFEditingServiceProvider() {
+		return eefEditingServiceProvider;
+	}
+
+	/**
+	 * @return the editUIProvidersFactory
+	 */
+	public EditUIProvidersFactory getEditUIProvidersFactory() {
+		return editUIProvidersFactory;
+	}
+
+	/**
 	 * Init PEC on EObject
 	 * 
 	 * @return PropertiesEditingComponent
@@ -147,6 +173,9 @@ public class AbstractIntegrationTest {
 
 	/**
 	 * init EEF Binding settings
+	 * 
+	 * @param uri
+	 *            String
 	 */
 	@SuppressWarnings("restriction")
 	protected void initEEFBindingSettings(final String uri) {
@@ -168,4 +197,5 @@ public class AbstractIntegrationTest {
 		bindingSettings.setEMFServiceProvider(getEmfServiceProvider());
 		bundleContext.registerService(EEFBindingSettings.class.getName(), bindingSettings, null);
 	}
+
 }
