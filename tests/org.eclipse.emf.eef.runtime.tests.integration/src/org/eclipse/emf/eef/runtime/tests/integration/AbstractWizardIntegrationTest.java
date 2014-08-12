@@ -14,6 +14,8 @@ import java.util.Hashtable;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler;
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
@@ -21,8 +23,9 @@ import org.eclipse.emf.eef.runtime.context.SemanticPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
+import org.eclipse.emf.eef.runtime.tests.integration.EmbedingEditingEvent.TestEditingSettings;
+import org.eclipse.emf.eef.runtime.ui.commands.AbstractBatchEditingCommand;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
-import org.eclipse.emf.eef.runtime.ui.swt.commands.WizardEditingCommand;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.processors.WizardDomainEditingPolicyProcessor;
 import org.junit.After;
 import org.junit.Before;
@@ -56,8 +59,6 @@ public abstract class AbstractWizardIntegrationTest extends AbstractIntegrationT
 	@Override
 	@After
 	public void tearDown() {
-		setPropertiesEditingContext(null);
-		setPropertyEvent(null);
 		super.tearDown();
 	}
 
@@ -68,142 +69,171 @@ public abstract class AbstractWizardIntegrationTest extends AbstractIntegrationT
 	protected static boolean CANCEL = false;
 
 	/**
-	 * Event
-	 */
-	private PropertiesEditingEvent propertyEvent;
-	private boolean finished;
-	private PropertiesEditingContext propertiesEditingContext;
-
-	/**
-	 * @return the propertiesEditingContext
-	 */
-	public PropertiesEditingContext getPropertiesEditingContext() {
-		return propertiesEditingContext;
-	}
-
-	/**
-	 * @param propertiesEditingContext
-	 *            the propertiesEditingContext to set
-	 */
-	public void setPropertiesEditingContext(PropertiesEditingContext propertiesEditingContext) {
-		this.propertiesEditingContext = propertiesEditingContext;
-	}
-
-	/**
 	 * init Editing Policy Processor to test updates in wizard.
 	 */
 	protected void initEditingPolicyProcessor() {
 		Bundle bundle = FrameworkUtil.getBundle(getClass());
 		BundleContext bundleContext = bundle.getBundleContext();
-		WizardDomainEditingPolicyProcessor wizardDomainEditingPolicyProcessor = new WizardDomainEditingPolicyProcessor() {
-
-			/**
-			 * (non-Javadoc)
-			 * 
-			 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.policies.processors.WizardDomainEditingPolicyProcessor#convertToCommand(org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext,
-			 *      org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest)
-			 */
-			@Override
-			protected Command convertToCommand(DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyRequest behavior) {
-				if (domainEditingContext instanceof SemanticPropertiesEditingContext) {
-					PropertiesEditingEvent event = ((SemanticPropertiesEditingContext) domainEditingContext).getEditingEvent();
-					Object newValue = behavior.getValue();
-					switch (behavior.getProcessingKind()) {
-					case EDIT:
-						if (newValue != null) {
-							PropertiesEditingContextFactory editingContextFactory = domainEditingContext.getContextFactoryProvider().getEditingContextFactory((EObject) newValue);
-							final SemanticPropertiesEditingContext context = editingContextFactory.createSemanticPropertiesEditingContext(domainEditingContext, event);
-							context.getOptions().setBatchMode(true);
-							context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
-							WizardEditingCommand wizardEditingCommand = new WizardEditingCommand(domainEditingContext.getContextFactoryProvider(), getEmfServiceProvider(), getEEFEditingServiceProvider(), getEditUIProvidersFactory(), (SemanticPropertiesEditingContext) context) {
-
-								/**
-								 * (non-Javadoc)
-								 * 
-								 * @see org.eclipse.emf.eef.runtime.ui.swt.commands.WizardEditingCommand#prepareBatchEditing()
-								 */
-								@Override
-								protected boolean prepareBatchEditing() {
-									context.startEditing();
-									EObject editedObject = (EObject) context.getEditingEvent().getNewValue();
-									PropertiesEditingContextFactory editingContextFactory = context.getContextFactoryProvider().getEditingContextFactory(editedObject);
-									PropertiesEditingContext editingContext = editingContextFactory.createPropertiesEditingContext(context, editedObject);
-									editingContext.getOptions().setBatchMode(true);
-									editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
-									setPropertiesEditingContext(editingContext);
-									boolean finish = updateOnWizard(editingContext);
-									if (finish == CANCEL) {
-										context.cancelEditing();
-									}
-									return finish;
-								}
-
-							};
-							return wizardEditingCommand;
-						}
-					}
-				}
-				return null;
-			}
-
-		};
-		wizardDomainEditingPolicyProcessor.setEMFServiceProvider(getEmfServiceProvider());
-		wizardDomainEditingPolicyProcessor.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
-		wizardDomainEditingPolicyProcessor.setEditUIProvidersFactory(getEditUIProvidersFactory());
+		EditingPolicyProcessor processor = new DelegatingPolicyProcessor(new TestingWizardDomainEditingPolicyProcessor(getPropertiesBindingHandler()));
 		Hashtable<Object, Object> hashtable = new Hashtable<>();
 		hashtable.put("priority.over", "org.eclipse.emf.eef.runtime.ui.swt.policies.processors.WizardDomainEditingPolicyProcessor");
-		bundleContext.registerService(EditingPolicyProcessor.class.getName(), wizardDomainEditingPolicyProcessor, hashtable);
+		bundleContext.registerService(EditingPolicyProcessor.class.getName(), processor, hashtable);
 	}
 
-	/**
-	 * Apply updates in wizard.
-	 * 
-	 * @param context
-	 *            PropertiesEditingContext
-	 * @param editingContext
-	 * @return ok or cancel
-	 */
-	protected abstract boolean updateOnWizard(PropertiesEditingContext context);
+	// /**
+	// * init Editing Policy Processor to test updates in wizard.
+	// */
+	// protected void initEditingPolicyRequestFactory() {
+	// Bundle bundle = FrameworkUtil.getBundle(getClass());
+	// BundleContext bundleContext = bundle.getBundleContext();
+	// EditingPolicyRequestFactory processor = new
+	// EReferenceDirectWizardEditingPolicyRequest);
+	// Hashtable<Object, Object> hashtable = new Hashtable<>();
+	// hashtable.put("priority.over",
+	// "org.eclipse.emf.eef.runtime.ui.swt.policies.processors.WizardDomainEditingPolicyProcessor");
+	// bundleContext.registerService(EditingPolicyProcessor.class.getName(),
+	// processor, hashtable);
+	// }
 
-	/**
-	 * @param propertiesEditingEvent
-	 *            PropertiesEditingEvent
-	 * @param finished
-	 */
-	protected void setWizardProperties(PropertiesEditingEvent propertiesEditingEvent, boolean finished) {
-		setPropertyEvent(propertiesEditingEvent);
-		setFinished(finished);
+	private static final class DelegatingPolicyProcessor implements EditingPolicyProcessor {
+
+		private EditingPolicyProcessor delegatedProcessor;
+
+		public DelegatingPolicyProcessor(EditingPolicyProcessor delegatedProcessor) {
+			this.delegatedProcessor = delegatedProcessor;
+		}
+
+		/**
+		 * @param element
+		 * @return
+		 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
+		 */
+		public boolean serviceFor(PropertiesEditingContext element) {
+			return delegatedProcessor.serviceFor(element);
+		}
+
+		/**
+		 * @param editingContext
+		 * @param behavior
+		 * @see org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor#process(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+		 *      org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest)
+		 */
+		public void process(PropertiesEditingContext editingContext, EditingPolicyRequest behavior) {
+			delegatedProcessor.process(editingContext, behavior);
+			PropertiesEditingEvent editingEvent = ((SemanticPropertiesEditingContext) editingContext).getEditingEvent();
+			if (editingEvent instanceof EmbedingEditingEvent) {
+				((EmbedingEditingEvent) editingEvent).getSettings().testSettings(editingContext);
+			}
+		}
 
 	}
 
-	/**
-	 * @return the propertyEvent
-	 */
-	public PropertiesEditingEvent getPropertyEvent() {
-		return propertyEvent;
+	private static final class TestingWizardDomainEditingPolicyProcessor extends WizardDomainEditingPolicyProcessor {
+
+		private final PropertiesBindingHandler propertiesBindingHandler;
+
+		public TestingWizardDomainEditingPolicyProcessor(PropertiesBindingHandler propertiesBindingHandler) {
+			this.propertiesBindingHandler = propertiesBindingHandler;
+		}
+
+		/**
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.policies.processors.WizardDomainEditingPolicyProcessor#convertToCommand(org.eclipse.emf.eef.runtime.context.DomainAwarePropertiesEditingContext,
+		 *      org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest)
+		 */
+		@Override
+		protected Command convertToCommand(DomainAwarePropertiesEditingContext domainEditingContext, EditingPolicyRequest behavior) {
+			if (domainEditingContext instanceof SemanticPropertiesEditingContext) {
+				final PropertiesEditingEvent event = ((SemanticPropertiesEditingContext) domainEditingContext).getEditingEvent();
+				Object newValue = behavior.getValue();
+				switch (behavior.getProcessingKind()) {
+				case EDIT:
+					if (newValue != null) {
+						PropertiesEditingContextFactory editingContextFactory = domainEditingContext.getContextFactoryProvider().getEditingContextFactory((EObject) newValue);
+						final SemanticPropertiesEditingContext context = editingContextFactory.createSemanticPropertiesEditingContext(domainEditingContext, event);
+						context.getOptions().setBatchMode(true);
+						context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
+						AbstractBatchEditingCommand wizardEditingCommand = new AbstractBatchEditingCommand((SemanticPropertiesEditingContext) context) {
+
+							/**
+							 * (non-Javadoc)
+							 * 
+							 * @see org.eclipse.emf.eef.runtime.ui.swt.commands.WizardEditingCommand#prepareBatchEditing()
+							 */
+							@Override
+							protected boolean prepareBatchEditing() {
+								context.startEditing();
+								EObject editedObject = (EObject) context.getEditingEvent().getNewValue();
+								PropertiesEditingContextFactory editingContextFactory = context.getContextFactoryProvider().getEditingContextFactory(editedObject);
+								PropertiesEditingContext editingContext = editingContextFactory.createPropertiesEditingContext(context, editedObject);
+								editingContext.getOptions().setBatchMode(true);
+								editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, null);
+								boolean finish = updateOnWizard(editingContext, event);
+								if (finish == CANCEL) {
+									context.cancelEditing();
+								}
+								return finish;
+							}
+
+						};
+						return wizardEditingCommand;
+					}
+				}
+			}
+			return null;
+		}
+
+		/**
+		 * Apply updates in wizard.
+		 * 
+		 * @param context
+		 *            PropertiesEditingContext
+		 * @param event
+		 * @param editingContext
+		 * @return ok or cancel
+		 */
+		protected boolean updateOnWizard(PropertiesEditingContext context, PropertiesEditingEvent event) {
+			if (event instanceof EmbedingEditingEvent) {
+				TestEditingSettings settings = ((EmbedingEditingEvent) event).getSettings();
+				for (PropertiesEditingEvent subEvent : settings.getEvents()) {
+					propertiesBindingHandler.firePropertiesChanged(context.getEditingComponent(), subEvent);
+				}
+				return settings.isStatus();
+			}
+			return false;
+		}
+
 	}
 
-	/**
-	 * @param propertyEvent
-	 *            the propertyEvent to set
-	 */
-	public void setPropertyEvent(PropertiesEditingEvent propertyEvent) {
-		this.propertyEvent = propertyEvent;
-	}
+	public final class Processor {
 
-	/**
-	 * @return the finished
-	 */
-	public boolean isFinished() {
-		return finished;
-	}
+		private PropertiesEditingComponent editingComponent;
 
-	/**
-	 * @param finished
-	 *            the finished to set
-	 */
-	public void setFinished(boolean finished) {
-		this.finished = finished;
+		public Processor(PropertiesEditingComponent editingComponent) {
+			super();
+			this.editingComponent = editingComponent;
+		}
+
+		public void execute(PropertiesEditingEvent editingEvent) {
+			getPropertiesBindingHandler().firePropertiesChanged(editingComponent, editingEvent);
+		}
+
+		public boolean canUndo() {
+			return getEditingDomain().getCommandStack().canUndo();
+		}
+
+		public void undo() {
+			getEditingDomain().getCommandStack().undo();
+		}
+
+		public boolean canRedo() {
+			return getEditingDomain().getCommandStack().canRedo();
+		}
+
+		public void redo() {
+			getEditingDomain().getCommandStack().redo();
+		}
 	}
 
 }
