@@ -16,6 +16,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.binding.EEFModifierCustomizer;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
@@ -186,5 +187,24 @@ public interface EEFEditingService extends EEFService<EObject> {
 	 * @return editors list affected by the notification in editingComponent
 	 */
 	Collection<Object> affectedEditors(PropertiesEditingComponent editingComponent, Notification notification);
+
+	/**
+	 * Attaches the created object to the given {@link Resource}.
+	 * 
+	 * @param resource
+	 *            {@link Resource} to process.
+	 * @param createdEObject
+	 *            the {@link EObject} to attach.
+	 */
+	void attachToResource(PropertiesEditingContext editingContext, Resource resource, EObject createdEObject);
+
+	/**
+	 * Detaches the given object from its resource if it is contained as a root
+	 * element.
+	 * 
+	 * @param eObject
+	 *            the {@link EObject} to attach.
+	 */
+	void detachFromResource(PropertiesEditingContext editingContext, final EObject eObject);
 
 }

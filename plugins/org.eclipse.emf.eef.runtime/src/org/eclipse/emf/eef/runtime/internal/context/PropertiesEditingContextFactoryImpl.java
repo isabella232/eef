@@ -172,12 +172,30 @@ public class PropertiesEditingContextFactoryImpl implements PropertiesEditingCon
 	 */
 	public SemanticPropertiesEditingContext createSemanticPropertiesEditingContext(PropertiesEditingContext parentContext, PropertiesEditingEvent editingEvent) {
 		SemanticPropertiesEditingContext context;
-		if (parentContext instanceof DomainAwarePropertiesEditingContext) {
+		if (haveToCreateADomainAwareContext(parentContext)) {
 			context = new SemanticDomainPropertiesEditingContext((DomainAwarePropertiesEditingContext) parentContext, editingEvent);
 		} else {
 			context = new SemanticPropertiesEditingContextImpl(parentContext, editingEvent);
 		}
 		return context;
+	}
+
+	/**
+	 * Determines when to create a
+	 * {@link SemanticDomainPropertiesEditingContext} or a
+	 * {@link SemanticPropertiesEditingContext}.
+	 * 
+	 * A {@link SemanticPropertiesEditingContext} must be create when we are
+	 * inside a wizard. The pattern to find this id the following : - My parent
+	 * is a {@link DomainAwarePropertiesEditingContext} but not a
+	 * {@link SemanticPropertiesEditingContext} - And my grandparent isn't a
+	 * {@link SemanticPropertiesEditingContext}
+	 * 
+	 * @param parentContext
+	 * @return
+	 */
+	private boolean haveToCreateADomainAwareContext(PropertiesEditingContext parentContext) {
+		return parentContext instanceof DomainAwarePropertiesEditingContext && !(parentContext instanceof SemanticPropertiesEditingContext) && !(parentContext.getParentContext() instanceof SemanticPropertiesEditingContext);
 	}
 
 	/**

@@ -4,4 +4,5 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor"/>
    </service>
+   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
 </scr:component>

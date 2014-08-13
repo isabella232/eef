@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -23,6 +24,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.UsageCrossReferencer;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.EEFRuntime;
@@ -472,6 +474,133 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 	 */
 	private boolean isEditorAffectedByNotificationDueToCustomization(PropertiesEditingComponent editingComponent, PropertyBinding binding, Notification notification) {
 		return !Strings.isNullOrEmpty(binding.getBindingCustomizer()) && isAffectingEventDueToCustomization(editingComponent.getEditingContext(), binding, notification);
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#attachToResource(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+	 *      org.eclipse.emf.ecore.resource.Resource,
+	 *      org.eclipse.emf.ecore.EObject)
+	 */
+	public void attachToResource(PropertiesEditingContext editingContext, final Resource resource, final EObject createdEObject) {
+		if (!(editingContext instanceof DomainAwarePropertiesEditingContext)) {
+			resource.getContents().add(createdEObject);
+		} else {
+			((DomainAwarePropertiesEditingContext) editingContext).getEditingDomain().getCommandStack().execute(new AbstractCommand() {
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.emf.common.command.Command#execute()
+				 */
+				public void execute() {
+					resource.getContents().add(createdEObject);
+				}
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.emf.common.command.AbstractCommand#undo()
+				 */
+				@Override
+				public void undo() {
+					resource.getContents().remove(createdEObject);
+				}
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.emf.common.command.Command#redo()
+				 */
+				public void redo() {
+					resource.getContents().add(createdEObject);
+				}
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.emf.common.command.AbstractCommand#prepare()
+				 */
+				@Override
+				protected boolean prepare() {
+					return true;
+				}
+
+			});
+		}
+
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#detachFromResource(org.eclipse.emf.eef.runtime.context.PropertiesEditingContext,
+	 *      org.eclipse.emf.ecore.EObject)
+	 */
+	public void detachFromResource(PropertiesEditingContext editingContext, final EObject eObject) {
+		if (editingContext.getOptions().liveMode()) {
+			if (eObject.eResource() != null) {
+				Resource objectResource = eObject.eResource();
+				if (objectResource.getContents().contains(eObject)) {
+					objectResource.getContents().remove(eObject);
+				}
+			}
+		} else {
+			((DomainAwarePropertiesEditingContext) editingContext).getEditingDomain().getCommandStack().execute(new AbstractCommand() {
+
+				private Resource objectResource;
+				private EObject focusedEObject;
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.emf.common.command.Command#execute()
+				 */
+				public void execute() {
+					this.focusedEObject = eObject;
+					if (eObject.eResource() != null) {
+						objectResource = eObject.eResource();
+						if (objectResource.getContents().contains(focusedEObject)) {
+							objectResource.getContents().remove(focusedEObject);
+						}
+					}
+				}
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.emf.common.command.AbstractCommand#undo()
+				 */
+				@Override
+				public void undo() {
+					objectResource.getContents().add(focusedEObject);
+				}
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.emf.common.command.Command#redo()
+				 */
+				public void redo() {
+					if (objectResource.getContents().contains(focusedEObject)) {
+						objectResource.getContents().remove(focusedEObject);
+					}
+				}
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.emf.common.command.AbstractCommand#prepare()
+				 */
+				@Override
+				protected boolean prepare() {
+					return true;
+				}
+
+			});
+		}
+
 	}
 
 }

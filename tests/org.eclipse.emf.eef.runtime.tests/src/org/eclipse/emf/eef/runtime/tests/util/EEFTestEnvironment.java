@@ -81,10 +81,6 @@ import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.handle.editingview.Pl
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesPlatformAwareToolkit;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.swttoolkit.SWTPlatformAwareToolkit;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.viewer.E3EditUIProvidersFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.processors.WizardDomainEditingPolicyProcessor;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceBatchWizardEditingPolicyRequest;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceDirectWizardEditingPolicyRequest;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.policies.request.EReferenceLiveWizardEditingPolicyRequest;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.swt.SWTViewHandler;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.lock.EditingViewLockManager;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.notify.EditingViewNotifier;
@@ -661,18 +657,33 @@ public class EEFTestEnvironment {
 			eReferenceEditingPolicyRequestFactory.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
 			descriptor = new EEFServiceDescriptor<EditingPolicyRequestFactory>(EReferenceEditingPolicyRequestFactory.class.getName(), eReferenceEditingPolicyRequestFactory, EObjectEditingPolicyRequestFactory.class.getName());
 			services.add(descriptor);
-			EReferenceDirectWizardEditingPolicyRequest eReferenceDirectWizardEditingPolicyRequest = new EReferenceDirectWizardEditingPolicyRequest();
-			eReferenceDirectWizardEditingPolicyRequest.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
-			descriptor = new EEFServiceDescriptor<EditingPolicyRequestFactory>(EReferenceDirectWizardEditingPolicyRequest.class.getName(), eReferenceDirectWizardEditingPolicyRequest, EReferenceEditingPolicyRequestFactory.class.getName());
-			services.add(descriptor);
-			EReferenceBatchWizardEditingPolicyRequest eReferenceBatchWizardEditingPolicyRequest = new EReferenceBatchWizardEditingPolicyRequest();
-			eReferenceBatchWizardEditingPolicyRequest.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
-			descriptor = new EEFServiceDescriptor<EditingPolicyRequestFactory>(EReferenceBatchWizardEditingPolicyRequest.class.getName(), eReferenceBatchWizardEditingPolicyRequest, EReferenceEditingPolicyRequestFactory.class.getName());
-			services.add(descriptor);
-			EReferenceLiveWizardEditingPolicyRequest eReferenceLiveWizardEditingPolicyRequest = new EReferenceLiveWizardEditingPolicyRequest();
-			eReferenceLiveWizardEditingPolicyRequest.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
-			descriptor = new EEFServiceDescriptor<EditingPolicyRequestFactory>(EReferenceLiveWizardEditingPolicyRequest.class.getName(), eReferenceLiveWizardEditingPolicyRequest, EReferenceEditingPolicyRequestFactory.class.getName());
-			services.add(descriptor);
+			// EReferenceDirectWizardEditingPolicyRequest
+			// eReferenceDirectWizardEditingPolicyRequest = new
+			// EReferenceDirectWizardEditingPolicyRequest();
+			// eReferenceDirectWizardEditingPolicyRequest.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
+			// descriptor = new
+			// EEFServiceDescriptor<EditingPolicyRequestFactory>(EReferenceDirectWizardEditingPolicyRequest.class.getName(),
+			// eReferenceDirectWizardEditingPolicyRequest,
+			// EReferenceEditingPolicyRequestFactory.class.getName());
+			// services.add(descriptor);
+			// EReferenceBatchWizardEditingPolicyRequest
+			// eReferenceBatchWizardEditingPolicyRequest = new
+			// EReferenceBatchWizardEditingPolicyRequest();
+			// eReferenceBatchWizardEditingPolicyRequest.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
+			// descriptor = new
+			// EEFServiceDescriptor<EditingPolicyRequestFactory>(EReferenceBatchWizardEditingPolicyRequest.class.getName(),
+			// eReferenceBatchWizardEditingPolicyRequest,
+			// EReferenceEditingPolicyRequestFactory.class.getName());
+			// services.add(descriptor);
+			// EReferenceLiveWizardEditingPolicyRequest
+			// eReferenceLiveWizardEditingPolicyRequest = new
+			// EReferenceLiveWizardEditingPolicyRequest();
+			// eReferenceLiveWizardEditingPolicyRequest.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
+			// descriptor = new
+			// EEFServiceDescriptor<EditingPolicyRequestFactory>(EReferenceLiveWizardEditingPolicyRequest.class.getName(),
+			// eReferenceLiveWizardEditingPolicyRequest,
+			// EReferenceEditingPolicyRequestFactory.class.getName());
+			// services.add(descriptor);
 			return services;
 		}
 
@@ -682,8 +693,12 @@ public class EEFTestEnvironment {
 			services.add(descriptor);
 			descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(DomainEditingPolicyProcessor.class.getName(), new DomainEditingPolicyProcessor(), DirectEditingPolicyProcessor.class.getName());
 			services.add(descriptor);
-			descriptor = new EEFServiceDescriptor<EditingPolicyProcessor>(WizardDomainEditingPolicyProcessor.class.getName(), new WizardDomainEditingPolicyProcessor(), DomainEditingPolicyProcessor.class.getName(), DirectEditingPolicyProcessor.class.getName());
-			services.add(descriptor);
+			// descriptor = new
+			// EEFServiceDescriptor<EditingPolicyProcessor>(WizardDomainEditingPolicyProcessor.class.getName(),
+			// new WizardDomainEditingPolicyProcessor(),
+			// DomainEditingPolicyProcessor.class.getName(),
+			// DirectEditingPolicyProcessor.class.getName());
+			// services.add(descriptor);
 			return services;
 		}
 

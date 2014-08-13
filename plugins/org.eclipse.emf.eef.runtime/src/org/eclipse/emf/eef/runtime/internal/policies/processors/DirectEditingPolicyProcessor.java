@@ -31,12 +31,23 @@ import org.eclipse.emf.eef.runtime.internal.util.EEFInvocationParametersImpl;
 import org.eclipse.emf.eef.runtime.internal.util.EEFModifierInvocationParametersImpl;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyProcessor;
 import org.eclipse.emf.eef.runtime.policies.EditingPolicyRequest;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  * 
  */
 public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
+
+	private EMFServiceProvider emfServiceProvider;
+
+	/**
+	 * @param emfServiceProvider
+	 *            the emfServiceProvider to set
+	 */
+	public void setEMFServiceProvider(EMFServiceProvider emfServiceProvider) {
+		this.emfServiceProvider = emfServiceProvider;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -183,26 +194,25 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
-					if (newValue != null) {
-						if (feature.isMany()) {
-							if (newValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-								((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String) newValue));
-							} else if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
-								EClass newValueClass = (EClass) newValue;
-								EClass referenceType = ((EReference) feature).getEReferenceType();
-								if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
-									((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.create(newValueClass));
-								}
-							} else {
-								if (newValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
-									((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.create((EClass) newValue));
-								} else {
-									((Collection<Object>) eObject.eGet(feature)).add(newValue);
-								}
+					Object newNewValue = (newValue == null) ? defineEObjectToAdd(editingContext, (EReference) feature) : newValue;
+					if (feature.isMany()) {
+						if (newNewValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+							((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String) newNewValue));
+						} else if (newNewValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
+							EClass newValueClass = (EClass) newNewValue;
+							EClass referenceType = ((EReference) feature).getEReferenceType();
+							if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
+								((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.create(newValueClass));
 							}
 						} else {
-							throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
+							if (newNewValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
+								((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.create((EClass) newNewValue));
+							} else {
+								((Collection<Object>) eObject.eGet(feature)).add(newNewValue);
+							}
 						}
+					} else {
+						throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
 					}
 					return null;
 				}
@@ -211,6 +221,20 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 		} catch (EditingStrategyNotFoundException e) {
 			// Do nothing
 		}
+	}
+
+	protected Object defineEObjectToAdd(SemanticPropertiesEditingContext editingContext, EReference feature) {
+		if (((EClass) feature.getEType()).isAbstract()) {
+			EObject editedObject = editingContext.getEditingComponent().getEObject();
+			Collection<EClass> listOfInstanciableType = emfServiceProvider.getEMFService(editedObject.eClass().getEPackage()).listOfInstanciableType(editingContext.getAdapterFactory(), editedObject, feature);
+			if (listOfInstanciableType.size() > 0) {
+				return EcoreUtil.create(listOfInstanciableType.iterator().next());
+			}
+
+		} else {
+			return EcoreUtil.create(((EClass) feature.getEType()));
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

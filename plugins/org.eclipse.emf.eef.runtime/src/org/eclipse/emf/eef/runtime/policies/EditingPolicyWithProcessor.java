@@ -160,6 +160,8 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 		if (feature.isMany()) {
 			switch (editingEvent.getEventType()) {
 			case PropertiesEditingEvent.ADD:
+				// Note: if we're in the case of a containment, the value is
+				// null.
 				return !((Collection<?>) currentValue).contains(request.getValue());
 			case PropertiesEditingEvent.ADD_MANY:
 				// TODO: need specifications
