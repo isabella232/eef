@@ -57,9 +57,9 @@ public class WizardEditingTests extends AbstractWizardIntegrationTest {
 		initEcoreModel();
 
 		// init EEF Binding settings
-		initEEFBindingSettings("platform:/plugin/org.eclipse.emf.eef.runtime.tests.integration/ressources/wizard/TestWizard.editingmodel");
+		initEEFBindingSettings("platform:/plugin/org.eclipse.emf.eef.runtime.tests.integration/resources/wizard/TestWizard.editingmodel");
 		// init editing policy processor
-		initEditingPolicyProcessor();
+		initEditingPolicyProcessors();
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class WizardEditingTests extends AbstractWizardIntegrationTest {
 		// init processor
 		Processor processor = new Processor(editingComponent);
 
-		// fire event : open class wizard and update it : set name and cancel
+		// fire event : open class wizard and update it : set name and ok
 		Builder builder = new EmbedingEditingEvent.Builder(getClassesPackageBindingEditor(editingComponent.getBinding()), eClassTest) {
 			@Override
 			public void test(PropertiesEditingContext editingContext) {
@@ -177,6 +177,8 @@ public class WizardEditingTests extends AbstractWizardIntegrationTest {
 			}
 		};
 		builder.addEvent(this, getClassNameBindingEditor(editingComponent.getBinding()), PropertiesEditingEvent.SET, null, NEW_VALUE);
+
+		// fire event : open attribute wizard and update it : set name and ok
 		EmbedingEditingEvent editingEvent = builder.addEvent(new Builder(getEStructuralFeaturesClasseBindingEditor(editingComponent.getBinding()), eAttributeTest) {
 
 			@Override
@@ -214,7 +216,7 @@ public class WizardEditingTests extends AbstractWizardIntegrationTest {
 		// init processor
 		Processor processor = new Processor(editingComponent);
 
-		// fire event : open class wizard and update it : set name and cancel
+		// fire event : open class wizard and update it : set name and ok
 		Builder builder = new EmbedingEditingEvent.Builder(getClassesPackageBindingEditor(editingComponent.getBinding()), eClassTest) {
 			@Override
 			public void test(PropertiesEditingContext editingContext) {
@@ -222,6 +224,7 @@ public class WizardEditingTests extends AbstractWizardIntegrationTest {
 			}
 		};
 		builder.addEvent(this, getClassNameBindingEditor(editingComponent.getBinding()), PropertiesEditingEvent.SET, null, NEW_VALUE);
+		// fire event : open attribte wizard and update it : set name and cancel
 		EmbedingEditingEvent editingEvent = builder.addEvent(new Builder(getEStructuralFeaturesClasseBindingEditor(editingComponent.getBinding()), eAttributeTest) {
 
 			@Override
@@ -267,6 +270,8 @@ public class WizardEditingTests extends AbstractWizardIntegrationTest {
 			}
 		};
 		builder.addEvent(this, getClassNameBindingEditor(editingComponent.getBinding()), PropertiesEditingEvent.SET, null, NEW_VALUE);
+
+		// fire event : open attribute wizard and update it : set name and ok
 		EmbedingEditingEvent editingEvent = builder.addEvent(new Builder(getEStructuralFeaturesClasseBindingEditor(editingComponent.getBinding()), eAttributeTest) {
 
 			@Override
@@ -312,6 +317,8 @@ public class WizardEditingTests extends AbstractWizardIntegrationTest {
 			}
 		};
 		builder.addEvent(this, getClassNameBindingEditor(editingComponent.getBinding()), PropertiesEditingEvent.SET, null, NEW_VALUE);
+
+		// fire event : open attribute wizard and update it : set name and ok
 		EmbedingEditingEvent editingEvent = builder.addEvent(new Builder(getEStructuralFeaturesClasseBindingEditor(editingComponent.getBinding()), eAttributeTest) {
 
 			@Override
@@ -335,8 +342,8 @@ public class WizardEditingTests extends AbstractWizardIntegrationTest {
 	}
 
 	/**
-	 * On EPackage, open wizard on 0..* classifiers reference, set name, On
-	 * EClass, open wizard on 0..* eSF, set name and ok, ok
+	 * On EPackage, add wizard on 0..* classifiers reference, set name, On
+	 * EClass, add wizard on 0..* eSF, set name and ok, ok
 	 * 
 	 */
 	@Test
@@ -349,22 +356,24 @@ public class WizardEditingTests extends AbstractWizardIntegrationTest {
 		// init processor
 		Processor processor = new Processor(editingComponent);
 
-		// fire event : open class wizard and update it : set name and cancel
+		// fire event : create class wizard and update it : set name and ok
 		Builder builder = new EmbedingEditingEvent.Builder(getClassesPackageBindingEditor(editingComponent.getBinding()), null) {
 
 			@Override
 			public void test(PropertiesEditingContext editingContext) {
-				createdEClass = (EClass) editingContext.getEditingComponent().getEObject();
-				assertEquals(null, createdEClass.getName());
+				createdEClass = (EClass) ePackageTest.getEClassifiers().get(1);
+				assertEquals(NEW_VALUE, createdEClass.getName());
 			}
 		};
 		builder.addEvent(this, getClassNameBindingEditor(editingComponent.getBinding()), PropertiesEditingEvent.SET, null, NEW_VALUE);
+
+		// fire event : create eattribute wizard and update it : set name and ok
 		EmbedingEditingEvent editingEvent = builder.addEvent(new Builder(getEStructuralFeaturesClasseBindingEditor(editingComponent.getBinding()), null) {
 
 			@Override
 			public void test(PropertiesEditingContext editingContext) {
-				createdEAttribute = (EAttribute) editingContext.getEditingComponent().getEObject();
-				assertEquals(null, createdEAttribute.getName());
+				createdEAttribute = ((EClass) editingContext.getEditingComponent().getEObject()).getEAttributes().get(0);
+				assertEquals(NEW_VALUE, createdEAttribute.getName());
 
 			}
 		}.addEvent(this, getESFNameBindingEditor(editingComponent.getBinding()), PropertiesEditingEvent.SET, null, NEW_VALUE).ok()).ok();
@@ -372,14 +381,12 @@ public class WizardEditingTests extends AbstractWizardIntegrationTest {
 
 		// undo
 		processor.undo();
-		assertNull(createdEAttribute.getName());
-		assertNull(createdEClass.getName());
+		assertEquals(1, ePackageTest.getEClassifiers().size());
 
 		// redo
-		assertFalse(processor.canRedo());
-		assertNull(createdEAttribute.getName());
-		assertNull(createdEClass.getName());
-
+		processor.redo();
+		assertEquals(2, ePackageTest.getEClassifiers().size());
+		assertEquals(1, ((EClass) ePackageTest.getEClassifiers().get(1)).getEAttributes().size());
 	}
 
 	/**
