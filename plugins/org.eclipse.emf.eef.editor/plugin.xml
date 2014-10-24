@@ -81,7 +81,7 @@
             name="%_UI_EditingModelEditor_label"
             icon="icons/full/obj16/EditingModelModelFile.gif"
             extensions="editingmodel,views"
-            class="org.eclipse.emf.eef.editor.EEFReflectiveEditor"
+            class="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelEditor"
             contributorClass="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelActionBarContributor">
       </editor>
    </extension>
@@ -99,6 +99,15 @@
             id="org.eclipse.emf.eef.editor.category"
             name="EEF">
       </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="org.eclipse.emf.eef.editor.properties"
+            tabDescriptorProvider="org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.providers.EEFTabDescriptorProvider">
+         <propertyCategory
+               category="eef"></propertyCategory>
+      </propertyContributor>
    </extension>
 
 </plugin>

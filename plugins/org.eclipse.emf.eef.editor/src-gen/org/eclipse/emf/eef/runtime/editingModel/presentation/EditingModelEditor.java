@@ -16,7 +16,6 @@ import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -68,7 +67,6 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
-import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.util.EditingModelEditorResourceSet;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
@@ -124,8 +122,8 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
-import org.eclipse.ui.views.properties.PropertySheetPage;
-
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * This is an example of a EditingModel model editor.
@@ -135,7 +133,7 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
  */
 public class EditingModelEditor
 	extends MultiPageEditorPart
-	implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker {
+	implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker, ITabbedPropertySheetPageContributor {
 	/**
 	 * This keeps track of the editing domain that is used to track all changes to the model.
 	 * <!-- begin-user-doc -->
@@ -180,9 +178,9 @@ public class EditingModelEditor
 	 * This is the property sheet page.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
-	protected PropertySheetPage propertySheetPage;
+	protected TabbedPropertySheetPage propertySheetPage;
 
 	/**
 	 * This is the viewer that shadows the selection in the content outline.
@@ -1356,25 +1354,11 @@ public class EditingModelEditor
 	 * This accesses a cached version of the property sheet.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @not-generated GLF
 	 */
 	public IPropertySheetPage getPropertySheetPage() {
 		if (propertySheetPage == null) {
-			propertySheetPage =
-				new ExtendedPropertySheetPage(editingDomain) {
-					@Override
-					public void setSelectionToViewer(List<?> selection) {
-						EditingModelEditor.this.setSelectionToViewer(selection);
-						EditingModelEditor.this.setFocus();
-					}
-
-					@Override
-					public void setActionBars(IActionBars actionBars) {
-						super.setActionBars(actionBars);
-						getActionBarContributor().shareGlobalActions(this, actionBars);
-					}
-				};
-			propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
+			propertySheetPage = new TabbedPropertySheetPage(this);
 		}
 
 		return propertySheetPage;
@@ -1789,5 +1773,13 @@ public class EditingModelEditor
 	 */
 	protected boolean showOutlineView() {
 		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor#getContributorId()
+	 */
+	public String getContributorId() {
+		return "org.eclipse.emf.eef.editor.properties";
 	}
 }

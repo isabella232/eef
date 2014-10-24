@@ -366,14 +366,14 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			}
 
 			// populate EEF Reflexive view
-			EEFReflectiveView eefView = (EEFReflectiveView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(EEFReflectiveView.ID);
-			if (eefView == null) {
-				eefView = (EEFReflectiveView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EEFReflectiveView.ID);
-			}
-			if (eefView != null && editor instanceof EEFReflectiveEditor) {
-				((EEFReflectiveEditor) editor).setEditingDomainForOtherModel(editingDomain);
-				eefView.setInput(((EEFReflectiveEditor) editor).getEditingDomainForOtherModel());
-			}
+//			EEFReflectiveView eefView = (EEFReflectiveView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(EEFReflectiveView.ID);
+//			if (eefView == null) {
+//				eefView = (EEFReflectiveView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EEFReflectiveView.ID);
+//			}
+//			if (eefView != null && editor instanceof EEFReflectiveEditor) {
+//				((EEFReflectiveEditor) editor).setEditingDomainForOtherModel(editingDomain);
+//				eefView.setInput(((EEFReflectiveEditor) editor).getEditingDomainForOtherModel());
+//			}
 
 			return true;
 		} catch (Exception exception) {

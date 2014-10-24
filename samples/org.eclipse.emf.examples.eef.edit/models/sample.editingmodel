@@ -5,6 +5,7 @@
       <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
+        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.1"/>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/participants"/>
       </propertyBindings>
     </bindings>
