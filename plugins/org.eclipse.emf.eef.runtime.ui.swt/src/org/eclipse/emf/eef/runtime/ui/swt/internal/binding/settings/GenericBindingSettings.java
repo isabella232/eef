@@ -200,7 +200,9 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 			if (!genModelResource.getContents().isEmpty()) {
 				propertiesEditingModel.getInvolvedModels().add(genModelResource.getContents().get(0));
 			}
-
+		} else {
+		    // load Ecore resource
+			getResourceSet().getResource(eObject.eResource().getURI(), true);
 		}
 	}
 
@@ -281,6 +283,11 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 			resource = mapURI2PropertiesEditingModelResource.get(uri);
 			if (!getResourceSet().getResources().contains(resource)) {
 				getResourceSet().getResources().add(resource);
+			}
+			// load ecore in resource if necessary
+			Resource resource2 = getResourceSet().getResource(eObject.eResource().getURI(), true);
+			if (!getResourceSet().getResources().contains(resource2)) {
+				getResourceSet().getResources().add(resource2);
 			}
 		}
 		return resource;
