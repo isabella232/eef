@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
@@ -214,7 +215,7 @@ public class BindingSettingsBuilder {
 	 * @return widget corresponding to the feature
 	 */
 	public Widget getWidgetForFeature(EStructuralFeature feature) {
-		if (!feature.isMany() && feature instanceof EAttribute && (feature.getEType().getName().equals("EString") || feature.getEType().getName().equals("String")) && "documentation".equals(feature.getName())) {
+		if (!feature.isMany() && feature instanceof EAttribute && !(feature.getEType() instanceof EEnum) && (feature.getEType().getName().equals("EString") || feature.getEType().getName().equals("String")) && "documentation".equals(feature.getName())) {
 			return toolkitProvider.getWidgetByName(TEXTAREA_WIDGET_NAME);
 		}
 		Collection<Widget> widgetsFor = toolkitProvider.getAllWidgetsFor(feature);

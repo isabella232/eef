@@ -11,6 +11,7 @@
 package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.checkbox;
 
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit;
@@ -34,9 +35,9 @@ public class CheckboxPropertyEditorFactory extends WidgetPropertyEditorFactoryIm
 	static {
 		widget.setName(CHECKBOX_WIDGET_NAME);
 	}
-	
+
 	protected final SWTToolkit toolkit;
-	
+
 	/**
 	 * @param toolkit
 	 */
@@ -69,11 +70,8 @@ public class CheckboxPropertyEditorFactory extends WidgetPropertyEditorFactoryIm
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new CheckboxPropertyEditor(
-				toolkit.getEEFEditingServiceProvider(),
-				(PropertiesEditingView<Composite>) editorContext.view, 
-				(ElementEditor) editorContext.viewElement, 
-				new CheckboxSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		return new CheckboxPropertyEditor(toolkit.getEEFEditingServiceProvider(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new CheckboxSWTPropertyEditor((PropertiesEditingView<Composite>) editorContext.view,
+				(ElementEditor) editorContext.viewElement));
 	}
 
 	/**
@@ -82,9 +80,7 @@ public class CheckboxPropertyEditorFactory extends WidgetPropertyEditorFactoryIm
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#canHandle(org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public boolean canHandle(EStructuralFeature feature) {
-		return !feature.isMany()
-				&& feature instanceof EAttribute
-				&& (feature.getEType().getName().equals("EBoolean") || feature.getEType().getName().equals("EBool") || feature.getEType().getName().equalsIgnoreCase("Boolean") || feature.getEType()
-						.getName().equalsIgnoreCase("BooleanObject"));
+		return !feature.isMany() && feature instanceof EAttribute && !(feature.getEType() instanceof EEnum)
+				&& (feature.getEType().getName().equals("EBoolean") || feature.getEType().getName().equals("EBool") || feature.getEType().getName().equalsIgnoreCase("Boolean") || feature.getEType().getName().equalsIgnoreCase("BooleanObject"));
 	}
 }

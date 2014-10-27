@@ -144,7 +144,7 @@ public class EditingViewNotifier implements EEFNotifier {
 			} else if (notification.getKind() == EEFNotification.LOCK) {
 				image = EEFSWTConstants.LOCK_DECORATOR;
 			}
-			if (image != null) {
+			if (image != null && decoration.getControl() != null) {
 				decoration.setDescriptionText(notification.getMessage());
 				decoration.setImage(image);
 			}
