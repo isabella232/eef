@@ -287,9 +287,11 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 				getResourceSet().getResources().add(resource);
 			}
 			// load ecore in resource if necessary
-			Resource resource2 = getResourceSet().getResource(eObject.eResource().getURI(), true);
-			if (!getResourceSet().getResources().contains(resource2)) {
-				getResourceSet().getResources().add(resource2);
+			if (eObject.eResource().getURI() != null) {
+				Resource resource2 = getResourceSet().getResource(eObject.eResource().getURI(), true);
+				if (!getResourceSet().getResources().contains(resource2)) {
+					getResourceSet().getResources().add(resource2);
+				}
 			}
 		}
 		return resource;
