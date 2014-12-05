@@ -54,7 +54,7 @@ public class ModelToChoosePage extends WizardPage {
 	 */
 	private URI createURI;
 	private IFile selectedModel;
-	private boolean isModel = true;
+	private boolean isModel = false;
 	private EditingDomain editingDomain;
 
 	/**
@@ -89,6 +89,18 @@ public class ModelToChoosePage extends WizardPage {
 		projectGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		// radio button
+		fromMetamodelRadio = new Button(projectGroup, SWT.RADIO);
+		fromMetamodelRadio.setText("Select metamodel:");
+		text2 = new Text(projectGroup, SWT.BORDER);
+
+		GridData archivePathData = new GridData(SWT.FILL, SWT.NONE, true, false);
+		archivePathData.widthHint = new PixelConverter(text2).convertWidthInCharsToPixels(25);
+		text2.setLayoutData(archivePathData);
+		btnFromFileSystem2 = new Button(projectGroup, SWT.PUSH);
+		btnFromFileSystem2.setText("Browse");
+		setButtonLayoutData(btnFromFileSystem2);
+
+		// radio button
 		fromModelRadio = new Button(projectGroup, SWT.RADIO);
 		fromModelRadio.setText("Select model:");
 		this.text = new Text(projectGroup, SWT.BORDER);
@@ -102,22 +114,10 @@ public class ModelToChoosePage extends WizardPage {
 		btnFromFileSystem.setText("Browse");
 		setButtonLayoutData(btnFromFileSystem);
 
-		// radio button
-		fromMetamodelRadio = new Button(projectGroup, SWT.RADIO);
-		fromMetamodelRadio.setText("Select metamodel:");
-		text2 = new Text(projectGroup, SWT.BORDER);
-
-		GridData archivePathData = new GridData(SWT.FILL, SWT.NONE, true, false);
-		archivePathData.widthHint = new PixelConverter(text2).convertWidthInCharsToPixels(25);
-		text2.setLayoutData(archivePathData);
-		btnFromFileSystem2 = new Button(projectGroup, SWT.PUSH);
-		btnFromFileSystem2.setText("Browse");
-		setButtonLayoutData(btnFromFileSystem2);
-
 		// init selection and enable
-		fromModelRadio.setSelection(true);
-		text2.setEnabled(false);
-		btnFromFileSystem2.setEnabled(false);
+		fromMetamodelRadio.setSelection(true);
+		text.setEnabled(false);
+		btnFromFileSystem.setEnabled(false);
 
 		// add listener on buttons
 		btnFromFileSystem.addSelectionListener(new SelectionAdapter() {
@@ -185,11 +185,8 @@ public class ModelToChoosePage extends WizardPage {
 		// init text model
 		if (selectedModel != null) {
 			createURI = URI.createPlatformResourceURI(selectedModel.getFullPath().toString(), true);
-			if (isModel) {
-				text.setText(createURI.toString());
-			} else {
-				text2.setText(createURI.toString());
-			}
+			text.setText(createURI.toString());
+			text2.setText(createURI.toString());
 		}
 
 		setPageComplete(false);
@@ -297,7 +294,7 @@ public class ModelToChoosePage extends WizardPage {
 			}
 			resource = null;
 		} catch (RuntimeException exception) {
-			setErrorMessage("Resource '" + createURI.toString() + "' does not exist.");
+			setErrorMessage("Pb with the resource '" + createURI.toString() + "':" + exception.getMessage());
 			return false;
 			// FilterEditorPlugin.INSTANCE.log(exception);
 		}

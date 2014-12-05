@@ -234,6 +234,9 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 	 * @generated NOT
 	 */
 	public EClassBinding binding(EObject eObject) {
+		if (eObject instanceof EClass) {
+			return binding((EClass)eObject);
+		}
 		EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 		for (EClassBinding binding : bindings) {
 			if ((emfService != null && emfService.equals(eObject.eClass(), binding.getEClass())) || eObject.eClass().equals(binding.getEClass())) {
