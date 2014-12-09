@@ -6,6 +6,8 @@
  */
 package org.eclipse.emf.eef.runtime.editingModel.presentation;
 
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,14 +18,18 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.StringTokenizer;
 
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.URI;
@@ -43,7 +49,6 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
-import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
@@ -54,16 +59,32 @@ import org.eclipse.emf.eef.runtime.editingModel.presentation.util.EditingModelEd
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
-import org.eclipse.emf.eef.view.EEFReflectiveView;
 import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.ViewsPackage;
 import org.eclipse.emf.eef.views.ViewsRepository;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.operation.IRunnableContext;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.pde.core.IBaseModel;
+import org.eclipse.pde.internal.core.ibundle.IBundleModel;
+import org.eclipse.pde.internal.core.ibundle.IBundlePluginModelBase;
+import org.eclipse.pde.internal.core.natures.PDE;
+import org.eclipse.pde.internal.core.project.PDEProject;
+import org.eclipse.pde.internal.ds.core.IDSComponent;
+import org.eclipse.pde.internal.ds.core.IDSDocumentFactory;
+import org.eclipse.pde.internal.ds.core.IDSProperty;
+import org.eclipse.pde.internal.ds.core.IDSProvide;
+import org.eclipse.pde.internal.ds.core.IDSReference;
+import org.eclipse.pde.internal.ds.core.IDSService;
+import org.eclipse.pde.internal.ds.ui.wizards.DSCreationOperation;
+import org.eclipse.pde.internal.ui.util.ModelModification;
+import org.eclipse.pde.internal.ui.util.PDEModelUtility;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -72,6 +93,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -79,9 +101,12 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
+import org.eclipse.ui.ide.undo.CreateFileOperation;
+import org.eclipse.ui.ide.undo.WorkspaceUndoUtil;
+import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
+import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
@@ -94,6 +119,7 @@ import com.google.common.base.Strings;
  * @generated
  */
 public class EditingModelModelWizard extends Wizard implements INewWizard {
+
 	/**
 	 * The supported extensions for created files. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
@@ -180,6 +206,8 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 
 	private ComposedAdapterFactory adapterFactory;
 
+	private EPackage metamodelePackage;
+
 	/**
 	 * This just records the information. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
@@ -249,6 +277,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			// Do the work within an operation.
 			//
 			WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
+
 				@Override
 				protected void execute(IProgressMonitor progressMonitor) {
 					try {
@@ -284,6 +313,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 								if (!secondPage.isModel() && root instanceof EPackage) {
 									ePackage = (EPackage) root;
 								}
+								setMetamodelePackage(ePackage);
 
 								EEFBindingSettingsProvider bindingSettingsProvider = E3EEFRuntimeUIPlatformPlugin.getPlugin().getBindingSettingsProvider();
 								EEFBindingSettings bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
@@ -331,6 +361,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 						Map<Object, Object> options = new HashMap<Object, Object>();
 						options.put(XMLResource.OPTION_ENCODING, "UTF-8");
 						resource.save(options);
+
 					} catch (Exception exception) {
 						EditingModelEditPlugin.INSTANCE.log(exception);
 					} finally {
@@ -366,20 +397,290 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			}
 
 			// populate EEF Reflexive view
-//			EEFReflectiveView eefView = (EEFReflectiveView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(EEFReflectiveView.ID);
-//			if (eefView == null) {
-//				eefView = (EEFReflectiveView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EEFReflectiveView.ID);
-//			}
-//			if (eefView != null && editor instanceof EEFReflectiveEditor) {
-//				((EEFReflectiveEditor) editor).setEditingDomainForOtherModel(editingDomain);
-//				eefView.setInput(((EEFReflectiveEditor) editor).getEditingDomainForOtherModel());
-//			}
+			// EEFReflectiveView eefView = (EEFReflectiveView)
+			// PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(EEFReflectiveView.ID);
+			// if (eefView == null) {
+			// eefView = (EEFReflectiveView)
+			// PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EEFReflectiveView.ID);
+			// }
+			// if (eefView != null && editor instanceof EEFReflectiveEditor) {
+			// ((EEFReflectiveEditor)
+			// editor).setEditingDomainForOtherModel(editingDomain);
+			// eefView.setInput(((EEFReflectiveEditor)
+			// editor).getEditingDomainForOtherModel());
+			// }
+
+			// create EEF Binding Setting service
+			getShell().getDisplay().syncExec(new Runnable() {
+				public void run() {
+					createEEFBindingSettingService(modelFile, metamodelePackage.getName());
+				}
+			});
 
 			return true;
 		} catch (Exception exception) {
 			EditingModelEditPlugin.INSTANCE.log(exception);
 			return false;
 		}
+	}
+
+	protected static final String SET_EMF_SERVICE_PROVIDER = "setEMFServiceProvider";
+	protected static final String EMF_SERVICE_PROVIDER = "org.eclipse.emf.eef.runtime.util.EMFServiceProvider";
+	protected static final String EEF_BINDING_SETTINGS = "org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings";
+	protected static final String EEF_BINDING_SETTINGS_IMPL = "org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl";
+	protected static final String ORG_ECLIPSE_EMF_EEF_RUNTIME = "org.eclipse.emf.eef.runtime";
+	protected static final String EEF_EDITING_MODEL_PATH = "eef.editingModel.path";
+
+	/**
+	 * @param modelFile
+	 * @param runnableContext
+	 * @param shell
+	 * 
+	 */
+	public void createEEFBindingSettingService(final IFile modelFile, final String metamodelName) {
+		getShell().getDisplay().syncExec(new Runnable() {
+			@SuppressWarnings("restriction")
+			public void run() {
+				final IPath newFilePath = new Path(modelFile.getProject().getName() + "/OSGI-INF/" + metamodelName + "BindingSettings.xml");
+				IFile fFile = createNewFile(newFilePath, getContainer(), getShell());
+				DSCreationOperation dsCreationOperation = new DSCreationOperation(fFile, modelFile.getProject().getName() + "." + metamodelName + "BindingSettings", EEF_BINDING_SETTINGS_IMPL) {
+
+					/**
+					 * (non-Javadoc)
+					 * 
+					 * @see org.eclipse.pde.internal.ds.ui.wizards.DSCreationOperation#execute(org.eclipse.core.runtime.IProgressMonitor)
+					 */
+					@Override
+					protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
+						super.execute(monitor);
+						if (PDE.hasPluginNature(fFile.getProject())) {
+							addManifestEEFDependency(fFile.getProject(), new SubProgressMonitor(monitor, 1));
+						}
+					}
+
+					protected void addManifestEEFDependency(IProject project, SubProgressMonitor monitor) {
+
+						PDEModelUtility.modifyModel(new ModelModification(project) {
+
+							protected void modifyModel(IBaseModel model, IProgressMonitor monitor) throws CoreException {
+
+								if (model instanceof IBundlePluginModelBase)
+									addManifestEEFDependency((IBundlePluginModelBase) model, monitor);
+							}
+						}, monitor);
+						monitor.done();
+
+					}
+
+					private void addManifestEEFDependency(IBundlePluginModelBase model, IProgressMonitor monitor) throws CoreException {
+						IBundleModel bundleModel = model.getBundleModel();
+
+						// Create a path from the bundle root to the component
+						// file
+						IContainer root = PDEProject.getBundleRoot(fFile.getProject());
+						String filePath = fFile.getFullPath().makeRelativeTo(root.getFullPath()).toPortableString();
+
+						String header = bundleModel.getBundle().getHeader("Require-Bundle");
+						if (header != null) {
+							if (containsValue(header, ORG_ECLIPSE_EMF_EEF_RUNTIME)) {
+								return;
+							}
+							filePath = header + ",\n " + ORG_ECLIPSE_EMF_EEF_RUNTIME; //$NON-NLS-1$
+						}
+						bundleModel.getBundle().setHeader("Require-Bundle", filePath);
+					}
+
+					private boolean containsValue(String header, String value) {
+						value = value.trim();
+						StringTokenizer st = new StringTokenizer(header, ","); //$NON-NLS-1$
+						while (st.hasMoreElements()) {
+							String token = st.nextToken();
+							if (token.trim().contains(value)) {
+								return true;
+							}
+						}
+						return false;
+					}
+
+					/**
+					 * (non-Javadoc)
+					 * 
+					 * @see org.eclipse.pde.internal.ds.ui.wizards.DSCreationOperation#initializeDS(org.eclipse.pde.internal.ds.core.IDSComponent,
+					 *      org.eclipse.core.resources.IFile)
+					 */
+					@Override
+					protected void initializeDS(IDSComponent component, IFile file) {
+						super.initializeDS(component, file);
+						initializeBindingSetting(component);
+					}
+
+					/**
+					 * @param component
+					 */
+					public void initializeBindingSetting(IDSComponent component) {
+						IDSDocumentFactory factory = component.getModel().getFactory();
+
+						IDSService service = factory.createService();
+						component.addChildNode(service);
+
+						IDSProvide provide = factory.createProvide();
+						provide.setInterface(EEF_BINDING_SETTINGS);
+						service.addProvidedService(provide);
+
+						IDSReference reference = factory.createReference();
+						// set interface attribute
+						String fullyQualifiedName = EMF_SERVICE_PROVIDER;
+						reference.setReferenceInterface(fullyQualifiedName);
+
+						// set name attribute
+						int index = fullyQualifiedName.lastIndexOf("."); //$NON-NLS-1$
+						if (index != -1) {
+							fullyQualifiedName = fullyQualifiedName.substring(index + 1);
+						}
+						reference.setReferenceName(fullyQualifiedName);
+						reference.setReferenceBind(SET_EMF_SERVICE_PROVIDER);
+
+						// add reference
+						component.addReference(reference);
+
+						IDSProperty property = factory.createProperty();
+						property.setPropertyName(EEF_EDITING_MODEL_PATH);
+						property.setPropertyValue(modelFile.getProjectRelativePath().toString());
+						component.addPropertyElement(property);
+					}
+
+				};
+				try {
+					getContainer().run(false, true, dsCreationOperation);
+				} catch (InvocationTargetException e) {
+					IDEWorkbenchPlugin.log("PDEComponentUtil.createEEFBindingSettingService()", e.getTargetException()); //$NON-NLS-1$
+				} catch (InterruptedException e) {
+					IDEWorkbenchPlugin.log("PDEComponentUtil.createEEFBindingSettingService()", e); //$NON-NLS-1$
+				}
+			}
+		});
+	}
+
+	/**
+	 * Creates a file resource handle for the file with the given workspace
+	 * path. This method does not create the file resource; this is the
+	 * responsibility of <code>createFile</code>.
+	 * 
+	 * @param filePath
+	 *            the path of the file resource to create a handle for
+	 * @return the new file resource handle
+	 * @see #createFile
+	 */
+	@SuppressWarnings("restriction")
+	protected static IFile createFileHandle(IPath filePath) {
+		return IDEWorkbenchPlugin.getPluginWorkspace().getRoot().getFile(filePath);
+	}
+
+	/**
+	 * Creates a new file resource in the selected container and with the
+	 * selected name. Creates any missing resource containers along the path;
+	 * does nothing if the container resources already exist.
+	 * <p>
+	 * In normal usage, this method is invoked after the user has pressed Finish
+	 * on the wizard; the enablement of the Finish button implies that all
+	 * controls on on this page currently contain valid values.
+	 * </p>
+	 * <p>
+	 * Note that this page caches the new file once it has been successfully
+	 * created; subsequent invocations of this method will answer the same file
+	 * resource without attempting to create it again.
+	 * </p>
+	 * <p>
+	 * This method should be called within a workspace modify operation since it
+	 * creates resources.
+	 * </p>
+	 * 
+	 * @param newFilePath
+	 * 
+	 * @param runnableContext
+	 * @param shell
+	 * 
+	 * @return the created file resource, or <code>null</code> if the file was
+	 *         not created
+	 */
+	@SuppressWarnings("restriction")
+	public IFile createNewFile(IPath newFilePath, IRunnableContext runnableContext, final Shell shell) {
+		// create the new file and cache it if
+		// successful
+
+		final IFile newFileHandle = createFileHandle(newFilePath);
+		final InputStream initialContents = null;
+
+		final IRunnableWithProgress op = new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor) {
+				CreateFileOperation op = new CreateFileOperation(newFileHandle, null, initialContents, IDEWorkbenchMessages.WizardNewFileCreationPage_title);
+				try {
+					// see bug
+					// https://bugs.eclipse.org/bugs/show_bug.cgi?id=219901
+					// directly execute the operation so
+					// that the undo state is
+					// not preserved. Making this
+					// undoable resulted in too many
+					// accidental file deletions.
+					op.execute(monitor, WorkspaceUndoUtil.getUIInfoAdapter(shell));
+				} catch (final ExecutionException e) {
+					shell.getDisplay().syncExec(new Runnable() {
+						public void run() {
+							if (e.getCause() instanceof CoreException) {
+								ErrorDialog.openError(shell, // Was
+										// Utilities.getFocusShell()
+										IDEWorkbenchMessages.WizardNewFileCreationPage_errorTitle, null, // no
+																											// special
+										// message
+										((CoreException) e.getCause()).getStatus());
+							} else {
+								IDEWorkbenchPlugin.log(getClass(), "createNewFile()", e.getCause()); //$NON-NLS-1$
+								MessageDialog.openError(shell, IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorTitle, /*
+																																 * NLS
+																																 * .
+																																 * bind
+																																 * (
+																																 * ""
+																																 * IDEWorkbenchMessages
+																																 * .
+																																 * WizardNewFileCreationPage_internalErrorMessage
+																																 * ,
+																																 */e.getCause().getMessage());
+							}
+						}
+					});
+				}
+			}
+		};
+
+		try {
+			runnableContext.run(false, true, op);
+		} catch (InterruptedException e) {
+			return null;
+		} catch (InvocationTargetException e) {
+			// Execution Exceptions are handled above
+			// but we may still get
+			// unexpected runtime errors.
+			IDEWorkbenchPlugin.log("PDEComponentUtil.createNewFile()", e.getTargetException()); //$NON-NLS-1$
+			MessageDialog.open(MessageDialog.ERROR, shell, IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorTitle, /*
+																															 * NLS
+																															 * .
+																															 * bind
+																															 * (
+																															 * IDEWorkbenchMessages
+																															 * .
+																															 * WizardNewFileCreationPage_internalErrorMessage
+																															 * ,
+																															 */e.getTargetException().getMessage(), SWT.SHEET);
+
+			return null;
+		}
+
+		return newFileHandle;
+	}
+
+	protected void setMetamodelePackage(EPackage ePackage) {
+		metamodelePackage = ePackage;
 	}
 
 	/**

@@ -144,7 +144,7 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<P
 			if (editingModel.getEMFServiceProvider() == null) {
 				editingModel.setEMFServiceProvider(emfServiceProvider);
 			}
-			if (editingModel.binding(eClass) != null) {
+			if (editingModel.binding((EClass)eClass) != null) {
 				return editingModel;
 			}
 		}

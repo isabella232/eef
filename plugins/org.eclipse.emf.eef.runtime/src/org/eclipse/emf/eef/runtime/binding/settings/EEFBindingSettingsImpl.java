@@ -11,6 +11,7 @@
 package org.eclipse.emf.eef.runtime.binding.settings;
 
 import java.util.Collection;
+import java.util.Dictionary;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -20,34 +21,53 @@ import org.eclipse.emf.eef.runtime.EEFRuntime;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.binding.settings.AbstractEEFBindingSettings;
 import org.eclipse.emf.eef.runtime.logging.EEFLogger;
+import org.osgi.service.component.ComponentContext;
 
 import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 
 	private EEFLogger eefLogger;
-	
+	private String editingModelPath;
+
 	/**
-	 * @param eefLogger the eefLogger to set
+	 * @param eefLogger
+	 *            the eefLogger to set
 	 */
 	public final void setEEFLogger(EEFLogger eefLogger) {
 		this.eefLogger = eefLogger;
 	}
 
 	/**
-	 * This method can be overridden by subclasses to provide their own EditingModel.
+	 * @param context
+	 *            ComponentContext
+	 */
+	public void activate(ComponentContext context) {
+		Dictionary properties = context.getProperties();
+		editingModelPath = (String) properties.get("eef.editingModel.path");
+		if (editingModelPath != null) {
+			editingModelPath = "platform:/plugin/" + context.getBundleContext().getBundle().getSymbolicName() + "/" + editingModelPath;
+		}
+	}
+
+	/**
+	 * This method can be overridden by subclasses to provide their own
+	 * EditingModel.
+	 * 
 	 * @return an URI style path to the editing model to load for this provider.
 	 */
 	protected String getEditingModelPath() {
-		return null;
+		return editingModelPath;
 	}
-	
+
 	/**
-	 * This method can be overridden by subclasses to provide their own EditingModel.
+	 * This method can be overridden by subclasses to provide their own
+	 * EditingModel.
+	 * 
 	 * @return to the editing model to load for this provider.
 	 */
 	protected PropertiesEditingModel getEditingModel() {
@@ -56,6 +76,7 @@ public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.internal.binding.settings.AbstractEEFBindingSettings#initSpecificEditingModel()
 	 */
 	@Override
@@ -80,8 +101,7 @@ public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 			return super.initSpecificEditingModel();
 		}
 	}
-	
-	
+
 	// Search all instances of PropertiesEditingModel in the given resource.
 	// This implementation only search in the roots the resource.
 	private Collection<? extends PropertiesEditingModel> getAllEditingModels(Resource resource) {
@@ -93,5 +113,5 @@ public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 		}
 		return result;
 	}
-	
+
 }
