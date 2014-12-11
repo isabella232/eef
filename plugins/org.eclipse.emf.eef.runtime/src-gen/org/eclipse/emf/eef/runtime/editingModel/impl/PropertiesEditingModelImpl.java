@@ -33,14 +33,24 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getBindings <em>Bindings</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getInvolvedModels <em>Involved Models</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getOptions <em>Options</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getId <em>Id</em>}</li>
+ * <li>
+ * {@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getName
+ * <em>Name</em>}</li>
+ * <li>
+ * {@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getBindings
+ * <em>Bindings</em>}</li>
+ * <li>
+ * {@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getInvolvedModels
+ * <em>Involved Models</em>}</li>
+ * <li>
+ * {@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getOptions
+ * <em>Options</em>}</li>
+ * <li>
+ * {@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getId
+ * <em>Id</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class PropertiesEditingModelImpl extends EModelElementImpl implements PropertiesEditingModel {
@@ -48,6 +58,7 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -57,6 +68,7 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -64,8 +76,9 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getBindings() <em>Bindings</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getBindings() <em>Bindings</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getBindings()
 	 * @generated
 	 * @ordered
@@ -73,9 +86,10 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 	protected EList<EClassBinding> bindings;
 
 	/**
-	 * The cached value of the '{@link #getInvolvedModels() <em>Involved Models</em>}' reference list.
-	 * <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getInvolvedModels()
+	 * <em>Involved Models</em>}' reference list. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @see #getInvolvedModels()
 	 * @generated
 	 * @ordered
@@ -83,8 +97,9 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 	protected EList<EObject> involvedModels;
 
 	/**
-	 * The cached value of the '{@link #getOptions() <em>Options</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getOptions() <em>Options</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getOptions()
 	 * @generated
 	 * @ordered
@@ -113,6 +128,7 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected PropertiesEditingModelImpl() {
@@ -121,6 +137,7 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -130,6 +147,7 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getName() {
@@ -138,6 +156,7 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setName(String newName) {
@@ -149,6 +168,7 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList<EClassBinding> getBindings() {
@@ -160,6 +180,7 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList<EObject> getInvolvedModels() {
@@ -171,6 +192,7 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EditingOptions getOptions() {
@@ -179,6 +201,7 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetOptions(EditingOptions newOptions, NotificationChain msgs) {
@@ -186,31 +209,36 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 		options = newOptions;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS, oldOptions, newOptions);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setOptions(EditingOptions newOptions) {
 		if (newOptions != options) {
 			NotificationChain msgs = null;
 			if (options != null)
-				msgs = ((InternalEObject)options).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS, null, msgs);
+				msgs = ((InternalEObject) options).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS, null, msgs);
 			if (newOptions != null)
-				msgs = ((InternalEObject)newOptions).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS, null, msgs);
+				msgs = ((InternalEObject) newOptions).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS, null, msgs);
 			msgs = basicSetOptions(newOptions, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS, newOptions, newOptions));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getId() {
@@ -219,6 +247,7 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setId(String newId) {
@@ -234,8 +263,8 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 	 * @generated NOT
 	 */
 	public EClassBinding binding(EObject eObject) {
-		if (eObject instanceof EClass) {
-			return binding((EClass)eObject);
+		if (eObject instanceof EClass && ((EClass) eObject).getEPackage() != null && "http://www.eclipse.org/emf/2002/Ecore".equals(((EClass) eObject).getEPackage().getNsURI())) {
+			return binding((EClass) eObject);
 		}
 		EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 		for (EClassBinding binding : bindings) {
@@ -272,137 +301,145 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getBindings()).basicAdd(otherEnd, msgs);
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
+			return ((InternalEList<InternalEObject>) (InternalEList<?>) getBindings()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
-				return ((InternalEList<?>)getBindings()).basicRemove(otherEnd, msgs);
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
-				return basicSetOptions(null, msgs);
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
+			return ((InternalEList<?>) getBindings()).basicRemove(otherEnd, msgs);
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
+			return basicSetOptions(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__NAME:
-				return getName();
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
-				return getBindings();
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS:
-				return getInvolvedModels();
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
-				return getOptions();
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
-				return getId();
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__NAME:
+			return getName();
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
+			return getBindings();
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS:
+			return getInvolvedModels();
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
+			return getOptions();
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
+			return getId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__NAME:
-				setName((String)newValue);
-				return;
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
-				getBindings().clear();
-				getBindings().addAll((Collection<? extends EClassBinding>)newValue);
-				return;
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS:
-				getInvolvedModels().clear();
-				getInvolvedModels().addAll((Collection<? extends EObject>)newValue);
-				return;
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
-				setOptions((EditingOptions)newValue);
-				return;
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
-				setId((String)newValue);
-				return;
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__NAME:
+			setName((String) newValue);
+			return;
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
+			getBindings().clear();
+			getBindings().addAll((Collection<? extends EClassBinding>) newValue);
+			return;
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS:
+			getInvolvedModels().clear();
+			getInvolvedModels().addAll((Collection<? extends EObject>) newValue);
+			return;
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
+			setOptions((EditingOptions) newValue);
+			return;
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
+			setId((String) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
-				getBindings().clear();
-				return;
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS:
-				getInvolvedModels().clear();
-				return;
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
-				setOptions((EditingOptions)null);
-				return;
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
-				setId(ID_EDEFAULT);
-				return;
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__NAME:
+			setName(NAME_EDEFAULT);
+			return;
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
+			getBindings().clear();
+			return;
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS:
+			getInvolvedModels().clear();
+			return;
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
+			setOptions((EditingOptions) null);
+			return;
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
+			setId(ID_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
-				return bindings != null && !bindings.isEmpty();
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS:
-				return involvedModels != null && !involvedModels.isEmpty();
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
-				return options != null;
-			case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
-				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
+			return bindings != null && !bindings.isEmpty();
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS:
+			return involvedModels != null && !involvedModels.isEmpty();
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
+			return options != null;
+		case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
+			return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
