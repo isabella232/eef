@@ -46,8 +46,10 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.IEditorPart;
@@ -152,9 +154,31 @@ public class EditingModelEditor extends EEFReflectiveEditor {
 				ToolBar actions = new ToolBar(getModelSection(), SWT.NONE);
 				load = new ToolItem(actions, SWT.PUSH);
 				load.setImage(getImageManager().getImage(EEFRuntimeUISWT.getResourceLocator(), "Load"));
-				load.setToolTipText("Load a model in the editor resources");
+				load.setToolTipText("Load a model");
 				load.addSelectionListener(new LoadSelectionAdapter(EditingModelEditor.this, viewer));
+				load.setEnabled(false);
 				getModelSection().setTextClient(actions);
+
+				getTabFolder().addSelectionListener(new SelectionListener() {
+
+					/**
+					 * (non-Javadoc)
+					 * 
+					 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+					 */
+					public void widgetSelected(SelectionEvent e) {
+						if (e.item instanceof CTabItem) {
+							if (e.item.equals(getTabFolder().getItem(0))) {
+								load.setEnabled(false);
+							} else {
+								load.setEnabled(true);
+							}
+						}
+					}
+
+					public void widgetDefaultSelected(SelectionEvent e) {
+					}
+				});
 			}
 
 		};
