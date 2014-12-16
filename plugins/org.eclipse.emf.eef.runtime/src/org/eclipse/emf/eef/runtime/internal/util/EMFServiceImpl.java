@@ -16,7 +16,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -78,28 +77,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 	 *      org.eclipse.emf.ecore.EClass)
 	 */
 	public boolean equals(final EClass eClass1, final EClass eClass2) {
-		if (eClass1.equals(eClass2)) {
-			return true;
-		}
-		if (eClass1.eResource().getURI().isPlatform() && !eClass2.eResource().getURI().isPlatform()) {
-			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(eClass1.getEPackage().getNsURI());
-			if (ePackage != null) {
-				EClassifier mappedEClass1 = ePackage.getEClassifier(eClass1.getName());
-				if (eClass2.equals(mappedEClass1)) {
-					return true;
-				}
-			}
-		}
-		if (!eClass1.eResource().getURI().isPlatform() && eClass2.eResource().getURI().isPlatform()) {
-			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(eClass2.getEPackage().getNsURI());
-			if (ePackage != null) {
-				EClassifier mappedEClass2 = ePackage.getEClassifier(eClass2.getName());
-				if (eClass1.equals(mappedEClass2)) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return eClass1.getName() != null && eClass1.getName().equals(eClass2.getName()) && eClass1.getEPackage().getNsURI().equals(eClass2.getEPackage().getNsURI());
 	}
 
 	/**
@@ -109,7 +87,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 	 *      org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public boolean equals(EStructuralFeature esf1, EStructuralFeature esf2) {
-		return equals((EClass)esf1.eContainer(), (EClass)esf2.eContainer()) && esf1.getName().equals(esf2.getName());
+		return equals((EClass) esf1.eContainer(), (EClass) esf2.eContainer()) && esf1.getName().equals(esf2.getName());
 	}
 
 	/**
@@ -133,7 +111,9 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.util.EMFService#mapFeature(org.eclipse.emf.ecore.EClass, org.eclipse.emf.ecore.EStructuralFeature)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.util.EMFService#mapFeature(org.eclipse.emf.ecore.EClass,
+	 *      org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public EStructuralFeature mapFeature(final EClass source, final EStructuralFeature feature) {
 		if (feature != null) {
