@@ -11,6 +11,7 @@
 package org.eclipse.emf.eef.runtime.ui.util;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EAttribute;
@@ -38,6 +39,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:nathalie.lepine@obeo.fr">Nathalie Lepine</a>
@@ -93,7 +95,8 @@ public class BindingSettingsBuilder {
 	 * @param editingModelEnvironment
 	 */
 	public void bindEStructuralFeature(EClass eObject, EClassBinding eClassBinding, View createdView, EditingModelEnvironment editingModelEnvironment) {
-		for (EStructuralFeature feature : eClassBinding.getEClass().getEAllStructuralFeatures()) {
+		List<EStructuralFeature> eAllStructuralFeatures = sortEStructuralFeatures(eClassBinding.getEClass().getEAllStructuralFeatures());
+		for (EStructuralFeature feature : eAllStructuralFeatures) {
 			// get editable information from genmodel if exists
 			boolean isReadonly = false;
 			boolean isMultiLine = false;
@@ -129,6 +132,28 @@ public class BindingSettingsBuilder {
 			// create property binding
 			createPropertyBinding(eClassBinding, feature, isReadonly, isMultiLine, createdGroup);
 		}
+	}
+
+	/**
+	 * Sort structural features, required attributes first.
+	 * 
+	 * @param structuralFeatures
+	 *            List<EStructuralFeature>
+	 * @return List<EStructuralFeature>
+	 */
+	public List<EStructuralFeature> sortEStructuralFeatures(List<EStructuralFeature> structuralFeatures) {
+		List<EStructuralFeature> result = Lists.newArrayList();
+		for (EStructuralFeature eStructuralFeature : structuralFeatures) {
+			if (eStructuralFeature instanceof EAttribute && eStructuralFeature.isRequired()) {
+				result.add(eStructuralFeature);
+			}
+		}
+		for (EStructuralFeature eStructuralFeature : structuralFeatures) {
+			if (!result.contains(eStructuralFeature)) {
+				result.add(eStructuralFeature);
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -215,7 +240,7 @@ public class BindingSettingsBuilder {
 	 * @return widget corresponding to the feature
 	 */
 	public Widget getWidgetForFeature(EStructuralFeature feature) {
-		if (!feature.isMany() && feature instanceof EAttribute && !(feature.getEType() instanceof EEnum) && (feature.getEType().getName().equals("EString") || feature.getEType().getName().equals("String")) && "documentation".equals(feature.getName())) {
+		if (!feature.isMany() && feature instanceof EAttribute && feature.getEType() != null && !(feature.getEType() instanceof EEnum) && (feature.getEType().getName().equals("EString") || feature.getEType().getName().equals("String")) && "documentation".equals(feature.getName())) {
 			return toolkitProvider.getWidgetByName(TEXTAREA_WIDGET_NAME);
 		}
 		Collection<Widget> widgetsFor = toolkitProvider.getAllWidgetsFor(feature);
