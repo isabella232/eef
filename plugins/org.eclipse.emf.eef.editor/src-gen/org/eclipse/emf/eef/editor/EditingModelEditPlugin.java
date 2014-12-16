@@ -9,6 +9,7 @@ package org.eclipse.emf.eef.editor;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.ui.EclipseUIPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
@@ -90,6 +91,7 @@ public final class EditingModelEditPlugin extends EMFPlugin {
 	 */
 	public static class Implementation extends EclipseUIPlugin {
 
+		private ServiceTracker editingContextFactoryProviderTracker;
 		private ServiceTracker eefEditingServiceTracker;
 		private ServiceTracker lockManagerProviderTracker;
 		private ServiceTracker imageManagerTracker;
@@ -103,6 +105,8 @@ public final class EditingModelEditPlugin extends EMFPlugin {
 		@Override
 		public void start(BundleContext context) throws Exception {
 			super.start(context);
+			editingContextFactoryProviderTracker = new ServiceTracker(context, EditingContextFactoryProvider.class.getName(), null);
+			editingContextFactoryProviderTracker.open();
 			eefEditingServiceTracker = new ServiceTracker(context, EEFEditingService.class.getName(), null);
 			eefEditingServiceTracker.open();
 			lockManagerProviderTracker = new ServiceTracker(context, EEFLockManagerProvider.class.getName(), null);
@@ -125,6 +129,7 @@ public final class EditingModelEditPlugin extends EMFPlugin {
 			imageManagerTracker.close();
 			eefEditingServiceTracker.close();
 			editingPolicyProviderTracker.close();
+			editingContextFactoryProviderTracker.close();
 		}
 
 		/**
@@ -138,6 +143,10 @@ public final class EditingModelEditPlugin extends EMFPlugin {
 			// Remember the static instance.
 			//
 			plugin = this;
+		}
+
+		public EditingContextFactoryProvider getEditingContextFactoryProvider() {
+			return (EditingContextFactoryProvider) editingContextFactoryProviderTracker.getService();
 		}
 
 		public EEFEditingService getEEFEditingService() {

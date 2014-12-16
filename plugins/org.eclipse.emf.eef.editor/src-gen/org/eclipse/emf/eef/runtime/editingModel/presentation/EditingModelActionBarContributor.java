@@ -400,7 +400,7 @@ public class EditingModelActionBarContributor extends EditingDomainActionBarCont
 	 * This inserts global actions before the "additions-end" separator. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated not
+	 * @generated
 	 */
 	@Override
 	protected void addGlobalActions(IMenuManager menuManager) {

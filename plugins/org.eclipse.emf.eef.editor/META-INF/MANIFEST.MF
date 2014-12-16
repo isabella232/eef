@@ -122,4 +122,5 @@ Import-Package: com.google.common.base;version="10.0.1",
  org.osgi.framework;version="1.5.0",
  org.osgi.service.event;version="1.2.0",
  org.osgi.util.tracker;version="1.4.0"
-Require-Bundle: org.eclipse.ui;bundle-version="3.6.2"
+Require-Bundle: org.eclipse.ui;bundle-version="3.6.2",
+ org.eclipse.emf.eef.runtime.ui

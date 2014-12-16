@@ -6,8 +6,8 @@ package org.eclipse.emf.eef.editor.internal.binding.settings;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
@@ -20,8 +20,6 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PlatformUI;
 
 import com.google.common.collect.Iterables;
 
@@ -44,11 +42,12 @@ public class EditorBindingSettings implements EEFBindingSettings<PropertiesEditi
 	/**
 	 * Properties editing model.
 	 */
-	private ResourceSet resourceSet;
 	private EEFBindingSettingsProvider eefBindingSettingsProvider;
+	private EditingDomain editingDomain;
 
-	public EditorBindingSettings(EEFBindingSettingsProvider eefBindingSettingsProvider) {
+	public EditorBindingSettings(EEFBindingSettingsProvider eefBindingSettingsProvider, EditingDomain editingDomain) {
 		this.eefBindingSettingsProvider = eefBindingSettingsProvider;
+		this.editingDomain = editingDomain;
 	}
 
 	/**
@@ -100,18 +99,15 @@ public class EditorBindingSettings implements EEFBindingSettings<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getEEFDescription(org.eclipse.emf.ecore.EClass)
 	 */
 	public PropertiesEditingModel getEEFDescription(EClass eClass) {
-		PropertiesEditingModel propertiesEditingModel = null;
-		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null) {
-			IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-			if (activeEditor instanceof EEFReflectiveEditor) {
-				PropertiesEditingModel editingModel = ((EEFReflectiveEditor) activeEditor).getEditingModel();
+		for (Resource resource : editingDomain.getResourceSet().getResources()) {
+			if (!resource.getContents().isEmpty() && resource.getContents().get(0) instanceof PropertiesEditingModel) {
+				PropertiesEditingModel editingModel = (PropertiesEditingModel) resource.getContents().get(0);
 				if (editingModel != null) {
 					editingModel.setEMFServiceProvider(emfServiceProvider);
-					if (editingModel.binding(eClass) != null) {
+					if (editingModel.bindingEClass(eClass) != null) {
 						return editingModel;
 					}
 				}
-
 			}
 		}
 
