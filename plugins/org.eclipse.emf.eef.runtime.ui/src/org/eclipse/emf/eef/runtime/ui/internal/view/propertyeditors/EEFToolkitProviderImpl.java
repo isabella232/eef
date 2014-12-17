@@ -10,15 +10,14 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.eef.runtime.services.EEFServiceProviderImpl;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
-import org.eclipse.emf.eef.views.toolkits.Widget;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitHandler;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -52,30 +51,10 @@ public class EEFToolkitProviderImpl extends EEFServiceProviderImpl<PropertyEdito
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider#getAllWidgetsFor(org.eclipse.emf.ecore.EStructuralFeature)
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider#createHandler(org.eclipse.emf.ecore.resource.ResourceSet)
 	 */
-	public Collection<Widget> getAllWidgetsFor(EStructuralFeature eStructuralFeature) {
-		Collection<Widget> widgets = new ArrayList<Widget>();
-		for (EEFToolkit<?> toolkit : getAllToolkits()) {
-			widgets.addAll(toolkit.getAllWidgetsFor(eStructuralFeature));
-
-		}
-		return widgets;
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider#getWidgetByName(java.lang.String)
-	 */
-	public Widget getWidgetByName(String name) {
-		for (EEFToolkit<?> toolkit : getAllToolkits()) {
-			Widget widget = toolkit.getWidgetByName(name);
-			if (widget != null) {
-				return widget;
-			}
-		}
-		return null;
+	public ToolkitHandler createHandler(ResourceSet resourceSet) {
+		return new ToolkitHandler(this, resourceSet);
 	}
 
 }
