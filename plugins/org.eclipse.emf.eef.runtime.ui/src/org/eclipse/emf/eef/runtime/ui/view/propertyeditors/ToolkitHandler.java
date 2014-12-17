@@ -8,12 +8,16 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.eef.views.toolkits.Widget;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  * @author <a href="mailto:nathalie.lepine@obeo.fr">Nathalie Lepine</a>
@@ -23,6 +27,7 @@ public class ToolkitHandler {
 
 	private ResourceSet resourceSet;
 	private EEFToolkitProvider toolkitProvider;
+	private Copier copier = new Copier();
 
 	/**
 	 * NOTE: here we put the 'model toolkit' in a new Resource. This implies
@@ -36,11 +41,19 @@ public class ToolkitHandler {
 		this.toolkitProvider = toolkitProvider;
 		this.resourceSet = resourceSet;
 		for (EEFToolkit<?> toolkit : toolkitProvider.getAllToolkits()) {
-			String uri = new StringBuilder("eeftoolkit://").append(toolkit.getModel().getName()).append(".toolkit").toString();
-			// TODO check that the resource doesn't exist yet.
-			Resource resource = resourceSet.createResource(URI.createURI(uri));
-			// TODO to clone
-			resource.getContents().add(toolkit.getModel());
+			String uri = new StringBuilder("eeftoolkit:/").append(FrameworkUtil.getBundle(toolkit.getClass()).getSymbolicName()).append('/').append(toolkit.getClass().getCanonicalName()).toString();
+			URI createURI = URI.createURI(uri);
+			Resource resource = resourceSet.getResource(URI.createURI(uri), true);
+			if (!resource.getContents().isEmpty()) {
+				EObject eObject = resource.getContents().get(0);
+				for (Iterator iterator = eObject.eAllContents(); iterator.hasNext();) {
+					EObject type = (EObject) iterator.next();
+					if (type instanceof Widget) {
+						copier.put(getWidgetByName2(((Widget) type).getName()), type);
+					}
+				}
+
+			}
 		}
 	}
 
@@ -53,7 +66,10 @@ public class ToolkitHandler {
 	public Collection<Widget> getAllWidgetsFor(EStructuralFeature eStructuralFeature) {
 		Collection<Widget> widgets = new ArrayList<Widget>();
 		for (EEFToolkit<?> toolkit : toolkitProvider.getAllToolkits()) {
-			widgets.addAll(toolkit.getAllWidgetsFor(eStructuralFeature));
+			Collection<Widget> allWidgetsFor = toolkit.getAllWidgetsFor(eStructuralFeature);
+			for (Widget widget : allWidgetsFor) {
+				widgets.add((Widget) copier.get(widget));
+			}
 
 		}
 		return widgets;
@@ -65,6 +81,11 @@ public class ToolkitHandler {
 	 * @return the first widget named "name" in toolkits.
 	 */
 	public Widget getWidgetByName(String name) {
+		Widget widget = getWidgetByName2(name);
+		return (Widget) copier.get(widget);
+	}
+
+	public Widget getWidgetByName2(String name) {
 		for (EEFToolkit<?> toolkit : toolkitProvider.getAllToolkits()) {
 			Widget widget = toolkit.getWidgetByName(name);
 			if (widget != null) {

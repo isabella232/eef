@@ -31,6 +31,7 @@ import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironment
 import org.eclipse.emf.eef.runtime.services.DefaultService;
 import org.eclipse.emf.eef.runtime.ui.util.BindingSettingsBuilder;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitHandler;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
@@ -75,6 +76,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	private ResourceSet resourceSet;
 	private Map<String, Resource> mapURI2PropertiesEditingModelResource = new HashMap<String, Resource>();
 	private EventAdmin eventAdmin;
+	private ToolkitHandler toolkitHandler;
 
 	public static final String PROPERTIES_EDITING_MODEL_NAME = "Generic Binding Settings";
 	public static final String PROPERTIES_EDITING_MODEL_ID = "org.eclipse.emf.eef.runtime.ui.swt.genericBindingSetting";
@@ -221,7 +223,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 */
 	public void updatePropertiesEditingModel(EClass eObject, PropertiesEditingModel propertiesEditingModel, ViewsRepository viewsRepository) {
 		// create EClassBinding on eobject with its view
-		BindingSettingsBuilder builder = new BindingSettingsBuilder(propertiesEditingModel, viewsRepository, toolkitProvider, GROUP_CONTAINER_NAME, TEXT_WIDGET_NAME, TEXTAREA_WIDGET_NAME);
+		BindingSettingsBuilder builder = new BindingSettingsBuilder(propertiesEditingModel, viewsRepository, getToolkitHandler(), GROUP_CONTAINER_NAME, TEXT_WIDGET_NAME, TEXTAREA_WIDGET_NAME);
 		if (!builder.existEClassBinding(eObject)) {
 			// create View
 			org.eclipse.emf.eef.views.View createdView = builder.createViewForEClassBinding(eObject);
@@ -237,6 +239,13 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 			builder.bindEStructuralFeature(eObject, eClassBinding, createdView, getEditingModelEnvironment());
 		}
 
+	}
+
+	private ToolkitHandler getToolkitHandler() {
+		if (toolkitHandler == null) {
+			toolkitHandler = toolkitProvider.createHandler(resourceSet);
+		}
+		return toolkitHandler;
 	}
 
 	/**

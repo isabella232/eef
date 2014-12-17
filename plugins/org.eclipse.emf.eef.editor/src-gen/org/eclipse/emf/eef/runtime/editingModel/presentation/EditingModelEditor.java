@@ -10,6 +10,7 @@ import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -195,6 +196,9 @@ public class EditingModelEditor extends EEFReflectiveEditor {
 	@Override
 	public void createModel() {
 		super.createModel();
+		getEditingDomain().getResourceSet().getResource(URI.createURI("eeftoolkit://SWT.toolkit"), true);
+		getEditingDomain().getResourceSet().getResource(URI.createURI("eeftoolkit://EMFProperties.toolkit"), true);
+		
 		// create another editing domain for second tab
 		createEditingDomainForOtherModels();
 	}
