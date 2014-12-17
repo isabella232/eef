@@ -36,7 +36,7 @@ public class ToolkitHandler {
 		this.toolkitProvider = toolkitProvider;
 		this.resourceSet = resourceSet;
 		for (EEFToolkit<?> toolkit : toolkitProvider.getAllToolkits()) {
-			String uri = new StringBuilder("eeftoolkit://").append(toolkit.getModel().getName()).append(".eeftoolkit").toString();
+			String uri = new StringBuilder("eeftoolkit://").append(toolkit.getModel().getName()).append(".toolkit").toString();
 			// TODO check that the resource doesn't exist yet.
 			Resource resource = resourceSet.createResource(URI.createURI(uri));
 			// TODO to clone

@@ -395,7 +395,7 @@ public class BindingSettingsBuilder {
 	private static class StandardEEFToolkitsSelector implements Predicate<Widget> {
 
 		public boolean apply(Widget widget) {
-			return widget.getToolkit().getName() == "swt" || widget.getToolkit().getName() == "EMFProperties";
+			return widget.getToolkit().getName() == "SWT" || widget.getToolkit().getName() == "EMFProperties";
 		}
 
 	}
