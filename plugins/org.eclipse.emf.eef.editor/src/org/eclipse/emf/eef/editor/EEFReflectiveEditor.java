@@ -1344,7 +1344,9 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 				hideTabs();
 				getSite().getShell().getDisplay().asyncExec(new Runnable() {
 					public void run() {
-						setActivePage(0);
+						if (pages != null) {
+							setActivePage(0);
+						}
 					}
 				});
 				// Ensures that this editor will only display the page's tab
