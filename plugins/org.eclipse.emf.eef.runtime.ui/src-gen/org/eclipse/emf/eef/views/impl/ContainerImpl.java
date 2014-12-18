@@ -27,24 +27,27 @@ import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.emf.eef.views.ViewsPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Container</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Container</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.eef.views.impl.ContainerImpl#getQualifiedIdentifier <em>Qualified Identifier</em>}</li>
- *   <li>{@link org.eclipse.emf.eef.views.impl.ContainerImpl#getElements <em>Elements</em>}</li>
+ * <li>
+ * {@link org.eclipse.emf.eef.views.impl.ContainerImpl#getQualifiedIdentifier
+ * <em>Qualified Identifier</em>}</li>
+ * <li>{@link org.eclipse.emf.eef.views.impl.ContainerImpl#getElements <em>
+ * Elements</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class ContainerImpl extends ViewElementImpl implements Container {
 	/**
-	 * The default value of the '{@link #getQualifiedIdentifier() <em>Qualified Identifier</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getQualifiedIdentifier()
+	 * <em>Qualified Identifier</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #getQualifiedIdentifier()
 	 * @generated
 	 * @ordered
@@ -52,9 +55,9 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	protected static final String QUALIFIED_IDENTIFIER_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getElements() <em>Elements</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getElements() <em>Elements</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getElements()
 	 * @generated
 	 * @ordered
@@ -62,8 +65,8 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	protected EList<ViewElement> elements;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ContainerImpl() {
@@ -71,8 +74,8 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -81,18 +84,18 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	public String getQualifiedIdentifier() {
-		StringBuilder result = new StringBuilder(name);
+		StringBuilder result = new StringBuilder(name == null ? "" : name);
 		result.append(NamingHelper.nameDiscriminator(this));
 		EObject container = this.eContainer();
 		while (container != null) {
 			if (container instanceof IdentifiedElement) {
 				result.insert(0, "::"); //$NON-NLS-1$
-				result.insert(0, ((IdentifiedElement)container).getQualifiedIdentifier());
+				result.insert(0, ((IdentifiedElement) container).getQualifiedIdentifier());
 				return result.toString();
 			}
 			container = container.eContainer();
@@ -101,8 +104,8 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList<ViewElement> getElements() {
@@ -113,128 +116,132 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ViewsPackage.CONTAINER__ELEMENTS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getElements()).basicAdd(otherEnd, msgs);
+		case ViewsPackage.CONTAINER__ELEMENTS:
+			return ((InternalEList<InternalEObject>) (InternalEList<?>) getElements()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ViewsPackage.CONTAINER__ELEMENTS:
-				return ((InternalEList<?>)getElements()).basicRemove(otherEnd, msgs);
+		case ViewsPackage.CONTAINER__ELEMENTS:
+			return ((InternalEList<?>) getElements()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ViewsPackage.CONTAINER__QUALIFIED_IDENTIFIER:
-				return getQualifiedIdentifier();
-			case ViewsPackage.CONTAINER__ELEMENTS:
-				return getElements();
+		case ViewsPackage.CONTAINER__QUALIFIED_IDENTIFIER:
+			return getQualifiedIdentifier();
+		case ViewsPackage.CONTAINER__ELEMENTS:
+			return getElements();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ViewsPackage.CONTAINER__ELEMENTS:
-				getElements().clear();
-				getElements().addAll((Collection<? extends ViewElement>)newValue);
-				return;
+		case ViewsPackage.CONTAINER__ELEMENTS:
+			getElements().clear();
+			getElements().addAll((Collection<? extends ViewElement>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ViewsPackage.CONTAINER__ELEMENTS:
-				getElements().clear();
-				return;
+		case ViewsPackage.CONTAINER__ELEMENTS:
+			getElements().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ViewsPackage.CONTAINER__QUALIFIED_IDENTIFIER:
-				return QUALIFIED_IDENTIFIER_EDEFAULT == null ? getQualifiedIdentifier() != null : !QUALIFIED_IDENTIFIER_EDEFAULT.equals(getQualifiedIdentifier());
-			case ViewsPackage.CONTAINER__ELEMENTS:
-				return elements != null && !elements.isEmpty();
+		case ViewsPackage.CONTAINER__QUALIFIED_IDENTIFIER:
+			return QUALIFIED_IDENTIFIER_EDEFAULT == null ? getQualifiedIdentifier() != null : !QUALIFIED_IDENTIFIER_EDEFAULT.equals(getQualifiedIdentifier());
+		case ViewsPackage.CONTAINER__ELEMENTS:
+			return elements != null && !elements.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == IdentifiedElement.class) {
 			switch (derivedFeatureID) {
-				case ViewsPackage.CONTAINER__QUALIFIED_IDENTIFIER: return ViewsPackage.IDENTIFIED_ELEMENT__QUALIFIED_IDENTIFIER;
-				default: return -1;
+			case ViewsPackage.CONTAINER__QUALIFIED_IDENTIFIER:
+				return ViewsPackage.IDENTIFIED_ELEMENT__QUALIFIED_IDENTIFIER;
+			default:
+				return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == IdentifiedElement.class) {
 			switch (baseFeatureID) {
-				case ViewsPackage.IDENTIFIED_ELEMENT__QUALIFIED_IDENTIFIER: return ViewsPackage.CONTAINER__QUALIFIED_IDENTIFIER;
-				default: return -1;
+			case ViewsPackage.IDENTIFIED_ELEMENT__QUALIFIED_IDENTIFIER:
+				return ViewsPackage.CONTAINER__QUALIFIED_IDENTIFIER;
+			default:
+				return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
-} //ContainerImpl
+} // ContainerImpl

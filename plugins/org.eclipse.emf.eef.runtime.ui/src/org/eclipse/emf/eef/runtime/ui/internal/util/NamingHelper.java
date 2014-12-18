@@ -16,11 +16,10 @@ import org.eclipse.emf.eef.views.ViewsRepository;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class NamingHelper {
 
-	
 	/**
 	 * @param element
 	 * @return
@@ -30,7 +29,7 @@ public class NamingHelper {
 		StringBuffer buffer = new StringBuffer();
 		EObject container = element.eContainer();
 		while (container instanceof ViewElement) {
-			if (equalsIgnoreWhiteSpacesAndCase(((ViewElement)container).getName(),baseName)) {
+			if (equalsIgnoreWhiteSpacesAndCase(((ViewElement) container).getName(), baseName)) {
 				buffer.append('_');
 			}
 			container = container.eContainer();
@@ -38,7 +37,7 @@ public class NamingHelper {
 		if (container != null) {
 			ViewsRepository repository = repository(container);
 			if (repository != null) {
-				if (equalsIgnoreWhiteSpacesAndCase(repository.getName(),baseName)) {
+				if (equalsIgnoreWhiteSpacesAndCase(repository.getName(), baseName)) {
 					buffer.append('_');
 				}
 			}
@@ -47,15 +46,21 @@ public class NamingHelper {
 	}
 
 	private static boolean equalsIgnoreWhiteSpacesAndCase(String name1, String name2) {
+		if (removeWhiteSpaces(name1) == null && removeWhiteSpaces(name2) == null) {
+			return true;
+		}
+		if (removeWhiteSpaces(name1) == null && removeWhiteSpaces(name2) != null) {
+			return false;
+		}
 		return removeWhiteSpaces(name1).equalsIgnoreCase(removeWhiteSpaces(name2));
 	}
-	
+
 	private static String removeWhiteSpaces(String name) {
-		return name.replaceAll("\\s", "").trim();
+		return name == null ? null : name.replaceAll("\\s", "").trim();
 	}
-	
+
 	private static ViewsRepository repository(EObject obj) {
-		EObject container  = obj.eContainer();
+		EObject container = obj.eContainer();
 		while (container != null) {
 			if (container instanceof ViewsRepository) {
 				return (ViewsRepository) container;
