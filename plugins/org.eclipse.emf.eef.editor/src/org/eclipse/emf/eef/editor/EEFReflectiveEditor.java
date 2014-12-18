@@ -65,8 +65,11 @@ import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.EEFMasterDetailsPage;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
+import org.eclipse.emf.eef.runtime.query.provider.QueryItemProviderAdapterFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.util.EEFURIAwareResourceSet;
+import org.eclipse.emf.eef.views.provider.ViewsItemProviderAdapterFactory;
+import org.eclipse.emf.eef.views.toolkits.provider.ToolkitsItemProviderAdapterFactory;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -533,13 +536,17 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	 * This sets up the editing domain for the model editor. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void initializeEditingDomain() {
 		// Create an adapter factory that yields item providers.
 		//
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
+		adapterFactory.addAdapterFactory(new ViewsItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ToolkitsItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new EditingModelItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new QueryItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new EditingModelItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
