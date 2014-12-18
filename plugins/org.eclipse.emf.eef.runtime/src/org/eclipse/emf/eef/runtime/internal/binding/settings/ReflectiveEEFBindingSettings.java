@@ -10,9 +10,12 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.internal.binding.settings;
 
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.eef.runtime.EEFRuntime;
+import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
@@ -103,4 +106,19 @@ public class ReflectiveEEFBindingSettings<T extends EObject> implements EEFBindi
 		return (PropertiesEditingModel) eefDescription;
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#loadClass(java.lang.String)
+	 */
+	@SuppressWarnings({ "unused", "unchecked" })
+	public Class<PropertyBindingCustomizer> loadClass(String className) {
+		Class<PropertyBindingCustomizer> result = null;
+		try {
+			return (Class<PropertyBindingCustomizer>) EEFRuntime.getPlugin().getBundle().loadClass(className);
+		} catch (ClassNotFoundException e) {
+			EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + className, e));
+			return null;
+		}
+	}
 }

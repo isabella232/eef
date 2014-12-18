@@ -3,11 +3,14 @@
  */
 package org.eclipse.emf.eef.editor.internal.binding.settings;
 
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
+import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
@@ -163,6 +166,22 @@ public class EditorBindingSettings implements EEFBindingSettings<PropertiesEditi
 			return getEEFDescription(filter.iterator().next());
 		}
 		return null;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#loadClass(java.lang.String)
+	 */
+	@SuppressWarnings({ "unused", "unchecked" })
+	public Class<PropertyBindingCustomizer> loadClass(String className) {
+		Class<PropertyBindingCustomizer> result = null;
+		try {
+			return (Class<PropertyBindingCustomizer>) EditingModelEditPlugin.getPlugin().getBundle().loadClass(className);
+		} catch (ClassNotFoundException e) {
+			EditingModelEditPlugin.getPlugin().getLog().log(new Status(Status.ERROR, EditingModelEditPlugin.PLUGIN_ID, "Error when loading binding customizer class : " + className, e));
+			return null;
+		}
 	}
 
 }

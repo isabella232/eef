@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
+import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.services.EEFService;
@@ -67,5 +68,10 @@ public interface EEFBindingSettings<T extends EObject> extends EEFService<EPacka
 	 *         edited elements.
 	 */
 	boolean enableLockPolicy(EEFLockPolicy lockPolicy);
+
+	/**
+	 * @return bundle class to load class name.
+	 */
+	Class<PropertyBindingCustomizer> loadClass(String className);
 
 }

@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -21,6 +22,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
@@ -29,6 +31,7 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.util.BindingSettingsBuilder;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitHandler;
@@ -377,4 +380,19 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 		return getPropertiesEditionModel(mapURI2PropertiesEditingModelResource.get(ePackage.getNsURI()));
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#loadClass(java.lang.String)
+	 */
+	@SuppressWarnings({ "unused", "unchecked" })
+	public Class<PropertyBindingCustomizer> loadClass(String className) {
+		Class<PropertyBindingCustomizer> result = null;
+		try {
+			return (Class<PropertyBindingCustomizer>) EEFRuntimeUISWT.getPlugin().getBundle().loadClass(className);
+		} catch (ClassNotFoundException e) {
+			EEFRuntimeUISWT.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntimeUISWT.PLUGIN_ID, "Error when loading binding customizer class : " + className, e));
+			return null;
+		}
+	}
 }
