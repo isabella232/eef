@@ -311,7 +311,7 @@ public class EEFMasterDetailsPage extends FormPage {
 	 */
 	public TreeViewer addTreeViewer(String viewerTitle) {
 		CTabItem modelItem = new CTabItem(getTabFolder(), SWT.NONE);
-		TreeViewer modelViewer = new TreeViewer(getTabFolder(), SWT.BORDER);
+		TreeViewer modelViewer = new TreeViewer(getTabFolder(), SWT.MULTI);
 		modelItem.setText(viewerTitle);
 		modelViewer.getControl().setLayoutData(createFillBothData());
 		modelItem.setControl(modelViewer.getControl());
