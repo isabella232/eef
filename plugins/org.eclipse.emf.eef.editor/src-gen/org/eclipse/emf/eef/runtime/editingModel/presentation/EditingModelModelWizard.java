@@ -396,6 +396,10 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			IEditorPart editor = null;
 			try {
 				editor = page.openEditor(new FileEditorInput(modelFile), workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
+				// if second load a model, load it directly in second tab
+				if (secondPage.isModel() && editor instanceof EditingModelEditor) {
+					((EditingModelEditor) editor).getEditingDomainForOtherModel().getResourceSet().getResource(secondPage.getURI(), true);
+				}
 			} catch (PartInitException exception) {
 				MessageDialog.openError(workbenchWindow.getShell(), EditingModelEditPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
 				return false;
