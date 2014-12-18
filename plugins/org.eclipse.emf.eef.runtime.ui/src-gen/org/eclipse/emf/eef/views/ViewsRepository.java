@@ -62,7 +62,7 @@ public interface ViewsRepository extends DocumentedElement, IdentifiedElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Repository Kind</em>' attribute list.
 	 * @see org.eclipse.emf.eef.views.ViewsPackage#getViewsRepository_RepositoryKind()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	EList<String> getRepositoryKind();
@@ -96,7 +96,7 @@ public interface ViewsRepository extends DocumentedElement, IdentifiedElement {
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.emf.eef.views.ViewsPackage#getViewsRepository_Name()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	String getName();

@@ -73,7 +73,7 @@ public class IdentifiedElementItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Qualified Identifier propertyBinding.
+	 * This adds a property descriptor for the Qualified Identifier feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
