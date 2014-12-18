@@ -16,11 +16,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.notify.SettingsChangesNotifierImpl;
+import org.eclipse.emf.eef.runtime.util.EEFURIAwareResourceSet;
 import org.osgi.service.event.EventAdmin;
 
 /**
@@ -44,7 +45,12 @@ public final class EditingModelEnvironmentImpl implements EditingModelEnvironmen
 	 */
 	public ResourceSet getResourceSet() {
 		if (resourceSet == null) {
-			resourceSet = new ResourceSetImpl();
+			resourceSet = new EEFURIAwareResourceSet() {
+
+				public EditingDomain getEditingDomain() {
+					return getEditingDomain();
+				}
+			};
 			crossReferenceAdapter = new ECrossReferenceAdapter();
 			resourceSet.eAdapters().add(crossReferenceAdapter);
 			if (eventAdmin != null) {

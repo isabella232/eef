@@ -261,7 +261,10 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 		for (Resource resource : editingModelEnvironment.getResourceSet().getResources()) {
 			for (EObject content : resource.getContents()) {
 				if (content instanceof EPackage) {
-					return getEPackageFromResourceSet(((EPackage) content), eObject);
+					EPackage ePackageFromResourceSet = getEPackageFromResourceSet(((EPackage) content), eObject);
+					if (ePackageFromResourceSet != null) {
+						return ePackageFromResourceSet;
+					}
 				}
 			}
 		}
@@ -272,11 +275,13 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 		if (ePackage.getNsURI().equals(eObject.getEPackage().getNsURI())) {
 			return ePackage;
 		}
-		EPackage ePackageFromResourceSet = null;
 		for (EPackage subPackage : ePackage.getESubpackages()) {
-			ePackageFromResourceSet = getEPackageFromResourceSet(subPackage, eObject);
+			EPackage ePackageFromResourceSet = getEPackageFromResourceSet(subPackage, eObject);
+			if (ePackageFromResourceSet != null) {
+				return ePackageFromResourceSet;
+			}
 		}
-		return ePackageFromResourceSet;
+		return null;
 	}
 
 	/**

@@ -29,7 +29,6 @@ import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.EEFMasterDetailsPage;
-import org.eclipse.emf.eef.runtime.editingModel.presentation.util.EditingModelEditorResourceSet;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingHandlerImpl;
 import org.eclipse.emf.eef.runtime.internal.context.EObjectPropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
@@ -40,6 +39,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.PropertiesBindingHandlerUIImpl;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.util.EEFURIAwareResourceSet;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
@@ -292,7 +292,7 @@ public class EditingModelEditor extends EEFReflectiveEditor {
 	 */
 	public void createEditingDomainForOtherModels() {
 		BasicCommandStack commandStack = new BasicCommandStack();
-		editingDomainForOtherModel = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new EditingModelEditorResourceSet() {
+		editingDomainForOtherModel = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new EEFURIAwareResourceSet() {
 
 			/**
 			 * {@inheritDoc}

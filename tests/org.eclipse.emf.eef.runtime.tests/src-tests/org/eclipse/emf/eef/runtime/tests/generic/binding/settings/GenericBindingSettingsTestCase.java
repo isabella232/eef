@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -68,6 +69,7 @@ public class GenericBindingSettingsTestCase extends AbstractGenericBindingSettin
 	@Parameters
 	public static Collection<Object[]> data() throws Exception {
 		Resource resource = new ResourceImpl();
+		resource.setURI(URI.createURI("http://testEEF"));
 		EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
 		ePackage.setNsURI("http://testEEF");
 		resource.getContents().add(ePackage);

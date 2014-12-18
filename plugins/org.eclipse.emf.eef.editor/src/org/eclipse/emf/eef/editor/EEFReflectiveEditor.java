@@ -64,9 +64,9 @@ import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.EEFMasterDetailsPage;
-import org.eclipse.emf.eef.runtime.editingModel.presentation.util.EditingModelEditorResourceSet;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
+import org.eclipse.emf.eef.runtime.util.EEFURIAwareResourceSet;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -565,7 +565,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 
 		// Create the editing domain with a special command stack.
 		//
-		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new EditingModelEditorResourceSet() {
+		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new EEFURIAwareResourceSet() {
 
 			/**
 			 * {@inheritDoc}

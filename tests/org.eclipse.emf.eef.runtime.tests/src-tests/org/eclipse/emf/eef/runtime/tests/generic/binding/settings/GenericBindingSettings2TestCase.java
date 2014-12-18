@@ -14,6 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -44,6 +45,7 @@ public class GenericBindingSettings2TestCase extends AbstractGenericBindingSetti
 	@Before
 	public void setUp() throws Exception {
 		Resource resource = new ResourceImpl();
+		resource.setURI(URI.createURI(URI1));
 		genericBindingSettings = initGenericBindingSettings(resource);
 
 		// First package : 2 classes
