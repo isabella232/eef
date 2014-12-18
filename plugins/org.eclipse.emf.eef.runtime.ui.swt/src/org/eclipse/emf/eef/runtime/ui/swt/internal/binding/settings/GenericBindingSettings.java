@@ -257,12 +257,23 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	protected EPackage getEPackageFromResourceSet(EClass eObject) {
 		for (Resource resource : editingModelEnvironment.getResourceSet().getResources()) {
 			for (EObject content : resource.getContents()) {
-				if (content instanceof EPackage && ((EPackage) content).getNsURI().equals(eObject.getEPackage().getNsURI())) {
-					return (EPackage) content;
+				if (content instanceof EPackage) {
+					return getEPackageFromResourceSet(((EPackage) content), eObject);
 				}
 			}
 		}
 		return null;
+	}
+
+	private EPackage getEPackageFromResourceSet(EPackage ePackage, EClass eObject) {
+		if (ePackage.getNsURI().equals(eObject.getEPackage().getNsURI())) {
+			return ePackage;
+		}
+		EPackage ePackageFromResourceSet = null;
+		for (EPackage subPackage : ePackage.getESubpackages()) {
+			ePackageFromResourceSet = getEPackageFromResourceSet(subPackage, eObject);
+		}
+		return ePackageFromResourceSet;
 	}
 
 	/**
@@ -282,6 +293,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 			resource = new ResourceImpl(URI.createURI(eObject.getEPackage().getNsURI() + ".editingModel"));
 			resource.getContents().add(propertiesEditingModel);
 			ViewsRepository viewsRepository = ViewsFactory.eINSTANCE.createViewsRepository();
+			viewsRepository.setName(eObject.getEPackage().getName() + " View Repository");
 			resource.getContents().add(viewsRepository);
 			getResourceSet().getResources().add(resource);
 			mapURI2PropertiesEditingModelResource.put(uri, resource);
