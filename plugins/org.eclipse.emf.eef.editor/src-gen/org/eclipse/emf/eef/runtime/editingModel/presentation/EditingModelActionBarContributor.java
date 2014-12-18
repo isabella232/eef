@@ -410,27 +410,7 @@ public class EditingModelActionBarContributor extends EditingDomainActionBarCont
 		refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
 		menuManager.insertAfter("ui-actions", refreshViewerAction);
 
-		String key = (style & ADDITIONS_LAST_STYLE) == 0 ? "additions-end" : "additions";
-		if (validateAction != null) {
-			menuManager.insertBefore(key, new ActionContributionItem(validateAction));
-		}
-
-		if (controlAction != null) {
-			menuManager.insertBefore(key, new ActionContributionItem(controlAction));
-		}
-
-		if (validateAction != null || controlAction != null) {
-			menuManager.insertBefore(key, new Separator());
-		}
-
-		// if (loadResourceAction != null)
-		// {
-		// menuManager.insertBefore("additions-end", new
-		// ActionContributionItem(loadResourceAction));
-		// menuManager.insertBefore("additions-end", new Separator());
-		// }
-
-		// super.addGlobalActions(menuManager);
+		super.addGlobalActions(menuManager);
 	}
 
 	/**
