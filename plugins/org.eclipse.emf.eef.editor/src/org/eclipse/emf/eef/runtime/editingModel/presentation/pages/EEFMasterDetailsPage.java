@@ -364,6 +364,22 @@ public class EEFMasterDetailsPage extends FormPage {
 	 */
 	public void updateDetailsViewer(PropertiesEditingContext context) {
 		eefViewer.setInput(context);
+		tabFolder = getEEFViewerTablFolder(previewContainer);
+		if (tabFolder != null) {
+			toolkit.adapt(tabFolder);
+		}
+	}
+
+	private CTabFolder getEEFViewerTablFolder(Composite composite) {
+		if (composite.getChildren().length > 0) {
+			if (composite.getChildren()[0] instanceof CTabFolder) {
+				return (CTabFolder) composite.getChildren()[0];
+			}
+			if (composite.getChildren()[0] instanceof Composite) {
+				return getEEFViewerTablFolder((Composite) composite.getChildren()[0]);
+			}
+		}
+		return null;
 	}
 
 	/**
