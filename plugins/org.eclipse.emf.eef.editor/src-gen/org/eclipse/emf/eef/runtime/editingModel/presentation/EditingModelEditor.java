@@ -6,6 +6,9 @@
  */
 package org.eclipse.emf.eef.runtime.editingModel.presentation;
 
+import java.util.List;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -43,11 +46,17 @@ import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockEvent;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicyFactoryProvider;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotifierProvider;
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -139,6 +148,35 @@ public class EditingModelEditor extends EEFReflectiveEditor {
 						return bindingHandlerProvider;
 					}
 				});
+				int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
+				Transfer[] transfers = new Transfer[] { LocalSelectionTransfer.getTransfer() };
+				viewer.addDropSupport(dndOperations, transfers, new ViewerDropAdapter(viewer) {
+
+					@Override
+					public boolean validateDrop(Object target, int operation, TransferData transferType) {
+						return true;
+					}
+
+					@Override
+					public boolean performDrop(Object data) {
+						if (data instanceof StructuredSelection) {
+							Object selection = getSelectionService().unwrapSelection((StructuredSelection) data);
+							if (selection instanceof IFile) {
+								URI uri = URI.createPlatformResourceURI(((IFile) selection).getFullPath().toString(), true);
+								getEditingDomainForOtherModel().getResourceSet().getResource(uri, true);
+							} else if (selection instanceof List<?>) {
+								for (Object file : ((List<?>) selection)) {
+									if (file instanceof IFile) {
+										URI uri = URI.createPlatformResourceURI(((IFile) file).getFullPath().toString(), true);
+										getEditingDomainForOtherModel().getResourceSet().getResource(uri, true);
+									}
+								}
+							}
+
+						}
+						return false;
+					}
+				});
 				viewer.setInput(getEditingDomainForOtherModel().getResourceSet());
 			}
 
@@ -198,7 +236,7 @@ public class EditingModelEditor extends EEFReflectiveEditor {
 		super.createModel();
 		getEditingDomain().getResourceSet().getResource(URI.createURI("eeftoolkit://SWT.toolkit"), true);
 		getEditingDomain().getResourceSet().getResource(URI.createURI("eeftoolkit://EMFProperties.toolkit"), true);
-		
+
 		// create another editing domain for second tab
 		createEditingDomainForOtherModels();
 	}
