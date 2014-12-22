@@ -81,7 +81,7 @@ public class EMFServiceImpl implements EMFService, DefaultService {
 	 *      org.eclipse.emf.ecore.EClass)
 	 */
 	public boolean equals(final EClass eClass1, final EClass eClass2) {
-		return eClass1.getName() != null && eClass1.getName().equals(eClass2.getName()) && eClass1.getEPackage().getNsURI().equals(eClass2.getEPackage().getNsURI());
+		return (eClass1.getName() != null && eClass1.getName().equals(eClass2.getName()) || (eClass1.getName() == null && eClass2.getName() == null)) && equals(eClass1.getEPackage(), eClass2.getEPackage());
 	}
 
 	/**
