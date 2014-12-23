@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="EEF Category"
+            id="org.eclipse.emf.eef.category">
+      </category>
+      <command
+            name="EEF Getting Started Command"
+            categoryId="org.eclipse.emf.eef.category"
+            id="org.eclipse.emf.eef.samples.gettingstarted.commands.gettingStartedCommand">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="org.eclipse.emf.eef.samples.gettingstarted.commands.gettingStartedCommand"
+            class="org.eclipse.emf.eef.samples.gettingstarted.internal.handlers.GettingStartedHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="org.eclipse.emf.eef.samples.gettingstarted.toolbars.sampleToolbar">
+            <command
+                  commandId="org.eclipse.emf.eef.samples.gettingstarted.commands.gettingStartedCommand"
+                  icon="icons/sample.gif"
+                  tooltip="Say hello world"
+                  id="org.eclipse.emf.eef.samples.gettingstarted.toolbars.sampleCommand">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+
+</plugin>
