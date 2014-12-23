@@ -141,7 +141,6 @@ public class PropertiesEditingComponentImpl extends AbstractPropertiesEditingCom
 			return true;
 		} else {
 			if (notification.getFeature() != null && bindingSettings != null) {
-				EClassBinding binding = getBindingSettings().getEEFDescription(source).binding(source);
 				EEFEditingServiceProvider eefEditingServiceProvider = getEditingContext().getEEFEditingServiceProvider();
 				EEFEditingService editingService = eefEditingServiceProvider.getEditingService(getEditingContext().getEditingComponent().getEObject());
 				return editingService.isAffectingEventDueToCustomization(getEditingContext(), notification);

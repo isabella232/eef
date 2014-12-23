@@ -66,7 +66,7 @@ public class UndefinedSWTPropertyEditor extends AbstractUndefinedPropertyEditor 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.SWTPropertyEditor#build(org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(Composite parent) {
-		label = new Label(parent, SWT.NONE);
+		label = new Label(parent, SWT.WRAP);
 		label.setText(buildErrorMessage(viewElement));
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
