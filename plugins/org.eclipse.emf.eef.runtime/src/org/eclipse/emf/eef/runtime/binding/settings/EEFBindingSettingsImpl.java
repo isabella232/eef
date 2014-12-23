@@ -13,14 +13,17 @@ package org.eclipse.emf.eef.runtime.binding.settings;
 import java.util.Collection;
 import java.util.Dictionary;
 
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.EEFRuntime;
+import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.internal.binding.settings.AbstractEEFBindingSettings;
 import org.eclipse.emf.eef.runtime.logging.EEFLogger;
+import org.osgi.framework.Bundle;
 import org.osgi.service.component.ComponentContext;
 
 import com.google.common.collect.Lists;
@@ -33,6 +36,7 @@ public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 
 	private EEFLogger eefLogger;
 	private String editingModelPath;
+	private Bundle bundle;
 
 	/**
 	 * @param eefLogger
@@ -48,9 +52,10 @@ public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 	 */
 	public void activate(ComponentContext context) {
 		Dictionary properties = context.getProperties();
+		bundle = context.getBundleContext().getBundle();
 		editingModelPath = (String) properties.get("eef.editingModel.path");
 		if (editingModelPath != null) {
-			editingModelPath = "platform:/plugin/" + context.getBundleContext().getBundle().getSymbolicName() + "/" + editingModelPath;
+			editingModelPath = "platform:/plugin/" + bundle.getSymbolicName() + "/" + editingModelPath;
 		}
 	}
 
@@ -112,6 +117,22 @@ public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#loadClass(java.lang.String)
+	 */
+	@SuppressWarnings({ "unused", "unchecked" })
+	public Class<PropertyBindingCustomizer> loadClass(String className) {
+		Class<PropertyBindingCustomizer> result = null;
+		try {
+			return (Class<PropertyBindingCustomizer>) bundle.loadClass(className);
+		} catch (ClassNotFoundException e) {
+			EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + className, e));
+			return null;
+		}
 	}
 
 }

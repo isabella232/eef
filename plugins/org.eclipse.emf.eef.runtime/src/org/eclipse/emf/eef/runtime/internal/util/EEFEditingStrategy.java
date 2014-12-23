@@ -132,44 +132,45 @@ public abstract class EEFEditingStrategy<T, U> {
 		EEFModifierCustomizer<?> result = null;
 		String bindingCustomizer = propertyBinding.getBindingCustomizer();
 		if (!Strings.isNullOrEmpty(bindingCustomizer)) {
-			ClassLoader classLoader = editingContext.getEditingComponent().getBindingSettings().getClass().getClassLoader();
 			try {
-				Class<PropertyBindingCustomizer> loadClass = (Class<PropertyBindingCustomizer>) classLoader.loadClass(bindingCustomizer);
-				PropertyBindingCustomizer newInstance = loadClass.newInstance();
-				switch (accessorKind) {
-				case PropertyBindingCustomizer.GETTER:
-					result = newInstance.getGetter();
-					break;
-				case PropertyBindingCustomizer.VALUES_PROVIDER:
-					result = newInstance.getValuesProvider();
-					break;
-				case MonoPropertyBindingCustomizer.SETTER:
-					if (newInstance instanceof MonoPropertyBindingCustomizer) {
-						result = ((MonoPropertyBindingCustomizer) newInstance).getSetter();
+				Class<PropertyBindingCustomizer> loadClass = (Class<PropertyBindingCustomizer>) editingContext.getEditingComponent().getBindingSettings().loadClass(bindingCustomizer);
+				if (loadClass != null) {
+					PropertyBindingCustomizer newInstance = loadClass.newInstance();
+					switch (accessorKind) {
+					case PropertyBindingCustomizer.GETTER:
+						result = newInstance.getGetter();
+						break;
+					case PropertyBindingCustomizer.VALUES_PROVIDER:
+						result = newInstance.getValuesProvider();
+						break;
+					case MonoPropertyBindingCustomizer.SETTER:
+						if (newInstance instanceof MonoPropertyBindingCustomizer) {
+							result = ((MonoPropertyBindingCustomizer) newInstance).getSetter();
+							break;
+						}
+					case MonoPropertyBindingCustomizer.UNSETTER:
+						if (newInstance instanceof MonoPropertyBindingCustomizer) {
+							result = ((MonoPropertyBindingCustomizer) newInstance).getUnsetter();
+							break;
+						}
+					case MultiPropertyBindingCustomizer.ADDER:
+						if (newInstance instanceof MultiPropertyBindingCustomizer) {
+							result = ((MultiPropertyBindingCustomizer) newInstance).getAdder();
+							break;
+						}
+					case MultiPropertyBindingCustomizer.REMOVER:
+						if (newInstance instanceof MultiPropertyBindingCustomizer) {
+							result = ((MultiPropertyBindingCustomizer) newInstance).getRemover();
+							break;
+						}
+					default:
+						result = new NullModifierCustomizer<Object>();
 						break;
 					}
-				case MonoPropertyBindingCustomizer.UNSETTER:
-					if (newInstance instanceof MonoPropertyBindingCustomizer) {
-						result = ((MonoPropertyBindingCustomizer) newInstance).getUnsetter();
-						break;
-					}
-				case MultiPropertyBindingCustomizer.ADDER:
-					if (newInstance instanceof MultiPropertyBindingCustomizer) {
-						result = ((MultiPropertyBindingCustomizer) newInstance).getAdder();
-						break;
-					}
-				case MultiPropertyBindingCustomizer.REMOVER:
-					if (newInstance instanceof MultiPropertyBindingCustomizer) {
-						result = ((MultiPropertyBindingCustomizer) newInstance).getRemover();
-						break;
-					}
-				default:
+				} else {
 					result = new NullModifierCustomizer<Object>();
-					break;
+					EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, null));
 				}
-			} catch (ClassNotFoundException e) {
-				result = new NullModifierCustomizer<Object>();
-				EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, e));
 			} catch (ClassCastException e) {
 				result = new NullModifierCustomizer<Object>();
 				EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, e));

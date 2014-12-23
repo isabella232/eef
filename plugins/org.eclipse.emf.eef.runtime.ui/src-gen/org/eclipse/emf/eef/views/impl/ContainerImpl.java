@@ -27,9 +27,8 @@ import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.emf.eef.views.ViewsPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Container</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Container</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -43,8 +42,8 @@ import org.eclipse.emf.eef.views.ViewsPackage;
 public class ContainerImpl extends ViewElementImpl implements Container {
 	/**
 	 * The default value of the '{@link #getQualifiedIdentifier() <em>Qualified Identifier</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @see #getQualifiedIdentifier()
 	 * @generated
 	 * @ordered
@@ -53,8 +52,7 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 
 	/**
 	 * The cached value of the '{@link #getElements() <em>Elements</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getElements()
 	 * @generated
 	 * @ordered
@@ -62,8 +60,7 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	protected EList<ViewElement> elements;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected ContainerImpl() {
@@ -71,8 +68,7 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -81,18 +77,18 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	public String getQualifiedIdentifier() {
-		StringBuilder result = new StringBuilder(name);
+		StringBuilder result = new StringBuilder(name == null ? "" : name);
 		result.append(NamingHelper.nameDiscriminator(this));
 		EObject container = this.eContainer();
 		while (container != null) {
 			if (container instanceof IdentifiedElement) {
 				result.insert(0, "::"); //$NON-NLS-1$
-				result.insert(0, ((IdentifiedElement)container).getQualifiedIdentifier());
+				result.insert(0, ((IdentifiedElement) container).getQualifiedIdentifier());
 				return result.toString();
 			}
 			container = container.eContainer();
@@ -101,8 +97,7 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<ViewElement> getElements() {
@@ -113,8 +108,7 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -128,8 +122,7 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -142,8 +135,7 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -158,8 +150,7 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -175,8 +166,7 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -190,8 +180,7 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -206,8 +195,7 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -222,8 +210,7 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -237,4 +224,4 @@ public class ContainerImpl extends ViewElementImpl implements Container {
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
-} //ContainerImpl
+} // ContainerImpl

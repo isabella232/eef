@@ -366,19 +366,19 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 	 * @see org.eclipse.emf.eef.runtime.util.EEFEditingService#getEventFilterFromCustomizer(org.eclipse.emf.eef.runtime.editingModel.PropertyBinding,
 	 *      org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings)
 	 */
-	@SuppressWarnings("unchecked")
 	public EEFModifierCustomizer<Boolean> getEventFilterFromCustomizer(PropertyBinding propertyBinding, EEFBindingSettings<?> bindingSettings) {
 		EEFModifierCustomizer<Boolean> result = null;
 		String bindingCustomizer = propertyBinding.getBindingCustomizer();
 		if (!Strings.isNullOrEmpty(bindingCustomizer)) {
-			ClassLoader classLoader = bindingSettings.getClass().getClassLoader();
 			try {
-				Class<PropertyBindingCustomizer> loadClass = (Class<PropertyBindingCustomizer>) classLoader.loadClass(bindingCustomizer);
-				PropertyBindingCustomizer newInstance = loadClass.newInstance();
-				result = newInstance.getEventFilter();
-			} catch (ClassNotFoundException e) {
-				result = new NullModifierCustomizer<Boolean>();
-				EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, e));
+				Class<PropertyBindingCustomizer> loadClass = (Class<PropertyBindingCustomizer>) bindingSettings.loadClass(bindingCustomizer);
+				if (loadClass != null) {
+					PropertyBindingCustomizer newInstance = loadClass.newInstance();
+					result = newInstance.getEventFilter();
+				} else {
+					result = new NullModifierCustomizer<Boolean>();
+					EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, null));
+				}
 			} catch (ClassCastException e) {
 				result = new NullModifierCustomizer<Boolean>();
 				EEFRuntime.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntime.PLUGIN_ID, "Error when loading binding customizer class : " + bindingCustomizer, e));

@@ -69,7 +69,8 @@ public class GroupFormPropertyEditor implements FormPropertyEditor<EEFControlWra
 	 */
 	public void build(FormToolkit toolkit, Composite parent) {
 		Section section = toolkit.createSection(parent, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		section.setText(container.getName());
+		String containerName = container.getName();
+		section.setText(containerName == null ? "" : containerName);
 		GridData sectionLayoutData = new GridData(GridData.FILL_HORIZONTAL);
 		sectionLayoutData.horizontalSpan = 3;
 		section.setLayoutData(sectionLayoutData);

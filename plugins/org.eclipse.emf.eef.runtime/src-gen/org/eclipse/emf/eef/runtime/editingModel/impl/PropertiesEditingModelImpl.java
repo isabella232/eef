@@ -234,9 +234,6 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 	 * @generated NOT
 	 */
 	public EClassBinding binding(EObject eObject) {
-		if (eObject instanceof EClass) {
-			return binding((EClass)eObject);
-		}
 		EMFService emfService = emfServiceProvider.getEMFService(eObject.eClass().getEPackage());
 		for (EClassBinding binding : bindings) {
 			if ((emfService != null && emfService.equals(eObject.eClass(), binding.getEClass())) || eObject.eClass().equals(binding.getEClass())) {
@@ -251,7 +248,16 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 	 * 
 	 * @generated NOT
 	 */
-	public EClassBinding binding(EClass eClass) {
+	public EList<View> views(EObject eObject) {
+		return binding(eObject).getViews();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EClassBinding bindingEClass(EClass eClass) {
 		EMFService emfService = emfServiceProvider.getEMFService(eClass.getEPackage());
 		for (EClassBinding binding : bindings) {
 			if ((emfService != null && emfService.equals(eClass, binding.getEClass())) || eClass.equals(binding.getEClass())) {
@@ -259,15 +265,6 @@ public class PropertiesEditingModelImpl extends EModelElementImpl implements Pro
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public EList<View> views(EObject eObject) {
-		return binding(eObject).getViews();
 	}
 
 	/**

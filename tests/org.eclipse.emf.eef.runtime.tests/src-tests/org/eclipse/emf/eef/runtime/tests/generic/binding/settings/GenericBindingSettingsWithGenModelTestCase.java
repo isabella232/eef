@@ -18,6 +18,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -48,6 +49,7 @@ import org.junit.Test;
 public class GenericBindingSettingsWithGenModelTestCase extends AbstractGenericBindingSettingsTestCase {
 
 	private static final String URI1 = "uri1";
+	private static final String URI2 = "uri2";
 	private GenericBindingSettings genericBindingSettings;
 	private EObject class1;
 	private EClass eClass1;
@@ -67,6 +69,7 @@ public class GenericBindingSettingsWithGenModelTestCase extends AbstractGenericB
 	public void setUp() throws Exception {
 
 		Resource resource = new ResourceImpl();
+		resource.setURI(URI.createURI(URI1));
 		EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
 		ePackage.setNsURI(URI1);
 		resource.getContents().add(ePackage);
@@ -89,7 +92,7 @@ public class GenericBindingSettingsWithGenModelTestCase extends AbstractGenericB
 		genClass = GenModelFactory.eINSTANCE.createGenClass();
 		genClass.setEcoreClass(eClass1);
 
-		Resource resourceGenModel = new ResourceImpl();
+		Resource resourceGenModel = new ResourceImpl(URI.createURI(URI2));
 		resourceGenModel.getContents().add(genPackage);
 
 		genericBindingSettings = initGenericBindingSettings(resource, resourceGenModel);
@@ -116,7 +119,7 @@ public class GenericBindingSettingsWithGenModelTestCase extends AbstractGenericB
 		assertEquals("4 property binding", 4, classBinding.getPropertyBindings().size());
 
 		// test attribute 1 : text
-		EStructuralFeatureBinding propertyBinding1 = (EStructuralFeatureBinding)classBinding.getPropertyBindings().get(0);
+		EStructuralFeatureBinding propertyBinding1 = (EStructuralFeatureBinding) classBinding.getPropertyBindings().get(0);
 		checkPropertyBinding(propertyBinding1, eAttribute1_String, GenericBindingSettings.TEXT_WIDGET_NAME, false, GenericBindingSettingsUtil.CLASS1);
 
 		// test attribute 2 : text area

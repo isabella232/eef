@@ -55,10 +55,10 @@ import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.editingModel.presentation.util.EditingModelEditorResourceSet;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
+import org.eclipse.emf.eef.runtime.util.EEFURIAwareResourceSet;
 import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.ViewsPackage;
 import org.eclipse.emf.eef.views.ViewsRepository;
@@ -72,6 +72,10 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.pde.core.IBaseModel;
+import org.eclipse.pde.core.build.IBuildEntry;
+import org.eclipse.pde.core.build.IBuildModel;
+import org.eclipse.pde.core.build.IBuildModelFactory;
+import org.eclipse.pde.internal.core.build.WorkspaceBuildModel;
 import org.eclipse.pde.internal.core.ibundle.IBundleModel;
 import org.eclipse.pde.internal.core.ibundle.IBundlePluginModelBase;
 import org.eclipse.pde.internal.core.natures.PDE;
@@ -118,6 +122,7 @@ import com.google.common.base.Strings;
  * 
  * @generated
  */
+@SuppressWarnings("restriction")
 public class EditingModelModelWizard extends Wizard implements INewWizard {
 
 	/**
@@ -391,24 +396,14 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			IEditorPart editor = null;
 			try {
 				editor = page.openEditor(new FileEditorInput(modelFile), workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
+				// if second load a model, load it directly in second tab
+				if (secondPage.isModel() && editor instanceof EditingModelEditor) {
+					((EditingModelEditor) editor).getEditingDomainForOtherModel().getResourceSet().getResource(secondPage.getURI(), true);
+				}
 			} catch (PartInitException exception) {
 				MessageDialog.openError(workbenchWindow.getShell(), EditingModelEditPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
 				return false;
 			}
-
-			// populate EEF Reflexive view
-			// EEFReflectiveView eefView = (EEFReflectiveView)
-			// PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(EEFReflectiveView.ID);
-			// if (eefView == null) {
-			// eefView = (EEFReflectiveView)
-			// PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EEFReflectiveView.ID);
-			// }
-			// if (eefView != null && editor instanceof EEFReflectiveEditor) {
-			// ((EEFReflectiveEditor)
-			// editor).setEditingDomainForOtherModel(editingDomain);
-			// eefView.setInput(((EEFReflectiveEditor)
-			// editor).getEditingDomainForOtherModel());
-			// }
 
 			// create EEF Binding Setting service
 			getShell().getDisplay().syncExec(new Runnable() {
@@ -439,7 +434,6 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	 */
 	public void createEEFBindingSettingService(final IFile modelFile, final String metamodelName) {
 		getShell().getDisplay().syncExec(new Runnable() {
-			@SuppressWarnings("restriction")
 			public void run() {
 				final IPath newFilePath = new Path(modelFile.getProject().getName() + "/OSGI-INF/" + metamodelName + "BindingSettings.xml");
 				IFile fFile = createNewFile(newFilePath, getContainer(), getShell());
@@ -452,7 +446,14 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 					 */
 					@Override
 					protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
-						super.execute(monitor);
+						monitor.beginTask("", 3);
+						createContent();
+						monitor.worked(1);
+						if (PDE.hasPluginNature(fFile.getProject())) {
+							writeManifest(fFile.getProject(), new SubProgressMonitor(monitor, 1));
+							writeBuildProperties(fFile.getProject(), new SubProgressMonitor(monitor, 1));
+						}
+						monitor.done();
 						if (PDE.hasPluginNature(fFile.getProject())) {
 							addManifestEEFDependency(fFile.getProject(), new SubProgressMonitor(monitor, 1));
 						}
@@ -470,6 +471,69 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 						}, monitor);
 						monitor.done();
 
+					}
+
+					private void writeManifest(IProject project, SubProgressMonitor monitor) {
+
+						PDEModelUtility.modifyModel(new ModelModification(project) {
+
+							protected void modifyModel(IBaseModel model, IProgressMonitor monitor) throws CoreException {
+
+								if (model instanceof IBundlePluginModelBase)
+									updateManifest((IBundlePluginModelBase) model, monitor);
+							}
+						}, monitor);
+						monitor.done();
+
+					}
+
+					private void writeBuildProperties(final IProject project, SubProgressMonitor monitor) {
+
+						PDEModelUtility.modifyModel(new ModelModification(PDEProject.getBuildProperties(project)) {
+							protected void modifyModel(IBaseModel model, IProgressMonitor monitor) throws CoreException {
+								if (!(model instanceof IBuildModel))
+									return;
+								IFile file = PDEProject.getBuildProperties(project);
+								if (file.exists()) {
+									WorkspaceBuildModel wbm = new WorkspaceBuildModel(file);
+									wbm.load();
+									if (!wbm.isLoaded())
+										return;
+									IBuildModelFactory factory = wbm.getFactory();
+									String path = fFile.getFullPath().removeFirstSegments(1).toPortableString();
+									IBuildEntry entry = wbm.getBuild().getEntry(IBuildEntry.BIN_INCLUDES);
+									if (entry == null) {
+										entry = factory.createEntry(IBuildEntry.BIN_INCLUDES);
+										wbm.getBuild().add(entry);
+									}
+									entry.addToken(path);
+									wbm.save();
+								}
+							}
+						}, null);
+
+						monitor.done();
+
+					}
+
+					private final String DS_MANIFEST_KEY = "Service-Component"; //$NON-NLS-1$
+
+					private void updateManifest(IBundlePluginModelBase model, IProgressMonitor monitor) throws CoreException {
+						IBundleModel bundleModel = model.getBundleModel();
+
+						// Create a path from the bundle root to the component
+						// file
+						IContainer root = PDEProject.getBundleRoot(fFile.getProject());
+						String filePath = fFile.getFullPath().makeRelativeTo(root.getFullPath()).toPortableString();
+
+						String header = bundleModel.getBundle().getHeader(DS_MANIFEST_KEY);
+						if (header != null) {
+							if (containsValue(header, filePath)) {
+								return;
+							}
+							filePath = header + ",\n " + filePath; //$NON-NLS-1$
+						}
+						bundleModel.getBundle().setHeader(DS_MANIFEST_KEY, filePath);
 					}
 
 					private void addManifestEEFDependency(IBundlePluginModelBase model, IProgressMonitor monitor) throws CoreException {
@@ -571,7 +635,6 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	 * @return the new file resource handle
 	 * @see #createFile
 	 */
-	@SuppressWarnings("restriction")
 	protected static IFile createFileHandle(IPath filePath) {
 		return IDEWorkbenchPlugin.getPluginWorkspace().getRoot().getFile(filePath);
 	}
@@ -603,7 +666,6 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	 * @return the created file resource, or <code>null</code> if the file was
 	 *         not created
 	 */
-	@SuppressWarnings("restriction")
 	public IFile createNewFile(IPath newFilePath, IRunnableContext runnableContext, final Shell shell) {
 		// create the new file and cache it if
 		// successful
@@ -694,7 +756,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 		BasicCommandStack commandStack = new BasicCommandStack();
-		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new EditingModelEditorResourceSet() {
+		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new EEFURIAwareResourceSet() {
 
 			/**
 			 * {@inheritDoc}

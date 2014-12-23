@@ -85,6 +85,9 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<P
 			 * @see com.google.common.base.Predicate#apply(java.lang.Object)
 			 */
 			public boolean apply(EPackage input) {
+				if (input == null) {
+					return false;
+				}
 				EMFService emfService = emfServiceProvider.getEMFService(element);
 				boolean b = (emfService != null && emfService.equals(element, input)) || element == input;
 				return b;
@@ -144,7 +147,7 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<P
 			if (editingModel.getEMFServiceProvider() == null) {
 				editingModel.setEMFServiceProvider(emfServiceProvider);
 			}
-			if (editingModel.binding((EClass)eClass) != null) {
+			if (editingModel.binding((EClass) eClass) != null) {
 				return editingModel;
 			}
 		}

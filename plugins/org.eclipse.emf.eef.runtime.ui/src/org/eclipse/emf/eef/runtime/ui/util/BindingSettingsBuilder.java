@@ -11,6 +11,7 @@
 package org.eclipse.emf.eef.runtime.ui.util;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EAttribute;
@@ -26,7 +27,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitHandler;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
@@ -38,6 +39,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:nathalie.lepine@obeo.fr">Nathalie Lepine</a>
@@ -54,7 +56,8 @@ public class BindingSettingsBuilder {
 	public static final String GENFEATURE_PROPERTY_CATEGORY = "propertyCategory";
 	public static final String GENFEATURE_PROPERTY = "property";
 
-	private EEFToolkitProvider toolkitProvider;
+	private ToolkitHandler toolkitHandler;
+
 	private PropertiesEditingModel propertiesEditingModel;
 
 	/**
@@ -65,10 +68,10 @@ public class BindingSettingsBuilder {
 	private String TEXTAREA_WIDGET_NAME = "";
 	private ViewsRepository viewsRepository;
 
-	public BindingSettingsBuilder(PropertiesEditingModel propertiesEditingModel, ViewsRepository viewsRepository, EEFToolkitProvider toolkitProvider, String... names) {
+	public BindingSettingsBuilder(PropertiesEditingModel propertiesEditingModel, ViewsRepository viewsRepository, ToolkitHandler toolkitHandler, String... names) {
 		this.propertiesEditingModel = propertiesEditingModel;
+		this.toolkitHandler = toolkitHandler;
 		this.viewsRepository = viewsRepository;
-		this.toolkitProvider = toolkitProvider;
 		if (names.length > 0) {
 			this.GROUP_CONTAINER_NAME = names[0];
 		}
@@ -93,7 +96,8 @@ public class BindingSettingsBuilder {
 	 * @param editingModelEnvironment
 	 */
 	public void bindEStructuralFeature(EClass eObject, EClassBinding eClassBinding, View createdView, EditingModelEnvironment editingModelEnvironment) {
-		for (EStructuralFeature feature : eClassBinding.getEClass().getEAllStructuralFeatures()) {
+		List<EStructuralFeature> eAllStructuralFeatures = sortEStructuralFeatures(eClassBinding.getEClass().getEAllStructuralFeatures());
+		for (EStructuralFeature feature : eAllStructuralFeatures) {
 			// get editable information from genmodel if exists
 			boolean isReadonly = false;
 			boolean isMultiLine = false;
@@ -132,6 +136,28 @@ public class BindingSettingsBuilder {
 	}
 
 	/**
+	 * Sort structural features, required attributes first.
+	 * 
+	 * @param structuralFeatures
+	 *            List<EStructuralFeature>
+	 * @return List<EStructuralFeature>
+	 */
+	public List<EStructuralFeature> sortEStructuralFeatures(List<EStructuralFeature> structuralFeatures) {
+		List<EStructuralFeature> result = Lists.newArrayList();
+		for (EStructuralFeature eStructuralFeature : structuralFeatures) {
+			if (eStructuralFeature instanceof EAttribute && eStructuralFeature.isRequired()) {
+				result.add(eStructuralFeature);
+			}
+		}
+		for (EStructuralFeature eStructuralFeature : structuralFeatures) {
+			if (!result.contains(eStructuralFeature)) {
+				result.add(eStructuralFeature);
+			}
+		}
+		return result;
+	}
+
+	/**
 	 * Create property binding.
 	 * 
 	 * @param eClassBinding
@@ -149,7 +175,7 @@ public class BindingSettingsBuilder {
 		propertyBinding.setFeature(feature);
 		Widget widget = null;
 		if (isMultiLine && feature.getEType() instanceof EDataType && feature.getEType().getName().contains("String")) {
-			widget = toolkitProvider.getWidgetByName(TEXTAREA_WIDGET_NAME);
+			widget = toolkitHandler.getWidgetByName(TEXTAREA_WIDGET_NAME);
 		}
 		if (widget == null) {
 			widget = getWidgetForFeature(feature);
@@ -215,10 +241,10 @@ public class BindingSettingsBuilder {
 	 * @return widget corresponding to the feature
 	 */
 	public Widget getWidgetForFeature(EStructuralFeature feature) {
-		if (!feature.isMany() && feature instanceof EAttribute && !(feature.getEType() instanceof EEnum) && (feature.getEType().getName().equals("EString") || feature.getEType().getName().equals("String")) && "documentation".equals(feature.getName())) {
-			return toolkitProvider.getWidgetByName(TEXTAREA_WIDGET_NAME);
+		if (!feature.isMany() && feature instanceof EAttribute && feature.getEType() != null && !(feature.getEType() instanceof EEnum) && (feature.getEType().getName().equals("EString") || feature.getEType().getName().equals("String")) && "documentation".equals(feature.getName())) {
+			return toolkitHandler.getWidgetByName(TEXTAREA_WIDGET_NAME);
 		}
-		Collection<Widget> widgetsFor = toolkitProvider.getAllWidgetsFor(feature);
+		Collection<Widget> widgetsFor = toolkitHandler.getAllWidgetsFor(feature);
 		if (widgetsFor.size() == 1) {
 			return widgetsFor.iterator().next();
 		} else {
@@ -300,7 +326,7 @@ public class BindingSettingsBuilder {
 	public Container createContainerViewForEClassBinding(String name, org.eclipse.emf.eef.views.View view) {
 		Container newGroup = ViewsFactory.eINSTANCE.createContainer();
 		newGroup.setName(name);
-		newGroup.setRepresentation(toolkitProvider.getWidgetByName(GROUP_CONTAINER_NAME));
+		newGroup.setRepresentation(toolkitHandler.getWidgetByName(GROUP_CONTAINER_NAME));
 		view.getElements().add(newGroup);
 		return newGroup;
 	}
@@ -356,7 +382,7 @@ public class BindingSettingsBuilder {
 	private static class StandardEEFToolkitsSelector implements Predicate<Widget> {
 
 		public boolean apply(Widget widget) {
-			return widget.getToolkit().getName() == "swt" || widget.getToolkit().getName() == "EMFProperties";
+			return widget.getToolkit().getName() == "SWT" || widget.getToolkit().getName() == "EMFProperties";
 		}
 
 	}

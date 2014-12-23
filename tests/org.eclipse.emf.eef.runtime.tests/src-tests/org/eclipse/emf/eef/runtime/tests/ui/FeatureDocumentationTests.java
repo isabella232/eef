@@ -53,10 +53,9 @@ import org.eclipse.emf.eef.views.toolkits.Toolkit;
 import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.junit.Test;
 
-
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class FeatureDocumentationTests {
 
@@ -69,9 +68,10 @@ public class FeatureDocumentationTests {
 	private ElementEditor nameEditor;
 
 	/**
-	 * In this test, we create a ecore file, a view repository and we bind them. A propertyBinding of the
-	 * ecore model has a Ecore documentation. Then, we create a context on an instance of this ecore model
-	 * and we use the ViewService to get the Ecore documentation of the propertyBinding. 
+	 * In this test, we create a ecore file, a view repository and we bind them.
+	 * A propertyBinding of the ecore model has a Ecore documentation. Then, we
+	 * create a context on an instance of this ecore model and we use the
+	 * ViewService to get the Ecore documentation of the propertyBinding.
 	 */
 	@Test
 	public void testEcoreDocumentation() {
@@ -86,21 +86,17 @@ public class FeatureDocumentationTests {
 		EPackage ecoreSample = generateEcoreSample();
 		ViewsRepository viewRepository = generateViewsRepository();
 		eclassView = viewRepository.getViews().get(0);
-		nameEditor = (ElementEditor)eclassView.getElements().get(0);
+		nameEditor = (ElementEditor) eclassView.getElements().get(0);
 		final EClass sampleEClass = (EClass) ecoreSample.getEClassifier(SAMPLE_ECLASS_NAME);
 		EObject editedEObject = EcoreUtil.create(sampleEClass);
-		builder.setEditingModel(new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
-		.setDocumentationProvider(FeatureDocumentationProvider.ECORE_DOCUMENTATION)
-		.bindClass(sampleEClass)
-		.withView(eclassView)
-		.build())
-		.setEditedObject(editedEObject);		
+		builder.setEditingModel(new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID).setDocumentationProvider(FeatureDocumentationProvider.ECORE_DOCUMENTATION).bindClass(sampleEClass).withView(eclassView).build()).setEditedObject(editedEObject);
 		return builder.build();
 	}
 
 	private EPackage generateEcoreSample() {
 		EPackage root = EcoreFactory.eINSTANCE.createEPackage();
 		root.setName("test");
+		root.setNsURI("test");
 		EClass sampleClass = EcoreFactory.eINSTANCE.createEClass();
 		sampleClass.setName(SAMPLE_ECLASS_NAME);
 		EAttribute attr = EcoreFactory.eINSTANCE.createEAttribute();
@@ -113,11 +109,12 @@ public class FeatureDocumentationTests {
 
 	}
 
-
 	/**
-	 * In this test, we generate a ViewRepository and we bind it to the ecore.ecore file. We involve the
-	 * ecore.genmodel model to be able to get the genfeatures property descriptions. Then, we create a EditingContext
-	 * on a Ecore model instance and we try to get a genfeature property description via the ViewService.
+	 * In this test, we generate a ViewRepository and we bind it to the
+	 * ecore.ecore file. We involve the ecore.genmodel model to be able to get
+	 * the genfeatures property descriptions. Then, we create a EditingContext
+	 * on a Ecore model instance and we try to get a genfeature property
+	 * description via the ViewService.
 	 */
 	@Test
 	public void testGenmodelDocumentation() {
@@ -138,11 +135,12 @@ public class FeatureDocumentationTests {
 	protected EEFTestEnvironment buildGenmodelEditingContext() {
 		ViewsRepository viewRepository = generateViewsRepository();
 		eclassView = viewRepository.getViews().get(0);
-		nameEditor = (ElementEditor)eclassView.getElements().get(0);
+		nameEditor = (ElementEditor) eclassView.getElements().get(0);
 		EEFBindingSettingsImpl bindingSettings = new EEFBindingSettingsImpl() {
-			
+
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl#getEditingModel()
 			 */
 			@Override
@@ -150,14 +148,9 @@ public class FeatureDocumentationTests {
 				ResourceSet rset = getEditingModelEnvironment().getResourceSet();
 				final Resource genmodelResource = rset.getResource(URI.createPlatformPluginURI(ECORE_GENMODEL_URI, true), true);
 				EClass sampleEClass = getEClassEClassFromResourceSet(rset);
-				PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID)
-				.addInvolvedModel(genmodelResource.getContents().get(0))
-				.bindClass(sampleEClass)
-				.withView(eclassView)
-				.build();
+				PropertiesEditingModel editingModel = new EditingModelBuilder(EEFTestEnvironment.TESTS_EDITING_MODEL_ID).addInvolvedModel(genmodelResource.getContents().get(0)).bindClass(sampleEClass).withView(eclassView).build();
 				return editingModel;
 			}
-
 
 		};
 		EMFServiceProviderImpl emfServiceProvider = new EMFServiceProviderImpl();
@@ -172,15 +165,12 @@ public class FeatureDocumentationTests {
 		Collection<EEFBindingSettings> providers = new ArrayList<EEFBindingSettings>();
 		providers.add(bindingSettings);
 		Collection<EEFServiceDescriptor<EEFBindingSettings>> specificProviders = new ArrayList<EEFServiceDescriptor<EEFBindingSettings>>();
-		
+
 		specificProviders.add(new EEFServiceDescriptor<EEFBindingSettings>("specificBindingSettings", bindingSettings));
 
-		Builder builder = new EEFTestEnvironment.Builder()
-													.setBindingSettings(specificProviders)
-													.setEditedObject(EcoreFactory.eINSTANCE.createEClass());
+		Builder builder = new EEFTestEnvironment.Builder().setBindingSettings(specificProviders).setEditedObject(EcoreFactory.eINSTANCE.createEClass());
 		return builder.build();
 	}
-		
 
 	private EClass getEClassEClassFromResourceSet(ResourceSet rset) {
 		final Resource ecoreResource = rset.getResource(URI.createPlatformPluginURI(ECORE_ECORE_URI, true), true);
@@ -188,7 +178,6 @@ public class FeatureDocumentationTests {
 		EClass sampleEClass = (EClass) ecorePackage.getEClassifier("EClass");
 		return sampleEClass;
 	}
-
 
 	private ViewsRepository generateViewsRepository() {
 		ViewsRepository repo = ViewsFactory.eINSTANCE.createViewsRepository();

@@ -25,23 +25,23 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class SWTToolkit extends EEFToolkitImpl<Composite> {
 
 	/**
 	 * SWT Toolkit name.
 	 */
-	public static final String SWT_TOOLKIT_NAME = "swt";
-	
+	public static final String SWT_TOOLKIT_NAME = "SWT";
+
 	private static final Toolkit toolkit = ToolkitsFactory.eINSTANCE.createToolkit();
-	
+
 	static {
 		toolkit.setName(SWT_TOOLKIT_NAME);
 	}
-	
+
 	private EEFEditingServiceProvider eefEditingServiceProvider;
-	
+
 	/**
 	 * @return the eefEditingServiceProvider
 	 */
@@ -50,14 +50,15 @@ public class SWTToolkit extends EEFToolkitImpl<Composite> {
 	}
 
 	/**
-	 * @param eefEditingServiceProvider the eefEditingServiceProvider to set
+	 * @param eefEditingServiceProvider
+	 *            the eefEditingServiceProvider to set
 	 */
 	public void setEEFEditingServiceProvider(EEFEditingServiceProvider eefEditingServiceProvider) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 	}
 
 	private EditUIProvidersFactory editUIProvidersFactory;
-	
+
 	/**
 	 * @return the editUIProvidersFactory
 	 */
@@ -66,7 +67,8 @@ public class SWTToolkit extends EEFToolkitImpl<Composite> {
 	}
 
 	/**
-	 * @param editUIProvidersFactory the editUIProvidersFactory to set
+	 * @param editUIProvidersFactory
+	 *            the editUIProvidersFactory to set
 	 */
 	public final void setEditUIProvidersFactory(EditUIProvidersFactory editUIProvidersFactory) {
 		this.editUIProvidersFactory = editUIProvidersFactory;
@@ -76,16 +78,13 @@ public class SWTToolkit extends EEFToolkitImpl<Composite> {
 	 * 
 	 */
 	public SWTToolkit() {
-		addPropertyEditorFactory(new TextPropertyEditorFactory(this))
-		.addPropertyEditorFactory(new CheckboxPropertyEditorFactory(this))
-		.addPropertyEditorFactory(new GroupContainerFactory())
-		.addPropertyEditorFactory(new HBoxContainerFactory())
-		.addPropertyEditorFactory(new TextareaPropertyEditorFactory(this))
-		.addPropertyEditorFactory(new ComboPropertyEditorFactory(this));
+		addPropertyEditorFactory(new TextPropertyEditorFactory(this)).addPropertyEditorFactory(new CheckboxPropertyEditorFactory(this)).addPropertyEditorFactory(new GroupContainerFactory()).addPropertyEditorFactory(new HBoxContainerFactory())
+				.addPropertyEditorFactory(new TextareaPropertyEditorFactory(this)).addPropertyEditorFactory(new ComboPropertyEditorFactory(this));
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
 	 */
 	public Toolkit getModel() {

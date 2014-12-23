@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -21,6 +22,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
@@ -29,8 +31,10 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
 import org.eclipse.emf.eef.runtime.services.DefaultService;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.util.BindingSettingsBuilder;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitHandler;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
@@ -75,6 +79,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	private ResourceSet resourceSet;
 	private Map<String, Resource> mapURI2PropertiesEditingModelResource = new HashMap<String, Resource>();
 	private EventAdmin eventAdmin;
+	private ToolkitHandler toolkitHandler;
 
 	public static final String PROPERTIES_EDITING_MODEL_NAME = "Generic Binding Settings";
 	public static final String PROPERTIES_EDITING_MODEL_ID = "org.eclipse.emf.eef.runtime.ui.swt.genericBindingSetting";
@@ -221,7 +226,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 */
 	public void updatePropertiesEditingModel(EClass eObject, PropertiesEditingModel propertiesEditingModel, ViewsRepository viewsRepository) {
 		// create EClassBinding on eobject with its view
-		BindingSettingsBuilder builder = new BindingSettingsBuilder(propertiesEditingModel, viewsRepository, toolkitProvider, GROUP_CONTAINER_NAME, TEXT_WIDGET_NAME, TEXTAREA_WIDGET_NAME);
+		BindingSettingsBuilder builder = new BindingSettingsBuilder(propertiesEditingModel, viewsRepository, getToolkitHandler(), GROUP_CONTAINER_NAME, TEXT_WIDGET_NAME, TEXTAREA_WIDGET_NAME);
 		if (!builder.existEClassBinding(eObject)) {
 			// create View
 			org.eclipse.emf.eef.views.View createdView = builder.createViewForEClassBinding(eObject);
@@ -239,6 +244,13 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 
 	}
 
+	private ToolkitHandler getToolkitHandler() {
+		if (toolkitHandler == null) {
+			toolkitHandler = toolkitProvider.createHandler(resourceSet);
+		}
+		return toolkitHandler;
+	}
+
 	/**
 	 * Get eObject ePackage
 	 * 
@@ -248,9 +260,25 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	protected EPackage getEPackageFromResourceSet(EClass eObject) {
 		for (Resource resource : editingModelEnvironment.getResourceSet().getResources()) {
 			for (EObject content : resource.getContents()) {
-				if (content instanceof EPackage && ((EPackage) content).getNsURI().equals(eObject.getEPackage().getNsURI())) {
-					return (EPackage) content;
+				if (content instanceof EPackage) {
+					EPackage ePackageFromResourceSet = getEPackageFromResourceSet(((EPackage) content), eObject);
+					if (ePackageFromResourceSet != null) {
+						return ePackageFromResourceSet;
+					}
 				}
+			}
+		}
+		return null;
+	}
+
+	private EPackage getEPackageFromResourceSet(EPackage ePackage, EClass eObject) {
+		if (ePackage.getNsURI().equals(eObject.getEPackage().getNsURI())) {
+			return ePackage;
+		}
+		for (EPackage subPackage : ePackage.getESubpackages()) {
+			EPackage ePackageFromResourceSet = getEPackageFromResourceSet(subPackage, eObject);
+			if (ePackageFromResourceSet != null) {
+				return ePackageFromResourceSet;
 			}
 		}
 		return null;
@@ -273,6 +301,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 			resource = new ResourceImpl(URI.createURI(eObject.getEPackage().getNsURI() + ".editingModel"));
 			resource.getContents().add(propertiesEditingModel);
 			ViewsRepository viewsRepository = ViewsFactory.eINSTANCE.createViewsRepository();
+			viewsRepository.setName(eObject.getEPackage().getName() + " View Repository");
 			resource.getContents().add(viewsRepository);
 			getResourceSet().getResources().add(resource);
 			mapURI2PropertiesEditingModelResource.put(uri, resource);
@@ -356,4 +385,19 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 		return getPropertiesEditionModel(mapURI2PropertiesEditingModelResource.get(ePackage.getNsURI()));
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#loadClass(java.lang.String)
+	 */
+	@SuppressWarnings({ "unused", "unchecked" })
+	public Class<PropertyBindingCustomizer> loadClass(String className) {
+		Class<PropertyBindingCustomizer> result = null;
+		try {
+			return (Class<PropertyBindingCustomizer>) EEFRuntimeUISWT.getPlugin().getBundle().loadClass(className);
+		} catch (ClassNotFoundException e) {
+			EEFRuntimeUISWT.getPlugin().getLog().log(new Status(Status.ERROR, EEFRuntimeUISWT.PLUGIN_ID, "Error when loading binding customizer class : " + className, e));
+			return null;
+		}
+	}
 }

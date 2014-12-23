@@ -77,37 +77,21 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelEditorID"
+            id="org.eclipse.emf.eef.editors.EditingModelEditor"
             name="%_UI_EditingModelEditor_label"
             icon="icons/full/obj16/EditingModelModelFile.gif"
             extensions="editingmodel,views"
             class="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelEditor"
             contributorClass="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelActionBarContributor">
       </editor>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views">
-      <view
-            category="org.eclipse.emf.eef.editor.category"
-            class="org.eclipse.emf.eef.view.EEFReflectiveView"
+      <editor
+            class="org.eclipse.emf.eef.editor.EEFReflectiveEditor"
+            contributorClass="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelActionBarContributor"
+            default="false"
             icon="icons/overview_obj.gif"
-            id="org.eclipse.emf.eef.view.EEFReflexiveView"
-            name="EEF Reflective View"
-            restorable="true">
-      </view>
-      <category
-            id="org.eclipse.emf.eef.editor.category"
-            name="EEF">
-      </category>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
-      <propertyContributor
-            contributorId="org.eclipse.emf.eef.editor.properties"
-            tabDescriptorProvider="org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.providers.EEFTabDescriptorProvider">
-         <propertyCategory
-               category="eef"></propertyCategory>
-      </propertyContributor>
+            id="org.eclipse.emf.eef.editors.EEFReflectiveEditor"
+            name="EEF Reflective Editor">
+      </editor>
    </extension>
 
 </plugin>

@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.eef.runtime.ui.internal.resources;
+package org.eclipse.emf.eef.runtime.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.resource.URIHandler;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
+ * 
  */
 public class EEFURIConverter implements URIConverter {
 
@@ -31,7 +31,9 @@ public class EEFURIConverter implements URIConverter {
 
 	/**
 	 * Constructor with the {@link URIConverter} to delegate.
-	 * @param delegatedConverter the delegated {@link URIConverter}.
+	 * 
+	 * @param delegatedConverter
+	 *            the delegated {@link URIConverter}.
 	 */
 	public EEFURIConverter(URIConverter delegatedConverter) {
 		this.delegatedConverter = delegatedConverter;
@@ -80,7 +82,8 @@ public class EEFURIConverter implements URIConverter {
 	}
 
 	/**
-	 * @see org.eclipse.emf.ecore.resource.URIConverter#createInputStream(org.eclipse.emf.common.util.URI, java.util.Map)
+	 * @see org.eclipse.emf.ecore.resource.URIConverter#createInputStream(org.eclipse.emf.common.util.URI,
+	 *      java.util.Map)
 	 */
 	public InputStream createInputStream(URI uri, Map<?, ?> options) throws IOException {
 		return delegatedConverter.createInputStream(uri, options);
@@ -94,52 +97,56 @@ public class EEFURIConverter implements URIConverter {
 	}
 
 	/**
-	 * @see org.eclipse.emf.ecore.resource.URIConverter#createOutputStream(org.eclipse.emf.common.util.URI, java.util.Map)
+	 * @see org.eclipse.emf.ecore.resource.URIConverter#createOutputStream(org.eclipse.emf.common.util.URI,
+	 *      java.util.Map)
 	 */
 	public OutputStream createOutputStream(URI uri, Map<?, ?> options) throws IOException {
 		return delegatedConverter.createOutputStream(uri, options);
 	}
 
 	/**
-	 * @see org.eclipse.emf.ecore.resource.URIConverter#delete(org.eclipse.emf.common.util.URI, java.util.Map)
+	 * @see org.eclipse.emf.ecore.resource.URIConverter#delete(org.eclipse.emf.common.util.URI,
+	 *      java.util.Map)
 	 */
 	public void delete(URI uri, Map<?, ?> options) throws IOException {
 		delegatedConverter.delete(uri, options);
 	}
 
 	/**
-	 * @see org.eclipse.emf.ecore.resource.URIConverter#contentDescription(org.eclipse.emf.common.util.URI, java.util.Map)
+	 * @see org.eclipse.emf.ecore.resource.URIConverter#contentDescription(org.eclipse.emf.common.util.URI,
+	 *      java.util.Map)
 	 */
 	public Map<String, ?> contentDescription(URI uri, Map<?, ?> options) throws IOException {
 		return delegatedConverter.contentDescription(uri, options);
 	}
 
 	/**
-	 * @see org.eclipse.emf.ecore.resource.URIConverter#exists(org.eclipse.emf.common.util.URI, java.util.Map)
+	 * @see org.eclipse.emf.ecore.resource.URIConverter#exists(org.eclipse.emf.common.util.URI,
+	 *      java.util.Map)
 	 */
 	public boolean exists(URI uri, Map<?, ?> options) {
 		return delegatedConverter.exists(uri, options);
 	}
 
 	/**
-	 * @see org.eclipse.emf.ecore.resource.URIConverter#getAttributes(org.eclipse.emf.common.util.URI, java.util.Map)
+	 * @see org.eclipse.emf.ecore.resource.URIConverter#getAttributes(org.eclipse.emf.common.util.URI,
+	 *      java.util.Map)
 	 */
 	public Map<String, ?> getAttributes(URI uri, Map<?, ?> options) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> attributes = (Map<String, Object>) delegatedConverter.getAttributes(uri, options);
-		if (ToolkitResource.TOOLKIT_RESOURCE_SCHEME.equals(uri.scheme())) {
+		if ("eeftoolkit".equals(uri.scheme())) {
 			attributes.put(URIConverter.ATTRIBUTE_READ_ONLY, Boolean.TRUE);
 		}
 		return attributes;
 	}
 
 	/**
-	 * @see org.eclipse.emf.ecore.resource.URIConverter#setAttributes(org.eclipse.emf.common.util.URI, java.util.Map, java.util.Map)
+	 * @see org.eclipse.emf.ecore.resource.URIConverter#setAttributes(org.eclipse.emf.common.util.URI,
+	 *      java.util.Map, java.util.Map)
 	 */
-	public void setAttributes(URI uri, Map<String, ?> attributes,Map<?, ?> options) throws IOException {
+	public void setAttributes(URI uri, Map<String, ?> attributes, Map<?, ?> options) throws IOException {
 		delegatedConverter.setAttributes(uri, attributes, options);
 	}
-	
-	
-	
+
 }

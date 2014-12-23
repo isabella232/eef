@@ -55,12 +55,11 @@ public class EMFServiceImplTests {
 	public void setUp() {
 		emfService = new EMFServiceImpl();
 		resourceSet = new ResourceSetImpl();
-		// Register the appropriate resource factory to handle all file extensions.
+		// Register the appropriate resource factory to handle all file
+		// extensions.
 		//
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
-			(Resource.Factory.Registry.DEFAULT_EXTENSION, 
-			 new XMIResourceFactoryImpl());
-		
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
+
 		URI uri = URI.createPlatformPluginURI("org.eclipse.emf.ecore/model/Ecore.ecore", true);
 		Resource resource = resourceSet.getResource(uri, true);
 		ecoreResourcePackage = (EPackage) resource.getContents().get(0);
@@ -73,6 +72,7 @@ public class EMFServiceImplTests {
 	@Test
 	public void testPackageEquality() {
 		EPackage ePack1 = EcoreFactory.eINSTANCE.createEPackage();
+		ePack1.setNsURI("test");
 		assertTrue("Standard EMFService implementation doesn't correctly handle EPackage binary equality", emfService.equals(ePack1, ePack1));
 
 		assertTrue("Standard EMFService implementation doesn't correctly handle EPackage from resource > EPackage from plugin equality", emfService.equals(ecoreResourcePackage, ePack1.eClass().getEPackage()));
@@ -86,7 +86,10 @@ public class EMFServiceImplTests {
 
 	@Test
 	public void testEClassEquality() {
+		EPackage ePack1 = EcoreFactory.eINSTANCE.createEPackage();
+		ePack1.setNsURI("test");
 		EClass eClass1 = EcoreFactory.eINSTANCE.createEClass();
+		ePack1.getEClassifiers().add(eClass1);
 		assertTrue("Standard EMFService implementation doesn't correctly handle EClass binary equality", emfService.equals(eClass1, eClass1));
 
 		EClass eClassFromResource = (EClass) ecoreResourcePackage.getEClassifier("EClass");
@@ -102,11 +105,14 @@ public class EMFServiceImplTests {
 
 	@Test
 	public void testEStructuralFeatureEquality() {
+		EPackage ePack1 = EcoreFactory.eINSTANCE.createEPackage();
+		ePack1.setNsURI("test");
 		EStructuralFeature feature1 = EcoreFactory.eINSTANCE.createEAttribute();
 		feature1.setName("attribute");
 		EStructuralFeature feature2 = EcoreFactory.eINSTANCE.createEReference();
 		feature2.setName("reference");
 		EClass eClass1 = EcoreFactory.eINSTANCE.createEClass();
+		ePack1.getEClassifiers().add(eClass1);
 		eClass1.getEStructuralFeatures().add(feature1);
 		eClass1.getEStructuralFeatures().add(feature2);
 		assertTrue("Standard EMFService implementation doesn't correctly handle EAttribute binary equality", emfService.equals(feature1, feature1));
