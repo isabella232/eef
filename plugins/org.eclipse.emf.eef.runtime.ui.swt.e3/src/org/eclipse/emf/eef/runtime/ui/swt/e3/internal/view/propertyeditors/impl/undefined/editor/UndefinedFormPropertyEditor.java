@@ -14,6 +14,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.e3.view.propertyeditors.FormPropertyEd
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.undefined.editor.AbstractUndefinedPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.util.EEFControlWrapperViewer;
 import org.eclipse.emf.eef.views.ViewElement;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -68,7 +69,7 @@ public class UndefinedFormPropertyEditor extends AbstractUndefinedPropertyEditor
 	 *      org.eclipse.swt.widgets.Composite)
 	 */
 	public void build(FormToolkit toolkit, Composite parent) {
-		label = toolkit.createLabel(parent, buildErrorMessage(viewElement));
+		label = toolkit.createLabel(parent, buildErrorMessage(viewElement), SWT.WRAP);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
 		label.setLayoutData(gd);
