@@ -129,8 +129,9 @@ public class ElementEditorImpl extends ViewElementImpl implements ElementEditor 
 	 * @generated NOT
 	 */
 	public String getQualifiedIdentifier() {
-		if (name == null)
+		if (name == null) {
 			setName("");
+		}
 		StringBuilder result = new StringBuilder(name);
 		result.append(NamingHelper.nameDiscriminator(this));
 		EObject container = this.eContainer();

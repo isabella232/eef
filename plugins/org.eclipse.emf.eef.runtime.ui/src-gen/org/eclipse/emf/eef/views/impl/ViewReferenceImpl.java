@@ -82,8 +82,9 @@ public class ViewReferenceImpl extends ViewElementImpl implements ViewReference 
 	 * @generated NOT
 	 */
 	public String getQualifiedIdentifier() {
-		if (name == null)
+		if (name == null) {
 			setName("");
+		}
 		StringBuilder result = new StringBuilder(name);
 		result.append(NamingHelper.nameDiscriminator(this));
 		EObject container = this.eContainer();
