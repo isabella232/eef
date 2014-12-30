@@ -186,7 +186,7 @@ public class EEFMasterDetailsPage extends FormPage {
 
 		initModelSection();
 
-		previewSection = toolkit.createSection(sashForm, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		previewSection = toolkit.createSection(sashForm, Section.TITLE_BAR);
 		previewSection.setText("Preview");
 
 		previewContainer = toolkit.createComposite(previewSection);
@@ -220,7 +220,7 @@ public class EEFMasterDetailsPage extends FormPage {
 	 * Init model section
 	 */
 	public void initModelSection() {
-		modelSection = toolkit.createSection(sashForm, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		modelSection = toolkit.createSection(sashForm, Section.TITLE_BAR);
 		modelSection.setText("Models");
 
 		modelContainer = toolkit.createComposite(modelSection);

@@ -26,7 +26,13 @@ public class AbstractUndefinedPropertyEditor {
 	 * @return an error message.
 	 */
 	protected String buildErrorMessage(ViewElement element) {
-		StringBuilder sb = new StringBuilder("Unable to provide a PropertyEditor for editor ").append(element.getName()).append(", ");
+		StringBuilder sb = new StringBuilder("Unable to provide a PropertyEditor for editor ");
+		if (element.getName() != null) { 
+			sb.append(element.getName());
+		} else {
+			sb.append("<NO-NAME>");
+		}
+		sb.append(", ");
 		if (element.getRepresentation() == null) {
 			sb.append("no representation is defined");
 		} else {

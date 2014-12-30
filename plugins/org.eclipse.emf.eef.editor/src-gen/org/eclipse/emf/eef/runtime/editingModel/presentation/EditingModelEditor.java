@@ -206,7 +206,7 @@ public class EditingModelEditor extends EEFReflectiveEditor {
 					 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 					 */
 					public void widgetSelected(SelectionEvent e) {
-						if (e.item instanceof CTabItem) {
+						if (e.item instanceof CTabItem && getTabFolder().getItemCount() > 0) {
 							if (e.item.equals(getTabFolder().getItem(0))) {
 								load.setEnabled(false);
 							} else {
