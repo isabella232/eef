@@ -1060,6 +1060,9 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 					// Make up a unique new name here.
 					//
 					String defaultModelBaseFilename = EditingModelEditPlugin.INSTANCE.getString("_UI_EditingModelEditorFilenameDefaultBase");
+					if (selectedResource.getName() != null) {
+						defaultModelBaseFilename = selectedResource.getName();
+					}
 					String defaultModelFilenameExtension = FILE_EXTENSIONS.get(0);
 					String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension;
 					for (int i = 1; ((IContainer) selectedResource).findMember(modelFilename) != null; ++i) {
