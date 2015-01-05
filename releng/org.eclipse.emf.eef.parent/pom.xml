@@ -43,21 +43,6 @@
       <maven-resources-version>2.6</maven-resources-version>
       <resource-encoding>UTF-8</resource-encoding>
  	</properties>
-
-
-  <!--repositories>
-    <repository>
-      <id>indigo</id>
-      <layout>p2</layout>
-      <url>${eclipse-site}</url>
-    </repository>
-    <repository>
-      <id>orbit</id>
-      <layout>p2</layout>
-      <url>${orbit-site}</url>
-    </repository>
-  </repositories-->
-  
   <build>
   	<sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -79,7 +64,7 @@
               <groupId>org.eclipse</groupId>
               <artifactId>org.eclipse.emf.eef.parent</artifactId>
               <version>2.0.0-SNAPSHOT</version>
-              <classifier>targetPlatforms/helios</classifier>
+              <classifier>targetPlatforms/eef4e3</classifier>
             </artifact>
           </target>
        </configuration>	

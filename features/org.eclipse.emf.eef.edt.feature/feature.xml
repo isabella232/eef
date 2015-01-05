@@ -3,11 +3,13 @@
       id="org.eclipse.emf.eef.edt.feature"
       label="%featureName"
       version="2.0.0.qualifier"
-      provider-name="%providerName">
-
+      provider-name="%providerName"
+      license-feature="org.eclipse.license"
+      license-feature-version="1.0.1">
    <description>
       %description
    </description>
+
    <copyright url="http://www.eclipse.org/legal/epl-v10.html">
       Copyright (c) 2012 Obeo.
 All rights reserved. This program and the accompanying materials
