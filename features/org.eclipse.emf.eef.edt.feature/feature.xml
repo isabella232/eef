@@ -19,11 +19,11 @@ which accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v10.html
    </copyright>
 
-   <license url="%licenseURL">
-      %licence
+  <license url="%licenseURL">
+      %license
    </license>
 
-   <url>
+  <url>
       <update label="%modelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
       <discovery label="%modelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
    </url>
