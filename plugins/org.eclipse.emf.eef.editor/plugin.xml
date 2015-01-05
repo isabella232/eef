@@ -62,13 +62,14 @@
 
    <extension point="org.eclipse.ui.newWizards">
       <category
-            id="org.eclipse.emf.ecore.Wizard.category.ID"
-            name="%_UI_Wizard_category"/>
+            id="org.eclipse.emf.eef.editor.category"
+            name="EEF">
+      </category>
       <wizard
             id="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelModelWizardID"
             name="%_UI_EditingModelModelWizard_label"
             class="org.eclipse.emf.eef.runtime.editingModel.presentation.EditingModelModelWizard"
-            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            category="org.eclipse.emf.eef.editor.category"
             icon="icons/full/obj16/EditingModelModelFile.gif">
          <description>%_UI_EditingModelModelWizard_description</description>
          <selection class="org.eclipse.core.resources.IResource"/>

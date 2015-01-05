@@ -81,7 +81,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	private EventAdmin eventAdmin;
 	private ToolkitHandler toolkitHandler;
 
-	public static final String PROPERTIES_EDITING_MODEL_NAME = "Generic Binding Settings";
+	public static final String PROPERTIES_EDITING_MODEL_NAME = "Binding Settings";
 	public static final String PROPERTIES_EDITING_MODEL_ID = "org.eclipse.emf.eef.runtime.ui.swt.genericBindingSetting";
 
 	/**
@@ -296,7 +296,11 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 		if (mapURI2PropertiesEditingModelResource.get(uri) == null) {
 			propertiesEditingModel = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
 			propertiesEditingModel.setId(PROPERTIES_EDITING_MODEL_ID);
-			propertiesEditingModel.setName(PROPERTIES_EDITING_MODEL_NAME);
+			String modelName = PROPERTIES_EDITING_MODEL_NAME;
+			if (eObject.getEPackage().getName() != null) {
+				modelName = eObject.getEPackage().getName() + " " + modelName;
+			}
+			propertiesEditingModel.setName(modelName);
 			propertiesEditingModel.setEMFServiceProvider(emfServiceProvider);
 			resource = new ResourceImpl(URI.createURI(eObject.getEPackage().getNsURI() + ".editingModel"));
 			resource.getContents().add(propertiesEditingModel);
