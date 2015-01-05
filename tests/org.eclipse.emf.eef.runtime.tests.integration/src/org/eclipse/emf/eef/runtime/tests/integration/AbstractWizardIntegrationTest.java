@@ -88,7 +88,7 @@ public abstract class AbstractWizardIntegrationTest extends AbstractIntegrationT
 		testingWizardDomainEditingPolicyProcessor.setEEFEditingServiceProvider(getEEFEditingServiceProvider());
 		testingWizardDomainEditingPolicyProcessor.setEMFServiceProvider(getEmfServiceProvider());
 		EditingPolicyProcessor processor = new DelegatingPolicyProcessor(testingWizardDomainEditingPolicyProcessor);
-		Hashtable<Object, Object> hashtable = new Hashtable<>();
+		Hashtable<Object, Object> hashtable = new Hashtable<Object, Object>();
 		hashtable.put("priority.over", "org.eclipse.emf.eef.runtime.ui.swt.policies.processors.WizardDomainEditingPolicyProcessor");
 		bundleContext.registerService(EditingPolicyProcessor.class.getName(), processor, hashtable);
 
@@ -98,7 +98,7 @@ public abstract class AbstractWizardIntegrationTest extends AbstractIntegrationT
 		testingWizardEditingPolicyProcessor.setEMFServiceProvider(getEmfServiceProvider());
 		testingWizardEditingPolicyProcessor.setEditUIProvidersFactory(getEditUIProvidersFactory());
 		EditingPolicyProcessor processor2 = new DelegatingPolicyProcessor(testingWizardEditingPolicyProcessor);
-		Hashtable<Object, Object> hashtable2 = new Hashtable<>();
+		Hashtable<Object, Object> hashtable2 = new Hashtable<Object, Object>();
 		hashtable2.put("priority.over", "org.eclipse.emf.eef.runtime.ui.swt.policies.processors.WizardEditingPolicyProcessor");
 		hashtable2.put("component.name", "org.eclipse.emf.eef.runtime.tests.integration.AbstractWizardIntegrationTest.TestingWizardEditingPolicyProcessor.TestingWizardEditingPolicyProcessor()");
 		bundleContext.registerService(EditingPolicyProcessor.class.getName(), processor2, hashtable2);

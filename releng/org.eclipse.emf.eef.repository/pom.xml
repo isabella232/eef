@@ -15,6 +15,15 @@
   <name>Extended Editing Framework Repository</name>
   <packaging>eclipse-repository</packaging>
   <build>
+   <resources>
+      <resource>
+        <directory>.</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>publisher.properties</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
@@ -24,6 +33,21 @@
           <createArtifactRepository>true</createArtifactRepository>
           <finalName>${project.artifactId}-${unqualifiedVersion}.${buildQualifier}</finalName>
           <compress>true</compress>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>resources</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <outputDirectory>${project.build.directory}</outputDirectory>
         </configuration>
       </plugin>
     </plugins>
