@@ -3,7 +3,9 @@
       id="org.eclipse.emf.eef.runtime.feature"
       label="%featureName"
       version="2.0.0.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      license-feature="org.eclipse.license"
+      license-feature-version="1.0.1">
 
    <description>
       %description
@@ -17,10 +19,6 @@ v1.0
 which accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v10.html
    </copyright>
-
-   <license url="%licenseURL">
-      %licence
-   </license>
 
    <url>
       <update label="%modelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>

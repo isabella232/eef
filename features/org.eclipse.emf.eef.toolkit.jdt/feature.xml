@@ -3,7 +3,9 @@
       id="org.eclipse.emf.eef.toolkit.jdt"
       label="%featureName"
       version="2.0.0.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      license-feature="org.eclipse.license"
+      license-feature-version="1.0.1">
 
    <description>
       %description
@@ -19,7 +21,7 @@ http://www.eclipse.org/legal/epl-v10.html
    </copyright>
 
    <license url="%licenseURL">
-      %licence
+      %license
    </license>
 
    <url>
