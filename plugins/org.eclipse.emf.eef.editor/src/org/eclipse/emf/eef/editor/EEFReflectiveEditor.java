@@ -68,6 +68,7 @@ import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProvide
 import org.eclipse.emf.eef.runtime.query.provider.QueryItemProviderAdapterFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.util.EEFURIAwareResourceSet;
+import org.eclipse.emf.eef.runtime.util.OSGiHelper;
 import org.eclipse.emf.eef.views.provider.ViewsItemProviderAdapterFactory;
 import org.eclipse.emf.eef.views.toolkits.provider.ToolkitsItemProviderAdapterFactory;
 import org.eclipse.jface.action.IMenuListener;
@@ -111,6 +112,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  * This is an example of a EditingModel model editor. <!-- begin-user-doc -->
@@ -1333,8 +1335,7 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	@Override
 	protected void addPages() {
 		createModel();
-
-		imageManager = EditingModelEditPlugin.getPlugin().getImageManager();
+		imageManager = OSGiHelper.getService(FrameworkUtil.getBundle(getClass()).getBundleContext(), ImageManager.class);
 
 		// Only creates the other pages if there is something that can be edited
 		//

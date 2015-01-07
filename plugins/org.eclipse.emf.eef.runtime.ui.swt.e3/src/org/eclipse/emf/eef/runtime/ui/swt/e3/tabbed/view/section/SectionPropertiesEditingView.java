@@ -18,17 +18,21 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
-import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.tabbed.view.util.DescriptorHelper;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.tabbed.view.util.ValidationMessageInjector;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.impl.FormImplPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.handle.editingview.PropertiesEditingViewHandler;
 import org.eclipse.emf.eef.runtime.ui.swt.view.util.PropertiesEditingMessageManagerImpl;
+import org.eclipse.emf.eef.runtime.ui.util.ViewServiceProvider;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
+import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
+import org.eclipse.emf.eef.runtime.util.OSGiHelper;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandler;
 import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
 import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
@@ -41,6 +45,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 
 import com.google.common.collect.Maps;
 
@@ -97,9 +103,10 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 	public SectionPropertiesEditingView() {
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		this.propertyEditors = Maps.newHashMap();
-		setEEFEditingServiceProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getEEFEditingServiceProvider());
-		setViewServiceProvider(E3EEFRuntimeUIPlatformPlugin.getPlugin().getViewServiceProvider());
-		setToolkitPropertyEditorFactory(E3EEFRuntimeUIPlatformPlugin.getPlugin().getEEFToolkitProvider());
+		BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
+		setEEFEditingServiceProvider(OSGiHelper.getService(bundleContext, EEFEditingServiceProvider.class));
+		setViewServiceProvider(OSGiHelper.getService(bundleContext, ViewServiceProvider.class));
+		setToolkitPropertyEditorFactory(OSGiHelper.getService(bundleContext, EEFToolkitProvider.class));
 	}
 
 	/**
@@ -131,7 +138,8 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 				eObject = newEObject;
 				if (eObject != null) {
 					disposeComponentIfExist();
-					PropertiesEditingContextFactory contextFactory = E3EEFRuntimeUIPlatformPlugin.getPlugin().getContextFactoryProvider().getEditingContextFactory(eObject);
+					BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();					
+					PropertiesEditingContextFactory contextFactory = OSGiHelper.getService(bundleContext, EditingContextFactoryProvider.class).getEditingContextFactory(eObject);
 					PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext(editingDomain, adapterFactory, eObject);
 					editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, tabbedPropertySheetPage.getWidgetFactory());
 					editingContext.getOptions().setMessageManager(initMessageManager());

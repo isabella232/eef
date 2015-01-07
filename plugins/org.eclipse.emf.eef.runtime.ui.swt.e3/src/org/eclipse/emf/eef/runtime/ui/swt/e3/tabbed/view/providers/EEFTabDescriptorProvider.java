@@ -15,13 +15,15 @@ import java.util.List;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.ui.adapters.SemanticAdapter;
-import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
 import org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.section.SectionPropertiesEditingView;
 import org.eclipse.emf.eef.runtime.util.EMFService;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.util.OSGiHelper;
 import org.eclipse.emf.eef.views.View;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.ISelection;
@@ -32,6 +34,8 @@ import org.eclipse.ui.views.properties.tabbed.AbstractTabDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.ITabDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ITabDescriptorProvider;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 
 import com.google.common.collect.Lists;
 
@@ -52,7 +56,8 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 			Object firstElement = ((StructuredSelection) selection).getFirstElement();
 			if (firstElement instanceof EObject) {
 				EObject editedEObject = (EObject)firstElement;
-				EEFBindingSettings<PropertiesEditingModel> bindingSettings = E3EEFRuntimeUIPlatformPlugin.getPlugin().getBindingSettingsProvider().getBindingSettings(editedEObject.eClass().getEPackage());
+				BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();					
+				EEFBindingSettings<PropertiesEditingModel> bindingSettings = OSGiHelper.getService(bundleContext, EEFBindingSettingsProvider.class).getBindingSettings(editedEObject.eClass().getEPackage());
 				if (bindingSettings != null) {
 					PropertiesEditingModel editingModel = bindingSettings.getEEFDescription(editedEObject);
 					if (editingModel != null) {
@@ -157,7 +162,8 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 					public boolean select(Object toTest) {
 						EObject resolveSemanticObject = resolveSemanticObject(toTest);
 						if (resolveSemanticObject != null) {
-							EMFService emfService = E3EEFRuntimeUIPlatformPlugin.getPlugin().getEMFServiceProvider().getEMFService(resolveSemanticObject.eClass().getEPackage());
+							BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();					
+							EMFService emfService = OSGiHelper.getService(bundleContext, EMFServiceProvider.class).getEMFService(resolveSemanticObject.eClass().getEPackage());
 							return emfService.equals(binding.getEClass(), resolveSemanticObject.eClass());
 						}
 						return false;

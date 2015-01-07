@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
-import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.editor.internal.actions.ExtendedLoadResourceAction;
 import org.eclipse.emf.eef.editor.internal.binding.settings.EditorBindingSettings;
 import org.eclipse.emf.eef.runtime.binding.BindingHandlerProvider;
@@ -27,6 +26,7 @@ import org.eclipse.emf.eef.runtime.binding.PropertiesBindingHandler;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.EEFMasterDetailsPage;
 import org.eclipse.emf.eef.runtime.internal.binding.PropertiesBindingHandlerImpl;
@@ -38,8 +38,9 @@ import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.PropertiesBindingHandlerUIImpl;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
-import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EEFURIAwareResourceSet;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
+import org.eclipse.emf.eef.runtime.util.OSGiHelper;
 import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManager;
 import org.eclipse.emf.eef.runtime.view.lock.EEFLockManagerProvider;
@@ -65,6 +66,7 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 
@@ -128,7 +130,8 @@ public class EditingModelEditor extends EEFReflectiveEditor {
 					public void selectionChanged(SelectionChangedEvent event) {
 						Object selection = getSelectionService().unwrapSelection(event.getSelection());
 						if (selection instanceof EObject) {
-							final EObjectPropertiesEditingContext propertiesEditingContext = (EObjectPropertiesEditingContext) EditingModelEditPlugin.getPlugin().getEditingContextFactoryProvider().getEditingContextFactory((EObject) selection)
+							EditingContextFactoryProvider editingContextFactoryProvider = OSGiHelper.getService(FrameworkUtil.getBundle(getClass()).getBundleContext(), EditingContextFactoryProvider.class);
+							final EObjectPropertiesEditingContext propertiesEditingContext = (EObjectPropertiesEditingContext) editingContextFactoryProvider.getEditingContextFactory((EObject) selection)
 									.createPropertiesEditingContext(adapterFactory, (EObject) selection);
 							propertiesEditingContext.setBindingManagerProvider(getBindingHandlerProvider(propertiesEditingContext));
 							propertiesEditingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, mdPage.getToolkit());

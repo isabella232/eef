@@ -37,7 +37,7 @@ public class LockingByAdapterPolicyFactory implements EEFLockPolicyFactory {
 	 * @param lockEvent the {@link EEFLockEvent} to send.
 	 */
 	public void fireLockChanged(PropertiesEditingComponent editingComponent, EEFLockEvent lockEvent) {
-		editingComponent.getEditingContext().getBindingManagerProvider().getBindingManager(editingComponent.getEObject()).fireLockChanged(editingComponent, lockEvent);
+		editingComponent.getEditingContext().getBindingManagerProvider().getBindingHandler(editingComponent.getEObject()).fireLockChanged(editingComponent, lockEvent);
 	}
 
 	/**

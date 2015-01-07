@@ -19,9 +19,9 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.eef.UIConstants;
 import org.eclipse.emf.eef.editor.EEFReflectiveEditor;
-import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
 import org.eclipse.emf.eef.editor.internal.services.SelectionService;
+import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
@@ -29,6 +29,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
+import org.eclipse.emf.eef.runtime.util.OSGiHelper;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -49,6 +50,7 @@ import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  * @author <a href="mailto:nathalie.lepine@obeo.fr">Nathalie Lepine</a>
@@ -239,14 +241,15 @@ public class EEFMasterDetailsPage extends FormPage {
 
 			public void selectionChanged(SelectionChangedEvent event) {
 				Object object = getSelectionService().unwrapSelection(event.getSelection());
+				EditingContextFactoryProvider editingContextFactoryProvider = OSGiHelper.getService(FrameworkUtil.getBundle(getClass()).getBundleContext(), EditingContextFactoryProvider.class);
 				if (object instanceof EObject) {
 					EObject eObject = (EObject) object;
-					PropertiesEditingContextFactory editingContextFactory = EditingModelEditPlugin.getPlugin().getEditingContextFactoryProvider().getEditingContextFactory(eObject);
+					PropertiesEditingContextFactory editingContextFactory = editingContextFactoryProvider.getEditingContextFactory(eObject);
 					PropertiesEditingContext context = editingContextFactory.createPropertiesEditingContext(((EEFReflectiveEditor) getEditor()).getEditingDomain(), adapterFactory, eObject);
 					context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, toolkit);
 					updateDetailsViewer(context);
 				} else {
-					PropertiesEditingContextFactory editingContextFactory = EditingModelEditPlugin.getPlugin().getEditingContextFactoryProvider().getEditingContextFactory(EcorePackage.eINSTANCE);
+					PropertiesEditingContextFactory editingContextFactory = editingContextFactoryProvider.getEditingContextFactory(EcorePackage.eINSTANCE);
 					PropertiesEditingContext context = editingContextFactory.createNullEditingContext();
 					context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, toolkit);
 					updateDetailsViewer(context);

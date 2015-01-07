@@ -56,9 +56,9 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
-import org.eclipse.emf.eef.runtime.ui.swt.e3.E3EEFRuntimeUIPlatformPlugin;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.runtime.util.EEFURIAwareResourceSet;
+import org.eclipse.emf.eef.runtime.util.OSGiHelper;
 import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.ViewsPackage;
 import org.eclipse.emf.eef.views.ViewsRepository;
@@ -113,6 +113,8 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 
 import com.google.common.base.Strings;
 
@@ -320,7 +322,8 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 								}
 								setMetamodelePackage(ePackage);
 
-								EEFBindingSettingsProvider bindingSettingsProvider = E3EEFRuntimeUIPlatformPlugin.getPlugin().getBindingSettingsProvider();
+								BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
+								EEFBindingSettingsProvider bindingSettingsProvider = OSGiHelper.getService(bundleContext , EEFBindingSettingsProvider.class);
 								EEFBindingSettings bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
 
 								if (bindingSettings instanceof GenericBindingSettings) {
