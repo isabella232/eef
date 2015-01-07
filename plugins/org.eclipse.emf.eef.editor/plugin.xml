@@ -95,4 +95,16 @@
       </editor>
    </extension>
 
+<extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.eclipse.emf.eef.editor.CreateDynamicInstance"
+            objectClass="org.eclipse.emf.ecore.EClass">
+         <action
+               id="org.eclipse.emf.eef.editor.CreateDynamicInstanceAction"
+               label="%_UI_CreateDynamicInstance_menu_item"
+               menubarPath="additions"
+               class="org.eclipse.emf.eef.editor.internal.actions.ExtendedCreateDynamicInstanceAction"
+               enablesFor="1"/>
+      </objectContribution>
+   </extension>
 </plugin>
