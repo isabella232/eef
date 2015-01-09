@@ -323,7 +323,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 								setMetamodelePackage(ePackage);
 
 								BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
-								EEFBindingSettingsProvider bindingSettingsProvider = OSGiHelper.getService(bundleContext , EEFBindingSettingsProvider.class);
+								EEFBindingSettingsProvider bindingSettingsProvider = OSGiHelper.getService(bundleContext, EEFBindingSettingsProvider.class);
 								EEFBindingSettings bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
 
 								if (bindingSettings instanceof GenericBindingSettings) {
@@ -409,11 +409,13 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			}
 
 			// create EEF Binding Setting service
-			getShell().getDisplay().syncExec(new Runnable() {
-				public void run() {
-					createEEFBindingSettingService(modelFile, metamodelePackage.getName());
-				}
-			});
+			if (metamodelePackage != null) {
+				getShell().getDisplay().syncExec(new Runnable() {
+					public void run() {
+						createEEFBindingSettingService(modelFile, metamodelePackage.getName());
+					}
+				});
+			}
 
 			return true;
 		} catch (Exception exception) {
