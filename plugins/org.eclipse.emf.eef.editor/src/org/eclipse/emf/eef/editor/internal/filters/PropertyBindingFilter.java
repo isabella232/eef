@@ -25,6 +25,8 @@ import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.ui.swt.util.EEFViewerFilterInvocationParameters;
+import org.eclipse.emf.eef.runtime.util.EEFInvocationParameters;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -40,25 +42,28 @@ public class PropertyBindingFilter {
 	 * @param element
 	 * @return
 	 */
-	public boolean bindableFeature(PropertiesEditingComponent currentComponent, Notifier element) {
-		EObject editedBinding = computeContext(currentComponent);
-		if (editedBinding != null) {
-			EObject target = null;
-			if (editedBinding instanceof EClassBinding) { 
-				target = ((EClassBinding) editedBinding).getEClass();
-			} else if (editedBinding instanceof EStructuralFeatureBinding) {
-				target = ((EStructuralFeatureBinding) editedBinding).getFeature();
-			} else {
-				// What ????
-			}
-			if (target != null) {
-				EStructuralFeatureBindingChoiceFilter filter = new EStructuralFeatureBindingChoiceFilter(editedBinding);
-				Collection<?> reachableObjects = filter.getReachableObjects(target, EcorePackage.Literals.ECLASS__EALL_STRUCTURAL_FEATURES);
-				Collection<?> choiceOfValues = filter.filterPropertyBindingChoiceOfValues(reachableObjects);
-				if (choiceOfValues.contains(element)){
-					return true;
+	public boolean bindableFeature(EEFInvocationParameters parameters) {
+		if (parameters instanceof EEFViewerFilterInvocationParameters) {
+			Object element = ((EEFViewerFilterInvocationParameters) parameters).getElement();
+			EObject editedBinding = computeContext(parameters.getEditingContext().getEditingComponent());
+			if (editedBinding != null) {
+				EObject target = null;
+				if (editedBinding instanceof EClassBinding) { 
+					target = ((EClassBinding) editedBinding).getEClass();
+				} else if (editedBinding instanceof EStructuralFeatureBinding) {
+					target = ((EStructuralFeatureBinding) editedBinding).getFeature();
 				} else {
-					return computeAncestors(choiceOfValues).contains(element);
+					// What ????
+				}
+				if (target != null) {
+					EStructuralFeatureBindingChoiceFilter filter = new EStructuralFeatureBindingChoiceFilter(editedBinding);
+					Collection<?> reachableObjects = filter.getReachableObjects(target, EcorePackage.Literals.ECLASS__EALL_STRUCTURAL_FEATURES);
+					Collection<?> choiceOfValues = filter.filterPropertyBindingChoiceOfValues(reachableObjects);
+					if (choiceOfValues.contains(element)){
+						return true;
+					} else {
+						return computeAncestors(choiceOfValues).contains(element);
+					}
 				}
 			}
 		}
