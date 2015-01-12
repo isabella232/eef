@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="org.eclipse.uml2.uml.editor.UMLEditor.properties"
+            tabDescriptorProvider="org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.providers.EEFTabDescriptorProvider">
+         <propertyCategory>eef</propertyCategory>
+      </propertyContributor>
+   </extension>
+  <extension
+     point = "org.eclipse.ui.editors">
+    <editor
+       id = "org.eclipse.uml2.uml.editor.presentation.UMLTabbedEditorID"
+       name = "Tabbed UML Editor"
+       icon = "icons/full/obj16/UMLModelFile.gif"
+       class = "org.eclipse.uml2.uml.editor.tabbed.UMLTabbedEditor" 
+       contributorClass="org.eclipse.uml2.uml.editor.presentation.UMLActionBarContributor" >
+      <contentTypeBinding contentTypeId="org.eclipse.uml2"/>
+      <contentTypeBinding contentTypeId="org.eclipse.uml2.uml"/>
+      <contentTypeBinding contentTypeId="org.omg.uml"/>
+      <contentTypeBinding contentTypeId="org.omg.mof.cmof"/>
+    </editor>
+  </extension>    
+
+</plugin>
