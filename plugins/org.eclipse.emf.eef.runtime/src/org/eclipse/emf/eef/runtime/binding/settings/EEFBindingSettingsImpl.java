@@ -37,6 +37,7 @@ public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 	private EEFLogger eefLogger;
 	private String editingModelPath;
 	private Bundle bundle;
+	private Collection<PropertiesEditingModel> result;
 
 	/**
 	 * @param eefLogger
@@ -86,25 +87,28 @@ public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 	 */
 	@Override
 	protected final Collection<? extends PropertiesEditingModel> initSpecificEditingModel() {
-		Collection<PropertiesEditingModel> result = Lists.newArrayList();
-		if (getEditingModelPath() != null && !"".equals(getEditingModelPath())) {
-			URI modelURI = URI.createURI(getEditingModelPath());
-			try {
-				Resource resource = getEditingModelEnvironment().getResourceSet().getResource(modelURI, true);
-				result.addAll(getAllEditingModels(resource));
-			} catch (WrappedException e) {
-				if (eefLogger != null) {
-					eefLogger.logError(EEFRuntime.PLUGIN_ID, "Unable to load the EEF Settings from " + modelURI.toString() + " file.", e);
+		if (result == null) {
+			result = Lists.newArrayList();
+			if (getEditingModelPath() != null && !"".equals(getEditingModelPath())) {
+				URI modelURI = URI.createURI(getEditingModelPath());
+				try {
+					Resource resource = getEditingModelEnvironment().getResourceSet().getResource(modelURI, true);
+					result.addAll(getAllEditingModels(resource));
+				} catch (WrappedException e) {
+					if (eefLogger != null) {
+						eefLogger.logError(EEFRuntime.PLUGIN_ID, "Unable to load the EEF Settings from " + modelURI.toString() + " file.", e);
+					}
 				}
+			} else if (getEditingModel() != null) {
+				result.add(getEditingModel());
 			}
-		} else if (getEditingModel() != null) {
-			result.add(getEditingModel());
+			if (!result.isEmpty()) {
+				return result;
+			} else {
+				return super.initSpecificEditingModel();
+			}
 		}
-		if (!result.isEmpty()) {
-			return result;
-		} else {
-			return super.initSpecificEditingModel();
-		}
+		return result;
 	}
 
 	// Search all instances of PropertiesEditingModel in the given resource.
