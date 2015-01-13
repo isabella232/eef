@@ -14,7 +14,9 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.util.EEFEditingService;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -32,7 +34,13 @@ public class ChoiceOfValuesFilter extends ViewerFilter {
 	private final EObject editedElement;
 	private final Object editor;
 	private final SelectionMode mode;
-	
+
+	private EStructuralFeature featureForCache;
+	private EObject elementForCache;
+
+	private Collection<?> choiceOfValues = null;
+	private Collection<Notifier> intermediateChoices = Lists.newArrayList();
+
 	/**
 	 * @param eefEditingServiceProvider
 	 * @param editingContext
@@ -61,27 +69,32 @@ public class ChoiceOfValuesFilter extends ViewerFilter {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.jface.viewers.ViewerFilter#select(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
-	 * TODO: need cache.
+	 * 
+	 * @see org.eclipse.jface.viewers.ViewerFilter#select(org.eclipse.jface.viewers.Viewer,
+	 *      java.lang.Object, java.lang.Object) TODO: need cache.
 	 */
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
-		Collection<?> choiceOfValues = null;
-		Collection<Notifier> intermediateChoices = Lists.newArrayList();
-		Object serviceResult = eefEditingServiceProvider.getEditingService(editedElement).getChoiceOfValue(editingContext, editedElement, editor);
-		if (serviceResult instanceof Collection<?>) {
-			choiceOfValues = (Collection<?>) serviceResult;
-		} else if (serviceResult != null) {
-			choiceOfValues = Lists.newArrayList(serviceResult);
-		} else {
-			choiceOfValues = Lists.newArrayList();
-		}
-		for (Object object : choiceOfValues) {
-			if (object instanceof EObject) {
-				populateIntermediateChoices(intermediateChoices, (EObject)object);
+		if (!editedElement.equals(elementForCache)) {
+			elementForCache = editedElement;
+			EEFEditingService editingService = eefEditingServiceProvider.getEditingService(editedElement);
+			EStructuralFeature feature = editingService.featureFromEditor(editingContext, editor);
+			if (!feature.equals(featureForCache)) {
+				featureForCache = feature;
+				Object serviceResult = editingService.getChoiceOfValue(editingContext, editedElement, editor);
+				if (serviceResult instanceof Collection<?>) {
+					choiceOfValues = (Collection<?>) serviceResult;
+				} else if (serviceResult != null) {
+					choiceOfValues = Lists.newArrayList(serviceResult);
+				} else {
+					choiceOfValues = Lists.newArrayList();
+				}
+				for (Object object : choiceOfValues) {
+					if (object instanceof EObject) {
+						populateIntermediateChoices(intermediateChoices, (EObject) object);
+					}
+				}
 			}
 		}
-		return choiceOfValues.contains(element) 
-				|| ((mode == SelectionMode.TREE) && (intermediateChoices.contains(element)));
+		return choiceOfValues.contains(element) || ((mode == SelectionMode.TREE) && (intermediateChoices.contains(element)));
 	}
-
 }
