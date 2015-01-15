@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.providers;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
@@ -49,14 +50,16 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.ui.views.properties.tabbed.ITabDescriptorProvider#getTabDescriptors(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	 * 
+	 * @see org.eclipse.ui.views.properties.tabbed.ITabDescriptorProvider#getTabDescriptors(org.eclipse.ui.IWorkbenchPart,
+	 *      org.eclipse.jface.viewers.ISelection)
 	 */
 	public ITabDescriptor[] getTabDescriptors(IWorkbenchPart part, ISelection selection) {
 		if (selection instanceof StructuredSelection) {
 			Object firstElement = ((StructuredSelection) selection).getFirstElement();
-			if (firstElement instanceof EObject) {
-				EObject editedEObject = (EObject)firstElement;
-				BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();					
+			EObject editedEObject = resolveSemanticObject(firstElement);
+			if (editedEObject != null) {
+				BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
 				EEFBindingSettings<PropertiesEditingModel> bindingSettings = OSGiHelper.getService(bundleContext, EEFBindingSettingsProvider.class).getBindingSettings(editedEObject.eClass().getEPackage());
 				if (bindingSettings != null) {
 					PropertiesEditingModel editingModel = bindingSettings.getEEFDescription(editedEObject);
@@ -77,11 +80,11 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 		}
 		return new ITabDescriptor[0];
 	}
-	
+
 	public final class EEFTabDescriptor extends AbstractTabDescriptor {
 
 		private View descriptor;
-		
+
 		/**
 		 * @param descriptor
 		 */
@@ -92,6 +95,7 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.ui.views.properties.tabbed.ITabDescriptor#getCategory()
 		 */
 		public String getCategory() {
@@ -100,6 +104,7 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.ui.views.properties.tabbed.ITabDescriptor#getId()
 		 */
 		public String getId() {
@@ -108,23 +113,25 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.ui.views.properties.tabbed.ITabDescriptor#getLabel()
 		 */
 		public String getLabel() {
 			return descriptor.getName();
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		private void initSectionDescriptors() {
-			getSectionDescriptors().add(new EEFSectionDescriptor());			
+			getSectionDescriptors().add(new EEFSectionDescriptor());
 		}
-		
+
 		public final class EEFSectionDescriptor extends AbstractSectionDescriptor {
-			
+
 			private ISection sectionClass;
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.ui.views.properties.tabbed.ISectionDescriptor#getId()
 			 */
 			public String getId() {
@@ -133,8 +140,9 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.ui.views.properties.tabbed.ISectionDescriptor#getSectionClass()
-			 * TODO: check this stateful aspect...
+			 *      TODO: check this stateful aspect...
 			 */
 			public ISection getSectionClass() {
 				if (sectionClass == null) {
@@ -145,6 +153,7 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.ui.views.properties.tabbed.ISectionDescriptor#getTargetTab()
 			 */
 			public String getTargetTab() {
@@ -153,57 +162,61 @@ public class EEFTabDescriptorProvider implements ITabDescriptorProvider {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.ui.views.properties.tabbed.AbstractSectionDescriptor#getFilter()
 			 */
 			@Override
 			public IFilter getFilter() {
 				return new IFilter() {
-					
+
 					public boolean select(Object toTest) {
 						EObject resolveSemanticObject = resolveSemanticObject(toTest);
 						if (resolveSemanticObject != null) {
-							BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();					
+							BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
 							EMFService emfService = OSGiHelper.getService(bundleContext, EMFServiceProvider.class).getEMFService(resolveSemanticObject.eClass().getEPackage());
 							return emfService.equals(binding.getEClass(), resolveSemanticObject.eClass());
 						}
 						return false;
 					}
-					/**
-					 * This method analyze an input to exact the EObject to edit.
-					 * First we try to adapt this object in {@link SemanticAdapter}. If this can't be done, 
-					 * we check if this object is an {@link EObject}. Finally, if this object isn't an
-					 * {@link EObject}, we try to adapt it in EObject.
-					 * @param object element to test
-					 * @return the EObject to edit with EEF.
-					 */
-					protected EObject resolveSemanticObject(Object object) {
-						IAdaptable adaptable = null;
-						if (object instanceof IAdaptable) {
-							adaptable = (IAdaptable)object;
-						}
-						if (adaptable != null) {
-							if (adaptable.getAdapter(SemanticAdapter.class) != null) {
-								SemanticAdapter semanticAdapter = (SemanticAdapter)adaptable.getAdapter(SemanticAdapter.class);
-								return semanticAdapter.getEObject();
-							} 
-						}
-						if (object instanceof EObject) {
-							return (EObject)object;
-						} 
-						if (adaptable != null) {
-							if (adaptable.getAdapter(EObject.class) != null) {
-								return (EObject)adaptable.getAdapter(EObject.class);
-							}
-						}
-						return null;
-					}
 				};
-				
+
 			}
-			
-			
+
 		}
 
 	}
 
+	/**
+	 * This method analyze an input to exact the EObject to edit. First we try
+	 * to adapt this object in {@link SemanticAdapter}. If this can't be done,
+	 * we check if this object is an {@link EObject}. Finally, if this object
+	 * isn't an {@link EObject}, we try to adapt it in EObject.
+	 * 
+	 * @param object
+	 *            element to test
+	 * @return the EObject to edit with EEF.
+	 */
+	protected EObject resolveSemanticObject(Object object) {
+		IAdaptable adaptable = null;
+		if (object instanceof IAdaptable) {
+			adaptable = (IAdaptable) object;
+		}
+		if (adaptable != null) {
+			SemanticAdapter semanticAdapter = (SemanticAdapter) adaptable.getAdapter(SemanticAdapter.class);
+			if (semanticAdapter == null) {
+				semanticAdapter = (SemanticAdapter) Platform.getAdapterManager().loadAdapter(adaptable, SemanticAdapter.class.getName());
+			}
+			if (semanticAdapter != null)
+				return semanticAdapter.getEObject();
+		}
+		if (object instanceof EObject) {
+			return (EObject) object;
+		}
+		if (adaptable != null) {
+			if (adaptable.getAdapter(EObject.class) != null) {
+				return (EObject) adaptable.getAdapter(EObject.class);
+			}
+		}
+		return null;
+	}
 }

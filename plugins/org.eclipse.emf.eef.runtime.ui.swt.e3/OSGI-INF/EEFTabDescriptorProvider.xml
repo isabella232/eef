@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.providers.EEFTabDescriptorProvider">
+   <implementation class="org.eclipse.emf.eef.runtime.ui.swt.e3.tabbed.view.providers.EEFTabDescriptorProvider"/>
+   <service>
+      <provide interface="org.eclipse.ui.views.properties.tabbed.ITabDescriptorProvider"/>
+   </service>
+</scr:component>

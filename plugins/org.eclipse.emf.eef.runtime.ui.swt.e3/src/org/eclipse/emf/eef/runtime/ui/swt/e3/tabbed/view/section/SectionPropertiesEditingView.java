@@ -138,7 +138,7 @@ public class SectionPropertiesEditingView extends FormImplPropertiesEditingView 
 				eObject = newEObject;
 				if (eObject != null) {
 					disposeComponentIfExist();
-					BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();					
+					BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
 					PropertiesEditingContextFactory contextFactory = OSGiHelper.getService(bundleContext, EditingContextFactoryProvider.class).getEditingContextFactory(eObject);
 					PropertiesEditingContext editingContext = contextFactory.createPropertiesEditingContext(editingDomain, adapterFactory, eObject);
 					editingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, tabbedPropertySheetPage.getWidgetFactory());
