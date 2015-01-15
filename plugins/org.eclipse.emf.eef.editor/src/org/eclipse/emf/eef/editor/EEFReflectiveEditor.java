@@ -63,6 +63,7 @@ import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.eef.editor.internal.services.EMFService;
+import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.EEFMasterDetailsPage;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
 import org.eclipse.emf.eef.runtime.query.provider.QueryItemProviderAdapterFactory;
@@ -1298,6 +1299,9 @@ public class EEFReflectiveEditor extends FormEditor implements IEditingDomainPro
 	 */
 	@Override
 	public void dispose() {
+		if (page.getEEFViewer().getInput() instanceof PropertiesEditingContext) {
+			((PropertiesEditingContext) page.getEEFViewer().getInput()).dispose();
+		}
 		updateProblemIndication = false;
 
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);

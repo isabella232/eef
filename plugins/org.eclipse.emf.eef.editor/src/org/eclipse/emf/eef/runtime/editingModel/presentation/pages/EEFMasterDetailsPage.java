@@ -409,7 +409,7 @@ public class EEFMasterDetailsPage extends FormPage {
 	/**
 	 * @return the eefViewer
 	 */
-	public EEFViewer getEefViewer() {
+	public EEFViewer getEEFViewer() {
 		return eefViewer;
 	}
 

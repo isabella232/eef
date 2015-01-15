@@ -132,6 +132,9 @@ public class EEFViewer extends ContentViewer implements IEEFViewer {
 	 */
 	protected void inputChanged(Object input, Object oldInput) {
 		assert input instanceof PropertiesEditingContext : "Bad input type for EEFViewer. Expecting PropertiesEditingContext.";
+		if (this.input != null) {
+			this.input.dispose();
+		}
 		this.input = (PropertiesEditingContext) input;
 		refresh();
 	}
