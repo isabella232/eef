@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
@@ -98,41 +99,58 @@ public class BindingSettingsBuilder {
 	public void bindEStructuralFeature(EClass eObject, EClassBinding eClassBinding, View createdView, EditingModelEnvironment editingModelEnvironment) {
 		List<EStructuralFeature> eAllStructuralFeatures = sortEStructuralFeatures(eClassBinding.getEClass().getEAllStructuralFeatures());
 		for (EStructuralFeature feature : eAllStructuralFeatures) {
-			// get editable information from genmodel if exists
-			boolean isReadonly = false;
-			boolean isMultiLine = false;
-			Container createdGroup = getDefaultGroup(eObject, createdView);
-			EObject genFeature = editingModelEnvironment.genFeature(feature);
-			if (genFeature != null) {
-				// get property type from genmodel : None, Editable, Readonly
-				EStructuralFeature esf = genFeature.eClass().getEStructuralFeature(GENFEATURE_PROPERTY);
-				if (esf != null) {
-					Enumerator eGet = (Enumerator) genFeature.eGet(esf);
-					if (GENFEATURE_PROPERTY_VALUE_NONE.equals(eGet.getName())) {
-						// no property view
-						continue;
-					}
-					if (GENFEATURE_PROPERTY_VALUE_READONLY.equals(eGet.getName())) {
-						isReadonly = true;
-					}
-				}
-				// get property category for genmodel : 1 category = 1 group
-				createdGroup = getGroup(eObject, createdView, createdGroup, genFeature);
-
-				// get multiline property
-				esf = genFeature.eClass().getEStructuralFeature(GENFEATURE_PROPERTY_MULTILINE);
-				if (esf != null) {
-					isMultiLine = (Boolean) genFeature.eGet(esf);
-				}
-			}
-
-			// no genmodel property, no group
-			if (createdGroup == null) {
-				createdGroup = createContainerViewForEClassBinding(eObject, createdView);
-			}
-			// create property binding
-			createPropertyBinding(eClassBinding, feature, isReadonly, isMultiLine, createdGroup);
+			bindEStructuralFeature(eObject, eClassBinding, createdView, editingModelEnvironment, feature);
 		}
+	}
+
+	/**
+	 * Bind structural feature with a representation.
+	 * 
+	 * @param eClass
+	 *            EClass
+	 * @param eClassBinding
+	 *            EClassBinding
+	 * @param createdView
+	 *            View
+	 * @param editingModelEnvironment
+	 *            EditingModelEnvironment
+	 * @param feature
+	 *            EStructuralFeature
+	 */
+	public void bindEStructuralFeature(EClass eClass, EClassBinding eClassBinding, View createdView, EditingModelEnvironment editingModelEnvironment, EStructuralFeature feature) {
+		// get editable information from genmodel if exists
+		boolean isReadonly = false;
+		boolean isMultiLine = false;
+		Container createdGroup = getDefaultGroup(eClass, createdView);
+		EObject genFeature = editingModelEnvironment.genFeature(feature);
+		if (genFeature != null) {
+			// get property type from genmodel : None, Editable, Readonly
+			EStructuralFeature esf = genFeature.eClass().getEStructuralFeature(GENFEATURE_PROPERTY);
+			if (esf != null) {
+				Enumerator eGet = (Enumerator) genFeature.eGet(esf);
+				if (GENFEATURE_PROPERTY_VALUE_NONE.equals(eGet.getName())) {
+					return;
+				}
+				if (GENFEATURE_PROPERTY_VALUE_READONLY.equals(eGet.getName())) {
+					isReadonly = true;
+				}
+			}
+			// get property category for genmodel : 1 category = 1 group
+			createdGroup = getGroup(eClass, createdView, createdGroup, genFeature);
+
+			// get multiline property
+			esf = genFeature.eClass().getEStructuralFeature(GENFEATURE_PROPERTY_MULTILINE);
+			if (esf != null) {
+				isMultiLine = (Boolean) genFeature.eGet(esf);
+			}
+		}
+
+		// no genmodel property, no group
+		if (createdGroup == null) {
+			createdGroup = createContainerViewForEClassBinding(eClass, createdView);
+		}
+		// create property binding
+		createPropertyBinding(eClassBinding, feature, isReadonly, isMultiLine, createdGroup);
 	}
 
 	/**
@@ -379,12 +397,42 @@ public class BindingSettingsBuilder {
 		return false;
 	}
 
+	/**
+	 * @param eClassBinding
+	 *            EClassBinding
+	 * @param feature
+	 *            EStructuralFeature
+	 * @return if the feature is already binding
+	 */
+	public boolean existEStructuralFeatureBinding(EClassBinding eClassBinding, EStructuralFeature feature) {
+		for (EStructuralFeatureBinding propertyBinding : Iterables.filter(eClassBinding.getPropertyBindings(), EStructuralFeatureBinding.class)) {
+			if (propertyBinding.getFeature().getName().equals(feature.getName()) && ((EClassifier) propertyBinding.getFeature().eContainer()).getEPackage().getNsURI().equals(((EClassifier) feature.eContainer()).getEPackage().getNsURI())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private static class StandardEEFToolkitsSelector implements Predicate<Widget> {
 
 		public boolean apply(Widget widget) {
 			return widget.getToolkit().getName() == "SWT" || widget.getToolkit().getName() == "EMFProperties";
 		}
 
+	}
+
+	/**
+	 * @param eClassBinding
+	 *            EClassBinding
+	 * @return first view.
+	 */
+	public View getFirstViewForEClassBinding(EClassBinding eClassBinding) {
+		for (org.eclipse.emf.eef.runtime.editingModel.View view : eClassBinding.getViews()) {
+			if (view instanceof EObjectView && ((EObjectView) view).getDefinition() instanceof View) {
+				return (View) ((EObjectView) view).getDefinition();
+			}
+		}
+		return null;
 	}
 
 }

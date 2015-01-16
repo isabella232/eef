@@ -51,7 +51,6 @@ public class ToolkitHandler {
 		this.eefLogger = eefLogger;
 		for (EEFToolkit<?> toolkit : toolkitProvider.getAllToolkits()) {
 			String uri = new StringBuilder("eeftoolkit:/").append(FrameworkUtil.getBundle(toolkit.getClass()).getSymbolicName()).append('/').append(toolkit.getClass().getCanonicalName()).toString();
-			URI createURI = URI.createURI(uri);
 			Resource resource = resourceSet.getResource(URI.createURI(uri), true);
 			if (!resource.getContents().isEmpty()) {
 				EObject eObject = resource.getContents().get(0);
