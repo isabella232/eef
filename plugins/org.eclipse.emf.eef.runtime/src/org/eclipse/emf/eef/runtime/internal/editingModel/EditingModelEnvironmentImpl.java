@@ -15,6 +15,7 @@ import java.util.Collection;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -56,6 +57,7 @@ public final class EditingModelEnvironmentImpl implements EditingModelEnvironmen
 			if (eventAdmin != null) {
 				resourceSet.eAdapters().add(new SettingsChangesNotifierImpl(eventAdmin));
 			}
+			resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
 		}
 		return resourceSet;
 	}
