@@ -225,7 +225,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		this.workbench = workbench;
 		this.selection = selection;
 		setWindowTitle(EditingModelEditPlugin.INSTANCE.getString("_UI_Wizard_label"));
-		setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(EditingModelEditPlugin.INSTANCE.getImage("full/wizban/NewEditingModel")));
+		setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(EditingModelEditPlugin.INSTANCE.getImage("full/wizban/eef2_wizban")));
 	}
 
 	/**
