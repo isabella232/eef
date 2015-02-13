@@ -24,7 +24,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -55,6 +54,10 @@ import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.EditingModelModelWizardNewFileCreationPage;
+import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.ModelToChoosePage;
+import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.ModelToChoosePage.InitKind;
+import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.ModelToChoosePage.ModelInitializationChangeListener;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.runtime.util.EEFURIAwareResourceSet;
@@ -106,7 +109,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.undo.CreateFileOperation;
 import org.eclipse.ui.ide.undo.WorkspaceUndoUtil;
 import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
@@ -207,7 +209,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	 */
 	protected List<String> initialObjectNames;
 
-	private ModelToChoosePage secondPage;
+	private ModelToChoosePage initializingMethodPage;
 
 	private AdapterFactoryEditingDomain editingDomain;
 
@@ -302,11 +304,11 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 
 						// Add the initial model object to the contents.
 						//
-						if (secondPage.isValidURI() && secondPage.getURI() != null && !Strings.isNullOrEmpty(secondPage.getURI().toString())) {
-							URI resourceURI = secondPage.getURI();
+						if (initializingMethodPage.isValidURI() && initializingMethodPage.getURI() != null && !Strings.isNullOrEmpty(initializingMethodPage.getURI().toString())) {
+							URI resourceURI = initializingMethodPage.getURI();
 							createEditingDomain();
 							Resource modelResource = null;
-							if (!secondPage.isModel()) {
+							if (initializingMethodPage.getInitKind() == InitKind.Metamodel) {
 								ResourceSet rs = new ResourceSetImpl();
 								modelResource = rs.getResource(resourceURI, true);
 							} else {
@@ -317,14 +319,14 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 								EObject root = modelResource.getContents().get(0);
 
 								EPackage ePackage = root.eClass().getEPackage();
-								if (!secondPage.isModel() && root instanceof EPackage) {
+								if (initializingMethodPage.getInitKind() == InitKind.Metamodel && root instanceof EPackage) {
 									ePackage = (EPackage) root;
 								}
 								setMetamodelePackage(ePackage);
 
 								BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
 								EEFBindingSettingsProvider bindingSettingsProvider = OSGiHelper.getService(bundleContext, EEFBindingSettingsProvider.class);
-								EEFBindingSettings bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
+								EEFBindingSettings<?> bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
 
 								if (bindingSettings instanceof GenericBindingSettings) {
 									for (EClassifier content : ePackage.getEClassifiers()) {
@@ -400,8 +402,8 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			try {
 				editor = page.openEditor(new FileEditorInput(modelFile), workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
 				// if second load a model, load it directly in second tab
-				if (secondPage.isModel() && editor instanceof EditingModelEditor) {
-					((EditingModelEditor) editor).getEditingDomainForOtherModel().getResourceSet().getResource(secondPage.getURI(), true);
+				if (initializingMethodPage.getInitKind() == InitKind.Model && editor instanceof EditingModelEditor) {
+					((EditingModelEditor) editor).getEditingDomainForOtherModel().getResourceSet().getResource(initializingMethodPage.getURI(), true);
 				}
 			} catch (PartInitException exception) {
 				MessageDialog.openError(workbenchWindow.getShell(), EditingModelEditPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
@@ -702,17 +704,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 										((CoreException) e.getCause()).getStatus());
 							} else {
 								IDEWorkbenchPlugin.log(getClass(), "createNewFile()", e.getCause()); //$NON-NLS-1$
-								MessageDialog.openError(shell, IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorTitle, /*
-																																 * NLS
-																																 * .
-																																 * bind
-																																 * (
-																																 * ""
-																																 * IDEWorkbenchMessages
-																																 * .
-																																 * WizardNewFileCreationPage_internalErrorMessage
-																																 * ,
-																																 */e.getCause().getMessage());
+								MessageDialog.openError(shell, IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorTitle, e.getCause().getMessage());
 							}
 						}
 					});
@@ -729,16 +721,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			// but we may still get
 			// unexpected runtime errors.
 			IDEWorkbenchPlugin.log("PDEComponentUtil.createNewFile()", e.getTargetException()); //$NON-NLS-1$
-			MessageDialog.open(MessageDialog.ERROR, shell, IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorTitle, /*
-																															 * NLS
-																															 * .
-																															 * bind
-																															 * (
-																															 * IDEWorkbenchMessages
-																															 * .
-																															 * WizardNewFileCreationPage_internalErrorMessage
-																															 * ,
-																															 */e.getTargetException().getMessage(), SWT.SHEET);
+			MessageDialog.open(MessageDialog.ERROR, shell, IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorTitle, e.getTargetException().getMessage(), SWT.SHEET);
 
 			return null;
 		}
@@ -775,51 +758,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		});
 	}
 
-	/**
-	 * This is the one page of the wizard. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public class EditingModelModelWizardNewFileCreationPage extends WizardNewFileCreationPage {
-		/**
-		 * Pass in the selection. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @generated
-		 */
-		public EditingModelModelWizardNewFileCreationPage(String pageId, IStructuredSelection selection) {
-			super(pageId, selection);
-		}
 
-		/**
-		 * The framework calls this to see if the file is correct. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @generated
-		 */
-		@Override
-		protected boolean validatePage() {
-			if (super.validatePage()) {
-				String extension = new Path(getFileName()).getFileExtension();
-				if (extension == null || !FILE_EXTENSIONS.contains(extension)) {
-					String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension";
-					setErrorMessage(EditingModelEditPlugin.INSTANCE.getString(key, new Object[] { FORMATTED_FILE_EXTENSIONS }));
-					return false;
-				}
-				return true;
-			}
-			return false;
-		}
-
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @generated
-		 */
-		public IFile getModelFile() {
-			return ResourcesPlugin.getWorkspace().getRoot().getFile(getContainerFullPath().append(getFileName()));
-		}
-	}
 
 	/**
 	 * This is the page where the type of object to create is selected. <!--
@@ -1032,6 +971,10 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	 */
 	@Override
 	public void addPages() {
+		initializingMethodPage = new ModelToChoosePage(selection);
+		initializingMethodPage.setEditingDomain(editingDomain);
+		addPage(initializingMethodPage);
+		
 		// Create a page, set the title, and the initial model file name.
 		//
 		newFileCreationPage = new EditingModelModelWizardNewFileCreationPage("Whatever", selection);
@@ -1040,6 +983,18 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		newFileCreationPage.setFileName(EditingModelEditPlugin.INSTANCE.getString("_UI_EditingModelEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0));
 		addPage(newFileCreationPage);
 
+		initializingMethodPage.addModelInitializationListener(new ModelInitializationChangeListener() {
+			
+			public void modelInitializationChanged(InitKind initKind, String modelName) {
+				if (modelName == ModelToChoosePage.DEFAULT_MODEL_NAME) {
+					String filename = EditingModelEditPlugin.INSTANCE.getString("_UI_EditingModelEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0);
+					newFileCreationPage.setFileName(filename);										
+				} else {
+					newFileCreationPage.setFileName(modelName + "." + FILE_EXTENSIONS.get(0));
+				}
+			}
+		});
+			
 		// Try and get the resource selection to determine a current directory
 		// for the file dialog.
 		//
@@ -1078,9 +1033,6 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			}
 		}
 
-		secondPage = new ModelToChoosePage(selection);
-		secondPage.setEditingDomain(editingDomain);
-		addPage(secondPage);
 
 	}
 
