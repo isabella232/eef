@@ -185,7 +185,7 @@ public class EditingPolicyWithProcessor implements PropertiesEditingPolicy {
 			}
 		} else {
 			if (editingEvent.getEventType() == PropertiesEditingEvent.SET) {
-				return (currentValue != request.getValue());
+				return (currentValue == null && request.getValue() == null) || (currentValue != request.getValue());
 			} else if (editingEvent.getEventType() == PropertiesEditingEvent.UNSET) {
 				return true;
 			}
