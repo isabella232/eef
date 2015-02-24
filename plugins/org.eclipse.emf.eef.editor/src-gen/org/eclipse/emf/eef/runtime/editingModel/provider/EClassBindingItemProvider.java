@@ -14,12 +14,10 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -217,7 +215,8 @@ public class EClassBindingItemProvider extends ItemProviderAdapter implements IE
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add(createChildParameter(EditingModelPackage.Literals.ECLASS_BINDING__VIEWS, EditingModelFactory.eINSTANCE.createEObjectView()));
+		// newChildDescriptors.add(createChildParameter(EditingModelPackage.Literals.ECLASS_BINDING__VIEWS,
+		// EditingModelFactory.eINSTANCE.createEObjectView()));
 
 		// newChildDescriptors.add
 		// (createChildParameter
