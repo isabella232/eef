@@ -90,7 +90,13 @@ public class WizardDomainEditingPolicyProcessor extends DomainEditingPolicyProce
 			PropertiesEditingEvent event = ((SemanticPropertiesEditingContext) domainEditingContext).getEditingEvent();
 			Object newValue = request.getValue();
 			switch (request.getProcessingKind()) {
-			case SET:
+			case SET: {
+				EStructuralFeature feature = eefEditingServiceProvider.getEditingService(domainEditingContext.getEditingComponent().getEObject()).featureFromEditor(domainEditingContext, event.getAffectedEditor());
+				if (feature instanceof EReference && ((EReference) feature).isContainment() && !feature.isMany() && newValue == null) {
+					newValue = defineEObjectToAdd((SemanticPropertiesEditingContext) domainEditingContext, (EReference) feature);
+					return performSet(domainEditingContext, domainEditingContext.getEditingComponent().getEObject(), newValue);
+				}
+			}
 			case ADD: {
 				EStructuralFeature feature = eefEditingServiceProvider.getEditingService(domainEditingContext.getEditingComponent().getEObject()).featureFromEditor(domainEditingContext, event.getAffectedEditor());
 				if (feature instanceof EReference && ((EReference) feature).isContainment() && newValue == null) {
