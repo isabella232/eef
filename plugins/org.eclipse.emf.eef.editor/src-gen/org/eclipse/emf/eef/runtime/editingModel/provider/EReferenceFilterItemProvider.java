@@ -129,9 +129,11 @@ public class EReferenceFilterItemProvider
 	public String getText(Object object) {
 		Body body = ((EReferenceFilter)object).getBody();
 		String label = null;
-		IItemLabelProvider labelProvider = (IItemLabelProvider) adapterFactory.adapt(body, IItemLabelProvider.class);
-		if (labelProvider != null) {
-			label = labelProvider.getText(body);
+		if (body!=null) {
+			IItemLabelProvider labelProvider = (IItemLabelProvider) adapterFactory.adapt(body, IItemLabelProvider.class);
+			if (labelProvider != null) {
+				label = labelProvider.getText(body);
+			}
 		}
 		return label != null?label:getString("_UI_EReferenceFilter_type");
 	}

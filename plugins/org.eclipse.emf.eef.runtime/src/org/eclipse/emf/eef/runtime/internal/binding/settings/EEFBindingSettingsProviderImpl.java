@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.internal.binding.settings;
 
+import java.util.List;
+
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
@@ -24,10 +26,20 @@ public class EEFBindingSettingsProviderImpl extends EEFServiceProviderImpl<EPack
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider#getBindingSettings(org.eclipse.emf.ecore.EPackage)
 	 */
 	public EEFBindingSettings<PropertiesEditingModel> getBindingSettings(EPackage ePackage) {
 		return getService(ePackage);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider#getAllBindingSettings(org.eclipse.emf.ecore.EPackage)
+	 */
+	public List<EEFBindingSettings<PropertiesEditingModel>> getAllBindingSettings(EPackage ePackage) {
+		return getServicesFor(ePackage);
 	}
 
 }

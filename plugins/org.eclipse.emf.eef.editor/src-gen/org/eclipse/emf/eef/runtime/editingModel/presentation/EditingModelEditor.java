@@ -131,8 +131,7 @@ public class EditingModelEditor extends EEFReflectiveEditor {
 						Object selection = getSelectionService().unwrapSelection(event.getSelection());
 						if (selection instanceof EObject) {
 							EditingContextFactoryProvider editingContextFactoryProvider = OSGiHelper.getService(FrameworkUtil.getBundle(getClass()).getBundleContext(), EditingContextFactoryProvider.class);
-							final EObjectPropertiesEditingContext propertiesEditingContext = (EObjectPropertiesEditingContext) editingContextFactoryProvider.getEditingContextFactory((EObject) selection)
-									.createPropertiesEditingContext(adapterFactory, (EObject) selection);
+							final EObjectPropertiesEditingContext propertiesEditingContext = (EObjectPropertiesEditingContext) editingContextFactoryProvider.getEditingContextFactory((EObject) selection).createPropertiesEditingContext(adapterFactory, (EObject) selection);
 							propertiesEditingContext.setBindingManagerProvider(getBindingHandlerProvider(propertiesEditingContext));
 							propertiesEditingContext.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, mdPage.getToolkit());
 							updateDetailsViewer(propertiesEditingContext);
@@ -738,6 +737,10 @@ public class EditingModelEditor extends EEFReflectiveEditor {
 			EditorBindingSettings editorBindingSettings = new EditorBindingSettings(eefBindingSettingsProvider, editingDomain);
 			editorBindingSettings.setEMFServiceProvider(emfServiceProvider);
 			return (EEFBindingSettings<T>) editorBindingSettings;
+		}
+
+		public <T extends EObject> List<EEFBindingSettings<T>> getAllBindingSettings(EPackage ePackage) {
+			throw new UnsupportedOperationException("Operation not supported");
 		}
 
 	}

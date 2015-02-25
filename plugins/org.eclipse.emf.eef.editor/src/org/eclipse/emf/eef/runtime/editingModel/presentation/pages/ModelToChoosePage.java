@@ -53,16 +53,17 @@ public class ModelToChoosePage extends WizardPage {
 	private Text metamodelPath;
 	private Button browseForMetamodel;
 
-	private Button emptyModelRadio;
+	private Button initModelCheckbox;
 
 	private List<ModelInitializationChangeListener> listeners = new ArrayList<ModelToChoosePage.ModelInitializationChangeListener>();
-	
+
 	/**
 	 * Model chosen URI .
 	 */
 	private URI selectedFileURI;
 	private IFile selectedModel;
-	private InitKind initKind = InitKind.Metamodel;
+	private boolean initModel = false;
+	private boolean isModel = false;
 
 	private EditingDomain editingDomain;
 
@@ -102,7 +103,7 @@ public class ModelToChoosePage extends WizardPage {
 	public void removeModelInitializationListener(ModelInitializationChangeListener listener) {
 		listeners.remove(listener);
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * 
@@ -118,7 +119,7 @@ public class ModelToChoosePage extends WizardPage {
 		projectGroup.setLayout(layout);
 		projectGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		// ------- Metamodel Option ------- 
+		// ------- Metamodel Option -------
 		fromMetamodelRadio = new Button(projectGroup, SWT.RADIO);
 		fromMetamodelRadio.setText("Select metamodel:");
 		fromMetamodelRadio.addSelectionListener(new SelectionAdapter() {
@@ -146,7 +147,7 @@ public class ModelToChoosePage extends WizardPage {
 				String modelName = DEFAULT_MODEL_NAME;
 				if (getURI() != null) {
 					modelName = getURI().trimFileExtension().lastSegment();
-				} 
+				}
 				notifyModelIntializationChange(modelName);
 
 			}
@@ -165,9 +166,7 @@ public class ModelToChoosePage extends WizardPage {
 			}
 		});
 
-
-
-		// ------- Model Option ------- 
+		// ------- Model Option -------
 		fromModelRadio = new Button(projectGroup, SWT.RADIO);
 		fromModelRadio.setText("Select model:");
 		fromModelRadio.addSelectionListener(new SelectionAdapter() {
@@ -192,11 +191,11 @@ public class ModelToChoosePage extends WizardPage {
 			public void handleEvent(Event event) {
 				selectedFileURI = URI.createURI(modelPath.getText());
 				setPageComplete(isPageComplete());
-				//FIXME: use metamodel name instead of model name
+				// FIXME: use metamodel name instead of model name
 				String modelName = DEFAULT_MODEL_NAME;
 				if (getURI() != null) {
 					modelName = getURI().trimFileExtension().lastSegment();
-				} 
+				}
 				notifyModelIntializationChange(modelName);
 			}
 		});
@@ -214,9 +213,10 @@ public class ModelToChoosePage extends WizardPage {
 			}
 		});
 
-		emptyModelRadio = new Button(projectGroup, SWT.RADIO);
-		emptyModelRadio.setText("Start with an empty model");
-		emptyModelRadio.addSelectionListener(new SelectionAdapter() {
+		// initialize editing model
+		initModelCheckbox = new Button(projectGroup, SWT.CHECK);
+		initModelCheckbox.setText("Initialize EEF settings model");
+		initModelCheckbox.addSelectionListener(new SelectionAdapter() {
 			/*
 			 * (non-Javadoc)
 			 * 
@@ -225,11 +225,12 @@ public class ModelToChoosePage extends WizardPage {
 			 * .swt.events.SelectionEvent)
 			 */
 			public void widgetSelected(SelectionEvent e) {
-				emptyModelRadioSelected();
+				initModelCheckboxSelected();
 			}
 
 		});
-
+		initModelCheckbox.setSelection(true);
+		initModelCheckboxSelected();
 
 		// init text model
 		if (selectedModel != null) {
@@ -244,8 +245,8 @@ public class ModelToChoosePage extends WizardPage {
 				modelRadioSelected();
 			}
 		} else {
-			emptyModelRadio.setSelection(true);
-			emptyModelRadioSelected();
+			fromMetamodelRadio.setSelection(true);
+			metamodelRadioSelected();
 		}
 
 		setPageComplete(false);
@@ -257,8 +258,8 @@ public class ModelToChoosePage extends WizardPage {
 	/**
 	 * @return the initKind
 	 */
-	public InitKind getInitKind() {
-		return initKind;
+	public boolean initModel() {
+		return initModel;
 	}
 
 	/**
@@ -275,7 +276,7 @@ public class ModelToChoosePage extends WizardPage {
 	 */
 	@Override
 	public boolean isPageComplete() {
-		return isValidURI() || getInitKind() == InitKind.Empty;
+		return isValidURI();
 	}
 
 	/**
@@ -320,11 +321,11 @@ public class ModelToChoosePage extends WizardPage {
 			metamodelPath.setEnabled(true);
 			browseForMetamodel.setEnabled(true);
 			metamodelPath.setFocus();
-			initKind = InitKind.Metamodel;
 			String modelName = DEFAULT_MODEL_NAME;
 			if (getURI() != null) {
 				modelName = getURI().trimFileExtension().lastSegment();
-			} 
+			}
+			isModel = false;
 			notifyModelIntializationChange(modelName);
 		}
 	}
@@ -336,22 +337,18 @@ public class ModelToChoosePage extends WizardPage {
 			metamodelPath.setEnabled(false);
 			browseForMetamodel.setEnabled(false);
 			modelPath.setFocus();
-			initKind = InitKind.Model;
-			//FIXME: use metamodel name instead of model name
+			// FIXME: use metamodel name instead of model name
 			String modelName = DEFAULT_MODEL_NAME;
 			if (getURI() != null) {
 				modelName = getURI().trimFileExtension().lastSegment();
-			} 
+			}
+			isModel = true;
 			notifyModelIntializationChange(modelName);
 		}
 	}
 
-	private void emptyModelRadioSelected() {
-		metamodelPath.setEnabled(false);
-		browseForMetamodel.setEnabled(false);
-		modelPath.setEnabled(false);
-		browseForModel.setEnabled(false);
-		initKind = InitKind.Empty;
+	private void initModelCheckboxSelected() {
+		initModel = !initModel;
 		notifyModelIntializationChange(DEFAULT_MODEL_NAME);
 	}
 
@@ -386,24 +383,25 @@ public class ModelToChoosePage extends WizardPage {
 	 */
 	private void notifyModelIntializationChange(String modelName) {
 		for (ModelInitializationChangeListener listener : listeners) {
-			listener.modelInitializationChanged(getInitKind(), modelName);
+			listener.modelInitializationChanged(modelName);
 		}
 	}
 
-	public enum InitKind {
-		Metamodel,
-		Model,
-		Empty
-	}
-	
 	/**
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
 	 *
 	 */
 	public interface ModelInitializationChangeListener {
-		
-		void modelInitializationChanged(InitKind initKind, String modelName);
-		
+
+		void modelInitializationChanged(String modelName);
+
+	}
+
+	/**
+	 * @return the isModel
+	 */
+	public boolean isModel() {
+		return isModel;
 	}
 
 }

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.editingModel.presentation.pages;
 
+import java.util.List;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -24,7 +26,10 @@ import org.eclipse.emf.eef.editor.internal.services.SelectionService;
 import org.eclipse.emf.eef.runtime.context.EditingContextFactoryProvider;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContextFactory;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
@@ -51,6 +56,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.osgi.framework.FrameworkUtil;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:nathalie.lepine@obeo.fr">Nathalie Lepine</a>
@@ -319,7 +326,20 @@ public class EEFMasterDetailsPage extends FormPage {
 		modelViewer.getControl().setLayoutData(createFillBothData());
 		modelItem.setControl(modelViewer.getControl());
 		if (adapterFactory != null) {
-			modelViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+			modelViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory) {
+
+				/**
+				 * (non-Javadoc)
+				 * 
+				 * @see org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider#getChildren(java.lang.Object)
+				 */
+				@Override
+				public Object[] getChildren(Object object) {
+					Object[] children = super.getChildren(object);
+					return getEditingModelChildren(object, children);
+				}
+
+			});
 			modelViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 		}
 		return modelViewer;
@@ -489,5 +509,28 @@ public class EEFMasterDetailsPage extends FormPage {
 	 */
 	public Object getInput() {
 		return input;
+	}
+
+	/**
+	 * @param object
+	 * @param children
+	 * @return object children
+	 */
+	public Object[] getEditingModelChildren(Object object, Object[] children) {
+		if (!(object instanceof EClassBinding) && !(object instanceof PropertyBinding)) {
+			return children;
+		}
+		List<Object> potentialChildren = Lists.newArrayList(children);
+		List<Object> toRemove = Lists.newArrayList();
+		for (Object child : potentialChildren) {
+			if (object instanceof EClassBinding && child instanceof EObject && EditingModelPackage.eINSTANCE.getEClassBinding_Views().equals(((EObject) child).eContainmentFeature())) {
+				toRemove.add(child);
+			}
+			if (object instanceof PropertyBinding && child instanceof EObject && EditingModelPackage.eINSTANCE.getPropertyBinding_Editor().equals(((EObject) child).eContainmentFeature())) {
+				toRemove.add(child);
+			}
+		}
+		potentialChildren.removeAll(toRemove);
+		return potentialChildren.toArray();
 	}
 }

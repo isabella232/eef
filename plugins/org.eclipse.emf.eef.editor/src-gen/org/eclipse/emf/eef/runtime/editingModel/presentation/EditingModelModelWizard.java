@@ -56,7 +56,6 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.EditingModelModelWizardNewFileCreationPage;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.ModelToChoosePage;
-import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.ModelToChoosePage.InitKind;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.ModelToChoosePage.ModelInitializationChangeListener;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
@@ -119,6 +118,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 
 /**
  * This is a simple wizard for creating a new model file. <!-- begin-user-doc
@@ -308,7 +308,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 							URI resourceURI = initializingMethodPage.getURI();
 							createEditingDomain();
 							Resource modelResource = null;
-							if (initializingMethodPage.getInitKind() == InitKind.Metamodel) {
+							if (!initializingMethodPage.isModel()) {
 								ResourceSet rs = new ResourceSetImpl();
 								modelResource = rs.getResource(resourceURI, true);
 							} else {
@@ -319,24 +319,31 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 								EObject root = modelResource.getContents().get(0);
 
 								EPackage ePackage = root.eClass().getEPackage();
-								if (initializingMethodPage.getInitKind() == InitKind.Metamodel && root instanceof EPackage) {
+								if (!initializingMethodPage.isModel() && root instanceof EPackage) {
 									ePackage = (EPackage) root;
 								}
 								setMetamodelePackage(ePackage);
 
-								BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
-								EEFBindingSettingsProvider bindingSettingsProvider = OSGiHelper.getService(bundleContext, EEFBindingSettingsProvider.class);
-								EEFBindingSettings<?> bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
+								PropertiesEditingModel editingModel = null;
+								if (initializingMethodPage.initModel()) {
+									BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
+									EEFBindingSettingsProvider bindingSettingsProvider = OSGiHelper.getService(bundleContext, EEFBindingSettingsProvider.class);
+									EEFBindingSettings<?> bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
 
-								if (bindingSettings instanceof GenericBindingSettings) {
-									for (EClassifier content : ePackage.getEClassifiers()) {
-										if (content instanceof EClass) {
-											((GenericBindingSettings) bindingSettings).getEEFDescription((EClass) content);
+									if (!(bindingSettings instanceof GenericBindingSettings)) {
+										Iterable<GenericBindingSettings> filter = Iterables.filter(bindingSettingsProvider.getAllBindingSettings(ePackage), GenericBindingSettings.class);
+										bindingSettings = Iterables.getFirst(filter, bindingSettings);
+									}
+									if (bindingSettings instanceof GenericBindingSettings) {
+										for (EClassifier content : ePackage.getEClassifiers()) {
+											if (content instanceof EClass) {
+												((GenericBindingSettings) bindingSettings).getEEFDescription((EClass) content);
+											}
 										}
 									}
-								}
+									editingModel = bindingSettings.getEditingModel(ePackage);
 
-								PropertiesEditingModel editingModel = bindingSettings.getEditingModel(ePackage);
+								}
 
 								if (editingModel != null) {
 									resource.getContents().addAll(EcoreUtil.copyAll(editingModel.eResource().getContents()));
@@ -402,7 +409,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			try {
 				editor = page.openEditor(new FileEditorInput(modelFile), workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
 				// if second load a model, load it directly in second tab
-				if (initializingMethodPage.getInitKind() == InitKind.Model && editor instanceof EditingModelEditor) {
+				if (initializingMethodPage.isModel() && editor instanceof EditingModelEditor) {
 					((EditingModelEditor) editor).getEditingDomainForOtherModel().getResourceSet().getResource(initializingMethodPage.getURI(), true);
 				}
 			} catch (PartInitException exception) {
@@ -758,8 +765,6 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		});
 	}
 
-
-
 	/**
 	 * This is the page where the type of object to create is selected. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -974,7 +979,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		initializingMethodPage = new ModelToChoosePage(selection);
 		initializingMethodPage.setEditingDomain(editingDomain);
 		addPage(initializingMethodPage);
-		
+
 		// Create a page, set the title, and the initial model file name.
 		//
 		newFileCreationPage = new EditingModelModelWizardNewFileCreationPage("Whatever", selection);
@@ -984,17 +989,17 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		addPage(newFileCreationPage);
 
 		initializingMethodPage.addModelInitializationListener(new ModelInitializationChangeListener() {
-			
-			public void modelInitializationChanged(InitKind initKind, String modelName) {
+
+			public void modelInitializationChanged(String modelName) {
 				if (modelName == ModelToChoosePage.DEFAULT_MODEL_NAME) {
 					String filename = EditingModelEditPlugin.INSTANCE.getString("_UI_EditingModelEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0);
-					newFileCreationPage.setFileName(filename);										
+					newFileCreationPage.setFileName(filename);
 				} else {
 					newFileCreationPage.setFileName(modelName + "." + FILE_EXTENSIONS.get(0));
 				}
 			}
 		});
-			
+
 		// Try and get the resource selection to determine a current directory
 		// for the file dialog.
 		//
@@ -1032,7 +1037,6 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 				}
 			}
 		}
-
 
 	}
 

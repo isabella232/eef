@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.binding.settings;
 
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -21,9 +23,17 @@ public interface EEFBindingSettingsProvider {
 
 	/**
 	 * Returns the most appropriate binding settings for the given package.
-	 * @param ePackage the {@link EPackage} to process.
-	 * @return the most appropriate {@link EEFBindingSettings} for the given package. 
+	 * 
+	 * @param ePackage
+	 *            the {@link EPackage} to process.
+	 * @return the most appropriate {@link EEFBindingSettings} for the given
+	 *         package.
 	 */
 	<T extends EObject> EEFBindingSettings<T> getBindingSettings(EPackage ePackage);
-	
+
+	/**
+	 * @return
+	 */
+	<T extends EObject> List<EEFBindingSettings<T>> getAllBindingSettings(EPackage ePackage);
+
 }
