@@ -227,7 +227,9 @@ public class EObjectPropertiesEditingContext implements PropertiesEditingContext
 	 * @see org.eclipse.emf.eef.runtime.context.PropertiesEditingContext#dispose()
 	 */
 	public void dispose() {
-		disposeComponent(component);
+		if (component != null) {
+			disposeComponent(component);
+		}
 	}
 
 }
