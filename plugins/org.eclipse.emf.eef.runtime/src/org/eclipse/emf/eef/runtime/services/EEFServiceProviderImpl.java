@@ -143,6 +143,15 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 	}
 
 	public List<SERVICE_TYPE> getServicesFor(ELEMENT_TYPE element) {
+		List<SERVICE_TYPE> result = getServices(element);
+		// If no service is available, we're looking for a default service
+		if (result.size() == 0 && !defaultServices.isEmpty()) {
+			result.add(defaultServices.get(0));
+		}
+		return result;
+	}
+
+	protected List<SERVICE_TYPE> getServices(ELEMENT_TYPE element) {
 		List<SERVICE_TYPE> result = Lists.newArrayList();
 		// First we're looking for an appropriate service which isn't a default
 		// service.
@@ -152,8 +161,13 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 				result.add(service);
 			}
 		}
+		return result;
+	}
+
+	public List<SERVICE_TYPE> getServicesAndDefaultFor(ELEMENT_TYPE element) {
+		List<SERVICE_TYPE> result = getServices(element);
 		// If no service is available, we're looking for a default service
-		if (/* result.size() == 0 && */!defaultServices.isEmpty()) {
+		if (!defaultServices.isEmpty()) {
 			result.add(defaultServices.get(0));
 		}
 		return result;

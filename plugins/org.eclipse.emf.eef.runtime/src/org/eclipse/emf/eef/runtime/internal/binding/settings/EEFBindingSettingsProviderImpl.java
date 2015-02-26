@@ -29,6 +29,7 @@ public class EEFBindingSettingsProviderImpl extends EEFServiceProviderImpl<EPack
 	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider#getBindingSettings(org.eclipse.emf.ecore.EPackage)
 	 */
+	@SuppressWarnings("unchecked")
 	public EEFBindingSettings<PropertiesEditingModel> getBindingSettings(EPackage ePackage) {
 		return getService(ePackage);
 	}
@@ -38,8 +39,9 @@ public class EEFBindingSettingsProviderImpl extends EEFServiceProviderImpl<EPack
 	 * 
 	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider#getAllBindingSettings(org.eclipse.emf.ecore.EPackage)
 	 */
+	@SuppressWarnings("unchecked")
 	public List<EEFBindingSettings<PropertiesEditingModel>> getAllBindingSettings(EPackage ePackage) {
-		return getServicesFor(ePackage);
+		return getServicesAndDefaultFor(ePackage);
 	}
 
 }
