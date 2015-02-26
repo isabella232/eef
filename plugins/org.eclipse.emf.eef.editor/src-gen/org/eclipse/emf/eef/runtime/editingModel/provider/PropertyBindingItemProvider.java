@@ -193,15 +193,15 @@ public class PropertyBindingItemProvider
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-		(createChildParameter
-				(EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR,
-						EditingModelFactory.eINSTANCE.createEObjectEditor()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR,
-				 EditingModelFactory.eINSTANCE.createJavaEditor()));
+//		newChildDescriptors.add
+//		(createChildParameter
+//				(EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR,
+//						EditingModelFactory.eINSTANCE.createEObjectEditor()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(EditingModelPackage.Literals.PROPERTY_BINDING__EDITOR,
+//				 EditingModelFactory.eINSTANCE.createJavaEditor()));
 
 		newChildDescriptors.add
 			(createChildParameter
