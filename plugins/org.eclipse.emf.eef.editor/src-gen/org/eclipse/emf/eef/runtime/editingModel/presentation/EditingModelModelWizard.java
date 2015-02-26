@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -331,8 +332,11 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 									EEFBindingSettings<?> bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
 
 									if (!(bindingSettings instanceof GenericBindingSettings)) {
-										Iterable<? extends EEFBindingSettings<?>> filter = Iterables.filter(bindingSettingsProvider.getAllBindingSettings(ePackage), GenericBindingSettings.class);
-										bindingSettings = Iterables.<EEFBindingSettings<?>> getFirst(filter, bindingSettings);
+										Iterable<GenericBindingSettings> filter = Iterables.filter(bindingSettingsProvider.getAllBindingSettings(ePackage), GenericBindingSettings.class);
+										Iterator<GenericBindingSettings> it = filter.iterator();
+										if (it.hasNext()) {
+											bindingSettings = it.next();
+										}
 									}
 									if (bindingSettings instanceof GenericBindingSettings) {
 										for (EClassifier content : ePackage.getEClassifiers()) {
