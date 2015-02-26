@@ -15,7 +15,10 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction.LoadResourceDialog;
@@ -146,7 +149,7 @@ public class ModelToChoosePage extends WizardPage {
 				setPageComplete(isPageComplete());
 				String modelName = DEFAULT_MODEL_NAME;
 				if (getURI() != null) {
-					modelName = getURI().trimFileExtension().lastSegment();
+					modelName = getPackageURI(getURI());
 				}
 				notifyModelIntializationChange(modelName);
 
@@ -191,13 +194,13 @@ public class ModelToChoosePage extends WizardPage {
 			public void handleEvent(Event event) {
 				selectedFileURI = URI.createURI(modelPath.getText());
 				setPageComplete(isPageComplete());
-				// FIXME: use metamodel name instead of model name
 				String modelName = DEFAULT_MODEL_NAME;
-				if (getURI() != null) {
-					modelName = getURI().trimFileExtension().lastSegment();
+				if (getURI() != null && isValidURI()) {
+					modelName = getMetamodelePackageURI(getURI());
 				}
 				notifyModelIntializationChange(modelName);
 			}
+
 		});
 
 		browseForModel = new Button(projectGroup, SWT.PUSH);
@@ -253,6 +256,46 @@ public class ModelToChoosePage extends WizardPage {
 		setErrorMessage(null);
 		setMessage(null);
 
+	}
+
+	/**
+	 * @param modelName
+	 * @return model name
+	 */
+	public String getMetamodelePackageURI(URI uri) {
+		String modelName = "";
+		ResourceSet rs = new ResourceSetImpl();
+		Resource modelResource = rs.getResource(uri, true);
+		if (modelResource != null && !modelResource.getContents().isEmpty()) {
+			EObject root = modelResource.getContents().get(0);
+			if (root != null) {
+				modelName = root.eClass().getEPackage().getName();
+			}
+		}
+		if (Strings.isNullOrEmpty(modelName)) {
+			modelName = DEFAULT_MODEL_NAME;
+		}
+		return modelName;
+	}
+
+	/**
+	 * @param modelName
+	 * @return model name
+	 */
+	public String getPackageURI(URI uri) {
+		String modelName = "";
+		ResourceSet rs = new ResourceSetImpl();
+		Resource modelResource = rs.getResource(uri, true);
+		if (modelResource != null && !modelResource.getContents().isEmpty()) {
+			EObject root = modelResource.getContents().get(0);
+			if (root instanceof EPackage) {
+				modelName = ((EPackage) root).getName();
+			}
+		}
+		if (Strings.isNullOrEmpty(modelName)) {
+			modelName = DEFAULT_MODEL_NAME;
+		}
+		return modelName;
 	}
 
 	/**
@@ -323,8 +366,9 @@ public class ModelToChoosePage extends WizardPage {
 			metamodelPath.setFocus();
 			String modelName = DEFAULT_MODEL_NAME;
 			if (getURI() != null) {
-				modelName = getURI().trimFileExtension().lastSegment();
+				modelName = getPackageURI(getURI());
 			}
+
 			isModel = false;
 			notifyModelIntializationChange(modelName);
 		}
@@ -337,10 +381,9 @@ public class ModelToChoosePage extends WizardPage {
 			metamodelPath.setEnabled(false);
 			browseForMetamodel.setEnabled(false);
 			modelPath.setFocus();
-			// FIXME: use metamodel name instead of model name
 			String modelName = DEFAULT_MODEL_NAME;
-			if (getURI() != null) {
-				modelName = getURI().trimFileExtension().lastSegment();
+			if (getURI() != null && isValidURI()) {
+				modelName = getMetamodelePackageURI(getURI());
 			}
 			isModel = true;
 			notifyModelIntializationChange(modelName);
@@ -349,7 +392,6 @@ public class ModelToChoosePage extends WizardPage {
 
 	private void initModelCheckboxSelected() {
 		initModel = !initModel;
-		notifyModelIntializationChange(DEFAULT_MODEL_NAME);
 	}
 
 	/**

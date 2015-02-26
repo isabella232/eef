@@ -56,7 +56,7 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 			List<String> prioritiesOver = extractPriorities(properties.get("priority.over"));
 			for (String hasPriorityOver : prioritiesOver) {
 				clone.addEdge(addedNode, clone.getOrCreateNode(hasPriorityOver));
-				
+
 			}
 			if (clone.isAcyclic()) {
 				Node<ELEMENT_TYPE, SERVICE_TYPE> newNode = addNode((String) properties.get("component.name"), service);
@@ -153,7 +153,7 @@ public class EEFServiceProviderImpl<ELEMENT_TYPE, SERVICE_TYPE extends EEFServic
 			}
 		}
 		// If no service is available, we're looking for a default service
-		if (result.size() == 0 && !defaultServices.isEmpty()) {
+		if (/* result.size() == 0 && */!defaultServices.isEmpty()) {
 			result.add(defaultServices.get(0));
 		}
 		return result;

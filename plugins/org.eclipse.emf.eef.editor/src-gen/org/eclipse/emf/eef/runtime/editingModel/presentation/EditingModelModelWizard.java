@@ -218,6 +218,10 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 
 	private EPackage metamodelePackage;
 
+	private IFile selectedModel;
+
+	private IContainer containerSelectedModel;
+
 	/**
 	 * This just records the information. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
@@ -229,6 +233,13 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 		this.selection = selection;
 		setWindowTitle(EditingModelEditPlugin.INSTANCE.getString("_UI_Wizard_label"));
 		setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(EditingModelEditPlugin.INSTANCE.getImage("full/wizban/eef2_wizban")));
+		if (selection.getFirstElement() instanceof IFile) {
+			selectedModel = (IFile) selection.getFirstElement();
+			containerSelectedModel = selectedModel.getParent();
+		}
+		if (selection.getFirstElement() instanceof IContainer) {
+			containerSelectedModel = (IContainer) selection.getFirstElement();
+		}
 	}
 
 	/**
@@ -524,7 +535,9 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 										entry = factory.createEntry(IBuildEntry.BIN_INCLUDES);
 										wbm.getBuild().add(entry);
 									}
-									entry.addToken(path);
+									if (!entry.contains(path)) {
+										entry.addToken(path);
+									}
 									wbm.save();
 								}
 							}
@@ -559,9 +572,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 
 						// Create a path from the bundle root to the component
 						// file
-						IContainer root = PDEProject.getBundleRoot(fFile.getProject());
-						String filePath = fFile.getFullPath().makeRelativeTo(root.getFullPath()).toPortableString();
-
+						String filePath = ORG_ECLIPSE_EMF_EEF_RUNTIME;
 						String header = bundleModel.getBundle().getHeader("Require-Bundle");
 						if (header != null) {
 							if (containsValue(header, ORG_ECLIPSE_EMF_EEF_RUNTIME)) {
@@ -573,6 +584,9 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 					}
 
 					private boolean containsValue(String header, String value) {
+						if (header == null) {
+							return false;
+						}
 						value = value.trim();
 						StringTokenizer st = new StringTokenizer(header, ","); //$NON-NLS-1$
 						while (st.hasMoreElements()) {
@@ -997,9 +1011,12 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			public void modelInitializationChanged(String modelName) {
 				if (modelName == ModelToChoosePage.DEFAULT_MODEL_NAME) {
 					String filename = EditingModelEditPlugin.INSTANCE.getString("_UI_EditingModelEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0);
+					filename = calculateModelName(filename, modelName);
 					newFileCreationPage.setFileName(filename);
 				} else {
-					newFileCreationPage.setFileName(modelName + "." + FILE_EXTENSIONS.get(0));
+					String fileName = modelName + "." + FILE_EXTENSIONS.get(0);
+					fileName = calculateModelName(fileName, modelName);
+					newFileCreationPage.setFileName(fileName);
 				}
 			}
 		});
@@ -1051,6 +1068,20 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	 */
 	public IFile getModelFile() {
 		return newFileCreationPage.getModelFile();
+	}
+
+	/**
+	 * @param modelName
+	 * @param modelName2
+	 * @return
+	 */
+	public String calculateModelName(String fileName, String modelName) {
+		if (containerSelectedModel != null) {
+			for (int i = 1; containerSelectedModel.findMember(fileName) != null; ++i) {
+				fileName = modelName + i + "." + FILE_EXTENSIONS.get(0);
+			}
+		}
+		return fileName;
 	}
 
 }
