@@ -331,8 +331,8 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 									EEFBindingSettings<?> bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
 
 									if (!(bindingSettings instanceof GenericBindingSettings)) {
-										Iterable<GenericBindingSettings> filter = Iterables.filter(bindingSettingsProvider.getAllBindingSettings(ePackage), GenericBindingSettings.class);
-										bindingSettings = Iterables.<EEFBindingSettings> getFirst(filter, bindingSettings);
+										Iterable<? extends EEFBindingSettings<?>> filter = Iterables.filter(bindingSettingsProvider.getAllBindingSettings(ePackage), GenericBindingSettings.class);
+										bindingSettings = Iterables.<EEFBindingSettings<?>> getFirst(filter, bindingSettings);
 									}
 									if (bindingSettings instanceof GenericBindingSettings) {
 										for (EClassifier content : ePackage.getEClassifiers()) {
