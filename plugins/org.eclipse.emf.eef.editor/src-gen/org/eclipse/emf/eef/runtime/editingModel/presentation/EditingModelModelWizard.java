@@ -328,7 +328,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 								if (initializingMethodPage.initModel()) {
 									BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
 									EEFBindingSettingsProvider bindingSettingsProvider = OSGiHelper.getService(bundleContext, EEFBindingSettingsProvider.class);
-									EEFBindingSettings<?> bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
+									EEFBindingSettings bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
 
 									if (!(bindingSettings instanceof GenericBindingSettings)) {
 										Iterable<GenericBindingSettings> filter = Iterables.filter(bindingSettingsProvider.getAllBindingSettings(ePackage), GenericBindingSettings.class);
