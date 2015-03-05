@@ -149,16 +149,16 @@ public class EClassBindingItemProvider extends ItemProviderAdapter implements IE
 	@Override
 	public String getText(Object object) {
 		EClassBinding binding = (EClassBinding) object;
-		StringBuilder sb = new StringBuilder(getString("_UI_EClassBinding_type")).append(' ');
+		StringBuilder sb = new StringBuilder();
+		if (binding.getEClass() == null) {
+			sb.append(getString("_UI_EClassBinding_type")).append(' ');
+		}
 		if (binding.getEClass() != null && binding.getEClass().getName() != null) {
 			sb.append(binding.getEClass().getName());
 		} else {
 			sb.append("???");
 		}
-		sb.append(" <-> ");
-		if (binding.getViews().size() > 1) {
-			sb.append('[');
-		}
+		sb.append(": ");
 		for (Iterator<View> iterator = binding.getViews().iterator(); iterator.hasNext();) {
 			View view = iterator.next();
 			if (view instanceof EObjectView) {
@@ -174,11 +174,8 @@ public class EClassBindingItemProvider extends ItemProviderAdapter implements IE
 				sb.append("???");
 			}
 			if (iterator.hasNext()) {
-				sb.append(';');
+				sb.append(',');
 			}
-		}
-		if (binding.getViews().size() > 1) {
-			sb.append(']');
 		}
 		return sb.toString();
 	}
@@ -189,14 +186,17 @@ public class EClassBindingItemProvider extends ItemProviderAdapter implements IE
 	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(EClassBinding.class)) {
+		case EditingModelPackage.ECLASS_BINDING__ECLASS:
 		case EditingModelPackage.ECLASS_BINDING__VIEWS:
+			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, true));
+			return;
 		case EditingModelPackage.ECLASS_BINDING__PROPERTY_BINDINGS:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 			return;
@@ -215,8 +215,7 @@ public class EClassBindingItemProvider extends ItemProviderAdapter implements IE
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		 newChildDescriptors.add(createChildParameter(EditingModelPackage.Literals.ECLASS_BINDING__VIEWS,
-		 EditingModelFactory.eINSTANCE.createEObjectView()));
+		newChildDescriptors.add(createChildParameter(EditingModelPackage.Literals.ECLASS_BINDING__VIEWS, EditingModelFactory.eINSTANCE.createEObjectView()));
 
 		// newChildDescriptors.add
 		// (createChildParameter

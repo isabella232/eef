@@ -31,13 +31,7 @@ import org.eclipse.emf.eef.runtime.editingModel.JavaView;
  * @generated
  */
 public class JavaViewItemProvider
-	extends ViewItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+	extends ViewItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

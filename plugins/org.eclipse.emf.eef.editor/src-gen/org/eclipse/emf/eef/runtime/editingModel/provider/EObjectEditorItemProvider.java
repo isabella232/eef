@@ -39,13 +39,7 @@ import com.google.common.collect.Lists;
  * @generated
  */
 public class EObjectEditorItemProvider
-	extends EditorItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+	extends EditorItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

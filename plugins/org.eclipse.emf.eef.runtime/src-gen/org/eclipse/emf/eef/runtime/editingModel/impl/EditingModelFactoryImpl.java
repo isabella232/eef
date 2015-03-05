@@ -43,7 +43,7 @@ public class EditingModelFactoryImpl extends EFactoryImpl implements EditingMode
 	 */
 	public static EditingModelFactory init() {
 		try {
-			EditingModelFactory theEditingModelFactory = (EditingModelFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/eef/editingmodel/1.0.0"); 
+			EditingModelFactory theEditingModelFactory = (EditingModelFactory)EPackage.Registry.INSTANCE.getEFactory(EditingModelPackage.eNS_URI);
 			if (theEditingModelFactory != null) {
 				return theEditingModelFactory;
 			}

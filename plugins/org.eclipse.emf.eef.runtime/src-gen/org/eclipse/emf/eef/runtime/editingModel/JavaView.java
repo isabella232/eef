@@ -14,10 +14,10 @@ package org.eclipse.emf.eef.runtime.editingModel;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.JavaView#getDefinition <em>Definition</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getJavaView()
  * @model

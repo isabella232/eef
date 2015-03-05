@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getEditingModel <em>Editing Model</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getEClass <em>EClass</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getViews <em>Views</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EClassBinding#getPropertyBindings <em>Property Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getEClassBinding()
  * @model
@@ -98,7 +98,7 @@ public interface EClassBinding extends EModelElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Views</em>' containment reference list.
 	 * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getEClassBinding_Views()
-	 * @model containment="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	EList<View> getViews();

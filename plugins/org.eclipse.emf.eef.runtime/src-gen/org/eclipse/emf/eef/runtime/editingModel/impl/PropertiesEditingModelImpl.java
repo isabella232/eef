@@ -31,7 +31,9 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
  * <!-- begin-user-doc --> An implementation of the model object '
  * <em><b>Properties Editing Model</b></em>'. <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getBindings <em>Bindings</em>}</li>
@@ -39,7 +41,6 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getOptions <em>Options</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertiesEditingModelImpl#getId <em>Id</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

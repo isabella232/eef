@@ -19,11 +19,12 @@ import org.eclipse.emf.eef.runtime.editingModel.FeatureDocumentationProvider;
  * An implementation of the model object '<em><b>Editing Options</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EditingOptionsImpl#getFeatureDocumentationProvider <em>Feature Documentation Provider</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -15,10 +15,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding#getFeature <em>Feature</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getEStructuralFeatureBinding()
  * @model

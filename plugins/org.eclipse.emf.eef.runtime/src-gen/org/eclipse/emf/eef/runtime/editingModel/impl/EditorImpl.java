@@ -16,7 +16,6 @@ import org.eclipse.emf.eef.runtime.editingModel.Editor;
  * An implementation of the model object '<em><b>Editor</b></em>'.
  * <!-- end-user-doc -->
  * <p>
- * </p>
  *
  * @generated
  */

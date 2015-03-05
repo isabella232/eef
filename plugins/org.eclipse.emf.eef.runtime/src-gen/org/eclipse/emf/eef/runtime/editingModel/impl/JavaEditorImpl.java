@@ -17,11 +17,12 @@ import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
  * An implementation of the model object '<em><b>Java Editor</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.JavaEditorImpl#getDefinition <em>Definition</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

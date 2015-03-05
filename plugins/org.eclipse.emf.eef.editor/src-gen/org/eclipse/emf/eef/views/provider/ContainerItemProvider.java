@@ -28,6 +28,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.eef.views.Container;
+import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.ViewsPackage;
 
@@ -138,14 +139,27 @@ public class ContainerItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Container)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Container_type") :
-			getString("_UI_Container_type") + " " + label;
+		Container editor = (Container) object;
+		StringBuilder sb = new StringBuilder();
+		if (editor.getName() == null) {
+			sb.append(getString("_UI_Container_type")).append(' ');
+		}
+		if (editor.getName() != null) {
+			sb.append(editor.getName());
+		} else {
+			sb.append("???");
+		}
+		sb.append(": ");
+		if (editor.getRepresentation() != null && editor.getRepresentation().getName() != null) {
+			sb.append(editor.getRepresentation().getName());
+		} else {
+			sb.append("???");
+		}
+		return sb.toString();
 	}
 
 	/**

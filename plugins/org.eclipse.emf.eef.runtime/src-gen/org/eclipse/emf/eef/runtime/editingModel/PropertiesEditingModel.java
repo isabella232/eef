@@ -19,6 +19,7 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getBindings <em>Bindings</em>}</li>
@@ -26,7 +27,6 @@ import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getOptions <em>Options</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel#getId <em>Id</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertiesEditingModel()
  * @model

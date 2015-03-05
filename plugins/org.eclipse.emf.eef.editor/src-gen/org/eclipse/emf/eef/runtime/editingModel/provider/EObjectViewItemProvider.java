@@ -34,13 +34,7 @@ import com.google.common.collect.Collections2;
  * @generated
  */
 public class EObjectViewItemProvider
-	extends ViewItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+	extends ViewItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

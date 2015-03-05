@@ -17,13 +17,13 @@ import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getEditor <em>Editor</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSubPropertyBindings <em>Sub Property Bindings</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getSettings <em>Settings</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.PropertyBinding#getBindingCustomizer <em>Binding Customizer</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getPropertyBinding()
  * @model

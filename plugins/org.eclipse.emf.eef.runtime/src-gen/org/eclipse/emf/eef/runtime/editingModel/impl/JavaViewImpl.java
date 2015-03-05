@@ -17,11 +17,12 @@ import org.eclipse.emf.eef.runtime.editingModel.JavaView;
  * An implementation of the model object '<em><b>Java View</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.JavaViewImpl#getDefinition <em>Definition</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

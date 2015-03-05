@@ -658,7 +658,7 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		initEClass(eClassBindingEClass, EClassBinding.class, "EClassBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEClassBinding_EditingModel(), this.getPropertiesEditingModel(), this.getPropertiesEditingModel_Bindings(), "editingModel", null, 1, 1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEClassBinding_EClass(), theEcorePackage.getEClass(), null, "eClass", null, 1, 1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEClassBinding_Views(), this.getView(), null, "views", null, 0, -1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEClassBinding_Views(), this.getView(), null, "views", null, 1, -1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEClassBinding_PropertyBindings(), this.getPropertyBinding(), null, "propertyBindings", null, 0, -1, EClassBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = addEOperation(eClassBindingEClass, ecorePackage.getEJavaObject(), "propertyEditor", 0, 1, IS_UNIQUE, IS_ORDERED);

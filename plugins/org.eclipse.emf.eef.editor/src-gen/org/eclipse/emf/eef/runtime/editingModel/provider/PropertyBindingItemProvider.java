@@ -12,6 +12,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -24,9 +25,12 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
+import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.views.ElementEditor;
 
 /**
  * This is the item provider adapter for a
@@ -133,12 +137,38 @@ public class PropertyBindingItemProvider extends ItemProviderAdapter implements 
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((PropertyBinding) object).getBindingCustomizer();
-		return label == null || label.length() == 0 ? getString("_UI_PropertyBinding_type") : getString("_UI_PropertyBinding_type") + " " + label;
+		PropertyBinding binding = (PropertyBinding) object;
+		StringBuilder sb = new StringBuilder();
+		if (binding.getEditor() == null && binding.getBindingCustomizer() == null) {
+			sb.append(getString("_UI_PropertyBinding_type")).append(' ');
+		} else {
+			sb.append("property");
+		}
+		sb.append(": ");
+		if (binding.getEditor() != null) {
+			if (binding.getEditor() instanceof EObjectEditor) {
+				EObject definition = ((EObjectEditor) binding.getEditor()).getDefinition();
+				if (definition instanceof ElementEditor) {
+					sb.append(((ElementEditor) definition).getName());
+				} else {
+					sb.append("???");
+				}
+			} else if (binding.getEditor() instanceof JavaEditor) {
+				sb.append(binding.getEditor().toString());
+			} else {
+				sb.append("???");
+			}
+		}
+		if (binding.getBindingCustomizer() != null) {
+			sb.append(" (").append(binding.getBindingCustomizer()).append(")");
+		} else {
+			sb.append(" (???)");
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -147,7 +177,7 @@ public class PropertyBindingItemProvider extends ItemProviderAdapter implements 
 	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
@@ -155,9 +185,9 @@ public class PropertyBindingItemProvider extends ItemProviderAdapter implements 
 
 		switch (notification.getFeatureID(PropertyBinding.class)) {
 		case EditingModelPackage.PROPERTY_BINDING__BINDING_CUSTOMIZER:
+		case EditingModelPackage.PROPERTY_BINDING__EDITOR:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
-		case EditingModelPackage.PROPERTY_BINDING__EDITOR:
 		case EditingModelPackage.PROPERTY_BINDING__SUB_PROPERTY_BINDINGS:
 		case EditingModelPackage.PROPERTY_BINDING__SETTINGS:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));

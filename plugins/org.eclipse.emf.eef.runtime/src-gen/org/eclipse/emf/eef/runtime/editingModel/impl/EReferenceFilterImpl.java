@@ -24,11 +24,12 @@ import org.eclipse.emf.eef.runtime.query.QueryPackage;
  * An implementation of the model object '<em><b>EReference Filter</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EReferenceFilterImpl#getBody <em>Body</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

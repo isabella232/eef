@@ -28,14 +28,15 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
  * An implementation of the model object '<em><b>Property Binding</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getEditor <em>Editor</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getSubPropertyBindings <em>Sub Property Bindings</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getSettings <em>Settings</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.PropertyBindingImpl#getBindingCustomizer <em>Binding Customizer</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

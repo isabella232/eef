@@ -41,14 +41,15 @@ import com.google.common.collect.Collections2;
  * <!-- begin-user-doc --> An implementation of the model object '
  * <em><b>EClass Binding</b></em>'. <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getEditingModel <em>Editing Model</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getEClass <em>EClass</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getViews <em>Views</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EClassBindingImpl#getPropertyBindings <em>Property Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -105,7 +106,7 @@ public class EClassBindingImpl extends EModelElementImpl implements EClassBindin
 	 */
 	public PropertiesEditingModel getEditingModel() {
 		if (eContainerFeatureID() != EditingModelPackage.ECLASS_BINDING__EDITING_MODEL) return null;
-		return (PropertiesEditingModel)eContainer();
+		return (PropertiesEditingModel)eInternalContainer();
 	}
 
 	/**

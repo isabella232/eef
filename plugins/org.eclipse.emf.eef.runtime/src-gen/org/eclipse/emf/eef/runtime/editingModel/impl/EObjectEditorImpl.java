@@ -19,11 +19,12 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
  * An implementation of the model object '<em><b>EObject Editor</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.impl.EObjectEditorImpl#getDefinition <em>Definition</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

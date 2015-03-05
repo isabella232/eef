@@ -15,10 +15,10 @@ import org.eclipse.emf.ecore.EModelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.runtime.editingModel.EditingOptions#getFeatureDocumentationProvider <em>Feature Documentation Provider</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage#getEditingOptions()
  * @model

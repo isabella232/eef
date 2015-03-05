@@ -12,19 +12,35 @@ Export-Package: org.eclipse.emf.eef.runtime.binding,
  org.eclipse.emf.eef.runtime.context,
  org.eclipse.emf.eef.runtime.context.impl,
  org.eclipse.emf.eef.runtime.editingModel,
+ org.eclipse.emf.eef.runtime.editingModel.impl,
  org.eclipse.emf.eef.runtime.editingModel.util,
- org.eclipse.emf.eef.runtime.internal.binding;x-friends:="org.eclipse.emf.eef.runtime.tests,org.eclipse.emf.eef.runtime.ui.swt,org.eclipse.emf.eef.editor",
- org.eclipse.emf.eef.runtime.internal.binding.settings;x-friends:="org.eclipse.emf.eef.runtime.tests",
- org.eclipse.emf.eef.runtime.internal.context;x-friends:="org.eclipse.emf.eef.runtime.tests",
- org.eclipse.emf.eef.runtime.internal.editingModel;x-friends:="org.eclipse.emf.eef.runtime.ui.swt",
- org.eclipse.emf.eef.runtime.internal.policies;x-friends:="org.eclipse.emf.eef.runtime.tests",
- org.eclipse.emf.eef.runtime.internal.policies.processors;x-friends:="org.eclipse.emf.eef.runtime.tests,org.eclipse.emf.eef.runtime.ui.swt",
- org.eclipse.emf.eef.runtime.internal.policies.request;x-friends:="org.eclipse.emf.eef.runtime.tests",
- org.eclipse.emf.eef.runtime.internal.util;x-friends:="org.eclipse.emf.eef.runtime.tests",
- org.eclipse.emf.eef.runtime.internal.view.handle;x-friends:="org.eclipse.emf.eef.runtime.tests",
- org.eclipse.emf.eef.runtime.internal.view.lock.impl;x-friends:="org.eclipse.emf.eef.runtime.tests",
- org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl;x-friends:="org.eclipse.emf.eef.runtime.tests",
- org.eclipse.emf.eef.runtime.internal.view.notify;x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.internal.binding;
+  x-friends:="org.eclipse.emf.eef.runtime.tests,
+   org.eclipse.emf.eef.runtime.ui.swt,
+   org.eclipse.emf.eef.editor",
+ org.eclipse.emf.eef.runtime.internal.binding.settings;
+  x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.internal.context;
+  x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.internal.editingModel;
+  x-friends:="org.eclipse.emf.eef.runtime.ui.swt",
+ org.eclipse.emf.eef.runtime.internal.policies;
+  x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.internal.policies.processors;
+  x-friends:="org.eclipse.emf.eef.runtime.tests,
+   org.eclipse.emf.eef.runtime.ui.swt",
+ org.eclipse.emf.eef.runtime.internal.policies.request;
+  x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.internal.util;
+  x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.internal.view.handle;
+  x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.internal.view.lock.impl;
+  x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.internal.view.lock.policies.impl;
+  x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.internal.view.notify;
+  x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.logging,
  org.eclipse.emf.eef.runtime.notify,
  org.eclipse.emf.eef.runtime.policies,
@@ -40,6 +56,9 @@ Export-Package: org.eclipse.emf.eef.runtime.binding,
  org.eclipse.emf.eef.runtime.view.lock.policies.impl,
  org.eclipse.emf.eef.runtime.view.notify,
  org.eclipse.emf.eef.runtime.view.notify.impl
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.eef.runtime;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.eef.runtime.EEFRuntime$Plugin
 Service-Component: OSGI-INF/EMFService.xml,

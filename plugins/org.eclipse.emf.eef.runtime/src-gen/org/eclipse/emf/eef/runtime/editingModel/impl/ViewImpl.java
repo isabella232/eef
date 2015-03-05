@@ -16,7 +16,6 @@ import org.eclipse.emf.eef.runtime.editingModel.View;
  * An implementation of the model object '<em><b>View</b></em>'.
  * <!-- end-user-doc -->
  * <p>
- * </p>
  *
  * @generated
  */
