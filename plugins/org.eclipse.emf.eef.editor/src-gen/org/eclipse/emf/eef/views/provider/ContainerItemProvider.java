@@ -167,7 +167,7 @@ public class ContainerItemProvider
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
@@ -175,6 +175,8 @@ public class ContainerItemProvider
 
 		switch (notification.getFeatureID(Container.class)) {
 			case ViewsPackage.CONTAINER__QUALIFIED_IDENTIFIER:
+			case ViewsPackage.CONTAINER__NAME:
+			case ViewsPackage.CONTAINER__REPRESENTATION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case ViewsPackage.CONTAINER__ELEMENTS:

@@ -185,6 +185,7 @@ public class ElementEditorItemProvider extends ViewElementItemProvider implement
 		switch (notification.getFeatureID(ElementEditor.class)) {
 		case ViewsPackage.ELEMENT_EDITOR__QUALIFIED_IDENTIFIER:
 		case ViewsPackage.ELEMENT_EDITOR__READ_ONLY:
+		case ViewsPackage.ELEMENT_EDITOR__REPRESENTATION:
 		case ViewsPackage.ELEMENT_EDITOR__NAME_AS_LABEL:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
