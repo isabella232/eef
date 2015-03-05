@@ -608,7 +608,7 @@ public class MultiLinePropertyViewer extends StructuredViewer {
 			return false;
 		}
 		Object[] elements = ((IStructuredContentProvider) table.getContentProvider()).getElements(table.getInput());
-		return !locked && ((lowerBound == 0) || (elements.length > lowerBound));
+		return !locked && elements.length >= 0;
 	}
 
 	private boolean shouldEnableUp(StructuredSelection selection) {
