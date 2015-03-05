@@ -210,17 +210,31 @@ public class SingleLinePropertyViewer extends Viewer {
 	 */
 	@Override
 	public void refresh() {
+		setValue();
+		updateButtons();
+	}
+
+	/**
+	 * @return the current value.
+	 */
+	public String getCurrentValue() {
+		Object value = input.getCurrentValue();
+		if (labelProvider != null) {
+			return labelProvider.getText(value);
+		} else {
+			return value.toString();
+		}
+	}
+
+	/**
+	 * Set the text value.
+	 */
+	public void setValue() {
 		if (input == null) {
 			text.setText("");
 		} else {
-			Object value = input.getCurrentValue();
-			if (labelProvider != null) {
-				text.setText(labelProvider.getText(value));
-			} else {
-				text.setText(value.toString());
-			}
+			text.setText(getCurrentValue());
 		}
-		updateButtons();
 	}
 
 	/**

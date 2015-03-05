@@ -48,7 +48,6 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
 	private SingleLinePropertyViewerListener listener;
 
-
 	/**
 	 * @param view
 	 * @param elementEditor
@@ -63,6 +62,7 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
 	public void init() {
@@ -75,6 +75,7 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#getPropertyEditorViewer()
 	 */
 	public PropertyEditorViewer<?> getPropertyEditorViewer() {
@@ -83,6 +84,7 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
@@ -93,11 +95,12 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#unsetValue()
 	 */
 	public void unsetValue() {
 		listener.disable();
-		propertyEditorViewer.getViewer().setInput(null);		
+		propertyEditorViewer.getViewer().setInput(null);
 		listener.enable();
 	}
 
@@ -110,34 +113,36 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#set()
 				 */
 				public void set() {
 					IJavaElement[] elements = new IJavaElement[] { getContainingProject() };
 					IJavaSearchScope scope = SearchEngine.createJavaSearchScope(elements);
 					FilteredTypesSelectionDialog dialog = new FilteredTypesSelectionDialog(view.getContents().getShell(), false, PlatformUI.getWorkbench().getProgressService(), scope, IJavaSearchConstants.CLASS);
+					dialog.setInitialPattern(viewer.getCurrentValue());
 					dialog.open();
 					Object result = dialog.getFirstResult();
 					if (result instanceof IType) {
-						IType javaClass = (IType)result;
-						propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, javaClass.getClass().getName()));
+						IType javaClass = (IType) result;
+						propertyEditor.firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, javaClass.getFullyQualifiedName('.')));
 					}
 				}
 
 				/**
 				 * {@inheritDoc}
+				 * 
 				 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#clear()
 				 */
 				public void clear() {
 					firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.UNSET, null, null));
 					propertyEditorViewer.getViewer().refresh();
 				}
-				
+
 			};
 			propertyEditorViewer.getViewer().addSingleLinePropertyViewerListener(listener);
 		}
 	}
-
 
 	private IJavaProject getContainingProject() {
 		URI uri = view.getEditingComponent().getEObject().eResource().getURI();
@@ -148,7 +153,7 @@ public class JavaClassChooserPropertyEditor extends PropertyEditorImpl implement
 			IJavaProject javaProject = manager.getJavaModel().getJavaProject(project);
 			return javaProject;
 		} else {
-			//TODO: for the moment I can't handle this case.
+			// TODO: for the moment I can't handle this case.
 		}
 
 		return null;

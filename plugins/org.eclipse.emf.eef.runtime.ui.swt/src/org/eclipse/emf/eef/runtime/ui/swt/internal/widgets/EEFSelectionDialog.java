@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.eef.runtime.ui.UIConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
@@ -72,6 +73,8 @@ public class EEFSelectionDialog extends TrayDialog {
 	private EditUIProvidersFactory providersFactory;
 
 	private Text urisToLoad;
+
+	private StructuredSelection initialSelection;
 
 	/**
 	 * @param parent
@@ -186,6 +189,7 @@ public class EEFSelectionDialog extends TrayDialog {
 				okPressed();
 			}
 		});
+		initSelection();
 		Group modelLoading = new Group(control, SWT.BORDER);
 		modelLoading.setText("Model loading");
 		modelLoading.setLayout(new GridLayout(3, false));
@@ -242,6 +246,16 @@ public class EEFSelectionDialog extends TrayDialog {
 
 		});
 		return control;
+	}
+
+	/**
+	 * Init the viewer selection. TODO: better implementation for expandAll.
+	 */
+	public void initSelection() {
+		if (initialSelection != null) {
+			selectionViewer.expandAll();
+			selectionViewer.setSelection(initialSelection);
+		}
 	}
 
 	/**
@@ -438,6 +452,16 @@ public class EEFSelectionDialog extends TrayDialog {
 			result.add(URI.createURI(currentString));
 		}
 		return result;
+	}
+
+	/**
+	 * Set tree viewer initial selection.
+	 * 
+	 * @param eObject
+	 *            EObject
+	 */
+	public void setInitialSelection(EObject eObject) {
+		initialSelection = new StructuredSelection(eObject);
 	}
 
 }

@@ -98,7 +98,15 @@ public class EEFEditingWizard extends Wizard {
 							creationPage.setInput(listOfInstanciableType);
 							addPage(creationPage);
 						} else {
-							createdObject = EcoreUtil.create(listOfInstanciableType.iterator().next());
+							if (!editedReference.isMany()) {
+								Object eGet = semanticEditingContext.getEditingComponent().getEObject().eGet(editedReference);
+								if (eGet instanceof EObject) {
+									createdObject = (EObject) eGet;
+								}
+							}
+							if (createdObject == null) {
+								createdObject = EcoreUtil.create(listOfInstanciableType.iterator().next());
+							}
 							createObject(createdObject);
 						}
 					} else {

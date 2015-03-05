@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.runtime.ui.jdt.internal.jdttoolkit.propertyeditors;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.ui.jdt.jdttoolkit.JDTToolkit;
+import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
@@ -20,6 +21,7 @@ import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -67,17 +69,14 @@ public class JavaClassChooserPropertyEditorFactory extends WidgetPropertyEditorF
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new JavaClassChooserPropertyEditor(
-				toolkit.getEEFEditingServiceProvider(),
-				(PropertiesEditingView<Composite>) editorContext.view, 
-				(ElementEditor) editorContext.viewElement, 
-				new JavaClassChooserSWTPropertyEditor(
-						toolkit.getEditUIProvidersFactory(), 
-						toolkit.getImageManager(), 
-						(PropertiesEditingView<Composite>) editorContext.view, 
-						(ElementEditor) editorContext.viewElement
-					)
-			);
+		FormToolkit formtoolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
+		if (formtoolkit != null) {
+			return new JavaClassChooserPropertyEditor(toolkit.getEEFEditingServiceProvider(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new JavaClassChooserFormPropertyEditor(toolkit.getEditUIProvidersFactory(), toolkit.getImageManager(),
+					(PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		} else {
+			return new JavaClassChooserPropertyEditor(toolkit.getEEFEditingServiceProvider(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new JavaClassChooserSWTPropertyEditor(toolkit.getEditUIProvidersFactory(), toolkit.getImageManager(),
+					(PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
+		}
 	}
 
 	/**

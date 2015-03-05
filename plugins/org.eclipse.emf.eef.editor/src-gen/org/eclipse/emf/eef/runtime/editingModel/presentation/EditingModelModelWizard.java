@@ -59,8 +59,11 @@ import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.EditingModelM
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.ModelToChoosePage;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.ModelToChoosePage.ModelInitializationChangeListener;
 import org.eclipse.emf.eef.runtime.editingModel.provider.EditingModelItemProviderAdapterFactory;
+import org.eclipse.emf.eef.runtime.internal.editingModel.EditingModelEnvironmentImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettingsUtil;
 import org.eclipse.emf.eef.runtime.util.EEFURIAwareResourceSet;
+import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.runtime.util.OSGiHelper;
 import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.ViewsPackage;
@@ -337,8 +340,8 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 								setMetamodelePackage(ePackage);
 
 								PropertiesEditingModel editingModel = null;
+								BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
 								if (initializingMethodPage.initModel()) {
-									BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
 									EEFBindingSettingsProvider bindingSettingsProvider = OSGiHelper.getService(bundleContext, EEFBindingSettingsProvider.class);
 									EEFBindingSettings<?> bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
 
@@ -358,6 +361,10 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 									}
 									editingModel = bindingSettings.getEditingModel(ePackage);
 
+								} else {
+									EMFServiceProvider emfServiceProvider = OSGiHelper.getService(bundleContext, EMFServiceProvider.class);
+									Resource propertiesEditingModelResource = GenericBindingSettingsUtil.initPropertiesEditingModel(ePackage, emfServiceProvider, new EditingModelEnvironmentImpl(null));
+									editingModel = GenericBindingSettingsUtil.getPropertiesEditionModel(propertiesEditingModelResource);
 								}
 
 								if (editingModel != null) {

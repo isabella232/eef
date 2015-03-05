@@ -57,7 +57,8 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	protected PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer;
 	private SingleLinePropertyViewerListener listener;
 
-	public EComboPropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+	public EComboPropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view,
+			ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
 		this.emfServiceProvider = emfServiceProvider;
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.editUIProvidersFactory = editUIProvidersFactory;
@@ -70,11 +71,13 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#init()
 	 */
 	public void init() {
 		EEFViewerInput input = new EEFViewerInput(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), elementEditor);
 		propertyEditorViewer.getViewer().setInput(input);
+		propertyEditorViewer.getViewer().setValue();
 		PropertyBinding propertyBinding = view.getEditingComponent().getBinding().propertyBinding(elementEditor, view.getEditingComponent().getEditingContext().getOptions().autowire());
 		if (propertyBinding != null) {
 			EList<EditorSettings> settings = propertyBinding.getSettings();
@@ -82,7 +85,7 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 				if (editorSettings instanceof EReferenceFilter) {
 					EReferenceFilter eReferenceFilter = (EReferenceFilter) editorSettings;
 					ViewerFilter viewerFilter = filterBuilderProvider.getFilterBuilder(eReferenceFilter).buildFilter(view.getEditingComponent().getEditingContext(), view, eReferenceFilter);
-					((FilterablePropertyEditor)propertyEditorViewer).addFilter(viewerFilter);
+					((FilterablePropertyEditor) propertyEditorViewer).addFilter(viewerFilter);
 				}
 			}
 		}
@@ -93,6 +96,7 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#getPropertyEditorViewer()
 	 */
 	public PropertyEditorViewer<?> getPropertyEditorViewer() {
@@ -101,6 +105,7 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
@@ -111,11 +116,12 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.MonovaluedPropertyEditor#unsetValue()
 	 */
 	public void unsetValue() {
 		listener.disable();
-		propertyEditorViewer.getViewer().setInput(null);		
+		propertyEditorViewer.getViewer().setInput(null);
 		listener.enable();
 	}
 
@@ -130,14 +136,18 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 	}
 
 	/**
-	 * Creates the listener to add to the viewer in order to process viewer events. 
-	 * @return the {@link SingleLinePropertyViewerListener} to add to the viewer.
+	 * Creates the listener to add to the viewer in order to process viewer
+	 * events.
+	 * 
+	 * @return the {@link SingleLinePropertyViewerListener} to add to the
+	 *         viewer.
 	 */
 	protected SingleLinePropertyViewerListener createPropertyViewerListener() {
 		return new SingleLinePropertyViewerListener(this, view, elementEditor, propertyEditorViewer.getViewer()) {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#set()
 			 */
 			public void set() {
@@ -147,14 +157,8 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 					dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
 					dialog.setEditUIProvidersFactory(editUIProvidersFactory);
 					dialog.setImageManager(imageManager);
-					dialog.addFilter(
-							new ChoiceOfValuesFilter(
-									eefEditingServiceProvider,
-									view.getEditingComponent().getEditingContext(), 
-									view.getEditingComponent().getEObject(), 
-									elementEditor, 
-									EEFSWTConstants.DEFAULT_SELECTION_MODE));
-					Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
+					dialog.addFilter(new ChoiceOfValuesFilter(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), view.getEditingComponent().getEObject(), elementEditor, EEFSWTConstants.DEFAULT_SELECTION_MODE));
+					Collection<ViewerFilter> filters = ((FilterablePropertyEditor) propertyEditorViewer).getFilters();
 					if (!filters.isEmpty()) {
 						for (ViewerFilter viewerFilter : filters) {
 							dialog.addFilter(viewerFilter);
@@ -172,6 +176,7 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.eef.runtime.ui.widgets.EComboEditor.EComboListener#clear()
 			 */
 			public void clear() {
@@ -180,10 +185,8 @@ public class EComboPropertyEditor extends PropertyEditorImpl implements Monovalu
 					viewer.refresh();
 				}
 			}
-			
+
 		};
 	}
-	
-
 
 }

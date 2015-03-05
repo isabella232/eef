@@ -12,6 +12,8 @@ package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl
 
 import java.util.Collection;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEventImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
@@ -27,6 +29,7 @@ import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilderProvider;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
+import org.eclipse.emf.eef.runtime.util.EEFEditingService;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
 import org.eclipse.emf.eef.views.ElementEditor;
@@ -51,16 +54,14 @@ public class EComboE3PropertyEditor extends EComboPropertyEditor {
 	 * @param elementEditor
 	 * @param propertyEditorViewer
 	 */
-	public EComboE3PropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider,
-			EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider,
-			PropertiesEditingView<Composite> view, ElementEditor elementEditor,
-			PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
-		super(emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, imageManager, filterBuilderProvider, view,
-				elementEditor, propertyEditorViewer);
+	public EComboE3PropertyEditor(EMFServiceProvider emfServiceProvider, EEFEditingServiceProvider eefEditingServiceProvider, EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, ViewerFilterBuilderProvider filterBuilderProvider, PropertiesEditingView<Composite> view,
+			ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+		super(emfServiceProvider, eefEditingServiceProvider, editUIProvidersFactory, imageManager, filterBuilderProvider, view, elementEditor, propertyEditorViewer);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditor#createPropertyViewerListener()
 	 */
 	@Override
@@ -70,25 +71,22 @@ public class EComboE3PropertyEditor extends EComboPropertyEditor {
 
 			public void set() {
 				if (isEnabled()) {
-					EEFSelectionDialog dialog = new EEFSelectionDialogWithFilter(propertyEditorViewer.getViewer().getControl().getShell(), true);
+					EEFSelectionDialog dialog = new EEFSelectionDialogWithFilter(propertyEditorViewer.getViewer().getControl().getShell(), false);
 					dialog.setTitle("Choose the element to set to the reference:");
 					dialog.setAdapterFactory(view.getEditingComponent().getEditingContext().getAdapterFactory());
 					dialog.setEditUIProvidersFactory(editUIProvidersFactory);
 					dialog.setImageManager(imageManager);
-					dialog.addFilter(
-							new ChoiceOfValuesFilter(
-									eefEditingServiceProvider,
-									view.getEditingComponent().getEditingContext(), 
-									view.getEditingComponent().getEObject(), 
-									elementEditor, 
-									EEFSWTConstants.DEFAULT_SELECTION_MODE));
-					Collection<ViewerFilter> filters = ((FilterablePropertyEditor)propertyEditorViewer).getFilters();
+					dialog.addFilter(new ChoiceOfValuesFilter(eefEditingServiceProvider, view.getEditingComponent().getEditingContext(), view.getEditingComponent().getEObject(), elementEditor, EEFSWTConstants.DEFAULT_SELECTION_MODE));
+					Collection<ViewerFilter> filters = ((FilterablePropertyEditor) propertyEditorViewer).getFilters();
 					if (!filters.isEmpty()) {
 						for (ViewerFilter viewerFilter : filters) {
 							dialog.addFilter(viewerFilter);
 						}
 					}
 					dialog.setInput(view.getViewService().getBestInput(view.getEditingComponent().getEObject()));
+					// set dialog selection if reference not empty
+					setSelectionToDialog(dialog);
+
 					if (dialog.open() == Window.OK) {
 						if (dialog.getSelection() != null) {
 							firePropertiesChanged(view.getEditingComponent(), new PropertiesEditingEventImpl(view, elementEditor, PropertiesEditingEvent.SET, null, dialog.getSelection()));
@@ -99,6 +97,23 @@ public class EComboE3PropertyEditor extends EComboPropertyEditor {
 			}
 
 		};
+	}
+
+	/**
+	 * Set selection to dialog.
+	 * 
+	 * @param dialog
+	 *            EEFSelectionDialog
+	 */
+	public void setSelectionToDialog(EEFSelectionDialog dialog) {
+		EEFEditingService editingService = eefEditingServiceProvider.getEditingService(view.getEditingComponent().getEObject());
+		EStructuralFeature feature = editingService.featureFromEditor(view.getEditingComponent().getEditingContext(), elementEditor);
+		if (feature != null) {
+			Object eGet = view.getEditingComponent().getEObject().eGet(feature);
+			if (eGet instanceof EObject) {
+				dialog.setInitialSelection((EObject) eGet);
+			}
+		}
 	}
 
 	private static class DelegatingSingleLinePropertyViewerListener extends SingleLinePropertyViewerListener {

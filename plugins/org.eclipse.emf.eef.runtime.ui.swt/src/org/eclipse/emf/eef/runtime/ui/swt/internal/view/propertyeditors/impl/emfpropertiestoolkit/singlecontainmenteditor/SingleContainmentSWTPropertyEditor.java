@@ -24,11 +24,11 @@ public class SingleContainmentSWTPropertyEditor extends StandardSWTPropertyEdito
 	private ImageManager imageManager;
 
 	private SingleLinePropertyViewer singleContainmentComboEditor;
-	
+
 	/**
 	 * @param view
 	 * @param elementEditor
-	 * @param imageManager 
+	 * @param imageManager
 	 */
 	public SingleContainmentSWTPropertyEditor(EditUIProvidersFactory editUIProvidersFactory, ImageManager imageManager, PropertiesEditingView<Composite> view, ElementEditor elementEditor) {
 		super(view, elementEditor);
@@ -38,6 +38,7 @@ public class SingleContainmentSWTPropertyEditor extends StandardSWTPropertyEdito
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer#getViewer()
 	 */
 	public SingleLinePropertyViewer getViewer() {
@@ -46,6 +47,7 @@ public class SingleContainmentSWTPropertyEditor extends StandardSWTPropertyEdito
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.StandardSWTPropertyEditor#createEditorContents(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -61,6 +63,7 @@ public class SingleContainmentSWTPropertyEditor extends StandardSWTPropertyEdito
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.StandardFormPropertyEditor#lock()
 	 */
 	@Override
@@ -70,6 +73,7 @@ public class SingleContainmentSWTPropertyEditor extends StandardSWTPropertyEdito
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.StandardFormPropertyEditor#unlock()
 	 */
 	@Override

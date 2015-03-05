@@ -215,8 +215,8 @@ public class EClassBindingItemProvider extends ItemProviderAdapter implements IE
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		// newChildDescriptors.add(createChildParameter(EditingModelPackage.Literals.ECLASS_BINDING__VIEWS,
-		// EditingModelFactory.eINSTANCE.createEObjectView()));
+		 newChildDescriptors.add(createChildParameter(EditingModelPackage.Literals.ECLASS_BINDING__VIEWS,
+		 EditingModelFactory.eINSTANCE.createEObjectView()));
 
 		// newChildDescriptors.add
 		// (createChildParameter
