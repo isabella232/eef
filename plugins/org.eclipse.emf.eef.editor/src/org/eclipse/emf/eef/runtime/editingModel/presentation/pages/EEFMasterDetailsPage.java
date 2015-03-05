@@ -32,9 +32,13 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
+import org.eclipse.emf.eef.runtime.ui.swt.view.util.PropertiesEditingMessageManagerImpl;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFContentProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EEFViewer;
 import org.eclipse.emf.eef.runtime.util.OSGiHelper;
+import org.eclipse.emf.eef.runtime.view.notify.EEFNotification;
+import org.eclipse.emf.eef.runtime.view.notify.PropertiesEditingMessageManager;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -96,6 +100,7 @@ public class EEFMasterDetailsPage extends FormPage {
 	protected TreeViewer modelViewer;
 	protected EEFViewer eefViewer;
 	protected Object input;
+	private PropertiesEditingMessageManagerImpl messageManager;
 
 	/**
 	 * @param editor
@@ -141,6 +146,40 @@ public class EEFMasterDetailsPage extends FormPage {
 				}
 			}
 		}
+	}
+
+	protected PropertiesEditingMessageManager initMessageManager() {
+		if (messageManager == null) {
+			messageManager = new PropertiesEditingMessageManagerImpl() {
+
+				@Override
+				protected void updateStatus(String message) {
+					getManagedForm().getForm().setMessage(message, IMessageProvider.NONE);
+				}
+
+				@Override
+				protected void updateError(String message) {
+					getManagedForm().getForm().setMessage(message, IMessageProvider.ERROR);
+				}
+
+				@Override
+				protected void updateWarning(String message) {
+					getManagedForm().getForm().setMessage(message, IMessageProvider.WARNING);
+				}
+
+				/**
+				 * {@inheritDoc}
+				 * 
+				 * @see org.eclipse.emf.eef.runtime.ui.internal.view.util.PropertiesEditingMessageManagerImpl#updateLock(java.lang.String)
+				 */
+				@Override
+				protected void updateLock(String message) {
+					getManagedForm().getForm().setMessage(message, EEFNotification.LOCK);
+				}
+
+			};
+		}
+		return messageManager;
 	}
 
 	/**
@@ -254,11 +293,13 @@ public class EEFMasterDetailsPage extends FormPage {
 					PropertiesEditingContextFactory editingContextFactory = editingContextFactoryProvider.getEditingContextFactory(eObject);
 					PropertiesEditingContext context = editingContextFactory.createPropertiesEditingContext(((EEFReflectiveEditor) getEditor()).getEditingDomain(), adapterFactory, eObject);
 					context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, toolkit);
+					context.getOptions().setMessageManager(initMessageManager());
 					updateDetailsViewer(context);
 				} else {
 					PropertiesEditingContextFactory editingContextFactory = editingContextFactoryProvider.getEditingContextFactory(EcorePackage.eINSTANCE);
 					PropertiesEditingContext context = editingContextFactory.createNullEditingContext();
 					context.getOptions().setOption(EEFSWTConstants.FORM_TOOLKIT, toolkit);
+					context.getOptions().setMessageManager(initMessageManager());
 					updateDetailsViewer(context);
 				}
 				((EEFReflectiveEditor) getEditor()).setSelection(event.getSelection());
