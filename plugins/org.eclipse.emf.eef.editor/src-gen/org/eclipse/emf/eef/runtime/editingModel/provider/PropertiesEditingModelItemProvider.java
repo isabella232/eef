@@ -37,10 +37,8 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import com.google.common.collect.Lists;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel}
- * object. <!-- begin-user-doc --> <!-- end-user-doc -->
- * 
+ * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel} object.
+ * <!-- begin-user-doc --> <!-- end-user-doc -->
  * @generated
  */
 public class PropertiesEditingModelItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
@@ -73,14 +71,25 @@ public class PropertiesEditingModelItemProvider extends ItemProviderAdapter impl
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature. <!-- begin-user-doc
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_PropertiesEditingModel_name_feature"),
-				getString("_UI_PropertyDescriptor_description", "_UI_PropertiesEditingModel_name_feature", "_UI_PropertiesEditingModel_type"), EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__NAME, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PropertiesEditingModel_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PropertiesEditingModel_name_feature", "_UI_PropertiesEditingModel_type"),
+				 EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -90,29 +99,48 @@ public class PropertiesEditingModelItemProvider extends ItemProviderAdapter impl
 	 * @generated
 	 */
 	protected void addInvolvedModelsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_PropertiesEditingModel_involvedModels_feature"),
-				getString("_UI_PropertyDescriptor_description", "_UI_PropertiesEditingModel_involvedModels_feature", "_UI_PropertiesEditingModel_type"), EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS, true, false, true, null, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PropertiesEditingModel_involvedModels_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PropertiesEditingModel_involvedModels_feature", "_UI_PropertiesEditingModel_type"),
+				 EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__INVOLVED_MODELS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Id feature. <!-- begin-user-doc
+	 * This adds a property descriptor for the Id feature.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected void addIdPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_PropertiesEditingModel_id_feature"),
-				getString("_UI_PropertyDescriptor_description", "_UI_PropertiesEditingModel_id_feature", "_UI_PropertiesEditingModel_type"), EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__ID, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PropertiesEditingModel_id_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PropertiesEditingModel_id_feature", "_UI_PropertiesEditingModel_type"),
+				 EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__ID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -127,22 +155,20 @@ public class PropertiesEditingModelItemProvider extends ItemProviderAdapter impl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
 
 		return super.getChildFeature(object, child);
 	}
 
 	/**
-	 * This returns PropertiesEditingModel.gif. <!-- begin-user-doc --> <!--
+	 * This returns PropertiesEditingModel.gif.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -152,7 +178,6 @@ public class PropertiesEditingModelItemProvider extends ItemProviderAdapter impl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -161,23 +186,24 @@ public class PropertiesEditingModelItemProvider extends ItemProviderAdapter impl
 	}
 
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((PropertiesEditingModel) object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_PropertiesEditingModel_type") : getString("_UI_PropertiesEditingModel_type") + " " + label;
+		String label = ((PropertiesEditingModel)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_PropertiesEditingModel_type") :
+			getString("_UI_PropertiesEditingModel_type") + " " + label;
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -185,14 +211,14 @@ public class PropertiesEditingModelItemProvider extends ItemProviderAdapter impl
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(PropertiesEditingModel.class)) {
-		case EditingModelPackage.PROPERTIES_EDITING_MODEL__NAME:
-		case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
-			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-			return;
-		case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
-		case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
-			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
-			return;
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__NAME:
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__ID:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__BINDINGS:
+			case EditingModelPackage.PROPERTIES_EDITING_MODEL__OPTIONS:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
 		}
 		super.notifyChanged(notification);
 	}
@@ -202,15 +228,21 @@ public class PropertiesEditingModelItemProvider extends ItemProviderAdapter impl
 	 * describing the children that can be created under this object. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add(createChildParameter(EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__BINDINGS, EditingModelFactory.eINSTANCE.createEClassBinding()));
+		newChildDescriptors.add
+			(createChildParameter
+				(EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__BINDINGS,
+				 EditingModelFactory.eINSTANCE.createEClassBinding()));
 
-		newChildDescriptors.add(createChildParameter(EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__OPTIONS, EditingModelFactory.eINSTANCE.createEditingOptions()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(EditingModelPackage.Literals.PROPERTIES_EDITING_MODEL__OPTIONS,
+//				 EditingModelFactory.eINSTANCE.createEditingOptions()));
 	}
 
 	/**
