@@ -52,6 +52,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.dialogs.FilteredTree;
+import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -362,10 +364,11 @@ public class EEFMasterDetailsPage extends FormPage {
 	 */
 	public TreeViewer addTreeViewer(String viewerTitle) {
 		CTabItem modelItem = new CTabItem(getTabFolder(), SWT.NONE);
-		TreeViewer modelViewer = new TreeViewer(getTabFolder(), SWT.MULTI);
+		FilteredTree tree = new FilteredTree(getTabFolder(), SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI, new PatternFilter(), true);
+		TreeViewer modelViewer = tree.getViewer();
 		modelItem.setText(viewerTitle);
 		modelViewer.getControl().setLayoutData(createFillBothData());
-		modelItem.setControl(modelViewer.getControl());
+		modelItem.setControl(tree);
 		if (adapterFactory != null) {
 			modelViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory) {
 
