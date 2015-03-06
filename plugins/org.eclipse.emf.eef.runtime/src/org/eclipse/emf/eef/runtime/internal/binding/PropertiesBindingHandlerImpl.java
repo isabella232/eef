@@ -558,7 +558,7 @@ public class PropertiesBindingHandlerImpl implements PropertiesBindingHandler, E
 	 */
 	public Diagnostic validate(PropertiesEditingComponent editingComponent) {
 		Diagnostic validate = Diagnostic.OK_INSTANCE;
-		validate = EEFRuntime.getPlugin().getEEFValidator().validate(editingComponent.getEObject());
+		validate = EEFRuntime.getPlugin().getEEFValidator(editingComponent.getEditingContext().getAdapterFactory()).validate(editingComponent.getEObject());
 		return validate;
 	}
 

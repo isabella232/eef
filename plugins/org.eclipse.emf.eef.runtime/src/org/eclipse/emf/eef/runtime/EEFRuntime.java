@@ -10,13 +10,11 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime;
 
-import java.util.Map;
-
 import org.eclipse.emf.common.EMFPlugin;
-import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.eef.runtime.util.EEFDiagnostician;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -27,24 +25,21 @@ public class EEFRuntime extends EMFPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.emf.eef.runtime"; //$NON-NLS-1$
 
-
 	/**
 	 * Keep track of the singleton.
 	 */
 	private static Plugin plugin;
-	
 
 	/**
 	 * Create the instance.
 	 */
 	public EEFRuntime() {
-		super
-		(new ResourceLocator [] {
-		});
+		super(new ResourceLocator[] {});
 	}
 
 	/**
 	 * Returns the singleton instance of the Eclipse plugin.
+	 * 
 	 * @return the singleton instance.
 	 */
 	public ResourceLocator getPluginResourceLocator() {
@@ -53,6 +48,7 @@ public class EEFRuntime extends EMFPlugin {
 
 	/**
 	 * Returns the singleton instance of the Eclipse plugin.
+	 * 
 	 * @return the singleton instance.
 	 */
 	public static Plugin getPlugin() {
@@ -61,6 +57,7 @@ public class EEFRuntime extends EMFPlugin {
 
 	/**
 	 * The actual implementation of the Eclipse <b>Plugin</b>.
+	 * 
 	 * @generated
 	 */
 	public static class Plugin extends EclipsePlugin {
@@ -69,6 +66,7 @@ public class EEFRuntime extends EMFPlugin {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.core.runtime.Plugin#start(org.osgi.framework.BundleContext)
 		 */
 		public void start(BundleContext context) throws Exception {
@@ -77,16 +75,16 @@ public class EEFRuntime extends EMFPlugin {
 
 		/**
 		 * {@inheritDoc}
+		 * 
 		 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
 		 */
 		public void stop(BundleContext context) throws Exception {
 			super.stop(context);
 		}
-		
+
 		/**
-		 * Creates an instance.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * Creates an instance. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		public Plugin() {
@@ -95,29 +93,19 @@ public class EEFRuntime extends EMFPlugin {
 			// Remember the static instance.
 			//
 			plugin = this;
-
-			diagnostician = new Diagnostician() {
-
-				/**
-				 * {@inheritDoc}
-				 * 
-				 * @see org.eclipse.emf.ecore.util.Diagnostician#doValidateContents(org.eclipse.emf.ecore.EObject,
-				 *      org.eclipse.emf.common.util.DiagnosticChain, java.util.Map)
-				 */
-				@Override
-				protected boolean doValidateContents(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context) {
-					return true;
-				}
-
-			};
 		}
 
 		/**
+		 * @param adapterFactory
 		 * @return the diagnostician
 		 */
-		public Diagnostician getEEFValidator() {
+		public Diagnostician getEEFValidator(final AdapterFactory adapterFactory) {
+			if (diagnostician == null || (diagnostician instanceof EEFDiagnostician && adapterFactory != null && !adapterFactory.equals(((EEFDiagnostician) diagnostician).getAdapterFactory()))) {
+				diagnostician = new EEFDiagnostician(adapterFactory);
+			}
 			return diagnostician;
 		}
-		
+
 	}
+
 }
