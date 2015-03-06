@@ -47,6 +47,9 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<P
 	private List<PropertiesEditingModel> editingModels;
 	private EditingModelEnvironment editingModelEnvironment;
 	private EventAdmin eventAdmin;
+	private String editingModelURI;
+
+	public static final String EEF_EDITING_MODEL_URI = "eef.editingModel.uri";
 
 	/**
 	 * @param eventAdmin
@@ -74,6 +77,10 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<P
 	 *         {@link EPackage}.
 	 */
 	public boolean serviceFor(final EPackage element) {
+		if (getEditingModelURI() != null) {
+			return getEditingModelURI().equals(element.getNsURI());
+		}
+
 		List<EClassBinding> allBindings = Lists.newArrayList();
 		for (PropertiesEditingModel editingModel : getEditingModels()) {
 			allBindings.addAll(editingModel.getBindings());
@@ -196,5 +203,20 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<P
 			return getEEFDescription(filter.iterator().next());
 		}
 		return null;
+	}
+
+	/**
+	 * @return the editingModelURI
+	 */
+	public String getEditingModelURI() {
+		return editingModelURI;
+	}
+
+	/**
+	 * @param editingModelURI
+	 *            the editingModelURI to set
+	 */
+	public void setEditingModelURI(String editingModelURI) {
+		this.editingModelURI = editingModelURI;
 	}
 }

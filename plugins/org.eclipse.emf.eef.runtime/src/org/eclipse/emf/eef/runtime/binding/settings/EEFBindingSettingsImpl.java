@@ -39,6 +39,8 @@ public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 	private Bundle bundle;
 	private Collection<PropertiesEditingModel> result;
 
+	public static final String EEF_EDITING_MODEL_PATH = "eef.editingModel.path";
+
 	/**
 	 * @param eefLogger
 	 *            the eefLogger to set
@@ -54,10 +56,11 @@ public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 	public void activate(ComponentContext context) {
 		Dictionary properties = context.getProperties();
 		bundle = context.getBundleContext().getBundle();
-		editingModelPath = (String) properties.get("eef.editingModel.path");
+		editingModelPath = (String) properties.get(EEF_EDITING_MODEL_PATH);
 		if (editingModelPath != null) {
 			editingModelPath = "platform:/plugin/" + bundle.getSymbolicName() + "/" + editingModelPath;
 		}
+		setEditingModelURI((String) properties.get(EEF_EDITING_MODEL_URI));
 	}
 
 	/**

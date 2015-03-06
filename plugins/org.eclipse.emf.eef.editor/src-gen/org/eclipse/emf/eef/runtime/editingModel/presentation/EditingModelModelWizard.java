@@ -51,6 +51,7 @@ import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
+import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
@@ -443,7 +444,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			if (metamodelePackage != null) {
 				getShell().getDisplay().syncExec(new Runnable() {
 					public void run() {
-						createEEFBindingSettingService(modelFile, metamodelePackage.getName());
+						createEEFBindingSettingService(modelFile, metamodelePackage);
 					}
 				});
 			}
@@ -460,7 +461,6 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	protected static final String EEF_BINDING_SETTINGS = "org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings";
 	protected static final String EEF_BINDING_SETTINGS_IMPL = "org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl";
 	protected static final String ORG_ECLIPSE_EMF_EEF_RUNTIME = "org.eclipse.emf.eef.runtime";
-	protected static final String EEF_EDITING_MODEL_PATH = "eef.editingModel.path";
 
 	/**
 	 * @param modelFile
@@ -468,12 +468,12 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	 * @param shell
 	 * 
 	 */
-	public void createEEFBindingSettingService(final IFile modelFile, final String metamodelName) {
+	public void createEEFBindingSettingService(final IFile modelFile, final EPackage metamodel) {
 		getShell().getDisplay().syncExec(new Runnable() {
 			public void run() {
-				final IPath newFilePath = new Path(modelFile.getProject().getName() + "/OSGI-INF/" + metamodelName + "BindingSettings.xml");
+				final IPath newFilePath = new Path(modelFile.getProject().getName() + "/OSGI-INF/" + metamodel.getName() + "BindingSettings.xml");
 				IFile fFile = createNewFile(newFilePath, getContainer(), getShell());
-				DSCreationOperation dsCreationOperation = new DSCreationOperation(fFile, modelFile.getProject().getName() + "." + metamodelName + "BindingSettings", EEF_BINDING_SETTINGS_IMPL) {
+				DSCreationOperation dsCreationOperation = new DSCreationOperation(fFile, modelFile.getProject().getName() + "." + metamodel.getName() + "BindingSettings", EEF_BINDING_SETTINGS_IMPL) {
 
 					/**
 					 * (non-Javadoc)
@@ -647,9 +647,14 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 						component.addReference(reference);
 
 						IDSProperty property = factory.createProperty();
-						property.setPropertyName(EEF_EDITING_MODEL_PATH);
-						property.setPropertyValue(modelFile.getProjectRelativePath().toString());
+						property.setPropertyName(EEFBindingSettingsImpl.EEF_EDITING_MODEL_URI);
+						property.setPropertyValue(metamodel.getNsURI());
 						component.addPropertyElement(property);
+
+						IDSProperty uriProperty = factory.createProperty();
+						uriProperty.setPropertyName(EEFBindingSettingsImpl.EEF_EDITING_MODEL_PATH);
+						uriProperty.setPropertyValue(modelFile.getProjectRelativePath().toString());
+						component.addPropertyElement(uriProperty);
 					}
 
 				};
