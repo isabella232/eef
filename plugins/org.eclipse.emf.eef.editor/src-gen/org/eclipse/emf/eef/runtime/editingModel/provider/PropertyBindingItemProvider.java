@@ -9,11 +9,13 @@ package org.eclipse.emf.eef.runtime.editingModel.provider;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -25,12 +27,14 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
+import org.eclipse.emf.eef.editor.internal.binding.command.PropertyBindingDragAndDropCommand;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.JavaEditor;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.views.ElementEditor;
+import org.eclipse.emf.eef.views.ViewElement;
 
 /**
  * This is the item provider adapter for a
@@ -73,18 +77,26 @@ public class PropertyBindingItemProvider extends ItemProviderAdapter implements 
 	 * @generated
 	 */
 	protected void addBindingCustomizerPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_PropertyBinding_bindingCustomizer_feature"),
-				getString("_UI_PropertyDescriptor_description", "_UI_PropertyBinding_bindingCustomizer_feature", "_UI_PropertyBinding_type"), EditingModelPackage.Literals.PROPERTY_BINDING__BINDING_CUSTOMIZER, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PropertyBinding_bindingCustomizer_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PropertyBinding_bindingCustomizer_feature", "_UI_PropertyBinding_type"),
+				 EditingModelPackage.Literals.PROPERTY_BINDING__BINDING_CUSTOMIZER,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -100,22 +112,20 @@ public class PropertyBindingItemProvider extends ItemProviderAdapter implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
 
 		return super.getChildFeature(object, child);
 	}
 
 	/**
-	 * This returns PropertyBinding.gif. <!-- begin-user-doc --> <!--
+	 * This returns PropertyBinding.gif.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -125,7 +135,6 @@ public class PropertyBindingItemProvider extends ItemProviderAdapter implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -233,6 +242,36 @@ public class PropertyBindingItemProvider extends ItemProviderAdapter implements 
 	@Override
 	public ResourceLocator getResourceLocator() {
 		return EditingModelEditPlugin.INSTANCE;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#createDragAndDropCommand(org.eclipse.emf.edit.domain.EditingDomain,
+	 *      java.lang.Object, float, int, int, java.util.Collection)
+	 * @generated NOT
+	 */
+	@Override
+	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location, int operations, int operation, Collection<?> collection) {
+		final PropertyBinding binding = (PropertyBinding) owner;
+		if (!isValidDrop(collection, binding)) {
+			return new PropertyBindingDragAndDropCommand(domain, binding, location, operations, operation, collection);
+		}
+		return super.createDragAndDropCommand(domain, owner, location, operations, operation, collection);
+	}
+
+	/**
+	 * @param collection
+	 * @param propertiesEditingModel
+	 * @generated NOT
+	 */
+	public boolean isValidDrop(Collection<?> collection, PropertyBinding propertyBinding) {
+		for (Object object : collection) {
+			if (!(object instanceof ViewElement)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

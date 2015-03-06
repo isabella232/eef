@@ -20,13 +20,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.toolkits.Widget#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.toolkits.Widget#getIcon <em>Icon</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.toolkits.Widget#getImplementation <em>Implementation</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.toolkits.Widget#getToolkit <em>Toolkit</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.views.toolkits.ToolkitsPackage#getWidget()
  * @model

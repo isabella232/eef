@@ -21,12 +21,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.ElementEditor#isReadOnly <em>Read Only</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.ElementEditor#isNameAsLabel <em>Name As Label</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.ElementEditor#getSubElementEditors <em>Sub Element Editors</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.views.ViewsPackage#getElementEditor()
  * @model

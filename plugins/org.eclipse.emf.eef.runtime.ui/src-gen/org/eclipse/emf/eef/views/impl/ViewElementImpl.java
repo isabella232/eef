@@ -14,10 +14,13 @@ package org.eclipse.emf.eef.views.impl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.views.Container;
+import org.eclipse.emf.eef.views.View;
 import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.emf.eef.views.ViewsPackage;
 import org.eclipse.emf.eef.views.toolkits.Widget;
@@ -27,13 +30,14 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
  * An implementation of the model object '<em><b>View Element</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ViewElementImpl#getRepresentation <em>Representation</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ViewElementImpl#getContainer <em>Container</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ViewElementImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -132,7 +136,7 @@ public abstract class ViewElementImpl extends DocumentedElementImpl implements V
 	 */
 	public Container getContainer() {
 		if (eContainerFeatureID() != ViewsPackage.VIEW_ELEMENT__CONTAINER) return null;
-		return (Container)eContainer();
+		return (Container)eInternalContainer();
 	}
 
 	/**
@@ -185,6 +189,25 @@ public abstract class ViewElementImpl extends DocumentedElementImpl implements V
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ViewsPackage.VIEW_ELEMENT__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated not
+	 */
+	public View getContainingView() {
+		if (eContainer() instanceof View) {
+			return (View) eContainer();
+		}
+		EObject parent = eContainer(); 
+		while (parent.eContainer() != null && !(parent.eContainer() instanceof View)) {
+			parent = parent.eContainer();
+		}
+		if (parent instanceof View) {
+			return (View) parent;
+		}
+		return null;
 	}
 
 	/**

@@ -30,12 +30,13 @@ import org.eclipse.emf.eef.views.ViewsPackage;
  * <!-- begin-user-doc --> An implementation of the model object '
  * <em><b>Container</b></em>'. <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ContainerImpl#getQualifiedIdentifier <em>Qualified Identifier</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ContainerImpl#getElements <em>Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

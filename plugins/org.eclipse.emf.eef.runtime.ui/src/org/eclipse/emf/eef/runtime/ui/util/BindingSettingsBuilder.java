@@ -28,10 +28,12 @@ import org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitHandler;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
+import org.eclipse.emf.eef.views.ViewElement;
 import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.ViewsRepository;
 import org.eclipse.emf.eef.views.toolkits.Widget;
@@ -209,11 +211,19 @@ public class BindingSettingsBuilder {
 				createdGroup.getElements().add(newElementEditor);
 			}
 			// create EObjectEditor
-			EObjectEditor buildedEditor = EditingModelFactory.eINSTANCE.createEObjectEditor();
-			((EObjectEditor) buildedEditor).setDefinition(newElementEditor);
-			propertyBinding.setEditor(buildedEditor);
+			createEObjectEditor(propertyBinding, newElementEditor);
 		}
 		eClassBinding.getPropertyBindings().add(propertyBinding);
+	}
+
+	/**
+	 * @param propertyBinding
+	 * @param newElementEditor
+	 */
+	public void createEObjectEditor(PropertyBinding propertyBinding, ViewElement newElementEditor) {
+		EObjectEditor buildedEditor = EditingModelFactory.eINSTANCE.createEObjectEditor();
+		((EObjectEditor) buildedEditor).setDefinition(newElementEditor);
+		propertyBinding.setEditor(buildedEditor);
 	}
 
 	/**
@@ -304,11 +314,21 @@ public class BindingSettingsBuilder {
 	public EClassBinding createEClassBinding(EClass eObject, org.eclipse.emf.eef.views.View createdView) {
 		EClassBinding eClassBinding = EditingModelFactory.eINSTANCE.createEClassBinding();
 		eClassBinding.setEClass(eObject);
+		createEObjectView(createdView, eClassBinding);
+		propertiesEditingModel.getBindings().add(eClassBinding);
+		return eClassBinding;
+	}
+
+	/**
+	 * @param createdView
+	 *            org.eclipse.emf.eef.views.View
+	 * @param eClassBinding
+	 *            EClassBinding
+	 */
+	public void createEObjectView(org.eclipse.emf.eef.views.View createdView, EClassBinding eClassBinding) {
 		EObjectView modelView = EditingModelFactory.eINSTANCE.createEObjectView();
 		((EObjectView) modelView).setDefinition((EObject) createdView);
 		eClassBinding.getViews().add(modelView);
-		propertiesEditingModel.getBindings().add(eClassBinding);
-		return eClassBinding;
 	}
 
 	/**

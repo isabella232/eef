@@ -33,14 +33,15 @@ import org.eclipse.emf.eef.views.ViewsRepository;
  * An implementation of the model object '<em><b>Category</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.impl.CategoryImpl#getViews <em>Views</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.CategoryImpl#getRepository <em>Repository</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.CategoryImpl#getCategories <em>Categories</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.CategoryImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -123,7 +124,7 @@ public class CategoryImpl extends DocumentedElementImpl implements Category {
 	 */
 	public ViewsRepository getRepository() {
 		if (eContainerFeatureID() != ViewsPackage.CATEGORY__REPOSITORY) return null;
-		return (ViewsRepository)eContainer();
+		return (ViewsRepository)eInternalContainer();
 	}
 
 	/**

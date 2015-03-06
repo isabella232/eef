@@ -30,13 +30,14 @@ import org.eclipse.emf.eef.views.ViewsRepository;
  * An implementation of the model object '<em><b>View</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ViewImpl#getRepository <em>Repository</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ViewImpl#isExplicit <em>Explicit</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ViewImpl#getCategory <em>Category</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -107,7 +108,7 @@ public class ViewImpl extends ContainerImpl implements View {
 	 */
 	public ViewsRepository getRepository() {
 		if (eContainerFeatureID() != ViewsPackage.VIEW__REPOSITORY) return null;
-		return (ViewsRepository)eContainer();
+		return (ViewsRepository)eInternalContainer();
 	}
 
 	/**
@@ -169,7 +170,7 @@ public class ViewImpl extends ContainerImpl implements View {
 	 */
 	public Category getCategory() {
 		if (eContainerFeatureID() != ViewsPackage.VIEW__CATEGORY) return null;
-		return (Category)eContainer();
+		return (Category)eInternalContainer();
 	}
 
 	/**

@@ -19,12 +19,12 @@ package org.eclipse.emf.eef.views;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.View#getRepository <em>Repository</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.View#isExplicit <em>Explicit</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.View#getCategory <em>Category</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.views.ViewsPackage#getView()
  * @model

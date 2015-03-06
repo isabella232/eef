@@ -23,11 +23,12 @@ import org.eclipse.emf.eef.views.ViewsPackage;
  * An implementation of the model object '<em><b>Documented Element</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.impl.DocumentedElementImpl#getDocumentation <em>Documentation</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

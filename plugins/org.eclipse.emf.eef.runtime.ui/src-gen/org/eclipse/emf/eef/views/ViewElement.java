@@ -20,12 +20,12 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.ViewElement#getRepresentation <em>Representation</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.ViewElement#getContainer <em>Container</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.ViewElement#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.views.ViewsPackage#getViewElement()
  * @model abstract="true"
@@ -111,5 +111,13 @@ public interface ViewElement extends DocumentedElement {
 	 * @generated
 	 */
 	void setName(String value);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	View getContainingView();
 
 } // ViewElement

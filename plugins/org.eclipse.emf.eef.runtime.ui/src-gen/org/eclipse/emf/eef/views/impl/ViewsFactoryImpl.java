@@ -42,7 +42,7 @@ public class ViewsFactoryImpl extends EFactoryImpl implements ViewsFactory {
 	 */
 	public static ViewsFactory init() {
 		try {
-			ViewsFactory theViewsFactory = (ViewsFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/eef/views/1.0.0"); 
+			ViewsFactory theViewsFactory = (ViewsFactory)EPackage.Registry.INSTANCE.getEFactory(ViewsPackage.eNS_URI);
 			if (theViewsFactory != null) {
 				return theViewsFactory;
 			}

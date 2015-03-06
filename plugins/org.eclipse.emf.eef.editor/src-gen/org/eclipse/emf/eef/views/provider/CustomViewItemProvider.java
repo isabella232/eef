@@ -32,13 +32,7 @@ import org.eclipse.emf.eef.views.CustomView;
  * @generated
  */
 public class CustomViewItemProvider
-	extends ViewItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+	extends ViewItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

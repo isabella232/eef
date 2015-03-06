@@ -32,14 +32,15 @@ import org.eclipse.emf.eef.views.ViewsPackage;
  * An implementation of the model object '<em><b>Element Editor</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ElementEditorImpl#getQualifiedIdentifier <em>Qualified Identifier</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ElementEditorImpl#isReadOnly <em>Read Only</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ElementEditorImpl#isNameAsLabel <em>Name As Label</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ElementEditorImpl#getSubElementEditors <em>Sub Element Editors</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

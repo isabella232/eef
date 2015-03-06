@@ -31,12 +31,13 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
  * An implementation of the model object '<em><b>Toolkit</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.toolkits.impl.ToolkitImpl#getWidgets <em>Widgets</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.toolkits.impl.ToolkitImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

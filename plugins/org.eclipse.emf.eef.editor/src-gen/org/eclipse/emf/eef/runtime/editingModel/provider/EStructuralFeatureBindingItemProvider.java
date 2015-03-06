@@ -25,10 +25,8 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
 import org.eclipse.emf.eef.views.ElementEditor;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding}
- * object. <!-- begin-user-doc --> <!-- end-user-doc -->
- * 
+ * This is the item provider adapter for a {@link org.eclipse.emf.eef.runtime.editingModel.EStructuralFeatureBinding} object.
+ * <!-- begin-user-doc --> <!-- end-user-doc -->
  * @generated
  */
 public class EStructuralFeatureBindingItemProvider extends PropertyBindingItemProvider {
@@ -82,9 +80,9 @@ public class EStructuralFeatureBindingItemProvider extends PropertyBindingItemPr
 	}
 
 	/**
-	 * This returns EStructuralFeatureBinding.gif. <!-- begin-user-doc --> <!--
+	 * This returns EStructuralFeatureBinding.gif.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -94,7 +92,6 @@ public class EStructuralFeatureBindingItemProvider extends PropertyBindingItemPr
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -139,12 +136,11 @@ public class EStructuralFeatureBindingItemProvider extends PropertyBindingItemPr
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {

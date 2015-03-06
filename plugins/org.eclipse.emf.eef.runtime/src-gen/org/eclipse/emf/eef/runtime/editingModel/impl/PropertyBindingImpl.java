@@ -12,12 +12,14 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EModelElementImpl;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.eef.runtime.binding.PropertyBindingCustomizer;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.Editor;
 import org.eclipse.emf.eef.runtime.editingModel.EditorSettings;
@@ -196,6 +198,25 @@ public class PropertyBindingImpl extends EModelElementImpl implements PropertyBi
 		bindingCustomizer = newBindingCustomizer;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, EditingModelPackage.PROPERTY_BINDING__BINDING_CUSTOMIZER, oldBindingCustomizer, bindingCustomizer));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated not
+	 */
+	public EClassBinding getEClassBinding() {
+		if (eContainer() instanceof EClassBinding) {
+			return (EClassBinding) eContainer();
+		}
+		EObject parent = eContainer(); 
+		while (parent.eContainer() != null && !(parent.eContainer() instanceof EClassBinding)) {
+			parent = parent.eContainer();
+		}
+		if (parent instanceof EClassBinding) {
+			return (EClassBinding) parent;
+		}
+		return null;
 	}
 
 	/**

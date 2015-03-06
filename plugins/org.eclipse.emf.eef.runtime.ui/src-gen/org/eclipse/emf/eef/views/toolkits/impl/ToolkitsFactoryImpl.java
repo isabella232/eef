@@ -37,7 +37,7 @@ public class ToolkitsFactoryImpl extends EFactoryImpl implements ToolkitsFactory
 	 */
 	public static ToolkitsFactory init() {
 		try {
-			ToolkitsFactory theToolkitsFactory = (ToolkitsFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/eef/views/toolkits/1.0.0"); 
+			ToolkitsFactory theToolkitsFactory = (ToolkitsFactory)EPackage.Registry.INSTANCE.getEFactory(ToolkitsPackage.eNS_URI);
 			if (theToolkitsFactory != null) {
 				return theToolkitsFactory;
 			}

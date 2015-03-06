@@ -680,6 +680,8 @@ public class EditingModelPackageImpl extends EPackageImpl implements EditingMode
 		initEReference(getPropertyBinding_Settings(), this.getEditorSettings(), null, "settings", null, 0, -1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPropertyBinding_BindingCustomizer(), ecorePackage.getEString(), "bindingCustomizer", null, 0, 1, PropertyBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		addEOperation(propertyBindingEClass, this.getEClassBinding(), "getEClassBinding", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(eStructuralFeatureBindingEClass, EStructuralFeatureBinding.class, "EStructuralFeatureBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEStructuralFeatureBinding_Feature(), theEcorePackage.getEStructuralFeature(), null, "feature", null, 1, 1, EStructuralFeatureBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

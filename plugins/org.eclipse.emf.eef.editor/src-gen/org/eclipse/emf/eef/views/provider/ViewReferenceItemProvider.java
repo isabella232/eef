@@ -36,13 +36,7 @@ import org.eclipse.emf.eef.views.ViewsPackage;
  * @generated
  */
 public class ViewReferenceItemProvider
-	extends ViewElementItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+	extends ViewElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

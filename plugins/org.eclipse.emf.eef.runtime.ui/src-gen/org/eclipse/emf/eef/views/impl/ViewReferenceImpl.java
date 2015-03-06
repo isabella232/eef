@@ -27,12 +27,13 @@ import org.eclipse.emf.eef.views.ViewsPackage;
  * An implementation of the model object '<em><b>View Reference</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ViewReferenceImpl#getQualifiedIdentifier <em>Qualified Identifier</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ViewReferenceImpl#getView <em>View</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

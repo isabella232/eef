@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.toolkits.Toolkit#getWidgets <em>Widgets</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.toolkits.Toolkit#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.views.toolkits.ToolkitsPackage#getToolkit()
  * @model

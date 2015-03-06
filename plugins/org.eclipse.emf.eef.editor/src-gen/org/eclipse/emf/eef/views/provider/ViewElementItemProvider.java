@@ -36,13 +36,7 @@ import org.eclipse.emf.eef.views.ViewsPackage;
  * @generated
  */
 public class ViewElementItemProvider
-	extends DocumentedElementItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+	extends DocumentedElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

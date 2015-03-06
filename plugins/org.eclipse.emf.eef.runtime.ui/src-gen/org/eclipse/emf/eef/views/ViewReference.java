@@ -19,10 +19,10 @@ package org.eclipse.emf.eef.views;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.ViewReference#getView <em>View</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.views.ViewsPackage#getViewReference()
  * @model

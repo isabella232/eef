@@ -33,7 +33,9 @@ import org.eclipse.emf.eef.views.ViewsRepository;
  * An implementation of the model object '<em><b>Repository</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ViewsRepositoryImpl#getQualifiedIdentifier <em>Qualified Identifier</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ViewsRepositoryImpl#getViews <em>Views</em>}</li>
@@ -41,7 +43,6 @@ import org.eclipse.emf.eef.views.ViewsRepository;
  *   <li>{@link org.eclipse.emf.eef.views.impl.ViewsRepositoryImpl#getCategories <em>Categories</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.impl.ViewsRepositoryImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

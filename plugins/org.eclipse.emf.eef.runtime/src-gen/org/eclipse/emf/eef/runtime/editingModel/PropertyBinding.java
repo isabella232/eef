@@ -115,4 +115,12 @@ public interface PropertyBinding extends EModelElement {
 	 */
 	void setBindingCustomizer(String value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EClassBinding getEClassBinding();
+
 } // PropertyBinding

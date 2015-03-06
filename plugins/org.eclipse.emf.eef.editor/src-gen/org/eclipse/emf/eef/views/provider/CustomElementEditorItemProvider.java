@@ -32,13 +32,7 @@ import org.eclipse.emf.eef.views.CustomElementEditor;
  * @generated
  */
 public class CustomElementEditorItemProvider
-	extends ElementEditorItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+	extends ElementEditorItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

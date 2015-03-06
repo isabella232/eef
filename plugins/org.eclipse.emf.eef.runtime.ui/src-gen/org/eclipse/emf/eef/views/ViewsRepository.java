@@ -20,13 +20,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.ViewsRepository#getViews <em>Views</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.ViewsRepository#getRepositoryKind <em>Repository Kind</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.ViewsRepository#getCategories <em>Categories</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.ViewsRepository#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.eef.views.ViewsPackage#getViewsRepository()
  * @model
@@ -62,7 +62,7 @@ public interface ViewsRepository extends DocumentedElement, IdentifiedElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Repository Kind</em>' attribute list.
 	 * @see org.eclipse.emf.eef.views.ViewsPackage#getViewsRepository_RepositoryKind()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	EList<String> getRepositoryKind();
@@ -96,7 +96,7 @@ public interface ViewsRepository extends DocumentedElement, IdentifiedElement {
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.emf.eef.views.ViewsPackage#getViewsRepository_Name()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	String getName();

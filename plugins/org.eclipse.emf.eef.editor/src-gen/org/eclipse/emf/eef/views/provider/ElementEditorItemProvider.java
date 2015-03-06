@@ -31,13 +31,12 @@ import org.eclipse.emf.eef.views.ViewsFactory;
 import org.eclipse.emf.eef.views.ViewsPackage;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.eef.views.ElementEditor} object. <!-- begin-user-doc
+ * This is the item provider adapter for a {@link org.eclipse.emf.eef.views.ElementEditor} object.
+ * <!-- begin-user-doc
  * --> <!-- end-user-doc -->
- * 
  * @generated
  */
-public class ElementEditorItemProvider extends ViewElementItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+public class ElementEditorItemProvider extends ViewElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -69,12 +68,22 @@ public class ElementEditorItemProvider extends ViewElementItemProvider implement
 	/**
 	 * This adds a property descriptor for the Qualified Identifier feature.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected void addQualifiedIdentifierPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_IdentifiedElement_qualifiedIdentifier_feature"),
-				getString("_UI_PropertyDescriptor_description", "_UI_IdentifiedElement_qualifiedIdentifier_feature", "_UI_IdentifiedElement_type"), ViewsPackage.Literals.IDENTIFIED_ELEMENT__QUALIFIED_IDENTIFIER, false, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_IdentifiedElement_qualifiedIdentifier_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_IdentifiedElement_qualifiedIdentifier_feature", "_UI_IdentifiedElement_type"),
+				 ViewsPackage.Literals.IDENTIFIED_ELEMENT__QUALIFIED_IDENTIFIER,
+				 false,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -84,8 +93,19 @@ public class ElementEditorItemProvider extends ViewElementItemProvider implement
 	 * @generated
 	 */
 	protected void addReadOnlyPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_ElementEditor_readOnly_feature"),
-				getString("_UI_PropertyDescriptor_description", "_UI_ElementEditor_readOnly_feature", "_UI_ElementEditor_type"), ViewsPackage.Literals.ELEMENT_EDITOR__READ_ONLY, true, false, false, ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ElementEditor_readOnly_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ElementEditor_readOnly_feature", "_UI_ElementEditor_type"),
+				 ViewsPackage.Literals.ELEMENT_EDITOR__READ_ONLY,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -95,18 +115,26 @@ public class ElementEditorItemProvider extends ViewElementItemProvider implement
 	 * @generated
 	 */
 	protected void addNameAsLabelPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_ElementEditor_nameAsLabel_feature"),
-				getString("_UI_PropertyDescriptor_description", "_UI_ElementEditor_nameAsLabel_feature", "_UI_ElementEditor_type"), ViewsPackage.Literals.ELEMENT_EDITOR__NAME_AS_LABEL, true, false, false, ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ElementEditor_nameAsLabel_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ElementEditor_nameAsLabel_feature", "_UI_ElementEditor_type"),
+				 ViewsPackage.Literals.ELEMENT_EDITOR__NAME_AS_LABEL,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -120,13 +148,11 @@ public class ElementEditorItemProvider extends ViewElementItemProvider implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
 
 		return super.getChildFeature(object, child);
@@ -171,12 +197,11 @@ public class ElementEditorItemProvider extends ViewElementItemProvider implement
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {

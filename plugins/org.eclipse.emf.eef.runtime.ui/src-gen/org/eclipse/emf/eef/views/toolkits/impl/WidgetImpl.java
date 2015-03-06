@@ -27,14 +27,15 @@ import org.eclipse.emf.eef.views.toolkits.Widget;
  * An implementation of the model object '<em><b>Widget</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.eef.views.toolkits.impl.WidgetImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.toolkits.impl.WidgetImpl#getIcon <em>Icon</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.toolkits.impl.WidgetImpl#getImplementation <em>Implementation</em>}</li>
  *   <li>{@link org.eclipse.emf.eef.views.toolkits.impl.WidgetImpl#getToolkit <em>Toolkit</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -188,7 +189,7 @@ public class WidgetImpl extends EObjectImpl implements Widget {
 	 */
 	public Toolkit getToolkit() {
 		if (eContainerFeatureID() != ToolkitsPackage.WIDGET__TOOLKIT) return null;
-		return (Toolkit)eContainer();
+		return (Toolkit)eInternalContainer();
 	}
 
 	/**

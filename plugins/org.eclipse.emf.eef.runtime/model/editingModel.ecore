@@ -44,6 +44,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="View" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="Editor" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="PropertyBinding">
+    <eOperations name="getEClassBinding" eType="#//EClassBinding"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="editor" lowerBound="1"
         eType="#//Editor" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subPropertyBindings" upperBound="-1"
