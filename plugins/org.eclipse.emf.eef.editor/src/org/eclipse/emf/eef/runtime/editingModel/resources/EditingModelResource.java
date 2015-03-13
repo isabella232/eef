@@ -31,21 +31,33 @@ public class EditingModelResource extends XMIResourceImpl {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl#createXMLHelper()
 	 */
 	@Override
 	protected XMLHelper createXMLHelper() {
-	    return new XMIHelperImpl(this) {
+		return new XMIHelperImpl(this) {
 
 			/**
 			 * {@inheritDoc}
+			 * 
 			 * @see org.eclipse.emf.ecore.xmi.impl.XMLHelperImpl#deresolve(org.eclipse.emf.common.util.URI)
 			 */
 			@Override
 			public URI deresolve(URI uri) {
 				return uri;
 			}
-	    	
-	    };	
+
+		};
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl#useUUIDs()
+	 */
+	@Override
+	protected boolean useUUIDs() {
+		return true;
 	}
 }
