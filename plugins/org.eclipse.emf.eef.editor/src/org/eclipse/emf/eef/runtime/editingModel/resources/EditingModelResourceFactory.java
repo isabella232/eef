@@ -12,8 +12,8 @@ package org.eclipse.emf.eef.runtime.editingModel.resources;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -22,9 +22,26 @@ public class EditingModelResourceFactory extends XMIResourceFactoryImpl {
 
 	@Override
 	public Resource createResource(URI uri) {
-		return new EditingModelResource(uri);
+		EditingModelResource resource = new EditingModelResource(uri);
+
+		XMLResource.URIHandler uriHandler = new XMLResource.URIHandler() {
+
+			public void setBaseURI(URI uri) {
+			}
+
+			public URI deresolve(URI uri) {
+				return uri;
+			}
+
+			public URI resolve(URI uri) {
+				return uri;
+			}
+
+		};
+		resource.getDefaultLoadOptions().put(XMLResource.OPTION_URI_HANDLER, uriHandler);
+		resource.getDefaultSaveOptions().put(XMLResource.OPTION_URI_HANDLER, uriHandler);
+
+		return resource;
 	}
 
-	
-	
 }
