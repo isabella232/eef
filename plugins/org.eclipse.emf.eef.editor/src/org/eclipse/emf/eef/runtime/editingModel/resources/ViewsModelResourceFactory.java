@@ -8,25 +8,20 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.eef.runtime.editingModel.settings;
+package org.eclipse.emf.eef.runtime.editingModel.resources;
 
-import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
- *
  */
-public class ViewsBindingSettings extends EEFBindingSettingsImpl {
+public class ViewsModelResourceFactory extends XMIResourceFactoryImpl {
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl#getEditingModelPath()
-	 */
 	@Override
-	protected String getEditingModelPath() {
-		return "platform:/plugin/org.eclipse.emf.eef.editor/models/views.editingmodel";
+	public Resource createResource(URI uri) {
+		return new ViewsModelResource(uri);
 	}
 
-	
-	
 }

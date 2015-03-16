@@ -51,6 +51,12 @@
             class="org.eclipse.emf.eef.runtime.editingModel.resources.EditingModelResourceFactory"
             type="editingmodel"/>
     </extension>
+    
+    <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            class="org.eclipse.emf.eef.runtime.editingModel.resources.ViewsModelResourceFactory"
+            type="editingmodel,views"/>
+    </extension>
 
    <extension
          point="org.eclipse.emf.ecore.uri_mapping">
