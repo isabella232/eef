@@ -1,121 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eef-model="http://www.eclipse.org/emf/eef/editingmodel/1.0.0" xmlns:eef-query="http://www.eclipse.org/emf/eef/query/1.0" xmlns:eef-views="http://www.eclipse.org/emf/eef/views/1.0.0">
-  <eef-model:PropertiesEditingModel name="EditingModel of the EditingModel model" id="org.eclipse.emf.eef.runtime.EditingModel">
-    <bindings>
+  <eef-model:PropertiesEditingModel xmi:id="_05To0Mu4EeSj0cQzONAFqg" name="EditingModel of the EditingModel model" id="org.eclipse.emf.eef.runtime.EditingModel">
+    <bindings xmi:id="_05To0cu4EeSj0cQzONAFqg">
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EClassBinding"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0"/>
+      <views xsi:type="eef-model:EObjectView" xmi:id="_05To0su4EeSj0cQzONAFqg" definition="_05hEMMu4EeSj0cQzONAFqg"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05To08u4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05To1Mu4EeSj0cQzONAFqg" definition="_05hrQMu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EClassBinding/eClass"/>
       </propertyBindings>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.1"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05To1cu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05To1su4EeSj0cQzONAFqg" definition="_05iSUMu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EClassBinding/views"/>
       </propertyBindings>
     </bindings>
-    <bindings>
+    <bindings xmi:id="_05To18u4EeSj0cQzONAFqg">
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertiesEditingModel"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0/@elements.0"/>
+      <views xsi:type="eef-model:EObjectView" xmi:id="_05To2Mu4EeSj0cQzONAFqg" definition="_05iSUcu4EeSj0cQzONAFqg"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05To2cu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05To2su4EeSj0cQzONAFqg" definition="_05iSU8u4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertiesEditingModel/id"/>
       </propertyBindings>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0/@elements.1"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05To28u4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05To3Mu4EeSj0cQzONAFqg" definition="_05i5YMu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertiesEditingModel/name"/>
       </propertyBindings>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0/@elements.2"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05To3cu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05To3su4EeSj0cQzONAFqg" definition="_05i5Ycu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertiesEditingModel/involvedModels"/>
       </propertyBindings>
     </bindings>
-    <bindings>
+    <bindings xmi:id="_05To38u4EeSj0cQzONAFqg">
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EObjectView"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.2"/>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0"/>
+      <views xsi:type="eef-model:EObjectView" xmi:id="_05To4Mu4EeSj0cQzONAFqg" definition="_05i5Ysu4EeSj0cQzONAFqg"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05To4cu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05To4su4EeSj0cQzONAFqg" definition="_05i5Y8u4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EObjectView/definition"/>
       </propertyBindings>
     </bindings>
-    <bindings>
+    <bindings xmi:id="_05To48u4EeSj0cQzONAFqg">
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EStructuralFeatureBinding"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.3"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.6"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.5"/>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.0"/>
-        <settings xsi:type="eef-model:EReferenceFilter">
-          <body xsi:type="eef-query:JavaBody" qualifiedClass="org.eclipse.emf.eef.editor.internal.filters.PropertyBindingFilter" method="bindableFeature"/>
+      <views xsi:type="eef-model:EObjectView" xmi:id="_05To5Mu4EeSj0cQzONAFqg" definition="_05i5ZMu4EeSj0cQzONAFqg"/>
+      <views xsi:type="eef-model:EObjectView" xmi:id="_05To5cu4EeSj0cQzONAFqg" definition="_05i5a8u4EeSj0cQzONAFqg"/>
+      <views xsi:type="eef-model:EObjectView" xmi:id="_05To5su4EeSj0cQzONAFqg" definition="_05i5acu4EeSj0cQzONAFqg"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05To58u4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05To6Mu4EeSj0cQzONAFqg" definition="_05i5Zcu4EeSj0cQzONAFqg"/>
+        <settings xsi:type="eef-model:EReferenceFilter" xmi:id="_05ZvcMu4EeSj0cQzONAFqg">
+          <body xsi:type="eef-query:JavaBody" xmi:id="_05a9kMu4EeSj0cQzONAFqg" qualifiedClass="org.eclipse.emf.eef.editor.internal.filters.PropertyBindingFilter" method="bindableFeature"/>
         </settings>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EStructuralFeatureBinding/feature"/>
       </propertyBindings>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.1"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05bkoMu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05bkocu4EeSj0cQzONAFqg" definition="_05i5Zsu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding/editor"/>
       </propertyBindings>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05bkosu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05bko8u4EeSj0cQzONAFqg" definition="_05i5asu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding/subPropertyBindings"/>
       </propertyBindings>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.6/@elements.0"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05bkpMu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05bkpcu4EeSj0cQzONAFqg" definition="_05i5bMu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding/settings"/>
       </propertyBindings>
     </bindings>
-    <bindings>
+    <bindings xmi:id="_05cLsMu4EeSj0cQzONAFqg">
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EObjectEditor"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.4"/>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.4/@elements.0"/>
-        <settings xsi:type="eef-model:EReferenceFilter">
-          <body xsi:type="eef-query:JavaBody" qualifiedClass="org.eclipse.emf.eef.editor.internal.filters.EObjectEditorFilter" method="bindableEditor"/>
+      <views xsi:type="eef-model:EObjectView" xmi:id="_05cLscu4EeSj0cQzONAFqg" definition="_05i5Z8u4EeSj0cQzONAFqg"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05cLssu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05cLs8u4EeSj0cQzONAFqg" definition="_05i5aMu4EeSj0cQzONAFqg"/>
+        <settings xsi:type="eef-model:EReferenceFilter" xmi:id="_05cLtMu4EeSj0cQzONAFqg">
+          <body xsi:type="eef-query:JavaBody" xmi:id="_05cLtcu4EeSj0cQzONAFqg" qualifiedClass="org.eclipse.emf.eef.editor.internal.filters.EObjectEditorFilter" method="bindableEditor"/>
         </settings>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EObjectEditor/definition"/>
       </propertyBindings>
     </bindings>
-    <bindings>
+    <bindings xmi:id="_05cLtsu4EeSj0cQzONAFqg">
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//EReferenceFilter"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.8"/>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0"/>
+      <views xsi:type="eef-model:EObjectView" xmi:id="_05cLt8u4EeSj0cQzONAFqg" definition="_05jgcsu4EeSj0cQzONAFqg"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05cLuMu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05cLucu4EeSj0cQzONAFqg" definition="_05jgc8u4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.ecore#//Query/body"/>
       </propertyBindings>
     </bindings>
-    <bindings>
+    <bindings xmi:id="_05cLusu4EeSj0cQzONAFqg">
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.ecore#//JavaBody"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.7"/>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.0"/>
+      <views xsi:type="eef-model:EObjectView" xmi:id="_05cywMu4EeSj0cQzONAFqg" definition="_05i5bcu4EeSj0cQzONAFqg"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05cywcu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05cywsu4EeSj0cQzONAFqg" definition="_05i5b8u4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.ecore#//JavaBody/qualifiedClass"/>
       </propertyBindings>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.0"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05cyw8u4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05cyxMu4EeSj0cQzONAFqg" definition="_05jgcMu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.ecore#//JavaBody/method"/>
       </propertyBindings>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.1"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05cyxcu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05cyxsu4EeSj0cQzONAFqg" definition="_05jgccu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.ecore#//JavaBody/static"/>
       </propertyBindings>
     </bindings>
-    <bindings>
+    <bindings xmi:id="_05cyx8u4EeSj0cQzONAFqg">
       <eClass href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.9"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.6"/>
-      <views xsi:type="eef-model:EObjectView" definition="/1/@views.5"/>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0"/>
+      <views xsi:type="eef-model:EObjectView" xmi:id="_05cyyMu4EeSj0cQzONAFqg" definition="_05jgdMu4EeSj0cQzONAFqg"/>
+      <views xsi:type="eef-model:EObjectView" xmi:id="_05dZ0Mu4EeSj0cQzONAFqg" definition="_05i5a8u4EeSj0cQzONAFqg"/>
+      <views xsi:type="eef-model:EObjectView" xmi:id="_05dZ0cu4EeSj0cQzONAFqg" definition="_05i5acu4EeSj0cQzONAFqg"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05dZ0su4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05dZ08u4EeSj0cQzONAFqg" definition="_05jgdcu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding/bindingCustomizer"/>
       </propertyBindings>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.1"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05dZ1Mu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05dZ1cu4EeSj0cQzONAFqg" definition="_05jgdsu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding/editor"/>
       </propertyBindings>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05dZ1su4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05dZ18u4EeSj0cQzONAFqg" definition="_05i5asu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding/subPropertyBindings"/>
       </propertyBindings>
-      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
-        <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.6/@elements.0"/>
+      <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding" xmi:id="_05dZ2Mu4EeSj0cQzONAFqg">
+        <editor xsi:type="eef-model:EObjectEditor" xmi:id="_05dZ2cu4EeSj0cQzONAFqg" definition="_05i5bMu4EeSj0cQzONAFqg"/>
         <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.eef.runtime/model/editingModel.ecore#//PropertyBinding/settings"/>
       </propertyBindings>
     </bindings>
@@ -124,84 +124,84 @@
     <involvedModels href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.genmodel#/"/>
     <involvedModels href="platform:/plugin/org.eclipse.emf.eef.runtime/model/query.ecore#/"/>
   </eef-model:PropertiesEditingModel>
-  <eef-views:ViewsRepository name="editingModel">
-    <views name="Binding">
-      <elements xsi:type="eef-views:ElementEditor" name="eClass">
+  <eef-views:ViewsRepository xmi:id="_05fPAMu4EeSj0cQzONAFqg" name="editingModel">
+    <views xmi:id="_05hEMMu4EeSj0cQzONAFqg" name="Binding">
+      <elements xsi:type="eef-views:ElementEditor" xmi:id="_05hrQMu4EeSj0cQzONAFqg" name="eClass">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
       </elements>
-      <elements xsi:type="eef-views:ElementEditor" name="views">
+      <elements xsi:type="eef-views:ElementEditor" xmi:id="_05iSUMu4EeSj0cQzONAFqg" name="views">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
       </elements>
     </views>
-    <views name="Editing Model">
-      <elements xsi:type="eef-views:Container" name="Editing Model">
+    <views xmi:id="_05iSUcu4EeSj0cQzONAFqg" name="Editing Model">
+      <elements xsi:type="eef-views:Container" xmi:id="_05iSUsu4EeSj0cQzONAFqg" name="Editing Model">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
-        <elements xsi:type="eef-views:ElementEditor" name="id">
+        <elements xsi:type="eef-views:ElementEditor" xmi:id="_05iSU8u4EeSj0cQzONAFqg" name="id">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
         </elements>
-        <elements xsi:type="eef-views:ElementEditor" name="name">
+        <elements xsi:type="eef-views:ElementEditor" xmi:id="_05i5YMu4EeSj0cQzONAFqg" name="name">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
         </elements>
-        <elements xsi:type="eef-views:ElementEditor" name="Involved Models">
+        <elements xsi:type="eef-views:ElementEditor" xmi:id="_05i5Ycu4EeSj0cQzONAFqg" name="Involved Models">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.0"/>
         </elements>
       </elements>
     </views>
-    <views name="EObjectView">
-      <elements xsi:type="eef-views:ElementEditor" name="definition">
+    <views xmi:id="_05i5Ysu4EeSj0cQzONAFqg" name="EObjectView">
+      <elements xsi:type="eef-views:ElementEditor" xmi:id="_05i5Y8u4EeSj0cQzONAFqg" name="definition">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
       </elements>
     </views>
-    <views name="Property Binding Feature">
-      <elements xsi:type="eef-views:ElementEditor" name="feature">
+    <views xmi:id="_05i5ZMu4EeSj0cQzONAFqg" name="Property Binding Feature">
+      <elements xsi:type="eef-views:ElementEditor" xmi:id="_05i5Zcu4EeSj0cQzONAFqg" name="feature">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
       </elements>
-      <elements xsi:type="eef-views:ElementEditor" name="Editor">
+      <elements xsi:type="eef-views:ElementEditor" xmi:id="_05i5Zsu4EeSj0cQzONAFqg" name="Editor">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.4"/>
       </elements>
     </views>
-    <views name="EObjectEditor">
-      <elements xsi:type="eef-views:ElementEditor" name="definition">
+    <views xmi:id="_05i5Z8u4EeSj0cQzONAFqg" name="EObjectEditor">
+      <elements xsi:type="eef-views:ElementEditor" xmi:id="_05i5aMu4EeSj0cQzONAFqg" name="definition">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
       </elements>
     </views>
-    <views name="Subbindings">
-      <elements xsi:type="eef-views:ElementEditor" name="subbindings">
+    <views xmi:id="_05i5acu4EeSj0cQzONAFqg" name="Subbindings">
+      <elements xsi:type="eef-views:ElementEditor" xmi:id="_05i5asu4EeSj0cQzONAFqg" name="subbindings">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
       </elements>
     </views>
-    <views name="Settings">
-      <elements xsi:type="eef-views:ElementEditor" name="settings">
+    <views xmi:id="_05i5a8u4EeSj0cQzONAFqg" name="Settings">
+      <elements xsi:type="eef-views:ElementEditor" xmi:id="_05i5bMu4EeSj0cQzONAFqg" name="settings">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
       </elements>
     </views>
-    <views name="JavaBody">
-      <elements xsi:type="eef-views:Container" name="Class">
+    <views xmi:id="_05i5bcu4EeSj0cQzONAFqg" name="JavaBody">
+      <elements xsi:type="eef-views:Container" xmi:id="_05i5bsu4EeSj0cQzONAFqg" name="Class">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
-        <elements xsi:type="eef-views:ElementEditor" name="Qualified Class">
+        <elements xsi:type="eef-views:ElementEditor" xmi:id="_05i5b8u4EeSj0cQzONAFqg" name="Qualified Class">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.jdt/org.eclipse.emf.eef.runtime.ui.jdt.jdttoolkit.JDTToolkit#//@widgets.0"/>
         </elements>
       </elements>
-      <elements xsi:type="eef-views:Container" name="Method">
+      <elements xsi:type="eef-views:Container" xmi:id="_05i5cMu4EeSj0cQzONAFqg" name="Method">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
-        <elements xsi:type="eef-views:ElementEditor" name="method">
+        <elements xsi:type="eef-views:ElementEditor" xmi:id="_05jgcMu4EeSj0cQzONAFqg" name="method">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
         </elements>
-        <elements xsi:type="eef-views:ElementEditor" name="static">
+        <elements xsi:type="eef-views:ElementEditor" xmi:id="_05jgccu4EeSj0cQzONAFqg" name="static">
           <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
         </elements>
       </elements>
     </views>
-    <views name="EReferenceFilter">
-      <elements xsi:type="eef-views:ElementEditor" name="body">
+    <views xmi:id="_05jgcsu4EeSj0cQzONAFqg" name="EReferenceFilter">
+      <elements xsi:type="eef-views:ElementEditor" xmi:id="_05jgc8u4EeSj0cQzONAFqg" name="body">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.4"/>
       </elements>
     </views>
-    <views name="PropertyBinding">
-      <elements xsi:type="eef-views:ElementEditor" name="bindingCustomizer">
+    <views xmi:id="_05jgdMu4EeSj0cQzONAFqg" name="PropertyBinding">
+      <elements xsi:type="eef-views:ElementEditor" xmi:id="_05jgdcu4EeSj0cQzONAFqg" name="bindingCustomizer">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.jdt/org.eclipse.emf.eef.runtime.ui.jdt.jdttoolkit.JDTToolkit#//@widgets.0"/>
       </elements>
-      <elements xsi:type="eef-views:ElementEditor" name="Editor">
+      <elements xsi:type="eef-views:ElementEditor" xmi:id="_05jgdsu4EeSj0cQzONAFqg" name="Editor">
         <representation href="eeftoolkit:/org.eclipse.emf.eef.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.4"/>
       </elements>
     </views>
