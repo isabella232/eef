@@ -55,7 +55,7 @@
     <extension point="org.eclipse.emf.ecore.extension_parser">
       <parser
             class="org.eclipse.emf.eef.runtime.editingModel.resources.ViewsModelResourceFactory"
-            type="editingmodel,views"/>
+            type="editingmodel"/>
     </extension>
 
    <extension
