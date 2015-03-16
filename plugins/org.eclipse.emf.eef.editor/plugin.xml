@@ -46,17 +46,45 @@
                org.eclipse.emf.edit.provider.IItemPropertySource"/>
    </extension>
 
-    <extension point="org.eclipse.emf.ecore.extension_parser">
+    <!--extension point="org.eclipse.emf.ecore.extension_parser">
       <parser
             class="org.eclipse.emf.eef.runtime.editingModel.resources.EditingModelResourceFactory"
             type="editingmodel"/>
-    </extension>
+    </extension-->
     
-    <extension point="org.eclipse.emf.ecore.extension_parser">
+    <extension point="org.eclipse.emf.ecore.content_parser">
       <parser
             class="org.eclipse.emf.eef.runtime.editingModel.resources.ViewsModelResourceFactory"
-            type="views"/>
+            contentTypeIdentifier="org.eclipse.emf.eef.contenttype.view"/>
+       <parser
+            class="org.eclipse.emf.eef.runtime.editingModel.resources.EditingModelResourceFactory"
+            contentTypeIdentifier="org.eclipse.emf.eef.contenttype.editingModel"/>
     </extension>
+
+	<extension point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.emf.ecore.xmi"
+            file-extensions="editingmodel"
+            id="org.eclipse.emf.eef.contenttype.view"
+            name="view file"
+            priority="normal">
+         <describer class="org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer">
+            <parameter name="namespace" value="http://www.eclipse.org/emf/eef/views/1.0.0"/>
+            <parameter name="kind" value="xmi"/>
+         </describer>
+      </content-type>
+       <content-type
+            base-type="org.eclipse.emf.ecore.xmi"
+            file-extensions="editingmodel"
+            id="org.eclipse.emf.eef.contenttype.editingModel"
+            name="EditingModel file"
+            priority="normal">
+         <describer class="org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer">
+            <parameter name="namespace" value="http://www.eclipse.org/emf/eef/editingmodel/1.0.0"/>
+            <parameter name="kind" value="xmi"/>
+         </describer>
+      </content-type>
+   </extension>
 
    <extension
          point="org.eclipse.emf.ecore.uri_mapping">
