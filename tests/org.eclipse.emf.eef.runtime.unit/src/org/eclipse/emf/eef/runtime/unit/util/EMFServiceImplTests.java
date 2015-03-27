@@ -63,7 +63,7 @@ public class EMFServiceImplTests {
 		URI uri = URI.createPlatformPluginURI("org.eclipse.emf.ecore/model/Ecore.ecore", true);
 		Resource resource = resourceSet.getResource(uri, true);
 		ecoreResourcePackage = (EPackage) resource.getContents().get(0);
-		uri = URI.createPlatformPluginURI("org.eclipse.emf.eef.runtime/model/editingModel.ecore", true);
+		uri = URI.createPlatformPluginURI("org.eclipse.emf.eef2.runtime/model/editingModel.ecore", true);
 		resource = resourceSet.getResource(uri, true);
 		editingModelResourcePackage = (EPackage) resource.getContents().get(0);
 		editingModelPluginPackage = EditingModelFactory.eINSTANCE.createEClassBinding().eClass().getEPackage();

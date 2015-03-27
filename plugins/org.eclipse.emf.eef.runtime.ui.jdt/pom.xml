@@ -41,7 +41,7 @@
   </build>
   
   <groupId>org.eclipse</groupId>
-  <artifactId>org.eclipse.emf.eef.runtime.ui.jdt</artifactId>
+  <artifactId>org.eclipse.emf.eef2.runtime.ui.jdt</artifactId>
   <version>2.0.0-SNAPSHOT</version>
   <name>EEF JDT related toolkit plugin</name>
   <packaging>eclipse-plugin</packaging>

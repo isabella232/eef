@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.eef.runtime.ui;singleton:=true
+Bundle-SymbolicName: org.eclipse.emf.eef2.runtime.ui
 Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
@@ -11,17 +11,11 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.eef.runtime.ui,
  org.eclipse.emf.eef.runtime.ui.adapters;version="2.0.0",
  org.eclipse.emf.eef.runtime.ui.commands,
- org.eclipse.emf.eef.runtime.ui.internal.resources;
-  x-friends:="org.eclipse.emf.eef.editor",
- org.eclipse.emf.eef.runtime.ui.internal.util;
-  x-friends:="org.eclipse.emf.eef.runtime.tests",
- org.eclipse.emf.eef.runtime.ui.internal.view.handle.reflect;
-  x-friends:="org.eclipse.emf.eef.runtime.tests,
-   org.eclipse.emf.eef.runtime.ui.swt",
- org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors;
-  x-friends:="org.eclipse.emf.eef.runtime.tests",
- org.eclipse.emf.eef.runtime.ui.internal.view.util;
-  x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.ui.internal.resources;x-friends:="org.eclipse.emf.eef.editor,org.eclipse.emf.eef.runtime.eclipse",
+ org.eclipse.emf.eef.runtime.ui.internal.util;x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.ui.internal.view.handle.reflect;x-friends:="org.eclipse.emf.eef.runtime.tests,org.eclipse.emf.eef.runtime.ui.swt",
+ org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors;x-friends:="org.eclipse.emf.eef.runtime.tests",
+ org.eclipse.emf.eef.runtime.ui.internal.view.util;x-friends:="org.eclipse.emf.eef.runtime.tests",
  org.eclipse.emf.eef.runtime.ui.util,
  org.eclipse.emf.eef.runtime.ui.util.impl,
  org.eclipse.emf.eef.runtime.ui.view,

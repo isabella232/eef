@@ -26,21 +26,21 @@ http://www.eclipse.org/legal/epl-v10.html
    </url>
 
    <plugin
-         id="org.eclipse.emf.eef.doc"
+         id="org.eclipse.emf.eef2.doc"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.emf.eef.runtime"
+         id="org.eclipse.emf.eef2.runtime"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.emf.eef.runtime.ui"
+         id="org.eclipse.emf.eef2.runtime.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

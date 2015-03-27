@@ -1,14 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.eef.editor;singleton:=true
+Bundle-SymbolicName: org.eclipse.emf.eef2.editor;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.eef.editor.EditingModelEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.eef.editor,
+Export-Package: org.eclipse.emf.eef2.editor,
  org.eclipse.emf.eef.runtime.editingModel.presentation,
  org.eclipse.emf.eef.runtime.editingModel.provider
 Bundle-ActivationPolicy: lazy
@@ -131,5 +131,5 @@ Import-Package: com.google.common.base;version="10.0.1",
  org.osgi.service.event;version="1.2.0",
  org.osgi.util.tracker;version="1.4.0"
 Require-Bundle: org.eclipse.ui;bundle-version="3.6.2",
- org.eclipse.emf.eef.runtime.ui
+ org.eclipse.emf.eef2.runtime.eclipse
 Service-Component: OSGI-INF/ViewsBindingSettings.xml, OSGI-INF/EditingModelBindingSettings.xml, OSGI-INF/EEFExtendedToolkit.xml

@@ -185,6 +185,7 @@
 		<module>../../plugins/org.eclipse.emf.eef.runtime.ui.swt</module>
 		<module>../../plugins/org.eclipse.emf.eef.runtime.ui.swt.e3</module>
 		<module>../../plugins/org.eclipse.emf.eef.runtime.ui.jdt</module>
+		<module>../../plugins/org.eclipse.emf.eef.runtime.eclipse</module>
 		<module>../../plugins/org.eclipse.emf.eef.doc</module>
 		<module>../../plugins/org.eclipse.emf.eef.editor</module>
 		<module>../../features/org.eclipse.emf.eef.runtime.feature</module>	
