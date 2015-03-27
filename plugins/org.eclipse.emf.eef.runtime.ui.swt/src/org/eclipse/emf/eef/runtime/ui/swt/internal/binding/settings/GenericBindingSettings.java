@@ -55,6 +55,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	public static final String ECONTAINEMENT_EDITOR_WIDGET_NAME = "EContainement Editor";
 	public static final String EDATE_PICKER_EDITOR_WIDGET_NAME = "EDatePicker Editor";
 	public static final String EREFERENCE_EDITOR_WIDGET_NAME = "EReference Editor";
+	public static final String MULTI_VALUED_EDITOR_WIDGET_NAME = "MultiValued Attribute Editor";
 	public static final String SINGLE_CONTAINMENT_EDITOR_WIDGET_NAME = "Single Containment Editor";
 	public static final String CHECKBOX_WIDGET_NAME = "Checkbox";
 	public static final String COMBO_WIDGET_NAME = "Combo";

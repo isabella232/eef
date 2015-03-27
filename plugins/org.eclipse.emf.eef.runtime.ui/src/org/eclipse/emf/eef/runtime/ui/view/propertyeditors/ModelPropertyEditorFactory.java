@@ -18,13 +18,13 @@ import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public interface ModelPropertyEditorFactory<T extends EObject,U> extends PropertyEditorFactory<U> {
+public interface ModelPropertyEditorFactory<T extends EObject, U> extends PropertyEditorFactory<U> {
 
 	/**
 	 * @return the model for this provider.
 	 */
 	T getModel();
-	
+
 	/**
 	 * @param editingComponent
 	 * @param editingEvent

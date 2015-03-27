@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.eef.runtime.editingModel.ViewsBindingSettings">
-   <implementation class="org.eclipse.emf.eef.runtime.editingModel.settings.ViewsBindingSettings"/>
+   <implementation class="org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl"/>
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings"/>
    </service>
    <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
-
-   <reference bind="setEEFLogger" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.logging.EEFLogger" name="EEFLogger" policy="static"/></scr:component>
+   <reference bind="setEEFLogger" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.logging.EEFLogger" name="EEFLogger" policy="static"/>
+   <property name="eef.editingModel.path" type="String" value="models/views.editingmodel"/>
+   <property name="eef.editingModel.uri" type="String" value="http://www.eclipse.org/emf/eef/views/1.0.0"/>
+</scr:component>

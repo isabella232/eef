@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EditingModelResource extends XMIResourceImpl {
+public class ViewsModelResource extends XMIResourceImpl {
 
-	public EditingModelResource() {
+	public ViewsModelResource() {
 		super();
 	}
 
-	public EditingModelResource(URI uri) {
+	public ViewsModelResource(URI uri) {
 		super(uri);
 	}
 

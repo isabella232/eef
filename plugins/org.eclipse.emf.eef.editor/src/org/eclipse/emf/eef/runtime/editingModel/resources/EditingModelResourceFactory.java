@@ -14,7 +14,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  */
@@ -25,6 +24,4 @@ public class EditingModelResourceFactory extends XMIResourceFactoryImpl {
 		return new EditingModelResource(uri);
 	}
 
-	
-	
 }

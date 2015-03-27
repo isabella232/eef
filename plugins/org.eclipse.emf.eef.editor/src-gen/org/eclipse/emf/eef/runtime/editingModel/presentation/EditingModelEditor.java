@@ -37,6 +37,7 @@ import org.eclipse.emf.eef.runtime.policies.PropertiesEditingPolicyProvider;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFRuntimeUISWT;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.PropertiesBindingHandlerUIImpl;
+import org.eclipse.emf.eef.runtime.ui.swt.util.EEFDoubleClickFactoryUtil;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EEFURIAwareResourceSet;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
@@ -150,6 +151,8 @@ public class EditingModelEditor extends EEFReflectiveEditor {
 						return bindingHandlerProvider;
 					}
 				});
+				viewer.addDoubleClickListener(EEFDoubleClickFactoryUtil.getEEFDoubleClickListener(FrameworkUtil.getBundle(getClass()), editingDomain, adapterFactory));
+
 				int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
 				Transfer[] transfers = new Transfer[] { LocalSelectionTransfer.getTransfer() };
 				viewer.addDropSupport(dndOperations, transfers, new ViewerDropAdapter(viewer) {
