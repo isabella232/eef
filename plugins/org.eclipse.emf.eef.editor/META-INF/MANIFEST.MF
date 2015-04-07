@@ -8,7 +8,7 @@ Bundle-Activator: org.eclipse.emf.eef.editor.EditingModelEditPlugin$Implementati
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.eef2.editor,
+Export-Package: org.eclipse.emf.eef.editor,
  org.eclipse.emf.eef.runtime.editingModel.presentation,
  org.eclipse.emf.eef.runtime.editingModel.provider
 Bundle-ActivationPolicy: lazy
