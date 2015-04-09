@@ -460,7 +460,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 	protected static final String EMF_SERVICE_PROVIDER = "org.eclipse.emf.eef.runtime.util.EMFServiceProvider";
 	protected static final String EEF_BINDING_SETTINGS = "org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings";
 	protected static final String EEF_BINDING_SETTINGS_IMPL = "org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl";
-	protected static final String ORG_ECLIPSE_EMF_EEF_RUNTIME = "org.eclipse.emf.eef.runtime";
+	protected static final String ORG_ECLIPSE_EMF_EEF_RUNTIME = "org.eclipse.emf.eef2.runtime";
 
 	/**
 	 * @param modelFile
