@@ -20,9 +20,10 @@ which accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v10.html
    </copyright>
 
-  <license url="%licenseURL">
+   <license url="%licenseURL">
       %license
    </license>
+
    <url>
       <update label="%modelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
       <discovery label="%modelingUpdateSiteName" url="http://www.eclipse.org/modeling/updates/"/>
@@ -37,6 +38,13 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.emf.eef2.runtime.ui.swt.e3"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.eef2.runtime.eclipse"
          download-size="0"
          install-size="0"
          version="0.0.0"
