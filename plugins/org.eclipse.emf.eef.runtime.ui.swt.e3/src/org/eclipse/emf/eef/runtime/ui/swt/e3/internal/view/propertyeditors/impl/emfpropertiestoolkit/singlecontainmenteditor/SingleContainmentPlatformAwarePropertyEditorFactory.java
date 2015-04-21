@@ -1,4 +1,3 @@
-
 /**
  * 
  */
@@ -29,23 +28,24 @@ public class SingleContainmentPlatformAwarePropertyEditorFactory extends SingleC
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#serviceFor(org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
+	 */
+	public boolean serviceFor(PropertyEditorContext editorContext) {
+		return SingleContainmentPropertyEditorFactory.class.getName().equals(editorContext.viewElement.getRepresentation().getImplementation()) && editorContext.view.getContents() instanceof Composite;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorFactory#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
 		FormToolkit formtoolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 		if (formtoolkit != null) {
-			return new SingleContainmentPropertyEditor(
-					toolkit.getEEFEditingServiceProvider(),
-					(PropertiesEditingView<Composite>) editorContext.view, 
-					(ElementEditor) editorContext.viewElement, 
-					new SingleContainmentFormPropertyEditor(
-							toolkit.getEditUIProvidersFactory(), 
-							toolkit.getImageManager(), 
-							(PropertiesEditingView<Composite>) editorContext.view, 
-							(ElementEditor) editorContext.viewElement
-						)
-				);
+			return new SingleContainmentPropertyEditor(toolkit.getEEFEditingServiceProvider(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new SingleContainmentFormPropertyEditor(toolkit.getEditUIProvidersFactory(), toolkit.getImageManager(),
+					(PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 		} else {
 			return super.createPropertyEditor(editorContext);
 		}

@@ -19,8 +19,6 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swt
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
-import org.eclipse.emf.eef.views.toolkits.Toolkit;
-import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -28,17 +26,6 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 public class SWTToolkit extends EEFToolkitImpl<Composite> {
-
-	/**
-	 * SWT Toolkit name.
-	 */
-	public static final String SWT_TOOLKIT_NAME = "SWT";
-
-	private static final Toolkit toolkit = ToolkitsFactory.eINSTANCE.createToolkit();
-
-	static {
-		toolkit.setName(SWT_TOOLKIT_NAME);
-	}
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 
@@ -80,15 +67,6 @@ public class SWTToolkit extends EEFToolkitImpl<Composite> {
 	public SWTToolkit() {
 		addPropertyEditorFactory(new TextPropertyEditorFactory(this)).addPropertyEditorFactory(new CheckboxPropertyEditorFactory(this)).addPropertyEditorFactory(new GroupContainerFactory()).addPropertyEditorFactory(new HBoxContainerFactory())
 				.addPropertyEditorFactory(new TextareaPropertyEditorFactory(this)).addPropertyEditorFactory(new ComboPropertyEditorFactory(this));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
-	 */
-	public Toolkit getModel() {
-		return toolkit;
 	}
 
 }

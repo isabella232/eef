@@ -32,6 +32,15 @@ public class EContainmentPlatformAwarePropertyEditorFactory extends EContainment
 	public EContainmentPlatformAwarePropertyEditorFactory(EMFPropertiesToolkit emfPropertiesToolkit) {
 		super(emfPropertiesToolkit);
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#serviceFor(org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
+	 */
+	public boolean serviceFor(PropertyEditorContext editorContext) {
+		return EContainmentPropertyEditorFactory.class.getName().equals(editorContext.viewElement.getRepresentation().getImplementation()) && editorContext.view.getContents() instanceof Composite;
+	}
 
 	/**
 	 * {@inheritDoc}

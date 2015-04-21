@@ -16,8 +16,6 @@ import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.util.EEF
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
-import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
-import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
@@ -26,22 +24,6 @@ import org.eclipse.swt.widgets.Label;
  * 
  */
 public class UndefinedPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<Composite> implements DefaultService {
-
-	private static final String UNDEFINED_EDITOR_NAME = "Undefined";
-	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
-
-	static {
-		widget.setName(UNDEFINED_EDITOR_NAME);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
-	 */
-	public Widget getModel() {
-		return widget;
-	}
 
 	/**
 	 * {@inheritDoc}

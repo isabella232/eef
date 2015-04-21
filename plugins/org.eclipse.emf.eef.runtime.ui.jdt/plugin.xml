@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+
+<extension
+         point="org.eclipse.emf.ecore.uri_mapping">
+      <mapping
+            source="eeftoolkit://JDT.toolkit"
+            target="platform:/plugin/org.eclipse.emf.eef2.runtime.ui.jdt/models/JDT.toolkit">
+      </mapping>
+   </extension>
+</plugin>

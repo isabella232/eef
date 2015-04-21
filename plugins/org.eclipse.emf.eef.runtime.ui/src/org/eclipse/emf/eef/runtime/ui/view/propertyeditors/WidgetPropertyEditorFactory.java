@@ -12,13 +12,12 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
-import org.eclipse.emf.eef.views.toolkits.Widget;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  * 
  */
-public interface WidgetPropertyEditorFactory<T> extends ModelPropertyEditorFactory<Widget, T> {
+public interface WidgetPropertyEditorFactory<T> extends PropertyEditorFactory<T> {
 
 	/**
 	 * Defines if the current provider is able to handle the given

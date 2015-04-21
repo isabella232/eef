@@ -10,33 +10,35 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
 public abstract class PropertyEditorImpl implements PropertyEditor {
-	
-	private ModelPropertyEditorFactory<? extends EObject, ?> propertyEditorProvider;
-	
+
+	private PropertyEditorFactory<?> propertyEditorProvider;
+
 	/**
-	 * @param propertyEditorProvider the propertyEditorProvider to set
+	 * @param propertyEditorProvider
+	 *            the propertyEditorProvider to set
 	 */
-	public void setPropertyEditorFactory(ModelPropertyEditorFactory<? extends EObject, ?> propertyEditorProvider) {
+	public void setPropertyEditorFactory(PropertyEditorFactory<?> propertyEditorProvider) {
 		this.propertyEditorProvider = propertyEditorProvider;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#firePropertiesChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor#firePropertiesChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
+	 *      org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public final void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		propertyEditorProvider.firePropertiesChanged(editingComponent, editingEvent);
 	}
-	
+
 }

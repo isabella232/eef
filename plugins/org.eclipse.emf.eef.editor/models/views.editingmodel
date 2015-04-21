@@ -71,43 +71,43 @@
   <eef-views:ViewsRepository xmi:id="_4x9R5sQXEeSGou2mnwj8Rw" name="views">
     <views xmi:id="_4x9R58QXEeSGou2mnwj8Rw" name="ViewsRepository">
       <elements xsi:type="eef-views:Container" xmi:id="_4x9R6MQXEeSGou2mnwj8Rw" name="Views Repository">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" xmi:id="_4x9R6cQXEeSGou2mnwj8Rw" name="Name">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          <representation href="platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit#//@widgets.0"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" xmi:id="_4x9R6sQXEeSGou2mnwj8Rw" name="Documentation">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.4"/>
+          <representation href="platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit#//@widgets.4"/>
         </elements>
       </elements>
     </views>
     <views xmi:id="_4x9R68QXEeSGou2mnwj8Rw" name="Overview">
       <elements xsi:type="eef-views:ElementEditor" xmi:id="_4x9R7MQXEeSGou2mnwj8Rw" name="name">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        <representation href="platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit#//@widgets.0"/>
       </elements>
       <elements xsi:type="eef-views:ElementEditor" xmi:id="_4x9R7cQXEeSGou2mnwj8Rw" name="documentation">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.4"/>
+        <representation href="platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit#//@widgets.4"/>
       </elements>
     </views>
     <views xmi:id="_4x9R7sQXEeSGou2mnwj8Rw" name="Contents">
       <elements xsi:type="eef-views:ElementEditor" xmi:id="_4x9R78QXEeSGou2mnwj8Rw" name="contents">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef.editor/org.eclipse.emf.eef.editor.internal.propertyeditors.extended.EEFExtendedToolkit#//@widgets.0"/>
+        <representation href="platform:/plugin/org.eclipse.emf.eef2.editor/models/Extended.toolkit#//@widgets.0"/>
       </elements>
     </views>
     <views xmi:id="_4x9R8MQXEeSGou2mnwj8Rw" name="View Element">
       <elements xsi:type="eef-views:ElementEditor" xmi:id="_4x9R8cQXEeSGou2mnwj8Rw" name="name">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+        <representation href="platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit#//@widgets.0"/>
       </elements>
       <elements xsi:type="eef-views:ElementEditor" xmi:id="_4x9R8sQXEeSGou2mnwj8Rw" name="representation">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
+        <representation href="platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/EMFProperties.toolkit#//@widgets.1"/>
       </elements>
       <elements xsi:type="eef-views:ElementEditor" xmi:id="_4x9R88QXEeSGou2mnwj8Rw" name="read only">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+        <representation href="platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit#//@widgets.1"/>
       </elements>
       <elements xsi:type="eef-views:ElementEditor" xmi:id="_4x9R9MQXEeSGou2mnwj8Rw" name="name as label">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+        <representation href="platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit#//@widgets.1"/>
       </elements>
       <elements xsi:type="eef-views:ElementEditor" xmi:id="_4x9R9cQXEeSGou2mnwj8Rw" name="documentation">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.4"/>
+        <representation href="platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit#//@widgets.4"/>
       </elements>
     </views>
   </eef-views:ViewsRepository>

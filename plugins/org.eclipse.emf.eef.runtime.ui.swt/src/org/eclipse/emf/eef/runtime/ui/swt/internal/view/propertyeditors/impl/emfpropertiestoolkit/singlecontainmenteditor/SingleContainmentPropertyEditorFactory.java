@@ -5,14 +5,11 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.em
 
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
 import org.eclipse.emf.eef.views.ElementEditor;
-import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
-import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -20,22 +17,6 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 public class SingleContainmentPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<Composite> {
-
-	public static final String SINGLE_CONTAINMENT_EDITOR_WIDGET_NAME = GenericBindingSettings.SINGLE_CONTAINMENT_EDITOR_WIDGET_NAME;
-	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
-
-	static {
-		widget.setName(SINGLE_CONTAINMENT_EDITOR_WIDGET_NAME);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
-	 */
-	public Widget getModel() {
-		return widget;
-	}
 
 	protected final EMFPropertiesToolkit toolkit;
 	
@@ -52,7 +33,7 @@ public class SingleContainmentPropertyEditorFactory extends WidgetPropertyEditor
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#serviceFor(org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	public boolean serviceFor(PropertyEditorContext editorContext) {
-		return getModel() == editorContext.viewElement.getRepresentation() && editorContext.view.getContents() instanceof Composite;
+		return super.serviceFor(editorContext) && editorContext.view.getContents() instanceof Composite;
 	}
 
 	/**

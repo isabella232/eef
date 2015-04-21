@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
  *
  */
-public class EDatePackerPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
+public class EDatePickerPropertyEditor extends PropertyEditorImpl implements MonovaluedPropertyEditor {
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 
@@ -49,7 +49,7 @@ public class EDatePackerPropertyEditor extends PropertyEditorImpl implements Mon
 	 * @param elementEditor
 	 * @param propertyEditorViewer
 	 */
-	public EDatePackerPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
+	public EDatePickerPropertyEditor(EEFEditingServiceProvider eefEditingServiceProvider, PropertiesEditingView<Composite> view, ElementEditor elementEditor, PropertyEditorViewer<SingleLinePropertyViewer> propertyEditorViewer) {
 		this.eefEditingServiceProvider = eefEditingServiceProvider;
 		this.view = view;
 		this.elementEditor = elementEditor;

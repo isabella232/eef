@@ -74,13 +74,13 @@ public class ToolkitHandler {
 	public Collection<Widget> getAllWidgetsFor(EStructuralFeature eStructuralFeature) {
 		Collection<Widget> widgets = new ArrayList<Widget>();
 		for (EEFToolkit<?> toolkit : toolkitProvider.getAllToolkits()) {
-			Collection<Widget> allWidgetsFor = toolkit.getAllWidgetsFor(eStructuralFeature);
-			for (Widget widget : allWidgetsFor) {
-				if (copier.get(widget) == null) {
-					eefLogger.logError(EEFRuntimeUI.PLUGIN_ID, "Widget not found in toolkit", null);
-				}
-				widgets.add((Widget) copier.get(widget));
-			}
+//			Collection<Widget> allWidgetsFor = toolkit.getAllWidgetsFor(eStructuralFeature);
+//			for (Widget widget : allWidgetsFor) {
+//				if (copier.get(widget) == null) {
+//					eefLogger.logError(EEFRuntimeUI.PLUGIN_ID, "Widget not found in toolkit", null);
+//				}
+//				widgets.add((Widget) copier.get(widget));
+//			}
 
 		}
 		return widgets;
@@ -101,10 +101,10 @@ public class ToolkitHandler {
 
 	public Widget getWidgetByName2(String name) {
 		for (EEFToolkit<?> toolkit : toolkitProvider.getAllToolkits()) {
-			Widget widget = toolkit.getWidgetByName(name);
-			if (widget != null) {
-				return widget;
-			}
+//			Widget widget = toolkit.getWidgetByName(name);
+//			if (widget != null) {
+//				return widget;
+//			}
 		}
 		return null;
 	}

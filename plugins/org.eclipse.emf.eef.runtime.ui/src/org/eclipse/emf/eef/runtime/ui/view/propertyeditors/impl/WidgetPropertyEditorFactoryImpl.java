@@ -25,6 +25,7 @@ public abstract class WidgetPropertyEditorFactoryImpl<T> implements WidgetProper
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#setToolkit(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl)
 	 */
 	public final void setToolkit(EEFToolkitImpl<T> toolkit) {
@@ -32,8 +33,19 @@ public abstract class WidgetPropertyEditorFactoryImpl<T> implements WidgetProper
 	}
 
 	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#serviceFor(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
+	 */
+	public boolean serviceFor(PropertyEditorContext editorContext) {
+		return this.getClass().getName().equals(editorContext.viewElement.getRepresentation().getImplementation());
+	}
+
+	/**
 	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#firePropertiesChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent, org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#firePropertiesChanged(org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent,
+	 *      org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent)
 	 */
 	public final void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent) {
 		toolkit.firePropertiesChanged(editingComponent, editingEvent);
@@ -41,6 +53,7 @@ public abstract class WidgetPropertyEditorFactoryImpl<T> implements WidgetProper
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory#getPropertyEditor(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	public final PropertyEditor getPropertyEditor(PropertyEditorContext editorContext) {
@@ -50,7 +63,7 @@ public abstract class WidgetPropertyEditorFactoryImpl<T> implements WidgetProper
 		}
 		return propertyEditor;
 	}
-	
+
 	protected abstract PropertyEditor createPropertyEditor(PropertyEditorContext editorContext);
 
 }

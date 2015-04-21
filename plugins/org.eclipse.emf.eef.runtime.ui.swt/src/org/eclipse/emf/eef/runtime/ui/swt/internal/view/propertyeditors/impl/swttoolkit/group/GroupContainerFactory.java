@@ -11,12 +11,9 @@
 package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.group;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
 import org.eclipse.emf.eef.views.Container;
-import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
-import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -25,30 +22,13 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class GroupContainerFactory extends WidgetPropertyEditorFactoryImpl<Composite> {
 
-	public static final String GROUP_CONTAINER_NAME = GenericBindingSettings.GROUP_CONTAINER_NAME;
-
-	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
-
-	static {
-		widget.setName(GROUP_CONTAINER_NAME);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
-	 */
-	public Widget getModel() {
-		return widget;
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.emf.eef.runtime.services.EEFService#serviceFor(java.lang.Object)
 	 */
 	public boolean serviceFor(PropertyEditorContext editorContext) {
-		return getModel() == editorContext.viewElement.getRepresentation() && editorContext.view.getContents() instanceof Composite;
+		return super.serviceFor(editorContext) && editorContext.view.getContents() instanceof Composite;
 	}
 
 	/**

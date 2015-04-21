@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
+import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.context.PropertiesEditingContext;
+import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.ViewElement;
@@ -20,26 +22,34 @@ import org.eclipse.emf.eef.views.ViewElement;
  *
  */
 public interface PropertyEditorFactory<T> {
-	
+
 	/**
 	 * Return the PropertyEditor for this ElementEditor
-	 * @param editorContext {@link PropertyEditorContext} to process.
-	 * @return the {@link PropertyEditor} for the given {@link ElementEditor}. 
+	 * 
+	 * @param editorContext
+	 *            {@link PropertyEditorContext} to process.
+	 * @return the {@link PropertyEditor} for the given {@link ElementEditor}.
 	 */
 	PropertyEditor getPropertyEditor(PropertyEditorContext editorContext);
-	
+
 	/**
-	 * Represents a context for a {@link PropertyEditor} composed of:
-	 * 	- a View
-	 * 	- a ElementEditor description
-	 *  
+	 * @param editingComponent
+	 * @param editingEvent
+	 */
+	void firePropertiesChanged(PropertiesEditingComponent editingComponent, PropertiesEditingEvent editingEvent);
+
+	/**
+	 * Represents a context for a {@link PropertyEditor} composed of: - a View -
+	 * a ElementEditor description
+	 * 
 	 * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
 	 */
 	public final class PropertyEditorContext {
-		
+
 		public PropertiesEditingView<?> view;
 		public PropertiesEditingContext editingContext;
 		public ViewElement viewElement;
+
 		/**
 		 * @param view
 		 * @param editingContext
@@ -50,7 +60,7 @@ public interface PropertyEditorFactory<T> {
 			this.editingContext = editingContext;
 			this.viewElement = viewElement;
 		}
-		
+
 	}
 
 }

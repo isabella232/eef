@@ -13,14 +13,11 @@ package org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.em
 import java.util.Date;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
 import org.eclipse.emf.eef.views.ElementEditor;
-import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
-import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -28,13 +25,6 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 public class EDatePickerPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<Composite> {
-
-	public static final String EDATE_PICKER_EDITOR_WIDGET_NAME = GenericBindingSettings.EDATE_PICKER_EDITOR_WIDGET_NAME;
-	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
-
-	static {
-		widget.setName(EDATE_PICKER_EDITOR_WIDGET_NAME);
-	}
 
 	protected final EMFPropertiesToolkit toolkit;
 
@@ -48,19 +38,10 @@ public class EDatePickerPropertyEditorFactory extends WidgetPropertyEditorFactor
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
-	 */
-	public Widget getModel() {
-		return widget;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#serviceFor(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	public boolean serviceFor(PropertyEditorContext editorContext) {
-		return getModel() == editorContext.viewElement.getRepresentation() && editorContext.view.getContents() instanceof Composite;
+		return super.serviceFor(editorContext) && editorContext.view.getContents() instanceof Composite;
 	}
 
 	/**
@@ -70,7 +51,7 @@ public class EDatePickerPropertyEditorFactory extends WidgetPropertyEditorFactor
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
-		return new EDatePackerPropertyEditor(
+		return new EDatePickerPropertyEditor(
 				toolkit.getEEFEditingServiceProvider(),
 				(PropertiesEditingView<Composite>) editorContext.view, 
 				(ElementEditor) editorContext.viewElement, 

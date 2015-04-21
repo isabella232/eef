@@ -18,8 +18,6 @@ import org.eclipse.emf.eef.runtime.ui.view.PropertiesEditingView;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
 import org.eclipse.emf.eef.views.ElementEditor;
-import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
-import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -28,12 +26,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * 
  */
 public class JavaClassChooserPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<Composite> {
-
-	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
-
-	static {
-		widget.setName("JavaClass Chooser");
-	}
 
 	private JDTToolkit toolkit;
 
@@ -47,19 +39,10 @@ public class JavaClassChooserPropertyEditorFactory extends WidgetPropertyEditorF
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
-	 */
-	public Widget getModel() {
-		return widget;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#serviceFor(org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	public boolean serviceFor(PropertyEditorContext editorContext) {
-		return getModel() == editorContext.viewElement.getRepresentation() && editorContext.view.getContents() instanceof Composite;
+		return super.serviceFor(editorContext) && editorContext.view.getContents() instanceof Composite;
 	}
 
 	/**

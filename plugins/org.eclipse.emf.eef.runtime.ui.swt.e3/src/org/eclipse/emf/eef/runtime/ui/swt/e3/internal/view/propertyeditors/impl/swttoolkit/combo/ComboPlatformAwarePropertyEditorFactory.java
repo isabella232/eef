@@ -25,7 +25,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  *
  */
 public class ComboPlatformAwarePropertyEditorFactory extends ComboPropertyEditorFactory {
-	
+
 	/**
 	 * @param toolkit
 	 */
@@ -35,22 +35,24 @@ public class ComboPlatformAwarePropertyEditorFactory extends ComboPropertyEditor
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#serviceFor(org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
+	 */
+	public boolean serviceFor(PropertyEditorContext editorContext) {
+		return ComboPropertyEditorFactory.class.getName().equals(editorContext.viewElement.getRepresentation().getImplementation()) && editorContext.view.getContents() instanceof Composite;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorFactory#createPropertyEditor(org.eclipse.emf.eef.runtime.ui.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	@SuppressWarnings("unchecked")
 	protected PropertyEditor createPropertyEditor(PropertyEditorContext editorContext) {
 		FormToolkit formtoolkit = editorContext.view.getEditingComponent().getEditingContext().getOptions().getOption(EEFSWTConstants.FORM_TOOLKIT);
 		if (formtoolkit != null) {
-			return new ComboPropertyEditor(
-					toolkit.getEEFEditingServiceProvider(),
-					(PropertiesEditingView<Composite>) editorContext.view, 
-					(ElementEditor) editorContext.viewElement, 
-					new ComboFormPropertyEditor(
-							toolkit.getEditUIProvidersFactory(), 
-							(PropertiesEditingView<Composite>) editorContext.view, 
-							(ElementEditor) editorContext.viewElement
-						)
-				);
+			return new ComboPropertyEditor(toolkit.getEEFEditingServiceProvider(), (PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement, new ComboFormPropertyEditor(toolkit.getEditUIProvidersFactory(),
+					(PropertiesEditingView<Composite>) editorContext.view, (ElementEditor) editorContext.viewElement));
 		} else {
 			return super.createPropertyEditor(editorContext);
 		}

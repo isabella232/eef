@@ -10,17 +10,14 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory;
-import org.eclipse.emf.eef.views.toolkits.Widget;
 
 import com.google.common.collect.Lists;
 
@@ -81,7 +78,6 @@ public abstract class EEFToolkitImpl<T> implements EEFToolkit<T> {
 	public final EEFToolkitImpl<T> addPropertyEditorFactory(WidgetPropertyEditorFactory<T> provider) {
 		widgetProviders.add(provider);
 		provider.setToolkit(this);
-		getModel().getWidgets().add(provider.getModel());
 		return this;
 	}
 
@@ -100,33 +96,39 @@ public abstract class EEFToolkitImpl<T> implements EEFToolkit<T> {
 		widgetProviders.clear();
 	}
 
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit#getAllWidgetsFor(org.eclipse.emf.ecore.EStructuralFeature)
-	 */
-	public Collection<Widget> getAllWidgetsFor(EStructuralFeature eStructuralFeature) {
-		Collection<Widget> widgets = new ArrayList<Widget>();
-		for (WidgetPropertyEditorFactory<?> widgetPropertyEditorFactory : getWidgetProviders()) {
-			if (widgetPropertyEditorFactory.canHandle(eStructuralFeature)) {
-				widgets.add(widgetPropertyEditorFactory.getModel());
-			}
-		}
-		return widgets;
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit#getWidgetByName(java.lang.String)
-	 */
-	public Widget getWidgetByName(String name) {
-		for (WidgetPropertyEditorFactory<?> widgetPropertyEditorFactory : getWidgetProviders()) {
-			if (widgetPropertyEditorFactory.getModel() != null && name != null && name.equals(widgetPropertyEditorFactory.getModel().getName())) {
-				return widgetPropertyEditorFactory.getModel();
-			}
-		}
-		return null;
-	}
+	// /**
+	// * (non-Javadoc)
+	// *
+	// * @see
+	// org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit#getAllWidgetsFor(org.eclipse.emf.ecore.EStructuralFeature)
+	// */
+	// public Collection<Widget> getAllWidgetsFor(EStructuralFeature
+	// eStructuralFeature) {
+	// Collection<Widget> widgets = new ArrayList<Widget>();
+	// for (WidgetPropertyEditorFactory<?> widgetPropertyEditorFactory :
+	// getWidgetProviders()) {
+	// if (widgetPropertyEditorFactory.canHandle(eStructuralFeature)) {
+	// widgets.add(widgetPropertyEditorFactory.getModel());
+	// }
+	// }
+	// return widgets;
+	// }
+	//
+	// /**
+	// * (non-Javadoc)
+	// *
+	// * @see
+	// org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit#getWidgetByName(java.lang.String)
+	// */
+	// public Widget getWidgetByName(String name) {
+	// for (WidgetPropertyEditorFactory<?> widgetPropertyEditorFactory :
+	// getWidgetProviders()) {
+	// if (widgetPropertyEditorFactory.getModel() != null && name != null &&
+	// name.equals(widgetPropertyEditorFactory.getModel().getName())) {
+	// return widgetPropertyEditorFactory.getModel();
+	// }
+	// }
+	// return null;
+	// }
 
 }

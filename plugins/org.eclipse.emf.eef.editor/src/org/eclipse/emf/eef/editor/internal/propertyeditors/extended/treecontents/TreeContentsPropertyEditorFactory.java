@@ -21,8 +21,6 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorViewer;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl;
 import org.eclipse.emf.eef.runtime.util.EEFEditingService;
 import org.eclipse.emf.eef.views.ElementEditor;
-import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
-import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -31,14 +29,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * 
  */
 public class TreeContentsPropertyEditorFactory extends WidgetPropertyEditorFactoryImpl<Composite> {
-
-	public static final String TREE_CONTENTS_WIDGET_NAME = "TreeContents";
-
-	private static final Widget widget = ToolkitsFactory.eINSTANCE.createWidget();
-
-	static {
-		widget.setName(TREE_CONTENTS_WIDGET_NAME);
-	}
 
 	private EEFExtendedToolkit eefExtendedToolkit;
 
@@ -52,19 +42,10 @@ public class TreeContentsPropertyEditorFactory extends WidgetPropertyEditorFacto
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
-	 */
-	public Widget getModel() {
-		return widget;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#serviceFor(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext)
 	 */
 	public boolean serviceFor(PropertyEditorContext editorContext) {
-		return getModel() == editorContext.viewElement.getRepresentation() && editorContext.view.getContents() instanceof Composite;
+		return super.serviceFor(editorContext) && editorContext.view.getContents() instanceof Composite;
 	}
 
 	/**
@@ -85,13 +66,7 @@ public class TreeContentsPropertyEditorFactory extends WidgetPropertyEditorFacto
 		} else {
 			propertyEditorViewer = new TreeContentsSWTPropertyEditor(eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getEEFEditingServiceProvider(), eefExtendedToolkit.getImageManager(), editingDomain, view, viewElement);
 		}
-		return new TreeContentsPropertyEditor(
-				editorContext.view.getEditingComponent().getEditingContext().getContextFactoryProvider(), 
-				eefExtendedToolkit.getEMFServiceProvider(), 
-				eefExtendedToolkit.getEEFEditingServiceProvider(), 
-				view, 
-				viewElement,
-				propertyEditorViewer);
+		return new TreeContentsPropertyEditor(editorContext.view.getEditingComponent().getEditingContext().getContextFactoryProvider(), eefExtendedToolkit.getEMFServiceProvider(), eefExtendedToolkit.getEEFEditingServiceProvider(), view, viewElement, propertyEditorViewer);
 	}
 
 	/**

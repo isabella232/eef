@@ -25,7 +25,6 @@ import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.runtime.ui.util.BindingSettingsBuilder;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
-import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ToolkitHandler;
 import org.eclipse.emf.eef.runtime.util.OSGiHelper;
 import org.eclipse.emf.eef.views.ViewsRepository;
 import org.osgi.framework.BundleContext;
@@ -58,7 +57,7 @@ public abstract class AbstractDragAndDropCommand extends DragAndDropCommand {
 	/**
 	 * EEF Services.
 	 */
-	private ToolkitHandler toolkitHandler;
+	// private ToolkitHandler toolkitHandler;
 	private EEFToolkitProvider eefToolkitProvider;
 	private BindingSettingsBuilder builder;
 	private EditingModelEnvironment editingModelEnvironment;
@@ -91,7 +90,7 @@ public abstract class AbstractDragAndDropCommand extends DragAndDropCommand {
 		viewsRepository = getViewsRepository(propertiesEditingModel.eResource());
 		BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		setToolkitPropertyEditorFactory(OSGiHelper.getService(bundleContext, EEFToolkitProvider.class));
-		builder = new BindingSettingsBuilder(propertiesEditingModel, viewsRepository, getToolkitHandler(), GenericBindingSettings.GROUP_CONTAINER_NAME, GenericBindingSettings.TEXT_WIDGET_NAME, GenericBindingSettings.TEXTAREA_WIDGET_NAME);
+		builder = new BindingSettingsBuilder(propertiesEditingModel, viewsRepository, GenericBindingSettings.GROUP_CONTAINER_NAME, GenericBindingSettings.TEXT_WIDGET_NAME, GenericBindingSettings.TEXTAREA_WIDGET_NAME);
 		editingModelEnvironment = new EditingModelEnvironment() {
 			private ResourceSet resourceSet;
 			private ECrossReferenceAdapter crossReferenceAdapter;
@@ -141,15 +140,16 @@ public abstract class AbstractDragAndDropCommand extends DragAndDropCommand {
 		return null;
 	}
 
-	/**
-	 * @return ToolkitHandler
-	 */
-	protected ToolkitHandler getToolkitHandler() {
-		if (toolkitHandler == null) {
-			toolkitHandler = eefToolkitProvider.createHandler(domain.getResourceSet());
-		}
-		return toolkitHandler;
-	}
+	// /**
+	// * @return ToolkitHandler
+	// */
+	// protected ToolkitHandler getToolkitHandler() {
+	// if (toolkitHandler == null) {
+	// toolkitHandler =
+	// eefToolkitProvider.createHandler(domain.getResourceSet());
+	// }
+	// return toolkitHandler;
+	// }
 
 	/**
 	 * @param eefToolkitProvider

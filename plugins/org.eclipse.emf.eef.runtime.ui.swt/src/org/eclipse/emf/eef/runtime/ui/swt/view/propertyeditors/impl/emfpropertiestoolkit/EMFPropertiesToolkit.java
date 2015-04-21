@@ -22,8 +22,6 @@ import org.eclipse.emf.eef.runtime.ui.swt.viewer.filters.ViewerFilterBuilderProv
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
 import org.eclipse.emf.eef.runtime.util.EMFServiceProvider;
-import org.eclipse.emf.eef.views.toolkits.Toolkit;
-import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -32,17 +30,6 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EMFPropertiesToolkit extends EEFToolkitImpl<Composite> {
 
-	/**
-	 * EMFProperties toolkit name.
-	 */
-	public static final String EMF_PROPERTIES_TOOLKIT_NAME = "EMFProperties";
-	
-	private static final Toolkit toolkit = ToolkitsFactory.eINSTANCE.createToolkit();
-	
-	static {
-		toolkit.setName(EMF_PROPERTIES_TOOLKIT_NAME);
-	}
-	
 	private EMFServiceProvider emfServiceProvider;
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private EditUIProvidersFactory editUIProvidersFactory;
@@ -129,14 +116,6 @@ public class EMFPropertiesToolkit extends EEFToolkitImpl<Composite> {
 			.addPropertyEditorFactory(new EDatePickerPropertyEditorFactory(this))
 			.addPropertyEditorFactory(new SingleContainmentPropertyEditorFactory(this))
 			.addPropertyEditorFactory(new MultiValuedPropertyEditorFactory(this));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
-	 */
-	public Toolkit getModel() {
-		return toolkit;
 	}
 
 }

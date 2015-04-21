@@ -15,8 +15,6 @@ import org.eclipse.emf.eef.runtime.ui.swt.resources.ImageManager;
 import org.eclipse.emf.eef.runtime.ui.swt.viewer.EditUIProvidersFactory;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 import org.eclipse.emf.eef.runtime.util.EEFEditingServiceProvider;
-import org.eclipse.emf.eef.views.toolkits.Toolkit;
-import org.eclipse.emf.eef.views.toolkits.ToolkitsFactory;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -24,17 +22,6 @@ import org.eclipse.swt.widgets.Composite;
  *
  */
 public class JDTToolkit extends EEFToolkitImpl<Composite> {
-
-	/**
-	 * EEF JDT Toolkit name.
-	 */
-	public static final String JDT_TOOLKIT_NAME = "jdt";
-	
-	private static final Toolkit toolkit = ToolkitsFactory.eINSTANCE.createToolkit();
-	
-	static {
-		toolkit.setName(JDT_TOOLKIT_NAME);
-	}
 
 	private EEFEditingServiceProvider eefEditingServiceProvider;
 	private EditUIProvidersFactory editUIProvidersFactory;
@@ -46,14 +33,6 @@ public class JDTToolkit extends EEFToolkitImpl<Composite> {
 	 */
 	public JDTToolkit() {
 		addPropertyEditorFactory(new JavaClassChooserPropertyEditorFactory(this));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.ModelPropertyEditorFactory#getModel()
-	 */
-	public Toolkit getModel() {
-		return toolkit;
 	}
 
 	/**

@@ -12,7 +12,6 @@ package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
 import java.util.Collection;
 
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
 
@@ -37,5 +36,5 @@ public interface EEFToolkitProvider {
 	 */
 	Collection<EEFToolkit<?>> getAllToolkits();
 
-	ToolkitHandler createHandler(ResourceSet resourceSet);
+	// ToolkitHandler createHandler(ResourceSet resourceSet);
 }
