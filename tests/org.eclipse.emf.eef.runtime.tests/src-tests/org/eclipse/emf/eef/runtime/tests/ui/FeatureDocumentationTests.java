@@ -185,7 +185,7 @@ public class FeatureDocumentationTests {
 		view.setName(SAMPLE_ECLASS_NAME);
 		ElementEditor editor = ViewsFactory.eINSTANCE.createElementEditor();
 		editor.setName("name");
-		Resource resource = new ResourceSetImpl().getResource(URI.createURI("eeftoolkit://SWT.toolkit", false), true);
+		Resource resource = new ResourceSetImpl().getResource(URI.createURI("platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit", false), true);
 		Toolkit toolkit = (Toolkit) resource.getContents().get(0);
 		Widget widget = toolkit.getWidgets().get(0);
 		editor.setRepresentation(widget);

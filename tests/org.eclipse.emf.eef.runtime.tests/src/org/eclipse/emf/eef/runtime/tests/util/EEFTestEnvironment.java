@@ -557,9 +557,9 @@ public class EEFTestEnvironment {
 		public PropertiesEditingModel createEditingModelWithPropertiesEditingViews() {
 			List<Toolkit> toolkits = new ArrayList<Toolkit>();
 			ResourceSet rset = new ResourceSetImpl();
-			Resource resource = rset.getResource(URI.createURI("eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit"), true);
+			Resource resource = rset.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit"), true);
 			toolkits.add((Toolkit) resource.getContents().get(0));
-			resource = rset.getResource(URI.createURI("eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit"), true);
+			resource = rset.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/EMFProperties.toolkit"), true);
 			toolkits.add((Toolkit) resource.getContents().get(0));
 			List<View> views = createEcoreViews(toolkits);
 			return new EditingModelBuilder(TESTS_EDITING_MODEL_ID).bindClass(EcorePackage.Literals.ECLASS).withView(views.get(0)).withView(views.get(1)).bindProperty(EcorePackage.Literals.ECLASSIFIER__DEFAULT_VALUE).withEditor(views.get(1).getElements().get(0)).build();
@@ -568,7 +568,7 @@ public class EEFTestEnvironment {
 		public PropertiesEditingModel createEditingModelWithContainersPropertiesEditingViews() {
 			List<Toolkit> toolkits = new ArrayList<Toolkit>();
 			ResourceSet rset = new ResourceSetImpl();
-			Resource resource = rset.getResource(URI.createURI("eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit"), true);
+			Resource resource = rset.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit"), true);
 			toolkits.add((Toolkit) resource.getContents().get(0));
 			List<View> views = createEcoreViewsWithContainers(toolkits);
 			return new EditingModelBuilder(TESTS_EDITING_MODEL_ID).bindClass(EcorePackage.Literals.ECLASS).withView(views.get(0)).build();
