@@ -11,7 +11,9 @@
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl;
+import org.eclipse.emf.eef.views.toolkits.Widget;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -34,7 +36,7 @@ public interface WidgetPropertyEditorFactory<T> extends PropertyEditorFactory<T>
 	 * @param toolkit
 	 *            the {@link EEFToolkitImpl} owning the current property editor
 	 */
-	void setToolkit(EEFToolkitImpl<T> toolkit);
+	void setToolkit(EEFToolkit<T> toolkit);
 
 	/**
 	 * @param feature
@@ -42,5 +44,12 @@ public interface WidgetPropertyEditorFactory<T> extends PropertyEditorFactory<T>
 	 * @return if the feature can be handled by the widget
 	 */
 	boolean canHandle(EStructuralFeature feature);
+
+	/**
+	 * @param resource
+	 *            Resource
+	 * @return the toolkit widget from the resource.
+	 */
+	Widget getModel(Resource resource);
 
 }

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.tests.generic.binding.settings;
 
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +24,11 @@ import org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors.EEFToolkitPr
 import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettings;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit;
 import org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.component.ComponentContext;
+import org.osgi.service.component.ComponentInstance;
 
 import com.google.common.collect.Lists;
 
@@ -48,10 +54,14 @@ public class AbstractGenericBindingSettingsTestCase {
 		EEFToolkitProviderImpl eefToolkitProvider = new EEFToolkitProviderImpl();
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put("component.name", "SWTToolkit");
-		eefToolkitProvider.addService(new SWTToolkit(), options);
+		SWTToolkit swtToolkit = new SWTToolkit();
+		swtToolkit.initToolkitPath("platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/SWT.toolkit");
+		eefToolkitProvider.addService(swtToolkit, options);
 		options.put("component.name", "EMFPropertiesToolkit");
 		options.put("priority.over", "SWTToolkit");
-		eefToolkitProvider.addService(new EMFPropertiesToolkit(), options);
+		EMFPropertiesToolkit emfPropertiesToolkit = new EMFPropertiesToolkit();
+		emfPropertiesToolkit.initToolkitPath("platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/EMFProperties.toolkit");
+		eefToolkitProvider.addService(emfPropertiesToolkit, options);
 		genericBindingSettings.setEEFToolkitProvider(eefToolkitProvider);
 		EMFServiceProviderImpl emfServiceProvider = new EMFServiceProviderImpl();
 		Map<String, String> properties = new HashMap<String, String>();

@@ -17,5 +17,5 @@
   <widgets name="Textarea" 
   		implementation="org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.textarea.TextareaPropertyEditorFactory"/>
   <widgets name="Combo" 
-  		implementation="org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.combo.ComboPlatformAwarePropertyEditorFactory"/>
+  		implementation="org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.combo.ComboPropertyEditorFactory"/>
 </eef-views:Toolkit>

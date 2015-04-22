@@ -65,8 +65,11 @@ public class SWTToolkit extends EEFToolkitImpl<Composite> {
 	 * 
 	 */
 	public SWTToolkit() {
-		addPropertyEditorFactory(new TextPropertyEditorFactory(this)).addPropertyEditorFactory(new CheckboxPropertyEditorFactory(this)).addPropertyEditorFactory(new GroupContainerFactory()).addPropertyEditorFactory(new HBoxContainerFactory())
-				.addPropertyEditorFactory(new TextareaPropertyEditorFactory(this)).addPropertyEditorFactory(new ComboPropertyEditorFactory(this));
+		addPropertyEditorFactory(new TextPropertyEditorFactory(this))
+		.addPropertyEditorFactory(new CheckboxPropertyEditorFactory(this))
+		.addPropertyEditorFactory(new GroupContainerFactory())
+		.addPropertyEditorFactory(new HBoxContainerFactory())
+		.addPropertyEditorFactory(new TextareaPropertyEditorFactory(this)).addPropertyEditorFactory(new ComboPropertyEditorFactory(this));
 	}
 
 }

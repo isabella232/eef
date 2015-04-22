@@ -4,4 +4,5 @@
    <service>
       <provide interface="org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit"/>
    </service>
+   <property name="eef.toolkit.model.path" type="String" value="platform:/plugin/org.eclipse.emf.eef2.runtime.ui.swt/model/Undefined.toolkit"/>
 </scr:component>

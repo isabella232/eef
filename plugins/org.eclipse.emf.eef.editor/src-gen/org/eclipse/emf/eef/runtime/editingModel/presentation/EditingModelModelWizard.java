@@ -32,6 +32,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -53,9 +54,12 @@ import org.eclipse.emf.eef.editor.EditingModelEditPlugin;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsProvider;
+import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
+import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelPackage;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
+import org.eclipse.emf.eef.runtime.editingModel.View;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.EditingModelModelWizardNewFileCreationPage;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.ModelToChoosePage;
 import org.eclipse.emf.eef.runtime.editingModel.presentation.pages.ModelToChoosePage.ModelInitializationChangeListener;
@@ -124,6 +128,7 @@ import org.osgi.framework.FrameworkUtil;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 /**
  * This is a simple wizard for creating a new model file. <!-- begin-user-doc
@@ -339,42 +344,61 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 									ePackage = (EPackage) root;
 								}
 								setMetamodelePackage(ePackage);
-
+								
 								PropertiesEditingModel editingModel = null;
+								ViewsRepository viewsRepository = null;
 								BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
+								
 								if (initializingMethodPage.initModel()) {
+									List<EPackage> packagesToProcesses = listPackagesToProcess(ePackage);
 									EEFBindingSettingsProvider bindingSettingsProvider = OSGiHelper.getService(bundleContext, EEFBindingSettingsProvider.class);
-									EEFBindingSettings<?> bindingSettings = bindingSettingsProvider.getBindingSettings(ePackage);
-
-									if (!(bindingSettings instanceof GenericBindingSettings)) {
-										Iterable<GenericBindingSettings> filter = Iterables.filter(bindingSettingsProvider.getAllBindingSettings(ePackage), GenericBindingSettings.class);
-										Iterator<GenericBindingSettings> it = filter.iterator();
-										if (it.hasNext()) {
-											bindingSettings = it.next();
-										}
-									}
-									if (bindingSettings instanceof GenericBindingSettings) {
-										for (EClassifier content : ePackage.getEClassifiers()) {
-											if (content instanceof EClass) {
-												((GenericBindingSettings) bindingSettings).getEEFDescription((EClass) content);
+									List<PropertiesEditingModel> allEditingModels = Lists.newArrayList();
+									for (EPackage pack : packagesToProcesses) {
+										if (containsEClass(pack)) {
+											EEFBindingSettings<?> bindingSettings = bindingSettingsProvider.getBindingSettings(pack);
+											if (!(bindingSettings instanceof GenericBindingSettings)) {
+												Iterable<GenericBindingSettings> filter = Iterables.filter(bindingSettingsProvider.getAllBindingSettings(pack), GenericBindingSettings.class);
+												Iterator<GenericBindingSettings> it = filter.iterator();
+												if (it.hasNext()) {
+													bindingSettings = it.next();
+												}
+											}
+											if (bindingSettings instanceof GenericBindingSettings) {
+												allEditingModels.add(getEEFDescription(pack, bindingSettings));
 											}
 										}
 									}
-									editingModel = bindingSettings.getEditingModel(ePackage);
-
+									
+									editingModel = EditingModelFactory.eINSTANCE.createPropertiesEditingModel();
+									viewsRepository = ViewsFactory.eINSTANCE.createViewsRepository();
+									for (PropertiesEditingModel propertiesEditingModel : allEditingModels) {
+										Collection<EObject> copy = EcoreUtil.copyAll(propertiesEditingModel.eResource().getContents());
+										for (EObject eObject : copy) {
+											if (eObject instanceof PropertiesEditingModel) {
+												PropertiesEditingModel model = (PropertiesEditingModel)eObject;
+												editingModel.getBindings().addAll(model.getBindings());
+												EList<EObject> involvedModels = model.getInvolvedModels();
+												for (EObject involvedModel : involvedModels) {
+													if (!editingModel.getInvolvedModels().contains(involvedModel)) {
+														editingModel.getInvolvedModels().add(involvedModel);
+														editingDomain.getResourceSet().getResources().add(involvedModel.eResource());
+													}
+												}												
+											} else if (eObject instanceof ViewsRepository) {
+												viewsRepository.getViews().addAll(((ViewsRepository)eObject).getViews());																						
+											}
+										}
+									}
+									EcoreUtil.resolveAll(editingDomain.getResourceSet());
+									resource.getContents().add(editingModel);
+									resource.getContents().add(viewsRepository);
 								} else {
 									EMFServiceProvider emfServiceProvider = OSGiHelper.getService(bundleContext, EMFServiceProvider.class);
 									Resource propertiesEditingModelResource = GenericBindingSettingsUtil.initPropertiesEditingModel(ePackage, emfServiceProvider, new EditingModelEnvironmentImpl(null));
 									editingModel = GenericBindingSettingsUtil.getPropertiesEditionModel(propertiesEditingModelResource);
 								}
 
-								if (editingModel != null) {
-									resource.getContents().addAll(EcoreUtil.copyAll(editingModel.eResource().getContents()));
-									for (EObject eObject : editingModel.getInvolvedModels()) {
-										editingDomain.getResourceSet().getResources().add(eObject.eResource());
-									}
-									EcoreUtil.resolveAll(editingDomain.getResourceSet());
-								} else {
+								if (editingModel == null) {
 									EObject rootObject = createEditingModel();
 									if (rootObject != null) {
 										resource.getContents().add(rootObject);
@@ -408,6 +432,7 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 						progressMonitor.done();
 					}
 				}
+
 			};
 
 			getContainer().run(false, false, operation);
@@ -455,6 +480,12 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			return false;
 		}
 	}
+	
+	protected boolean containsEClass(EPackage ePackage) {
+		Iterable<EClass> filter = Iterables.filter(ePackage.getEClassifiers(), EClass.class);
+		return !Iterables.isEmpty(filter);
+	}
+
 
 	protected static final String SET_EMF_SERVICE_PROVIDER = "setEMFServiceProvider";
 	protected static final String EMF_SERVICE_PROVIDER = "org.eclipse.emf.eef.runtime.util.EMFServiceProvider";
@@ -1094,6 +1125,34 @@ public class EditingModelModelWizard extends Wizard implements INewWizard {
 			}
 		}
 		return fileName;
+	}
+
+	/**
+	 * @param ePackage EPackage
+	 * @param bindingSettings EEFBindingSettings
+	 */
+	public PropertiesEditingModel getEEFDescription(EPackage ePackage, EEFBindingSettings<?> bindingSettings) {
+		for (EClassifier content : ePackage.getEClassifiers()) {
+			if (content instanceof EClass) {
+				((GenericBindingSettings) bindingSettings).getEEFDescription((EClass) content);				
+			}
+		}
+		return bindingSettings.getEditingModel(ePackage);
+	}
+
+
+	
+	/**
+	 * @param ePackage
+	 * @return 
+	 */
+	private List<EPackage> listPackagesToProcess(EPackage ePackage) {
+		List<EPackage> packagesToProcess = Lists.newArrayList();
+		packagesToProcess.add(ePackage);
+		for (EPackage subPackage : ePackage.getESubpackages()) {
+			packagesToProcess.addAll(listPackagesToProcess(subPackage));
+		}
+		return packagesToProcess;
 	}
 
 }

@@ -10,11 +10,16 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.swttoolkit.group;
 
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.ui.swt.EEFSWTConstants;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor.EReferencePropertyEditorFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.group.GroupContainerFactory;
 import org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.group.GroupPropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.views.Container;
+import org.eclipse.emf.eef.views.toolkits.Widget;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -47,4 +52,21 @@ public class GroupPlatformAwareContainerFactory extends GroupContainerFactory {
 		}
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl#getModel(org.eclipse.emf.ecore.resource.Resource)
+	 */
+	public Widget getModel(Resource resource) {
+		TreeIterator<EObject> allContents = resource.getAllContents();
+		while (allContents.hasNext()) {
+			EObject next = allContents.next();
+			if (next instanceof Widget) {
+				if (GroupContainerFactory.class.getName().equals(((Widget) next).getImplementation())) {
+					return (Widget) next;
+				}
+ 			}
+		}
+		return null;
+	}
 }

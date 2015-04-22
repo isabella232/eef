@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.eef.runtime.editingModel.EClassBinding;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectEditor;
 import org.eclipse.emf.eef.runtime.editingModel.EObjectView;
@@ -29,6 +30,7 @@ import org.eclipse.emf.eef.runtime.editingModel.EditingModelEnvironment;
 import org.eclipse.emf.eef.runtime.editingModel.EditingModelFactory;
 import org.eclipse.emf.eef.runtime.editingModel.PropertiesEditingModel;
 import org.eclipse.emf.eef.runtime.editingModel.PropertyBinding;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.emf.eef.views.Container;
 import org.eclipse.emf.eef.views.ElementEditor;
 import org.eclipse.emf.eef.views.View;
@@ -58,7 +60,7 @@ public class BindingSettingsBuilder {
 	public static final String GENFEATURE_PROPERTY_CATEGORY = "propertyCategory";
 	public static final String GENFEATURE_PROPERTY = "property";
 
-	// private ToolkitHandler toolkitHandler;
+	private EEFToolkitProvider toolkitProvider;
 
 	private PropertiesEditingModel propertiesEditingModel;
 
@@ -70,9 +72,9 @@ public class BindingSettingsBuilder {
 	private String TEXTAREA_WIDGET_NAME = "";
 	private ViewsRepository viewsRepository;
 
-	public BindingSettingsBuilder(PropertiesEditingModel propertiesEditingModel, ViewsRepository viewsRepository, String... names) {
+	public BindingSettingsBuilder(PropertiesEditingModel propertiesEditingModel, ViewsRepository viewsRepository, EEFToolkitProvider toolkitProvider, String... names) {
 		this.propertiesEditingModel = propertiesEditingModel;
-		// this.toolkitHandler = toolkitHandler;
+		this.toolkitProvider = toolkitProvider;
 		this.viewsRepository = viewsRepository;
 		if (names.length > 0) {
 			this.GROUP_CONTAINER_NAME = names[0];
@@ -194,7 +196,7 @@ public class BindingSettingsBuilder {
 		propertyBinding.setFeature(feature);
 		Widget widget = null;
 		if (isMultiLine && feature.getEType() instanceof EDataType && feature.getEType().getName().contains("String")) {
-			// widget = toolkitHandler.getWidgetByName(TEXTAREA_WIDGET_NAME);
+			widget = toolkitProvider.getWidgetByName(eClassBinding.eResource().getResourceSet(), TEXTAREA_WIDGET_NAME);
 		}
 		if (widget == null) {
 			widget = getWidgetForFeature(feature);
@@ -251,7 +253,7 @@ public class BindingSettingsBuilder {
 			} else {
 				Container group = getGroup(category, createdView);
 				if (group == null) {
-					return createContainerViewForEClassBinding(category, createdView);
+					return createContainerViewForEClassBinding(category, createdView, eObject.eResource().getResourceSet());
 				}
 				return group;
 			}
@@ -269,9 +271,9 @@ public class BindingSettingsBuilder {
 	 */
 	public Widget getWidgetForFeature(EStructuralFeature feature) {
 		if (!feature.isMany() && feature instanceof EAttribute && feature.getEType() != null && !(feature.getEType() instanceof EEnum) && (feature.getEType().getName().equals("EString") || feature.getEType().getName().equals("String")) && "documentation".equals(feature.getName())) {
-			// return toolkitHandler.getWidgetByName(TEXTAREA_WIDGET_NAME);
+			 return toolkitProvider.getWidgetByName(feature.eResource().getResourceSet(), TEXTAREA_WIDGET_NAME);
 		}
-		Collection<Widget> widgetsFor = null;// toolkitHandler.getAllWidgetsFor(feature);
+		Collection<Widget> widgetsFor = toolkitProvider.getAllWidgetsFor(feature.eResource().getResourceSet(), feature);
 		if (widgetsFor.size() == 1) {
 			return widgetsFor.iterator().next();
 		} else {
@@ -350,7 +352,7 @@ public class BindingSettingsBuilder {
 	 * @return the new container
 	 */
 	public Container createContainerViewForEClassBinding(EClass eObject, org.eclipse.emf.eef.views.View view) {
-		return createContainerViewForEClassBinding(eObject.getName(), view);
+		return createContainerViewForEClassBinding(eObject.getName(), view, eObject.eResource().getResourceSet());
 	}
 
 	/**
@@ -358,12 +360,13 @@ public class BindingSettingsBuilder {
 	 *            EObject
 	 * @param view
 	 *            org.eclipse.emf.eef.views.View
+	 * @param resourceSet {@link ResourceSet}
 	 * @return the new container
 	 */
-	public Container createContainerViewForEClassBinding(String name, org.eclipse.emf.eef.views.View view) {
+	public Container createContainerViewForEClassBinding(String name, org.eclipse.emf.eef.views.View view, ResourceSet resourceSet) {
 		Container newGroup = ViewsFactory.eINSTANCE.createContainer();
 		newGroup.setName(name);
-		// newGroup.setRepresentation(toolkitHandler.getWidgetByName(GROUP_CONTAINER_NAME));
+		newGroup.setRepresentation(toolkitProvider.getWidgetByName(resourceSet, GROUP_CONTAINER_NAME));
 		view.getElements().add(newGroup);
 		return newGroup;
 	}
@@ -435,7 +438,7 @@ public class BindingSettingsBuilder {
 	private static class StandardEEFToolkitsSelector implements Predicate<Widget> {
 
 		public boolean apply(Widget widget) {
-			return widget.getToolkit().getName() == "SWT" || widget.getToolkit().getName() == "EMFProperties";
+			return widget != null && ("SWT".equals(widget.getToolkit().getName())  || "EMFProperties".equals(widget.getToolkit().getName()));
 		}
 
 	}

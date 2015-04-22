@@ -10,13 +10,17 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.internal.view.propertyeditors;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.eef.runtime.logging.EEFLogger;
 import org.eclipse.emf.eef.runtime.services.EEFServiceProviderImpl;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditorFactory.PropertyEditorContext;
+import org.eclipse.emf.eef.views.toolkits.Widget;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -49,22 +53,42 @@ public class EEFToolkitProviderImpl extends EEFServiceProviderImpl<PropertyEdito
 		return getAllServices();
 	}
 
-	// /**
-	// * (non-Javadoc)
-	// *
-	// * @see
-	// org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkitProvider#createHandler(org.eclipse.emf.ecore.resource.ResourceSet)
-	// */
-	// public ToolkitHandler createHandler(ResourceSet resourceSet) {
-	// return new ToolkitHandler(this, resourceSet, eefLogger);
-	// }
-
 	/**
 	 * @param eefLogger
 	 *            the eefLogger to set
 	 */
 	public void setEEFLogger(EEFLogger eefLogger) {
 		this.eefLogger = eefLogger;
+	}
+	
+	/**
+	 * Returns all widgets which can display the feature.
+	 * 
+	 * @param eStructuralFeature
+	 *            EStructuralFeature
+	 */
+	public Collection<Widget> getAllWidgetsFor(ResourceSet resourceSet, EStructuralFeature eStructuralFeature) {
+		Collection<Widget> widgets = new ArrayList<Widget>();
+		Collection<EEFToolkit<?>> allToolkits = getAllToolkits();
+		for (EEFToolkit<?> toolkit : allToolkits) {
+			widgets.addAll(toolkit.getAllWidgetsFor(resourceSet, eStructuralFeature));
+		}
+		return widgets;
+	}
+
+	/**
+	 * @param name
+	 *            String
+	 * @return the first widget named "name" in toolkits.
+	 */
+	public Widget getWidgetByName(ResourceSet resourceSet, String name) {
+		for (EEFToolkit<?> toolkit : getAllToolkits()) {
+			Widget widget = toolkit.getWidgetByName(resourceSet, name);
+			if (widget != null) {
+				return widget;
+			}
+		}
+		return null;
 	}
 
 }

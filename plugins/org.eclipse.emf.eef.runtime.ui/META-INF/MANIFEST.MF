@@ -70,4 +70,5 @@ Import-Package: com.google.common.base;version="10.0.1",
  org.eclipse.emf.eef.runtime.view.notify,
  org.eclipse.emf.eef.runtime.view.notify.impl,
  org.osgi.framework;version="1.5.0",
+ org.osgi.service.component;version="1.2.2",
  org.osgi.service.event;version="1.2.0"

@@ -243,7 +243,7 @@ public class GenericBindingSettingsTestCase extends AbstractGenericBindingSettin
 		} else if (GenericBindingSettingsUtil.SINGLE_COMPOSITION.equals(eStructuralFeature.getName())) {
 			assertEquals("Representation should be a single containment", GenericBindingSettings.SINGLE_CONTAINMENT_EDITOR_WIDGET_NAME, elementEditor.getRepresentation().getName());
 		} else if (GenericBindingSettingsUtil.MULTI_COMPOSITION.equals(eStructuralFeature.getName())) {
-			assertEquals("Representation should be a econtainment editor", GenericBindingSettings.ECONTAINEMENT_EDITOR_WIDGET_NAME, elementEditor.getRepresentation().getName());
+			assertEquals("Representation should be a econtainment editor", GenericBindingSettings.ECONTAINMENT_EDITOR_WIDGET_NAME, elementEditor.getRepresentation().getName());
 		}
 	}
 

@@ -10,10 +10,15 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl;
 
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.eef.runtime.binding.PropertiesEditingComponent;
 import org.eclipse.emf.eef.runtime.notify.PropertiesEditingEvent;
+import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.EEFToolkit;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.PropertyEditor;
 import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory;
+import org.eclipse.emf.eef.views.toolkits.Widget;
 
 /**
  * @author <a href="mailto:goulwen.lefur@obeo.fr">Goulwen Le Fur</a>
@@ -21,14 +26,14 @@ import org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorF
  */
 public abstract class WidgetPropertyEditorFactoryImpl<T> implements WidgetPropertyEditorFactory<T> {
 
-	private EEFToolkitImpl<T> toolkit;
+	private EEFToolkit<T> toolkit;
 
 	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.WidgetPropertyEditorFactory#setToolkit(org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.EEFToolkitImpl)
 	 */
-	public final void setToolkit(EEFToolkitImpl<T> toolkit) {
+	public final void setToolkit(EEFToolkit<T> toolkit) {
 		this.toolkit = toolkit;
 	}
 
@@ -39,6 +44,24 @@ public abstract class WidgetPropertyEditorFactoryImpl<T> implements WidgetProper
 	 */
 	public boolean serviceFor(PropertyEditorContext editorContext) {
 		return this.getClass().getName().equals(editorContext.viewElement.getRepresentation().getImplementation());
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.eef.runtime.ui.view.propertyeditors.impl.WidgetPropertyEditorFactoryImpl#getModel(org.eclipse.emf.ecore.resource.Resource)
+	 */
+	public Widget getModel(Resource resource) {
+		TreeIterator<EObject> allContents = resource.getAllContents();
+		while (allContents.hasNext()) {
+			EObject next = allContents.next();
+			if (next instanceof Widget) {
+				if (this.getClass().getName().equals(((Widget) next).getImplementation())) {
+					return (Widget) next;
+				}
+ 			}
+		}
+		return null;
 	}
 
 	/**

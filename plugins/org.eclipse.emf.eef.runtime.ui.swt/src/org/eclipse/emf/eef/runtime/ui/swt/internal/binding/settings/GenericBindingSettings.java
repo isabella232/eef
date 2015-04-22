@@ -51,7 +51,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	public static final String GROUP_CONTAINER_NAME = "Group";
 	public static final String TEXT_WIDGET_NAME = "Text";
 	public static final String ECOMBO_EDITOR_WIDGET_NAME = "ECombo Editor";
-	public static final String ECONTAINEMENT_EDITOR_WIDGET_NAME = "EContainement Editor";
+	public static final String ECONTAINMENT_EDITOR_WIDGET_NAME = "EContainment Editor";
 	public static final String EDATE_PICKER_EDITOR_WIDGET_NAME = "EDatePicker Editor";
 	public static final String EREFERENCE_EDITOR_WIDGET_NAME = "EReference Editor";
 	public static final String MULTI_VALUED_EDITOR_WIDGET_NAME = "MultiValued Attribute Editor";
@@ -175,7 +175,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 	 */
 	public void updatePropertiesEditingModel(EClass eObject, PropertiesEditingModel propertiesEditingModel, ViewsRepository viewsRepository) {
 		// create EClassBinding on eobject with its view
-		BindingSettingsBuilder builder = new BindingSettingsBuilder(propertiesEditingModel, viewsRepository, null, GROUP_CONTAINER_NAME, TEXT_WIDGET_NAME, TEXTAREA_WIDGET_NAME);
+		BindingSettingsBuilder builder = new BindingSettingsBuilder(propertiesEditingModel, viewsRepository, toolkitProvider, GROUP_CONTAINER_NAME, TEXT_WIDGET_NAME, TEXTAREA_WIDGET_NAME);
 		if (!builder.existEClassBinding(eObject)) {
 			// create View
 			org.eclipse.emf.eef.views.View createdView = builder.createViewForEClassBinding(eObject);
