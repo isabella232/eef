@@ -7,15 +7,15 @@
     xsi:schemaLocation="http://www.eclipse.org/emf/eef/views/toolkits/1.0.0 http://www.eclipse.org/emf/eef/views/1.0.0#//toolkits"
     name="EMFProperties">
   <widgets name="EReference Editor"
-      implementation="org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.swttoolkit.checkbox.CheckboxPropertyEditorFactory"/>
+      implementation="org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.ereferenceeditor.EReferencePlaftormAwarePropertyEditorFactory"/>
   <widgets name="ECombo Editor"
-      implementation="org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorFactory"/>
+      implementation="org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.ecomboeditor.EComboPropertyEditorFactory"/>
   <widgets name="EContainment Editor"
-      implementation="org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor.EContainmentPropertyEditorFactory"/>
+      implementation="org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.econtainmenteditor.EContainmentPropertyEditorFactory"/>
   <widgets name="EDatePicker Editor"
-      implementation="org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker.EDatePickerPropertyEditorFactory"/>
+      implementation="org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.edatepicker.EDatePickerPropertyEditorFactory"/>
   <widgets name="Single Containment Editor"
-      implementation="org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.singlecontainmenteditor.SingleContainmentPropertyEditorFactory"/>
+      implementation="org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.singlecontainmenteditor.SingleContainmentPropertyEditorFactory"/>
   <widgets name="MultiValued Attibute Editor"
-      implementation="org.eclipse.emf.eef.runtime.ui.swt.internal.view.propertyeditors.impl.emfpropertiestoolkit.mutivaluededitor.MultiValuedPropertyEditorFactory"/>
+      implementation="org.eclipse.emf.eef.runtime.ui.swt.e3.internal.view.propertyeditors.impl.emfpropertiestoolkit.mutivaluededitor.MultiValuedPropertyEditorFactory"/>
 </eef-views:Toolkit>
