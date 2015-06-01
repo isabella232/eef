@@ -12,6 +12,7 @@ package org.eclipse.emf.eef.editor;
 
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.commands.ExecutionException;
@@ -25,6 +26,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl;
+import org.eclipse.emf.eef.runtime.ui.swt.internal.binding.settings.GenericBindingSettingsHelper;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableContext;
@@ -204,12 +206,12 @@ public class PDEHelper {
 	 * 
 	 */
 	protected void createBindingSettingService(final Shell shell, final IRunnableContext container, final IFile modelFile,
-			final EPackage metamodel) {
-		final IPath newFilePath = new Path(modelFile.getProject().getName() + "/OSGI-INF/" + metamodel.getName()
+			final EPackage ePackage) {
+		final IPath newFilePath = new Path(modelFile.getProject().getName() + "/OSGI-INF/" + ePackage.getName()
 				+ "BindingSettings.xml");
 		IFile fFile = createNewFile(newFilePath, container, shell);
 		DSCreationOperation dsCreationOperation = new DSCreationOperation(fFile, modelFile.getProject().getName() + "."
-				+ metamodel.getName() + "BindingSettings", EEF_BINDING_SETTINGS_IMPL) {
+				+ ePackage.getName() + "BindingSettings", EEF_BINDING_SETTINGS_IMPL) {
 
 			/**
 			 * (non-Javadoc)
@@ -386,7 +388,16 @@ public class PDEHelper {
 
 				IDSProperty property = factory.createProperty();
 				property.setPropertyName(EEFBindingSettingsImpl.EEF_EDITING_MODEL_URI);
-				property.setPropertyValue(metamodel.getNsURI());
+				String packageURIs = "";
+				GenericBindingSettingsHelper helper = new GenericBindingSettingsHelper();
+				List<EPackage> packages = helper.listPackagesToProcess(ePackage);
+				for (EPackage ePackage : packages) {
+					packageURIs+=ePackage.getNsURI()+",";
+				}
+				if (packageURIs.endsWith(",")) {
+					packageURIs = packageURIs.substring(0, packageURIs.length()-1);
+				}
+				property.setPropertyValue(packageURIs);
 				component.addPropertyElement(property);
 
 				IDSProperty uriProperty = factory.createProperty();

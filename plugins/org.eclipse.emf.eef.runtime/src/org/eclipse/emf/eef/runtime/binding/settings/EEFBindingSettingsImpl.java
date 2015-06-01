@@ -60,7 +60,9 @@ public class EEFBindingSettingsImpl extends AbstractEEFBindingSettings {
 		if (editingModelPath != null) {
 			editingModelPath = "platform:/plugin/" + bundle.getSymbolicName() + "/" + editingModelPath;
 		}
-		setEditingModelURI((String) properties.get(EEF_EDITING_MODEL_URI));
+		String uris = (String) properties.get(EEF_EDITING_MODEL_URI);
+		String[] splitUris = uris.split(",");
+		setEditingModelURIs(splitUris);
 	}
 
 	/**

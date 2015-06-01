@@ -13,6 +13,7 @@ package org.eclipse.emf.eef.runtime.internal.binding.settings;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -47,7 +48,7 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<P
 	private List<PropertiesEditingModel> editingModels;
 	private EditingModelEnvironment editingModelEnvironment;
 	private EventAdmin eventAdmin;
-	private String editingModelURI;
+	private List<String> editingModelURIs =  Lists.newArrayList();
 
 	public static final String EEF_EDITING_MODEL_URI = "eef.editingModel.uri";
 
@@ -77,8 +78,13 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<P
 	 *         {@link EPackage}.
 	 */
 	public boolean serviceFor(final EPackage element) {
-		if (getEditingModelURI() != null) {
-			return getEditingModelURI().equals(element.getNsURI());
+		if (!editingModelURIs.isEmpty()) {
+			for (String uri : editingModelURIs) {
+				if (uri.equals(element.getNsURI()) || Pattern.matches(uri, element.getNsURI())) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 		List<EClassBinding> allBindings = Lists.newArrayList();
@@ -208,15 +214,22 @@ public abstract class AbstractEEFBindingSettings implements EEFBindingSettings<P
 	/**
 	 * @return the editingModelURI
 	 */
-	public String getEditingModelURI() {
-		return editingModelURI;
+	public List<String> getEditingModelURIs() {
+		return editingModelURIs;
 	}
 
 	/**
 	 * @param editingModelURI
 	 *            the editingModelURI to set
 	 */
-	public void setEditingModelURI(String editingModelURI) {
-		this.editingModelURI = editingModelURI;
+	public void addEditingModelURI(String editingModelURI) {
+		this.editingModelURIs.add(editingModelURI);
+	}
+	
+	/**
+	 * @param uris
+	 */
+	public void setEditingModelURIs(String[] uris) {
+		this.editingModelURIs.addAll(Lists.newArrayList(uris));
 	}
 }

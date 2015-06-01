@@ -188,7 +188,7 @@ public class GenericBindingSettings implements EEFBindingSettings<PropertiesEdit
 			EClassBinding eClassBinding = builder.createEClassBinding(eClass, createdView);
 
 			// bind eobject structural features
-			builder.bindEStructuralFeature(eObject, eClassBinding, createdView, getEditingModelEnvironment());
+			builder.bindEStructuralFeature(eClass, eClassBinding, createdView, getEditingModelEnvironment());
 		}
 
 	}

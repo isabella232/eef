@@ -86,6 +86,7 @@ public class GenericBindingSettingsHelper {
 			Resource resource = resourceSet.createResource(fileURI);
 			
 			EPackage ePackage = null;
+			List<EPackage> packagesToProcesses = Lists.newArrayList();
 
 			// Add the initial model object to the contents.
 			//
@@ -112,7 +113,7 @@ public class GenericBindingSettingsHelper {
 					BundleContext bundleContext = FrameworkUtil.getBundle(getClass()).getBundleContext();
 					
 					if (initModel) {
-						List<EPackage> packagesToProcesses = listPackagesToProcess(ePackage);
+						packagesToProcesses = listPackagesToProcess(ePackage);
 						EEFBindingSettingsProvider bindingSettingsProvider = OSGiHelper.getService(bundleContext, EEFBindingSettingsProvider.class);
 						List<PropertiesEditingModel> allEditingModels = Lists.newArrayList();
 						for (EPackage pack : packagesToProcesses) {
@@ -216,7 +217,7 @@ public class GenericBindingSettingsHelper {
 	 * @param ePackage
 	 * @return 
 	 */
-	private List<EPackage> listPackagesToProcess(EPackage ePackage) {
+	public List<EPackage> listPackagesToProcess(EPackage ePackage) {
 		List<EPackage> packagesToProcess = Lists.newArrayList();
 		packagesToProcess.add(ePackage);
 		for (EPackage subPackage : ePackage.getESubpackages()) {
