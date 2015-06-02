@@ -9,8 +9,7 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.samples.conference.policies,
- org.eclipse.emf.samples.conference.provider,
- org.eclipse.emf.samples.conference.providers
+ org.eclipse.emf.samples.conference.provider
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.examples.eef;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,
@@ -18,3 +17,4 @@ Require-Bundle: org.eclipse.core.runtime,
  com.google.guava;bundle-version="10.0.1",
  org.eclipse.osgi.services;bundle-version="3.2.100"
 Bundle-ActivationPolicy: lazy
+Service-Component: OSGI-INF/ConferenceEEFBindingSettings.xml

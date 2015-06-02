@@ -2,290 +2,290 @@
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eef-model="http://www.eclipse.org/emf/eef/editingmodel/1.0.0" xmlns:eef-views="http://www.eclipse.org/emf/eef/views/1.0.0">
   <eef-model:PropertiesEditingModel name="Conference Standard EditingModel" id="org.eclipse.emf.samples.eef.Conference.std">
     <bindings>
-      <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference"/>
+      <eClass href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.0"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.1"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.2"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.0"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/name"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/name"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.0/@elements.1"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/overview"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/overview"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.0/@elements.1/@elements.0"/>
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/venues"/>
+        <feature xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/venues"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.1/@elements.0"/>
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/participants"/>
+        <feature xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/participants"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.2/@elements.0"/>
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/sessions"/>
+        <feature xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Conference/sessions"/>
       </propertyBindings>
     </bindings>
     <bindings>
-      <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue"/>
+      <eClass href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.3"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.0/@elements.0"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/name"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/name"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.0/@elements.1"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/getToTheVenue"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/getToTheVenue"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.3/@elements.1/@elements.0"/>
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/rooms"/>
+        <feature xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Venue/rooms"/>
       </propertyBindings>
     </bindings>
     <bindings>
-      <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Room"/>
+      <eClass href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Room"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.4"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.4/@elements.0/@elements.0"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Room/name"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Room/name"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.4/@elements.0/@elements.1"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Room/capacity"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Room/capacity"/>
       </propertyBindings>
     </bindings>
     <bindings>
-      <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant"/>
+      <eClass href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.5"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.6"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.0"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/firstname"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/firstname"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.1"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/lastname"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/lastname"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.2"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/gender"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/gender"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.0/@elements.3"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/jobTitle"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/jobTitle"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.5/@elements.1/@elements.0"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/bio"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/bio"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.6/@elements.0/@elements.0"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/isRegistered"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/isRegistered"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.6/@elements.1/@elements.0"/>
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/attending"/>
+        <feature xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Participant/attending"/>
       </propertyBindings>
     </bindings>
     <bindings>
-      <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session"/>
+      <eClass href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Session"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.7"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.0"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/title"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/title"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.1"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/type"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/type"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.0/@elements.2"/>
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/speakers"/>
+        <feature xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/speakers"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.7/@elements.1/@elements.0"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/description"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Session/description"/>
       </propertyBindings>
     </bindings>
     <bindings>
-      <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule"/>
+      <eClass href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.8"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.0"/>
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/session"/>
+        <feature xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/session"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.1"/>
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/room"/>
+        <feature xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/room"/>
       </propertyBindings>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.8/@elements.0/@elements.2"/>
-        <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/date"/>
+        <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/date"/>
       </propertyBindings>
     </bindings>
     <bindings>
-      <eClass href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Schedule"/>
+      <eClass href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Schedule"/>
       <views xsi:type="eef-model:EObjectView" definition="/1/@views.9"/>
       <propertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
         <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0"/>
         <subPropertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
           <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0/@subElementEditors.0"/>
-          <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/session"/>
+          <feature xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/session"/>
         </subPropertyBindings>
         <subPropertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
           <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0/@subElementEditors.1"/>
-          <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/room"/>
+          <feature xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/room"/>
         </subPropertyBindings>
         <subPropertyBindings xsi:type="eef-model:EStructuralFeatureBinding">
           <editor xsi:type="eef-model:EObjectEditor" definition="/1/@views.9/@elements.0/@elements.0/@subElementEditors.2"/>
-          <feature xsi:type="ecore:EAttribute" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/date"/>
+          <feature xsi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//SessionSchedule/date"/>
         </subPropertyBindings>
-        <feature xsi:type="ecore:EReference" href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#//Schedule/sessions"/>
+        <feature xsi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#//Schedule/sessions"/>
       </propertyBindings>
     </bindings>
-    <involvedModels href="platform:/plugin/org.eclipse.emf.examples.eef/model/conference.ecore#/"/>
+    <involvedModels href="platform:/resource/org.eclipse.emf.examples.eef/model/conference.ecore#/"/>
   </eef-model:PropertiesEditingModel>
   <eef-views:ViewsRepository documentation="" name="Conference">
     <views name="Conference">
       <elements xsi:type="eef-views:Container" name="Conference">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="name">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.0"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" documentation="" name="overview">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.4"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.4"/>
         </elements>
       </elements>
       <elements xsi:type="eef-views:Container" name="Venue">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="venues">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
+          <representation href="eeftoolkit://EMFProperties.toolkit#//@widgets.2"/>
         </elements>
       </elements>
     </views>
     <views name="Participants">
       <elements xsi:type="eef-views:ElementEditor" name="participants">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://EMFProperties.toolkit#//@widgets.2"/>
       </elements>
     </views>
     <views name="Sessions">
       <elements xsi:type="eef-views:ElementEditor" name="sessions">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://EMFProperties.toolkit#//@widgets.2"/>
       </elements>
     </views>
     <views name="Venue">
       <elements xsi:type="eef-views:Container" name="Venue">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="name">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.0"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" name="getToTheVenue">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.4"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.4"/>
         </elements>
       </elements>
       <elements xsi:type="eef-views:Container" name="Rooms">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="rooms">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
+          <representation href="eeftoolkit://EMFProperties.toolkit#//@widgets.2"/>
         </elements>
       </elements>
     </views>
     <views name="Room">
       <elements xsi:type="eef-views:Container" name="Room">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="name">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.0"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" name="capacity">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.0"/>
         </elements>
       </elements>
     </views>
     <views name="Participant">
       <elements xsi:type="eef-views:Container" name="Identification">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="firstName">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.0"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" name="lastName">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.0"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" name="gender">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.5"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.5"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" name="jobTitle">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.0"/>
         </elements>
       </elements>
       <elements xsi:type="eef-views:Container" name="Bio">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="bio">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.4"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.4"/>
         </elements>
       </elements>
     </views>
     <views name="Attending">
       <elements xsi:type="eef-views:Container" name="Registration">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="registered">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.1"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.1"/>
         </elements>
       </elements>
       <elements xsi:type="eef-views:Container" name="Attending">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="attending">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.0"/>
+          <representation href="eeftoolkit://EMFProperties.toolkit#//@widgets.0"/>
         </elements>
       </elements>
     </views>
     <views name="Session">
       <elements xsi:type="eef-views:Container" name="General">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="title">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.0"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" name="type">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.5"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.5"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" name="speakers">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.0"/>
+          <representation href="eeftoolkit://EMFProperties.toolkit#//@widgets.0"/>
         </elements>
       </elements>
       <elements xsi:type="eef-views:Container" name="Description">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="description">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.4"/>
+          <representation href="eeftoolkit://SWT.toolkit#//@widgets.4"/>
         </elements>
       </elements>
     </views>
     <views name="SessionSchedule">
       <elements xsi:type="eef-views:Container" name="Session">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="session">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
+          <representation href="eeftoolkit://EMFProperties.toolkit#//@widgets.1"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" name="room">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.1"/>
+          <representation href="eeftoolkit://EMFProperties.toolkit#//@widgets.1"/>
         </elements>
         <elements xsi:type="eef-views:ElementEditor" name="date">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.3"/>
+          <representation href="eeftoolkit://EMFProperties.toolkit#//@widgets.3"/>
         </elements>
       </elements>
     </views>
     <views name="Schedule">
       <elements xsi:type="eef-views:Container" name="Sessions">
-        <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.2"/>
+        <representation href="eeftoolkit://SWT.toolkit#//@widgets.2"/>
         <elements xsi:type="eef-views:ElementEditor" name="sessions">
-          <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.emfpropertiestoolkit.EMFPropertiesToolkit#//@widgets.2"/>
+          <representation href="eeftoolkit://EMFProperties.toolkit#//@widgets.2"/>
           <subElementEditors name="session">
-            <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+            <representation href="eeftoolkit://SWT.toolkit#//@widgets.0"/>
           </subElementEditors>
           <subElementEditors name="room">
-            <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+            <representation href="eeftoolkit://SWT.toolkit#//@widgets.0"/>
           </subElementEditors>
           <subElementEditors name="date">
-            <representation href="eeftoolkit:/org.eclipse.emf.eef2.runtime.ui.swt/org.eclipse.emf.eef.runtime.ui.swt.view.propertyeditors.impl.swttoolkit.SWTToolkit#//@widgets.0"/>
+            <representation href="eeftoolkit://SWT.toolkit#//@widgets.0"/>
           </subElementEditors>
         </elements>
       </elements>
