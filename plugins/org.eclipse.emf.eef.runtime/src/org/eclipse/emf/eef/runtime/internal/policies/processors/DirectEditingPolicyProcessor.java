@@ -195,24 +195,26 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
 					Object newNewValue = (newValue == null) ? defineEObjectToAdd(editingContext, (EReference) feature) : newValue;
-					if (feature.isMany()) {
-						if (newNewValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-							((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String) newNewValue));
-						} else if (newNewValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
-							EClass newValueClass = (EClass) newNewValue;
-							EClass referenceType = ((EReference) feature).getEReferenceType();
-							if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
-								((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.create(newValueClass));
+					if (newNewValue != null) {
+						if (feature.isMany()) {
+							if (newNewValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+								((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.createFromString((EDataType) feature.getEType(), (String) newNewValue));
+							} else if (newNewValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
+								EClass newValueClass = (EClass) newNewValue;
+								EClass referenceType = ((EReference) feature).getEReferenceType();
+								if (referenceType == newValue || referenceType.isSuperTypeOf(newValueClass)) {
+									((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.create(newValueClass));
+								}
+							} else {
+								if (newNewValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
+									((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.create((EClass) newNewValue));
+								} else {
+									((Collection<Object>) eObject.eGet(feature)).add(newNewValue);
+								}
 							}
 						} else {
-							if (newNewValue instanceof EClass && feature instanceof EReference && !(feature.getEType() == EcorePackage.Literals.ECLASS)) {
-								((Collection<Object>) eObject.eGet(feature)).add(EcoreUtil.create((EClass) newNewValue));
-							} else {
-								((Collection<Object>) eObject.eGet(feature)).add(newNewValue);
-							}
+							throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
 						}
-					} else {
-						throw new IllegalArgumentException("Cannot _ADD_ a value to a single feature.");
 					}
 					return null;
 				}

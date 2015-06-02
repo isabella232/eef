@@ -539,7 +539,7 @@ public class EEFEditingServiceImpl implements EEFEditingService, DefaultService 
 	 *      org.eclipse.emf.ecore.EObject)
 	 */
 	public void detachFromResource(PropertiesEditingContext editingContext, final EObject eObject) {
-		if (editingContext.getOptions().liveMode()) {
+		if (editingContext.getOptions().batchMode()) {
 			if (eObject.eResource() != null) {
 				Resource objectResource = eObject.eResource();
 				if (objectResource.getContents().contains(eObject)) {
