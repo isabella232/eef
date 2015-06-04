@@ -121,11 +121,12 @@ public class DirectEditingPolicyProcessor implements EditingPolicyProcessor {
 				 */
 				@Override
 				protected Void processByFeature(EStructuralFeature feature) {
-					if (value != null) {
-						if (value instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
-							eObject.eSet(feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String) value));
+					Object newNewValue = (value == null && feature instanceof EReference && ((EReference)feature).isContainment()) ? defineEObjectToAdd(editingContext, (EReference) feature) : value;
+					if (newNewValue != null) {
+						if (newNewValue instanceof String && !"java.lang.String".equals(feature.getEType().getInstanceTypeName())) {
+							eObject.eSet(feature, EcoreUtil.createFromString((EDataType) feature.getEType(), (String) newNewValue));
 						} else {
-							eObject.eSet(feature, value);
+							eObject.eSet(feature, newNewValue);
 						}
 					}
 					return null;
