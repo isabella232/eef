@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.ecore.editor.tabbed.ecoreBindingSettings">
+   <implementation class="org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettingsImpl"/>
+   <service>
+      <provide interface="org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings"/>
+   </service>
+   <reference bind="setEMFServiceProvider" cardinality="1..1" interface="org.eclipse.emf.eef.runtime.util.EMFServiceProvider" name="EMFServiceProvider" policy="static"/>
+   <property name="eef.editingModel.uri" type="String" value="http://www.eclipse.org/emf/2002/Ecore"/>
+   <property name="eef.editingModel.path" type="String" value="resources/models/ecore.editingmodel"/>
+</scr:component>
