@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.emf.eef.editor.internal.binding.settings;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -32,6 +34,7 @@ import org.eclipse.emf.eef.runtime.view.handle.ViewHandlerProvider;
 import org.eclipse.emf.eef.runtime.view.lock.policies.EEFLockPolicy;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 /**
  * Generic binding settings for EObject.
@@ -109,7 +112,8 @@ public class EditorBindingSettings implements EEFBindingSettings<PropertiesEditi
 	 * @see org.eclipse.emf.eef.runtime.binding.settings.EEFBindingSettings#getEEFDescription(org.eclipse.emf.ecore.EClass)
 	 */
 	public PropertiesEditingModel getEEFDescription(EClass eClass) {
-		for (Resource resource : editingDomain.getResourceSet().getResources()) {
+		List<Resource> resources = Lists.newArrayList(editingDomain.getResourceSet().getResources());
+		for (Resource resource : resources) {
 			if (!resource.getContents().isEmpty() && resource.getContents().get(0) instanceof PropertiesEditingModel) {
 				PropertiesEditingModel editingModel = (PropertiesEditingModel) resource.getContents().get(0);
 				if (editingModel != null) {
