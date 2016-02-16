@@ -10,11 +10,26 @@
  *******************************************************************************/
 package org.eclipse.eef.ide.ui.internal;
 
+import java.text.MessageFormat;
+
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.eef.EEFCustomWidgetDescription;
 import org.eclipse.eef.common.api.AbstractEEFEclipsePlugin;
+import org.eclipse.eef.ide.api.extensions.AbstractRegistryEventListener;
+import org.eclipse.eef.ide.api.extensions.IItemDescriptor;
+import org.eclipse.eef.ide.api.extensions.IItemRegistry;
+import org.eclipse.eef.ide.api.extensions.impl.DescriptorRegistryEventListener;
+import org.eclipse.eef.ide.api.extensions.impl.ItemRegistry;
+import org.eclipse.eef.ide.ui.api.IEEFLifecycleManagerProvider;
+import org.eclipse.eef.ide.ui.api.ILifecycleManager;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.sirius.common.interpreter.api.IInterpreter;
+import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.widgets.Display;
@@ -72,9 +87,26 @@ public class EEFIdeUiPlugin extends EMFPlugin {
 	 */
 	public static class Implementation extends AbstractEEFEclipsePlugin {
 		/**
+		 * The name of the extension point for the lifecycle manager provider.
+		 */
+		private static final String EEF_LIFECYCLE_MANAGER_PROVIDER_EXTENSION_POINT = "eefLifecycleManagerProvider"; //$NON-NLS-1$
+
+		/**
 		 * The image registry.
 		 */
 		private ImageRegistry imageRegistry;
+
+		/**
+		 * The {@link IItemRegistry} used to retrieve the lifecycle manager provider
+		 * {@link IEEFLifecycleManagerProvider}.
+		 */
+		private IItemRegistry<IEEFLifecycleManagerProvider> eefLifecycleManagerProviderRegistry;
+
+		/**
+		 * The extension registry listener used to populate the registry of lifecycle manager provider
+		 * {@link IEEFLifecycleManagerProvider}.
+		 */
+		private AbstractRegistryEventListener eefLifecycleManagerProviderListener;
 
 		/**
 		 * The constructor.
@@ -90,17 +122,6 @@ public class EEFIdeUiPlugin extends EMFPlugin {
 			this.imageRegistry.put(Icons.UNSET, this.getImageDescriptor(Icons.UNSET));
 			this.imageRegistry.put(Icons.UP, this.getImageDescriptor(Icons.UP));
 			this.imageRegistry.put(Icons.DOWN, this.getImageDescriptor(Icons.DOWN));
-		}
-
-		/**
-		 * {@inheritDoc}
-		 *
-		 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
-		 */
-		@Override
-		public void stop(BundleContext context) throws Exception {
-			super.stop(context);
-			this.imageRegistry.dispose();
 		}
 
 		/**
@@ -147,6 +168,76 @@ public class EEFIdeUiPlugin extends EMFPlugin {
 		 */
 		public ImageRegistry getImageRegistry() {
 			return this.imageRegistry;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.core.runtime.Plugin#start(org.osgi.framework.BundleContext)
+		 */
+		@Override
+		public void start(BundleContext context) throws Exception {
+			super.start(context);
+			IExtensionRegistry registry = Platform.getExtensionRegistry();
+
+			this.eefLifecycleManagerProviderRegistry = new ItemRegistry<IEEFLifecycleManagerProvider>();
+			this.eefLifecycleManagerProviderListener = new DescriptorRegistryEventListener<IEEFLifecycleManagerProvider>(PLUGIN_ID,
+					EEF_LIFECYCLE_MANAGER_PROVIDER_EXTENSION_POINT, this.eefLifecycleManagerProviderRegistry);
+			registry.addListener(this.eefLifecycleManagerProviderListener, PLUGIN_ID + '.' + EEF_LIFECYCLE_MANAGER_PROVIDER_EXTENSION_POINT);
+			this.eefLifecycleManagerProviderListener.readRegistry(registry);
+
+		}
+
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+		 */
+		@Override
+		public void stop(BundleContext context) throws Exception {
+			super.stop(context);
+
+			IExtensionRegistry registry = Platform.getExtensionRegistry();
+
+			registry.removeListener(this.eefLifecycleManagerProviderListener);
+			this.eefLifecycleManagerProviderListener = null;
+			this.eefLifecycleManagerProviderRegistry = null;
+		}
+
+		/**
+		 * Return the lifecycle manager.
+		 *
+		 * @param eefWidgetDescription
+		 *            The description of the widget to create
+		 * @param variableManager
+		 *            The variable manager to use for the widget to create
+		 * @param interpreter
+		 *            The interpreter
+		 * @param editingDomain
+		 *            The editing domain
+		 * @return The lifecycle manager
+		 */
+		public ILifecycleManager getEEFLifecycleManager(EEFCustomWidgetDescription eefWidgetDescription, IVariableManager variableManager,
+				IInterpreter interpreter, TransactionalEditingDomain editingDomain) {
+			for (IItemDescriptor<IEEFLifecycleManagerProvider> itemDescriptor : this.eefLifecycleManagerProviderRegistry.getItemDescriptors()) {
+				String eefLifecyleManagerID = itemDescriptor.getID();
+				// Search the lifecycle manager in the contribution
+				if (eefWidgetDescription.getIdentifier().equals(eefLifecyleManagerID)) {
+					IEEFLifecycleManagerProvider eefLifecycleManagerProvider = itemDescriptor.getItem();
+					ILifecycleManager eefLifecycleManager = eefLifecycleManagerProvider.getLifecycleManager(eefWidgetDescription, variableManager,
+							interpreter, editingDomain);
+					if (eefLifecycleManager != null) {
+						return eefLifecycleManager;
+					} else {
+						String message = MessageFormat.format(Messages.EEFIdeUiPlugin_lifecycleManagerInvalid, eefLifecyleManagerID);
+						EEFIdeUiPlugin.getPlugin().error(message);
+					}
+				} else {
+					String message = MessageFormat.format(Messages.EEFIdeUiPlugin_lifecycleManagerNotFound, eefLifecyleManagerID);
+					EEFIdeUiPlugin.getPlugin().error(message);
+				}
+			}
+			return null;
 		}
 	}
 }

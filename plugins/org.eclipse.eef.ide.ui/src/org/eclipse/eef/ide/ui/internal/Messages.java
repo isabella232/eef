@@ -31,6 +31,12 @@ public final class Messages {
 	@TranslatableMessage
 	public static String EEFPreferencePage_DebugButton_Tooltip;
 
+	@TranslatableMessage
+	public static String EEFIdeUiPlugin_lifecycleManagerNotFound;
+
+	@TranslatableMessage
+	public static String EEFIdeUiPlugin_lifecycleManagerInvalid;
+
 	// CHECKSTYLE:ON
 
 	/**

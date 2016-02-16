@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eef.ide.ui.internal.widgets;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,19 +19,21 @@ import java.util.Map;
 import org.eclipse.eef.EEFButtonDescription;
 import org.eclipse.eef.EEFCheckboxDescription;
 import org.eclipse.eef.EEFContainerDescription;
+import org.eclipse.eef.EEFCustomWidgetDescription;
 import org.eclipse.eef.EEFDynamicMappingFor;
 import org.eclipse.eef.EEFDynamicMappingIf;
 import org.eclipse.eef.EEFLabelDescription;
-import org.eclipse.eef.EEFMultipleReferencesDescription;
 import org.eclipse.eef.EEFRadioDescription;
 import org.eclipse.eef.EEFSelectDescription;
-import org.eclipse.eef.EEFSingleReferenceDescription;
 import org.eclipse.eef.EEFTextDescription;
 import org.eclipse.eef.EEFWidgetDescription;
 import org.eclipse.eef.EefPackage;
 import org.eclipse.eef.common.api.utils.Util;
 import org.eclipse.eef.core.api.EEFExpressionUtils;
 import org.eclipse.eef.core.api.utils.Eval;
+import org.eclipse.eef.ide.ui.api.ILifecycleManager;
+import org.eclipse.eef.ide.ui.internal.EEFIdeUiPlugin;
+import org.eclipse.eef.ide.ui.internal.Messages;
 import org.eclipse.eef.properties.ui.api.EEFTabbedPropertySheetPage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -94,7 +97,7 @@ public class EEFContainerLifecycleManager implements ILifecycleManager {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.internal.widgets.ILifecycleManager#createControl(org.eclipse.swt.widgets.Composite,
+	 * @see org.eclipse.eef.ide.ui.api.ILifecycleManager#createControl(org.eclipse.swt.widgets.Composite,
 	 *      org.eclipse.eef.properties.ui.api.EEFTabbedPropertySheetPage)
 	 */
 	@Override
@@ -172,22 +175,17 @@ public class EEFContainerLifecycleManager implements ILifecycleManager {
 			eefButtonLifecycleManager.createControl(parent, tabbedPropertySheetPage);
 
 			this.lifecycleManagers.add(eefButtonLifecycleManager);
-		} else if (eefWidgetDescription instanceof EEFSingleReferenceDescription) {
-			EEFSingleReferenceDescription eefSingleReferenceDescription = (EEFSingleReferenceDescription) eefWidgetDescription;
-
-			EEFSingleReferenceLifecycleManager eefSingleReferenceLifecycleManager = new EEFSingleReferenceLifecycleManager(
-					eefSingleReferenceDescription, childVariableManager, interpreter, editingDomain);
-			eefSingleReferenceLifecycleManager.createControl(parent, tabbedPropertySheetPage);
-
-			this.lifecycleManagers.add(eefSingleReferenceLifecycleManager);
-		} else if (eefWidgetDescription instanceof EEFMultipleReferencesDescription) {
-			EEFMultipleReferencesDescription eefMultipleReferencesDescription = (EEFMultipleReferencesDescription) eefWidgetDescription;
-
-			EEFMultipleReferencesLifecycleManager eefMultipleReferencesLifecycleManager = new EEFMultipleReferencesLifecycleManager(
-					eefMultipleReferencesDescription, childVariableManager, interpreter, editingDomain);
-			eefMultipleReferencesLifecycleManager.createControl(parent, tabbedPropertySheetPage);
-
-			this.lifecycleManagers.add(eefMultipleReferencesLifecycleManager);
+		} else if (eefWidgetDescription instanceof EEFCustomWidgetDescription) {
+			EEFCustomWidgetDescription eefCustomDescription = (EEFCustomWidgetDescription) eefWidgetDescription;
+			ILifecycleManager eefCustomWidgetLifecycleManager = EEFIdeUiPlugin.getPlugin().getEEFLifecycleManager(eefCustomDescription,
+					childVariableManager, interpreter, editingDomain);
+			if (eefCustomWidgetLifecycleManager != null) {
+				eefCustomWidgetLifecycleManager.createControl(parent, tabbedPropertySheetPage);
+				this.lifecycleManagers.add(eefCustomWidgetLifecycleManager);
+			} else {
+				String message = MessageFormat.format(Messages.EEFIdeUiPlugin_lifecycleManagerNotFound, eefCustomDescription.getIdentifier());
+				EEFIdeUiPlugin.getPlugin().error(message);
+			}
 		}
 	}
 
@@ -238,7 +236,7 @@ public class EEFContainerLifecycleManager implements ILifecycleManager {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.internal.widgets.ILifecycleManager#aboutToBeShown()
+	 * @see org.eclipse.eef.ide.ui.api.ILifecycleManager#aboutToBeShown()
 	 */
 	@Override
 	public void aboutToBeShown() {
@@ -250,7 +248,7 @@ public class EEFContainerLifecycleManager implements ILifecycleManager {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.internal.widgets.ILifecycleManager#refresh()
+	 * @see org.eclipse.eef.ide.ui.api.ILifecycleManager#refresh()
 	 */
 	@Override
 	public void refresh() {
@@ -262,7 +260,7 @@ public class EEFContainerLifecycleManager implements ILifecycleManager {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.internal.widgets.ILifecycleManager#aboutToBeHidden()
+	 * @see org.eclipse.eef.ide.ui.api.ILifecycleManager#aboutToBeHidden()
 	 */
 	@Override
 	public void aboutToBeHidden() {
@@ -274,7 +272,7 @@ public class EEFContainerLifecycleManager implements ILifecycleManager {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.internal.widgets.ILifecycleManager#dispose()
+	 * @see org.eclipse.eef.ide.ui.api.ILifecycleManager#dispose()
 	 */
 	@Override
 	public void dispose() {
