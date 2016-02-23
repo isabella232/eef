@@ -10,16 +10,10 @@
  *******************************************************************************/
 package org.eclipse.eef.ide.ui.internal.properties;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.eef.core.api.EEFGroup;
-import org.eclipse.eef.core.api.EEFPage;
 import org.eclipse.eef.core.api.InputDescriptor;
 import org.eclipse.eef.ide.ui.internal.EEFIdeUiPlugin;
-import org.eclipse.eef.ide.ui.internal.widgets.EEFGroupLifecycleManager;
-import org.eclipse.eef.ide.ui.internal.widgets.ILifecycleManager;
+import org.eclipse.eef.ide.ui.internal.widgets.EEFSectionLifecycleManager;
 import org.eclipse.eef.properties.ui.api.EEFTabbedPropertySheetPage;
 import org.eclipse.eef.properties.ui.api.IEEFSection;
 import org.eclipse.emf.ecore.EObject;
@@ -125,9 +119,9 @@ public class EEFSection implements IEEFSection {
 	private EEFSectionDescriptor eefSectionDescriptor;
 
 	/**
-	 * The lifecycle managers of this section.
+	 * The lifecycle manager.
 	 */
-	private List<ILifecycleManager> lifecycleManagers = new ArrayList<ILifecycleManager>();
+	private EEFSectionLifecycleManager lifecycleManager;
 
 	/**
 	 * The updater which refreshes this section on external model changes.
@@ -142,21 +136,15 @@ public class EEFSection implements IEEFSection {
 	 */
 	public EEFSection(EEFSectionDescriptor eefSectionDescriptor) {
 		this.eefSectionDescriptor = eefSectionDescriptor;
+		this.lifecycleManager = new EEFSectionLifecycleManager(eefSectionDescriptor);
 	}
 
 	@Override
 	public void createControls(Composite parent, EEFTabbedPropertySheetPage tabbedPropertySheetPage) {
 		EEFIdeUiPlugin.getPlugin().debug("EEFSection#createControls(...)"); //$NON-NLS-1$
 
-		EEFPage eefPage = this.eefSectionDescriptor.getEEFPage();
-		List<EEFGroup> eefGroups = eefPage.getGroups();
-		for (EEFGroup eefGroup : eefGroups) {
-			EEFGroupLifecycleManager groupLifecycleManager = new EEFGroupLifecycleManager(eefGroup.getDescription(), eefGroup.getVariableManager(),
-					eefGroup.getInterpreter(), eefGroup.getEditingDomain());
-			groupLifecycleManager.createControl(parent, tabbedPropertySheetPage);
+		this.lifecycleManager.createControl(parent, tabbedPropertySheetPage);
 
-			this.lifecycleManagers.add(groupLifecycleManager);
-		}
 		this.updater = new Updater(this, tabbedPropertySheetPage);
 	}
 
@@ -164,9 +152,8 @@ public class EEFSection implements IEEFSection {
 	public void aboutToBeShown() {
 		EEFIdeUiPlugin.getPlugin().debug("EEFSection#aboutToBeShown(...)"); //$NON-NLS-1$
 
-		for (ILifecycleManager lifecycleManager : lifecycleManagers) {
-			lifecycleManager.aboutToBeShown();
-		}
+		this.lifecycleManager.aboutToBeShown();
+
 		updater.enable();
 	}
 
@@ -191,9 +178,7 @@ public class EEFSection implements IEEFSection {
 	public void refresh() {
 		EEFIdeUiPlugin.getPlugin().debug("EEFSection#refresh(...)"); //$NON-NLS-1$
 
-		for (ILifecycleManager lifecycleManager : lifecycleManagers) {
-			lifecycleManager.refresh();
-		}
+		this.lifecycleManager.refresh();
 	}
 
 	@Override
@@ -201,18 +186,15 @@ public class EEFSection implements IEEFSection {
 		EEFIdeUiPlugin.getPlugin().debug("EEFSection#aboutToBeHidden(...)"); //$NON-NLS-1$
 
 		updater.disable();
-		for (ILifecycleManager lifecycleManager : lifecycleManagers) {
-			lifecycleManager.aboutToBeHidden();
-		}
+
+		this.lifecycleManager.aboutToBeHidden();
 	}
 
 	@Override
 	public void dispose() {
 		EEFIdeUiPlugin.getPlugin().debug("EEFSection#dispose(...)"); //$NON-NLS-1$
 
-		for (ILifecycleManager lifecycleManager : lifecycleManagers) {
-			lifecycleManager.dispose();
-		}
+		this.lifecycleManager.dispose();
 	}
 
 	@Override

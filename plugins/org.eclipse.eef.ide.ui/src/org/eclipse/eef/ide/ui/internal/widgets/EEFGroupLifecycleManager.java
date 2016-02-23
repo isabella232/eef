@@ -17,6 +17,7 @@ import org.eclipse.eef.EEFContainerDescription;
 import org.eclipse.eef.EEFGroupDescription;
 import org.eclipse.eef.core.api.controllers.EEFControllersFactory;
 import org.eclipse.eef.core.api.controllers.IConsumer;
+import org.eclipse.eef.core.api.controllers.IEEFController;
 import org.eclipse.eef.core.api.controllers.IEEFGroupController;
 import org.eclipse.eef.core.api.utils.Eval;
 import org.eclipse.eef.core.api.utils.ISuccessfulResultConsumer;
@@ -28,6 +29,7 @@ import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.forms.widgets.Section;
 
 /**
@@ -35,7 +37,7 @@ import org.eclipse.ui.forms.widgets.Section;
  *
  * @author sbegaudeau
  */
-public class EEFGroupLifecycleManager implements ILifecycleManager {
+public class EEFGroupLifecycleManager extends AbstractEEFLifecycleManager {
 
 	/**
 	 * The variable manager.
@@ -100,6 +102,8 @@ public class EEFGroupLifecycleManager implements ILifecycleManager {
 	 */
 	@Override
 	public void createControl(Composite parent, EEFTabbedPropertySheetPage tabbedPropertySheetPage) {
+		super.createControl(parent, tabbedPropertySheetPage);
+
 		EEFTabbedPropertySheetWidgetFactory widgetFactory = tabbedPropertySheetPage.getWidgetFactory();
 
 		Composite container = widgetFactory.createComposite(parent);
@@ -143,10 +147,32 @@ public class EEFGroupLifecycleManager implements ILifecycleManager {
 	/**
 	 * {@inheritDoc}
 	 *
+	 * @see org.eclipse.eef.ide.ui.internal.widgets.AbstractEEFLifecycleManager#getController()
+	 */
+	@Override
+	protected IEEFController getController() {
+		return this.controller;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.internal.widgets.AbstractEEFLifecycleManager#getValidationControl()
+	 */
+	@Override
+	protected Control getValidationControl() {
+		return this.section;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
 	 * @see org.eclipse.eef.ide.ui.internal.widgets.ILifecycleManager#aboutToBeShown()
 	 */
 	@Override
 	public void aboutToBeShown() {
+		super.aboutToBeShown();
+
 		this.controller.onNewLabel(new IConsumer<String>() {
 			@Override
 			public void apply(String value) {
@@ -166,7 +192,7 @@ public class EEFGroupLifecycleManager implements ILifecycleManager {
 	 */
 	@Override
 	public void refresh() {
-		this.controller.refresh();
+		super.refresh();
 
 		for (ILifecycleManager lifecycleManager : lifecycleManagers) {
 			lifecycleManager.refresh();
@@ -180,6 +206,8 @@ public class EEFGroupLifecycleManager implements ILifecycleManager {
 	 */
 	@Override
 	public void aboutToBeHidden() {
+		super.aboutToBeHidden();
+
 		this.controller.removeNewLabelConsumer();
 
 		for (ILifecycleManager lifecycleManager : lifecycleManagers) {

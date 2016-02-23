@@ -210,8 +210,11 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 		this.widgetFactory = new EEFTabbedPropertySheetWidgetFactory();
 
 		this.form = this.widgetFactory.createForm(parent);
-		form.setText("HAL 9000"); //$NON-NLS-1$
+		this.form.setText("HAL 9000"); //$NON-NLS-1$
 		this.widgetFactory.decorateFormHeading(form);
+
+		this.form.getMessageManager().setDecorationPosition(SWT.LEFT | SWT.TOP);
+		this.form.getMessageManager().setAutoUpdate(false);
 
 		form.getBody().setLayout(new FormLayout());
 

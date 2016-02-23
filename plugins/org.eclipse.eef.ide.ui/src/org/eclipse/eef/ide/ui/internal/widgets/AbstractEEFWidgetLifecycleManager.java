@@ -10,13 +10,10 @@
  *******************************************************************************/
 package org.eclipse.eef.ide.ui.internal.widgets;
 
-import java.util.List;
-
 import org.eclipse.eef.EEFWidgetDescription;
 import org.eclipse.eef.common.api.utils.Util;
 import org.eclipse.eef.core.api.controllers.IConsumer;
 import org.eclipse.eef.core.api.controllers.IEEFWidgetController;
-import org.eclipse.eef.core.api.controllers.IValidationMessage;
 import org.eclipse.eef.ide.ui.internal.EEFIdeUiPlugin;
 import org.eclipse.eef.ide.ui.internal.Icons;
 import org.eclipse.eef.properties.ui.api.EEFTabbedPropertySheetPage;
@@ -31,14 +28,13 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.forms.IMessageManager;
 
 /**
  * Parent of all the lifecycle managers.
  *
  * @author sbegaudeau
  */
-public abstract class AbstractEEFWidgetLifecycleManager implements ILifecycleManager {
+public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifecycleManager {
 
 	/**
 	 * Horizontal space to leave between related widgets. Each section should use these values for spacing its widgets.
@@ -90,11 +86,6 @@ public abstract class AbstractEEFWidgetLifecycleManager implements ILifecycleMan
 	protected CLabel help;
 
 	/**
-	 * The tabbed property sheet page.
-	 */
-	private EEFTabbedPropertySheetPage page;
-
-	/**
 	 * The constructor.
 	 *
 	 * @param variableManager
@@ -113,12 +104,12 @@ public abstract class AbstractEEFWidgetLifecycleManager implements ILifecycleMan
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.internal.widgets.ILifecycleManager#createControl(org.eclipse.swt.widgets.Composite,
+	 * @see org.eclipse.eef.ide.ui.internal.widgets.AbstractEEFLifecycleManager#createControl(org.eclipse.swt.widgets.Composite,
 	 *      org.eclipse.eef.properties.ui.api.EEFTabbedPropertySheetPage)
 	 */
 	@Override
 	public void createControl(Composite parent, EEFTabbedPropertySheetPage tabbedPropertySheetPage) {
-		this.page = tabbedPropertySheetPage;
+		super.createControl(parent, tabbedPropertySheetPage);
 		EEFTabbedPropertySheetWidgetFactory widgetFactory = tabbedPropertySheetPage.getWidgetFactory();
 
 		Composite composite = widgetFactory.createFlatFormComposite(parent);
@@ -155,6 +146,14 @@ public abstract class AbstractEEFWidgetLifecycleManager implements ILifecycleMan
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.internal.widgets.AbstractEEFLifecycleManager#getController()
+	 */
+	@Override
+	protected abstract IEEFWidgetController getController();
+
+	/**
 	 * Returns the description of the widget.
 	 *
 	 * @return The description of the widget
@@ -172,19 +171,14 @@ public abstract class AbstractEEFWidgetLifecycleManager implements ILifecycleMan
 	protected abstract void createMainControl(Composite parent, EEFTabbedPropertySheetPage tabbedPropertySheetPage);
 
 	/**
-	 * Returns the controller.
-	 *
-	 * @return The controller
-	 */
-	protected abstract IEEFWidgetController getController();
-
-	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.internal.widgets.ILifecycleManager#aboutToBeShown()
+	 * @see org.eclipse.eef.ide.ui.internal.widgets.AbstractEEFLifecycleManager#aboutToBeShown()
 	 */
 	@Override
 	public void aboutToBeShown() {
+		super.aboutToBeShown();
+
 		this.getController().onNewLabel(new IConsumer<String>() {
 			@Override
 			public void apply(String value) {
@@ -202,46 +196,18 @@ public abstract class AbstractEEFWidgetLifecycleManager implements ILifecycleMan
 				}
 			}
 		});
-
-		this.getController().onValidation(new IConsumer<List<IValidationMessage>>() {
-			@Override
-			public void apply(List<IValidationMessage> messages) {
-				IMessageManager messageManager = page.getForm().getMessageManager();
-				messageManager.removeMessages(getValidationControl());
-
-				for (IValidationMessage message : messages) {
-					messageManager.addMessage(message.getKey(), message.getMessage(), message.getData(), message.getType(), getValidationControl());
-				}
-			}
-		});
-	}
-
-	/**
-	 * Returns the control on which the validation marker will appear.
-	 *
-	 * @return The control used to display the validation marker
-	 */
-	protected abstract Control getValidationControl();
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.internal.widgets.ILifecycleManager#refresh()
-	 */
-	@Override
-	public void refresh() {
-		this.getController().refresh();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.internal.widgets.ILifecycleManager#aboutToBeHidden()
+	 * @see org.eclipse.eef.ide.ui.internal.widgets.AbstractEEFLifecycleManager#aboutToBeHidden()
 	 */
 	@Override
 	public void aboutToBeHidden() {
+		super.aboutToBeHidden();
+
 		this.getController().removeNewLabelConsumer();
-		this.getController().removeValidationConsumer();
 	}
 
 	/**
@@ -251,6 +217,6 @@ public abstract class AbstractEEFWidgetLifecycleManager implements ILifecycleMan
 	 */
 	@Override
 	public void dispose() {
-		// do nothing
+		EEFIdeUiPlugin.getPlugin().debug("AbstractEEFWidgetLifeCycleManager#dispose()"); //$NON-NLS-1$
 	}
 }

@@ -16,6 +16,8 @@ import org.eclipse.eef.core.api.controllers.IConsumer;
 import org.eclipse.eef.core.api.controllers.IEEFGroupController;
 import org.eclipse.eef.core.api.utils.ISuccessfulResultConsumer;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 
@@ -74,10 +76,32 @@ public class EEFGroupController extends AbstractEEFController implements IEEFGro
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.core.api.controllers.IEEFGroupController#refresh()
+	 * @see org.eclipse.eef.core.internal.controllers.AbstractEEFController#getValidationRulesContainer()
+	 */
+	@Override
+	protected EObject getValidationRulesContainer() {
+		return this.description;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.core.internal.controllers.AbstractEEFController#getValidationRulesReference()
+	 */
+	@Override
+	protected EReference getValidationRulesReference() {
+		return EefPackage.Literals.EEF_GROUP_DESCRIPTION__SEMANTIC_VALIDATION_RULES;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.core.internal.controllers.AbstractEEFController#refresh()
 	 */
 	@Override
 	public void refresh() {
+		super.refresh();
+
 		String labelExpression = this.description.getLabelExpression();
 		EAttribute eAttribute = EefPackage.Literals.EEF_WIDGET_DESCRIPTION__LABEL_EXPRESSION;
 

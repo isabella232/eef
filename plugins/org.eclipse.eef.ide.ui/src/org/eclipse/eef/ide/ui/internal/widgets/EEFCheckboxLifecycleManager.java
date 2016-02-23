@@ -150,8 +150,8 @@ public class EEFCheckboxLifecycleManager extends AbstractEEFWidgetLifecycleManag
 			@Override
 			public void apply(Boolean value) {
 				if (!checkbox.isDisposed()) {
-					if (checkbox.getSelection() != value) {
-						checkbox.setSelection(value);
+					if (value != null && checkbox.getSelection() != value.booleanValue()) {
+						checkbox.setSelection(value.booleanValue());
 					}
 				}
 			}

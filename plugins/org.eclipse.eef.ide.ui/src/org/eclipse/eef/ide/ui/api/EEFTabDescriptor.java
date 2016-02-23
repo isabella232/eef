@@ -50,6 +50,10 @@ public class EEFTabDescriptor extends AbstractEEFTabDescriptor {
 	 */
 	@Override
 	public String getId() {
+		// FIXME [SBE] I am commenting this code because while it's better it breaks the live edition in the workspace
+		// if (this.eefPage.isUnique()) {
+		// return this.eefPage.getDescription().getIdentifier();
+		// }
 		EObject self = (EObject) this.eefPage.getVariableManager().getVariables().get("self"); //$NON-NLS-1$
 		return this.eefPage.getDescription().getIdentifier() + EcoreUtil.getURI(self);
 	}

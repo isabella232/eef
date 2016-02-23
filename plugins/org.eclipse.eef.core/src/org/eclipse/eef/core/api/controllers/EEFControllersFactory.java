@@ -15,6 +15,7 @@ import org.eclipse.eef.EEFCheckboxDescription;
 import org.eclipse.eef.EEFGroupDescription;
 import org.eclipse.eef.EEFLabelDescription;
 import org.eclipse.eef.EEFMultipleReferencesDescription;
+import org.eclipse.eef.EEFPageDescription;
 import org.eclipse.eef.EEFRadioDescription;
 import org.eclipse.eef.EEFSelectDescription;
 import org.eclipse.eef.EEFSingleReferenceDescription;
@@ -25,6 +26,7 @@ import org.eclipse.eef.core.internal.controllers.EEFGroupController;
 import org.eclipse.eef.core.internal.controllers.EEFLabelController;
 import org.eclipse.eef.core.internal.controllers.EEFMultipleReferencesController;
 import org.eclipse.eef.core.internal.controllers.EEFRadioController;
+import org.eclipse.eef.core.internal.controllers.EEFSectionController;
 import org.eclipse.eef.core.internal.controllers.EEFSelectController;
 import org.eclipse.eef.core.internal.controllers.EEFSingleReferenceController;
 import org.eclipse.eef.core.internal.controllers.EEFTextController;
@@ -194,5 +196,20 @@ public class EEFControllersFactory {
 	public IEEFMultipleReferencesController createMultipleReferencesController(EEFMultipleReferencesDescription description,
 			IVariableManager variableManager, IInterpreter interpreter, TransactionalEditingDomain editingDomain) {
 		return new EEFMultipleReferencesController(description, variableManager, interpreter, editingDomain);
+	}
+
+	/**
+	 * Creates a section controller.
+	 *
+	 * @param description
+	 *            The description
+	 * @param variableManager
+	 *            The variable manager
+	 * @param interpreter
+	 *            The interpreter
+	 * @return The section controller.
+	 */
+	public IEEFSectionController createSectionController(EEFPageDescription description, IVariableManager variableManager, IInterpreter interpreter) {
+		return new EEFSectionController(variableManager, interpreter, description);
 	}
 }

@@ -10,14 +10,12 @@
  *******************************************************************************/
 package org.eclipse.eef.core.api.controllers;
 
-import java.util.List;
-
 /**
  * The Widget controller is responsible for the refresh of the label of a widget.
  *
  * @author sbegaudeau
  */
-public interface IEEFWidgetController {
+public interface IEEFWidgetController extends IEEFController {
 	/**
 	 * Register a consumer which will be called with the new value of the label when it will change.
 	 *
@@ -33,7 +31,7 @@ public interface IEEFWidgetController {
 
 	/**
 	 * Registers a consumer which will be called with the new value of the help.
-	 * 
+	 *
 	 * @param consumer
 	 *            The consumer of the new value of the help
 	 */
@@ -43,22 +41,4 @@ public interface IEEFWidgetController {
 	 * Removes the consumer of the new value of the help.
 	 */
 	void removeNewHelpConsumer();
-
-	/**
-	 * Registers a consumer which will be called with the validation status.
-	 *
-	 * @param consumer
-	 *            The consumer of the validation status
-	 */
-	void onValidation(IConsumer<List<IValidationMessage>> consumer);
-
-	/**
-	 * Removes the consumer of the validation.
-	 */
-	void removeValidationConsumer();
-
-	/**
-	 * Refresh the controller.
-	 */
-	void refresh();
 }

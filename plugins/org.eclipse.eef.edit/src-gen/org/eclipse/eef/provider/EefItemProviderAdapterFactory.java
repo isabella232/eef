@@ -120,6 +120,98 @@ public class EefItemProviderAdapterFactory extends EefAdapterFactory implements 
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFRuleAuditDescription} instances. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	protected EEFRuleAuditDescriptionItemProvider eefRuleAuditDescriptionItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.eef.EEFRuleAuditDescription}. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createEEFRuleAuditDescriptionAdapter() {
+		if (eefRuleAuditDescriptionItemProvider == null) {
+			eefRuleAuditDescriptionItemProvider = new EEFRuleAuditDescriptionItemProvider(this);
+		}
+
+		return eefRuleAuditDescriptionItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFValidationFixDescription} instances.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected EEFValidationFixDescriptionItemProvider eefValidationFixDescriptionItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.eef.EEFValidationFixDescription}. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createEEFValidationFixDescriptionAdapter() {
+		if (eefValidationFixDescriptionItemProvider == null) {
+			eefValidationFixDescriptionItemProvider = new EEFValidationFixDescriptionItemProvider(this);
+		}
+
+		return eefValidationFixDescriptionItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFPropertyValidationRuleDescription}
+	 * instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected EEFPropertyValidationRuleDescriptionItemProvider eefPropertyValidationRuleDescriptionItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.eef.EEFPropertyValidationRuleDescription}. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createEEFPropertyValidationRuleDescriptionAdapter() {
+		if (eefPropertyValidationRuleDescriptionItemProvider == null) {
+			eefPropertyValidationRuleDescriptionItemProvider = new EEFPropertyValidationRuleDescriptionItemProvider(this);
+		}
+
+		return eefPropertyValidationRuleDescriptionItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFSemanticValidationRuleDescription}
+	 * instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected EEFSemanticValidationRuleDescriptionItemProvider eefSemanticValidationRuleDescriptionItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.eef.EEFSemanticValidationRuleDescription}. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createEEFSemanticValidationRuleDescriptionAdapter() {
+		if (eefSemanticValidationRuleDescriptionItemProvider == null) {
+			eefSemanticValidationRuleDescriptionItemProvider = new EEFSemanticValidationRuleDescriptionItemProvider(this);
+		}
+
+		return eefSemanticValidationRuleDescriptionItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFGroupDescription} instances. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -500,6 +592,18 @@ public class EefItemProviderAdapterFactory extends EefAdapterFactory implements 
 		}
 		if (eefPageDescriptionItemProvider != null) {
 			eefPageDescriptionItemProvider.dispose();
+		}
+		if (eefRuleAuditDescriptionItemProvider != null) {
+			eefRuleAuditDescriptionItemProvider.dispose();
+		}
+		if (eefValidationFixDescriptionItemProvider != null) {
+			eefValidationFixDescriptionItemProvider.dispose();
+		}
+		if (eefPropertyValidationRuleDescriptionItemProvider != null) {
+			eefPropertyValidationRuleDescriptionItemProvider.dispose();
+		}
+		if (eefSemanticValidationRuleDescriptionItemProvider != null) {
+			eefSemanticValidationRuleDescriptionItemProvider.dispose();
 		}
 		if (eefGroupDescriptionItemProvider != null) {
 			eefGroupDescriptionItemProvider.dispose();
