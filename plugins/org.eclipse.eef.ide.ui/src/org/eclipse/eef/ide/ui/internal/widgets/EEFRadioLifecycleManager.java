@@ -178,7 +178,12 @@ public class EEFRadioLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 			@Override
 			public void apply(Object value) {
 				if (!radioGroup.isDisposed()) {
-					final ISelection selection = new StructuredSelection(value);
+					final ISelection selection;
+					if (value != null) {
+						selection = new StructuredSelection(value);
+					} else {
+						selection = null;
+					}
 					radioGroupViewer.setSelection(selection);
 					if (!radioGroup.isEnabled()) {
 						radioGroup.setEnabled(true);
@@ -192,7 +197,11 @@ public class EEFRadioLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 			@Override
 			public void apply(List<Object> candidates) {
 				if (!radioGroup.isDisposed()) {
-					radioGroupViewer.setInput(candidates.toArray());
+					if (candidates != null) {
+						radioGroupViewer.setInput(candidates.toArray());
+					} else {
+						radioGroupViewer.setInput(null);
+					}
 					if (!radioGroup.isEnabled()) {
 						radioGroup.setEnabled(true);
 					}

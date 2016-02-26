@@ -260,9 +260,18 @@ public class EEFMultipleReferencesLifecycleManager extends AbstractEEFWidgetLife
 			@Override
 			public void apply(List<Object> value) {
 				if (!table.isDisposed()) {
-					final ISelection selection = new StructuredSelection(value);
+					final ISelection selection;
+					if (value != null) {
+						selection = new StructuredSelection(value);
+					} else {
+						selection = null;
+					}
 					tableViewer.setSelection(selection);
-					tableViewer.setInput(value.toArray());
+					if (value != null) {
+						tableViewer.setInput(value.toArray());
+					} else {
+						tableViewer.setInput(null);
+					}
 					if (!table.isEnabled()) {
 						table.setEnabled(true);
 					}

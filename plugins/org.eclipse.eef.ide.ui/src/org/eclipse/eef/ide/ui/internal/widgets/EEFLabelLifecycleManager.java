@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eef.ide.ui.internal.widgets;
 
+import com.google.common.base.Objects;
+
 import org.eclipse.eef.EEFLabelDescription;
 import org.eclipse.eef.EEFWidgetDescription;
 import org.eclipse.eef.core.api.controllers.EEFControllersFactory;
@@ -99,7 +101,7 @@ public class EEFLabelLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 			@Override
 			public void apply(String value) {
 				if (!body.isDisposed() && !(body.getText() != null && body.getText().equals(value))) {
-					body.setText(value);
+					body.setText(Objects.firstNonNull(value, "")); //$NON-NLS-1$
 				}
 			}
 		});

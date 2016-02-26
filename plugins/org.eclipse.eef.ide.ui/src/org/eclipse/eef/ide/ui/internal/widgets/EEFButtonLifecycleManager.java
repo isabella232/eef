@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eef.ide.ui.internal.widgets;
 
+import com.google.common.base.Objects;
+
 import org.eclipse.eef.EEFButtonDescription;
 import org.eclipse.eef.EEFWidgetDescription;
 import org.eclipse.eef.core.api.controllers.EEFControllersFactory;
@@ -136,7 +138,7 @@ public class EEFButtonLifecycleManager extends AbstractEEFWidgetLifecycleManager
 			@Override
 			public void apply(String value) {
 				if (!button.isDisposed() && !(button.getText() != null && button.getText().equals(value))) {
-					button.setText(value);
+					button.setText(Objects.firstNonNull(value, "")); //$NON-NLS-1$
 				}
 			}
 		});

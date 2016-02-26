@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eef.ide.ui.internal.widgets;
 
+import com.google.common.base.Objects;
+
 import org.eclipse.eef.EEFWidgetDescription;
 import org.eclipse.eef.common.api.utils.Util;
 import org.eclipse.eef.core.api.controllers.IConsumer;
@@ -183,7 +185,7 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 			@Override
 			public void apply(String value) {
 				if (!label.isDisposed() && !(label.getText() != null && label.getText().equals(value))) {
-					label.setText(value);
+					label.setText(Objects.firstNonNull(value, "")); //$NON-NLS-1$
 				}
 			}
 		});
@@ -192,7 +194,7 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 			@Override
 			public void apply(String value) {
 				if (help != null && !help.isDisposed() && !(help.getText() != null && help.getText().equals(value))) {
-					help.setToolTipText(value);
+					help.setToolTipText(Objects.firstNonNull(value, "")); //$NON-NLS-1$
 				}
 			}
 		});
