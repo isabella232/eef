@@ -1,6 +1,6 @@
 target "Eclipse Neon"
 
-include "http://download.eclipse.org/sirius/updates/nightly/targets/modules/aql-3.6.tpd"
+include "http://download.eclipse.org/sirius/updates/nightly/targets/modules/aql-nightly.tpd"
 
 with source requirements
 
