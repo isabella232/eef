@@ -12,10 +12,6 @@ package org.eclipse.eef.core.internal.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 import org.eclipse.eef.EEFCheckboxDescription;
 import org.eclipse.eef.EEFWidgetDescription;
@@ -55,16 +51,6 @@ public class EEFCheckboxController extends AbstractEEFWidgetController implement
 	private IConsumer<Boolean> newValueConsumer;
 
 	/**
-	 * Executor service used to run the update of the text field.
-	 */
-	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-
-	/**
-	 * This future contains the update to be performed.
-	 */
-	private ScheduledFuture<?> currentUpdatedValueFuture;
-
-	/**
 	 * The constructor.
 	 *
 	 * @param description
@@ -85,10 +71,6 @@ public class EEFCheckboxController extends AbstractEEFWidgetController implement
 
 	@Override
 	public void updateValue(final boolean checkbox) {
-		if (this.currentUpdatedValueFuture != null && !this.currentUpdatedValueFuture.isDone()) {
-			this.currentUpdatedValueFuture.cancel(true);
-		}
-
 		final Command command = new RecordingCommand(this.editingDomain) {
 			@Override
 			protected void doExecute() {
@@ -108,15 +90,8 @@ public class EEFCheckboxController extends AbstractEEFWidgetController implement
 			}
 		};
 
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run() {
-				CommandStack commandStack = EEFCheckboxController.this.editingDomain.getCommandStack();
-				commandStack.execute(command);
-			}
-		};
-		final long scheduleTime = 500L;
-		this.currentUpdatedValueFuture = this.executor.schedule(runnable, scheduleTime, TimeUnit.MILLISECONDS);
+		CommandStack commandStack = EEFCheckboxController.this.editingDomain.getCommandStack();
+		commandStack.execute(command);
 	}
 
 	/**

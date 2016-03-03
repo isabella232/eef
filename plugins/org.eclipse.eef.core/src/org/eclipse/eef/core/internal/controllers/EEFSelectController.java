@@ -14,10 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 import org.eclipse.eef.EEFSelectDescription;
 import org.eclipse.eef.EEFWidgetDescription;
@@ -62,16 +58,6 @@ public class EEFSelectController extends AbstractEEFWidgetController implements 
 	private IConsumer<List<Object>> newCandidatesConsumer;
 
 	/**
-	 * Executor service used to run the update of the text field.
-	 */
-	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-
-	/**
-	 * This future contains the update to be performed.
-	 */
-	private ScheduledFuture<?> currentUpdatedValueFuture;
-
-	/**
 	 * The constructor.
 	 *
 	 * @param description
@@ -92,10 +78,6 @@ public class EEFSelectController extends AbstractEEFWidgetController implements 
 
 	@Override
 	public void updateValue(final Object text) {
-		if (this.currentUpdatedValueFuture != null && !this.currentUpdatedValueFuture.isDone()) {
-			this.currentUpdatedValueFuture.cancel(true);
-		}
-
 		final Command command = new RecordingCommand(this.editingDomain) {
 			@Override
 			protected void doExecute() {
@@ -115,15 +97,8 @@ public class EEFSelectController extends AbstractEEFWidgetController implements 
 			}
 		};
 
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run() {
-				CommandStack commandStack = EEFSelectController.this.editingDomain.getCommandStack();
-				commandStack.execute(command);
-			}
-		};
-		final long scheduleTime = 500L;
-		this.currentUpdatedValueFuture = this.executor.schedule(runnable, scheduleTime, TimeUnit.MILLISECONDS);
+		CommandStack commandStack = EEFSelectController.this.editingDomain.getCommandStack();
+		commandStack.execute(command);
 	}
 
 	/**
