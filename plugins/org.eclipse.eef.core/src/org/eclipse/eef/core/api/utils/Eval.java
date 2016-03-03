@@ -81,7 +81,7 @@ public final class Eval {
 	public <T> void call(EAttribute expressionEAttribute, String expression, Class<T> expectedResultType, ISuccessfulResultConsumer<T> consumer) {
 		if (!Util.isBlank(expression)) {
 			this.call(expression, expectedResultType, consumer);
-		} else {
+		} else if (EEFCorePlugin.getPlugin() != null) {
 			EEFCorePlugin.getPlugin().blank(expressionEAttribute);
 		}
 	}
@@ -99,18 +99,22 @@ public final class Eval {
 	 *            The type of the result expected
 	 */
 	public <T> void call(String expression, Class<T> expectedResultType, ISuccessfulResultConsumer<T> consumer) {
+		if (Util.isBlank(expression)) {
+			return;
+		}
+
 		IEvaluationResult evaluationResult = this.interpreter.evaluateExpression(this.variables, expression);
 		if (evaluationResult.success()) {
 			Object value = evaluationResult.getValue();
 			if (expectedResultType.isInstance(value) || (value == null && !expectedResultType.isPrimitive())) {
 				T castValue = expectedResultType.cast(value);
 				consumer.apply(castValue);
-			} else {
+			} else if (EEFCorePlugin.getPlugin() != null) {
 				String message = MessageFormat.format(Messages.AbstractEEFWidgetController_InvalidValueForExpression, expression,
 						expectedResultType.getName(), value);
 				EEFCorePlugin.getPlugin().error(message);
 			}
-		} else {
+		} else if (EEFCorePlugin.getPlugin() != null) {
 			EEFCorePlugin.getPlugin().diagnostic(expression, evaluationResult.getDiagnostic());
 		}
 	}
@@ -128,7 +132,7 @@ public final class Eval {
 	public void call(EAttribute expressionEAttribute, String expression, ISuccessfulResultConsumer<Object> consumer) {
 		if (!Util.isBlank(expression)) {
 			this.call(expression, consumer);
-		} else {
+		} else if (EEFCorePlugin.getPlugin() != null) {
 			EEFCorePlugin.getPlugin().blank(expressionEAttribute);
 		}
 	}
@@ -146,7 +150,7 @@ public final class Eval {
 		if (evaluationResult.success()) {
 			Object value = evaluationResult.getValue();
 			consumer.apply(value);
-		} else {
+		} else if (EEFCorePlugin.getPlugin() != null) {
 			EEFCorePlugin.getPlugin().diagnostic(expression, evaluationResult.getDiagnostic());
 		}
 	}
@@ -165,7 +169,7 @@ public final class Eval {
 			if (!evaluationResult.success()) {
 				EEFCorePlugin.getPlugin().diagnostic(expression, evaluationResult.getDiagnostic());
 			}
-		} else {
+		} else if (EEFCorePlugin.getPlugin() != null) {
 			EEFCorePlugin.getPlugin().blank(expressionEAttribute);
 		}
 	}
@@ -192,15 +196,15 @@ public final class Eval {
 				if (expectedResultType.isInstance(value) || (value == null && !expectedResultType.isPrimitive())) {
 					T castValue = expectedResultType.cast(value);
 					return castValue;
-				} else {
+				} else if (EEFCorePlugin.getPlugin() != null) {
 					String message = MessageFormat.format(Messages.AbstractEEFWidgetController_InvalidValueForExpression, expression,
 							expectedResultType.getName(), value);
 					EEFCorePlugin.getPlugin().error(message);
 				}
-			} else {
+			} else if (EEFCorePlugin.getPlugin() != null) {
 				EEFCorePlugin.getPlugin().diagnostic(expression, evaluationResult.getDiagnostic());
 			}
-		} else {
+		} else if (EEFCorePlugin.getPlugin() != null) {
 			EEFCorePlugin.getPlugin().blank(expressionEAttribute);
 		}
 		return null;

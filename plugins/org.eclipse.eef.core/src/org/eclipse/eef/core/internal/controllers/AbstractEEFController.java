@@ -98,7 +98,9 @@ public abstract class AbstractEEFController implements IEEFController {
 	public void refresh() {
 		List<IValidationRuleResult> validationRuleResults = this.getValidationRuleResults(this.getValidationRulesContainer(),
 				this.getValidationRulesReference());
-		this.validationConsumer.apply(validationRuleResults);
+		if (this.validationConsumer != null) {
+			this.validationConsumer.apply(validationRuleResults);
+		}
 	}
 
 	/**
