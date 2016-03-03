@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.eef.properties.ui.internal.EEFTabbedPropertyViewPlugin;
 import org.eclipse.eef.properties.ui.internal.page.EEFPartListenerAdapter;
@@ -139,6 +140,11 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 	 * The form used to contain the all the widgets.
 	 */
 	private Form form;
+
+	/**
+	 * Boolean flag indicating we are inside the rendering/refresh pahse of the page's lifecycle.
+	 */
+	private AtomicBoolean isRenderingInProgress = new AtomicBoolean(false);
 
 	/**
 	 * Wrapper for contributors who want to use this version of the framework but can not have a hard dependency (via
@@ -295,6 +301,15 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 	}
 
 	/**
+	 * Indicates whether or not we are inside the rendering/refresh pahse of the page's lifecycle.
+	 *
+	 * @return <code>true</code> if we are inside the rendering/refresh pahse of the page's lifecycle.
+	 */
+	public boolean isRenderingInProgress() {
+		return isRenderingInProgress.get();
+	}
+
+	/**
 	 * Set or reset the input of the page.
 	 *
 	 * @param part
@@ -302,32 +317,37 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 	 * @param selection
 	 *            The current selection
 	 */
-	private void doSetInput(IWorkbenchPart part, ISelection selection) {
-		this.currentPart = part;
-		this.currentSelection = selection;
-
-		// see if the selection provides a new contributor
-		// validateRegistry(selection);
-		List<IEEFTabDescriptor> descriptors = EEFTabbedPropertyRegistry.getDefault().getTabDescriptors(part, selection);
-		// If there are no descriptors for the given input we do not need to
-		// touch the tab objects. We might reuse them for the next valid
-		// input.
-		if (descriptors.size() > 0) {
-			this.updateTabs(descriptors);
-		}
-		// update tabs list
-		this.tabbedPropertyViewer.setInput(part, currentSelection);
-		int lastTabSelectionIndex = this.getLastTabSelection(part, currentSelection);
-		IEEFTabDescriptor selectedTab = this.tabbedPropertyViewer.getTabDescriptionAtIndex(lastTabSelectionIndex);
-		this.selectionQueueLocked = true;
+	private synchronized void doSetInput(IWorkbenchPart part, ISelection selection) {
+		isRenderingInProgress.set(true);
 		try {
-			if (selectedTab == null) {
-				this.tabbedPropertyViewer.setSelectedTabDescriptor(null);
-			} else {
-				this.tabbedPropertyViewer.setSelectedTabDescriptor(selectedTab);
+			this.currentPart = part;
+			this.currentSelection = selection;
+
+			// see if the selection provides a new contributor
+			// validateRegistry(selection);
+			List<IEEFTabDescriptor> descriptors = EEFTabbedPropertyRegistry.getDefault().getTabDescriptors(part, selection);
+			// If there are no descriptors for the given input we do not need to
+			// touch the tab objects. We might reuse them for the next valid
+			// input.
+			if (descriptors.size() > 0) {
+				this.updateTabs(descriptors);
+			}
+			// update tabs list
+			this.tabbedPropertyViewer.setInput(part, currentSelection);
+			int lastTabSelectionIndex = this.getLastTabSelection(part, currentSelection);
+			IEEFTabDescriptor selectedTab = this.tabbedPropertyViewer.getTabDescriptionAtIndex(lastTabSelectionIndex);
+			this.selectionQueueLocked = true;
+			try {
+				if (selectedTab == null) {
+					this.tabbedPropertyViewer.setSelectedTabDescriptor(null);
+				} else {
+					this.tabbedPropertyViewer.setSelectedTabDescriptor(selectedTab);
+				}
+			} finally {
+				this.selectionQueueLocked = false;
 			}
 		} finally {
-			this.selectionQueueLocked = false;
+			isRenderingInProgress.set(false);
 		}
 	}
 
@@ -479,50 +499,51 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 	 * @param descriptor
 	 *            The tab descriptor
 	 */
-	private void processSelectionChanged(IEEFTabDescriptor descriptor) {
-		EEFTabContents tab = null;
-
-		if (descriptor == null) {
-			EEFTabbedPropertyViewPlugin.getPlugin().debug("EEFTabbedPropertySheetPage -- Hide tab"); //$NON-NLS-1$
-			// pretend the tab is empty.
-			this.hideTab(this.currentTab);
-		} else {
-			// create tab if necessary
-			// can not cache based on the id - tabs may have the same id,
-			// but different section depending on the selection
-			tab = this.descriptorToTab.get(descriptor);
-
-			if (tab != this.currentTab) {
+	private synchronized void processSelectionChanged(IEEFTabDescriptor descriptor) {
+		isRenderingInProgress.set(true);
+		try {
+			EEFTabContents tab = null;
+			if (descriptor == null) {
+				EEFTabbedPropertyViewPlugin.getPlugin().debug("EEFTabbedPropertySheetPage -- Hide tab"); //$NON-NLS-1$
+				// pretend the tab is empty.
 				this.hideTab(this.currentTab);
+			} else {
+				// create tab if necessary
+				// can not cache based on the id - tabs may have the same id,
+				// but different section depending on the selection
+				tab = this.descriptorToTab.get(descriptor);
+
+				if (tab != this.currentTab) {
+					this.hideTab(this.currentTab);
+				}
+
+				Composite tabComposite = this.tabToComposite.get(tab);
+				if (tabComposite == null) {
+					tabComposite = this.createTabComposite();
+					tab.createControls(tabComposite, this);
+					// tabAreaComposite.layout(true);
+					this.tabToComposite.put(tab, tabComposite);
+				}
+				// force widgets to be resized
+				tab.setInput(tabbedPropertyViewer.getWorkbenchPart(), tabbedPropertyViewer.getInput());
+
+				// store tab selection
+				this.storeCurrentTabSelection(descriptor.getLabel());
+
+				if (tab != this.currentTab) {
+					this.showTab(tab);
+				}
+
+				tab.refresh();
 			}
-
-			Composite tabComposite = this.tabToComposite.get(tab);
-			if (tabComposite == null) {
-				tabComposite = this.createTabComposite();
-				tab.createControls(tabComposite, this);
-				// tabAreaComposite.layout(true);
-				this.tabToComposite.put(tab, tabComposite);
+			tabbedPropertyComposite.getTabComposite().layout(true);
+			this.currentTab = tab;
+			this.resizeScrolledComposite();
+			if (descriptor != null) {
+				this.handleTabSelection(descriptor);
 			}
-			// force widgets to be resized
-			tab.setInput(tabbedPropertyViewer.getWorkbenchPart(), tabbedPropertyViewer.getInput());
-
-			// store tab selection
-			this.storeCurrentTabSelection(descriptor.getLabel());
-
-			if (tab != this.currentTab) {
-				this.showTab(tab);
-			}
-
-			tab.refresh();
-		}
-
-		tabbedPropertyComposite.getTabComposite().layout(true);
-
-		this.currentTab = tab;
-		this.resizeScrolledComposite();
-
-		if (descriptor != null) {
-			this.handleTabSelection(descriptor);
+		} finally {
+			isRenderingInProgress.set(false);
 		}
 	}
 

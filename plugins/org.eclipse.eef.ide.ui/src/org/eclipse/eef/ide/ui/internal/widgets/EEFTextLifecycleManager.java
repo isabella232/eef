@@ -143,7 +143,9 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 		this.modifyListener = new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent event) {
-				controller.updateValue(text.getText());
+				if (!EEFTextLifecycleManager.this.page.isRenderingInProgress()) {
+					controller.updateValue(text.getText());
+				}
 			}
 		};
 		this.text.addModifyListener(this.modifyListener);
