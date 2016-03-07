@@ -27,10 +27,7 @@ import org.eclipse.eef.core.api.InputDescriptor;
 import org.eclipse.eef.core.api.utils.DomainClassTester;
 import org.eclipse.eef.core.api.utils.Eval;
 import org.eclipse.eef.core.api.utils.ISuccessfulResultConsumer;
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
@@ -93,21 +90,6 @@ public class EEFViewImpl implements EEFView {
 	 */
 	@Override
 	public void initialize() {
-		Command command = new RecordingCommand(this.editingDomain) {
-			@Override
-			protected void doExecute() {
-				EEFViewImpl.this.doInitialize();
-			}
-		};
-
-		CommandStack commandStack = this.editingDomain.getCommandStack();
-		commandStack.execute(command);
-	}
-
-	/**
-	 * Performs the initialization of the view by creating the necessary pages.
-	 */
-	private void doInitialize() {
 		EEFCorePlugin.getPlugin().debug("EEFViewImpl#initialize()"); //$NON-NLS-1$
 		for (final EEFPageDescription eefPageDescription : this.getDescription().getPages()) {
 			String semanticCandidatesExpression = Util.firstNonBlank(eefPageDescription.getSemanticCandidateExpression(),
