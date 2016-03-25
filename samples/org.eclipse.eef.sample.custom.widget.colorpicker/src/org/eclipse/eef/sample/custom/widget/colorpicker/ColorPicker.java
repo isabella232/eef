@@ -83,6 +83,9 @@ public class ColorPicker extends CLabel {
      */
     private void update(RGB selected) {
         this.selectedColor = ColorHelper.getColor(selected);
+        if (image != null) {
+            image.dispose();
+        }
         setImage(getColorImage(selectedColor));
     }
 

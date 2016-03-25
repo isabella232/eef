@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Obeo.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Obeo - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.eef.sample.custom.widget.colorpicker;
 
 import java.util.HashMap;
@@ -89,11 +99,17 @@ public class ColorPickerController extends AbstractEEFCustomWidgetController imp
                 int blue = DEFAULT_COLOR_CODE;
                 if (value != null) {
                     String[] rgb = value.split(SEPARATOR);
-                    red = Integer.parseInt(rgb[0]);
-                    green = Integer.parseInt(rgb[1]);
-                    blue = Integer.parseInt(rgb[2]);
-                    Color color = ColorHelper.getColor(red, green, blue);
-                    ColorPickerController.this.newValueConsumer.apply(color);
+                    if (rgb.length == 3) {
+                        try {
+                            red = Integer.parseInt(rgb[0]);
+                            green = Integer.parseInt(rgb[1]);
+                            blue = Integer.parseInt(rgb[2]);
+                            Color color = ColorHelper.getColor(red, green, blue);
+                            ColorPickerController.this.newValueConsumer.apply(color);
+                        } catch (NumberFormatException e) {
+                            // TODO Log warning about unexpected result format from the expression.
+                        }
+                    }
                 }
             }
         });
