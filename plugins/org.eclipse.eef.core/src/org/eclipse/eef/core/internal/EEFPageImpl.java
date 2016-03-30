@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.eclipse.eef.EEFGroupDescription;
 import org.eclipse.eef.EEFPageDescription;
-import org.eclipse.eef.EefPackage;
 import org.eclipse.eef.common.api.utils.Util;
 import org.eclipse.eef.core.api.EEFExpressionUtils;
 import org.eclipse.eef.core.api.EEFGroup;
@@ -26,7 +25,6 @@ import org.eclipse.eef.core.api.EEFView;
 import org.eclipse.eef.core.api.utils.DomainClassTester;
 import org.eclipse.eef.core.api.utils.Eval;
 import org.eclipse.eef.core.api.utils.ISuccessfulResultConsumer;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
@@ -123,19 +121,6 @@ public class EEFPageImpl implements EEFPage {
 				}
 			});
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.core.api.EEFPage#getLabel()
-	 */
-	@Override
-	public String getLabel() {
-		String labelExpression = this.eefPageDescription.getLabelExpression();
-		EAttribute eAttribute = EefPackage.Literals.EEF_PAGE_DESCRIPTION__LABEL_EXPRESSION;
-
-		return new Eval(this.interpreter, this.variableManager).get(eAttribute, labelExpression, String.class);
 	}
 
 	/**

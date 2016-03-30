@@ -11,12 +11,17 @@
 package org.eclipse.eef.ide.ui.api;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.eef.EefPackage;
+import org.eclipse.eef.common.api.utils.Util;
 import org.eclipse.eef.common.ui.api.IEEFFormContainer;
 import org.eclipse.eef.core.api.EEFPage;
+import org.eclipse.eef.core.api.EEFView;
 import org.eclipse.eef.core.api.InputDescriptor;
+import org.eclipse.eef.core.api.utils.Eval;
 import org.eclipse.eef.ide.ui.internal.EEFIdeUiPlugin;
 import org.eclipse.eef.ide.ui.internal.Updater;
 import org.eclipse.eef.ide.ui.internal.widgets.EEFSectionLifecycleManager;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
@@ -45,6 +50,11 @@ public class EEFTab {
 	private Updater updater;
 
 	/**
+	 * The form container.
+	 */
+	private IEEFFormContainer formContainer;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param eefPage
@@ -60,15 +70,16 @@ public class EEFTab {
 	 *
 	 * @param parent
 	 *            The parent container
-	 * @param formContainer
+	 * @param container
 	 *            The container of the whole form
 	 */
-	public void createControls(Composite parent, IEEFFormContainer formContainer) {
+	public void createControls(Composite parent, IEEFFormContainer container) {
 		EEFIdeUiPlugin.getPlugin().debug("EEFSection#createControls(...)"); //$NON-NLS-1$
 
-		this.lifecycleManager.createControl(parent, formContainer);
+		this.formContainer = container;
+		this.lifecycleManager.createControl(parent, container);
 
-		this.updater = new Updater(this, formContainer);
+		this.updater = new Updater(this, container);
 	}
 
 	/**
@@ -112,6 +123,13 @@ public class EEFTab {
 	public void refresh() {
 		EEFIdeUiPlugin.getPlugin().debug("EEFSection#refresh(...)"); //$NON-NLS-1$
 
+		EAttribute labelExpressionEAttribute = EefPackage.Literals.EEF_VIEW_DESCRIPTION__LABEL_EXPRESSION;
+		EEFView eefView = this.eefPage.getView();
+		String labelExpression = eefView.getDescription().getLabelExpression();
+		String title = new Eval(eefView.getInterpreter(), eefView.getVariableManager()).get(labelExpressionEAttribute, labelExpression, String.class);
+		if (!Util.isBlank(title)) {
+			this.formContainer.getForm().setText(title);
+		}
 		this.lifecycleManager.refresh();
 	}
 
@@ -133,6 +151,7 @@ public class EEFTab {
 		EEFIdeUiPlugin.getPlugin().debug("EEFSection#dispose(...)"); //$NON-NLS-1$
 
 		this.lifecycleManager.dispose();
+		this.formContainer = null;
 	}
 
 	/**

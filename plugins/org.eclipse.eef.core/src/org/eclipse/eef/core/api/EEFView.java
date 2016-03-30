@@ -14,6 +14,8 @@ import java.util.List;
 
 import org.eclipse.eef.EEFViewDescription;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.sirius.common.interpreter.api.IInterpreter;
+import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 
 /**
  * The view if the root concept of the EEF model.
@@ -48,6 +50,20 @@ public interface EEFView {
 	 * @return The {@link EEFPage}
 	 */
 	List<EEFPage> getPages();
+
+	/**
+	 * Returns the variable manager.
+	 *
+	 * @return The variable manager
+	 */
+	IVariableManager getVariableManager();
+
+	/**
+	 * Returns the interpreter.
+	 *
+	 * @return The interpreter
+	 */
+	IInterpreter getInterpreter();
 
 	/**
 	 * Returns the {@link TransactionalEditingDomain} through which the current input is being edited. May be

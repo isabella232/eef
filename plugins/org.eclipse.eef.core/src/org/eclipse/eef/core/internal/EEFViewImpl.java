@@ -227,4 +227,24 @@ public class EEFViewImpl implements EEFView {
 		return this.editingDomain;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.core.api.EEFView#getInterpreter()
+	 */
+	@Override
+	public IInterpreter getInterpreter() {
+		return this.interpreter;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.core.api.EEFView#getVariableManager()
+	 */
+	@Override
+	public IVariableManager getVariableManager() {
+		return this.variableManager;
+	}
+
 }

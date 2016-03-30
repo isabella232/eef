@@ -13,9 +13,12 @@ package org.eclipse.eef.ide.ui.properties.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.eef.EefPackage;
 import org.eclipse.eef.core.api.EEFPage;
+import org.eclipse.eef.core.api.utils.Eval;
 import org.eclipse.eef.properties.ui.api.AbstractEEFTabDescriptor;
 import org.eclipse.eef.properties.ui.api.IEEFSectionDescriptor;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -64,7 +67,10 @@ public class EEFTabDescriptor extends AbstractEEFTabDescriptor {
 	 */
 	@Override
 	public String getLabel() {
-		return this.eefPage.getLabel();
+		String labelExpression = this.eefPage.getDescription().getLabelExpression();
+		EAttribute eAttribute = EefPackage.Literals.EEF_PAGE_DESCRIPTION__LABEL_EXPRESSION;
+
+		return new Eval(this.eefPage.getInterpreter(), this.eefPage.getVariableManager()).get(eAttribute, labelExpression, String.class);
 	}
 
 	/**

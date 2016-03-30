@@ -30,13 +30,6 @@ public interface EEFPage {
 	EEFPageDescription getDescription();
 
 	/**
-	 * Returns the label.
-	 *
-	 * @return The label
-	 */
-	String getLabel();
-
-	/**
 	 * Returns the {@link EEFGroup} composing this {@link EEFPage}.
 	 *
 	 * @return The {@link EEFGroup}
@@ -59,7 +52,7 @@ public interface EEFPage {
 
 	/**
 	 * Returns the interpreter.
-	 * 
+	 *
 	 * @return The interpreter
 	 */
 	IInterpreter getInterpreter();
