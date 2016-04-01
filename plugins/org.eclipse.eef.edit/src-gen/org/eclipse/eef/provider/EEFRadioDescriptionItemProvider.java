@@ -52,6 +52,7 @@ public class EEFRadioDescriptionItemProvider extends EEFWidgetDescriptionItemPro
 			addEditExpressionPropertyDescriptor(object);
 			addCandidatesExpressionPropertyDescriptor(object);
 			addCandidateDisplayExpressionPropertyDescriptor(object);
+			addNumberOfColumnsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -87,7 +88,7 @@ public class EEFRadioDescriptionItemProvider extends EEFWidgetDescriptionItemPro
 	/**
 	 * This adds a property descriptor for the Candidates Expression feature. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected void addCandidatesExpressionPropertyDescriptor(Object object) {
@@ -118,6 +119,20 @@ public class EEFRadioDescriptionItemProvider extends EEFWidgetDescriptionItemPro
 						"_UI_PropertyDescriptor_description", "_UI_EEFRadioDescription_candidateDisplayExpression_feature", "_UI_EEFRadioDescription_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						EefPackage.Literals.EEF_RADIO_DESCRIPTION__CANDIDATE_DISPLAY_EXPRESSION, true, false, false,
 						ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Number Of Columns feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected void addNumberOfColumnsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_EEFRadioDescription_numberOfColumns_feature"), //$NON-NLS-1$
+				getString("_UI_PropertyDescriptor_description", "_UI_EEFRadioDescription_numberOfColumns_feature", "_UI_EEFRadioDescription_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				EefPackage.Literals.EEF_RADIO_DESCRIPTION__NUMBER_OF_COLUMNS, true, false, false, ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null,
+				null));
 	}
 
 	/**
@@ -186,7 +201,7 @@ public class EEFRadioDescriptionItemProvider extends EEFWidgetDescriptionItemPro
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached children and by creating
 	 * a viewer notification, which it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -198,6 +213,7 @@ public class EEFRadioDescriptionItemProvider extends EEFWidgetDescriptionItemPro
 		case EefPackage.EEF_RADIO_DESCRIPTION__EDIT_EXPRESSION:
 		case EefPackage.EEF_RADIO_DESCRIPTION__CANDIDATES_EXPRESSION:
 		case EefPackage.EEF_RADIO_DESCRIPTION__CANDIDATE_DISPLAY_EXPRESSION:
+		case EefPackage.EEF_RADIO_DESCRIPTION__NUMBER_OF_COLUMNS:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
 		case EefPackage.EEF_RADIO_DESCRIPTION__STYLE:

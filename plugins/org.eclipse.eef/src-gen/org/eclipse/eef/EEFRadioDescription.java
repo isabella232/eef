@@ -22,6 +22,7 @@ package org.eclipse.eef;
  * <li>{@link org.eclipse.eef.EEFRadioDescription#getCandidatesExpression <em>Candidates Expression</em>}</li>
  * <li>{@link org.eclipse.eef.EEFRadioDescription#getCandidateDisplayExpression <em>Candidate Display Expression</em>}</li>
  * <li>{@link org.eclipse.eef.EEFRadioDescription#getStyle <em>Style</em>}</li>
+ * <li>{@link org.eclipse.eef.EEFRadioDescription#getNumberOfColumns <em>Number Of Columns</em>}</li>
  * </ul>
  * </p>
  *
@@ -125,7 +126,7 @@ public interface EEFRadioDescription extends EEFWidgetDescription {
 
 	/**
 	 * Returns the value of the '<em><b>Style</b></em>' containment reference. <!-- begin-user-doc --> <!-- end-user-doc
-	 * --> <!-- begin-model-doc --> Defines the text style <!-- end-model-doc -->
+	 * --> <!-- begin-model-doc --> Defines the radio style <!-- end-model-doc -->
 	 *
 	 * @return the value of the '<em>Style</em>' containment reference.
 	 * @see #setStyle(EEFRadioStyle)
@@ -145,5 +146,29 @@ public interface EEFRadioDescription extends EEFWidgetDescription {
 	 * @generated
 	 */
 	void setStyle(EEFRadioStyle value);
+
+	/**
+	 * Returns the value of the '<em><b>Number Of Columns</b></em>' attribute. The default value is <code>"-1"</code>.
+	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The number of columns to use to display
+	 * the candidates. <!-- end-model-doc -->
+	 *
+	 * @return the value of the '<em>Number Of Columns</em>' attribute.
+	 * @see #setNumberOfColumns(int)
+	 * @see org.eclipse.eef.EefPackage#getEEFRadioDescription_NumberOfColumns()
+	 * @model default="-1"
+	 * @generated
+	 */
+	int getNumberOfColumns();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.eef.EEFRadioDescription#getNumberOfColumns <em>Number Of Columns</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @param value
+	 *            the new value of the '<em>Number Of Columns</em>' attribute.
+	 * @see #getNumberOfColumns()
+	 * @generated
+	 */
+	void setNumberOfColumns(int value);
 
 } // EEFRadioDescription
