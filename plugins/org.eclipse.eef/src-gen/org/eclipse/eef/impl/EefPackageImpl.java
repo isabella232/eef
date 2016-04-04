@@ -438,8 +438,18 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
+	public EAttribute getEEFPageDescription_PreconditionExpression() {
+		return (EAttribute) eefPageDescriptionEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public EReference getEEFPageDescription_Groups() {
-		return (EReference) eefPageDescriptionEClass.getEStructuralFeatures().get(4);
+		return (EReference) eefPageDescriptionEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -449,7 +459,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 */
 	@Override
 	public EReference getEEFPageDescription_SemanticValidationRules() {
-		return (EReference) eefPageDescriptionEClass.getEStructuralFeatures().get(5);
+		return (EReference) eefPageDescriptionEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -648,8 +658,8 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
-	public EReference getEEFGroupDescription_Container() {
-		return (EReference) eefGroupDescriptionEClass.getEStructuralFeatures().get(4);
+	public EAttribute getEEFGroupDescription_PreconditionExpression() {
+		return (EAttribute) eefGroupDescriptionEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -658,7 +668,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
-	public EReference getEEFGroupDescription_SemanticValidationRules() {
+	public EReference getEEFGroupDescription_Container() {
 		return (EReference) eefGroupDescriptionEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -668,8 +678,18 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
-	public EReference getEEFGroupDescription_PropertyValidationRules() {
+	public EReference getEEFGroupDescription_SemanticValidationRules() {
 		return (EReference) eefGroupDescriptionEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public EReference getEEFGroupDescription_PropertyValidationRules() {
+		return (EReference) eefGroupDescriptionEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -1435,6 +1455,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 		createEAttribute(eefPageDescriptionEClass, EefPackage.EEF_PAGE_DESCRIPTION__LABEL_EXPRESSION);
 		createEAttribute(eefPageDescriptionEClass, EefPackage.EEF_PAGE_DESCRIPTION__DOMAIN_CLASS);
 		createEAttribute(eefPageDescriptionEClass, EefPackage.EEF_PAGE_DESCRIPTION__SEMANTIC_CANDIDATE_EXPRESSION);
+		createEAttribute(eefPageDescriptionEClass, EefPackage.EEF_PAGE_DESCRIPTION__PRECONDITION_EXPRESSION);
 		createEReference(eefPageDescriptionEClass, EefPackage.EEF_PAGE_DESCRIPTION__GROUPS);
 		createEReference(eefPageDescriptionEClass, EefPackage.EEF_PAGE_DESCRIPTION__SEMANTIC_VALIDATION_RULES);
 
@@ -1462,6 +1483,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 		createEAttribute(eefGroupDescriptionEClass, EefPackage.EEF_GROUP_DESCRIPTION__LABEL_EXPRESSION);
 		createEAttribute(eefGroupDescriptionEClass, EefPackage.EEF_GROUP_DESCRIPTION__DOMAIN_CLASS);
 		createEAttribute(eefGroupDescriptionEClass, EefPackage.EEF_GROUP_DESCRIPTION__SEMANTIC_CANDIDATE_EXPRESSION);
+		createEAttribute(eefGroupDescriptionEClass, EefPackage.EEF_GROUP_DESCRIPTION__PRECONDITION_EXPRESSION);
 		createEReference(eefGroupDescriptionEClass, EefPackage.EEF_GROUP_DESCRIPTION__CONTAINER);
 		createEReference(eefGroupDescriptionEClass, EefPackage.EEF_GROUP_DESCRIPTION__SEMANTIC_VALIDATION_RULES);
 		createEReference(eefGroupDescriptionEClass, EefPackage.EEF_GROUP_DESCRIPTION__PROPERTY_VALIDATION_RULES);
@@ -1657,6 +1679,10 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 				getEEFPageDescription_SemanticCandidateExpression(),
 				ecorePackage.getEString(),
 				"semanticCandidateExpression", "", 0, 1, EEFPageDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(
+				getEEFPageDescription_PreconditionExpression(),
+				theEcorePackage.getEString(),
+				"preconditionExpression", null, 0, 1, EEFPageDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
 		initEReference(
 				getEEFPageDescription_Groups(),
 				this.getEEFGroupDescription(),
@@ -1744,6 +1770,10 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 				getEEFGroupDescription_SemanticCandidateExpression(),
 				ecorePackage.getEString(),
 				"semanticCandidateExpression", null, 0, 1, EEFGroupDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getEEFGroupDescription_PreconditionExpression(),
+				theEcorePackage.getEString(),
+				"preconditionExpression", null, 0, 1, EEFGroupDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
 		initEReference(
 				getEEFGroupDescription_Container(),
 				this.getEEFContainerDescription(),
