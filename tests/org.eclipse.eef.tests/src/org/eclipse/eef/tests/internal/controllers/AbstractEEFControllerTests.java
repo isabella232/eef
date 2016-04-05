@@ -24,7 +24,6 @@ import org.eclipse.eef.core.api.EditingContextAdapter;
 import org.eclipse.eef.core.api.controllers.IEEFWidgetController;
 import org.eclipse.eef.tests.internal.AQLInterpreter;
 import org.eclipse.eef.tests.internal.EEFDataTests;
-import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -32,7 +31,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.sirius.common.interpreter.api.VariableManagerFactory;
@@ -41,6 +39,7 @@ import org.junit.Before;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -76,8 +75,6 @@ public abstract class AbstractEEFControllerTests {
 		this.resourceSet.getPackageRegistry().put(EefPackage.eNS_URI, EefPackage.eINSTANCE);
 		this.resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl()); //$NON-NLS-1$
 		this.resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl()); //$NON-NLS-1$
-
-		AdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		this.interpreter = new AQLInterpreter();
 	}
 
@@ -101,8 +98,8 @@ public abstract class AbstractEEFControllerTests {
 	}
 
 	protected <T extends EEFWidgetDescription> T widget(EEFGroupDescription eefGroupDescription, Class<T> clazz, int widgetIndex) {
-		List<T> list = eefGroupDescription.getContainer().getWidgets().stream().filter(w -> clazz.isAssignableFrom(w.getClass()))
-				.map(w -> clazz.cast(w)).collect(Collectors.toList());
+		List<T> list = eefGroupDescription.getControls().stream().filter(w -> clazz.isAssignableFrom(w.getClass())).map(w -> clazz.cast(w))
+				.collect(Collectors.toList());
 		return list.get(widgetIndex);
 	}
 
