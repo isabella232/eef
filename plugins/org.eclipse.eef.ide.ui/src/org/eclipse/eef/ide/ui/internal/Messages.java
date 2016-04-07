@@ -40,6 +40,9 @@ public final class Messages {
 	@TranslatableMessage
 	public static String EEFColor_invalidColorCode;
 
+	@TranslatableMessage
+	public static String AbstractEEFWidgetLifecycleManager_invalidSelectionType;
+
 	// CHECKSTYLE:ON
 
 	/**
