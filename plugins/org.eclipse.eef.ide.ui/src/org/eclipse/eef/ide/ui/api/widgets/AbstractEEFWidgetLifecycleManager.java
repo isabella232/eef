@@ -150,7 +150,7 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 		if (needsLabel) {
 			this.label = widgetFactory.createStyledText(composite, SWT.NONE);
 			this.label.setEditable(false);
-			this.label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
+			this.label.setLayoutData(new GridData(this.getLabelVerticalAlignment()));
 		}
 
 		if (needsHelp) {
@@ -189,6 +189,21 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 	 */
 	protected boolean needSeparatedLabel() {
 		return true;
+	}
+
+	/**
+	 * Returns the vertical alignment of the label of the widget. Use one of the following values:
+	 * <ul>
+	 * <li>GridData.VERTICAL_ALIGN_BEGINNING</li>
+	 * <li>GridData.VERTICAL_ALIGN_CENTER</li>
+	 * <li>GridData.VERTICAL_ALIGN_END</li>
+	 * </ul>
+	 *
+	 * @return The vertical alignment of the label of the widget
+	 */
+	protected int getLabelVerticalAlignment() {
+		// By default, the label is aligned to the top of the widget
+		return GridData.VERTICAL_ALIGN_BEGINNING;
 	}
 
 	/**

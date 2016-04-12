@@ -268,6 +268,9 @@ ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 		newChildDescriptors.add(createChildParameter(EefPackage.Literals.EEF_GROUP_DESCRIPTION__CONTROLS,
 				EefFactory.eINSTANCE.createEEFCustomWidgetDescription()));
 
+		newChildDescriptors.add(createChildParameter(EefPackage.Literals.EEF_GROUP_DESCRIPTION__CONTROLS,
+				EefFactory.eINSTANCE.createEEFReferenceDescription()));
+
 		newChildDescriptors.add(createChildParameter(EefPackage.Literals.EEF_GROUP_DESCRIPTION__SEMANTIC_VALIDATION_RULES,
 				EefFactory.eINSTANCE.createEEFSemanticValidationRuleDescription()));
 

@@ -260,7 +260,7 @@ public class EefItemProviderAdapterFactory extends EefAdapterFactory implements 
 	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFFillLayoutDescription} instances. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected EEFFillLayoutDescriptionItemProvider eefFillLayoutDescriptionItemProvider;
@@ -283,7 +283,7 @@ public class EefItemProviderAdapterFactory extends EefAdapterFactory implements 
 	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFGridLayoutDescription} instances. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected EEFGridLayoutDescriptionItemProvider eefGridLayoutDescriptionItemProvider;
@@ -534,6 +534,29 @@ public class EefItemProviderAdapterFactory extends EefAdapterFactory implements 
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFReferenceDescription} instances. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	protected EEFReferenceDescriptionItemProvider eefReferenceDescriptionItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.eef.EEFReferenceDescription}. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createEEFReferenceDescriptionAdapter() {
+		if (eefReferenceDescriptionItemProvider == null) {
+			eefReferenceDescriptionItemProvider = new EEFReferenceDescriptionItemProvider(this);
+		}
+
+		return eefReferenceDescriptionItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFTextStyle} instances. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -673,7 +696,7 @@ public class EefItemProviderAdapterFactory extends EefAdapterFactory implements 
 	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFCustomWidgetStyle} instances. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected EEFCustomWidgetStyleItemProvider eefCustomWidgetStyleItemProvider;
@@ -855,6 +878,75 @@ public class EefItemProviderAdapterFactory extends EefAdapterFactory implements 
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFWidgetAction} instances. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	protected EEFWidgetActionItemProvider eefWidgetActionItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.eef.EEFWidgetAction}. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public Adapter createEEFWidgetActionAdapter() {
+		if (eefWidgetActionItemProvider == null) {
+			eefWidgetActionItemProvider = new EEFWidgetActionItemProvider(this);
+		}
+
+		return eefWidgetActionItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFReferenceConditionalStyle} instances.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected EEFReferenceConditionalStyleItemProvider eefReferenceConditionalStyleItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.eef.EEFReferenceConditionalStyle}. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createEEFReferenceConditionalStyleAdapter() {
+		if (eefReferenceConditionalStyleItemProvider == null) {
+			eefReferenceConditionalStyleItemProvider = new EEFReferenceConditionalStyleItemProvider(this);
+		}
+
+		return eefReferenceConditionalStyleItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.eef.EEFReferenceStyle} instances. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	protected EEFReferenceStyleItemProvider eefReferenceStyleItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.eef.EEFReferenceStyle}. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createEEFReferenceStyleAdapter() {
+		if (eefReferenceStyleItemProvider == null) {
+			eefReferenceStyleItemProvider = new EEFReferenceStyleItemProvider(this);
+		}
+
+		return eefReferenceStyleItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
@@ -1014,6 +1106,9 @@ public class EefItemProviderAdapterFactory extends EefAdapterFactory implements 
 		if (eefCustomExpressionItemProvider != null) {
 			eefCustomExpressionItemProvider.dispose();
 		}
+		if (eefReferenceDescriptionItemProvider != null) {
+			eefReferenceDescriptionItemProvider.dispose();
+		}
 		if (eefTextStyleItemProvider != null) {
 			eefTextStyleItemProvider.dispose();
 		}
@@ -1035,6 +1130,9 @@ public class EefItemProviderAdapterFactory extends EefAdapterFactory implements 
 		if (eefCustomWidgetStyleItemProvider != null) {
 			eefCustomWidgetStyleItemProvider.dispose();
 		}
+		if (eefReferenceStyleItemProvider != null) {
+			eefReferenceStyleItemProvider.dispose();
+		}
 		if (eefTextConditionalStyleItemProvider != null) {
 			eefTextConditionalStyleItemProvider.dispose();
 		}
@@ -1055,6 +1153,12 @@ public class EefItemProviderAdapterFactory extends EefAdapterFactory implements 
 		}
 		if (eefCustomWidgetConditionalStyleItemProvider != null) {
 			eefCustomWidgetConditionalStyleItemProvider.dispose();
+		}
+		if (eefWidgetActionItemProvider != null) {
+			eefWidgetActionItemProvider.dispose();
+		}
+		if (eefReferenceConditionalStyleItemProvider != null) {
+			eefReferenceConditionalStyleItemProvider.dispose();
 		}
 	}
 

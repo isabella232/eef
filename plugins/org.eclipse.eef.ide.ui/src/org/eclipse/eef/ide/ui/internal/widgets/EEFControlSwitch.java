@@ -25,6 +25,7 @@ import org.eclipse.eef.EEFDynamicMappingFor;
 import org.eclipse.eef.EEFDynamicMappingIf;
 import org.eclipse.eef.EEFLabelDescription;
 import org.eclipse.eef.EEFRadioDescription;
+import org.eclipse.eef.EEFReferenceDescription;
 import org.eclipse.eef.EEFSelectDescription;
 import org.eclipse.eef.EEFTextDescription;
 import org.eclipse.eef.EEFWidgetDescription;
@@ -167,6 +168,14 @@ public class EEFControlSwitch {
 			eefButtonLifecycleManager.createControl(parent, formContainer);
 
 			lifecycleManagers.add(eefButtonLifecycleManager);
+		} else if (widgetDescription instanceof EEFReferenceDescription) {
+			EEFReferenceDescription eefReferenceDescription = (EEFReferenceDescription) widgetDescription;
+
+			EEFReferenceLifecycleManager eefReferenceLifecycleManager = new EEFReferenceLifecycleManager(eefReferenceDescription,
+					childVariableManager, interpreter, contextAdapter);
+			eefReferenceLifecycleManager.createControl(parent, formContainer);
+
+			lifecycleManagers.add(eefReferenceLifecycleManager);
 		} else if (widgetDescription instanceof EEFCustomWidgetDescription) {
 			EEFCustomWidgetDescription eefCustomDescription = (EEFCustomWidgetDescription) widgetDescription;
 			ILifecycleManager eefCustomWidgetLifecycleManager = EEFIdeUiPlugin.getPlugin().getEEFLifecycleManager(eefCustomDescription,
