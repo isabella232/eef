@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  * <li>{@link org.eclipse.eef.impl.EEFWidgetDescriptionImpl#getLabelExpression <em>Label Expression</em>}</li>
  * <li>{@link org.eclipse.eef.impl.EEFWidgetDescriptionImpl#getHelpExpression <em>Help Expression</em>}</li>
+ * <li>{@link org.eclipse.eef.impl.EEFWidgetDescriptionImpl#getIsEnabledExpression <em>Is Enabled Expression</em>}</li>
  * <li>{@link org.eclipse.eef.impl.EEFWidgetDescriptionImpl#getPropertyValidationRules <em>Property Validation Rules
  * </em>}</li>
  * </ul>
@@ -77,6 +78,26 @@ public abstract class EEFWidgetDescriptionImpl extends EEFControlDescriptionImpl
 	 * @ordered
 	 */
 	protected String helpExpression = EEFWidgetDescriptionImpl.HELP_EXPRESSION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getIsEnabledExpression() <em>Is Enabled Expression</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @see #getIsEnabledExpression()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String IS_ENABLED_EXPRESSION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getIsEnabledExpression() <em>Is Enabled Expression</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @see #getIsEnabledExpression()
+	 * @generated
+	 * @ordered
+	 */
+	protected String isEnabledExpression = EEFWidgetDescriptionImpl.IS_ENABLED_EXPRESSION_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getPropertyValidationRules() <em>Property Validation Rules</em>}' reference
@@ -163,6 +184,31 @@ public abstract class EEFWidgetDescriptionImpl extends EEFControlDescriptionImpl
 	 * @generated
 	 */
 	@Override
+	public String getIsEnabledExpression() {
+		return isEnabledExpression;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public void setIsEnabledExpression(String newIsEnabledExpression) {
+		String oldIsEnabledExpression = isEnabledExpression;
+		isEnabledExpression = newIsEnabledExpression;
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.SET, EefPackage.EEF_WIDGET_DESCRIPTION__IS_ENABLED_EXPRESSION, oldIsEnabledExpression,
+					isEnabledExpression));
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public EList<EEFPropertyValidationRuleDescription> getPropertyValidationRules() {
 		if (propertyValidationRules == null) {
 			propertyValidationRules = new EObjectWithInverseResolvingEList.ManyInverse<EEFPropertyValidationRuleDescription>(
@@ -213,6 +259,8 @@ public abstract class EEFWidgetDescriptionImpl extends EEFControlDescriptionImpl
 			return getLabelExpression();
 		case EefPackage.EEF_WIDGET_DESCRIPTION__HELP_EXPRESSION:
 			return getHelpExpression();
+		case EefPackage.EEF_WIDGET_DESCRIPTION__IS_ENABLED_EXPRESSION:
+			return getIsEnabledExpression();
 		case EefPackage.EEF_WIDGET_DESCRIPTION__PROPERTY_VALIDATION_RULES:
 			return getPropertyValidationRules();
 		}
@@ -233,6 +281,9 @@ public abstract class EEFWidgetDescriptionImpl extends EEFControlDescriptionImpl
 			return;
 		case EefPackage.EEF_WIDGET_DESCRIPTION__HELP_EXPRESSION:
 			setHelpExpression((String) newValue);
+			return;
+		case EefPackage.EEF_WIDGET_DESCRIPTION__IS_ENABLED_EXPRESSION:
+			setIsEnabledExpression((String) newValue);
 			return;
 		case EefPackage.EEF_WIDGET_DESCRIPTION__PROPERTY_VALIDATION_RULES:
 			getPropertyValidationRules().clear();
@@ -256,6 +307,9 @@ public abstract class EEFWidgetDescriptionImpl extends EEFControlDescriptionImpl
 		case EefPackage.EEF_WIDGET_DESCRIPTION__HELP_EXPRESSION:
 			setHelpExpression(EEFWidgetDescriptionImpl.HELP_EXPRESSION_EDEFAULT);
 			return;
+		case EefPackage.EEF_WIDGET_DESCRIPTION__IS_ENABLED_EXPRESSION:
+			setIsEnabledExpression(EEFWidgetDescriptionImpl.IS_ENABLED_EXPRESSION_EDEFAULT);
+			return;
 		case EefPackage.EEF_WIDGET_DESCRIPTION__PROPERTY_VALIDATION_RULES:
 			getPropertyValidationRules().clear();
 			return;
@@ -277,6 +331,9 @@ public abstract class EEFWidgetDescriptionImpl extends EEFControlDescriptionImpl
 		case EefPackage.EEF_WIDGET_DESCRIPTION__HELP_EXPRESSION:
 			return EEFWidgetDescriptionImpl.HELP_EXPRESSION_EDEFAULT == null ? helpExpression != null
 			: !EEFWidgetDescriptionImpl.HELP_EXPRESSION_EDEFAULT.equals(helpExpression);
+		case EefPackage.EEF_WIDGET_DESCRIPTION__IS_ENABLED_EXPRESSION:
+			return EEFWidgetDescriptionImpl.IS_ENABLED_EXPRESSION_EDEFAULT == null ? isEnabledExpression != null
+			: !EEFWidgetDescriptionImpl.IS_ENABLED_EXPRESSION_EDEFAULT.equals(isEnabledExpression);
 		case EefPackage.EEF_WIDGET_DESCRIPTION__PROPERTY_VALIDATION_RULES:
 			return propertyValidationRules != null && !propertyValidationRules.isEmpty();
 		}
@@ -299,6 +356,8 @@ public abstract class EEFWidgetDescriptionImpl extends EEFControlDescriptionImpl
 		result.append(labelExpression);
 		result.append(", helpExpression: "); //$NON-NLS-1$
 		result.append(helpExpression);
+		result.append(", isEnabledExpression: "); //$NON-NLS-1$
+		result.append(isEnabledExpression);
 		result.append(')');
 		return result.toString();
 	}

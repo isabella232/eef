@@ -150,6 +150,7 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 		if (needsLabel) {
 			this.label = widgetFactory.createStyledText(composite, SWT.NONE);
 			this.label.setEditable(false);
+			this.label.setEnabled(false);
 			this.label.setLayoutData(new GridData(this.getLabelVerticalAlignment()));
 		}
 
@@ -573,5 +574,20 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 			return (IStructuredSelection) selection;
 		}
 		throw new ClassCastException(Messages.AbstractEEFWidgetLifecycleManager_invalidSelectionType);
+	}
+
+	/**
+	 * Check if a widget is enabled.
+	 *
+	 * @return True if the widget should be enabled otherwise false.
+	 */
+	protected boolean isEnabled() {
+		Eval eval = new Eval(interpreter, variableManager);
+		Boolean result = eval.get(EefPackage.Literals.EEF_WIDGET_DESCRIPTION__IS_ENABLED_EXPRESSION, getWidgetDescription().getIsEnabledExpression(),
+				Boolean.class);
+		if (result != null) {
+			return result.booleanValue();
+		}
+		return true;
 	}
 }

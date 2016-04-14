@@ -124,6 +124,11 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	private int widgetHeight = DEFAULT_HEIGHT;
 
 	/**
+	 * The widget factory.
+	 */
+	private EEFWidgetFactory widgetFactory;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param description
@@ -149,19 +154,19 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	 */
 	@Override
 	protected void createMainControl(Composite parent, IEEFFormContainer formContainer) {
-		EEFWidgetFactory widgetFactory = formContainer.getWidgetFactory();
+		widgetFactory = formContainer.getWidgetFactory();
 		this.reference = widgetFactory.createFlatFormComposite(parent);
 		GridLayout layout = new GridLayout(2, false);
 		reference.setLayout(layout); // this is the parent composite
 		reference.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		if (description.isMultiple()) {
-			createMultipleValuedReferenceWidget(widgetFactory);
+			createMultipleValuedReferenceWidget();
 		} else {
-			createSingleValuedReferenceWidget(widgetFactory);
+			createSingleValuedReferenceWidget();
 		}
 
 		// Create widget action buttons
-		createWidgetActionButtons(widgetFactory);
+		createWidgetActionButtons();
 
 		widgetFactory.paintBordersFor(parent);
 
@@ -171,11 +176,8 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 
 	/**
 	 * Create widget action buttons.
-	 *
-	 * @param widgetFactory
-	 *            Widget factory
 	 */
-	private void createWidgetActionButtons(EEFWidgetFactory widgetFactory) {
+	private void createWidgetActionButtons() {
 		this.buttons = widgetFactory.createFlatFormComposite(reference);
 
 		GridData gd = new GridData();
@@ -199,11 +201,8 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 
 	/**
 	 * Create a single valued reference widget : a text field or a label field if the onclick expression exists.
-	 *
-	 * @param widgetFactory
-	 *            Widget factory
 	 */
-	private void createSingleValuedReferenceWidget(EEFWidgetFactory widgetFactory) {
+	private void createSingleValuedReferenceWidget() {
 		GridData gd = new GridData();
 		// Use hyperlink if the onclick expression exists
 		gd.grabExcessHorizontalSpace = true;
@@ -222,11 +221,8 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 
 	/**
 	 * Create table widget.
-	 *
-	 * @param widgetFactory
-	 *            Widget factory
 	 */
-	private void createMultipleValuedReferenceWidget(EEFWidgetFactory widgetFactory) {
+	private void createMultipleValuedReferenceWidget() {
 		ScrolledComposite scrolledComposite = widgetFactory.createScrolledComposite(reference, SWT.NONE);
 		GridData gridData = new GridData();
 		gridData.grabExcessHorizontalSpace = true;
@@ -513,5 +509,32 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 			return GridData.VERTICAL_ALIGN_CENTER;
 		}
 		return super.getLabelVerticalAlignment();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#refresh()
+	 */
+	@Override
+	public void refresh() {
+		super.refresh();
+		if (this.hyperlink != null) {
+			this.hyperlink.setEnabled(isEnabled());
+		} else if (this.table != null) {
+			this.table.setEnabled(isEnabled());
+			if (!isEnabled()) {
+				this.table.setBackground(widgetFactory.getColors().getInactiveBackground());
+			} else {
+				this.table.setBackground(widgetFactory.getColors().getBackground());
+			}
+		} else {
+			this.text.setEnabled(isEnabled());
+			if (!isEnabled()) {
+				this.text.setBackground(widgetFactory.getColors().getInactiveBackground());
+			} else {
+				this.text.setBackground(widgetFactory.getColors().getBackground());
+			}
+		}
 	}
 }

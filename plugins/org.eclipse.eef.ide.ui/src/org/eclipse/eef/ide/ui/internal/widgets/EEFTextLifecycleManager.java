@@ -69,6 +69,11 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	private ModifyListener modifyListener;
 
 	/**
+	 * The widget factory.
+	 */
+	private EEFWidgetFactory widgetFactory;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param description
@@ -94,7 +99,7 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	 */
 	@Override
 	protected void createMainControl(Composite parent, IEEFFormContainer formContainer) {
-		EEFWidgetFactory widgetFactory = formContainer.getWidgetFactory();
+		widgetFactory = formContainer.getWidgetFactory();
 
 		// Get text area line count
 		int lineCount = description.getLineCount();
@@ -205,7 +210,6 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 					}
 				}
 			}
-
 		});
 	}
 
@@ -251,5 +255,21 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 			this.text.removeModifyListener(this.modifyListener);
 		}
 		this.controller.removeNewValueConsumer();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#refresh()
+	 */
+	@Override
+	public void refresh() {
+		super.refresh();
+		this.text.setEnabled(isEnabled());
+		if (!isEnabled()) {
+			this.text.setBackground(widgetFactory.getColors().getInactiveBackground());
+		} else {
+			this.text.setBackground(widgetFactory.getColors().getBackground());
+		}
 	}
 }

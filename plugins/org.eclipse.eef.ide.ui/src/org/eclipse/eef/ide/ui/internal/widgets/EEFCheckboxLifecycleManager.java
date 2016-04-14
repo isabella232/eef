@@ -93,7 +93,8 @@ public class EEFCheckboxLifecycleManager extends AbstractEEFWidgetLifecycleManag
 
 		this.checkbox = widgetFactory.createButton(parent, "", SWT.CHECK); //$NON-NLS-1$
 
-		this.controller = new EEFControllersFactory().createCheckboxController(this.description, this.variableManager, this.interpreter, this.contextAdapter);
+		this.controller = new EEFControllersFactory().createCheckboxController(this.description, this.variableManager, this.interpreter,
+				this.contextAdapter);
 	}
 
 	/**
@@ -179,7 +180,6 @@ public class EEFCheckboxLifecycleManager extends AbstractEEFWidgetLifecycleManag
 	@Override
 	public void aboutToBeShown() {
 		super.aboutToBeShown();
-
 		this.getController().onNewLabel(new IConsumer<String>() {
 			@Override
 			public void apply(String value) {
@@ -226,5 +226,16 @@ public class EEFCheckboxLifecycleManager extends AbstractEEFWidgetLifecycleManag
 			this.checkbox.removeSelectionListener(this.selectionListener);
 		}
 		this.controller.removeNewValueConsumer();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#refresh()
+	 */
+	@Override
+	public void refresh() {
+		super.refresh();
+		this.checkbox.setEnabled(isEnabled());
 	}
 }

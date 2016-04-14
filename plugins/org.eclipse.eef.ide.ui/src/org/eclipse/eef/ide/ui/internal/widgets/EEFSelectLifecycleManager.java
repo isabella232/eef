@@ -263,6 +263,17 @@ public class EEFSelectLifecycleManager extends AbstractEEFWidgetLifecycleManager
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#refresh()
+	 */
+	@Override
+	public void refresh() {
+		super.refresh();
+		this.combo.setEnabled(isEnabled());
+	}
+
+	/**
 	 * Select widget label provider.
 	 *
 	 * @author mbats

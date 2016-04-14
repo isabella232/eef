@@ -304,6 +304,13 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 *
 	 * @generated
 	 */
+	private EClass eefReferenceStyleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
 	private EClass eefConditionalStyleEClass = null;
 
 	/**
@@ -368,13 +375,6 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	private EClass eefReferenceConditionalStyleEClass = null;
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
-	 * @generated
-	 */
-	private EClass eefReferenceStyleEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -991,8 +991,18 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
+	public EAttribute getEEFWidgetDescription_IsEnabledExpression() {
+		return (EAttribute) eefWidgetDescriptionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public EReference getEEFWidgetDescription_PropertyValidationRules() {
-		return (EReference) eefWidgetDescriptionEClass.getEStructuralFeatures().get(2);
+		return (EReference) eefWidgetDescriptionEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1801,6 +1811,16 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
+	public EClass getEEFReferenceStyle() {
+		return eefReferenceStyleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public EClass getEEFConditionalStyle() {
 		return eefConditionalStyleEClass;
 	}
@@ -2011,16 +2031,6 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
-	public EClass getEEFReferenceStyle() {
-		return eefReferenceStyleEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
-	 * @generated
-	 */
-	@Override
 	public EEnum getEEF_VALIDATION_SEVERITY_DESCRIPTION() {
 		return eeF_VALIDATION_SEVERITY_DESCRIPTIONEEnum;
 	}
@@ -2131,6 +2141,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 		eefWidgetDescriptionEClass = createEClass(EefPackage.EEF_WIDGET_DESCRIPTION);
 		createEAttribute(eefWidgetDescriptionEClass, EefPackage.EEF_WIDGET_DESCRIPTION__LABEL_EXPRESSION);
 		createEAttribute(eefWidgetDescriptionEClass, EefPackage.EEF_WIDGET_DESCRIPTION__HELP_EXPRESSION);
+		createEAttribute(eefWidgetDescriptionEClass, EefPackage.EEF_WIDGET_DESCRIPTION__IS_ENABLED_EXPRESSION);
 		createEReference(eefWidgetDescriptionEClass, EefPackage.EEF_WIDGET_DESCRIPTION__PROPERTY_VALIDATION_RULES);
 
 		eefTextDescriptionEClass = createEClass(EefPackage.EEF_TEXT_DESCRIPTION);
@@ -2550,6 +2561,10 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 				getEEFWidgetDescription_HelpExpression(),
 				ecorePackage.getEString(),
 				"helpExpression", null, 0, 1, EEFWidgetDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getEEFWidgetDescription_IsEnabledExpression(),
+				ecorePackage.getEString(),
+				"isEnabledExpression", null, 0, 1, EEFWidgetDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
 		initEReference(
 				getEEFWidgetDescription_PropertyValidationRules(),
 				this.getEEFPropertyValidationRuleDescription(),
