@@ -30,12 +30,14 @@ import org.eclipse.eef.core.api.controllers.IEEFTextController;
 import org.eclipse.eef.core.api.controllers.IEEFWidgetController;
 import org.eclipse.eef.core.api.utils.Eval;
 import org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager;
+import org.eclipse.eef.ide.ui.internal.widgets.styles.EEFColor;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -74,6 +76,11 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	private EEFWidgetFactory widgetFactory;
 
 	/**
+	 * The default background color of the text field.
+	 */
+	private Color defaultBackgroundColor;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param description
@@ -100,6 +107,7 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	@Override
 	protected void createMainControl(Composite parent, IEEFFormContainer formContainer) {
 		widgetFactory = formContainer.getWidgetFactory();
+		defaultBackgroundColor = parent.getBackground();
 
 		// Get text area line count
 		int lineCount = description.getLineCount();
@@ -217,6 +225,15 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	 * Set the style.
 	 */
 	private void setStyle() {
+		setTextStyle(getTextStyle(), text);
+	}
+
+	/**
+	 * Get the text style.
+	 *
+	 * @return The text style to apply on the widget
+	 */
+	private EEFTextStyle getTextStyle() {
 		EEFTextStyle textStyle = description.getStyle();
 		List<EEFTextConditionalStyle> conditionalStyles = description.getConditionalStyles();
 		if (conditionalStyles != null) {
@@ -229,7 +246,7 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 				}
 			}
 		}
-		setTextStyle(textStyle, text);
+		return textStyle;
 	}
 
 	/**
@@ -266,10 +283,26 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	public void refresh() {
 		super.refresh();
 		this.text.setEnabled(isEnabled());
+		this.text.setBackground(getBackgroundColor());
+	}
+
+	/**
+	 * Get the background color according to the current valid style.
+	 *
+	 * @return The background color to use in the text field.
+	 */
+	private Color getBackgroundColor() {
+		Color color = defaultBackgroundColor;
+		EEFTextStyle style = getTextStyle();
 		if (!isEnabled()) {
-			this.text.setBackground(widgetFactory.getColors().getInactiveBackground());
-		} else {
-			this.text.setBackground(widgetFactory.getColors().getBackground());
+			color = widgetFactory.getColors().getInactiveBackground();
+		} else if (style != null) {
+			String backgroundColorCode = style.getBackgroundColorExpression();
+			if (backgroundColorCode != null && !backgroundColorCode.isEmpty()) {
+				EEFColor backgroundColor = new EEFColor(backgroundColorCode);
+				color = backgroundColor.getColor();
+			}
 		}
+		return color;
 	}
 }

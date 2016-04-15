@@ -46,6 +46,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -129,6 +130,11 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	private EEFWidgetFactory widgetFactory;
 
 	/**
+	 * The default background color of the text field.
+	 */
+	private Color defaultBackgroundColor;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param description
@@ -155,6 +161,8 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	@Override
 	protected void createMainControl(Composite parent, IEEFFormContainer formContainer) {
 		widgetFactory = formContainer.getWidgetFactory();
+		defaultBackgroundColor = parent.getBackground();
+
 		this.reference = widgetFactory.createFlatFormComposite(parent);
 		GridLayout layout = new GridLayout(2, false);
 		reference.setLayout(layout); // this is the parent composite
@@ -230,9 +238,8 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		scrolledComposite.setLayoutData(gridData);
 
 		final int clientWidth = scrolledComposite.getClientArea().width;
-
-		this.tableViewer = new TableViewer(scrolledComposite, SWT.READ_ONLY | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI);
-		this.table = tableViewer.getTable();
+		this.table = widgetFactory.createTable(scrolledComposite, SWT.READ_ONLY | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI);
+		this.tableViewer = new TableViewer(this.table);
 		this.table.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		this.tableViewer.setContentProvider(ArrayContentProvider.getInstance());
 		this.tableViewer.setLabelProvider(new EEFTableReferencesLabelProvider());
@@ -519,22 +526,28 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	@Override
 	public void refresh() {
 		super.refresh();
-		if (this.hyperlink != null) {
+		if (this.text != null) {
+			this.text.setEnabled(isEnabled());
+			this.text.setBackground(getBackgroundColor());
+		} else if (this.hyperlink != null) {
 			this.hyperlink.setEnabled(isEnabled());
+			this.hyperlink.setBackground(getBackgroundColor());
 		} else if (this.table != null) {
 			this.table.setEnabled(isEnabled());
-			if (!isEnabled()) {
-				this.table.setBackground(widgetFactory.getColors().getInactiveBackground());
-			} else {
-				this.table.setBackground(widgetFactory.getColors().getBackground());
-			}
-		} else {
-			this.text.setEnabled(isEnabled());
-			if (!isEnabled()) {
-				this.text.setBackground(widgetFactory.getColors().getInactiveBackground());
-			} else {
-				this.text.setBackground(widgetFactory.getColors().getBackground());
-			}
+			this.table.setBackground(getBackgroundColor());
 		}
+	}
+
+	/**
+	 * Get the background color according to the current valid style.
+	 *
+	 * @return The background color to use in the text field.
+	 */
+	private Color getBackgroundColor() {
+		Color color = defaultBackgroundColor;
+		if (!isEnabled()) {
+			color = widgetFactory.getColors().getInactiveBackground();
+		}
+		return color;
 	}
 }
