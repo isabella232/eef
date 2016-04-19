@@ -1390,6 +1390,104 @@ public interface EefPackage extends EPackage {
 	int EEF_RADIO_DESCRIPTION_FEATURE_COUNT = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 7;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFHyperlinkDescriptionImpl
+	 * <em>EEF Hyperlink Description</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @see org.eclipse.eef.impl.EEFHyperlinkDescriptionImpl
+	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFHyperlinkDescription()
+	 * @generated
+	 */
+	int EEF_HYPERLINK_DESCRIPTION = 20;
+
+	/**
+	 * The feature id for the '<em><b>Identifier</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_DESCRIPTION__IDENTIFIER = EefPackage.EEF_WIDGET_DESCRIPTION__IDENTIFIER;
+
+	/**
+	 * The feature id for the '<em><b>Label Expression</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_DESCRIPTION__LABEL_EXPRESSION = EefPackage.EEF_WIDGET_DESCRIPTION__LABEL_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Help Expression</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_DESCRIPTION__HELP_EXPRESSION = EefPackage.EEF_WIDGET_DESCRIPTION__HELP_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Is Enabled Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_DESCRIPTION__IS_ENABLED_EXPRESSION = EefPackage.EEF_WIDGET_DESCRIPTION__IS_ENABLED_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Property Validation Rules</b></em>' reference list. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_DESCRIPTION__PROPERTY_VALIDATION_RULES = EefPackage.EEF_WIDGET_DESCRIPTION__PROPERTY_VALIDATION_RULES;
+
+	/**
+	 * The feature id for the '<em><b>Value Expression</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_DESCRIPTION__VALUE_EXPRESSION = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>On Click Expression</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_DESCRIPTION__ON_CLICK_EXPRESSION = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Style</b></em>' containment reference. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_DESCRIPTION__STYLE = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Conditional Styles</b></em>' containment reference list. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_DESCRIPTION__CONDITIONAL_STYLES = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>EEF Hyperlink Description</em>' class. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_DESCRIPTION_FEATURE_COUNT = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 4;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFDynamicMappingForImpl
 	 * <em>EEF Dynamic Mapping For</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -1397,7 +1495,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFDynamicMappingFor()
 	 * @generated
 	 */
-	int EEF_DYNAMIC_MAPPING_FOR = 20;
+	int EEF_DYNAMIC_MAPPING_FOR = 21;
 
 	/**
 	 * The feature id for the '<em><b>Identifier</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1450,7 +1548,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFDynamicMappingIf()
 	 * @generated
 	 */
-	int EEF_DYNAMIC_MAPPING_IF = 21;
+	int EEF_DYNAMIC_MAPPING_IF = 22;
 
 	/**
 	 * The feature id for the '<em><b>Predicate Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -1487,7 +1585,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFCustomWidgetDescription()
 	 * @generated
 	 */
-	int EEF_CUSTOM_WIDGET_DESCRIPTION = 22;
+	int EEF_CUSTOM_WIDGET_DESCRIPTION = 23;
 
 	/**
 	 * The feature id for the '<em><b>Identifier</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1576,7 +1674,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFCustomExpression()
 	 * @generated
 	 */
-	int EEF_CUSTOM_EXPRESSION = 23;
+	int EEF_CUSTOM_EXPRESSION = 24;
 
 	/**
 	 * The feature id for the '<em><b>Identifier</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1612,7 +1710,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFReferenceDescription()
 	 * @generated
 	 */
-	int EEF_REFERENCE_DESCRIPTION = 24;
+	int EEF_REFERENCE_DESCRIPTION = 25;
 
 	/**
 	 * The feature id for the '<em><b>Identifier</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1736,7 +1834,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFWidgetStyle()
 	 * @generated
 	 */
-	int EEF_WIDGET_STYLE = 25;
+	int EEF_WIDGET_STYLE = 26;
 
 	/**
 	 * The feature id for the '<em><b>Label Background Color Expression</b></em>' attribute. <!-- begin-user-doc -->
@@ -1800,7 +1898,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFTextStyle()
 	 * @generated
 	 */
-	int EEF_TEXT_STYLE = 26;
+	int EEF_TEXT_STYLE = 27;
 
 	/**
 	 * The feature id for the '<em><b>Label Background Color Expression</b></em>' attribute. <!-- begin-user-doc -->
@@ -1909,7 +2007,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFLabelStyle()
 	 * @generated
 	 */
-	int EEF_LABEL_STYLE = 27;
+	int EEF_LABEL_STYLE = 28;
 
 	/**
 	 * The feature id for the '<em><b>Label Background Color Expression</b></em>' attribute. <!-- begin-user-doc -->
@@ -2018,7 +2116,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFButtonStyle()
 	 * @generated
 	 */
-	int EEF_BUTTON_STYLE = 28;
+	int EEF_BUTTON_STYLE = 29;
 
 	/**
 	 * The feature id for the '<em><b>Label Background Color Expression</b></em>' attribute. <!-- begin-user-doc -->
@@ -2082,7 +2180,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFCheckboxStyle()
 	 * @generated
 	 */
-	int EEF_CHECKBOX_STYLE = 29;
+	int EEF_CHECKBOX_STYLE = 30;
 
 	/**
 	 * The feature id for the '<em><b>Label Background Color Expression</b></em>' attribute. <!-- begin-user-doc -->
@@ -2146,7 +2244,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFSelectStyle()
 	 * @generated
 	 */
-	int EEF_SELECT_STYLE = 30;
+	int EEF_SELECT_STYLE = 31;
 
 	/**
 	 * The feature id for the '<em><b>Label Background Color Expression</b></em>' attribute. <!-- begin-user-doc -->
@@ -2210,7 +2308,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFRadioStyle()
 	 * @generated
 	 */
-	int EEF_RADIO_STYLE = 31;
+	int EEF_RADIO_STYLE = 32;
 
 	/**
 	 * The feature id for the '<em><b>Label Background Color Expression</b></em>' attribute. <!-- begin-user-doc -->
@@ -2267,6 +2365,106 @@ public interface EefPackage extends EPackage {
 	int EEF_RADIO_STYLE_FEATURE_COUNT = EefPackage.EEF_WIDGET_STYLE_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFHyperlinkStyleImpl <em>EEF Hyperlink Style</em>}'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @see org.eclipse.eef.impl.EEFHyperlinkStyleImpl
+	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFHyperlinkStyle()
+	 * @generated
+	 */
+	int EEF_HYPERLINK_STYLE = 33;
+
+	/**
+	 * The feature id for the '<em><b>Label Background Color Expression</b></em>' attribute. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_STYLE__LABEL_BACKGROUND_COLOR_EXPRESSION = EefPackage.EEF_WIDGET_STYLE__LABEL_BACKGROUND_COLOR_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Label Foreground Color Expression</b></em>' attribute. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_STYLE__LABEL_FOREGROUND_COLOR_EXPRESSION = EefPackage.EEF_WIDGET_STYLE__LABEL_FOREGROUND_COLOR_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Label Font Name Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_STYLE__LABEL_FONT_NAME_EXPRESSION = EefPackage.EEF_WIDGET_STYLE__LABEL_FONT_NAME_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Label Font Size Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_STYLE__LABEL_FONT_SIZE_EXPRESSION = EefPackage.EEF_WIDGET_STYLE__LABEL_FONT_SIZE_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Label Font Style Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_STYLE__LABEL_FONT_STYLE_EXPRESSION = EefPackage.EEF_WIDGET_STYLE__LABEL_FONT_STYLE_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Background Color Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_STYLE__BACKGROUND_COLOR_EXPRESSION = EefPackage.EEF_WIDGET_STYLE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Font Name Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_STYLE__FONT_NAME_EXPRESSION = EefPackage.EEF_WIDGET_STYLE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Font Size Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_STYLE__FONT_SIZE_EXPRESSION = EefPackage.EEF_WIDGET_STYLE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Font Style Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_STYLE__FONT_STYLE_EXPRESSION = EefPackage.EEF_WIDGET_STYLE_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>EEF Hyperlink Style</em>' class. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_STYLE_FEATURE_COUNT = EefPackage.EEF_WIDGET_STYLE_FEATURE_COUNT + 4;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFCustomWidgetStyleImpl
 	 * <em>EEF Custom Widget Style</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -2274,7 +2472,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFCustomWidgetStyle()
 	 * @generated
 	 */
-	int EEF_CUSTOM_WIDGET_STYLE = 32;
+	int EEF_CUSTOM_WIDGET_STYLE = 34;
 
 	/**
 	 * The feature id for the '<em><b>Label Background Color Expression</b></em>' attribute. <!-- begin-user-doc -->
@@ -2338,7 +2536,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFReferenceStyle()
 	 * @generated
 	 */
-	int EEF_REFERENCE_STYLE = 33;
+	int EEF_REFERENCE_STYLE = 35;
 
 	/**
 	 * The feature id for the '<em><b>Label Background Color Expression</b></em>' attribute. <!-- begin-user-doc -->
@@ -2402,7 +2600,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFConditionalStyle()
 	 * @generated
 	 */
-	int EEF_CONDITIONAL_STYLE = 34;
+	int EEF_CONDITIONAL_STYLE = 36;
 
 	/**
 	 * The feature id for the '<em><b>Precondition Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -2430,7 +2628,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFTextConditionalStyle()
 	 * @generated
 	 */
-	int EEF_TEXT_CONDITIONAL_STYLE = 35;
+	int EEF_TEXT_CONDITIONAL_STYLE = 37;
 
 	/**
 	 * The feature id for the '<em><b>Precondition Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -2467,7 +2665,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFButtonConditionalStyle()
 	 * @generated
 	 */
-	int EEF_BUTTON_CONDITIONAL_STYLE = 36;
+	int EEF_BUTTON_CONDITIONAL_STYLE = 38;
 
 	/**
 	 * The feature id for the '<em><b>Precondition Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -2504,7 +2702,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFLabelConditionalStyle()
 	 * @generated
 	 */
-	int EEF_LABEL_CONDITIONAL_STYLE = 37;
+	int EEF_LABEL_CONDITIONAL_STYLE = 39;
 
 	/**
 	 * The feature id for the '<em><b>Precondition Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -2541,7 +2739,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFCheckboxConditionalStyle()
 	 * @generated
 	 */
-	int EEF_CHECKBOX_CONDITIONAL_STYLE = 38;
+	int EEF_CHECKBOX_CONDITIONAL_STYLE = 40;
 
 	/**
 	 * The feature id for the '<em><b>Precondition Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -2578,7 +2776,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFSelectConditionalStyle()
 	 * @generated
 	 */
-	int EEF_SELECT_CONDITIONAL_STYLE = 39;
+	int EEF_SELECT_CONDITIONAL_STYLE = 41;
 
 	/**
 	 * The feature id for the '<em><b>Precondition Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -2615,7 +2813,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFRadioConditionalStyle()
 	 * @generated
 	 */
-	int EEF_RADIO_CONDITIONAL_STYLE = 40;
+	int EEF_RADIO_CONDITIONAL_STYLE = 42;
 
 	/**
 	 * The feature id for the '<em><b>Precondition Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -2645,6 +2843,43 @@ public interface EefPackage extends EPackage {
 	int EEF_RADIO_CONDITIONAL_STYLE_FEATURE_COUNT = EefPackage.EEF_CONDITIONAL_STYLE_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFHyperlinkConditionalStyleImpl
+	 * <em>EEF Hyperlink Conditional Style</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @see org.eclipse.eef.impl.EEFHyperlinkConditionalStyleImpl
+	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFHyperlinkConditionalStyle()
+	 * @generated
+	 */
+	int EEF_HYPERLINK_CONDITIONAL_STYLE = 43;
+
+	/**
+	 * The feature id for the '<em><b>Precondition Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_CONDITIONAL_STYLE__PRECONDITION_EXPRESSION = EefPackage.EEF_CONDITIONAL_STYLE__PRECONDITION_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Style</b></em>' containment reference. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_CONDITIONAL_STYLE__STYLE = EefPackage.EEF_CONDITIONAL_STYLE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>EEF Hyperlink Conditional Style</em>' class. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_HYPERLINK_CONDITIONAL_STYLE_FEATURE_COUNT = EefPackage.EEF_CONDITIONAL_STYLE_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFCustomWidgetConditionalStyleImpl
 	 * <em>EEF Custom Widget Conditional Style</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -2652,7 +2887,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFCustomWidgetConditionalStyle()
 	 * @generated
 	 */
-	int EEF_CUSTOM_WIDGET_CONDITIONAL_STYLE = 41;
+	int EEF_CUSTOM_WIDGET_CONDITIONAL_STYLE = 44;
 
 	/**
 	 * The feature id for the '<em><b>Precondition Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -2689,7 +2924,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFWidgetAction()
 	 * @generated
 	 */
-	int EEF_WIDGET_ACTION = 42;
+	int EEF_WIDGET_ACTION = 45;
 
 	/**
 	 * The feature id for the '<em><b>Label Expression</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
@@ -2726,7 +2961,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFReferenceConditionalStyle()
 	 * @generated
 	 */
-	int EEF_REFERENCE_CONDITIONAL_STYLE = 43;
+	int EEF_REFERENCE_CONDITIONAL_STYLE = 46;
 
 	/**
 	 * The feature id for the '<em><b>Precondition Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -2763,7 +2998,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEF_VALIDATION_SEVERITY_DESCRIPTION()
 	 * @generated
 	 */
-	int EEF_VALIDATION_SEVERITY_DESCRIPTION = 44;
+	int EEF_VALIDATION_SEVERITY_DESCRIPTION = 47;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.eef.EEF_FILL_LAYOUT_ORIENTATION
@@ -2773,7 +3008,7 @@ public interface EefPackage extends EPackage {
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEF_FILL_LAYOUT_ORIENTATION()
 	 * @generated
 	 */
-	int EEF_FILL_LAYOUT_ORIENTATION = 45;
+	int EEF_FILL_LAYOUT_ORIENTATION = 48;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.eef.EEFViewDescription <em>EEF View Description</em>}'.
@@ -3769,6 +4004,61 @@ public interface EefPackage extends EPackage {
 	EReference getEEFRadioDescription_ConditionalStyles();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.eef.EEFHyperlinkDescription
+	 * <em>EEF Hyperlink Description</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for class '<em>EEF Hyperlink Description</em>'.
+	 * @see org.eclipse.eef.EEFHyperlinkDescription
+	 * @generated
+	 */
+	EClass getEEFHyperlinkDescription();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eef.EEFHyperlinkDescription#getValueExpression
+	 * <em>Value Expression</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the attribute '<em>Value Expression</em>'.
+	 * @see org.eclipse.eef.EEFHyperlinkDescription#getValueExpression()
+	 * @see #getEEFHyperlinkDescription()
+	 * @generated
+	 */
+	EAttribute getEEFHyperlinkDescription_ValueExpression();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eef.EEFHyperlinkDescription#getOnClickExpression
+	 * <em>On Click Expression</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the attribute '<em>On Click Expression</em>'.
+	 * @see org.eclipse.eef.EEFHyperlinkDescription#getOnClickExpression()
+	 * @see #getEEFHyperlinkDescription()
+	 * @generated
+	 */
+	EAttribute getEEFHyperlinkDescription_OnClickExpression();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.eef.EEFHyperlinkDescription#getStyle
+	 * <em>Style</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the containment reference '<em>Style</em>'.
+	 * @see org.eclipse.eef.EEFHyperlinkDescription#getStyle()
+	 * @see #getEEFHyperlinkDescription()
+	 * @generated
+	 */
+	EReference getEEFHyperlinkDescription_Style();
+
+	/**
+	 * Returns the meta object for the containment reference list '
+	 * {@link org.eclipse.eef.EEFHyperlinkDescription#getConditionalStyles <em>Conditional Styles</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the containment reference list '<em>Conditional Styles</em>'.
+	 * @see org.eclipse.eef.EEFHyperlinkDescription#getConditionalStyles()
+	 * @see #getEEFHyperlinkDescription()
+	 * @generated
+	 */
+	EReference getEEFHyperlinkDescription_ConditionalStyles();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.eef.EEFDynamicMappingFor <em>EEF Dynamic Mapping For</em>}
 	 * '. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -4248,6 +4538,60 @@ public interface EefPackage extends EPackage {
 	EClass getEEFRadioStyle();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.eef.EEFHyperlinkStyle <em>EEF Hyperlink Style</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for class '<em>EEF Hyperlink Style</em>'.
+	 * @see org.eclipse.eef.EEFHyperlinkStyle
+	 * @generated
+	 */
+	EClass getEEFHyperlinkStyle();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eef.EEFHyperlinkStyle#getBackgroundColorExpression
+	 * <em>Background Color Expression</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the attribute '<em>Background Color Expression</em>'.
+	 * @see org.eclipse.eef.EEFHyperlinkStyle#getBackgroundColorExpression()
+	 * @see #getEEFHyperlinkStyle()
+	 * @generated
+	 */
+	EAttribute getEEFHyperlinkStyle_BackgroundColorExpression();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eef.EEFHyperlinkStyle#getFontNameExpression
+	 * <em>Font Name Expression</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the attribute '<em>Font Name Expression</em>'.
+	 * @see org.eclipse.eef.EEFHyperlinkStyle#getFontNameExpression()
+	 * @see #getEEFHyperlinkStyle()
+	 * @generated
+	 */
+	EAttribute getEEFHyperlinkStyle_FontNameExpression();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eef.EEFHyperlinkStyle#getFontSizeExpression
+	 * <em>Font Size Expression</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the attribute '<em>Font Size Expression</em>'.
+	 * @see org.eclipse.eef.EEFHyperlinkStyle#getFontSizeExpression()
+	 * @see #getEEFHyperlinkStyle()
+	 * @generated
+	 */
+	EAttribute getEEFHyperlinkStyle_FontSizeExpression();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eef.EEFHyperlinkStyle#getFontStyleExpression
+	 * <em>Font Style Expression</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the attribute '<em>Font Style Expression</em>'.
+	 * @see org.eclipse.eef.EEFHyperlinkStyle#getFontStyleExpression()
+	 * @see #getEEFHyperlinkStyle()
+	 * @generated
+	 */
+	EAttribute getEEFHyperlinkStyle_FontStyleExpression();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.eef.EEFCustomWidgetStyle <em>EEF Custom Widget Style</em>}
 	 * '. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -4414,6 +4758,28 @@ public interface EefPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getEEFRadioConditionalStyle_Style();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.eef.EEFHyperlinkConditionalStyle
+	 * <em>EEF Hyperlink Conditional Style</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for class '<em>EEF Hyperlink Conditional Style</em>'.
+	 * @see org.eclipse.eef.EEFHyperlinkConditionalStyle
+	 * @generated
+	 */
+	EClass getEEFHyperlinkConditionalStyle();
+
+	/**
+	 * Returns the meta object for the containment reference '
+	 * {@link org.eclipse.eef.EEFHyperlinkConditionalStyle#getStyle <em>Style</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @return the meta object for the containment reference '<em>Style</em>'.
+	 * @see org.eclipse.eef.EEFHyperlinkConditionalStyle#getStyle()
+	 * @see #getEEFHyperlinkConditionalStyle()
+	 * @generated
+	 */
+	EReference getEEFHyperlinkConditionalStyle_Style();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.eef.EEFCustomWidgetConditionalStyle
@@ -5295,6 +5661,48 @@ public interface EefPackage extends EPackage {
 		EReference EEF_RADIO_DESCRIPTION__CONDITIONAL_STYLES = EefPackage.eINSTANCE.getEEFRadioDescription_ConditionalStyles();
 
 		/**
+		 * The meta object literal for the '{@link org.eclipse.eef.impl.EEFHyperlinkDescriptionImpl
+		 * <em>EEF Hyperlink Description</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 *
+		 * @see org.eclipse.eef.impl.EEFHyperlinkDescriptionImpl
+		 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFHyperlinkDescription()
+		 * @generated
+		 */
+		EClass EEF_HYPERLINK_DESCRIPTION = EefPackage.eINSTANCE.getEEFHyperlinkDescription();
+
+		/**
+		 * The meta object literal for the '<em><b>Value Expression</b></em>' attribute feature. <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EAttribute EEF_HYPERLINK_DESCRIPTION__VALUE_EXPRESSION = EefPackage.eINSTANCE.getEEFHyperlinkDescription_ValueExpression();
+
+		/**
+		 * The meta object literal for the '<em><b>On Click Expression</b></em>' attribute feature. <!-- begin-user-doc
+		 * --> <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EAttribute EEF_HYPERLINK_DESCRIPTION__ON_CLICK_EXPRESSION = EefPackage.eINSTANCE.getEEFHyperlinkDescription_OnClickExpression();
+
+		/**
+		 * The meta object literal for the '<em><b>Style</b></em>' containment reference feature. <!-- begin-user-doc
+		 * --> <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EReference EEF_HYPERLINK_DESCRIPTION__STYLE = EefPackage.eINSTANCE.getEEFHyperlinkDescription_Style();
+
+		/**
+		 * The meta object literal for the '<em><b>Conditional Styles</b></em>' containment reference list feature. <!--
+		 * begin-user-doc --> <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EReference EEF_HYPERLINK_DESCRIPTION__CONDITIONAL_STYLES = EefPackage.eINSTANCE.getEEFHyperlinkDescription_ConditionalStyles();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.eef.impl.EEFDynamicMappingForImpl
 		 * <em>EEF Dynamic Mapping For</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 *
@@ -5671,6 +6079,48 @@ public interface EefPackage extends EPackage {
 		EClass EEF_RADIO_STYLE = EefPackage.eINSTANCE.getEEFRadioStyle();
 
 		/**
+		 * The meta object literal for the '{@link org.eclipse.eef.impl.EEFHyperlinkStyleImpl
+		 * <em>EEF Hyperlink Style</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 *
+		 * @see org.eclipse.eef.impl.EEFHyperlinkStyleImpl
+		 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFHyperlinkStyle()
+		 * @generated
+		 */
+		EClass EEF_HYPERLINK_STYLE = EefPackage.eINSTANCE.getEEFHyperlinkStyle();
+
+		/**
+		 * The meta object literal for the '<em><b>Background Color Expression</b></em>' attribute feature. <!--
+		 * begin-user-doc --> <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EAttribute EEF_HYPERLINK_STYLE__BACKGROUND_COLOR_EXPRESSION = EefPackage.eINSTANCE.getEEFHyperlinkStyle_BackgroundColorExpression();
+
+		/**
+		 * The meta object literal for the '<em><b>Font Name Expression</b></em>' attribute feature. <!-- begin-user-doc
+		 * --> <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EAttribute EEF_HYPERLINK_STYLE__FONT_NAME_EXPRESSION = EefPackage.eINSTANCE.getEEFHyperlinkStyle_FontNameExpression();
+
+		/**
+		 * The meta object literal for the '<em><b>Font Size Expression</b></em>' attribute feature. <!-- begin-user-doc
+		 * --> <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EAttribute EEF_HYPERLINK_STYLE__FONT_SIZE_EXPRESSION = EefPackage.eINSTANCE.getEEFHyperlinkStyle_FontSizeExpression();
+
+		/**
+		 * The meta object literal for the '<em><b>Font Style Expression</b></em>' attribute feature. <!--
+		 * begin-user-doc --> <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EAttribute EEF_HYPERLINK_STYLE__FONT_STYLE_EXPRESSION = EefPackage.eINSTANCE.getEEFHyperlinkStyle_FontStyleExpression();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.eef.impl.EEFCustomWidgetStyleImpl
 		 * <em>EEF Custom Widget Style</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 *
@@ -5815,6 +6265,24 @@ public interface EefPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EEF_RADIO_CONDITIONAL_STYLE__STYLE = EefPackage.eINSTANCE.getEEFRadioConditionalStyle_Style();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.eef.impl.EEFHyperlinkConditionalStyleImpl
+		 * <em>EEF Hyperlink Conditional Style</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 *
+		 * @see org.eclipse.eef.impl.EEFHyperlinkConditionalStyleImpl
+		 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFHyperlinkConditionalStyle()
+		 * @generated
+		 */
+		EClass EEF_HYPERLINK_CONDITIONAL_STYLE = EefPackage.eINSTANCE.getEEFHyperlinkConditionalStyle();
+
+		/**
+		 * The meta object literal for the '<em><b>Style</b></em>' containment reference feature. <!-- begin-user-doc
+		 * --> <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EReference EEF_HYPERLINK_CONDITIONAL_STYLE__STYLE = EefPackage.eINSTANCE.getEEFHyperlinkConditionalStyle_Style();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.eef.impl.EEFCustomWidgetConditionalStyleImpl

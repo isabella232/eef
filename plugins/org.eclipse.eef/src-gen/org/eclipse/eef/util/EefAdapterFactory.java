@@ -26,6 +26,9 @@ import org.eclipse.eef.EEFDynamicMappingIf;
 import org.eclipse.eef.EEFFillLayoutDescription;
 import org.eclipse.eef.EEFGridLayoutDescription;
 import org.eclipse.eef.EEFGroupDescription;
+import org.eclipse.eef.EEFHyperlinkConditionalStyle;
+import org.eclipse.eef.EEFHyperlinkDescription;
+import org.eclipse.eef.EEFHyperlinkStyle;
 import org.eclipse.eef.EEFLabelConditionalStyle;
 import org.eclipse.eef.EEFLabelDescription;
 import org.eclipse.eef.EEFLabelStyle;
@@ -210,6 +213,11 @@ public class EefAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
+		public Adapter caseEEFHyperlinkDescription(EEFHyperlinkDescription object) {
+			return createEEFHyperlinkDescriptionAdapter();
+		}
+
+		@Override
 		public Adapter caseEEFDynamicMappingFor(EEFDynamicMappingFor object) {
 			return createEEFDynamicMappingForAdapter();
 		}
@@ -270,6 +278,11 @@ public class EefAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
+		public Adapter caseEEFHyperlinkStyle(EEFHyperlinkStyle object) {
+			return createEEFHyperlinkStyleAdapter();
+		}
+
+		@Override
 		public Adapter caseEEFCustomWidgetStyle(EEFCustomWidgetStyle object) {
 			return createEEFCustomWidgetStyleAdapter();
 		}
@@ -312,6 +325,11 @@ public class EefAdapterFactory extends AdapterFactoryImpl {
 		@Override
 		public Adapter caseEEFRadioConditionalStyle(EEFRadioConditionalStyle object) {
 			return createEEFRadioConditionalStyleAdapter();
+		}
+
+		@Override
+		public Adapter caseEEFHyperlinkConditionalStyle(EEFHyperlinkConditionalStyle object) {
+			return createEEFHyperlinkConditionalStyleAdapter();
 		}
 
 		@Override
@@ -629,6 +647,20 @@ public class EefAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eef.EEFHyperlinkDescription
+	 * <em>EEF Hyperlink Description</em>}'. <!-- begin-user-doc --> This default implementation returns null so that we
+	 * can easily ignore cases; it's useful to ignore a case when inheritance will catch all the cases anyway. <!--
+	 * end-user-doc -->
+	 *
+	 * @return the new adapter.
+	 * @see org.eclipse.eef.EEFHyperlinkDescription
+	 * @generated
+	 */
+	public Adapter createEEFHyperlinkDescriptionAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.eef.EEFDynamicMappingFor
 	 * <em>EEF Dynamic Mapping For</em>}'. <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will catch all the cases anyway. <!--
@@ -791,6 +823,20 @@ public class EefAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eef.EEFHyperlinkStyle
+	 * <em>EEF Hyperlink Style</em>}'. <!-- begin-user-doc --> This default implementation returns null so that we can
+	 * easily ignore cases; it's useful to ignore a case when inheritance will catch all the cases anyway. <!--
+	 * end-user-doc -->
+	 *
+	 * @return the new adapter.
+	 * @see org.eclipse.eef.EEFHyperlinkStyle
+	 * @generated
+	 */
+	public Adapter createEEFHyperlinkStyleAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.eef.EEFCustomWidgetStyle
 	 * <em>EEF Custom Widget Style</em>}'. <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will catch all the cases anyway. <!--
@@ -899,6 +945,20 @@ public class EefAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEEFRadioConditionalStyleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eef.EEFHyperlinkConditionalStyle
+	 * <em>EEF Hyperlink Conditional Style</em>}'. <!-- begin-user-doc --> This default implementation returns null so
+	 * that we can easily ignore cases; it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 *
+	 * @return the new adapter.
+	 * @see org.eclipse.eef.EEFHyperlinkConditionalStyle
+	 * @generated
+	 */
+	public Adapter createEEFHyperlinkConditionalStyleAdapter() {
 		return null;
 	}
 

@@ -26,6 +26,9 @@ import org.eclipse.eef.EEFDynamicMappingIf;
 import org.eclipse.eef.EEFFillLayoutDescription;
 import org.eclipse.eef.EEFGridLayoutDescription;
 import org.eclipse.eef.EEFGroupDescription;
+import org.eclipse.eef.EEFHyperlinkConditionalStyle;
+import org.eclipse.eef.EEFHyperlinkDescription;
+import org.eclipse.eef.EEFHyperlinkStyle;
 import org.eclipse.eef.EEFLabelConditionalStyle;
 import org.eclipse.eef.EEFLabelDescription;
 import org.eclipse.eef.EEFLabelStyle;
@@ -213,6 +216,13 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 *
 	 * @generated
 	 */
+	private EClass eefHyperlinkDescriptionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
 	private EClass eefDynamicMappingForEClass = null;
 
 	/**
@@ -297,6 +307,13 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 *
 	 * @generated
 	 */
+	private EClass eefHyperlinkStyleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
 	private EClass eefCustomWidgetStyleEClass = null;
 
 	/**
@@ -354,6 +371,13 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	private EClass eefRadioConditionalStyleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	private EClass eefHyperlinkConditionalStyleEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1361,6 +1385,56 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
+	public EClass getEEFHyperlinkDescription() {
+		return eefHyperlinkDescriptionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public EAttribute getEEFHyperlinkDescription_ValueExpression() {
+		return (EAttribute) eefHyperlinkDescriptionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public EAttribute getEEFHyperlinkDescription_OnClickExpression() {
+		return (EAttribute) eefHyperlinkDescriptionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public EReference getEEFHyperlinkDescription_Style() {
+		return (EReference) eefHyperlinkDescriptionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public EReference getEEFHyperlinkDescription_ConditionalStyles() {
+		return (EReference) eefHyperlinkDescriptionEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public EClass getEEFDynamicMappingFor() {
 		return eefDynamicMappingForEClass;
 	}
@@ -1801,6 +1875,56 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
+	public EClass getEEFHyperlinkStyle() {
+		return eefHyperlinkStyleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public EAttribute getEEFHyperlinkStyle_BackgroundColorExpression() {
+		return (EAttribute) eefHyperlinkStyleEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public EAttribute getEEFHyperlinkStyle_FontNameExpression() {
+		return (EAttribute) eefHyperlinkStyleEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public EAttribute getEEFHyperlinkStyle_FontSizeExpression() {
+		return (EAttribute) eefHyperlinkStyleEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public EAttribute getEEFHyperlinkStyle_FontStyleExpression() {
+		return (EAttribute) eefHyperlinkStyleEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public EClass getEEFCustomWidgetStyle() {
 		return eefCustomWidgetStyleEClass;
 	}
@@ -1953,6 +2077,26 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	@Override
 	public EReference getEEFRadioConditionalStyle_Style() {
 		return (EReference) eefRadioConditionalStyleEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public EClass getEEFHyperlinkConditionalStyle() {
+		return eefHyperlinkConditionalStyleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public EReference getEEFHyperlinkConditionalStyle_Style() {
+		return (EReference) eefHyperlinkConditionalStyleEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2185,6 +2329,12 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 		createEAttribute(eefRadioDescriptionEClass, EefPackage.EEF_RADIO_DESCRIPTION__NUMBER_OF_COLUMNS);
 		createEReference(eefRadioDescriptionEClass, EefPackage.EEF_RADIO_DESCRIPTION__CONDITIONAL_STYLES);
 
+		eefHyperlinkDescriptionEClass = createEClass(EefPackage.EEF_HYPERLINK_DESCRIPTION);
+		createEAttribute(eefHyperlinkDescriptionEClass, EefPackage.EEF_HYPERLINK_DESCRIPTION__VALUE_EXPRESSION);
+		createEAttribute(eefHyperlinkDescriptionEClass, EefPackage.EEF_HYPERLINK_DESCRIPTION__ON_CLICK_EXPRESSION);
+		createEReference(eefHyperlinkDescriptionEClass, EefPackage.EEF_HYPERLINK_DESCRIPTION__STYLE);
+		createEReference(eefHyperlinkDescriptionEClass, EefPackage.EEF_HYPERLINK_DESCRIPTION__CONDITIONAL_STYLES);
+
 		eefDynamicMappingForEClass = createEClass(EefPackage.EEF_DYNAMIC_MAPPING_FOR);
 		createEAttribute(eefDynamicMappingForEClass, EefPackage.EEF_DYNAMIC_MAPPING_FOR__ITERATOR);
 		createEAttribute(eefDynamicMappingForEClass, EefPackage.EEF_DYNAMIC_MAPPING_FOR__DOMAIN_CLASS_EXPRESSION);
@@ -2241,6 +2391,12 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 
 		eefRadioStyleEClass = createEClass(EefPackage.EEF_RADIO_STYLE);
 
+		eefHyperlinkStyleEClass = createEClass(EefPackage.EEF_HYPERLINK_STYLE);
+		createEAttribute(eefHyperlinkStyleEClass, EefPackage.EEF_HYPERLINK_STYLE__BACKGROUND_COLOR_EXPRESSION);
+		createEAttribute(eefHyperlinkStyleEClass, EefPackage.EEF_HYPERLINK_STYLE__FONT_NAME_EXPRESSION);
+		createEAttribute(eefHyperlinkStyleEClass, EefPackage.EEF_HYPERLINK_STYLE__FONT_SIZE_EXPRESSION);
+		createEAttribute(eefHyperlinkStyleEClass, EefPackage.EEF_HYPERLINK_STYLE__FONT_STYLE_EXPRESSION);
+
 		eefCustomWidgetStyleEClass = createEClass(EefPackage.EEF_CUSTOM_WIDGET_STYLE);
 
 		eefReferenceStyleEClass = createEClass(EefPackage.EEF_REFERENCE_STYLE);
@@ -2265,6 +2421,9 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 
 		eefRadioConditionalStyleEClass = createEClass(EefPackage.EEF_RADIO_CONDITIONAL_STYLE);
 		createEReference(eefRadioConditionalStyleEClass, EefPackage.EEF_RADIO_CONDITIONAL_STYLE__STYLE);
+
+		eefHyperlinkConditionalStyleEClass = createEClass(EefPackage.EEF_HYPERLINK_CONDITIONAL_STYLE);
+		createEReference(eefHyperlinkConditionalStyleEClass, EefPackage.EEF_HYPERLINK_CONDITIONAL_STYLE__STYLE);
 
 		eefCustomWidgetConditionalStyleEClass = createEClass(EefPackage.EEF_CUSTOM_WIDGET_CONDITIONAL_STYLE);
 		createEReference(eefCustomWidgetConditionalStyleEClass, EefPackage.EEF_CUSTOM_WIDGET_CONDITIONAL_STYLE__STYLE);
@@ -2325,6 +2484,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 		eefCheckboxDescriptionEClass.getESuperTypes().add(this.getEEFWidgetDescription());
 		eefSelectDescriptionEClass.getESuperTypes().add(this.getEEFWidgetDescription());
 		eefRadioDescriptionEClass.getESuperTypes().add(this.getEEFWidgetDescription());
+		eefHyperlinkDescriptionEClass.getESuperTypes().add(this.getEEFWidgetDescription());
 		eefDynamicMappingForEClass.getESuperTypes().add(this.getEEFControlDescription());
 		eefCustomWidgetDescriptionEClass.getESuperTypes().add(this.getEEFWidgetDescription());
 		eefReferenceDescriptionEClass.getESuperTypes().add(this.getEEFWidgetDescription());
@@ -2334,6 +2494,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 		eefCheckboxStyleEClass.getESuperTypes().add(this.getEEFWidgetStyle());
 		eefSelectStyleEClass.getESuperTypes().add(this.getEEFWidgetStyle());
 		eefRadioStyleEClass.getESuperTypes().add(this.getEEFWidgetStyle());
+		eefHyperlinkStyleEClass.getESuperTypes().add(this.getEEFWidgetStyle());
 		eefCustomWidgetStyleEClass.getESuperTypes().add(this.getEEFWidgetStyle());
 		eefReferenceStyleEClass.getESuperTypes().add(this.getEEFWidgetStyle());
 		eefTextConditionalStyleEClass.getESuperTypes().add(this.getEEFConditionalStyle());
@@ -2342,6 +2503,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 		eefCheckboxConditionalStyleEClass.getESuperTypes().add(this.getEEFConditionalStyle());
 		eefSelectConditionalStyleEClass.getESuperTypes().add(this.getEEFConditionalStyle());
 		eefRadioConditionalStyleEClass.getESuperTypes().add(this.getEEFConditionalStyle());
+		eefHyperlinkConditionalStyleEClass.getESuperTypes().add(this.getEEFConditionalStyle());
 		eefCustomWidgetConditionalStyleEClass.getESuperTypes().add(this.getEEFConditionalStyle());
 		eefReferenceConditionalStyleEClass.getESuperTypes().add(this.getEEFConditionalStyle());
 
@@ -2717,6 +2879,27 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 				null,
 				"conditionalStyles", null, 0, -1, EEFRadioDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, EPackageImpl.IS_COMPOSITE, EPackageImpl.IS_RESOLVE_PROXIES, !EPackageImpl.IS_UNSETTABLE, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
 
+		initEClass(eefHyperlinkDescriptionEClass, EEFHyperlinkDescription.class,
+				"EEFHyperlinkDescription", !EPackageImpl.IS_ABSTRACT, !EPackageImpl.IS_INTERFACE, EPackageImpl.IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getEEFHyperlinkDescription_ValueExpression(),
+				theEcorePackage.getEString(),
+				"valueExpression", null, 0, 1, EEFHyperlinkDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getEEFHyperlinkDescription_OnClickExpression(),
+				theEcorePackage.getEString(),
+				"onClickExpression", null, 0, 1, EEFHyperlinkDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getEEFHyperlinkDescription_Style(),
+				this.getEEFHyperlinkStyle(),
+				null,
+				"style", null, 0, 1, EEFHyperlinkDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, EPackageImpl.IS_COMPOSITE, EPackageImpl.IS_RESOLVE_PROXIES, !EPackageImpl.IS_UNSETTABLE, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
+		initEReference(
+				getEEFHyperlinkDescription_ConditionalStyles(),
+				this.getEEFHyperlinkConditionalStyle(),
+				null,
+				"conditionalStyles", null, 0, -1, EEFHyperlinkDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, EPackageImpl.IS_COMPOSITE, EPackageImpl.IS_RESOLVE_PROXIES, !EPackageImpl.IS_UNSETTABLE, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
+
 		initEClass(eefDynamicMappingForEClass, EEFDynamicMappingFor.class,
 				"EEFDynamicMappingFor", !EPackageImpl.IS_ABSTRACT, !EPackageImpl.IS_INTERFACE, EPackageImpl.IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 		initEAttribute(
@@ -2889,6 +3072,25 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 		initEClass(eefRadioStyleEClass, EEFRadioStyle.class,
 				"EEFRadioStyle", !EPackageImpl.IS_ABSTRACT, !EPackageImpl.IS_INTERFACE, EPackageImpl.IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
+		initEClass(eefHyperlinkStyleEClass, EEFHyperlinkStyle.class,
+				"EEFHyperlinkStyle", !EPackageImpl.IS_ABSTRACT, !EPackageImpl.IS_INTERFACE, EPackageImpl.IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEAttribute(
+				getEEFHyperlinkStyle_BackgroundColorExpression(),
+				ecorePackage.getEString(),
+				"backgroundColorExpression", null, 0, 1, EEFHyperlinkStyle.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getEEFHyperlinkStyle_FontNameExpression(),
+				ecorePackage.getEString(),
+				"fontNameExpression", null, 0, 1, EEFHyperlinkStyle.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getEEFHyperlinkStyle_FontSizeExpression(),
+				ecorePackage.getEString(),
+				"fontSizeExpression", null, 0, 1, EEFHyperlinkStyle.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
+		initEAttribute(
+				getEEFHyperlinkStyle_FontStyleExpression(),
+				ecorePackage.getEString(),
+				"fontStyleExpression", null, 0, 1, EEFHyperlinkStyle.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
+
 		initEClass(eefCustomWidgetStyleEClass, EEFCustomWidgetStyle.class,
 				"EEFCustomWidgetStyle", !EPackageImpl.IS_ABSTRACT, !EPackageImpl.IS_INTERFACE, EPackageImpl.IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
@@ -2949,6 +3151,14 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 				this.getEEFRadioStyle(),
 				null,
 				"style", null, 0, 1, EEFRadioConditionalStyle.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, EPackageImpl.IS_COMPOSITE, EPackageImpl.IS_RESOLVE_PROXIES, !EPackageImpl.IS_UNSETTABLE, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
+
+		initEClass(eefHyperlinkConditionalStyleEClass, EEFHyperlinkConditionalStyle.class,
+				"EEFHyperlinkConditionalStyle", !EPackageImpl.IS_ABSTRACT, !EPackageImpl.IS_INTERFACE, EPackageImpl.IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(
+				getEEFHyperlinkConditionalStyle_Style(),
+				this.getEEFHyperlinkStyle(),
+				null,
+				"style", null, 0, 1, EEFHyperlinkConditionalStyle.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, EPackageImpl.IS_COMPOSITE, EPackageImpl.IS_RESOLVE_PROXIES, !EPackageImpl.IS_UNSETTABLE, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(eefCustomWidgetConditionalStyleEClass, EEFCustomWidgetConditionalStyle.class,
 				"EEFCustomWidgetConditionalStyle", !EPackageImpl.IS_ABSTRACT, !EPackageImpl.IS_INTERFACE, EPackageImpl.IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
