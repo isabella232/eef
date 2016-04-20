@@ -15,6 +15,8 @@ import com.google.common.base.Objects;
 import java.util.List;
 
 import org.eclipse.eef.EEFConditionalStyle;
+import org.eclipse.eef.EEFDynamicMappingFor;
+import org.eclipse.eef.EEFDynamicMappingIf;
 import org.eclipse.eef.EEFGroupDescription;
 import org.eclipse.eef.EEFTextStyle;
 import org.eclipse.eef.EEFWidgetDescription;
@@ -33,6 +35,7 @@ import org.eclipse.eef.ide.ui.internal.Messages;
 import org.eclipse.eef.ide.ui.internal.widgets.styles.EEFColor;
 import org.eclipse.eef.ide.ui.internal.widgets.styles.EEFFont;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
@@ -111,7 +114,7 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 		Composite composite = parent;
 
 		// If we are in a group, we will always create a label (empty or not) for the 3 columns layout of the group.
-		boolean isInGroup = this.getWidgetDescription().eContainer() instanceof EEFGroupDescription;
+		boolean isInGroup = this.isInGroup();
 
 		// Some widgets (like a checkbox) will not have a separated "label" widget for their label. Those widgets will
 		// thus never create another widget expect in the group (for the layout).
@@ -159,6 +162,24 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 		}
 
 		this.createMainControl(composite, formContainer);
+	}
+
+	/**
+	 * Indicates if the widget description is located directly under a group or if it is under a container.
+	 *
+	 * @return <code>true</code> if the widget description is directly under a group, <code>false</code> otherwise
+	 */
+	private boolean isInGroup() {
+		EObject eContainer = this.getWidgetDescription().eContainer();
+
+		// Test if the widget description is in a dynamic mapping directly under a group
+		if (eContainer instanceof EEFDynamicMappingIf && eContainer.eContainer() instanceof EEFDynamicMappingFor) {
+			EEFDynamicMappingFor dynamicMappingFor = (EEFDynamicMappingFor) eContainer.eContainer();
+			return dynamicMappingFor.eContainer() instanceof EEFGroupDescription;
+		}
+
+		// Otherwise, let's test if it is directly under a group
+		return eContainer instanceof EEFGroupDescription;
 	}
 
 	/**
