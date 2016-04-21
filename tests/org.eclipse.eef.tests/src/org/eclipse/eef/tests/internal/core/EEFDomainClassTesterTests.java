@@ -10,12 +10,9 @@
  *******************************************************************************/
 package org.eclipse.eef.tests.internal.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.eef.EefFactory;
 import org.eclipse.eef.EefPackage;
-import org.eclipse.eef.core.api.EEFDomainClassTester;
+import org.eclipse.eef.core.internal.EEFDomainClassTester;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.junit.Test;
@@ -31,9 +28,7 @@ import static org.junit.Assert.assertTrue;
 public class EEFDomainClassTesterTests {
 
 	private void test(EPackage ePackage, EObject eObject, String domainClass) {
-		List<EPackage> ePackages = new ArrayList<>();
-		ePackages.add(ePackage);
-		assertTrue(new EEFDomainClassTester().eInstanceOf(ePackages, eObject, domainClass));
+		assertTrue(new EEFDomainClassTester().eInstanceOf(eObject, domainClass));
 	}
 
 	@Test
