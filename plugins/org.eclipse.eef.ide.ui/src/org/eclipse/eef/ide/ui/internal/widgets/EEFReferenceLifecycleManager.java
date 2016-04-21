@@ -267,7 +267,7 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.internal.widgets.ILifecycleManager#aboutToBeShown()
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#aboutToBeShown()
 	 */
 	@Override
 	public void aboutToBeShown() {

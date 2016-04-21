@@ -165,7 +165,7 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.api.ILifecycleManager#aboutToBeShown()
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#aboutToBeShown()
 	 */
 	@Override
 	public void aboutToBeShown() {
@@ -279,7 +279,7 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.api.ILifecycleManager#aboutToBeHidden()
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#aboutToBeHidden()
 	 */
 	@Override
 	public void aboutToBeHidden() {
