@@ -13,6 +13,7 @@ package org.eclipse.eef.ide.ui.internal.widgets.quickfix;
 import org.eclipse.eef.EEFValidationFixDescription;
 import org.eclipse.eef.EEFValidationRuleDescription;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.Viewer;
 
 /**
  * The content provider of the table showing all the quick fixes.
@@ -33,6 +34,27 @@ public class EEFQuickFixTableContentProvider implements IStructuredContentProvid
 			return validationRule.getFixes().toArray(new EEFValidationFixDescription[validationRule.getFixes().size()]);
 		}
 		return new Object[0];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object,
+	 *      java.lang.Object)
+	 */
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		// Do nothing
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
+	 */
+	@Override
+	public void dispose() {
+		// Do nothing
 	}
 
 }
