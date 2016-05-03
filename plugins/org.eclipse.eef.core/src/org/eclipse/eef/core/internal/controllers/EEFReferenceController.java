@@ -23,7 +23,7 @@ import org.eclipse.eef.core.api.EditingContextAdapter;
 import org.eclipse.eef.core.api.controllers.AbstractEEFWidgetController;
 import org.eclipse.eef.core.api.controllers.IConsumer;
 import org.eclipse.eef.core.api.controllers.IEEFReferenceController;
-import org.eclipse.eef.core.api.utils.Eval;
+import org.eclipse.eef.core.api.utils.EvalFactory;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
@@ -78,9 +78,7 @@ public class EEFReferenceController extends AbstractEEFWidgetController implemen
 		super.refresh();
 
 		String valueExpression = this.description.getValueExpression();
-		EAttribute eAttribute = EefPackage.Literals.EEF_REFERENCE_DESCRIPTION__VALUE_EXPRESSION;
-
-		this.newEval().call(eAttribute, valueExpression, Object.class, EEFReferenceController.this.newValueConsumer);
+		this.newEval().call(valueExpression, this.newValueConsumer);
 	}
 
 	@Override
@@ -105,7 +103,7 @@ public class EEFReferenceController extends AbstractEEFWidgetController implemen
 				variables.putAll(EEFReferenceController.this.variableManager.getVariables());
 				variables.put(EEFExpressionUtils.EEFReference.SELECTION, element);
 
-				new Eval(EEFReferenceController.this.interpreter, variables).call(attr, expression);
+				EvalFactory.of(EEFReferenceController.this.interpreter, variables).logIfBlank(attr).call(expression);
 			}
 		});
 	}
@@ -134,7 +132,7 @@ public class EEFReferenceController extends AbstractEEFWidgetController implemen
 				variables.putAll(EEFReferenceController.this.variableManager.getVariables());
 				variables.put(EEFExpressionUtils.EEFReference.SELECTION, elements);
 
-				new Eval(EEFReferenceController.this.interpreter, variables).call(eAttribute, expression);
+				EvalFactory.of(EEFReferenceController.this.interpreter, variables).logIfBlank(eAttribute).call(expression);
 			}
 		});
 	}
