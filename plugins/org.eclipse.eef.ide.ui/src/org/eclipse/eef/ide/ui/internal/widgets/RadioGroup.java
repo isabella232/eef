@@ -40,6 +40,9 @@ public class RadioGroup extends Composite {
 	 */
 	private EEFWidgetFactory widgetFactory;
 
+	/**
+	 * The selection listener.
+	 */
 	private SelectionListener selectionListener;
 
 	/**
