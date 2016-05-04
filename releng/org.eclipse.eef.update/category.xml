@@ -4,7 +4,14 @@
       To install these features, point Eclipse at this site.
    </description>
    <feature id="org.eclipse.eef.sdk.feature" version="0.0.0">
-      <category name="EEF Incubation"/>
+      <category name="EEF"/>
    </feature>
-   <category-def name="EEF Incubation" label="EEF Incubation"/>
+   <feature id="org.eclipse.eef.sdk.feature.source" version="0.0.0">
+      <category name="EEF"/>
+   </feature>
+   <category-def name="EEF" label="EEF">
+      <description>
+         Update site of the Eclipse EEF project
+      </description>
+   </category-def>
 </site>
