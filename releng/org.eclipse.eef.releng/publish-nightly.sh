@@ -65,6 +65,8 @@ export TARGET_DIR="$TARGET_ROOT/$FULL_VERSION/$PLATFORM"
 ######################################################################
 export WKS="."
 
+echo $TARGET_DIR
+
 # Ensure the target folder exists
 mkdir -p "$TARGET_DIR"
 # The actual publication of the p2 repo produced by the build
