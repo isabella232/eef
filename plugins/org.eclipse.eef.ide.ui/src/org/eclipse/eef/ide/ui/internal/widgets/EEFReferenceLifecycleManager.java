@@ -15,12 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.eef.EEFConditionalStyle;
-import org.eclipse.eef.EEFReferenceConditionalStyle;
 import org.eclipse.eef.EEFReferenceDescription;
 import org.eclipse.eef.EEFWidgetAction;
 import org.eclipse.eef.EEFWidgetDescription;
-import org.eclipse.eef.EEFWidgetStyle;
 import org.eclipse.eef.EefPackage;
 import org.eclipse.eef.common.ui.api.EEFWidgetFactory;
 import org.eclipse.eef.common.ui.api.IEEFFormContainer;
@@ -444,16 +441,6 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetStyle()
-	 */
-	@Override
-	protected EEFWidgetStyle getWidgetStyle() {
-		return this.description.getStyle();
-	}
-
-	/**
 	 * Table references widget label provider.
 	 *
 	 * @author mbats
@@ -480,31 +467,6 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 			cell.setText(value);
 			super.update(cell);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetStyle(org.eclipse.eef.EEFConditionalStyle)
-	 */
-	@Override
-	protected EEFWidgetStyle getWidgetStyle(EEFConditionalStyle conditionalStyle) {
-		if (conditionalStyle instanceof EEFReferenceConditionalStyle) {
-			return ((EEFReferenceConditionalStyle) conditionalStyle).getStyle();
-		}
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetConditionalStyles()
-	 */
-	@Override
-	protected List<EEFConditionalStyle> getWidgetConditionalStyles() {
-		List<EEFConditionalStyle> widgetConditionalStyles = new ArrayList<EEFConditionalStyle>();
-		widgetConditionalStyles.addAll(this.description.getConditionalStyles());
-		return widgetConditionalStyles;
 	}
 
 	/**

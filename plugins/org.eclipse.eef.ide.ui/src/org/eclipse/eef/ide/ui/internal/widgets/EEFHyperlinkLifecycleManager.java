@@ -12,11 +12,6 @@ package org.eclipse.eef.ide.ui.internal.widgets;
 
 import com.google.common.base.Objects;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.eef.EEFConditionalStyle;
-import org.eclipse.eef.EEFHyperlinkConditionalStyle;
 import org.eclipse.eef.EEFHyperlinkDescription;
 import org.eclipse.eef.EEFHyperlinkStyle;
 import org.eclipse.eef.EEFWidgetDescription;
@@ -29,8 +24,8 @@ import org.eclipse.eef.core.api.controllers.EEFControllersFactory;
 import org.eclipse.eef.core.api.controllers.IConsumer;
 import org.eclipse.eef.core.api.controllers.IEEFHyperlinkController;
 import org.eclipse.eef.core.api.controllers.IEEFWidgetController;
-import org.eclipse.eef.core.api.utils.EvalFactory;
 import org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager;
+import org.eclipse.eef.ide.ui.internal.widgets.EEFStyleHelper.IEEFTextStyleCallback;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
@@ -129,41 +124,6 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetStyle()
-	 */
-	@Override
-	protected EEFWidgetStyle getWidgetStyle() {
-		return this.description.getStyle();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetStyle(org.eclipse.eef.EEFConditionalStyle)
-	 */
-	@Override
-	protected EEFWidgetStyle getWidgetStyle(EEFConditionalStyle conditionalStyle) {
-		if (conditionalStyle instanceof EEFHyperlinkConditionalStyle) {
-			return ((EEFHyperlinkConditionalStyle) conditionalStyle).getStyle();
-		}
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetConditionalStyles()
-	 */
-	@Override
-	protected List<EEFConditionalStyle> getWidgetConditionalStyles() {
-		List<EEFConditionalStyle> widgetConditionalStyles = new ArrayList<EEFConditionalStyle>();
-		widgetConditionalStyles.addAll(this.description.getConditionalStyles());
-		return widgetConditionalStyles;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
 	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#aboutToBeShown()
 	 */
 	@Override
@@ -204,8 +164,7 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 						hyperlink.setText(text);
 						hyperlink.setData(variableManager.getVariables().get(EEFExpressionUtils.SELF));
 					}
-					// Set style
-					setStyle();
+					EEFHyperlinkLifecycleManager.this.setStyle();
 					if (!hyperlink.isEnabled()) {
 						hyperlink.setEnabled(true);
 					}
@@ -219,33 +178,17 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	 * Set the style.
 	 */
 	private void setStyle() {
-		EEFHyperlinkStyle hyperlinkStyle = description.getStyle();
-		List<EEFHyperlinkConditionalStyle> conditionalStyles = description.getConditionalStyles();
-		if (conditionalStyles != null) {
-			for (EEFHyperlinkConditionalStyle eefHyperlinkConditionalStyle : conditionalStyles) {
-				String preconditionExpression = eefHyperlinkConditionalStyle.getPreconditionExpression();
-				Boolean preconditionValid = EvalFactory.of(interpreter, variableManager).logIfInvalidType(Boolean.class)
-						.evaluate(preconditionExpression);
-				if (preconditionValid != null && preconditionValid.booleanValue()) {
-					hyperlinkStyle = eefHyperlinkConditionalStyle.getStyle();
-					break;
-				}
-			}
-		}
-		setHyperlinkStyle(hyperlinkStyle);
-	}
+		EEFStyleHelper styleHelper = new EEFStyleHelper(this.interpreter, this.variableManager);
+		EEFWidgetStyle widgetStyle = styleHelper.getWidgetStyle(this.description);
+		if (widgetStyle instanceof EEFHyperlinkStyle) {
+			EEFHyperlinkStyle style = (EEFHyperlinkStyle) widgetStyle;
 
-	/**
-	 * Set the hyperlink style.
-	 *
-	 * @param style
-	 *            Style
-	 */
-	protected void setHyperlinkStyle(EEFHyperlinkStyle style) {
-		if (style != null) {
-			setFont(style.getFontNameExpression(), style.getFontSizeExpression(), style.getFontStyleExpression(), hyperlink);
-			setBackgroundColor(style.getBackgroundColorExpression(), hyperlink);
+			IEEFTextStyleCallback callback = new EEFStyledTextStyleCallback(this.hyperlink);
+			styleHelper.applyTextStyle(style.getFontNameExpression(), style.getFontSizeExpression(), style.getFontStyleExpression(),
+					this.hyperlink.getFont(), style.getBackgroundColorExpression(), null, callback);
 		}
+
+		// Sets the default hyperlink style properties
 		StyleRange[] styleRanges = hyperlink.getStyleRanges();
 		StyleRange styleRange;
 		if (styleRanges.length > 0) {

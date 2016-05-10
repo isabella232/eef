@@ -12,12 +12,8 @@ package org.eclipse.eef.ide.ui.internal.widgets;
 
 import com.google.common.base.Objects;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.eef.EEFCheckboxConditionalStyle;
 import org.eclipse.eef.EEFCheckboxDescription;
-import org.eclipse.eef.EEFConditionalStyle;
+import org.eclipse.eef.EEFCheckboxStyle;
 import org.eclipse.eef.EEFWidgetDescription;
 import org.eclipse.eef.EEFWidgetStyle;
 import org.eclipse.eef.common.ui.api.EEFWidgetFactory;
@@ -28,6 +24,7 @@ import org.eclipse.eef.core.api.controllers.IConsumer;
 import org.eclipse.eef.core.api.controllers.IEEFCheckboxController;
 import org.eclipse.eef.core.api.controllers.IEEFWidgetController;
 import org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager;
+import org.eclipse.eef.ide.ui.internal.widgets.EEFStyleHelper.IEEFTextStyleCallback;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
@@ -140,41 +137,6 @@ public class EEFCheckboxLifecycleManager extends AbstractEEFWidgetLifecycleManag
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetStyle()
-	 */
-	@Override
-	protected EEFWidgetStyle getWidgetStyle() {
-		return this.description.getStyle();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetStyle(org.eclipse.eef.EEFConditionalStyle)
-	 */
-	@Override
-	protected EEFWidgetStyle getWidgetStyle(EEFConditionalStyle conditionalStyle) {
-		if (conditionalStyle instanceof EEFCheckboxConditionalStyle) {
-			return ((EEFCheckboxConditionalStyle) conditionalStyle).getStyle();
-		}
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetConditionalStyles()
-	 */
-	@Override
-	protected List<EEFConditionalStyle> getWidgetConditionalStyles() {
-		List<EEFConditionalStyle> widgetConditionalStyles = new ArrayList<EEFConditionalStyle>();
-		widgetConditionalStyles.addAll(this.description.getConditionalStyles());
-		return widgetConditionalStyles;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
 	 * @see org.eclipse.eef.ide.ui.api.widgets.IEEFLifecycleManager#aboutToBeShown()
 	 */
 	@Override
@@ -237,5 +199,14 @@ public class EEFCheckboxLifecycleManager extends AbstractEEFWidgetLifecycleManag
 	public void refresh() {
 		super.refresh();
 		this.checkbox.setEnabled(isEnabled());
+
+		EEFStyleHelper styleHelper = new EEFStyleHelper(this.interpreter, this.variableManager);
+		EEFWidgetStyle widgetStyle = styleHelper.getWidgetStyle(this.description);
+		if (widgetStyle instanceof EEFCheckboxStyle) {
+			EEFCheckboxStyle style = (EEFCheckboxStyle) widgetStyle;
+			IEEFTextStyleCallback callback = new EEFCheckboxStyleCallback(this.checkbox);
+			styleHelper.applyTextStyle(style.getLabelFontNameExpression(), style.getLabelFontSizeExpression(), style.getLabelFontStyleExpression(),
+					this.checkbox.getFont(), style.getLabelBackgroundColorExpression(), style.getLabelForegroundColorExpression(), callback);
+		}
 	}
 }

@@ -12,11 +12,6 @@ package org.eclipse.eef.ide.ui.internal.widgets;
 
 import com.google.common.base.Objects;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.eef.EEFConditionalStyle;
-import org.eclipse.eef.EEFLabelConditionalStyle;
 import org.eclipse.eef.EEFLabelDescription;
 import org.eclipse.eef.EEFLabelStyle;
 import org.eclipse.eef.EEFWidgetDescription;
@@ -28,8 +23,8 @@ import org.eclipse.eef.core.api.controllers.EEFControllersFactory;
 import org.eclipse.eef.core.api.controllers.IConsumer;
 import org.eclipse.eef.core.api.controllers.IEEFLabelController;
 import org.eclipse.eef.core.api.controllers.IEEFWidgetController;
-import org.eclipse.eef.core.api.utils.EvalFactory;
 import org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager;
+import org.eclipse.eef.ide.ui.internal.widgets.EEFStyleHelper.IEEFTextStyleCallback;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
@@ -108,8 +103,7 @@ public class EEFLabelLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 					if (!(body.getText() != null && body.getText().equals(value))) {
 						body.setText(Objects.firstNonNull(value, "")); //$NON-NLS-1$
 					}
-					// Set style
-					setStyle();
+					EEFLabelLifecycleManager.this.setStyle();
 				}
 			}
 		});
@@ -119,35 +113,14 @@ public class EEFLabelLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 	 * Set the style.
 	 */
 	private void setStyle() {
-		EEFLabelStyle textStyle = description.getStyle();
-		List<EEFLabelConditionalStyle> conditionalStyles = description.getConditionalStyles();
-		if (conditionalStyles != null) {
-			for (EEFLabelConditionalStyle eefTextConditionalStyle : conditionalStyles) {
-				String preconditionExpression = eefTextConditionalStyle.getPreconditionExpression();
-				Boolean preconditionValid = EvalFactory.of(interpreter, variableManager).logIfInvalidType(Boolean.class)
-						.evaluate(preconditionExpression);
-				if (preconditionValid != null && preconditionValid.booleanValue()) {
-					textStyle = eefTextConditionalStyle.getStyle();
-					break;
-				}
-			}
-		}
-		setLabelStyle(textStyle, body);
-	}
+		EEFStyleHelper styleHelper = new EEFStyleHelper(this.interpreter, this.variableManager);
+		EEFWidgetStyle style = styleHelper.getWidgetStyle(this.description);
+		if (style instanceof EEFLabelStyle) {
+			EEFLabelStyle labelStyle = (EEFLabelStyle) style;
 
-	/**
-	 * Set the text style.
-	 *
-	 * @param style
-	 *            Style
-	 * @param text
-	 *            The text
-	 */
-	private void setLabelStyle(EEFLabelStyle style, StyledText text) {
-		if (style != null) {
-			this.setFont(style.getFontNameExpression(), style.getFontSizeExpression(), style.getFontStyleExpression(), text);
-			this.setBackgroundColor(style.getBackgroundColorExpression(), text);
-			this.setForegroundColor(style.getForegroundColorExpression(), text);
+			IEEFTextStyleCallback callback = new EEFStyledTextStyleCallback(this.body);
+			styleHelper.applyTextStyle(labelStyle.getFontNameExpression(), labelStyle.getFontSizeExpression(), labelStyle.getFontStyleExpression(),
+					this.body.getFont(), labelStyle.getBackgroundColorExpression(), labelStyle.getForegroundColorExpression(), callback);
 		}
 	}
 
@@ -180,41 +153,6 @@ public class EEFLabelLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 	@Override
 	protected EEFWidgetDescription getWidgetDescription() {
 		return this.description;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetStyle()
-	 */
-	@Override
-	protected EEFWidgetStyle getWidgetStyle() {
-		return this.description.getStyle();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetStyle(org.eclipse.eef.EEFConditionalStyle)
-	 */
-	@Override
-	protected EEFWidgetStyle getWidgetStyle(EEFConditionalStyle conditionalStyle) {
-		if (conditionalStyle instanceof EEFLabelConditionalStyle) {
-			return ((EEFLabelConditionalStyle) conditionalStyle).getStyle();
-		}
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetConditionalStyles()
-	 */
-	@Override
-	protected List<EEFConditionalStyle> getWidgetConditionalStyles() {
-		List<EEFConditionalStyle> widgetConditionalStyles = new ArrayList<EEFConditionalStyle>();
-		widgetConditionalStyles.addAll(this.description.getConditionalStyles());
-		return widgetConditionalStyles;
 	}
 
 	/**

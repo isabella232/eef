@@ -10,14 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eef.sample.custom.widget.colorpicker;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.eef.EEFConditionalStyle;
-import org.eclipse.eef.EEFCustomWidgetConditionalStyle;
 import org.eclipse.eef.EEFCustomWidgetDescription;
 import org.eclipse.eef.EEFWidgetDescription;
-import org.eclipse.eef.EEFWidgetStyle;
 import org.eclipse.eef.common.ui.api.EEFWidgetFactory;
 import org.eclipse.eef.common.ui.api.IEEFFormContainer;
 import org.eclipse.eef.core.api.EditingContextAdapter;
@@ -43,166 +37,132 @@ import org.eclipse.swt.widgets.Shell;
  * @author mbats
  */
 public class ColorPickerLifecycleManager extends AbstractEEFWidgetLifecycleManager {
-    /**
-     * The description.
-     */
-    private EEFCustomWidgetDescription description;
+	/**
+	 * The description.
+	 */
+	private EEFCustomWidgetDescription description;
 
-    /**
-     * The color picker.
-     */
-    private ColorPicker colorPicker;
+	/**
+	 * The color picker.
+	 */
+	private ColorPicker colorPicker;
 
-    /**
-     * The controller.
-     */
-    private IColorPickerController controller;
+	/**
+	 * The controller.
+	 */
+	private IColorPickerController controller;
 
-    /**
-     * The mouse listener.
-     */
-    private MouseAdapter mouseListener;
+	/**
+	 * The mouse listener.
+	 */
+	private MouseAdapter mouseListener;
 
-    /**
-     * The constructor.
-     *
-     * @param description
-     *            The description
-     * @param variableManager
-     *            The variable manager
-     * @param interpreter
-     *            The interpreter
-     * @param contextAdapter
-     *            The editing context adapter
-     * @param singleReferenceViewerProvider
-     */
-    public ColorPickerLifecycleManager(EEFCustomWidgetDescription description, IVariableManager variableManager, IInterpreter interpreter, EditingContextAdapter contextAdapter) {
-        super(variableManager, interpreter, contextAdapter);
-        this.description = description;
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param description
+	 *            The description
+	 * @param variableManager
+	 *            The variable manager
+	 * @param interpreter
+	 *            The interpreter
+	 * @param contextAdapter
+	 *            The editing context adapter
+	 * @param singleReferenceViewerProvider
+	 */
+	public ColorPickerLifecycleManager(EEFCustomWidgetDescription description, IVariableManager variableManager, IInterpreter interpreter,
+			EditingContextAdapter contextAdapter) {
+		super(variableManager, interpreter, contextAdapter);
+		this.description = description;
+	}
 
-    @Override
-    protected void createMainControl(Composite parent, IEEFFormContainer formContainer) {
-        EEFWidgetFactory widgetFactory = formContainer.getWidgetFactory();
+	@Override
+	protected void createMainControl(Composite parent, IEEFFormContainer formContainer) {
+		EEFWidgetFactory widgetFactory = formContainer.getWidgetFactory();
 
-        // Create the color picker
-        this.colorPicker = new ColorPicker(parent);
-        widgetFactory.paintBordersFor(parent);
+		// Create the color picker
+		this.colorPicker = new ColorPicker(parent);
+		widgetFactory.paintBordersFor(parent);
 
-        this.controller = new ColorPickerController(this.description, this.variableManager, this.interpreter, this.contextAdapter);
-    }
+		this.controller = new ColorPickerController(this.description, this.variableManager, this.interpreter, this.contextAdapter);
+	}
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getController()
-     */
-    @Override
-    protected IEEFWidgetController getController() {
-        return this.controller;
-    }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getController()
+	 */
+	@Override
+	protected IEEFWidgetController getController() {
+		return this.controller;
+	}
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetDescription()
-     */
-    @Override
-    protected EEFWidgetDescription getWidgetDescription() {
-        return this.description;
-    }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetDescription()
+	 */
+	@Override
+	protected EEFWidgetDescription getWidgetDescription() {
+		return this.description;
+	}
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetStyle()
-     */
-    @Override
-    protected EEFWidgetStyle getWidgetStyle() {
-        return this.description.getStyle();
-    }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#aboutToBeShown()
+	 */
+	@Override
+	public void aboutToBeShown() {
+		super.aboutToBeShown();
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetStyle(org.eclipse.eef.EEFConditionalStyle)
-     */
-    @Override
-    protected EEFWidgetStyle getWidgetStyle(EEFConditionalStyle conditionalStyle) {
-        if (conditionalStyle instanceof EEFCustomWidgetConditionalStyle) {
-            return ((EEFCustomWidgetConditionalStyle) conditionalStyle).getStyle();
-        }
-        return null;
-    }
+		this.mouseListener = new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				ColorDialog dialog = new ColorDialog(new Shell(Display.getDefault(), SWT.SHELL_TRIM));
+				if (colorPicker.getSelectedColor() != null && colorPicker.getSelectedColor().getRGB() != null) {
+					dialog.setRGB(colorPicker.getSelectedColor().getRGB());
+				}
+				RGB selected = dialog.open();
+				if (selected != null) {
+					controller.updateValue(selected);
+				}
+			}
+		};
+		this.colorPicker.addMouseListener(mouseListener);
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetConditionalStyles()
-     */
-    @Override
-    protected List<EEFConditionalStyle> getWidgetConditionalStyles() {
-        List<EEFConditionalStyle> widgetConditionalStyles = new ArrayList<EEFConditionalStyle>();
-        widgetConditionalStyles.addAll(this.description.getConditionalStyles());
-        return widgetConditionalStyles;
-    }
+		this.controller.onNewValue(new IConsumer<Color>() {
+			@Override
+			public void apply(Color value) {
+				if (!colorPicker.isDisposed() && !(colorPicker.getBackground() != null && colorPicker.getBackground().equals(value))) {
+					colorPicker.setImage(colorPicker.getColorImage(value));
+					if (!colorPicker.isEnabled()) {
+						colorPicker.setEnabled(true);
+					}
+				}
+			}
+		});
+	}
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#aboutToBeShown()
-     */
-    @Override
-    public void aboutToBeShown() {
-        super.aboutToBeShown();
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFLifecycleManager#getValidationControl()
+	 */
+	@Override
+	protected Control getValidationControl() {
+		return this.colorPicker;
+	}
 
-        this.mouseListener = new MouseAdapter() {
-            @Override
-            public void mouseDown(MouseEvent e) {
-                ColorDialog dialog = new ColorDialog(new Shell(Display.getDefault(), SWT.SHELL_TRIM));
-                if (colorPicker.getSelectedColor() != null && colorPicker.getSelectedColor().getRGB() != null) {
-                    dialog.setRGB(colorPicker.getSelectedColor().getRGB());
-                }
-                RGB selected = dialog.open();
-                if (selected != null) {
-                    controller.updateValue(selected);
-                }
-            }
-        };
-        this.colorPicker.addMouseListener(mouseListener);
-
-        this.controller.onNewValue(new IConsumer<Color>() {
-            @Override
-            public void apply(Color value) {
-                if (!colorPicker.isDisposed() && !(colorPicker.getBackground() != null && colorPicker.getBackground().equals(value))) {
-                    colorPicker.setImage(colorPicker.getColorImage(value));
-                    if (!colorPicker.isEnabled()) {
-                        colorPicker.setEnabled(true);
-                    }
-                }
-            }
-        });
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFLifecycleManager#getValidationControl()
-     */
-    @Override
-    protected Control getValidationControl() {
-        return this.colorPicker;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.eclipse.eef.ide.ui.api.widgets.IEEFLifecycleManager#aboutToBeHidden()
-     */
-    @Override
-    public void aboutToBeHidden() {
-        this.colorPicker.removeMouseListener(mouseListener);
-        this.controller.removeNewValueConsumer();
-        super.aboutToBeHidden();
-    }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.IEEFLifecycleManager#aboutToBeHidden()
+	 */
+	@Override
+	public void aboutToBeHidden() {
+		this.colorPicker.removeMouseListener(mouseListener);
+		this.controller.removeNewValueConsumer();
+		super.aboutToBeHidden();
+	}
 }

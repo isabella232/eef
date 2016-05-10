@@ -10,11 +10,6 @@
  *******************************************************************************/
 package org.eclipse.eef.ide.ui.internal.widgets;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.eef.EEFConditionalStyle;
-import org.eclipse.eef.EEFTextConditionalStyle;
 import org.eclipse.eef.EEFTextDescription;
 import org.eclipse.eef.EEFTextStyle;
 import org.eclipse.eef.EEFWidgetDescription;
@@ -27,8 +22,8 @@ import org.eclipse.eef.core.api.controllers.EEFControllersFactory;
 import org.eclipse.eef.core.api.controllers.IConsumer;
 import org.eclipse.eef.core.api.controllers.IEEFTextController;
 import org.eclipse.eef.core.api.controllers.IEEFWidgetController;
-import org.eclipse.eef.core.api.utils.EvalFactory;
 import org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager;
+import org.eclipse.eef.ide.ui.internal.widgets.EEFStyleHelper.IEEFTextStyleCallback;
 import org.eclipse.eef.ide.ui.internal.widgets.styles.EEFColor;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
@@ -152,41 +147,6 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetStyle()
-	 */
-	@Override
-	protected EEFWidgetStyle getWidgetStyle() {
-		return this.description.getStyle();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetStyle(org.eclipse.eef.EEFConditionalStyle)
-	 */
-	@Override
-	protected EEFWidgetStyle getWidgetStyle(EEFConditionalStyle conditionalStyle) {
-		if (conditionalStyle instanceof EEFTextConditionalStyle) {
-			return ((EEFTextConditionalStyle) conditionalStyle).getStyle();
-		}
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getWidgetConditionalStyles()
-	 */
-	@Override
-	protected List<EEFConditionalStyle> getWidgetConditionalStyles() {
-		List<EEFConditionalStyle> widgetConditionalStyles = new ArrayList<EEFConditionalStyle>();
-		widgetConditionalStyles.addAll(this.description.getConditionalStyles());
-		return widgetConditionalStyles;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
 	 * @see org.eclipse.eef.ide.ui.api.widgets.IEEFLifecycleManager#aboutToBeShown()
 	 */
 	@Override
@@ -210,8 +170,7 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 					if (value != null && !(text.getText() != null && text.getText().equals(value.toString()))) {
 						text.setText(Util.firstNonBlank(value.toString(), "")); //$NON-NLS-1$
 					}
-					// Set style
-					setStyle();
+					EEFTextLifecycleManager.this.setStyle();
 					if (!text.isEnabled()) {
 						text.setEnabled(true);
 					}
@@ -224,34 +183,15 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	 * Set the style.
 	 */
 	private void setStyle() {
-		EEFTextStyle style = this.getTextStyle();
-		if (style != null) {
-			this.setFont(style.getFontNameExpression(), style.getFontSizeExpression(), style.getFontStyleExpression(), text);
-			this.setBackgroundColor(style.getBackgroundColorExpression(), text);
-			this.setForegroundColor(style.getForegroundColorExpression(), text);
-		}
-	}
+		EEFStyleHelper styleHelper = new EEFStyleHelper(this.interpreter, this.variableManager);
+		EEFWidgetStyle widgetStyle = styleHelper.getWidgetStyle(this.description);
+		if (widgetStyle instanceof EEFTextStyle) {
+			EEFTextStyle textStyle = (EEFTextStyle) widgetStyle;
 
-	/**
-	 * Get the text style.
-	 *
-	 * @return The text style to apply on the widget
-	 */
-	private EEFTextStyle getTextStyle() {
-		EEFTextStyle textStyle = description.getStyle();
-		List<EEFTextConditionalStyle> conditionalStyles = description.getConditionalStyles();
-		if (conditionalStyles != null) {
-			for (EEFTextConditionalStyle eefTextConditionalStyle : conditionalStyles) {
-				String preconditionExpression = eefTextConditionalStyle.getPreconditionExpression();
-				Boolean preconditionValid = EvalFactory.of(interpreter, variableManager).logIfInvalidType(Boolean.class)
-						.evaluate(preconditionExpression);
-				if (preconditionValid != null && preconditionValid.booleanValue()) {
-					textStyle = eefTextConditionalStyle.getStyle();
-					break;
-				}
-			}
+			IEEFTextStyleCallback callback = new EEFStyledTextStyleCallback(this.text);
+			styleHelper.applyTextStyle(textStyle.getFontNameExpression(), textStyle.getFontSizeExpression(), textStyle.getFontStyleExpression(),
+					this.text.getFont(), textStyle.getBackgroundColorExpression(), textStyle.getForegroundColorExpression(), callback);
 		}
-		return textStyle;
 	}
 
 	/**
@@ -298,14 +238,17 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	 */
 	private Color getBackgroundColor() {
 		Color color = defaultBackgroundColor;
-		EEFTextStyle style = getTextStyle();
 		if (!isEnabled()) {
 			color = widgetFactory.getColors().getInactiveBackground();
-		} else if (style != null) {
-			String backgroundColorCode = style.getBackgroundColorExpression();
-			if (backgroundColorCode != null && !backgroundColorCode.isEmpty()) {
-				EEFColor backgroundColor = new EEFColor(backgroundColorCode);
-				color = backgroundColor.getColor();
+		} else {
+			EEFWidgetStyle widgetStyle = new EEFStyleHelper(this.interpreter, this.variableManager).getWidgetStyle(this.description);
+			if (widgetStyle instanceof EEFTextStyle) {
+				EEFTextStyle style = (EEFTextStyle) widgetStyle;
+				String backgroundColorCode = style.getBackgroundColorExpression();
+				if (!Util.isBlank(backgroundColorCode)) {
+					EEFColor backgroundColor = new EEFColor(backgroundColorCode);
+					color = backgroundColor.getColor();
+				}
 			}
 		}
 		return color;
