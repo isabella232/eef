@@ -17,6 +17,7 @@ import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -27,6 +28,12 @@ import org.eclipse.swt.widgets.Control;
  * @author mbats
  */
 public class ActionButton {
+
+	/**
+	 * The minimum width of the button.
+	 */
+	private static final int MINIMUM_BUTTON_WIDTH = 80;
+
 	/**
 	 * The button.
 	 */
@@ -61,6 +68,8 @@ public class ActionButton {
 			IVariableManager variableManager) {
 		this.action = action;
 		this.button = widgetFactory.createButton(parent, "", SWT.NONE); //$NON-NLS-1$
+		RowData rowData = new RowData(MINIMUM_BUTTON_WIDTH, SWT.DEFAULT);
+		this.button.setLayoutData(rowData);
 
 		String expression = action.getLabelExpression();
 		String buttonLabel = EvalFactory.of(interpreter, variableManager).logIfInvalidType(String.class).defaultValue("...").evaluate(expression); //$NON-NLS-1$

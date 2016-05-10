@@ -190,11 +190,9 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	private void createWidgetActionButtons() {
 		this.buttons = widgetFactory.createFlatFormComposite(reference);
 
-		GridData gd = new GridData();
-
-		gd = new GridData();
-		gd.grabExcessHorizontalSpace = false;
-		this.buttons.setLayoutData(gd);
+		GridData gridData = new GridData();
+		gridData.grabExcessHorizontalSpace = false;
+		this.buttons.setLayoutData(gridData);
 
 		// Buttons are visible only if an action is defined
 		for (EEFWidgetAction action : this.description.getActions()) {
@@ -219,7 +217,7 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 
 		// Use hyperlink if the onclick expression exists
 		final int clientWidth = reference.getClientArea().width;
-		if (this.description.getOnClickExpression() != null) {
+		if (!Util.isBlank(this.description.getOnClickExpression())) {
 			this.hyperlink = widgetFactory.createHyperlink(this.reference, "", SWT.NONE); //$NON-NLS-1$
 			hyperlink.setLayoutData(gd);
 			hyperlink.setSize(clientWidth, DEFAULT_HEIGHT);
