@@ -92,7 +92,7 @@ public class EEFReferenceController extends AbstractEEFWidgetController implemen
 	}
 
 	@Override
-	public void onClick(final Object element) {
+	public void onClick(final Object element, final String onClickEventKind) {
 		contextAdapter.performModelChange(new Runnable() {
 			@Override
 			public void run() {
@@ -102,6 +102,7 @@ public class EEFReferenceController extends AbstractEEFWidgetController implemen
 				Map<String, Object> variables = new HashMap<String, Object>();
 				variables.putAll(EEFReferenceController.this.variableManager.getVariables());
 				variables.put(EEFExpressionUtils.EEFReference.SELECTION, element);
+				variables.put(EEFExpressionUtils.EEFReference.ON_CLICK_EVENT_KIND, onClickEventKind);
 
 				EvalFactory.of(EEFReferenceController.this.interpreter, variables).logIfBlank(attr).call(expression);
 			}

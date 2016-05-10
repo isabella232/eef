@@ -39,8 +39,10 @@ public interface IEEFReferenceController extends IEEFWidgetController {
 	 *
 	 * @param element
 	 *            Semantic element
+	 * @param onClickEventKind
+	 *            The kind of event (single click or double click)
 	 */
-	void onClick(Object element);
+	void onClick(Object element, String onClickEventKind);
 
 	/**
 	 * Invoked when the user clicks on an action button.

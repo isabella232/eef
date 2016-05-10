@@ -198,8 +198,15 @@ public class EEFControlSwitch {
 			} else if (widgetDescription instanceof EEFReferenceDescription) {
 				EEFReferenceDescription eefReferenceDescription = (EEFReferenceDescription) widgetDescription;
 
-				EEFReferenceLifecycleManager eefReferenceLifecycleManager = new EEFReferenceLifecycleManager(eefReferenceDescription,
-						childVariableManager, interpreter, contextAdapter);
+				IEEFLifecycleManager eefReferenceLifecycleManager = null;
+				if (eefReferenceDescription.isMultiple()) {
+					eefReferenceLifecycleManager = new EEFMultipleReferencesLifecycleManager(eefReferenceDescription, childVariableManager,
+							interpreter, contextAdapter);
+				} else {
+					eefReferenceLifecycleManager = new EEFReferenceLifecycleManager(eefReferenceDescription, childVariableManager, interpreter,
+							contextAdapter);
+				}
+
 				eefReferenceLifecycleManager.createControl(parent, formContainer);
 
 				lifecycleManagers.add(eefReferenceLifecycleManager);

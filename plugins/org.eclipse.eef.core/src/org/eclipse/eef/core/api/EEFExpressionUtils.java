@@ -108,6 +108,21 @@ public final class EEFExpressionUtils {
 		public static final String SELECTION = "selection"; //$NON-NLS-1$
 
 		/**
+		 * The name of the variable used to indicate the kind of click event.
+		 */
+		public static final String ON_CLICK_EVENT_KIND = "onClickEventKind"; //$NON-NLS-1$
+
+		/**
+		 * The value used to indicate a single click.
+		 */
+		public static final String SINGLE_CLICK = "SINGLE_CLICK"; //$NON-NLS-1$
+
+		/**
+		 * The value used to indicate a double click.
+		 */
+		public static final String DOUBLE_CLICK = "DOUBLE_CLICK"; //$NON-NLS-1$
+
+		/**
 		 * The constructor.
 		 */
 		private EEFReference() {

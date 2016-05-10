@@ -18,7 +18,6 @@ import java.util.Map;
 import org.eclipse.eef.EEFReferenceDescription;
 import org.eclipse.eef.EEFWidgetAction;
 import org.eclipse.eef.EEFWidgetDescription;
-import org.eclipse.eef.EefPackage;
 import org.eclipse.eef.common.api.utils.Util;
 import org.eclipse.eef.common.ui.api.EEFWidgetFactory;
 import org.eclipse.eef.common.ui.api.IEEFFormContainer;
@@ -30,18 +29,9 @@ import org.eclipse.eef.core.api.controllers.IEEFReferenceController;
 import org.eclipse.eef.core.api.controllers.IEEFWidgetController;
 import org.eclipse.eef.core.api.utils.EvalFactory;
 import org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.StyledCellLabelProvider;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -51,7 +41,6 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 
@@ -66,11 +55,6 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	 * Default height.
 	 */
 	private static final int DEFAULT_HEIGHT = 34;
-
-	/**
-	 * Minimal height of the table widget.
-	 */
-	private static final int TABLE_MINIMAL_HEIGHT = 100;
 
 	/**
 	 * The description.
@@ -91,26 +75,6 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	 * The action buttons.
 	 */
 	private List<ActionButton> actionButtons = new ArrayList<ActionButton>();
-
-	/**
-	 * The main parent.
-	 */
-	private Composite reference;
-
-	/**
-	 * The combo viewer.
-	 */
-	private TableViewer tableViewer;
-
-	/**
-	 * The list.
-	 */
-	private org.eclipse.swt.widgets.Table table;
-
-	/**
-	 * The buttons.
-	 */
-	private Composite buttons;
 
 	/**
 	 * The controller.
@@ -162,21 +126,15 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		defaultBackgroundColor = parent.getBackground();
 
 		// this is the parent composite
-		this.reference = widgetFactory.createFlatFormComposite(parent);
+		Composite reference = widgetFactory.createFlatFormComposite(parent);
 		GridLayout layout = new GridLayout(2, false);
 		reference.setLayout(layout);
 
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		reference.setLayoutData(gridData);
 
-		if (description.isMultiple()) {
-			createMultipleValuedReferenceWidget();
-		} else {
-			createSingleValuedReferenceWidget();
-		}
-
-		// Create widget action buttons
-		createWidgetActionButtons();
+		this.createSingleValuedReferenceWidget(reference);
+		this.createWidgetActionButtons(reference);
 
 		widgetFactory.paintBordersFor(parent);
 
@@ -186,78 +144,48 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 
 	/**
 	 * Create widget action buttons.
+	 *
+	 * @param parent
+	 *            The parent composite
 	 */
-	private void createWidgetActionButtons() {
-		this.buttons = widgetFactory.createFlatFormComposite(reference);
+	private void createWidgetActionButtons(Composite parent) {
+		Composite buttons = widgetFactory.createFlatFormComposite(parent);
 
 		GridData gridData = new GridData();
 		gridData.grabExcessHorizontalSpace = false;
-		this.buttons.setLayoutData(gridData);
+		buttons.setLayoutData(gridData);
 
 		// Buttons are visible only if an action is defined
 		for (EEFWidgetAction action : this.description.getActions()) {
-			ActionButton actionButton = new ActionButton(action, this.buttons, widgetFactory, this.interpreter, this.variableManager);
+			ActionButton actionButton = new ActionButton(action, buttons, widgetFactory, this.interpreter, this.variableManager);
 			actionButtons.add(actionButton);
 		}
 
-		if (description.isMultiple()) {
-			this.buttons.setLayout(new RowLayout(SWT.VERTICAL));
-		} else {
-			this.buttons.setLayout(new RowLayout(SWT.HORIZONTAL));
-		}
+		buttons.setLayout(new RowLayout(SWT.HORIZONTAL));
 	}
 
 	/**
 	 * Create a single valued reference widget : a text field or a label field if the onclick expression exists.
+	 *
+	 * @param parent
+	 *            The parent composite
 	 */
-	private void createSingleValuedReferenceWidget() {
+	private void createSingleValuedReferenceWidget(Composite parent) {
 		GridData gd = new GridData();
 		gd.grabExcessHorizontalSpace = true;
 		gd.horizontalAlignment = SWT.FILL;
 
 		// Use hyperlink if the onclick expression exists
-		final int clientWidth = reference.getClientArea().width;
+		final int clientWidth = parent.getClientArea().width;
 		if (!Util.isBlank(this.description.getOnClickExpression())) {
-			this.hyperlink = widgetFactory.createHyperlink(this.reference, "", SWT.NONE); //$NON-NLS-1$
+			this.hyperlink = widgetFactory.createHyperlink(parent, "", SWT.NONE); //$NON-NLS-1$
 			hyperlink.setLayoutData(gd);
 			hyperlink.setSize(clientWidth, DEFAULT_HEIGHT);
 		} else {
-			this.text = widgetFactory.createLabel(this.reference, "", SWT.NONE); //$NON-NLS-1$
+			this.text = widgetFactory.createLabel(parent, "", SWT.NONE); //$NON-NLS-1$
 			text.setLayoutData(gd);
 			text.setSize(clientWidth, DEFAULT_HEIGHT);
 		}
-	}
-
-	/**
-	 * Create table widget.
-	 */
-	private void createMultipleValuedReferenceWidget() {
-		ScrolledComposite scrolledComposite = widgetFactory.createScrolledComposite(reference, SWT.NONE);
-		GridData gridData = new GridData();
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.horizontalAlignment = SWT.FILL;
-		scrolledComposite.setLayoutData(gridData);
-
-		this.table = widgetFactory.createTable(scrolledComposite, SWT.READ_ONLY | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI);
-		this.tableViewer = new TableViewer(this.table);
-		GridData tableGridData = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
-		this.table.setLayoutData(tableGridData);
-		this.tableViewer.setContentProvider(ArrayContentProvider.getInstance());
-		this.tableViewer.setLabelProvider(new EEFTableReferencesLabelProvider());
-
-		scrolledComposite.setContent(table);
-
-		int widgetHeight = DEFAULT_HEIGHT;
-		List<EEFWidgetAction> actions = description.getActions();
-		if (actions != null && actions.size() > 0) {
-			widgetHeight = widgetHeight * (actions.size() + 1);
-		}
-
-		final int clientWidth = scrolledComposite.getClientArea().width;
-		this.table.setSize(clientWidth, Math.max(TABLE_MINIMAL_HEIGHT, widgetHeight));
-
-		scrolledComposite.setExpandHorizontal(true);
-		scrolledComposite.setAlwaysShowScrollBars(true);
 	}
 
 	/**
@@ -279,7 +207,7 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	public void aboutToBeShown() {
 		super.aboutToBeShown();
 		if (this.hyperlink != null) {
-			this.onClickListener = createOnClickListener();
+			this.onClickListener = new EEFReferenceHyperlinkListener(this.controller);
 			this.hyperlink.addHyperlinkListener(this.onClickListener);
 		}
 
@@ -289,11 +217,7 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 				if (value == null) {
 					return;
 				}
-				if (description.isMultiple()) {
-					setMultipleValuedReference(value);
-				} else {
-					setSingleValuedReference(value);
-				}
+				EEFReferenceLifecycleManager.this.setSingleValuedReference(value);
 			}
 		});
 
@@ -302,19 +226,10 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					List<Object> selections = new ArrayList<Object>();
-					if (description.isMultiple()) {
-						IStructuredSelection structuredSelection = (IStructuredSelection) EEFReferenceLifecycleManager.this.tableViewer
-								.getSelection();
-
-						for (Object selection : structuredSelection.toList()) {
-							selections.add(selection);
-						}
+					if (EEFReferenceLifecycleManager.this.hyperlink != null) {
+						selections.add(EEFReferenceLifecycleManager.this.hyperlink.getData());
 					} else {
-						if (EEFReferenceLifecycleManager.this.hyperlink != null) {
-							selections.add(EEFReferenceLifecycleManager.this.hyperlink.getData());
-						} else {
-							selections.add(EEFReferenceLifecycleManager.this.text.getData());
-						}
+						selections.add(EEFReferenceLifecycleManager.this.text.getData());
 					}
 					controller.action(actionButton.getAction(), selections);
 				}
@@ -334,7 +249,8 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		String expression = description.getDisplayExpression();
 
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put(EEFExpressionUtils.SELF, value);
+		variables.putAll(this.variableManager.getVariables());
+		variables.put(EEFExpressionUtils.EEFReference.VALUE, value);
 		String display = EvalFactory.of(EEFReferenceLifecycleManager.this.interpreter, variables).logIfInvalidType(String.class).evaluate(expression);
 
 		if (!Util.isBlank(display)) {
@@ -355,67 +271,16 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	}
 
 	/**
-	 * Set multiple valued reference.
-	 *
-	 * @param value
-	 *            Value to select
-	 */
-	private void setMultipleValuedReference(Object value) {
-		if (!table.isDisposed()) {
-			final ISelection selection = new StructuredSelection(value);
-			tableViewer.setSelection(selection);
-			List<Object> values = new ArrayList<Object>();
-			if (value instanceof Iterable<?>) {
-				for (Object val : (Iterable<?>) value) {
-					values.add(val);
-				}
-			} else {
-				values.add(value);
-			}
-			tableViewer.setInput(values.toArray());
-			if (!table.isEnabled()) {
-				table.setEnabled(true);
-			}
-		}
-	}
-
-	/**
-	 * Create onclick listener.
-	 *
-	 * @return Listener
-	 */
-	private IHyperlinkListener createOnClickListener() {
-		return new IHyperlinkListener() {
-
-			@Override
-			public void linkExited(HyperlinkEvent e) {
-				// Nothing
-			}
-
-			@Override
-			public void linkEntered(HyperlinkEvent e) {
-				// Nothing
-			}
-
-			@Override
-			public void linkActivated(HyperlinkEvent e) {
-				Hyperlink link = (Hyperlink) e.getSource();
-				if (link != null) {
-					Object element = link.getData();
-					controller.onClick(element);
-				}
-			}
-		};
-	}
-
-	/**
 	 * {@inheritDoc}
 	 *
 	 * @see org.eclipse.eef.ide.ui.internal.widgets.AbstractEEFWidgetLifecycleManager#getValidationControl()
 	 */
 	@Override
 	protected Control getValidationControl() {
-		return this.reference;
+		if (this.hyperlink != null) {
+			return this.hyperlink;
+		}
+		return this.text;
 	}
 
 	/**
@@ -450,34 +315,6 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	}
 
 	/**
-	 * Table references widget label provider.
-	 *
-	 * @author mbats
-	 */
-	private final class EEFTableReferencesLabelProvider extends StyledCellLabelProvider {
-
-		/**
-		 * {@inheritDoc}
-		 *
-		 * @see org.eclipse.jface.viewers.StyledCellLabelProvider#update(org.eclipse.jface.viewers.ViewerCell)
-		 */
-		@Override
-		public void update(ViewerCell cell) {
-			Object element = cell.getElement();
-			Map<String, Object> variables = new HashMap<String, Object>();
-			variables.putAll(EEFReferenceLifecycleManager.this.variableManager.getVariables());
-			variables.put(EEFExpressionUtils.EEFReference.VALUE, element);
-
-			String expression = description.getDisplayExpression();
-			EAttribute eAttribute = EefPackage.Literals.EEF_REFERENCE_DESCRIPTION__DISPLAY_EXPRESSION;
-			String value = EvalFactory.of(EEFReferenceLifecycleManager.this.interpreter, variables).logIfInvalidType(String.class)
-					.logIfBlank(eAttribute).evaluate(expression);
-			cell.setText(value);
-			super.update(cell);
-		}
-	}
-
-	/**
 	 * {@inheritDoc}
 	 *
 	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getLabelVerticalAlignment()
@@ -504,9 +341,6 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		} else if (this.hyperlink != null) {
 			this.hyperlink.setEnabled(isEnabled());
 			this.hyperlink.setBackground(getBackgroundColor());
-		} else if (this.table != null) {
-			this.table.setEnabled(isEnabled());
-			this.table.setBackground(getBackgroundColor());
 		}
 	}
 
