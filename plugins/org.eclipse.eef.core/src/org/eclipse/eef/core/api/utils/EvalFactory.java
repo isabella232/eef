@@ -195,7 +195,7 @@ public final class EvalFactory {
 					EEFCorePlugin.getPlugin().blank(this.eAttribute);
 				}
 
-				if (this.defaultValue != null) {
+				if (this.defaultValue != null && consumer != null) {
 					consumer.apply(this.defaultValue);
 				}
 				return;
