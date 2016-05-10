@@ -19,6 +19,7 @@ import org.eclipse.eef.EEFReferenceDescription;
 import org.eclipse.eef.EEFWidgetAction;
 import org.eclipse.eef.EEFWidgetDescription;
 import org.eclipse.eef.EefPackage;
+import org.eclipse.eef.common.api.utils.Util;
 import org.eclipse.eef.common.ui.api.EEFWidgetFactory;
 import org.eclipse.eef.common.ui.api.IEEFFormContainer;
 import org.eclipse.eef.core.api.EEFExpressionUtils;
@@ -65,6 +66,11 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	 * Default height.
 	 */
 	private static final int DEFAULT_HEIGHT = 34;
+
+	/**
+	 * Minimal height of the table widget.
+	 */
+	private static final int TABLE_MINIMAL_HEIGHT = 100;
 
 	/**
 	 * The description.
@@ -117,11 +123,6 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	private IHyperlinkListener onClickListener;
 
 	/**
-	 * Default height.
-	 */
-	private int widgetHeight = DEFAULT_HEIGHT;
-
-	/**
 	 * The widget factory.
 	 */
 	private EEFWidgetFactory widgetFactory;
@@ -160,10 +161,14 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		widgetFactory = formContainer.getWidgetFactory();
 		defaultBackgroundColor = parent.getBackground();
 
+		// this is the parent composite
 		this.reference = widgetFactory.createFlatFormComposite(parent);
 		GridLayout layout = new GridLayout(2, false);
-		reference.setLayout(layout); // this is the parent composite
-		reference.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		reference.setLayout(layout);
+
+		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		reference.setLayoutData(gridData);
+
 		if (description.isMultiple()) {
 			createMultipleValuedReferenceWidget();
 		} else {
@@ -209,18 +214,19 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	 */
 	private void createSingleValuedReferenceWidget() {
 		GridData gd = new GridData();
-		// Use hyperlink if the onclick expression exists
 		gd.grabExcessHorizontalSpace = true;
 		gd.horizontalAlignment = SWT.FILL;
+
+		// Use hyperlink if the onclick expression exists
 		final int clientWidth = reference.getClientArea().width;
 		if (this.description.getOnClickExpression() != null) {
 			this.hyperlink = widgetFactory.createHyperlink(this.reference, "", SWT.NONE); //$NON-NLS-1$
 			hyperlink.setLayoutData(gd);
-			hyperlink.setSize(clientWidth, widgetHeight);
+			hyperlink.setSize(clientWidth, DEFAULT_HEIGHT);
 		} else {
 			this.text = widgetFactory.createLabel(this.reference, "", SWT.NONE); //$NON-NLS-1$
 			text.setLayoutData(gd);
-			text.setSize(clientWidth, widgetHeight);
+			text.setSize(clientWidth, DEFAULT_HEIGHT);
 		}
 	}
 
@@ -234,19 +240,24 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		gridData.horizontalAlignment = SWT.FILL;
 		scrolledComposite.setLayoutData(gridData);
 
-		final int clientWidth = scrolledComposite.getClientArea().width;
 		this.table = widgetFactory.createTable(scrolledComposite, SWT.READ_ONLY | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI);
 		this.tableViewer = new TableViewer(this.table);
-		this.table.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
+		GridData tableGridData = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
+		this.table.setLayoutData(tableGridData);
 		this.tableViewer.setContentProvider(ArrayContentProvider.getInstance());
 		this.tableViewer.setLabelProvider(new EEFTableReferencesLabelProvider());
 
 		scrolledComposite.setContent(table);
+
+		int widgetHeight = DEFAULT_HEIGHT;
 		List<EEFWidgetAction> actions = description.getActions();
 		if (actions != null && actions.size() > 0) {
 			widgetHeight = widgetHeight * (actions.size() + 1);
 		}
-		table.setSize(clientWidth, widgetHeight);
+
+		final int clientWidth = scrolledComposite.getClientArea().width;
+		this.table.setSize(clientWidth, Math.max(TABLE_MINIMAL_HEIGHT, widgetHeight));
+
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setAlwaysShowScrollBars(true);
 	}
@@ -328,7 +339,7 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		variables.put(EEFExpressionUtils.SELF, value);
 		String display = EvalFactory.of(EEFReferenceLifecycleManager.this.interpreter, variables).logIfInvalidType(String.class).evaluate(expression);
 
-		if (display != null) {
+		if (!Util.isBlank(display)) {
 			if (hyperlink != null && !hyperlink.isDisposed() && !(hyperlink.getText() != null && hyperlink.getText().equals(value))) {
 				hyperlink.setText(display);
 				hyperlink.setData(value);
@@ -458,7 +469,6 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 			Map<String, Object> variables = new HashMap<String, Object>();
 			variables.putAll(EEFReferenceLifecycleManager.this.variableManager.getVariables());
 			variables.put(EEFExpressionUtils.EEFReference.VALUE, element);
-			variables.put(EEFExpressionUtils.SELF, element);
 
 			String expression = description.getDisplayExpression();
 			EAttribute eAttribute = EefPackage.Literals.EEF_REFERENCE_DESCRIPTION__DISPLAY_EXPRESSION;
