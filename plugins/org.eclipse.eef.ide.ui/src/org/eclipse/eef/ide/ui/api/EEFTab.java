@@ -85,6 +85,7 @@ public class EEFTab {
 		composite.setLayout(new FillLayout(SWT.VERTICAL));
 
 		this.lifecycleManager.createControl(composite, container);
+		parent.layout();
 
 		this.updater = new Updater(this, container);
 	}

@@ -212,8 +212,6 @@ public class EEFGroupLifecycleManager extends AbstractEEFLifecycleManager {
 		for (EEFControlDescription eefControlDescription : controls) {
 			this.lifecycleManagers.addAll(eefControlSwitch.doCreate(group, formContainer, eefControlDescription, this.variableManager));
 		}
-
-		parent.layout();
 	}
 
 	/**
