@@ -39,7 +39,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
@@ -188,8 +187,9 @@ public class EEFMultipleReferencesLifecycleManager extends AbstractEEFWidgetLife
 		Composite buttons = widgetFactory.createFlatFormComposite(parent);
 
 		GridData gridData = new GridData();
-		gridData.grabExcessHorizontalSpace = false;
 		buttons.setLayoutData(gridData);
+
+		buttons.setLayout(new GridLayout(1, false));
 
 		// Buttons are visible only if an action is defined
 		for (EEFWidgetAction action : this.description.getActions()) {
@@ -197,7 +197,6 @@ public class EEFMultipleReferencesLifecycleManager extends AbstractEEFWidgetLife
 			actionButtons.add(actionButton);
 		}
 
-		buttons.setLayout(new RowLayout(SWT.VERTICAL));
 	}
 
 	/**

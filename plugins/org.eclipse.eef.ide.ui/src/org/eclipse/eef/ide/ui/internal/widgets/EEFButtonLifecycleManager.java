@@ -39,6 +39,12 @@ import org.eclipse.swt.widgets.Control;
  * @author pcdavid
  */
 public class EEFButtonLifecycleManager extends AbstractEEFWidgetLifecycleManager {
+	
+	/**
+	 * The minimum width of the button.
+	 */
+	private static final int MINIMUM_BUTTON_WIDTH = 80;
+	
 	/**
 	 * The description.
 	 */
@@ -89,9 +95,9 @@ public class EEFButtonLifecycleManager extends AbstractEEFWidgetLifecycleManager
 
 		this.button = widgetFactory.createButton(parent, "", SWT.NONE); //$NON-NLS-1$
 
-		final int minimumWidth = 80;
-		GridData layoutData = new GridData(minimumWidth, SWT.DEFAULT);
-		this.button.setLayoutData(layoutData);
+		GridData gridData = new GridData();
+		gridData.minimumWidth = MINIMUM_BUTTON_WIDTH;
+		this.button.setLayoutData(gridData);
 
 		widgetFactory.paintBordersFor(parent);
 

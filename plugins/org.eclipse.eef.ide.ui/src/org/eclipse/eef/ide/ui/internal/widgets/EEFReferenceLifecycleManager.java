@@ -37,7 +37,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -155,13 +154,14 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		gridData.grabExcessHorizontalSpace = false;
 		buttons.setLayoutData(gridData);
 
+		buttons.setLayout(new GridLayout(this.description.getActions().size(), true));
+
 		// Buttons are visible only if an action is defined
 		for (EEFWidgetAction action : this.description.getActions()) {
 			ActionButton actionButton = new ActionButton(action, buttons, widgetFactory, this.interpreter, this.variableManager);
 			actionButtons.add(actionButton);
 		}
 
-		buttons.setLayout(new RowLayout(SWT.HORIZONTAL));
 	}
 
 	/**
