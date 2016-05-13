@@ -134,18 +134,17 @@ public class EEFTabbedPropertyListColorHolder {
 		// Color 19 COLOR_WIDGET_NORMAL_SHADOW
 		this.widgetNormalShadow = Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW);
 
-		RGB infoBackground = Display.getCurrent().getSystemColor(SWT.COLOR_INFO_BACKGROUND).getRGB();
 		RGB white = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE).getRGB();
 		RGB black = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK).getRGB();
 
 		/*
-		 * gradient in the default tab: start colour WIDGET_NORMAL_SHADOW 100% + white 20% + INFO_BACKGROUND 60% end
-		 * colour WIDGET_NORMAL_SHADOW 100% + INFO_BACKGROUND 40%
+		 * gradient in the default tab: start colour WIDGET_NORMAL_SHADOW 100% + white 20% + WIDGET_BACKGROUND 60% end
+		 * colour WIDGET_NORMAL_SHADOW 100% + WIDGET_BACKGROUND 40%
 		 */
 		this.defaultGradientStart = this.widgetFactory.getColors().createColor("TabbedPropertyList.defaultTabGradientStart", //$NON-NLS-1$
-				FormColors.blend(infoBackground, FormColors.blend(white, widgetNormalShadow.getRGB(), 20), 60));
+				FormColors.blend(widgetBackground.getRGB(), FormColors.blend(white, widgetNormalShadow.getRGB(), 20), 60));
 		this.defaultGradientEnd = this.widgetFactory.getColors().createColor("TabbedPropertyList.defaultTabGradientEnd", //$NON-NLS-1$
-				FormColors.blend(infoBackground, widgetNormalShadow.getRGB(), 40));
+				FormColors.blend(widgetBackground.getRGB(), widgetNormalShadow.getRGB(), 40));
 
 		this.navigationElementShadowStroke = this.widgetFactory.getColors().createColor("TabbedPropertyList.shadowStroke", //$NON-NLS-1$
 				FormColors.blend(white, widgetNormalShadow.getRGB(), 55));
