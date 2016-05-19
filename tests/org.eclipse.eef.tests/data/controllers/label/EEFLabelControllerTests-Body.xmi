@@ -8,7 +8,7 @@
   <groups>
     <controls
         xsi:type="eef:EEFLabelDescription"
-        bodyExpression="aql:'This is the documentation of the project'"/>
+        valueExpression="aql:'This is the documentation of the project'"/>
   </groups>
   <pages groups="//@groups.0"/>
 </eef:EEFViewDescription>
