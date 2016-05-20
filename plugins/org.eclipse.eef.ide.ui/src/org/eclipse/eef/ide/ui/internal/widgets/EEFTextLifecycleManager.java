@@ -45,6 +45,13 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 
 	/**
+	 * This constant is used in order to tell SWT that the text area should be 300px wide even if it is not useful. The
+	 * layout data should work by themselves but it seems that there is a bug with SWT so, this useless information on
+	 * the width of the text area make it work. Don't ask me why :)
+	 */
+	private static final int TEXT_AREA_WIDTH_HINT = 300;
+
+	/**
 	 * The description.
 	 */
 	private EEFTextDescription description;
@@ -111,6 +118,7 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 			this.text = widgetFactory.createStyledText(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.WRAP | SWT.MULTI);
 			GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, true);
 			gridData.minimumHeight = lineCount * text.getLineHeight();
+			gridData.widthHint = TEXT_AREA_WIDTH_HINT;
 			this.text.setLayoutData(gridData);
 		} else {
 			this.text = widgetFactory.createStyledText(parent, SWT.SINGLE);
