@@ -32,7 +32,7 @@ public class EEFLabelController extends AbstractEEFWidgetController implements I
 	/**
 	 * The consumer of the new body.
 	 */
-	private IConsumer<String> newBodyConsumer;
+	private IConsumer<String> newValueConsumer;
 
 	/**
 	 * The constructor.
@@ -59,8 +59,8 @@ public class EEFLabelController extends AbstractEEFWidgetController implements I
 	public void refresh() {
 		super.refresh();
 
-		String bodyExpression = this.description.getValueExpression();
-		this.newEval().logIfInvalidType(String.class).call(bodyExpression, this.newBodyConsumer);
+		String valueExpression = this.description.getValueExpression();
+		this.newEval().logIfInvalidType(String.class).call(valueExpression, this.newValueConsumer);
 	}
 
 	/**
@@ -76,21 +76,21 @@ public class EEFLabelController extends AbstractEEFWidgetController implements I
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.core.api.controllers.IEEFLabelController#onNewBody(org.eclipse.eef.core.api.controllers.IConsumer)
+	 * @see org.eclipse.eef.core.api.controllers.IEEFLabelController#onNewValue(org.eclipse.eef.core.api.controllers.IConsumer)
 	 */
 	@Override
-	public void onNewBody(IConsumer<String> consumer) {
-		this.newBodyConsumer = consumer;
+	public void onNewValue(IConsumer<String> consumer) {
+		this.newValueConsumer = consumer;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see org.eclipse.eef.core.api.controllers.IEEFLabelController#removeNewBodyConsumer()
+	 * @see org.eclipse.eef.core.api.controllers.IEEFLabelController#removeNewValueConsumer()
 	 */
 	@Override
-	public void removeNewBodyConsumer() {
-		this.newBodyConsumer = null;
+	public void removeNewValueConsumer() {
+		this.newValueConsumer = null;
 	}
 
 }

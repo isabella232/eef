@@ -96,7 +96,7 @@ public class EEFLabelLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 	public void aboutToBeShown() {
 		super.aboutToBeShown();
 
-		this.controller.onNewBody(new IConsumer<String>() {
+		this.controller.onNewValue(new IConsumer<String>() {
 			@Override
 			public void apply(String value) {
 				if (!body.isDisposed()) {
@@ -132,7 +132,7 @@ public class EEFLabelLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 	@Override
 	public void aboutToBeHidden() {
 		super.aboutToBeHidden();
-		this.controller.removeNewBodyConsumer();
+		this.controller.removeNewValueConsumer();
 	}
 
 	/**

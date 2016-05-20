@@ -56,7 +56,7 @@ public class EEFLabelControllerTests extends AbstractEEFControllerTests {
 	public void testBody() {
 		AtomicBoolean atomicBoolean = new AtomicBoolean(false);
 		IEEFLabelController controller = this.labelController(EEFDataTests.EEFLABELCONTROLLERTESTS_BODY);
-		controller.onNewBody(label -> {
+		controller.onNewValue(label -> {
 			assertThat(label, is("This is the documentation of the project")); //$NON-NLS-1$
 			atomicBoolean.set(true);
 		});

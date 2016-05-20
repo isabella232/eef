@@ -150,6 +150,7 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 			this.help = widgetFactory.createCLabel(composite, ""); //$NON-NLS-1$
 			if (!Util.isBlank(this.getWidgetDescription().getHelpExpression())) {
 				this.help.setImage(EEFIdeUiPlugin.getPlugin().getImageRegistry().get(Icons.HELP));
+				this.help.setLayoutData(new GridData(this.getLabelVerticalAlignment()));
 				this.help.setToolTipText(""); //$NON-NLS-1$
 			}
 		}

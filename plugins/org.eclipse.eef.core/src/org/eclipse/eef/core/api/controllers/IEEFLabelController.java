@@ -18,15 +18,15 @@ package org.eclipse.eef.core.api.controllers;
  */
 public interface IEEFLabelController extends IEEFWidgetController {
 	/**
-	 * Register a consumer which will be called with the new body of the label when it will change.
+	 * Register a consumer which will be called with the new value of the label when it will change.
 	 *
 	 * @param consumer
-	 *            The consumer of the new body of the label
+	 *            The consumer of the new value of the label
 	 */
-	void onNewBody(IConsumer<String> consumer);
+	void onNewValue(IConsumer<String> consumer);
 
 	/**
-	 * Remove the consumer of the new body of the label.
+	 * Remove the consumer of the new value of the label.
 	 */
-	void removeNewBodyConsumer();
+	void removeNewValueConsumer();
 }
