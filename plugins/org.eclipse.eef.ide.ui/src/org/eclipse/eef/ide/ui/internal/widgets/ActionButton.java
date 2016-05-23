@@ -81,6 +81,16 @@ public class ActionButton {
 	}
 
 	/**
+	 * Sets the enablement of the action button.
+	 *
+	 * @param isEnabled
+	 *            <code>true</code> to set the button as enabled, <code>false</code> otherwise
+	 */
+	public void setEnabled(boolean isEnabled) {
+		this.button.setEnabled(isEnabled);
+	}
+
+	/**
 	 * Add a selection listener to the button.
 	 *
 	 * @param listener

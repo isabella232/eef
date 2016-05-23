@@ -258,7 +258,7 @@ public class EEFMultipleReferencesLifecycleManager extends AbstractEEFWidgetLife
 				values.add(value);
 			}
 			tableViewer.setInput(values.toArray());
-			if (!this.tableViewer.getTable().isEnabled()) {
+			if (!this.tableViewer.getTable().isEnabled() && this.isEnabled()) {
 				this.tableViewer.getTable().setEnabled(true);
 			}
 		}
@@ -289,6 +289,10 @@ public class EEFMultipleReferencesLifecycleManager extends AbstractEEFWidgetLife
 		if (this.tableViewer != null && this.tableViewer.getTable() != null) {
 			this.tableViewer.getTable().setEnabled(isEnabled());
 			this.tableViewer.getTable().setBackground(getBackgroundColor());
+		}
+
+		for (ActionButton actionButton : this.actionButtons) {
+			actionButton.setEnabled(this.isEnabled());
 		}
 	}
 

@@ -257,13 +257,13 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 			if (hyperlink != null && !hyperlink.isDisposed() && !(hyperlink.getText() != null && hyperlink.getText().equals(value))) {
 				hyperlink.setText(display);
 				hyperlink.setData(value);
-				if (!hyperlink.isEnabled()) {
+				if (!hyperlink.isEnabled() && this.isEnabled()) {
 					hyperlink.setEnabled(true);
 				}
 			} else if (text != null && !text.isDisposed() && !(text.getText() != null && text.getText().equals(value))) {
 				text.setText(display);
 				text.setData(value);
-				if (!text.isEnabled()) {
+				if (!text.isEnabled() && this.isEnabled()) {
 					text.setEnabled(true);
 				}
 			}
@@ -341,6 +341,10 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		} else if (this.hyperlink != null) {
 			this.hyperlink.setEnabled(isEnabled());
 			this.hyperlink.setBackground(getBackgroundColor());
+		}
+
+		for (ActionButton actionButton : this.actionButtons) {
+			actionButton.setEnabled(this.isEnabled());
 		}
 	}
 
