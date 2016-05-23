@@ -108,7 +108,7 @@ public class EEFStyleHelper {
 		if (!Util.isBlank(foregroundColorExpression)) {
 			this.applyForegroundColor(foregroundColorExpression, callback);
 		}
-		if (Util.isBlank(backgroundColorExpression)) {
+		if (!Util.isBlank(backgroundColorExpression)) {
 			this.applyBackgroundColor(backgroundColorExpression, callback);
 		}
 
