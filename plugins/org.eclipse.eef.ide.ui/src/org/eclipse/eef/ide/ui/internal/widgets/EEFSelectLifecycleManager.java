@@ -40,6 +40,7 @@ import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -117,6 +118,9 @@ public class EEFSelectLifecycleManager extends AbstractEEFWidgetLifecycleManager
 
 		this.comboViewer = new ComboViewer(parent, SWT.READ_ONLY);
 		this.combo = comboViewer.getCombo();
+		GridData gridData = new GridData();
+		gridData.horizontalIndent = VALIDATION_MARKER_OFFSET;
+		this.combo.setLayoutData(gridData);
 		this.comboViewer.setContentProvider(ArrayContentProvider.getInstance());
 		this.comboViewer.setLabelProvider(new EEFSelectLabelProvider());
 

@@ -30,6 +30,7 @@ import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -89,6 +90,9 @@ public class EEFCheckboxLifecycleManager extends AbstractEEFWidgetLifecycleManag
 		EEFWidgetFactory widgetFactory = formContainer.getWidgetFactory();
 
 		this.checkbox = widgetFactory.createButton(parent, "", SWT.CHECK); //$NON-NLS-1$
+		GridData gridData = new GridData();
+		gridData.horizontalIndent = VALIDATION_MARKER_OFFSET;
+		this.checkbox.setLayoutData(gridData);
 
 		this.controller = new EEFControllersFactory().createCheckboxController(this.description, this.variableManager, this.interpreter,
 				this.contextAdapter);

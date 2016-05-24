@@ -38,6 +38,7 @@ import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -104,6 +105,9 @@ public class EEFRadioLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 
 		this.radioGroupViewer = new RadioGroupViewer(parent, widgetFactory, this.description.getNumberOfColumns());
 		this.radioGroup = radioGroupViewer.getRadioGroup();
+		GridData gridData = new GridData();
+		gridData.horizontalIndent = VALIDATION_MARKER_OFFSET;
+		this.radioGroup.setLayoutData(gridData);
 		this.radioGroupViewer.setContentProvider(ArrayContentProvider.getInstance());
 		this.radioGroupViewer.setLabelProvider(new EEFRadioLabelProvider());
 

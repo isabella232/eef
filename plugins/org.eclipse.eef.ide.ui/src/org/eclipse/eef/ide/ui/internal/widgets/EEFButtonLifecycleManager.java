@@ -39,12 +39,12 @@ import org.eclipse.swt.widgets.Control;
  * @author pcdavid
  */
 public class EEFButtonLifecycleManager extends AbstractEEFWidgetLifecycleManager {
-	
+
 	/**
 	 * The minimum width of the button.
 	 */
 	private static final int MINIMUM_BUTTON_WIDTH = 80;
-	
+
 	/**
 	 * The description.
 	 */
@@ -97,12 +97,23 @@ public class EEFButtonLifecycleManager extends AbstractEEFWidgetLifecycleManager
 
 		GridData gridData = new GridData();
 		gridData.minimumWidth = MINIMUM_BUTTON_WIDTH;
+		gridData.horizontalIndent = VALIDATION_MARKER_OFFSET;
 		this.button.setLayoutData(gridData);
 
 		widgetFactory.paintBordersFor(parent);
 
 		this.controller = new EEFControllersFactory().createButtonController(this.description, this.variableManager, this.interpreter,
 				this.contextAdapter);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getLabelVerticalAlignment()
+	 */
+	@Override
+	protected int getLabelVerticalAlignment() {
+		return GridData.VERTICAL_ALIGN_CENTER;
 	}
 
 	/**

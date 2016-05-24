@@ -95,10 +95,21 @@ public class EEFLabelLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 		// TODO Add a linecount property to the label and use it to compute the height of the widget
 		gridData.heightHint = this.body.getLineHeight();
 		gridData.widthHint = LABEL_WIDTH_HINT;
+		gridData.horizontalIndent = VALIDATION_MARKER_OFFSET;
 		this.body.setLayoutData(gridData);
 		this.body.setEditable(false);
 
 		this.controller = new EEFControllersFactory().createLabelController(this.description, this.variableManager, this.interpreter);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getLabelVerticalAlignment()
+	 */
+	@Override
+	protected int getLabelVerticalAlignment() {
+		return GridData.VERTICAL_ALIGN_CENTER;
 	}
 
 	/**

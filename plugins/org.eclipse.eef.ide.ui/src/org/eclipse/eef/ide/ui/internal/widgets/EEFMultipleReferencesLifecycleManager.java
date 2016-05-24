@@ -157,6 +157,7 @@ public class EEFMultipleReferencesLifecycleManager extends AbstractEEFWidgetLife
 		this.tableViewer = new TableViewer(table);
 
 		GridData tableGridData = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
+		tableGridData.horizontalIndent = VALIDATION_MARKER_OFFSET;
 		this.tableViewer.getTable().setLayoutData(tableGridData);
 
 		this.tableViewer.setContentProvider(ArrayContentProvider.getInstance());

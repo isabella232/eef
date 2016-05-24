@@ -171,19 +171,20 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	 *            The parent composite
 	 */
 	private void createSingleValuedReferenceWidget(Composite parent) {
-		GridData gd = new GridData();
-		gd.grabExcessHorizontalSpace = true;
-		gd.horizontalAlignment = SWT.FILL;
+		GridData gridData = new GridData();
+		gridData.grabExcessHorizontalSpace = true;
+		gridData.horizontalAlignment = SWT.FILL;
+		gridData.horizontalIndent = VALIDATION_MARKER_OFFSET;
 
 		// Use hyperlink if the onclick expression exists
 		final int clientWidth = parent.getClientArea().width;
 		if (!Util.isBlank(this.description.getOnClickExpression())) {
 			this.hyperlink = widgetFactory.createHyperlink(parent, "", SWT.NONE); //$NON-NLS-1$
-			hyperlink.setLayoutData(gd);
+			hyperlink.setLayoutData(gridData);
 			hyperlink.setSize(clientWidth, DEFAULT_HEIGHT);
 		} else {
 			this.text = widgetFactory.createLabel(parent, "", SWT.NONE); //$NON-NLS-1$
-			text.setLayoutData(gd);
+			text.setLayoutData(gridData);
 			text.setSize(clientWidth, DEFAULT_HEIGHT);
 		}
 	}

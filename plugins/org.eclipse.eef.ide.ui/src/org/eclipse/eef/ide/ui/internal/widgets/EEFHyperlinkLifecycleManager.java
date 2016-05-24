@@ -92,13 +92,25 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		EEFWidgetFactory widgetFactory = formContainer.getWidgetFactory();
 
 		this.hyperlink = widgetFactory.createStyledText(parent, SWT.READ_ONLY);
-		this.hyperlink.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gridData.horizontalIndent = VALIDATION_MARKER_OFFSET;
+		this.hyperlink.setLayoutData(gridData);
 		this.hyperlink.setEditable(false);
 		this.hyperlink.setEnabled(true);
 		widgetFactory.paintBordersFor(parent);
 
 		this.controller = new EEFControllersFactory().createHyperlinkController(this.description, this.variableManager, this.interpreter,
 				this.contextAdapter);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getLabelVerticalAlignment()
+	 */
+	@Override
+	protected int getLabelVerticalAlignment() {
+		return GridData.VERTICAL_ALIGN_CENTER;
 	}
 
 	/**

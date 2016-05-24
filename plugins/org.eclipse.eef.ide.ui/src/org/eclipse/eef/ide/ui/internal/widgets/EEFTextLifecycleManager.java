@@ -119,10 +119,13 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 			GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 			gridData.heightHint = lineCount * text.getLineHeight();
 			gridData.widthHint = TEXT_AREA_WIDTH_HINT;
+			gridData.horizontalIndent = VALIDATION_MARKER_OFFSET;
 			this.text.setLayoutData(gridData);
 		} else {
 			this.text = widgetFactory.createStyledText(parent, SWT.SINGLE);
-			this.text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+			gridData.horizontalIndent = VALIDATION_MARKER_OFFSET;
+			this.text.setLayoutData(gridData);
 		}
 
 		this.text.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
@@ -130,6 +133,16 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 
 		this.controller = new EEFControllersFactory().createTextController(this.description, this.variableManager, this.interpreter,
 				this.contextAdapter);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#getLabelVerticalAlignment()
+	 */
+	@Override
+	protected int getLabelVerticalAlignment() {
+		return GridData.VERTICAL_ALIGN_CENTER;
 	}
 
 	/**

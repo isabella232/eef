@@ -49,6 +49,10 @@ import org.eclipse.swt.widgets.Composite;
  * @author sbegaudeau
  */
 public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifecycleManager {
+	/**
+	 * The number of pixel of the additional gap necessary to draw the validation marker.
+	 */
+	protected static final int VALIDATION_MARKER_OFFSET = 5;
 
 	/**
 	 * The variable manager.
