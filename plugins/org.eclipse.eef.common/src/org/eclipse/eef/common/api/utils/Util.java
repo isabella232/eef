@@ -31,15 +31,15 @@ public final class Util {
 	}
 
 	/**
-	 * Returns the first of a series of alternative string values which is not {@link Util#blank blank}.
+	 * Returns the first of a series of alternative string values which is not null.
 	 *
 	 * @param alternatives
 	 *            the alernative strings, in order of preference.
-	 * @return the first non-blank alternative, or <code>null</code> if they are all blank.
+	 * @return the first non-null alternative, or an empty string if they are all null.
 	 */
-	public static String firstNonBlank(String... alternatives) {
+	public static String firstNonNull(String... alternatives) {
 		for (String s : alternatives) {
-			if (!isBlank(s)) {
+			if (s != null) {
 				return s;
 			}
 		}

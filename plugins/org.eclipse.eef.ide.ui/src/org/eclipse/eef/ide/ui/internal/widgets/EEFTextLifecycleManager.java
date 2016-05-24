@@ -190,7 +190,7 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 			public void apply(Object value) {
 				if (!text.isDisposed()) {
 					if (value != null && !(text.getText() != null && text.getText().equals(value.toString()))) {
-						text.setText(Util.firstNonBlank(value.toString(), "")); //$NON-NLS-1$
+						text.setText(Util.firstNonNull(value.toString(), "")); //$NON-NLS-1$
 					}
 					EEFTextLifecycleManager.this.setStyle();
 					if (!text.isEnabled()) {
