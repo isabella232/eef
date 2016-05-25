@@ -174,7 +174,6 @@ public class EEFReferenceLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		GridData gridData = new GridData();
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalAlignment = SWT.FILL;
-		gridData.horizontalIndent = VALIDATION_MARKER_OFFSET;
 
 		// Use hyperlink if the onclick expression exists
 		final int clientWidth = parent.getClientArea().width;
