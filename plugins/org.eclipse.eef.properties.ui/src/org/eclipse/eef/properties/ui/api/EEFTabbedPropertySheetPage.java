@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.eef.common.ui.api.EEFWidgetFactory;
 import org.eclipse.eef.common.ui.api.IEEFFormContainer;
 import org.eclipse.eef.properties.ui.internal.EEFTabbedPropertyViewPlugin;
+import org.eclipse.eef.properties.ui.internal.page.EEFMessagePrefixProvider;
 import org.eclipse.eef.properties.ui.internal.page.EEFPartListenerAdapter;
 import org.eclipse.eef.properties.ui.internal.page.EEFTabbedPropertyComposite;
 import org.eclipse.eef.properties.ui.internal.page.EEFTabbedPropertyViewer;
@@ -223,6 +224,7 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 		this.form.setText(""); //$NON-NLS-1$
 		this.widgetFactory.decorateFormHeading(form);
 
+		this.form.getMessageManager().setMessagePrefixProvider(new EEFMessagePrefixProvider());
 		this.form.getMessageManager().setDecorationPosition(SWT.LEFT | SWT.TOP);
 		this.form.getMessageManager().setAutoUpdate(false);
 
