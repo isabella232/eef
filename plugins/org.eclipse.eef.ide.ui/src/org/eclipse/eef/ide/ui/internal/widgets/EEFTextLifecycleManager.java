@@ -142,6 +142,9 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	 */
 	@Override
 	protected int getLabelVerticalAlignment() {
+		if (this.description.getLineCount() > 1) {
+			return GridData.VERTICAL_ALIGN_BEGINNING;
+		}
 		return GridData.VERTICAL_ALIGN_CENTER;
 	}
 
