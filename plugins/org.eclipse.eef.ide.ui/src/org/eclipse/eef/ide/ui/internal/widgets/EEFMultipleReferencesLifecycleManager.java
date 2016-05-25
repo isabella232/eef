@@ -344,6 +344,6 @@ public class EEFMultipleReferencesLifecycleManager extends AbstractEEFWidgetLife
 	 */
 	@Override
 	protected Control getValidationControl() {
-		return this.tableViewer.getTable();
+		return this.tableViewer.getTable().getParent();
 	}
 }
