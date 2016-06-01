@@ -13,7 +13,6 @@ package org.eclipse.eef.properties.ui.api;
 
 import org.eclipse.eef.common.ui.api.EEFWidgetFactory;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -24,12 +23,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * @author Stephane Begaudeau
  * @since 1.6.0
  */
-public abstract class AbstractEEFPropertySection implements IEEFSection {
-
-	/**
-	 * The standard label width when labels for sections line up on the left hand side of the composite.
-	 */
-	public static final int STANDARD_LABEL_WIDTH = 85;
+public abstract class AbstractEEFPropertySection extends AbstractEEFSection {
 
 	/**
 	 * The tabbed property sheet page.
@@ -94,66 +88,6 @@ public abstract class AbstractEEFPropertySection implements IEEFSection {
 	public void setInput(IWorkbenchPart workbenchPart, ISelection currentSelection) {
 		this.selection = currentSelection;
 		this.part = workbenchPart;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.properties.ui.api.IEEFSection#aboutToBeShown()
-	 */
-	@Override
-	public void aboutToBeShown() {
-		/* empty default implementation */
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.properties.ui.api.IEEFSection#aboutToBeHidden()
-	 */
-	@Override
-	public void aboutToBeHidden() {
-		/* empty default implementation */
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.properties.ui.api.IEEFSection#dispose()
-	 */
-	@Override
-	public void dispose() {
-		/* empty default implementation */
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.properties.ui.api.IEEFSection#getMinimumHeight()
-	 */
-	@Override
-	public int getMinimumHeight() {
-		return SWT.DEFAULT;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.properties.ui.api.IEEFSection#shouldUseExtraSpace()
-	 */
-	@Override
-	public boolean shouldUseExtraSpace() {
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.properties.ui.api.IEEFSection#refresh()
-	 */
-	@Override
-	public void refresh() {
-		/* empty default implementation */
 	}
 
 }

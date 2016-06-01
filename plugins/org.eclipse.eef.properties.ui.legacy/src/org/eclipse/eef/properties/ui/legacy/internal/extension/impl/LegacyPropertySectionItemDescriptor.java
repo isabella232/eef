@@ -18,7 +18,6 @@ import org.eclipse.eef.properties.ui.legacy.internal.EEFPropertiesUiLegacyPlugin
 import org.eclipse.eef.properties.ui.legacy.internal.extension.IItemDescriptor;
 import org.eclipse.eef.properties.ui.legacy.internal.legacy2eef.EEFLegacySection;
 import org.eclipse.jface.viewers.IFilter;
-import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 
 /**
@@ -103,10 +102,8 @@ public class LegacyPropertySectionItemDescriptor extends AbstractEEFSectionDescr
 	public IEEFSection getSectionClass() {
 		try {
 			ISection sectionClass = (ISection) configurationElement.createExecutableExtension(LegacyPropertySectionsRegistryEventListener.CLASS_ATTR);
-			if (sectionClass instanceof AbstractPropertySection) {
-				EEFLegacySection legacySection = new EEFLegacySection((AbstractPropertySection) sectionClass);
-				return legacySection;
-			}
+			EEFLegacySection legacySection = new EEFLegacySection(sectionClass);
+			return legacySection;
 		} catch (CoreException e) {
 			EEFPropertiesUiLegacyPlugin.getImplementation().logError(e.getMessage(), e);
 		}

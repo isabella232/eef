@@ -11,40 +11,40 @@
 
 package org.eclipse.eef.properties.ui.legacy.internal.legacy2eef;
 
-import org.eclipse.eef.common.ui.api.EEFWidgetFactory;
-import org.eclipse.eef.properties.ui.api.AbstractEEFPropertySection;
+import org.eclipse.eef.properties.ui.api.AbstractEEFSection;
 import org.eclipse.eef.properties.ui.api.EEFTabbedPropertySheetPage;
 import org.eclipse.eef.properties.ui.legacy.internal.eef2legacy.LegacyTabbedPropertySheetPage;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
+import org.eclipse.ui.views.properties.tabbed.ISection;
 
 /**
- * Wraps an {@link AbstractPropertySection} to an {@link AbstractEEFPropertySection}.
- * 
+ * Wraps an {@link ISection} to an {@link AbstractEEFSection}.
+ *
  * @author mbats
  */
-public class EEFLegacySection extends AbstractEEFPropertySection {
+public class EEFLegacySection extends AbstractEEFSection {
 	/**
 	 * The legacy section.
 	 */
-	private AbstractPropertySection legacySection;
+	private ISection legacySection;
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param legacySection
 	 *            A legacy section
 	 */
-	public EEFLegacySection(AbstractPropertySection legacySection) {
+	public EEFLegacySection(ISection legacySection) {
 		this.legacySection = legacySection;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see AbstractPropertySection#createControls(Composite, EEFTabbedPropertySheetPage)
+	 *
+	 * @see org.eclipse.eef.properties.ui.api.AbstractEEFSection#createControls(org.eclipse.swt.widgets.Composite,
+	 *      org.eclipse.eef.properties.ui.api.EEFTabbedPropertySheetPage)
 	 */
 	@Override
 	public void createControls(Composite parent, EEFTabbedPropertySheetPage eefTabbedPropertySheetPage) {
@@ -53,8 +53,8 @@ public class EEFLegacySection extends AbstractEEFPropertySection {
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see AbstractPropertySection#aboutToBeHidden()
+	 *
+	 * @see org.eclipse.eef.properties.ui.api.AbstractEEFSection#aboutToBeHidden()
 	 */
 	@Override
 	public void aboutToBeHidden() {
@@ -63,8 +63,8 @@ public class EEFLegacySection extends AbstractEEFPropertySection {
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see AbstractPropertySection#dispose()
+	 *
+	 * @see org.eclipse.eef.properties.ui.api.AbstractEEFSection#dispose()
 	 */
 	@Override
 	public void dispose() {
@@ -73,8 +73,8 @@ public class EEFLegacySection extends AbstractEEFPropertySection {
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see AbstractPropertySection#equals(Object)
+	 *
+	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -83,8 +83,8 @@ public class EEFLegacySection extends AbstractEEFPropertySection {
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see AbstractPropertySection#aboutToBeShown()
+	 *
+	 * @see org.eclipse.eef.properties.ui.api.AbstractEEFSection#aboutToBeShown()
 	 */
 	@Override
 	public void aboutToBeShown() {
@@ -93,8 +93,8 @@ public class EEFLegacySection extends AbstractEEFPropertySection {
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see AbstractPropertySection#getMinimumHeight()
+	 *
+	 * @see org.eclipse.eef.properties.ui.api.AbstractEEFSection#getMinimumHeight()
 	 */
 	@Override
 	public int getMinimumHeight() {
@@ -103,28 +103,8 @@ public class EEFLegacySection extends AbstractEEFPropertySection {
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see AbstractEEFPropertySection#getPart()
-	 */
-	@Override
-	public IWorkbenchPart getPart() {
-		return legacySection.getPart();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see AbstractEEFPropertySection#getSelection()
-	 */
-	@Override
-	public ISelection getSelection() {
-		return legacySection.getSelection();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see AbstractPropertySection#hashCode()
+	 *
+	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
@@ -133,8 +113,8 @@ public class EEFLegacySection extends AbstractEEFPropertySection {
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see AbstractPropertySection#refresh()
+	 *
+	 * @see org.eclipse.eef.properties.ui.api.AbstractEEFSection#refresh()
 	 */
 	@Override
 	public void refresh() {
@@ -143,8 +123,9 @@ public class EEFLegacySection extends AbstractEEFPropertySection {
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see AbstractPropertySection#setInput(IWorkbenchPart, ISelection)
+	 *
+	 * @see org.eclipse.eef.properties.ui.api.AbstractEEFSection#setInput(org.eclipse.ui.IWorkbenchPart,
+	 *      org.eclipse.jface.viewers.ISelection)
 	 */
 	@Override
 	public void setInput(IWorkbenchPart workbenchPart, ISelection currentSelection) {
@@ -153,8 +134,8 @@ public class EEFLegacySection extends AbstractEEFPropertySection {
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see AbstractPropertySection#shouldUseExtraSpace()
+	 *
+	 * @see org.eclipse.eef.properties.ui.api.AbstractEEFSection#shouldUseExtraSpace()
 	 */
 	@Override
 	public boolean shouldUseExtraSpace() {
@@ -163,21 +144,11 @@ public class EEFLegacySection extends AbstractEEFPropertySection {
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see AbstractPropertySection#toString()
+	 *
+	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return legacySection.toString();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see AbstractEEFPropertySection#getWidgetFactory()
-	 */
-	@Override
-	public EEFWidgetFactory getWidgetFactory() {
-		return new EEFLegacyTabbedPropertySheetWidgetFactory(legacySection.getWidgetFactory());
 	}
 }
