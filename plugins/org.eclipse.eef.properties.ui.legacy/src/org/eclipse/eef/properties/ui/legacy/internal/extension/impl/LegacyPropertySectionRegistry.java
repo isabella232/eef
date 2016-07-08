@@ -68,20 +68,8 @@ public class LegacyPropertySectionRegistry implements IItemRegistry {
 				if (typeMapper != null) {
 					eefTypeMapper = new EEFLegacyTypeMapper(typeMapper);
 				}
-				LegacyPropertySectionItemDescriptor legacySectionDescriptor = new LegacyPropertySectionItemDescriptor(eefTypeMapper);
-				legacySectionDescriptor.setId(sectionDescriptor.getId());
-				legacySectionDescriptor.setTab(sectionDescriptor.getTargetTab());
-				legacySectionDescriptor.setFilter(sectionDescriptor.getFilter());
-				legacySectionDescriptor.setSectionClass(sectionDescriptor.getSectionClass());
-				legacySectionDescriptor.setEnablesFor(sectionDescriptor.getEnablesFor());
-				legacySectionDescriptor.setAfterSection(sectionDescriptor.getAfterSection());
-				List<String> inputTypes = new ArrayList<String>();
-				for (Object inputType : sectionDescriptor.getInputTypes()) {
-					if (inputType instanceof String) {
-						inputTypes.add((String) inputType);
-					}
-				}
-				legacySectionDescriptor.setInputTypes(inputTypes);
+				LegacyPropertySectionItemDescriptor legacySectionDescriptor = new LegacyPropertySectionItemDescriptor(sectionDescriptor,
+						eefTypeMapper);
 				values.add(legacySectionDescriptor);
 			}
 		}
