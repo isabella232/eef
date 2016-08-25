@@ -97,14 +97,13 @@ public class EEFReferenceController extends AbstractEEFWidgetController implemen
 			@Override
 			public void run() {
 				String expression = EEFReferenceController.this.description.getOnClickExpression();
-				EAttribute attr = EefPackage.Literals.EEF_REFERENCE_DESCRIPTION__ON_CLICK_EXPRESSION;
 
 				Map<String, Object> variables = new HashMap<String, Object>();
 				variables.putAll(EEFReferenceController.this.variableManager.getVariables());
 				variables.put(EEFExpressionUtils.EEFReference.SELECTION, element);
 				variables.put(EEFExpressionUtils.EEFReference.ON_CLICK_EVENT_KIND, onClickEventKind);
 
-				EvalFactory.of(EEFReferenceController.this.interpreter, variables).logIfBlank(attr).call(expression);
+				EvalFactory.of(EEFReferenceController.this.interpreter, variables).call(expression);
 			}
 		});
 	}
