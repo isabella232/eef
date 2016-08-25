@@ -288,7 +288,6 @@ public class EEFMultipleReferencesLifecycleManager extends AbstractEEFWidgetLife
 		super.refresh();
 
 		if (this.tableViewer != null && this.tableViewer.getTable() != null) {
-			this.tableViewer.getTable().setEnabled(isEnabled());
 			this.tableViewer.getTable().setBackground(getBackgroundColor());
 		}
 
