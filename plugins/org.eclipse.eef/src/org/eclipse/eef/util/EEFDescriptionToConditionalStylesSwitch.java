@@ -18,6 +18,7 @@ import org.eclipse.eef.EEFCheckboxDescription;
 import org.eclipse.eef.EEFConditionalStyle;
 import org.eclipse.eef.EEFHyperlinkDescription;
 import org.eclipse.eef.EEFLabelDescription;
+import org.eclipse.eef.EEFListDescription;
 import org.eclipse.eef.EEFRadioDescription;
 import org.eclipse.eef.EEFReferenceDescription;
 import org.eclipse.eef.EEFSelectDescription;
@@ -131,6 +132,16 @@ public class EEFDescriptionToConditionalStylesSwitch extends EefSwitch<List<EEFC
 	 */
 	@Override
 	public List<EEFConditionalStyle> caseEEFTextDescription(EEFTextDescription object) {
+		return this.asConditionalStyleList(object.getConditionalStyles());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.util.EefSwitch#caseEEFListDescription(org.eclipse.eef.EEFListDescription)
+	 */
+	@Override
+	public List<EEFConditionalStyle> caseEEFListDescription(EEFListDescription object) {
 		return this.asConditionalStyleList(object.getConditionalStyles());
 	}
 }
