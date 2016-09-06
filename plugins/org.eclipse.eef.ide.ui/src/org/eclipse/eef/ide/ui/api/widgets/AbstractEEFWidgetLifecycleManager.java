@@ -40,6 +40,8 @@ import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
@@ -81,6 +83,11 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 	 * The help label.
 	 */
 	protected CLabel help;
+
+	/**
+	 * The listener on the help.
+	 */
+	private MouseTrackListener mouseTrackListener;
 
 	/**
 	 * The constructor.
@@ -260,6 +267,26 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 				}
 			}
 		});
+
+		this.mouseTrackListener = new MouseTrackListener() {
+
+			@Override
+			public void mouseHover(MouseEvent e) {
+				// Defer the computation of the help message when the user hovers the Help label
+				getController().computeHelp();
+			}
+
+			@Override
+			public void mouseExit(MouseEvent e) {
+				// Nothing todo
+			}
+
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// Nothing todo
+			}
+		};
+		this.help.addMouseTrackListener(mouseTrackListener);
 	}
 
 	/**
@@ -303,6 +330,7 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 	@Override
 	public void aboutToBeHidden() {
 		super.aboutToBeHidden();
+		this.help.removeMouseTrackListener(mouseTrackListener);
 
 		this.getController().removeNewLabelConsumer();
 	}
