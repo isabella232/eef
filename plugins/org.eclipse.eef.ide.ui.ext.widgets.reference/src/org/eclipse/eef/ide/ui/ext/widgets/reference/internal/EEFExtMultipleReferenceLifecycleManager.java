@@ -249,10 +249,15 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 	 */
 	@Override
 	protected void removeButtonCallback() {
-		List<Object> objects = this.selectionToList(this.tableViewer.getSelection());
-		for (Object object : objects) {
-			EcoreUtil.remove(this.target, this.eReference, object);
-		}
+		this.contextAdapter.performModelChange(new Runnable() {
+			@Override
+			public void run() {
+				List<Object> objects = selectionToList(tableViewer.getSelection());
+				for (Object object : objects) {
+					EcoreUtil.remove(target, eReference, object);
+				}
+			}
+		});
 	}
 
 	/**

@@ -165,7 +165,7 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 	 */
 	@Override
 	protected void addButtonCallback() {
-		IWizard wizard = new EEFExtEObjectCreationWizard(this.target, eReference, this.contextAdapter);
+		IWizard wizard = new EEFExtEObjectCreationWizard(this.target, this.eReference, this.contextAdapter);
 		WizardDialog wizardDialog = new WizardDialog(this.text.getShell(), wizard);
 		wizardDialog.open();
 	}
@@ -177,7 +177,12 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 	 */
 	@Override
 	protected void removeButtonCallback() {
-		this.target.eUnset(this.eReference);
+		this.contextAdapter.performModelChange(new Runnable() {
+			@Override
+			public void run() {
+				target.eUnset(eReference);
+			}
+		});
 	}
 
 	/**

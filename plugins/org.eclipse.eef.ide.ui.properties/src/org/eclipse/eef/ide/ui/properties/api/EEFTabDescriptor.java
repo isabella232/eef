@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.eef.EefPackage;
+import org.eclipse.eef.core.api.EEFGroup;
 import org.eclipse.eef.core.api.EEFPage;
 import org.eclipse.eef.core.api.utils.EvalFactory;
 import org.eclipse.eef.properties.ui.api.AbstractEEFTabDescriptor;
@@ -61,7 +62,18 @@ public class EEFTabDescriptor extends AbstractEEFTabDescriptor {
 		// return this.eefPage.getDescription().getIdentifier();
 		// }
 		EObject self = (EObject) this.eefPage.getVariableManager().getVariables().get("self"); //$NON-NLS-1$
-		return this.eefPage.getDescription().getIdentifier() + EcoreUtil.getURI(self) + System.identityHashCode(self);
+
+		StringBuilder identifier = new StringBuilder();
+
+		identifier.append(this.eefPage.getDescription().getIdentifier());
+		List<EEFGroup> groups = this.eefPage.getGroups();
+		for (EEFGroup eefGroup : groups) {
+			identifier.append(eefGroup.getDescription().getIdentifier());
+		}
+
+		identifier.append(EcoreUtil.getURI(self));
+		identifier.append(System.identityHashCode(self));
+		return identifier.toString();
 	}
 
 	/**
