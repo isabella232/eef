@@ -20,7 +20,6 @@ import org.eclipse.eef.EEFHyperlinkDescription;
 import org.eclipse.eef.EEFLabelDescription;
 import org.eclipse.eef.EEFListDescription;
 import org.eclipse.eef.EEFRadioDescription;
-import org.eclipse.eef.EEFReferenceDescription;
 import org.eclipse.eef.EEFSelectDescription;
 import org.eclipse.eef.EEFTextDescription;
 import org.eclipse.emf.ecore.EObject;
@@ -102,16 +101,6 @@ public class EEFDescriptionToConditionalStylesSwitch extends EefSwitch<List<EEFC
 	 */
 	@Override
 	public List<EEFConditionalStyle> caseEEFRadioDescription(EEFRadioDescription object) {
-		return this.asConditionalStyleList(object.getConditionalStyles());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see org.eclipse.eef.util.EefSwitch#caseEEFReferenceDescription(org.eclipse.eef.EEFReferenceDescription)
-	 */
-	@Override
-	public List<EEFConditionalStyle> caseEEFReferenceDescription(EEFReferenceDescription object) {
 		return this.asConditionalStyleList(object.getConditionalStyles());
 	}
 
