@@ -274,6 +274,16 @@ public abstract class AbstractEEFExtReferenceLifecycleManager extends AbstractEE
 				}
 			}
 		}
+
+		if (this.addButton != null && !this.addButton.isDisposed()) {
+			this.addButton.setEnabled(this.isEnabled());
+		}
+		if (this.removeButton != null && !this.removeButton.isDisposed()) {
+			this.removeButton.setEnabled(this.isEnabled());
+		}
+		if (this.browseButton != null && !this.browseButton.isDisposed()) {
+			this.browseButton.setEnabled(this.isEnabled());
+		}
 	}
 
 	/**

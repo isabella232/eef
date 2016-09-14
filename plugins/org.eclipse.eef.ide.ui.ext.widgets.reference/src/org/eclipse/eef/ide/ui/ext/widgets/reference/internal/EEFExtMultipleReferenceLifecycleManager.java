@@ -347,6 +347,13 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 		super.refresh();
 
 		this.tableViewer.setInput(this.target);
+
+		if (this.upButton != null && !this.upButton.isDisposed()) {
+			this.upButton.setEnabled(this.isEnabled());
+		}
+		if (this.downButton != null && !this.downButton.isDisposed()) {
+			this.downButton.setEnabled(this.isEnabled());
+		}
 	}
 
 	/**
