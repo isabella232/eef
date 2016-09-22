@@ -299,6 +299,10 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 	 *            The current selection
 	 */
 	private synchronized void doSetInput(IWorkbenchPart part, ISelection selection) {
+		if (this.tabbedPropertyComposite.isDisposed()) {
+			return;
+		}
+
 		isRenderingInProgress.set(true);
 		this.tabbedPropertyComposite.setRedraw(false);
 		try {

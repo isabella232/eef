@@ -34,6 +34,8 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -88,6 +90,16 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	 * The default background color of the text field.
 	 */
 	private Color defaultBackgroundColor;
+
+	/**
+	 * The listener used to indicate that the text field is dirty.
+	 */
+	private ModifyListener modifyListener;
+
+	/**
+	 * Indicates that the text field is dirty.
+	 */
+	private boolean isDirty;
 
 	/**
 	 * The constructor.
@@ -185,12 +197,19 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	public void aboutToBeShown() {
 		super.aboutToBeShown();
 
+		this.modifyListener = new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				EEFTextLifecycleManager.this.isDirty = true;
+			}
+		};
+		this.text.addModifyListener(this.modifyListener);
+
 		this.focusListener = new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
 				if (!EEFTextLifecycleManager.this.container.isRenderingInProgress()) {
-					controller.updateValue(text.getText());
-					EEFTextLifecycleManager.this.setStyle();
+					EEFTextLifecycleManager.this.updateValue();
 				}
 			}
 
@@ -206,8 +225,7 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.character == '\r' || e.character == '\n') {
-						controller.updateValue(text.getText());
-						EEFTextLifecycleManager.this.setStyle();
+						EEFTextLifecycleManager.this.updateValue();
 					}
 				}
 
@@ -233,6 +251,17 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 				}
 			}
 		});
+	}
+
+	/**
+	 * Updates the value.
+	 */
+	private void updateValue() {
+		if (!this.text.isDisposed()) {
+			controller.updateValue(text.getText());
+			this.isDirty = false;
+			this.setStyle();
+		}
 	}
 
 	/**
@@ -267,6 +296,10 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	 */
 	@Override
 	public void aboutToBeHidden() {
+		if (this.isDirty) {
+			this.updateValue();
+		}
+
 		super.aboutToBeHidden();
 
 		if (!text.isDisposed()) {
@@ -274,7 +307,11 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 		}
 		this.controller.removeNewValueConsumer();
 
-		if (this.description.getLineCount() <= 1) {
+		if (!this.text.isDisposed()) {
+			this.text.removeModifyListener(this.modifyListener);
+		}
+
+		if (!this.text.isDisposed() && this.description.getLineCount() <= 1) {
 			this.text.removeKeyListener(this.keyListener);
 		}
 	}
