@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.eef.EefPackage;
+import org.eclipse.eef.core.api.EEFExpressionUtils;
 import org.eclipse.eef.core.api.EEFGroup;
 import org.eclipse.eef.core.api.EEFPage;
 import org.eclipse.eef.core.api.utils.EvalFactory;
@@ -61,7 +62,6 @@ public class EEFTabDescriptor extends AbstractEEFTabDescriptor {
 		// if (this.eefPage.isUnique()) {
 		// return this.eefPage.getDescription().getIdentifier();
 		// }
-		EObject self = (EObject) this.eefPage.getVariableManager().getVariables().get("self"); //$NON-NLS-1$
 
 		StringBuilder identifier = new StringBuilder();
 
@@ -69,10 +69,19 @@ public class EEFTabDescriptor extends AbstractEEFTabDescriptor {
 		List<EEFGroup> groups = this.eefPage.getGroups();
 		for (EEFGroup eefGroup : groups) {
 			identifier.append(eefGroup.getDescription().getIdentifier());
+
+			Object groupSemanticElement = eefGroup.getVariableManager().getVariables().get(EEFExpressionUtils.SELF);
+			if (groupSemanticElement instanceof EObject) {
+				identifier.append(EcoreUtil.getURI((EObject) groupSemanticElement));
+			}
+			identifier.append(System.identityHashCode(groupSemanticElement));
 		}
 
-		identifier.append(EcoreUtil.getURI(self));
-		identifier.append(System.identityHashCode(self));
+		Object pageSemanticElement = this.eefPage.getVariableManager().getVariables().get(EEFExpressionUtils.SELF);
+		if (pageSemanticElement instanceof EObject) {
+			identifier.append(EcoreUtil.getURI((EObject) pageSemanticElement));
+		}
+		identifier.append(System.identityHashCode(pageSemanticElement));
 		return identifier.toString();
 	}
 
