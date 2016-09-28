@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.eef.EEFSelectDescription;
 import org.eclipse.eef.EEFWidgetDescription;
 import org.eclipse.eef.EefPackage;
@@ -27,6 +28,7 @@ import org.eclipse.eef.core.api.controllers.IConsumer;
 import org.eclipse.eef.core.api.controllers.IEEFSelectController;
 import org.eclipse.eef.core.api.controllers.IEEFWidgetController;
 import org.eclipse.eef.core.api.utils.EvalFactory;
+import org.eclipse.eef.ide.internal.EEFIdePlugin;
 import org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -96,6 +98,11 @@ public class EEFSelectLifecycleManager extends AbstractEEFWidgetLifecycleManager
 	 * The mouse listener on the combo.
 	 */
 	private MouseListener mouseListener;
+
+	/**
+	 * The reference value of the selection, as last rendered from the state of the actual model.
+	 */
+	private ISelection referenceValue;
 
 	/**
 	 * The constructor.
@@ -188,7 +195,11 @@ public class EEFSelectLifecycleManager extends AbstractEEFWidgetLifecycleManager
 					if (newValue == NO_VALUE) {
 						newValue = null;
 					}
-					controller.updateValue(newValue);
+					IStatus result = controller.updateValue(newValue);
+					if (result != null && result.getSeverity() == IStatus.ERROR) {
+						EEFIdePlugin.INSTANCE.log(result);
+						comboViewer.setSelection(referenceValue);
+					}
 				}
 			}
 
@@ -231,7 +242,8 @@ public class EEFSelectLifecycleManager extends AbstractEEFWidgetLifecycleManager
 					} else {
 						selection = null;
 					}
-					comboViewer.setSelection(selection, true);
+					referenceValue = selection;
+					comboViewer.setSelection(referenceValue, true);
 					if (!combo.isEnabled()) {
 						combo.setEnabled(true);
 					}
