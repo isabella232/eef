@@ -208,7 +208,11 @@ public class EEFViewImpl implements EEFView {
 					IConsumer<Object> groupConsumer = new IConsumer<Object>() {
 						@Override
 						public void apply(Object value) {
-							eefGroup.getVariableManager().put(EEFExpressionUtils.SELF, value);
+							// FIXME We need only one semantic candidate, so we just take the last one available as self
+							// as we did for the pages just before
+							for (Object groupSemanticCandidate : Util.asIterable(value, Object.class)) {
+								eefGroup.getVariableManager().put(EEFExpressionUtils.SELF, groupSemanticCandidate);
+							}
 						}
 					};
 
