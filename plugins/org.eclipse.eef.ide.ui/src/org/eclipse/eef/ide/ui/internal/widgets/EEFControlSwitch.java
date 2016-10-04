@@ -247,6 +247,7 @@ public class EEFControlSwitch {
 		for (Object object : Util.asIterable(iterableExpressionResult, Object.class)) {
 			Map<String, Object> switchExpressionVariables = new HashMap<String, Object>();
 			switchExpressionVariables.put(EEFExpressionUtils.SELF, variableManager.getVariables().get(EEFExpressionUtils.SELF));
+			switchExpressionVariables.put(EEFExpressionUtils.INPUT, variableManager.getVariables().get(EEFExpressionUtils.INPUT));
 			switchExpressionVariables.put(iterator, object);
 
 			EEFWidgetDescription eefWidgetDescription = null;
