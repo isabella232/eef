@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.eef.ide.ui.ext.widgets.reference" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.eef.ide.ui.ext.widgets.reference" id="eefExtReferenceViewerFilterProvider" name="%eefExtReferenceViewerFilterProvider.Name"/>
+         <meta.schema plugin="org.eclipse.eef.ide.ui.ext.widgets.reference" id="eefExtReferenceViewerFilterProvider" name="EEF Extension Reference Widget Tree Viewer Filter Provider"/>
       </appinfo>
       <documentation>
          This extension point allows the contribution of an &lt;code&gt;org.eclipse.eef.ide.ui.ext.widgets.reference.api.IEEFExtReferenceViewerFilterProvider&lt;/code&gt; which can be used to filter the content of the tree viewers used to display the objects that can be selected and where an object can be created using the reference widget.

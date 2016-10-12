@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="eefExtReferenceViewerFilterProvider" name="%eefExtReferenceViewerFilterProvider.name" schema="schema/eefExtReferenceViewerFilterProvider.exsd"/>
+   <extension-point id="eefExtReferenceViewerFilterProvider" name="%eefExtReferenceViewerFilterProvider.Name" schema="schema/eefExtReferenceViewerFilterProvider.exsd"/>
    <extension
          point="org.eclipse.eef.ide.ui.eefLifecycleManagerProvider">
       <descriptor
