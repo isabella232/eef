@@ -17,12 +17,9 @@ import java.util.List;
 import org.eclipse.eef.properties.ui.api.IEEFTabDescriptor;
 import org.eclipse.eef.properties.ui.internal.EEFTabbedPropertyViewPlugin;
 import org.eclipse.eef.properties.ui.internal.page.propertylist.EEFTabbedPropertyList;
-import org.eclipse.eef.properties.ui.internal.registry.EEFTabbedPropertyRegistry;
 import org.eclipse.jface.util.OpenStrategy;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * Viewer representing the property sheet page. On the left side it contains a list of tabs and on the right side it
@@ -64,31 +61,13 @@ public class EEFTabbedPropertyViewer {
 	private EEFTabbedPropertyList list;
 
 	/**
-	 * The workbench part.
-	 */
-	private IWorkbenchPart part;
-
-	/**
-	 * The tabbed property registry.
-	 */
-	private EEFTabbedPropertyRegistry registry;
-
-	/**
-	 * The input.
-	 */
-	private ISelection input;
-
-	/**
 	 * The constructor.
 	 *
 	 * @param tabbedPropertyList
 	 *            The tabbed property list
-	 * @param registry
-	 *            The tabbed property registry
 	 */
-	public EEFTabbedPropertyViewer(EEFTabbedPropertyList tabbedPropertyList, EEFTabbedPropertyRegistry registry) {
+	public EEFTabbedPropertyViewer(EEFTabbedPropertyList tabbedPropertyList) {
 		this.list = tabbedPropertyList;
-		this.registry = registry;
 
 		OpenStrategy handler = new OpenStrategy(this.list);
 		handler.addSelectionListener(new SelectionListener() {
@@ -131,43 +110,19 @@ public class EEFTabbedPropertyViewer {
 	/**
 	 * Set the input for viewer.
 	 *
-	 * @param workbenchPart
-	 *            the workbench part.
-	 * @param selection
-	 *            the selection in the workbench part.
+	 * @param descriptors
+	 *            The tab descriptors
 	 */
-	public void setInput(IWorkbenchPart workbenchPart, ISelection selection) {
+	public void setInput(List<IEEFTabDescriptor> descriptors) {
 		EEFTabbedPropertyViewPlugin.getPlugin().debug("EEFTabbedPropertyViewer#setInput()"); //$NON-NLS-1$
-
-		this.part = workbenchPart;
-		this.input = selection;
 		this.elements.clear();
 
-		List<IEEFTabDescriptor> descriptors = this.registry.getTabDescriptors(this.part, selection);
 		list.removeAll();
 		for (IEEFTabDescriptor descriptor : descriptors) {
 			this.elements.add(descriptor);
 		}
 
 		list.setElements(descriptors.toArray());
-	}
-
-	/**
-	 * Return the input.
-	 *
-	 * @return the input
-	 */
-	public ISelection getInput() {
-		return this.input;
-	}
-
-	/**
-	 * Get the current workbench part.
-	 *
-	 * @return the current workbench part.
-	 */
-	public IWorkbenchPart getWorkbenchPart() {
-		return part;
 	}
 
 	/**

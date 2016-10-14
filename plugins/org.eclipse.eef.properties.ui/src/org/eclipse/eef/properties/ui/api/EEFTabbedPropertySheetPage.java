@@ -137,11 +137,6 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 	private ISelection currentSelection;
 
 	/**
-	 * The registry.
-	 */
-	private EEFTabbedPropertyRegistry registry;
-
-	/**
 	 * The form used to contain the all the widgets.
 	 */
 	private Form form;
@@ -169,7 +164,6 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 	 */
 	public EEFTabbedPropertySheetPage(IEEFTabbedPropertySheetPageContributor contributor) {
 		this.contributor = contributor;
-		this.registry = EEFTabbedPropertyRegistry.getDefault(this.contributor);
 	}
 
 	/**
@@ -205,7 +199,7 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 		this.form.setLayoutData(formData);
 		this.widgetFactory.paintBordersFor(form);
 
-		this.tabbedPropertyViewer = new EEFTabbedPropertyViewer(this.tabbedPropertyComposite.getTabbedPropertyList(), this.registry);
+		this.tabbedPropertyViewer = new EEFTabbedPropertyViewer(this.tabbedPropertyComposite.getTabbedPropertyList());
 		this.viewerSelectionListener = new IEEFTabDescriptorChangedListener() {
 			@Override
 			public void selectionChanged(IEEFTabDescriptor descriptor) {
@@ -321,8 +315,8 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 				this.updateTabs(descriptors);
 			}
 			// update tabs list
-			this.tabbedPropertyViewer.setInput(part, currentSelection);
-			int lastTabSelectionIndex = this.getLastTabSelection(part, currentSelection);
+			this.tabbedPropertyViewer.setInput(descriptors);
+			int lastTabSelectionIndex = this.getLastTabSelection(descriptors);
 			IEEFTabDescriptor selectedTab = this.tabbedPropertyViewer.getTabDescriptionAtIndex(lastTabSelectionIndex);
 			this.selectionQueueLocked = true;
 			try {
@@ -380,14 +374,11 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 	/**
 	 * Returns the last known selected tab for the given input.
 	 *
-	 * @param part
-	 *            The current workbench part
-	 * @param input
-	 *            The current selection
+	 * @param descriptors
+	 *            The tab descriptors
 	 * @return The index of the currently selected tab (0, the first tab, by default)
 	 */
-	private int getLastTabSelection(IWorkbenchPart part, ISelection input) {
-		List<IEEFTabDescriptor> descriptors = registry.getTabDescriptors(part, input);
+	private int getLastTabSelection(List<IEEFTabDescriptor> descriptors) {
 		if (descriptors.size() != 0) {
 			for (String text : this.selectionQueue) {
 				int i = 0;
@@ -516,7 +507,7 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 					this.tabToComposite.put(tab, tabComposite);
 				}
 				// force widgets to be resized
-				tab.setInput(tabbedPropertyViewer.getWorkbenchPart(), tabbedPropertyViewer.getInput());
+				tab.setInput(this.currentPart, this.currentSelection);
 
 				// store tab selection
 				this.storeCurrentTabSelection(descriptor.getLabel());
