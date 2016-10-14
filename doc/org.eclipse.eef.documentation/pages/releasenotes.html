@@ -12,7 +12,16 @@
 				<a href="#ReleaseNotesforEclipseEEF">Release Notes for Eclipse EEF</a>
 				<ol style="list-style: disc;">
 					<li>
+						<a href="#eef1.7.1">Changes in EEF 1.7.1</a>
+					</li>
+					<li>
 						<a href="#eef1.7.0">Changes in EEF 1.7.0</a>
+					</li>
+					<li>
+						<a href="#eef1.6.2">Changes in EEF 1.6.2</a>
+					</li>
+					<li>
+						<a href="#eef1.6.1">Changes in EEF 1.6.1</a>
 					</li>
 					<li>
 						<a href="#eef1.6.0">Changes in EEF 1.6.0</a>
@@ -21,12 +30,30 @@
 			</li>
 		</ol>
 		<p>This document contains the release notes for recent major releases of EEF.</p>
+		<h3 id="eef1.7.1">Changes in EEF 1.7.1</h3>
+		<h4 id="SpecifierVisibleChanges">Specifier-Visible Changes </h4>
+		<ul>
+			<li><span class="label label-info">Modified</span> Fixed an issue where the variable 
+				<code>input</code> was not available for some expressions in the select and radio widget.
+			</li>
+			<li><span class="label label-info">Modified</span> The dynamic mappings will take into account all the &#171;if&#187; blocks with a valid predicate expression and not only the first one.</li>
+			<li><span class="label label-info">Modified</span> Fixed an issue with the enablement of the widget actions of the reference widget.</li>
+		</ul>
+		<h4 id="DeveloperVisibleChanges">Developer-Visible Changes</h4>
+		<ul>
+			<li><span class="label label-success">Added</span> Added the documentation of the IEEFTabDescriptorFilter and IEEFExtReferenceViewerFilterProvider extension points.</li>
+			<li><span class="label label-info">Modified</span> Revert the lazy evaluation of the candidates of the select widget.</li>
+		</ul>
 		<h3 id="eef1.7.0">Changes in EEF 1.7.0</h3>
 		<h4 id="UserVisibleChanges">User-Visible Changes</h4>
 		<ul>
-			<li><span class="label label-success">Added</span> Labels and hyperlinks can now have buttons on their right side</li>
+			<li><span class="label label-success">Added</span> Labels and hyperlinks can now have buttons on their right side.</li>
+			<li><span class="label label-info">Modified</span> Trigger the 
+				<code>editExpression</code> of a single line text widget on 
+				<code>enter</code>.
+			</li>
 		</ul>
-		<h4 id="SpecifierVisibleChanges">Specifier-Visible Changes</h4>
+		<h4 id="SpecifierVisibleChanges2">Specifier-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-success">Added</span> A brand new widget outside of the default library is now available to edit references using an easier approach. Only the name of the reference to edit is necessary and the rest will be computed by the EEF runtime.</li>
 			<li><span class="label label-success">Added</span> Widget actions are now available on labels and hyperlinks.</li>
@@ -37,9 +64,8 @@
 			<li><span class="label label-info">Modified</span> The edit operation of a text field can now be triggered by the loss of focus on the text field.</li>
 			<li><span class="label label-info">Modified</span> The edit operation of a mono-line text field can now be triggered by pressing enter.</li>
 			<li><span class="label label-info">Modified</span> A selection variable is available in the hyperlink widget, it is equals to the value of the hyperlink instead of self.</li>
-			<li><span class="label label-info">Modified</span> The dynamic mappings will take into account all the &#171;if&#187; blocks with a valid predicate expression and not only the first one.</li>
 		</ul>
-		<h4 id="DeveloperVisibleChanges">Developer-Visible Changes</h4>
+		<h4 id="DeveloperVisibleChanges2">Developer-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-info">Modified</span> The interface 
 				<code>org.eclipse.eef.core.api.EditingContextAdapter</code> has now a new method 
@@ -48,18 +74,31 @@
 			<li><span class="label label-info">Modified</span> The constructor of the EEFLabelController now requires an EditingContextAdapter to run the expression of the widget actions.</li>
 			<li><span class="label label-success">Added</span> The class EEFStyleHelper is now API in order to help support style and conditional styles for custom widgets. Developers will need to override org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager.getEEFStyleHelper() to provide their own implementation. The easiest way will need to extend the regular implementation and modify the three switchs to provide using the dedicated getters.</li>
 		</ul>
-		<h3 id="eef1.6.0">Changes in EEF 1.6.0</h3>
+		<h3 id="eef1.6.2">Changes in EEF 1.6.2</h3>
 		<h4 id="UserVisibleChanges2">User-Visible Changes</h4>
+		<ul>
+			<li><span class="label label-info">Modified</span> Trigger the 
+				<code>editExpression</code> of a text widget on focus lost.
+			</li>
+		</ul>
+		<h3 id="eef1.6.1">Changes in EEF 1.6.1</h3>
+		<h4 id="NonVisibleChanges">Non-Visible Changes</h4>
+		<ul>
+			<li><span class="label label-info">Modified</span> Fixed a memory leak when selecting other editors.</li>
+			<li><span class="label label-info">Modified</span> Fixed an issue the refresh of the Properties view with an EMF proxy</li>
+		</ul>
+		<h3 id="eef1.6.0">Changes in EEF 1.6.0</h3>
+		<h4 id="UserVisibleChanges3">User-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-success">Added</span> The user interface has been recreated from scratch with a new runtime. As a result multiple changes can be visible in the user interface.</li>
 		</ul>
-		<h4 id="SpecifierVisibleChanges2">Specifier-Visible Changes</h4>
+		<h4 id="SpecifierVisibleChanges3">Specifier-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-success">Added</span> A brand new 
 				<a href="language/overview.html">language</a> is available to create your user interface. Have a look at the documentation for additional details.
 			</li>
 		</ul>
-		<h4 id="DeveloperVisibleChanges2">Developer-Visible Changes</h4>
+		<h4 id="DeveloperVisibleChanges3">Developer-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-success">Added</span> A brand new API is available to create your user interface. Have a look at the documentation for additional details.</li>
 		</ul>
