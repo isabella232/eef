@@ -114,7 +114,7 @@
    &lt;/descriptor&gt;
 &lt;/extension&gt;
 &lt;/pre&gt;
-Example of IEEFLifecycleManagerProvider contribution. In this example, we are providing a contribution to provider an IEEFLifecycleManager for a custom widget description. Once EEF has retrieved the description of the user interface to create, it will navigate in this description in order to build the necessary widgets and containers. For each description of containers or widgets found, it will ask the IEEFLifecycleManagerProviders registered if they can handle the description. The first lifecycle manager provider which can handle the given description will thus be used to create the lifecycle manager for this description using the whole available context. The lifecycle manager returned will have the following responsibilities:
+Example of IEEFLifecycleManagerProvider contribution. In this example, we are providing a contribution to provide an IEEFLifecycleManager for a custom widget description. Once EEF has retrieved the description of the user interface to create, it will navigate in this description in order to build the necessary widgets and containers. For each description of containers or widgets found, it will ask the IEEFLifecycleManagerProviders registered if they can handle the description. The first lifecycle manager provider which can handle the given description will thus be used to create the lifecycle manager for this description using the whole available context. The lifecycle manager returned will have the following responsibilities:
 &lt;ul&gt;
   &lt;li&gt;Creation of the SWT widgets for the description - IEEFLifecycleManager#createControls(...)&lt;/li&gt;
   &lt;li&gt;Registration of the listeners between the widgets - IEEFLifecycleManager#aboutToBeShown(...)&lt;/li&gt;
