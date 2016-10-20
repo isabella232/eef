@@ -17,7 +17,7 @@ h3(#displayeenum). Display an EEnum
 In order to display in the user interface some radio buttons with the value of an EAttribute with an eType EEnum (i.e. the visibility of an EObject), you can create a radio widget with the following properties:
 
 * labelExpression: @aql:'Visibility:'@
-* valueExpression: @aql:packagename::Visibility.getEEnumLiteral(self.visibility.toString())@
+* valueExpression: @aql:packagename::Visibility.getEEnumLiteralByLiteral(self.visibility.toString())@
 * editExpression: @aql:self.eSet('visibility', newValue.instance)@
 * candidatesExpression: @aql:packagename::Visibility.eLiterals@
 * candidateDisplayExpression: @aql:candidate.name@
