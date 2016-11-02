@@ -34,7 +34,7 @@ public interface IEEFHyperlinkController extends IEEFWidgetController {
 	 * @param consumer
 	 *            The consumer of the new value of the hyperlink
 	 */
-	void onNewValue(IConsumer<String> consumer);
+	void onNewValue(IConsumer<Object> consumer);
 
 	/**
 	 * Remove the consumer of the new value of the hyperlink.
@@ -48,5 +48,14 @@ public interface IEEFHyperlinkController extends IEEFWidgetController {
 	 *            Widget action
 	 */
 	void action(EEFWidgetAction action);
+
+	/**
+	 * Compute the display value.
+	 *
+	 * @param value
+	 *            Element associated to the hyperlink
+	 * @return The display value
+	 */
+	String computeDisplayValue(Object value);
 
 }

@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.eef.ide.ui.internal.widgets;
 
-import com.google.common.base.Objects;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -204,12 +202,12 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		this.hyperlinkListener = new EEFHyperlinkListener(this.hyperlink, this.container, this.controller);
 		hyperlink.addMouseListener(hyperlinkListener);
 
-		this.controller.onNewValue(new IConsumer<String>() {
+		this.controller.onNewValue(new IConsumer<Object>() {
 			@Override
-			public void apply(String value) {
+			public void apply(Object value) {
 				if (!hyperlink.isDisposed()) {
 					if (!(hyperlink.getText() != null && hyperlink.getText().equals(value))) {
-						String text = Objects.firstNonNull(value, ""); //$NON-NLS-1$
+						String text = controller.computeDisplayValue(value);
 						hyperlink.setText(text);
 						hyperlink.setData(value);
 					}

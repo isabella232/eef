@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eef.core.internal.controllers;
 
+import com.google.common.base.Objects;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +49,7 @@ public class EEFHyperlinkController extends AbstractEEFWidgetController implemen
 	/**
 	 * The consumer of a new value of the text.
 	 */
-	private IConsumer<String> newValueConsumer;
+	private IConsumer<Object> newValueConsumer;
 
 	/**
 	 * The constructor.
@@ -80,15 +82,27 @@ public class EEFHyperlinkController extends AbstractEEFWidgetController implemen
 		String valueExpression = this.description.getValueExpression();
 		Object valueExpressionResult = this.newEval().evaluate(valueExpression);
 
+		if (valueExpressionResult != null) {
+			this.newValueConsumer.apply(valueExpressionResult);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.core.api.controllers.IEEFHyperlinkController#computeDisplayValue(java.lang.Object)
+	 */
+	@Override
+	public String computeDisplayValue(Object value) {
 		String displayExpression = this.description.getDisplayExpression();
+		String text = null;
 		if (!Util.isBlank(displayExpression)) {
 			Map<String, Object> variables = new HashMap<String, Object>();
 			variables.putAll(this.variableManager.getVariables());
-			variables.put(EEFExpressionUtils.EEFReference.VALUE, valueExpressionResult);
-			EvalFactory.of(this.interpreter, variables).logIfInvalidType(String.class).call(displayExpression, this.newValueConsumer);
-		} else if (valueExpressionResult != null) {
-			this.newValueConsumer.apply(valueExpressionResult.toString());
+			variables.put(EEFExpressionUtils.EEFReference.VALUE, value);
+			text = EvalFactory.of(this.interpreter, variables).logIfInvalidType(String.class).evaluate(displayExpression);
 		}
+		return Objects.firstNonNull(text, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -119,7 +133,7 @@ public class EEFHyperlinkController extends AbstractEEFWidgetController implemen
 	 * @see org.eclipse.eef.core.api.controllers.IEEFTextController#onNewValue(org.eclipse.eef.core.api.controllers.IConsumer)
 	 */
 	@Override
-	public void onNewValue(IConsumer<String> consumer) {
+	public void onNewValue(IConsumer<Object> consumer) {
 		this.newValueConsumer = consumer;
 	}
 
