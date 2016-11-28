@@ -82,10 +82,7 @@ public class EEFHyperlinkController extends AbstractEEFWidgetController implemen
 
 		String valueExpression = this.description.getValueExpression();
 		Object valueExpressionResult = this.newEval().evaluate(valueExpression);
-
-		if (valueExpressionResult != null) {
-			this.newValueConsumer.apply(valueExpressionResult);
-		}
+		this.newValueConsumer.apply(valueExpressionResult);
 	}
 
 	/**
@@ -160,7 +157,7 @@ public class EEFHyperlinkController extends AbstractEEFWidgetController implemen
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see org.eclipse.eef.core.api.controllers.IEEFHyperlinkController#action(EEFWidgetAction)
 	 */
 	@Override
