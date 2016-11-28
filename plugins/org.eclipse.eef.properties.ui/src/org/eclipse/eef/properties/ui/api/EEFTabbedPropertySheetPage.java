@@ -490,28 +490,37 @@ public class EEFTabbedPropertySheetPage extends Page implements IPropertySheetPa
 				// but different section depending on the selection
 				tab = this.descriptorToTab.get(descriptor);
 
-				if (tab != this.currentTab) {
-					this.hideTab(this.currentTab);
+				if (tab == null) {
+					// Fallback to a full search in case the descriptor has changed hashCode, which happens if the
+					// underlying EObject has changed URL (e.g. an EClass whose named has changed).
+					for (Map.Entry<IEEFTabDescriptor, EEFTabContents> entry : this.descriptorToTab.entrySet()) {
+						if (entry.getKey() == descriptor) {
+							tab = entry.getValue();
+							break;
+						}
+					}
 				}
 
-				Composite tabComposite = this.tabToComposite.get(tab);
-				if (tabComposite == null) {
-					tabComposite = this.createTabComposite();
-					tab.createControls(tabComposite, this);
-					// tabAreaComposite.layout(true);
-					this.tabToComposite.put(tab, tabComposite);
+				if (tab != null) {
+					if (tab != this.currentTab) {
+						this.hideTab(this.currentTab);
+					}
+					Composite tabComposite = this.tabToComposite.get(tab);
+					if (tabComposite == null) {
+						tabComposite = this.createTabComposite();
+						tab.createControls(tabComposite, this);
+						// tabAreaComposite.layout(true);
+						this.tabToComposite.put(tab, tabComposite);
+					}
+					// force widgets to be resized
+					tab.setInput(this.currentPart, this.currentSelection);
+					// store tab selection
+					this.storeCurrentTabSelection(descriptor.getLabel());
+					if (tab != this.currentTab) {
+						this.showTab(tab);
+					}
+					tab.refresh();
 				}
-				// force widgets to be resized
-				tab.setInput(this.currentPart, this.currentSelection);
-
-				// store tab selection
-				this.storeCurrentTabSelection(descriptor.getLabel());
-
-				if (tab != this.currentTab) {
-					this.showTab(tab);
-				}
-
-				tab.refresh();
 			}
 			tabbedPropertyComposite.getTabComposite().layout(true);
 			this.currentTab = tab;
