@@ -11,7 +11,6 @@ Require-Bundle: org.eclipse.eef;bundle-version="[1.8.0,2.0.0)",
  org.eclipse.eef.core;bundle-version="[1.8.0,2.0.0)",
  org.eclipse.eef.ide;bundle-version="[1.8.0,2.0.0)",
  org.eclipse.eef.ide.ui;bundle-version="[1.8.0,2.0.0)",
- org.eclipse.sirius.common.interpreter;bundle-version="[4.1.0,5.0.0)",
  org.eclipse.eef.ext.widgets.reference;bundle-version="[1.8.0,2.0.0)",
  org.eclipse.eef.core.ext.widgets.reference;bundle-version="[1.8.0,2.0.0)",
  org.eclipse.swt;bundle-version="[3.0.0,4.0.0)",
@@ -28,3 +27,4 @@ Export-Package: org.eclipse.eef.ide.ui.ext.widgets.reference.api;version="1.8.0"
  org.eclipse.eef.ide.ui.ext.widgets.reference.internal;version="1.8.0";x-internal:=true
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.eef.ide.ui.ext.widgets.reference.internal.EEFExtReferenceUIPlugin$Implementation
+Import-Package: org.eclipse.sirius.common.interpreter.api;version="1.0.0"
