@@ -279,23 +279,16 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 	public void aboutToBeShown() {
 		super.aboutToBeShown();
 
-		this.getController().onNewLabel(new IConsumer<String>() {
-			@Override
-			public void apply(String value) {
-				if (!label.isDisposed() && !(label.getText() != null && label.getText().equals(value))) {
-					label.setText(Objects.firstNonNull(value, "")); //$NON-NLS-1$
-				}
-				AbstractEEFWidgetLifecycleManager.this.setLabelFontStyle();
+		this.getController().onNewLabel((value) -> {
+			if (!label.isDisposed() && !(label.getText() != null && label.getText().equals(value))) {
+				label.setText(Objects.firstNonNull(value, "")); //$NON-NLS-1$
 			}
-
+			AbstractEEFWidgetLifecycleManager.this.setLabelFontStyle();
 		});
 
-		this.getController().onNewHelp(new IConsumer<String>() {
-			@Override
-			public void apply(String value) {
-				if (help != null && !help.isDisposed() && !(help.getText() != null && help.getText().equals(value))) {
-					help.setToolTipText(Objects.firstNonNull(value, Messages.AbstractEEFWidgetLifecycleManager_noDescriptionAvailable));
-				}
+		this.getController().onNewHelp((value) -> {
+			if (help != null && !help.isDisposed() && !(help.getText() != null && help.getText().equals(value))) {
+				help.setToolTipText(Objects.firstNonNull(value, Messages.AbstractEEFWidgetLifecycleManager_noDescriptionAvailable));
 			}
 		});
 
@@ -321,21 +314,11 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 			this.help.addMouseTrackListener(mouseTrackListener);
 		}
 
-		this.lockStatusChangedListener = new IConsumer<Collection<LockStatusChangeEvent>>() {
-			@Override
-			public void apply(final Collection<LockStatusChangeEvent> events) {
-				Display.getDefault().asyncExec(new Runnable() {
-
-					@Override
-					public void run() {
-						for (LockStatusChangeEvent event : events) {
-							if (AbstractEEFWidgetLifecycleManager.this.getWidgetSemanticElement().equals(event.getElement())) {
-								handleLockStatus(event.getStatus());
-							}
-						}
-					}
-				});
-			}
+		this.lockStatusChangedListener = (events) -> {
+			Display.getDefault().asyncExec(() -> {
+				events.stream().filter(event -> this.getWidgetSemanticElement().equals(event.getElement()))
+					.forEach(event -> this.handleLockStatus(event.getStatus()));
+			});
 		};
 		this.contextAdapter.addLockStatusChangedListener(this.lockStatusChangedListener);
 	}
