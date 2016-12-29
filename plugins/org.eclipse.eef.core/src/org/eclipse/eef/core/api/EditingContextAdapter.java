@@ -86,7 +86,7 @@ public interface EditingContextAdapter {
 	 *            the element.
 	 * @return the current lock status of the element.
 	 */
-	LockStatus geLockStatus(EObject obj);
+	LockStatus getLockStatus(EObject obj);
 
 	/**
 	 * Attempts to take an exclusive lock on the specified elements. Callers should not assume the elements are actually

@@ -196,7 +196,7 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 		this.controlDecoration = new ControlDecoration(this.getValidationControl(), SWT.TOP | SWT.LEFT);
 		Object self = this.variableManager.getVariables().get(EEFExpressionUtils.SELF);
 		if (self instanceof EObject) {
-			LockStatus status = this.contextAdapter.geLockStatus((EObject) self);
+			LockStatus status = this.contextAdapter.getLockStatus((EObject) self);
 			this.handleLockStatus(status);
 		}
 	}
