@@ -308,13 +308,6 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 				this.setStyle();
 			} finally {
 				updateInProgress.set(false);
-
-				List<EObject> elements = new ArrayList<EObject>();
-				Object object = this.variableManager.getVariables().get(EEFExpressionUtils.SELF);
-				if (object instanceof EObject) {
-					elements.add((EObject) object);
-				}
-				this.contextAdapter.unlock(elements);
 			}
 		}
 	}
@@ -353,6 +346,13 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	public void aboutToBeHidden() {
 		if (this.isDirty) {
 			this.updateValue(true);
+		} else {
+			List<EObject> elements = new ArrayList<EObject>();
+			Object object = this.variableManager.getVariables().get(EEFExpressionUtils.SELF);
+			if (object instanceof EObject) {
+				elements.add((EObject) object);
+			}
+			this.contextAdapter.unlock(elements);
 		}
 
 		super.aboutToBeHidden();

@@ -228,12 +228,15 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 						this.composedAdapterFactory), this.target, this.eReference, propertyDescriptor.getDisplayName(this.target), choiceOfValues);
 				dialog.open();
 
+				Object value = this.target.eGet(this.eReference);
 				EList<?> result = dialog.getResult();
 				if (result != null) {
 					this.target.eSet(this.eReference, result);
 				}
+				if (value == null || value.equals(this.target.eGet(this.eReference))) {
+					this.contextAdapter.unlock(elements);
+				}
 
-				this.contextAdapter.unlock(elements);
 			}
 		}
 	}

@@ -162,11 +162,17 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 		elements.add(this.target);
 		this.contextAdapter.lock(elements);
 
+		Object value = this.target.eGet(this.eReference);
+
 		IWizard wizard = new EEFExtEObjectSelectionWizard(this.target, this.eReference, this.contextAdapter);
 		WizardDialog wizardDialog = new WizardDialog(this.text.getShell(), wizard);
-		wizardDialog.open();
 
-		this.contextAdapter.unlock(elements);
+		// Only unlock if nothing has changed or if the user has cancelled the dialog
+		int result = wizardDialog.open();
+		if (result == WizardDialog.CANCEL || (value != null && value.equals(this.target.eGet(this.eReference)))) {
+			this.contextAdapter.unlock(elements);
+		}
+
 	}
 
 	/**
@@ -182,9 +188,11 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 
 		IWizard wizard = new EEFExtEObjectCreationWizard(this.target, this.eReference, this.contextAdapter);
 		WizardDialog wizardDialog = new WizardDialog(this.text.getShell(), wizard);
-		wizardDialog.open();
 
-		this.contextAdapter.unlock(elements);
+		int result = wizardDialog.open();
+		if (result == WizardDialog.CANCEL) {
+			this.contextAdapter.unlock(elements);
+		}
 	}
 
 	/**
