@@ -309,10 +309,13 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	 */
 	@Override
 	protected void setEnabled(boolean isEnabled) {
-		this.hyperlink.setEnabled(isEnabled);
-
+		if (!this.hyperlink.isDisposed()) {
+			this.hyperlink.setEnabled(isEnabled);
+		}
 		for (ActionButton actionButton : this.actionButtons) {
-			actionButton.setEnabled(isEnabled);
+			if (!actionButton.getButton().isDisposed()) {
+				actionButton.setEnabled(isEnabled);
+			}
 		}
 	}
 

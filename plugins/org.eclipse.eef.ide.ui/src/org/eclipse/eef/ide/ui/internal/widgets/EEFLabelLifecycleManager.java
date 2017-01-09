@@ -240,10 +240,13 @@ public class EEFLabelLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 	 */
 	@Override
 	protected void setEnabled(boolean isEnabled) {
-		this.body.setEnabled(isEnabled);
-
+		if (!this.body.isDisposed()) {
+			this.body.setEnabled(isEnabled);
+		}
 		for (ActionButton actionButton : this.actionButtons) {
-			actionButton.setEnabled(isEnabled);
+			if (!actionButton.getButton().isDisposed()) {
+				actionButton.setEnabled(isEnabled);
+			}
 		}
 	}
 

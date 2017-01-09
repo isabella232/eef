@@ -378,8 +378,10 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	 */
 	@Override
 	protected void setEnabled(boolean isEnabled) {
-		this.text.setEnabled(isEnabled);
-		this.text.setBackground(this.getBackgroundColor(isEnabled));
+		if (!this.text.isDisposed()) {
+			this.text.setEnabled(isEnabled);
+			this.text.setBackground(this.getBackgroundColor(isEnabled));
+		}
 	}
 
 	/**

@@ -270,7 +270,9 @@ public class EEFSelectLifecycleManager extends AbstractEEFWidgetLifecycleManager
 	 */
 	@Override
 	protected void setEnabled(boolean isEnabled) {
-		this.combo.setEnabled(isEnabled);
+		if (!this.combo.isDisposed()) {
+			this.combo.setEnabled(isEnabled);
+		}
 	}
 
 	/**

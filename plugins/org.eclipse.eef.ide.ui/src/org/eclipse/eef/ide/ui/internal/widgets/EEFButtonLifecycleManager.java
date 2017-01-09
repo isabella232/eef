@@ -194,6 +194,8 @@ public class EEFButtonLifecycleManager extends AbstractEEFWidgetLifecycleManager
 	 */
 	@Override
 	protected void setEnabled(boolean isEnabled) {
-		this.button.setEnabled(isEnabled);
+		if (!this.button.isDisposed()) {
+			this.button.setEnabled(isEnabled);
+		}
 	}
 }

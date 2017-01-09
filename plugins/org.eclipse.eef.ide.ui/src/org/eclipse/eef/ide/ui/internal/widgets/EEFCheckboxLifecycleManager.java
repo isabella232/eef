@@ -236,6 +236,8 @@ public class EEFCheckboxLifecycleManager extends AbstractEEFWidgetLifecycleManag
 	 */
 	@Override
 	protected void setEnabled(boolean isEnabled) {
-		this.checkbox.setEnabled(isEnabled);
+		if (!this.checkbox.isDisposed()) {
+			this.checkbox.setEnabled(isEnabled);
+		}
 	}
 }

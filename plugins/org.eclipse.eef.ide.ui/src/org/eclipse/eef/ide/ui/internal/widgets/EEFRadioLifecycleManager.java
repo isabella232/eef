@@ -260,7 +260,9 @@ public class EEFRadioLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 	 */
 	@Override
 	protected void setEnabled(boolean isEnabled) {
-		this.radioGroup.setEnabled(isEnabled);
+		if (!this.radioGroup.isDisposed()) {
+			this.radioGroup.setEnabled(isEnabled);
+		}
 	}
 
 	/**

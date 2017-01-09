@@ -279,13 +279,16 @@ public class EEFListLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	 */
 	@Override
 	protected void setEnabled(boolean isEnabled) {
-		if (this.tableViewer != null && this.tableViewer.getTable() != null) {
-			this.tableViewer.getTable().setBackground(this.getBackgroundColor(isEnabled));
+		if (!this.tableViewer.getTable().isDisposed()) {
+			if (this.tableViewer != null && this.tableViewer.getTable() != null) {
+				this.tableViewer.getTable().setBackground(this.getBackgroundColor(isEnabled));
+			}
+			this.tableViewer.getTable().setEnabled(isEnabled);
 		}
-
-		this.tableViewer.getTable().setEnabled(isEnabled);
 		for (ActionButton actionButton : this.actionButtons) {
-			actionButton.setEnabled(isEnabled);
+			if (!actionButton.getButton().isDisposed()) {
+				actionButton.setEnabled(isEnabled);
+			}
 		}
 	}
 
