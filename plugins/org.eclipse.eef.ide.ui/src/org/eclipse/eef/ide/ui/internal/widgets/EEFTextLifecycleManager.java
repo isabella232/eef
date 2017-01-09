@@ -121,6 +121,11 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	private boolean isDirty;
 
 	/**
+	 * The list of the elements to be locked and unlocked.
+	 */
+	private List<EObject> elementsToLock = new ArrayList<EObject>();
+
+	/**
 	 * The constructor.
 	 *
 	 * @param description
@@ -222,12 +227,12 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 				if (!EEFTextLifecycleManager.this.container.isRenderingInProgress() && !updateInProgress.get()) {
 					EEFTextLifecycleManager.this.isDirty = true;
 
-					List<EObject> elements = new ArrayList<EObject>();
+					EEFTextLifecycleManager.this.elementsToLock.clear();
 					Object object = EEFTextLifecycleManager.this.variableManager.getVariables().get(EEFExpressionUtils.SELF);
 					if (object instanceof EObject) {
-						elements.add((EObject) object);
+						EEFTextLifecycleManager.this.elementsToLock.add((EObject) object);
 					}
-					EEFTextLifecycleManager.this.contextAdapter.lock(elements);
+					EEFTextLifecycleManager.this.contextAdapter.lock(EEFTextLifecycleManager.this.elementsToLock);
 				}
 			}
 		};
@@ -347,12 +352,7 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 		if (this.isDirty) {
 			this.updateValue(true);
 		} else {
-			List<EObject> elements = new ArrayList<EObject>();
-			Object object = this.variableManager.getVariables().get(EEFExpressionUtils.SELF);
-			if (object instanceof EObject) {
-				elements.add((EObject) object);
-			}
-			this.contextAdapter.unlock(elements);
+			this.contextAdapter.unlock(EEFTextLifecycleManager.this.elementsToLock);
 		}
 
 		super.aboutToBeHidden();
