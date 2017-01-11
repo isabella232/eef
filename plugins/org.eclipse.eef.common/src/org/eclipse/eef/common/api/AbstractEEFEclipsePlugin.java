@@ -71,8 +71,8 @@ public abstract class AbstractEEFEclipsePlugin extends EclipsePlugin {
 	 *            The structural feature representing the expression
 	 */
 	public void blank(EAttribute expression) {
-		String message = MessageFormat.format(Messages.AbstractEEFEclipsePlugin_BlankExpression, expression.getName(), expression
-				.getEContainingClass().getName());
+		String message = MessageFormat.format(Messages.AbstractEEFEclipsePlugin_BlankExpression, expression.getName(),
+				expression.getEContainingClass().getName());
 		this.error(message);
 	}
 
@@ -102,7 +102,7 @@ public abstract class AbstractEEFEclipsePlugin extends EclipsePlugin {
 		}
 
 		String message = MessageFormat.format(Messages.AbstractEEFEclipsePlugin_InvalidEvaluation, expression, messageToLog);
-		IStatus status = new Status(diagnostic.getSeverity(), this.bundleSymbolicName, message);
+		IStatus status = new Status(diagnostic.getSeverity(), this.bundleSymbolicName, message, diagnostic.getException());
 		this.getLog().log(status);
 	}
 
