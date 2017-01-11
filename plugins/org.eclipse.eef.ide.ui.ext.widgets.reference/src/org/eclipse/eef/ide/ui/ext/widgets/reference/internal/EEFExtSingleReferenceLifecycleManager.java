@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.eef.ide.ui.ext.widgets.reference.internal;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.eef.common.ui.api.IEEFFormContainer;
 import org.eclipse.eef.core.api.EditingContextAdapter;
 import org.eclipse.eef.core.ext.widgets.reference.internal.EEFExtReferenceController;
@@ -105,17 +102,17 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 		if (!this.eReference.isContainment()) {
 			buttonsComposite.setLayout(new GridLayout(3, true));
 
-			Image browseImage = ExtendedImageRegistry.INSTANCE.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(
-					EEFExtReferenceUIPlugin.Implementation.BROWSE_ICON_PATH));
+			Image browseImage = ExtendedImageRegistry.INSTANCE
+					.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(EEFExtReferenceUIPlugin.Implementation.BROWSE_ICON_PATH));
 			this.browseButton = this.createButton(buttonsComposite, browseImage);
 		} else {
 			buttonsComposite.setLayout(new GridLayout(2, true));
 		}
 
-		Image addImage = ExtendedImageRegistry.INSTANCE.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(
-				EEFExtReferenceUIPlugin.Implementation.ADD_ICON_PATH));
-		Image removeImage = ExtendedImageRegistry.INSTANCE.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(
-				EEFExtReferenceUIPlugin.Implementation.REMOVE_ICON_PATH));
+		Image addImage = ExtendedImageRegistry.INSTANCE
+				.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(EEFExtReferenceUIPlugin.Implementation.ADD_ICON_PATH));
+		Image removeImage = ExtendedImageRegistry.INSTANCE
+				.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(EEFExtReferenceUIPlugin.Implementation.REMOVE_ICON_PATH));
 		this.addButton = this.createButton(buttonsComposite, addImage);
 		this.removeButton = this.createButton(buttonsComposite, removeImage);
 
@@ -158,21 +155,9 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 	 */
 	@Override
 	protected void browseButtonCallback() {
-		List<EObject> elements = new ArrayList<>();
-		elements.add(this.target);
-		this.contextAdapter.lock(elements);
-
-		Object value = this.target.eGet(this.eReference);
-
 		IWizard wizard = new EEFExtEObjectSelectionWizard(this.target, this.eReference, this.contextAdapter);
 		WizardDialog wizardDialog = new WizardDialog(this.text.getShell(), wizard);
-
-		// Only unlock if nothing has changed or if the user has cancelled the dialog
-		int result = wizardDialog.open();
-		if (result == WizardDialog.CANCEL || (value != null && value.equals(this.target.eGet(this.eReference)))) {
-			this.contextAdapter.unlock(elements);
-		}
-
+		wizardDialog.open();
 	}
 
 	/**
@@ -182,17 +167,9 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 	 */
 	@Override
 	protected void addButtonCallback() {
-		List<EObject> elements = new ArrayList<>();
-		elements.add(this.target);
-		this.contextAdapter.lock(elements);
-
 		IWizard wizard = new EEFExtEObjectCreationWizard(this.target, this.eReference, this.contextAdapter);
 		WizardDialog wizardDialog = new WizardDialog(this.text.getShell(), wizard);
-
-		int result = wizardDialog.open();
-		if (result == WizardDialog.CANCEL) {
-			this.contextAdapter.unlock(elements);
-		}
+		wizardDialog.open();
 	}
 
 	/**

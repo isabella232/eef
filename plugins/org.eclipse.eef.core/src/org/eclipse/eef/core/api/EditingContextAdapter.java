@@ -87,26 +87,4 @@ public interface EditingContextAdapter {
 	 * @return the current lock status of the element.
 	 */
 	LockStatus getLockStatus(EObject obj);
-
-	/**
-	 * Attempts to take an exclusive lock on the specified elements. Callers should not assume the elements are actually
-	 * locked until they receive the corresponding {@link LockStatusChangeEvent} notification through the
-	 * {@link #onLockStatusChanged(IConsumer)} callback. There is no guarantee such a notification will be sent, if for
-	 * example an element was already locked by some other context.
-	 *
-	 * @param elements
-	 *            the elements to lock.
-	 */
-	void lock(Collection<EObject> elements);
-
-	/**
-	 * Attempts to release the locks on the specified elements. Callers should not assume the elements are actually
-	 * locked until they receive the corresponding {@link LockStatusChangeEvent} notification through the
-	 * {@link #onLockStatusChanged(IConsumer)} callback. There is no guarantee such a notification will be sent, if for
-	 * example this editing context did not have a lock on a given element.
-	 *
-	 * @param elements
-	 *            the elements to unlock.
-	 */
-	void unlock(Collection<EObject> elements);
 }

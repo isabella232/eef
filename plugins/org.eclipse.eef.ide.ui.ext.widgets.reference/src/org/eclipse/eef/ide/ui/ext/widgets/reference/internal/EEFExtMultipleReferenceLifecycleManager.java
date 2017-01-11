@@ -134,19 +134,19 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 		buttonsComposite.setLayout(buttonCompositeGridLayout);
 
 		if (!this.eReference.isContainment()) {
-			Image browseImage = ExtendedImageRegistry.INSTANCE.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(
-					EEFExtReferenceUIPlugin.Implementation.BROWSE_ICON_PATH));
+			Image browseImage = ExtendedImageRegistry.INSTANCE
+					.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(EEFExtReferenceUIPlugin.Implementation.BROWSE_ICON_PATH));
 			this.browseButton = this.createButton(buttonsComposite, browseImage);
 		}
 
-		Image addImage = ExtendedImageRegistry.INSTANCE.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(
-				EEFExtReferenceUIPlugin.Implementation.ADD_ICON_PATH));
-		Image removeImage = ExtendedImageRegistry.INSTANCE.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(
-				EEFExtReferenceUIPlugin.Implementation.REMOVE_ICON_PATH));
-		Image upImage = ExtendedImageRegistry.INSTANCE.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(
-				EEFExtReferenceUIPlugin.Implementation.UP_ICON_PATH));
-		Image downImage = ExtendedImageRegistry.INSTANCE.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(
-				EEFExtReferenceUIPlugin.Implementation.DOWN_ICON_PATH));
+		Image addImage = ExtendedImageRegistry.INSTANCE
+				.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(EEFExtReferenceUIPlugin.Implementation.ADD_ICON_PATH));
+		Image removeImage = ExtendedImageRegistry.INSTANCE
+				.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(EEFExtReferenceUIPlugin.Implementation.REMOVE_ICON_PATH));
+		Image upImage = ExtendedImageRegistry.INSTANCE
+				.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(EEFExtReferenceUIPlugin.Implementation.UP_ICON_PATH));
+		Image downImage = ExtendedImageRegistry.INSTANCE
+				.getImage(EEFExtReferenceUIPlugin.getPlugin().getImage(EEFExtReferenceUIPlugin.Implementation.DOWN_ICON_PATH));
 
 		this.addButton = this.createButton(buttonsComposite, addImage);
 		this.removeButton = this.createButton(buttonsComposite, removeImage);
@@ -182,8 +182,8 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 		this.composedAdapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
 		this.tableViewer.setContentProvider(new EReferenceContentProvider(this.eReference));
-		this.tableViewer.setLabelProvider(new DelegatingStyledCellLabelProvider(new AdapterFactoryLabelProvider.StyledLabelProvider(
-				this.composedAdapterFactory, this.tableViewer)));
+		this.tableViewer.setLabelProvider(new DelegatingStyledCellLabelProvider(
+				new AdapterFactoryLabelProvider.StyledLabelProvider(this.composedAdapterFactory, this.tableViewer)));
 
 		scrolledComposite.setContent(table);
 
@@ -219,24 +219,16 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 			IItemPropertySource propertySource = (IItemPropertySource) adapter;
 			IItemPropertyDescriptor propertyDescriptor = propertySource.getPropertyDescriptor(this.target, this.eReference);
 			if (propertyDescriptor != null) {
-				List<EObject> elements = new ArrayList<>();
-				elements.add(this.target);
-				this.contextAdapter.lock(elements);
-
 				ArrayList<Object> choiceOfValues = new ArrayList<Object>(propertyDescriptor.getChoiceOfValues(this.target));
-				FeatureEditorDialog dialog = new FeatureEditorDialog(this.tableViewer.getTable().getShell(), new AdapterFactoryLabelProvider(
-						this.composedAdapterFactory), this.target, this.eReference, propertyDescriptor.getDisplayName(this.target), choiceOfValues);
+				FeatureEditorDialog dialog = new FeatureEditorDialog(this.tableViewer.getTable().getShell(),
+						new AdapterFactoryLabelProvider(this.composedAdapterFactory), this.target, this.eReference,
+						propertyDescriptor.getDisplayName(this.target), choiceOfValues);
 				dialog.open();
 
-				Object value = this.target.eGet(this.eReference);
 				EList<?> result = dialog.getResult();
 				if (result != null) {
 					this.target.eSet(this.eReference, result);
 				}
-				if (value == null || value.equals(this.target.eGet(this.eReference))) {
-					this.contextAdapter.unlock(elements);
-				}
-
 			}
 		}
 	}
@@ -248,15 +240,9 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 	 */
 	@Override
 	protected void addButtonCallback() {
-		List<EObject> elements = new ArrayList<>();
-		elements.add(this.target);
-		this.contextAdapter.lock(elements);
-
 		IWizard wizard = new EEFExtEObjectCreationWizard(this.target, this.eReference, this.contextAdapter);
 		WizardDialog wizardDialog = new WizardDialog(this.tableViewer.getTable().getShell(), wizard);
 		wizardDialog.open();
-
-		this.contextAdapter.unlock(elements);
 	}
 
 	/**

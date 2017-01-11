@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.eef.ide.ui.internal.widgets;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.core.runtime.IStatus;
@@ -22,7 +20,6 @@ import org.eclipse.eef.EEFWidgetStyle;
 import org.eclipse.eef.common.api.utils.Util;
 import org.eclipse.eef.common.ui.api.EEFWidgetFactory;
 import org.eclipse.eef.common.ui.api.IEEFFormContainer;
-import org.eclipse.eef.core.api.EEFExpressionUtils;
 import org.eclipse.eef.core.api.EditingContextAdapter;
 import org.eclipse.eef.core.api.controllers.EEFControllersFactory;
 import org.eclipse.eef.core.api.controllers.IConsumer;
@@ -33,7 +30,6 @@ import org.eclipse.eef.ide.ui.api.widgets.EEFStyleHelper;
 import org.eclipse.eef.ide.ui.api.widgets.EEFStyleHelper.IEEFTextStyleCallback;
 import org.eclipse.eef.ide.ui.internal.EEFIdeUiPlugin;
 import org.eclipse.eef.ide.ui.internal.widgets.styles.EEFColor;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
@@ -119,11 +115,6 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	 * Indicates that the text field is dirty.
 	 */
 	private boolean isDirty;
-
-	/**
-	 * The list of the elements to be locked and unlocked.
-	 */
-	private List<EObject> elementsToLock = new ArrayList<EObject>();
 
 	/**
 	 * The constructor.
@@ -226,13 +217,6 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 			public void modifyText(ModifyEvent e) {
 				if (!EEFTextLifecycleManager.this.container.isRenderingInProgress() && !updateInProgress.get()) {
 					EEFTextLifecycleManager.this.isDirty = true;
-
-					EEFTextLifecycleManager.this.elementsToLock.clear();
-					Object object = EEFTextLifecycleManager.this.variableManager.getVariables().get(EEFExpressionUtils.SELF);
-					if (object instanceof EObject) {
-						EEFTextLifecycleManager.this.elementsToLock.add((EObject) object);
-					}
-					EEFTextLifecycleManager.this.contextAdapter.lock(EEFTextLifecycleManager.this.elementsToLock);
 				}
 			}
 		};
@@ -351,8 +335,6 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	public void aboutToBeHidden() {
 		if (this.isDirty) {
 			this.updateValue(true);
-		} else {
-			this.contextAdapter.unlock(EEFTextLifecycleManager.this.elementsToLock);
 		}
 
 		super.aboutToBeHidden();
