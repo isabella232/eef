@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Obeo.
+ * Copyright (c) 2016, 2017 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -155,7 +155,11 @@ public class EEFListLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 		gridData.horizontalAlignment = SWT.FILL;
 		scrolledComposite.setLayoutData(gridData);
 
-		Table table = widgetFactory.createTable(scrolledComposite, SWT.READ_ONLY | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI);
+		// CHECKSTYLE:OFF
+		int style = SWT.READ_ONLY | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI | SWT.VIRTUAL;
+		// CHECKSTYLE:ON
+
+		Table table = widgetFactory.createTable(scrolledComposite, style);
 		this.tableViewer = new TableViewer(table);
 
 		GridData tableGridData = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);

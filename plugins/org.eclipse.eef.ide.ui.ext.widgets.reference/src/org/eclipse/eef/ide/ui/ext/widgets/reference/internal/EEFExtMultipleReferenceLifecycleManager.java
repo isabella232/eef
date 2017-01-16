@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Obeo.
+ * Copyright (c) 2016, 2017 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -171,7 +171,11 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 		gridData.horizontalAlignment = SWT.FILL;
 		scrolledComposite.setLayoutData(gridData);
 
-		Table table = this.widgetFactory.createTable(scrolledComposite, SWT.READ_ONLY | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER | SWT.SINGLE);
+		// CHECKSTYLE:OFF
+		int style = SWT.READ_ONLY | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER | SWT.SINGLE | SWT.VIRTUAL;
+		// CHECKSTYLE:ON
+
+		Table table = this.widgetFactory.createTable(scrolledComposite, style);
 		this.tableViewer = new TableViewer(table);
 
 		GridData tableGridData = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
