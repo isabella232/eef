@@ -213,8 +213,8 @@ public class EEFExtEObjectCreationPage extends WizardPage {
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 
 		this.eContainerTreeViewer = new TreeViewer(new Tree(parent, SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER));
-		this.eContainerTreeViewer.setLabelProvider(new DelegatingStyledCellLabelProvider(new AdapterFactoryLabelProvider.StyledLabelProvider(
-				this.composedAdapterFactory, this.eContainerTreeViewer)));
+		this.eContainerTreeViewer.setLabelProvider(new DelegatingStyledCellLabelProvider(
+				new AdapterFactoryLabelProvider.StyledLabelProvider(this.composedAdapterFactory, this.eContainerTreeViewer)));
 		this.eContainerTreeViewer.setContentProvider(new AdapterFactoryContentProvider(this.composedAdapterFactory));
 		this.eContainerTreeViewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		this.eContainerTreeViewer.setAutoExpandLevel(2);
@@ -381,8 +381,8 @@ public class EEFExtEObjectCreationPage extends WizardPage {
 		if (this.eReference.isContainment()) {
 			isPageComplete = this.isCompleteViewer(true, this.eClassInstanceComboViewer, Messages.ReferenceCreationWizardPage_missingEClassToCreate);
 		} else {
-			String message = MessageFormat.format(Messages.ReferenceCreationWizardPage_missingEContainer, this.eReference.getEReferenceType()
-					.getName());
+			String message = MessageFormat.format(Messages.ReferenceCreationWizardPage_missingEContainer,
+					this.eReference.getEReferenceType().getName());
 			isPageComplete = this.isCompleteViewer(true, this.eContainerTreeViewer, message);
 			isPageComplete = this.isCompleteViewer(isPageComplete, this.eContainementReferenceComboViewer,
 					Messages.ReferenceCreationWizardPage_missingContainmentEReference);
@@ -519,10 +519,13 @@ public class EEFExtEObjectCreationPage extends WizardPage {
 	private void eContainmentAdd(EObject eContainer, EReference eContainmentReference, EObject eObject) {
 		Object value = eContainer.eGet(eContainmentReference);
 		if (value instanceof EList<?>) {
-			EList<?> objects = (EList<?>) value;
-			List<Object> newObjects = new ArrayList<>(objects);
-			newObjects.add(eObject);
-			eContainer.eSet(eContainmentReference, newObjects);
+			// sbegaudeau: Yes I know, @SuppressWarnings are bad but we really need this one in order to prevent the
+			// creation of a new list which would fire, as a side effect, a modification notification for all the
+			// siblings of the newly created object. We do not want anyone to believe that those objects have been
+			// modified
+			@SuppressWarnings("unchecked")
+			EList<EObject> objects = (EList<EObject>) value;
+			objects.add(eObject);
 		}
 	}
 
