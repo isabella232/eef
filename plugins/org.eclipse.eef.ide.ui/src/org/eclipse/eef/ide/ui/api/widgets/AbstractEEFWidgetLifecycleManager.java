@@ -102,11 +102,6 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 	private IConsumer<Collection<LockStatusChangeEvent>> lockStatusChangedListener;
 
 	/**
-	 * Indicates if the current widget is locked.
-	 */
-	private boolean isLocked;
-
-	/**
 	 * The decorator used to indicate the permission on the validation widget.
 	 */
 	private ControlDecoration controlDecoration;
@@ -194,6 +189,13 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 		this.createMainControl(composite, formContainer);
 
 		this.controlDecoration = new ControlDecoration(this.getValidationControl(), SWT.TOP | SWT.LEFT);
+		this.checkLockStatus();
+	}
+
+	/**
+	 * Checks the current lock status and make the user interface react to it.
+	 */
+	private void checkLockStatus() {
 		Object self = this.variableManager.getVariables().get(EEFExpressionUtils.SELF);
 		if (self instanceof EObject) {
 			LockStatus status = this.contextAdapter.getLockStatus((EObject) self);
@@ -379,8 +381,6 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 	 * validation control.
 	 */
 	protected void lockedByMe() {
-		this.isLocked = false;
-
 		this.controlDecoration.hide();
 		this.controlDecoration.setDescriptionText(Messages.AbstractEEFWidgetLifecycleManager_lockedByMe);
 		this.controlDecoration.setImage(EEFIdeUiPlugin.getPlugin().getImageRegistry().get(Icons.PERMISSION_GRANTED_TO_CURRENT_USER_EXCLUSIVELY));
@@ -393,7 +393,6 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 	 * red lock next to the widget.
 	 */
 	protected void lockedByOther() {
-		this.isLocked = true;
 		this.setEnabled(false);
 
 		this.controlDecoration.hide();
@@ -407,7 +406,6 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 	 * currently unlocked. As a result, it will set back the widget to its default state.
 	 */
 	protected void unlocked() {
-		this.isLocked = false;
 		this.setEnabled(this.isEnabled());
 
 		this.controlDecoration.hide();
@@ -475,9 +473,7 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 	public void refresh() {
 		super.refresh();
 
-		if (!this.isLocked) {
-			this.setEnabled(this.isEnabled());
-		}
+		this.checkLockStatus();
 	}
 
 	/**
