@@ -343,7 +343,7 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 	/**
 	 * Handles the change in the lock status by switching the user interface to a "locked by me", "locked by other" or
 	 * "unlocked" state.
-	 * 
+	 *
 	 * @param status
 	 *            The lock status
 	 */
@@ -381,10 +381,12 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 	 * validation control.
 	 */
 	protected void lockedByMe() {
-		this.controlDecoration.hide();
-		this.controlDecoration.setDescriptionText(Messages.AbstractEEFWidgetLifecycleManager_lockedByMe);
-		this.controlDecoration.setImage(EEFIdeUiPlugin.getPlugin().getImageRegistry().get(Icons.PERMISSION_GRANTED_TO_CURRENT_USER_EXCLUSIVELY));
-		this.controlDecoration.show();
+		if (this.controlDecoration.getControl() != null) {
+			this.controlDecoration.hide();
+			this.controlDecoration.setDescriptionText(Messages.AbstractEEFWidgetLifecycleManager_lockedByMe);
+			this.controlDecoration.setImage(EEFIdeUiPlugin.getPlugin().getImageRegistry().get(Icons.PERMISSION_GRANTED_TO_CURRENT_USER_EXCLUSIVELY));
+			this.controlDecoration.show();
+		}
 	}
 
 	/**
@@ -395,20 +397,24 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 	protected void lockedByOther() {
 		this.setEnabled(false);
 
-		this.controlDecoration.hide();
-		this.controlDecoration.setDescriptionText(Messages.AbstractEEFWidgetLifecycleManager_lockedByOther);
-		this.controlDecoration.setImage(EEFIdeUiPlugin.getPlugin().getImageRegistry().get(Icons.PERMISSION_DENIED));
-		this.controlDecoration.show();
+		if (this.controlDecoration.getControl() != null) {
+			this.controlDecoration.hide();
+			this.controlDecoration.setDescriptionText(Messages.AbstractEEFWidgetLifecycleManager_lockedByOther);
+			this.controlDecoration.setImage(EEFIdeUiPlugin.getPlugin().getImageRegistry().get(Icons.PERMISSION_DENIED));
+			this.controlDecoration.show();
+		}
 	}
 
 	/**
-	 * Sets the appearance and behavior of the widget in order to indicate that the semantic element used by the widget is
-	 * currently unlocked. As a result, it will set back the widget to its default state.
+	 * Sets the appearance and behavior of the widget in order to indicate that the semantic element used by the widget
+	 * is currently unlocked. As a result, it will set back the widget to its default state.
 	 */
 	protected void unlocked() {
 		this.setEnabled(this.isEnabled());
 
-		this.controlDecoration.hide();
+		if (this.controlDecoration.getControl() != null) {
+			this.controlDecoration.hide();
+		}
 	}
 
 	/**
