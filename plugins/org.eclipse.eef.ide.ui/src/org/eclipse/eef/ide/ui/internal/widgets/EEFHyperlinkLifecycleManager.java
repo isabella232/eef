@@ -88,12 +88,12 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	 *            The variable manager
 	 * @param interpreter
 	 *            The interpreter
-	 * @param contextAdapter
+	 * @param editingContextAdapter
 	 *            The editing context adapter
 	 */
 	public EEFHyperlinkLifecycleManager(EEFHyperlinkDescription description, IVariableManager variableManager, IInterpreter interpreter,
-			EditingContextAdapter contextAdapter) {
-		super(variableManager, interpreter, contextAdapter);
+			EditingContextAdapter editingContextAdapter) {
+		super(variableManager, interpreter, editingContextAdapter);
 		this.description = description;
 	}
 
@@ -122,7 +122,7 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		this.createWidgetActionButtons(hyperlinkComposite);
 
 		this.controller = new EEFControllersFactory().createHyperlinkController(this.description, this.variableManager, this.interpreter,
-				this.contextAdapter);
+				this.editingContextAdapter);
 	}
 
 	/**

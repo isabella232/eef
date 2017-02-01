@@ -39,11 +39,6 @@ public class EEFTextController extends AbstractEEFWidgetController implements IE
 	private EEFTextDescription description;
 
 	/**
-	 * The editing context adapter.
-	 */
-	private EditingContextAdapter contextAdapter;
-
-	/**
 	 * The consumer of a new value of the text.
 	 */
 	private IConsumer<Object> newValueConsumer;
@@ -57,19 +52,18 @@ public class EEFTextController extends AbstractEEFWidgetController implements IE
 	 *            The variable manager
 	 * @param interpreter
 	 *            The interpreter
-	 * @param contextAdapter
+	 * @param editingContextAdapter
 	 *            The editing context adapter
 	 */
 	public EEFTextController(EEFTextDescription description, IVariableManager variableManager, IInterpreter interpreter,
-			EditingContextAdapter contextAdapter) {
-		super(variableManager, interpreter);
+			EditingContextAdapter editingContextAdapter) {
+		super(variableManager, interpreter, editingContextAdapter);
 		this.description = description;
-		this.contextAdapter = contextAdapter;
 	}
 
 	@Override
 	public IStatus updateValue(final String text) {
-		return this.contextAdapter.performModelChange(() -> {
+		return this.editingContextAdapter.performModelChange(() -> {
 			String editExpression = this.description.getEditExpression();
 			EAttribute eAttribute = EefPackage.Literals.EEF_TEXT_DESCRIPTION__EDIT_EXPRESSION;
 

@@ -77,12 +77,12 @@ public class EEFCheckboxLifecycleManager extends AbstractEEFWidgetLifecycleManag
 	 *            The variable manager
 	 * @param interpreter
 	 *            The interpreter
-	 * @param contextAdapter
+	 * @param editingContextAdapter
 	 *            The editing context adapter
 	 */
 	public EEFCheckboxLifecycleManager(EEFCheckboxDescription description, IVariableManager variableManager, IInterpreter interpreter,
-			EditingContextAdapter contextAdapter) {
-		super(variableManager, interpreter, contextAdapter);
+			EditingContextAdapter editingContextAdapter) {
+		super(variableManager, interpreter, editingContextAdapter);
 		this.description = description;
 	}
 
@@ -102,7 +102,7 @@ public class EEFCheckboxLifecycleManager extends AbstractEEFWidgetLifecycleManag
 		this.checkbox.setLayoutData(gridData);
 
 		this.controller = new EEFControllersFactory().createCheckboxController(this.description, this.variableManager, this.interpreter,
-				this.contextAdapter);
+				this.editingContextAdapter);
 	}
 
 	/**

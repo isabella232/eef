@@ -97,12 +97,12 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 	 *            The variable manager
 	 * @param interpreter
 	 *            The interpreter
-	 * @param contextAdapter
+	 * @param editingContextAdapter
 	 *            The context adapter
 	 */
 	public EEFExtMultipleReferenceLifecycleManager(EEFExtReferenceDescription description, EObject target, EReference eReference,
-			IVariableManager variableManager, IInterpreter interpreter, EditingContextAdapter contextAdapter) {
-		super(description, target, eReference, variableManager, interpreter, contextAdapter);
+			IVariableManager variableManager, IInterpreter interpreter, EditingContextAdapter editingContextAdapter) {
+		super(description, target, eReference, variableManager, interpreter, editingContextAdapter);
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 
 		this.widgetFactory.paintBordersFor(parent);
 
-		this.controller = new EEFExtReferenceController(this.description, this.variableManager, this.interpreter);
+		this.controller = new EEFExtReferenceController(this.description, this.variableManager, this.interpreter, this.editingContextAdapter);
 	}
 
 	/**
@@ -244,7 +244,7 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 	 */
 	@Override
 	protected void addButtonCallback() {
-		IWizard wizard = new EEFExtEObjectCreationWizard(this.target, this.eReference, this.contextAdapter);
+		IWizard wizard = new EEFExtEObjectCreationWizard(this.target, this.eReference, this.editingContextAdapter);
 		WizardDialog wizardDialog = new WizardDialog(this.tableViewer.getTable().getShell(), wizard);
 		wizardDialog.open();
 	}
@@ -256,7 +256,7 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 	 */
 	@Override
 	protected void removeButtonCallback() {
-		this.contextAdapter.performModelChange(() -> {
+		this.editingContextAdapter.performModelChange(() -> {
 			List<Object> objects = selectionToList(tableViewer.getSelection());
 			for (Object object : objects) {
 				EcoreUtil.remove(target, eReference, object);
@@ -271,7 +271,7 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 	 *            The direction
 	 */
 	private void initializeMoveButton(final Direction direction) {
-		ButtonSelectionListener listener = new ButtonSelectionListener(this.contextAdapter, () -> this.moveButtonCallback(direction));
+		ButtonSelectionListener listener = new ButtonSelectionListener(this.editingContextAdapter, () -> this.moveButtonCallback(direction));
 
 		if (direction == Direction.UP) {
 			this.upButtonListener = listener;

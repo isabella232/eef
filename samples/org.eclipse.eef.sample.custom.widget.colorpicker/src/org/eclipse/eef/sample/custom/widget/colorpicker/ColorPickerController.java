@@ -65,12 +65,12 @@ public class ColorPickerController extends AbstractEEFCustomWidgetController imp
 	 *            The variable manager
 	 * @param interpreter
 	 *            The interpreter
-	 * @param contextAdapter
+	 * @param editingContextAdapter
 	 *            The editing context adapter
 	 */
 	public ColorPickerController(EEFCustomWidgetDescription description, IVariableManager variableManager, IInterpreter interpreter,
-			EditingContextAdapter contextAdapter) {
-		super(description, variableManager, interpreter, contextAdapter);
+			EditingContextAdapter editingContextAdapter) {
+		super(description, variableManager, interpreter, editingContextAdapter);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class ColorPickerController extends AbstractEEFCustomWidgetController imp
 
 	@Override
 	public void updateValue(final RGB color) {
-		contextAdapter.performModelChange(() -> {
+		this.editingContextAdapter.performModelChange(() -> {
 			String editExpression = getCustomExpression(EDIT_EXPRESSION_ID);
 
 			Map<String, Object> variables = new HashMap<String, Object>();

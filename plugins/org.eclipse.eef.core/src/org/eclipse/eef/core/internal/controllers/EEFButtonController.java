@@ -34,11 +34,6 @@ public class EEFButtonController extends AbstractEEFWidgetController implements 
 	private EEFButtonDescription description;
 
 	/**
-	 * The editing context adapter.
-	 */
-	private EditingContextAdapter contextAdapter;
-
-	/**
 	 * The consumer of a new value of the button's label.
 	 */
 	private IConsumer<String> newButtonLabelConsumer;
@@ -52,14 +47,13 @@ public class EEFButtonController extends AbstractEEFWidgetController implements 
 	 *            The variable manager
 	 * @param interpreter
 	 *            The interpreter
-	 * @param contextAdapter
+	 * @param editingContextAdapter
 	 *            The editing context adapter
 	 */
 	public EEFButtonController(EEFButtonDescription description, IVariableManager variableManager, IInterpreter interpreter,
-			EditingContextAdapter contextAdapter) {
-		super(variableManager, interpreter);
+			EditingContextAdapter editingContextAdapter) {
+		super(variableManager, interpreter, editingContextAdapter);
 		this.description = description;
-		this.contextAdapter = contextAdapter;
 	}
 
 	@Override
@@ -87,7 +81,7 @@ public class EEFButtonController extends AbstractEEFWidgetController implements 
 
 	@Override
 	public IStatus pushed() {
-		return contextAdapter.performModelChange(() -> {
+		return this.editingContextAdapter.performModelChange(() -> {
 			String pushExpression = this.description.getPushExpression();
 			EAttribute attr = EefPackage.Literals.EEF_BUTTON_DESCRIPTION__PUSH_EXPRESSION;
 			this.newEval().logIfBlank(attr).call(pushExpression);

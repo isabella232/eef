@@ -41,11 +41,6 @@ public class EEFLabelController extends AbstractEEFWidgetController implements I
 	private EEFLabelDescription description;
 
 	/**
-	 * The editing context adapter.
-	 */
-	private EditingContextAdapter contextAdapter;
-
-	/**
 	 * The consumer of the new body.
 	 */
 	private IConsumer<String> newValueConsumer;
@@ -59,14 +54,13 @@ public class EEFLabelController extends AbstractEEFWidgetController implements I
 	 *            The variable manager
 	 * @param interpreter
 	 *            The interpreter
-	 * @param contextAdapter
+	 * @param editingContextAdapter
 	 *            The editing context adapter
 	 */
 	public EEFLabelController(EEFLabelDescription description, IVariableManager variableManager, IInterpreter interpreter,
-			EditingContextAdapter contextAdapter) {
-		super(variableManager, interpreter);
+			EditingContextAdapter editingContextAdapter) {
+		super(variableManager, interpreter, editingContextAdapter);
 		this.description = description;
-		this.contextAdapter = contextAdapter;
 	}
 
 	/**
@@ -130,7 +124,7 @@ public class EEFLabelController extends AbstractEEFWidgetController implements I
 	 */
 	@Override
 	public IStatus action(final EEFWidgetAction action) {
-		return this.contextAdapter.performModelChange(() -> {
+		return this.editingContextAdapter.performModelChange(() -> {
 			String expression = action.getActionExpression();
 			EAttribute eAttribute = EefPackage.Literals.EEF_WIDGET_ACTION__ACTION_EXPRESSION;
 

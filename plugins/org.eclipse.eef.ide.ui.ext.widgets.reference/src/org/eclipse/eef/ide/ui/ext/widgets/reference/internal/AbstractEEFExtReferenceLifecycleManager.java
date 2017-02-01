@@ -119,12 +119,12 @@ public abstract class AbstractEEFExtReferenceLifecycleManager extends AbstractEE
 	 *            The variable manager
 	 * @param interpreter
 	 *            The interpreter
-	 * @param contextAdapter
+	 * @param editingContextAdapter
 	 *            The context adapter
 	 */
 	public AbstractEEFExtReferenceLifecycleManager(EEFExtReferenceDescription description, EObject target, EReference eReference,
-			IVariableManager variableManager, IInterpreter interpreter, EditingContextAdapter contextAdapter) {
-		super(variableManager, interpreter, contextAdapter);
+			IVariableManager variableManager, IInterpreter interpreter, EditingContextAdapter editingContextAdapter) {
+		super(variableManager, interpreter, editingContextAdapter);
 		this.description = description;
 		this.target = target;
 		this.eReference = eReference;
@@ -191,7 +191,7 @@ public abstract class AbstractEEFExtReferenceLifecycleManager extends AbstractEE
 	 * Initializes the browse button.
 	 */
 	private void initializeBrowseButton() {
-		this.browseButtonListener = new ButtonSelectionListener(this.contextAdapter, () -> this.browseButtonCallback());
+		this.browseButtonListener = new ButtonSelectionListener(this.editingContextAdapter, () -> this.browseButtonCallback());
 		this.browseButton.addSelectionListener(this.browseButtonListener);
 		this.browseButton.setToolTipText(Messages.ReferenceBrowseButton_tooltipText);
 	}
@@ -205,7 +205,7 @@ public abstract class AbstractEEFExtReferenceLifecycleManager extends AbstractEE
 	 * Initializes the add button.
 	 */
 	private void initializeAddButton() {
-		this.addButtonListener = new ButtonSelectionListener(this.contextAdapter, () -> this.addButtonCallback());
+		this.addButtonListener = new ButtonSelectionListener(this.editingContextAdapter, () -> this.addButtonCallback());
 		this.addButton.addSelectionListener(this.addButtonListener);
 		this.addButton.setToolTipText(Messages.ReferenceAddButton_tooltipText);
 	}
@@ -219,7 +219,7 @@ public abstract class AbstractEEFExtReferenceLifecycleManager extends AbstractEE
 	 * Initializes the remove button.
 	 */
 	private void initializeRemoveButton() {
-		this.removeButtonListener = new ButtonSelectionListener(this.contextAdapter, () -> this.removeButtonCallback());
+		this.removeButtonListener = new ButtonSelectionListener(this.editingContextAdapter, () -> this.removeButtonCallback());
 		this.removeButton.addSelectionListener(this.removeButtonListener);
 		if (this.eReference.isContainment()) {
 			this.removeButton.setToolTipText(Messages.ReferenceRemoveButton_containmentTooltipText);
@@ -338,7 +338,7 @@ public abstract class AbstractEEFExtReferenceLifecycleManager extends AbstractEE
 		/**
 		 * The context adapter.
 		 */
-		private EditingContextAdapter contextAdapter;
+		private EditingContextAdapter editingContextAdapter;
 
 		/**
 		 * The behavior to execute when the button is clicked.
@@ -348,13 +348,13 @@ public abstract class AbstractEEFExtReferenceLifecycleManager extends AbstractEE
 		/**
 		 * The constructor.
 		 *
-		 * @param contextAdapter
+		 * @param editingContextAdapter
 		 *            The {@link EditingContextAdapter}
 		 * @param runnable
 		 *            The behavior to execute when the button is clicked
 		 */
-		public ButtonSelectionListener(EditingContextAdapter contextAdapter, Runnable runnable) {
-			this.contextAdapter = contextAdapter;
+		public ButtonSelectionListener(EditingContextAdapter editingContextAdapter, Runnable runnable) {
+			this.editingContextAdapter = editingContextAdapter;
 			this.runnable = runnable;
 		}
 
@@ -365,7 +365,7 @@ public abstract class AbstractEEFExtReferenceLifecycleManager extends AbstractEE
 		 */
 		@Override
 		public void widgetSelected(SelectionEvent event) {
-			this.contextAdapter.performModelChange(this.runnable);
+			this.editingContextAdapter.performModelChange(this.runnable);
 		}
 
 		/**
@@ -375,7 +375,7 @@ public abstract class AbstractEEFExtReferenceLifecycleManager extends AbstractEE
 		 */
 		@Override
 		public void widgetDefaultSelected(SelectionEvent event) {
-			this.contextAdapter.performModelChange(this.runnable);
+			this.editingContextAdapter.performModelChange(this.runnable);
 		}
 	}
 

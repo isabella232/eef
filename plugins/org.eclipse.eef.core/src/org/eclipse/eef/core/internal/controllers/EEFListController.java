@@ -41,11 +41,6 @@ public class EEFListController extends AbstractEEFWidgetController implements IE
 	private EEFListDescription description;
 
 	/**
-	 * The editing context adapter.
-	 */
-	private EditingContextAdapter contextAdapter;
-
-	/**
 	 * The consumer of a new value of the list.
 	 */
 	private IConsumer<Object> newValueConsumer;
@@ -59,14 +54,13 @@ public class EEFListController extends AbstractEEFWidgetController implements IE
 	 *            The variable manager
 	 * @param interpreter
 	 *            The interpreter
-	 * @param contextAdapter
+	 * @param editingContextAdapter
 	 *            The editing context adapter
 	 */
 	public EEFListController(IVariableManager variableManager, IInterpreter interpreter, EEFListDescription description,
-			EditingContextAdapter contextAdapter) {
-		super(variableManager, interpreter);
+			EditingContextAdapter editingContextAdapter) {
+		super(variableManager, interpreter, editingContextAdapter);
 		this.description = description;
-		this.contextAdapter = contextAdapter;
 	}
 
 	/**
@@ -109,7 +103,7 @@ public class EEFListController extends AbstractEEFWidgetController implements IE
 	 */
 	@Override
 	public void onClick(final Object element, final String onClickEventKind) {
-		contextAdapter.performModelChange(() -> {
+		this.editingContextAdapter.performModelChange(() -> {
 			String expression = this.description.getOnClickExpression();
 
 			Map<String, Object> variables = new HashMap<String, Object>();
@@ -139,7 +133,7 @@ public class EEFListController extends AbstractEEFWidgetController implements IE
 	 */
 	@Override
 	public IStatus action(final EEFWidgetAction action, final List<Object> elements) {
-		return contextAdapter.performModelChange(() -> {
+		return this.editingContextAdapter.performModelChange(() -> {
 			String expression = action.getActionExpression();
 			EAttribute eAttribute = EefPackage.Literals.EEF_WIDGET_ACTION__ACTION_EXPRESSION;
 

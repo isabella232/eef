@@ -43,11 +43,6 @@ public class EEFSelectController extends AbstractEEFWidgetController implements 
 	private EEFSelectDescription description;
 
 	/**
-	 * The editing context adapter.
-	 */
-	private EditingContextAdapter contextAdapter;
-
-	/**
 	 * The consumer of a new value of the combo.
 	 */
 	private IConsumer<Object> newValueConsumer;
@@ -66,19 +61,18 @@ public class EEFSelectController extends AbstractEEFWidgetController implements 
 	 *            The variable manager
 	 * @param interpreter
 	 *            The interpreter
-	 * @param contextAdapter
+	 * @param editingContextAdapter
 	 *            The editing context adapter
 	 */
 	public EEFSelectController(EEFSelectDescription description, IVariableManager variableManager, IInterpreter interpreter,
-			EditingContextAdapter contextAdapter) {
-		super(variableManager, interpreter);
+			EditingContextAdapter editingContextAdapter) {
+		super(variableManager, interpreter, editingContextAdapter);
 		this.description = description;
-		this.contextAdapter = contextAdapter;
 	}
 
 	@Override
 	public IStatus updateValue(final Object text) {
-		return contextAdapter.performModelChange(() -> {
+		return this.editingContextAdapter.performModelChange(() -> {
 			String editExpression = this.description.getEditExpression();
 			EAttribute eAttribute = EefPackage.Literals.EEF_SELECT_DESCRIPTION__EDIT_EXPRESSION;
 
