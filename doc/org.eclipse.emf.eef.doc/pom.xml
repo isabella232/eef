@@ -18,7 +18,7 @@
 		<groupId>org.eclipse.emf</groupId>
 		<artifactId>org.eclipse.emf.eef.releng.parent</artifactId>
 		<relativePath>../../releng/org.eclipse.emf.eef.releng.parent</relativePath>
-		<version>1.5.1-SNAPSHOT</version>
+		<version>1.5.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>org.eclipse.emf.eef.doc</artifactId>

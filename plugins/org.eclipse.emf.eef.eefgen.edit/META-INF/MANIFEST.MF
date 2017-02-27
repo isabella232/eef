@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EEFGen Edit Support
 Bundle-SymbolicName: org.eclipse.emf.eef.eefgen.edit;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.2.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.eef.EEFGen.provider.EEFGenEditPlugin$Implementation
 Bundle-Vendor: Eclipse Modeling Project
