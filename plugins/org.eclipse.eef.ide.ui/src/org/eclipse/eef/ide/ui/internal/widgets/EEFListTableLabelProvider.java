@@ -55,7 +55,7 @@ final class EEFListTableLabelProvider extends StyledCellLabelProvider {
 	 * @param variableManager
 	 *            The variable manager
 	 */
-	public EEFListTableLabelProvider(EEFListDescription description, IInterpreter interpreter, IVariableManager variableManager) {
+	EEFListTableLabelProvider(EEFListDescription description, IInterpreter interpreter, IVariableManager variableManager) {
 		this.description = description;
 		this.interpreter = interpreter;
 		this.variableManager = variableManager;

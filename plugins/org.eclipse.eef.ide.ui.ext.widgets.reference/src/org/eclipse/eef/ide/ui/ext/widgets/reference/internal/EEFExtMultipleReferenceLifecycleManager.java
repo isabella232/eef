@@ -407,7 +407,7 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 	 *
 	 * @author sbegaudeau
 	 */
-	private static enum Direction {
+	private enum Direction {
 		/**
 		 * Up.
 		 */

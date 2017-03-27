@@ -26,7 +26,7 @@ public interface IEEFExtReferenceViewerFilterProvider {
 	 *
 	 * @author sbegaudeau
 	 */
-	public enum ContextKind {
+	enum ContextKind {
 		/**
 		 * The tree viewer is created to select an EObject.
 		 */
