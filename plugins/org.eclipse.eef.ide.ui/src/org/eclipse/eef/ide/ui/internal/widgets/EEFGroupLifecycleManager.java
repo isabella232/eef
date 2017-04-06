@@ -209,7 +209,8 @@ public class EEFGroupLifecycleManager extends AbstractEEFLifecycleManager {
 
 		this.section.setClient(group);
 
-		this.controller = new EEFControllersFactory().createGroupController(this.description, this.variableManager, this.interpreter);
+		this.controller = new EEFControllersFactory().createGroupController(this.description, this.variableManager, this.interpreter,
+				this.contextAdapter);
 
 		EEFControlSwitch eefControlSwitch = new EEFControlSwitch(this.interpreter, this.contextAdapter);
 		List<EEFControlDescription> controls = this.description.getControls();

@@ -52,8 +52,27 @@ public class EEFControllersFactory {
 	 *            The interpreter
 	 * @return The group controller
 	 */
+	@Deprecated
 	public IEEFGroupController createGroupController(EEFGroupDescription description, IVariableManager variableManager, IInterpreter interpreter) {
 		return new EEFGroupController(description, variableManager, interpreter);
+	}
+
+	/**
+	 * Creates a new group controller.
+	 *
+	 * @param description
+	 *            The description
+	 * @param variableManager
+	 *            The variable manager
+	 * @param interpreter
+	 *            The interpreter
+	 * @param contextAdapter
+	 *            The editing context adapter
+	 * @return The group controller
+	 */
+	public IEEFGroupController createGroupController(EEFGroupDescription description, IVariableManager variableManager, IInterpreter interpreter,
+			EditingContextAdapter contextAdapter) {
+		return new EEFGroupController(description, variableManager, interpreter, contextAdapter);
 	}
 
 	/**
@@ -176,8 +195,27 @@ public class EEFControllersFactory {
 	 *            The interpreter
 	 * @return The section controller.
 	 */
+	@Deprecated
 	public IEEFSectionController createSectionController(EEFPageDescription description, IVariableManager variableManager, IInterpreter interpreter) {
 		return new EEFSectionController(variableManager, interpreter, description);
+	}
+
+	/**
+	 * Creates a section controller.
+	 *
+	 * @param description
+	 *            The description
+	 * @param variableManager
+	 *            The variable manager
+	 * @param interpreter
+	 *            The interpreter
+	 * @param contextAdapter
+	 *            The editing context adapter
+	 * @return The section controller.
+	 */
+	public IEEFSectionController createSectionController(EEFPageDescription description, IVariableManager variableManager, IInterpreter interpreter,
+			EditingContextAdapter contextAdapter) {
+		return new EEFSectionController(variableManager, interpreter, description, contextAdapter);
 	}
 
 	/**
@@ -215,4 +253,5 @@ public class EEFControllersFactory {
 			IInterpreter interpreter, EditingContextAdapter contextAdapter) {
 		return new EEFHyperlinkController(description, variableManager, interpreter, contextAdapter);
 	}
+
 }

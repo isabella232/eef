@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Obeo.
+ * Copyright (c) 2016, 2017 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 package org.eclipse.eef.core.ext.widgets.reference.internal;
 
 import org.eclipse.eef.EEFWidgetDescription;
+import org.eclipse.eef.core.api.EditingContextAdapter;
 import org.eclipse.eef.core.api.controllers.AbstractEEFWidgetController;
 import org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference.EEFExtReferenceDescription;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
@@ -37,9 +38,12 @@ public class EEFExtReferenceController extends AbstractEEFWidgetController {
 	 *            The variable manager
 	 * @param interpreter
 	 *            The interpreter
+	 * @param contextAdapter
+	 *            The context adapter
 	 */
-	public EEFExtReferenceController(EEFExtReferenceDescription description, IVariableManager variableManager, IInterpreter interpreter) {
-		super(variableManager, interpreter);
+	public EEFExtReferenceController(EEFExtReferenceDescription description, IVariableManager variableManager, IInterpreter interpreter,
+			EditingContextAdapter contextAdapter) {
+		super(variableManager, interpreter, contextAdapter);
 		this.description = description;
 	}
 

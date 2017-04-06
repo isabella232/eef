@@ -12,6 +12,7 @@ package org.eclipse.eef.core.internal.controllers;
 
 import org.eclipse.eef.EEFGroupDescription;
 import org.eclipse.eef.EefPackage;
+import org.eclipse.eef.core.api.EditingContextAdapter;
 import org.eclipse.eef.core.api.controllers.AbstractEEFController;
 import org.eclipse.eef.core.api.controllers.IConsumer;
 import org.eclipse.eef.core.api.controllers.IEEFGroupController;
@@ -47,8 +48,27 @@ public class EEFGroupController extends AbstractEEFController implements IEEFGro
 	 * @param interpreter
 	 *            The interpreter
 	 */
+	@Deprecated
 	public EEFGroupController(EEFGroupDescription description, IVariableManager variableManager, IInterpreter interpreter) {
 		super(variableManager, interpreter);
+		this.description = description;
+	}
+
+	/**
+	 * The constructor.
+	 *
+	 * @param description
+	 *            The description
+	 * @param variableManager
+	 *            The variable manager
+	 * @param interpreter
+	 *            The interpreter
+	 * @param editingContextAdapter
+	 *            The editing context adapter
+	 */
+	public EEFGroupController(EEFGroupDescription description, IVariableManager variableManager, IInterpreter interpreter,
+			EditingContextAdapter editingContextAdapter) {
+		super(variableManager, interpreter, editingContextAdapter);
 		this.description = description;
 	}
 

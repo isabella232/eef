@@ -156,7 +156,7 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 
 		this.widgetFactory.paintBordersFor(parent);
 
-		this.controller = new EEFExtReferenceController(this.description, this.variableManager, this.interpreter);
+		this.controller = new EEFExtReferenceController(this.description, this.variableManager, this.interpreter, this.contextAdapter);
 	}
 
 	/**

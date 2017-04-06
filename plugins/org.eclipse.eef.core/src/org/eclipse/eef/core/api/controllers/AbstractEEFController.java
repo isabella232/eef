@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Obeo.
+ * Copyright (c) 2016, 2017 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,6 +20,7 @@ import org.eclipse.eef.EEFRuleAuditDescription;
 import org.eclipse.eef.EEFValidationRuleDescription;
 import org.eclipse.eef.EefPackage;
 import org.eclipse.eef.core.api.EEFExpressionUtils;
+import org.eclipse.eef.core.api.EditingContextAdapter;
 import org.eclipse.eef.core.api.utils.EvalFactory;
 import org.eclipse.eef.core.api.utils.EvalFactory.Eval;
 import org.eclipse.eef.core.internal.controllers.InvalidValidationRuleResult;
@@ -48,6 +49,11 @@ public abstract class AbstractEEFController implements IEEFController {
 	protected IVariableManager variableManager;
 
 	/**
+	 * The editing context adapter.
+	 */
+	private EditingContextAdapter editingContextAdapter;
+
+	/**
 	 * The consumer of the validation messages.
 	 */
 	private IConsumer<List<IValidationRuleResult>> validationConsumer;
@@ -60,9 +66,26 @@ public abstract class AbstractEEFController implements IEEFController {
 	 * @param interpreter
 	 *            The interpreter
 	 */
+	@Deprecated
 	public AbstractEEFController(IVariableManager variableManager, IInterpreter interpreter) {
 		this.variableManager = variableManager;
 		this.interpreter = interpreter;
+	}
+
+	/**
+	 * The constructor.
+	 *
+	 * @param variableManager
+	 *            The variable manager
+	 * @param interpreter
+	 *            The interpreter
+	 * @param editingContextAdapter
+	 *            The editing context adapter
+	 */
+	public AbstractEEFController(IVariableManager variableManager, IInterpreter interpreter, EditingContextAdapter editingContextAdapter) {
+		this.variableManager = variableManager;
+		this.interpreter = interpreter;
+		this.editingContextAdapter = editingContextAdapter;
 	}
 
 	/**
@@ -169,7 +192,8 @@ public abstract class AbstractEEFController implements IEEFController {
 				Eval<Object> eval = EvalFactory.of(this.interpreter, variables);
 				String message = eval.logIfBlank(messageEAttribute).logIfInvalidType(String.class).evaluate(validationRule.getMessageExpression());
 
-				validationRuleResults.add(new InvalidValidationRuleResult(validationRule, message, eval, validationRule.getSeverity().getValue()));
+				validationRuleResults.add(new InvalidValidationRuleResult(validationRule, message, eval, this.editingContextAdapter,
+						validationRule.getSeverity().getValue()));
 			}
 		}
 

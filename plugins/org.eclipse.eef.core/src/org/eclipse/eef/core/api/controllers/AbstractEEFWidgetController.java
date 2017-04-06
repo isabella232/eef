@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Obeo.
+ * Copyright (c) 2016, 2017 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@ package org.eclipse.eef.core.api.controllers;
 
 import org.eclipse.eef.EEFWidgetDescription;
 import org.eclipse.eef.EefPackage;
+import org.eclipse.eef.core.api.EditingContextAdapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
@@ -42,8 +43,23 @@ public abstract class AbstractEEFWidgetController extends AbstractEEFController 
 	 * @param interpreter
 	 *            The interpreter
 	 */
+	@Deprecated
 	public AbstractEEFWidgetController(IVariableManager variableManager, IInterpreter interpreter) {
 		super(variableManager, interpreter);
+	}
+
+	/**
+	 * The constructor.
+	 *
+	 * @param variableManager
+	 *            The variable manager
+	 * @param interpreter
+	 *            The interpreter
+	 * @param editingContextAdapter
+	 *            The editing context adapter
+	 */
+	public AbstractEEFWidgetController(IVariableManager variableManager, IInterpreter interpreter, EditingContextAdapter editingContextAdapter) {
+		super(variableManager, interpreter, editingContextAdapter);
 	}
 
 	/**

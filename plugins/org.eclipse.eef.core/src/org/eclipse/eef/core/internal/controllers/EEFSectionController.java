@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Obeo.
+ * Copyright (c) 2016, 2017 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@ package org.eclipse.eef.core.internal.controllers;
 
 import org.eclipse.eef.EEFPageDescription;
 import org.eclipse.eef.EefPackage;
+import org.eclipse.eef.core.api.EditingContextAdapter;
 import org.eclipse.eef.core.api.controllers.AbstractEEFController;
 import org.eclipse.eef.core.api.controllers.IEEFSectionController;
 import org.eclipse.emf.ecore.EObject;
@@ -40,8 +41,27 @@ public class EEFSectionController extends AbstractEEFController implements IEEFS
 	 * @param description
 	 *            The description of the page
 	 */
+	@Deprecated
 	public EEFSectionController(IVariableManager variableManager, IInterpreter interpreter, EEFPageDescription description) {
 		super(variableManager, interpreter);
+		this.description = description;
+	}
+
+	/**
+	 * The constructor.
+	 *
+	 * @param variableManager
+	 *            The variable manager
+	 * @param interpreter
+	 *            The interpreter
+	 * @param description
+	 *            The description of the page
+	 * @param editingContextAdapter
+	 *            The editing context adapter
+	 */
+	public EEFSectionController(IVariableManager variableManager, IInterpreter interpreter, EEFPageDescription description,
+			EditingContextAdapter editingContextAdapter) {
+		super(variableManager, interpreter, editingContextAdapter);
 		this.description = description;
 	}
 
