@@ -4,6 +4,23 @@ h2. Release Notes for Eclipse EEF
 
 This document contains the release notes for recent major releases of EEF.
 
+h3(#eef1.9.1). Changes in EEF 1.9.1
+
+h4. User-Visible Changes
+
+* <span class="label label-info">Modified</span> Improved support for permissions.
+* <span class="label label-info">Modified</span> Fixed an issue with the label used by the dialogs of the reference widget to improve the support of meta-models with column label providers.
+* <span class="label label-info">Modified</span> Fixed an issue where the quick fixes did not trigger a refresh of the whole page.
+
+h4. Developer-Visible Changes
+
+* <span class="label label-info">Modified</span> The constructor @org.eclipse.eef.core.api.controllers.AbstractEEFController.AbstractEEFController(IVariableManager, IInterpreter)@ has been deprecated in favor of another constructor with the @EditingContextAdapter@ as an additional parameter. Multiple constructors in various classes which ended up calling this constructor without this new parameter have also been deprecated. They will be removed in EEF 2.0.0. See "this review":https://git.eclipse.org/r/#/c/94543 for the detailled list of the impacted classes.
+
+h3(#eef1.9.0). Changes in EEF 1.9.0
+
+h4. User-Visible Changes
+
+* <span class="label label-success">Added</span> Add support for permissions with locks
 
 h3(#eef1.8.0). Changes in EEF 1.8.0
 
