@@ -1225,7 +1225,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
-	public EAttribute getEEFButtonDescription_PushExpression() {
+	public EAttribute getEEFButtonDescription_ImageExpression() {
 		return (EAttribute) eefButtonDescriptionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1235,8 +1235,18 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
+	public EAttribute getEEFButtonDescription_PushExpression() {
+		return (EAttribute) eefButtonDescriptionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public EReference getEEFButtonDescription_Style() {
-		return (EReference) eefButtonDescriptionEClass.getEStructuralFeatures().get(2);
+		return (EReference) eefButtonDescriptionEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1246,7 +1256,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 */
 	@Override
 	public EReference getEEFButtonDescription_ConditionalStyles() {
-		return (EReference) eefButtonDescriptionEClass.getEStructuralFeatures().get(3);
+		return (EReference) eefButtonDescriptionEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -2315,8 +2325,18 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
-	public EAttribute getEEFWidgetAction_ActionExpression() {
+	public EAttribute getEEFWidgetAction_ImageExpression() {
 		return (EAttribute) eefWidgetActionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public EAttribute getEEFWidgetAction_ActionExpression() {
+		return (EAttribute) eefWidgetActionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2516,6 +2536,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 
 		eefButtonDescriptionEClass = createEClass(EefPackage.EEF_BUTTON_DESCRIPTION);
 		createEAttribute(eefButtonDescriptionEClass, EefPackage.EEF_BUTTON_DESCRIPTION__BUTTON_LABEL_EXPRESSION);
+		createEAttribute(eefButtonDescriptionEClass, EefPackage.EEF_BUTTON_DESCRIPTION__IMAGE_EXPRESSION);
 		createEAttribute(eefButtonDescriptionEClass, EefPackage.EEF_BUTTON_DESCRIPTION__PUSH_EXPRESSION);
 		createEReference(eefButtonDescriptionEClass, EefPackage.EEF_BUTTON_DESCRIPTION__STYLE);
 		createEReference(eefButtonDescriptionEClass, EefPackage.EEF_BUTTON_DESCRIPTION__CONDITIONAL_STYLES);
@@ -2655,6 +2676,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 
 		eefWidgetActionEClass = createEClass(EefPackage.EEF_WIDGET_ACTION);
 		createEAttribute(eefWidgetActionEClass, EefPackage.EEF_WIDGET_ACTION__LABEL_EXPRESSION);
+		createEAttribute(eefWidgetActionEClass, EefPackage.EEF_WIDGET_ACTION__IMAGE_EXPRESSION);
 		createEAttribute(eefWidgetActionEClass, EefPackage.EEF_WIDGET_ACTION__ACTION_EXPRESSION);
 
 		eefListConditionalStyleEClass = createEClass(EefPackage.EEF_LIST_CONDITIONAL_STYLE);
@@ -2972,6 +2994,9 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 		initEClass(eefButtonDescriptionEClass, EEFButtonDescription.class, "EEFButtonDescription", !EPackageImpl.IS_ABSTRACT, //$NON-NLS-1$
 				!EPackageImpl.IS_INTERFACE, EPackageImpl.IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEEFButtonDescription_ButtonLabelExpression(), theEcorePackage.getEString(), "buttonLabelExpression", null, 0, 1, //$NON-NLS-1$
+				EEFButtonDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE,
+				!EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED);
+		initEAttribute(getEEFButtonDescription_ImageExpression(), ecorePackage.getEString(), "imageExpression", null, 0, 1, //$NON-NLS-1$
 				EEFButtonDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE,
 				!EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID, EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED);
 		initEAttribute(getEEFButtonDescription_PushExpression(), theEcorePackage.getEString(), "pushExpression", null, 0, 1, //$NON-NLS-1$
@@ -3326,6 +3351,9 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 		initEClass(eefWidgetActionEClass, EEFWidgetAction.class, "EEFWidgetAction", !EPackageImpl.IS_ABSTRACT, !EPackageImpl.IS_INTERFACE, //$NON-NLS-1$
 				EPackageImpl.IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEEFWidgetAction_LabelExpression(), ecorePackage.getEString(), "labelExpression", null, 0, 1, EEFWidgetAction.class, //$NON-NLS-1$
+				!EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID,
+				EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED);
+		initEAttribute(getEEFWidgetAction_ImageExpression(), ecorePackage.getEString(), "imageExpression", null, 0, 1, EEFWidgetAction.class, //$NON-NLS-1$
 				!EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID,
 				EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED);
 		initEAttribute(getEEFWidgetAction_ActionExpression(), ecorePackage.getEString(), "actionExpression", null, 0, 1, EEFWidgetAction.class, //$NON-NLS-1$

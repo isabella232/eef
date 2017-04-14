@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.EEFButtonDescription#getButtonLabelExpression <em>Button Label Expression</em>}</li>
+ * <li>{@link org.eclipse.eef.EEFButtonDescription#getImageExpression <em>Image Expression</em>}</li>
  * <li>{@link org.eclipse.eef.EEFButtonDescription#getPushExpression <em>Push Expression</em>}</li>
  * <li>{@link org.eclipse.eef.EEFButtonDescription#getStyle <em>Style</em>}</li>
  * <li>{@link org.eclipse.eef.EEFButtonDescription#getConditionalStyles <em>Conditional Styles</em>}</li>
@@ -54,6 +55,29 @@ public interface EEFButtonDescription extends EEFWidgetDescription {
 	 * @generated
 	 */
 	void setButtonLabelExpression(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Image Expression</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * --> <!-- begin-model-doc --> Image of the button visible in the user interface. <!-- end-model-doc -->
+	 *
+	 * @return the value of the '<em>Image Expression</em>' attribute.
+	 * @see #setImageExpression(String)
+	 * @see org.eclipse.eef.EefPackage#getEEFButtonDescription_ImageExpression()
+	 * @model
+	 * @generated
+	 */
+	String getImageExpression();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.eef.EEFButtonDescription#getImageExpression <em>Image Expression</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @param value
+	 *            the new value of the '<em>Image Expression</em>' attribute.
+	 * @see #getImageExpression()
+	 * @generated
+	 */
+	void setImageExpression(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Push Expression</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc

@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  * <li>{@link org.eclipse.eef.impl.EEFButtonDescriptionImpl#getButtonLabelExpression <em>Button Label Expression</em>}
  * </li>
+ * <li>{@link org.eclipse.eef.impl.EEFButtonDescriptionImpl#getImageExpression <em>Image Expression</em>}</li>
  * <li>{@link org.eclipse.eef.impl.EEFButtonDescriptionImpl#getPushExpression <em>Push Expression</em>}</li>
  * <li>{@link org.eclipse.eef.impl.EEFButtonDescriptionImpl#getStyle <em>Style</em>}</li>
  * <li>{@link org.eclipse.eef.impl.EEFButtonDescriptionImpl#getConditionalStyles <em>Conditional Styles</em>}</li>
@@ -59,6 +60,26 @@ public class EEFButtonDescriptionImpl extends EEFWidgetDescriptionImpl implement
 	 * @ordered
 	 */
 	protected String buttonLabelExpression = EEFButtonDescriptionImpl.BUTTON_LABEL_EXPRESSION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getImageExpression() <em>Image Expression</em>}' attribute. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 *
+	 * @see #getImageExpression()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String IMAGE_EXPRESSION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getImageExpression() <em>Image Expression</em>}' attribute. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 *
+	 * @see #getImageExpression()
+	 * @generated
+	 * @ordered
+	 */
+	protected String imageExpression = EEFButtonDescriptionImpl.IMAGE_EXPRESSION_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getPushExpression() <em>Push Expression</em>}' attribute. <!-- begin-user-doc
@@ -141,6 +162,31 @@ public class EEFButtonDescriptionImpl extends EEFWidgetDescriptionImpl implement
 		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, EefPackage.EEF_BUTTON_DESCRIPTION__BUTTON_LABEL_EXPRESSION,
 					oldButtonLabelExpression, buttonLabelExpression));
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public String getImageExpression() {
+		return imageExpression;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public void setImageExpression(String newImageExpression) {
+		String oldImageExpression = imageExpression;
+		imageExpression = newImageExpression;
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.SET, EefPackage.EEF_BUTTON_DESCRIPTION__IMAGE_EXPRESSION, oldImageExpression,
+					imageExpression));
 		}
 	}
 
@@ -292,6 +338,8 @@ public class EEFButtonDescriptionImpl extends EEFWidgetDescriptionImpl implement
 		switch (featureID) {
 		case EefPackage.EEF_BUTTON_DESCRIPTION__BUTTON_LABEL_EXPRESSION:
 			return getButtonLabelExpression();
+		case EefPackage.EEF_BUTTON_DESCRIPTION__IMAGE_EXPRESSION:
+			return getImageExpression();
 		case EefPackage.EEF_BUTTON_DESCRIPTION__PUSH_EXPRESSION:
 			return getPushExpression();
 		case EefPackage.EEF_BUTTON_DESCRIPTION__STYLE:
@@ -316,6 +364,9 @@ public class EEFButtonDescriptionImpl extends EEFWidgetDescriptionImpl implement
 		switch (featureID) {
 		case EefPackage.EEF_BUTTON_DESCRIPTION__BUTTON_LABEL_EXPRESSION:
 			setButtonLabelExpression((String) newValue);
+			return;
+		case EefPackage.EEF_BUTTON_DESCRIPTION__IMAGE_EXPRESSION:
+			setImageExpression((String) newValue);
 			return;
 		case EefPackage.EEF_BUTTON_DESCRIPTION__PUSH_EXPRESSION:
 			setPushExpression((String) newValue);
@@ -342,6 +393,9 @@ public class EEFButtonDescriptionImpl extends EEFWidgetDescriptionImpl implement
 		case EefPackage.EEF_BUTTON_DESCRIPTION__BUTTON_LABEL_EXPRESSION:
 			setButtonLabelExpression(EEFButtonDescriptionImpl.BUTTON_LABEL_EXPRESSION_EDEFAULT);
 			return;
+		case EefPackage.EEF_BUTTON_DESCRIPTION__IMAGE_EXPRESSION:
+			setImageExpression(EEFButtonDescriptionImpl.IMAGE_EXPRESSION_EDEFAULT);
+			return;
 		case EefPackage.EEF_BUTTON_DESCRIPTION__PUSH_EXPRESSION:
 			setPushExpression(EEFButtonDescriptionImpl.PUSH_EXPRESSION_EDEFAULT);
 			return;
@@ -366,6 +420,9 @@ public class EEFButtonDescriptionImpl extends EEFWidgetDescriptionImpl implement
 		case EefPackage.EEF_BUTTON_DESCRIPTION__BUTTON_LABEL_EXPRESSION:
 			return EEFButtonDescriptionImpl.BUTTON_LABEL_EXPRESSION_EDEFAULT == null ? buttonLabelExpression != null
 					: !EEFButtonDescriptionImpl.BUTTON_LABEL_EXPRESSION_EDEFAULT.equals(buttonLabelExpression);
+		case EefPackage.EEF_BUTTON_DESCRIPTION__IMAGE_EXPRESSION:
+			return EEFButtonDescriptionImpl.IMAGE_EXPRESSION_EDEFAULT == null ? imageExpression != null
+					: !EEFButtonDescriptionImpl.IMAGE_EXPRESSION_EDEFAULT.equals(imageExpression);
 		case EefPackage.EEF_BUTTON_DESCRIPTION__PUSH_EXPRESSION:
 			return EEFButtonDescriptionImpl.PUSH_EXPRESSION_EDEFAULT == null ? pushExpression != null
 					: !EEFButtonDescriptionImpl.PUSH_EXPRESSION_EDEFAULT.equals(pushExpression);
@@ -391,6 +448,8 @@ public class EEFButtonDescriptionImpl extends EEFWidgetDescriptionImpl implement
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (buttonLabelExpression: "); //$NON-NLS-1$
 		result.append(buttonLabelExpression);
+		result.append(", imageExpression: "); //$NON-NLS-1$
+		result.append(imageExpression);
 		result.append(", pushExpression: "); //$NON-NLS-1$
 		result.append(pushExpression);
 		result.append(')');

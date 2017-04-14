@@ -1055,12 +1055,21 @@ public interface EefPackage extends EPackage {
 	int EEF_BUTTON_DESCRIPTION__BUTTON_LABEL_EXPRESSION = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Image Expression</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_BUTTON_DESCRIPTION__IMAGE_EXPRESSION = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Push Expression</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @generated
 	 * @ordered
 	 */
-	int EEF_BUTTON_DESCRIPTION__PUSH_EXPRESSION = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 1;
+	int EEF_BUTTON_DESCRIPTION__PUSH_EXPRESSION = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Style</b></em>' containment reference. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1069,7 +1078,7 @@ public interface EefPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EEF_BUTTON_DESCRIPTION__STYLE = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 2;
+	int EEF_BUTTON_DESCRIPTION__STYLE = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Conditional Styles</b></em>' containment reference list. <!-- begin-user-doc -->
@@ -1078,7 +1087,7 @@ public interface EefPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EEF_BUTTON_DESCRIPTION__CONDITIONAL_STYLES = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 3;
+	int EEF_BUTTON_DESCRIPTION__CONDITIONAL_STYLES = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>EEF Button Description</em>' class. <!-- begin-user-doc --> <!--
@@ -1087,7 +1096,7 @@ public interface EefPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EEF_BUTTON_DESCRIPTION_FEATURE_COUNT = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 4;
+	int EEF_BUTTON_DESCRIPTION_FEATURE_COUNT = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFCheckboxDescriptionImpl
@@ -3070,13 +3079,22 @@ public interface EefPackage extends EPackage {
 	int EEF_WIDGET_ACTION__LABEL_EXPRESSION = 0;
 
 	/**
+	 * The feature id for the '<em><b>Image Expression</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_WIDGET_ACTION__IMAGE_EXPRESSION = 1;
+
+	/**
 	 * The feature id for the '<em><b>Action Expression</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
 	 *
 	 * @generated
 	 * @ordered
 	 */
-	int EEF_WIDGET_ACTION__ACTION_EXPRESSION = 1;
+	int EEF_WIDGET_ACTION__ACTION_EXPRESSION = 2;
 
 	/**
 	 * The number of structural features of the '<em>EEF Widget Action</em>' class. <!-- begin-user-doc --> <!--
@@ -3085,7 +3103,7 @@ public interface EefPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EEF_WIDGET_ACTION_FEATURE_COUNT = 2;
+	int EEF_WIDGET_ACTION_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFListConditionalStyleImpl
@@ -3981,6 +3999,17 @@ public interface EefPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getEEFButtonDescription_ButtonLabelExpression();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eef.EEFButtonDescription#getImageExpression
+	 * <em>Image Expression</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the attribute '<em>Image Expression</em>'.
+	 * @see org.eclipse.eef.EEFButtonDescription#getImageExpression()
+	 * @see #getEEFButtonDescription()
+	 * @generated
+	 */
+	EAttribute getEEFButtonDescription_ImageExpression();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.eef.EEFButtonDescription#getPushExpression
@@ -5168,6 +5197,17 @@ public interface EefPackage extends EPackage {
 	EAttribute getEEFWidgetAction_LabelExpression();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eef.EEFWidgetAction#getImageExpression
+	 * <em>Image Expression</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the attribute '<em>Image Expression</em>'.
+	 * @see org.eclipse.eef.EEFWidgetAction#getImageExpression()
+	 * @see #getEEFWidgetAction()
+	 * @generated
+	 */
+	EAttribute getEEFWidgetAction_ImageExpression();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.eef.EEFWidgetAction#getActionExpression
 	 * <em>Action Expression</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -5884,6 +5924,14 @@ public interface EefPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EEF_BUTTON_DESCRIPTION__BUTTON_LABEL_EXPRESSION = EefPackage.eINSTANCE.getEEFButtonDescription_ButtonLabelExpression();
+
+		/**
+		 * The meta object literal for the '<em><b>Image Expression</b></em>' attribute feature. <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EAttribute EEF_BUTTON_DESCRIPTION__IMAGE_EXPRESSION = EefPackage.eINSTANCE.getEEFButtonDescription_ImageExpression();
 
 		/**
 		 * The meta object literal for the '<em><b>Push Expression</b></em>' attribute feature. <!-- begin-user-doc -->
@@ -6816,6 +6864,14 @@ public interface EefPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EEF_WIDGET_ACTION__LABEL_EXPRESSION = EefPackage.eINSTANCE.getEEFWidgetAction_LabelExpression();
+
+		/**
+		 * The meta object literal for the '<em><b>Image Expression</b></em>' attribute feature. <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EAttribute EEF_WIDGET_ACTION__IMAGE_EXPRESSION = EefPackage.eINSTANCE.getEEFWidgetAction_ImageExpression();
 
 		/**
 		 * The meta object literal for the '<em><b>Action Expression</b></em>' attribute feature. <!-- begin-user-doc

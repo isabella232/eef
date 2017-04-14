@@ -49,6 +49,7 @@ public class EEFButtonDescriptionItemProvider extends EEFWidgetDescriptionItemPr
 			super.getPropertyDescriptors(object);
 
 			addButtonLabelExpressionPropertyDescriptor(object);
+			addImageExpressionPropertyDescriptor(object);
 			addPushExpressionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -67,6 +68,19 @@ public class EEFButtonDescriptionItemProvider extends EEFWidgetDescriptionItemPr
 						"_UI_EEFButtonDescription_type"), //$NON-NLS-1$
 				EefPackage.Literals.EEF_BUTTON_DESCRIPTION__BUTTON_LABEL_EXPRESSION, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				null, null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Image Expression feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected void addImageExpressionPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(), getString("_UI_EEFButtonDescription_imageExpression_feature"), //$NON-NLS-1$
+				getString("_UI_PropertyDescriptor_description", "_UI_EEFButtonDescription_imageExpression_feature", "_UI_EEFButtonDescription_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				EefPackage.Literals.EEF_BUTTON_DESCRIPTION__IMAGE_EXPRESSION, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null,
+				null));
 	}
 
 	/**
@@ -149,7 +163,7 @@ public class EEFButtonDescriptionItemProvider extends EEFWidgetDescriptionItemPr
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached children and by creating
 	 * a viewer notification, which it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -158,6 +172,7 @@ public class EEFButtonDescriptionItemProvider extends EEFWidgetDescriptionItemPr
 
 		switch (notification.getFeatureID(EEFButtonDescription.class)) {
 		case EefPackage.EEF_BUTTON_DESCRIPTION__BUTTON_LABEL_EXPRESSION:
+		case EefPackage.EEF_BUTTON_DESCRIPTION__IMAGE_EXPRESSION:
 		case EefPackage.EEF_BUTTON_DESCRIPTION__PUSH_EXPRESSION:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;

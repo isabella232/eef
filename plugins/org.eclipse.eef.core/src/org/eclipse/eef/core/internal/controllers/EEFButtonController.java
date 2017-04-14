@@ -41,6 +41,11 @@ public class EEFButtonController extends AbstractEEFWidgetController implements 
 	private Consumer<String> newButtonLabelConsumer;
 
 	/**
+	 * The consumer of a new value of the button's image.
+	 */
+	private Consumer<Object> newButtonImageConsumer;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param description
@@ -69,6 +74,16 @@ public class EEFButtonController extends AbstractEEFWidgetController implements 
 	}
 
 	@Override
+	public void onNewButtonImage(Consumer<Object> consumer) {
+		this.newButtonImageConsumer = consumer;
+	}
+
+	@Override
+	public void removeNewButtonImageConsumer() {
+		this.newButtonImageConsumer = null;
+	}
+
+	@Override
 	protected EEFWidgetDescription getDescription() {
 		return this.description;
 	}
@@ -77,10 +92,17 @@ public class EEFButtonController extends AbstractEEFWidgetController implements 
 	public void refresh() {
 		super.refresh();
 
+		String imageExpression = Optional.ofNullable(this.description.getImageExpression()).orElse(""); //$NON-NLS-1$
+		if (!imageExpression.isEmpty()) {
+			this.newEval().logIfInvalidType(Object.class).call(imageExpression, this.newButtonImageConsumer);
+		}
+
 		String buttonLabelExpression = this.description.getButtonLabelExpression();
-		Optional.ofNullable(this.newButtonLabelConsumer).ifPresent(consumer -> {
-			this.newEval().logIfInvalidType(String.class).defaultValue("...").call(buttonLabelExpression, consumer); //$NON-NLS-1$
-		});
+		if (!imageExpression.isEmpty()) {
+			this.newEval().logIfInvalidType(String.class).call(buttonLabelExpression, this.newButtonLabelConsumer);
+		} else {
+			this.newEval().logIfInvalidType(String.class).defaultValue("...").call(buttonLabelExpression, this.newButtonLabelConsumer); //$NON-NLS-1$
+		}
 	}
 
 	@Override
