@@ -79,8 +79,7 @@ public interface EEFWidgetDescription extends EEFControlDescription {
 
 	/**
 	 * Returns the value of the '<em><b>Is Enabled Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
-	 * end-user-doc --> <!-- begin-model-doc --> The tooltip of the help icon visible by the end-users <!--
-	 * end-model-doc -->
+	 * end-user-doc --> <!-- begin-model-doc --> The enablement rules to use for the widget. <!-- end-model-doc -->
 	 *
 	 * @return the value of the '<em>Is Enabled Expression</em>' attribute.
 	 * @see #setIsEnabledExpression(String)

@@ -63,6 +63,7 @@ public class EEFPageDescriptionItemProvider extends ItemProviderAdapter
 			addSemanticCandidateExpressionPropertyDescriptor(object);
 			addPreconditionExpressionPropertyDescriptor(object);
 			addGroupsPropertyDescriptor(object);
+			addIndentedPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -147,6 +148,18 @@ public class EEFPageDescriptionItemProvider extends ItemProviderAdapter
 	}
 
 	/**
+	 * This adds a property descriptor for the Indented feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected void addIndentedPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(), getString("_UI_EEFPageDescription_indented_feature"), //$NON-NLS-1$
+				getString("_UI_PropertyDescriptor_description", "_UI_EEFPageDescription_indented_feature", "_UI_EEFPageDescription_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				EefPackage.Literals.EEF_PAGE_DESCRIPTION__INDENTED, true, false, false, ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}. <!-- begin-user-doc --> <!--
@@ -212,7 +225,7 @@ public class EEFPageDescriptionItemProvider extends ItemProviderAdapter
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached children and by creating
 	 * a viewer notification, which it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -225,6 +238,7 @@ public class EEFPageDescriptionItemProvider extends ItemProviderAdapter
 		case EefPackage.EEF_PAGE_DESCRIPTION__DOMAIN_CLASS:
 		case EefPackage.EEF_PAGE_DESCRIPTION__SEMANTIC_CANDIDATE_EXPRESSION:
 		case EefPackage.EEF_PAGE_DESCRIPTION__PRECONDITION_EXPRESSION:
+		case EefPackage.EEF_PAGE_DESCRIPTION__INDENTED:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
 		case EefPackage.EEF_PAGE_DESCRIPTION__SEMANTIC_VALIDATION_RULES:

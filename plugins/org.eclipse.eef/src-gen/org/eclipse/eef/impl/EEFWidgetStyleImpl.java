@@ -20,11 +20,12 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
- * <li>{@link org.eclipse.eef.impl.EEFWidgetStyleImpl#getLabelBackgroundColorExpression <em>Label Background Color
- * Expression</em>}</li>
- * <li>{@link org.eclipse.eef.impl.EEFWidgetStyleImpl#getLabelForegroundColorExpression <em>Label Foreground Color
- * Expression</em>}</li>
+ * <li>{@link org.eclipse.eef.impl.EEFWidgetStyleImpl#getLabelBackgroundColorExpression
+ * <em>Label Background Color Expression</em>}</li>
+ * <li>{@link org.eclipse.eef.impl.EEFWidgetStyleImpl#getLabelForegroundColorExpression
+ * <em>Label Foreground Color Expression</em>}</li>
  * <li>{@link org.eclipse.eef.impl.EEFWidgetStyleImpl#getLabelFontNameExpression <em>Label Font Name Expression</em>}
  * </li>
  * <li>{@link org.eclipse.eef.impl.EEFWidgetStyleImpl#getLabelFontSizeExpression <em>Label Font Size Expression</em>}
@@ -32,7 +33,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <li>{@link org.eclipse.eef.impl.EEFWidgetStyleImpl#getLabelFontStyleExpression <em>Label Font Style Expression</em>}
  * </li>
  * </ul>
- * </p>
  *
  * @generated
  */

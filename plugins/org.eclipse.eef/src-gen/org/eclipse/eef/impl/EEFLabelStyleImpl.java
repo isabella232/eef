@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.impl.EEFLabelStyleImpl#getBackgroundColorExpression <em>Background Color Expression</em>}
  * </li>
@@ -28,7 +29,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <li>{@link org.eclipse.eef.impl.EEFLabelStyleImpl#getFontSizeExpression <em>Font Size Expression</em>}</li>
  * <li>{@link org.eclipse.eef.impl.EEFLabelStyleImpl#getFontStyleExpression <em>Font Style Expression</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -16,14 +16,13 @@ package org.eclipse.eef;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.EEFHyperlinkStyle#getBackgroundColorExpression <em>Background Color Expression</em>}</li>
- * <li>{@link org.eclipse.eef.EEFHyperlinkStyle#getForegroundColorExpression <em>Foreground Color Expression</em>}</li>
  * <li>{@link org.eclipse.eef.EEFHyperlinkStyle#getFontNameExpression <em>Font Name Expression</em>}</li>
  * <li>{@link org.eclipse.eef.EEFHyperlinkStyle#getFontSizeExpression <em>Font Size Expression</em>}</li>
  * <li>{@link org.eclipse.eef.EEFHyperlinkStyle#getFontStyleExpression <em>Font Style Expression</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.eef.EefPackage#getEEFHyperlinkStyle()
  * @model

@@ -199,13 +199,21 @@ public interface EefPackage extends EPackage {
 	int EEF_PAGE_DESCRIPTION__SEMANTIC_VALIDATION_RULES = 6;
 
 	/**
+	 * The feature id for the '<em><b>Indented</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_PAGE_DESCRIPTION__INDENTED = 7;
+
+	/**
 	 * The number of structural features of the '<em>EEF Page Description</em>' class. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 *
 	 * @generated
 	 * @ordered
 	 */
-	int EEF_PAGE_DESCRIPTION_FEATURE_COUNT = 7;
+	int EEF_PAGE_DESCRIPTION_FEATURE_COUNT = 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFValidationRuleDescriptionImpl
@@ -3359,6 +3367,17 @@ public interface EefPackage extends EPackage {
 	EReference getEEFPageDescription_SemanticValidationRules();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eef.EEFPageDescription#isIndented <em>Indented</em>
+	 * }'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the attribute '<em>Indented</em>'.
+	 * @see org.eclipse.eef.EEFPageDescription#isIndented()
+	 * @see #getEEFPageDescription()
+	 * @generated
+	 */
+	EAttribute getEEFPageDescription_Indented();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.eef.EEFValidationRuleDescription
 	 * <em>EEF Validation Rule Description</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -5385,6 +5404,14 @@ public interface EefPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EEF_PAGE_DESCRIPTION__SEMANTIC_VALIDATION_RULES = EefPackage.eINSTANCE.getEEFPageDescription_SemanticValidationRules();
+
+		/**
+		 * The meta object literal for the '<em><b>Indented</b></em>' attribute feature. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EAttribute EEF_PAGE_DESCRIPTION__INDENTED = EefPackage.eINSTANCE.getEEFPageDescription_Indented();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.eef.impl.EEFValidationRuleDescriptionImpl

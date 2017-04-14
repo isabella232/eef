@@ -197,7 +197,7 @@ public interface EEFGroupDescription extends EObject {
 	 * --> <!-- begin-model-doc --> Defines the group style <!-- end-model-doc -->
 	 *
 	 * @return the value of the '<em>Style</em>' containment reference.
-	 * @see #setStyle(EEFTextStyle)
+	 * @see #setStyle(EEFGroupStyle)
 	 * @see org.eclipse.eef.EefPackage#getEEFGroupDescription_Style()
 	 * @model containment="true" resolveProxies="true"
 	 * @generated

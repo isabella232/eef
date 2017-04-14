@@ -99,7 +99,7 @@ public class EEFTabDescriptor extends AbstractEEFTabDescriptor {
 
 	/**
 	 * Returns recursively a stream of the dynamic mappings for the given control.
-	 * 
+	 *
 	 * @param eefControlDescription
 	 *            The description of the control
 	 * @return The stream of the dynamic mapping
@@ -165,4 +165,13 @@ public class EEFTabDescriptor extends AbstractEEFTabDescriptor {
 		return "EEF"; //$NON-NLS-1$
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.properties.ui.api.AbstractEEFTabDescriptor#isIndented()
+	 */
+	@Override
+	public boolean isIndented() {
+		return this.eefPage.getDescription().isIndented();
+	}
 }

@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface EEFGroupStyle extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Background Color Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
-	 * end-user-doc --> <!-- begin-model-doc --> Defines the background color of the widget. It must be defined as hex
+	 * end-user-doc --> <!-- begin-model-doc --> Defines the background color of the group. It must be defined as hex
 	 * (#000000) or RGB (rgb(0,0,0)). <!-- end-model-doc -->
 	 *
 	 * @return the value of the '<em>Background Color Expression</em>' attribute.
@@ -57,7 +57,7 @@ public interface EEFGroupStyle extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Foreground Color Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
-	 * end-user-doc --> <!-- begin-model-doc --> Defines the foreground color of the widget. It must be defined as hex
+	 * end-user-doc --> <!-- begin-model-doc --> Defines the foreground color of the group. It must be defined as hex
 	 * (#000000) or RGB (rgb(0,0,0)). <!-- end-model-doc -->
 	 *
 	 * @return the value of the '<em>Foreground Color Expression</em>' attribute.
@@ -81,7 +81,7 @@ public interface EEFGroupStyle extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Font Name Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
-	 * end-user-doc --> <!-- begin-model-doc --> Defines the font's name of the widget. <!-- end-model-doc -->
+	 * end-user-doc --> <!-- begin-model-doc --> Defines the font's name of the group. <!-- end-model-doc -->
 	 *
 	 * @return the value of the '<em>Font Name Expression</em>' attribute.
 	 * @see #setFontNameExpression(String)
@@ -104,7 +104,7 @@ public interface EEFGroupStyle extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Font Size Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
-	 * end-user-doc --> <!-- begin-model-doc --> Defines the font's size of the widget. <!-- end-model-doc -->
+	 * end-user-doc --> <!-- begin-model-doc --> Defines the font's size of the group. <!-- end-model-doc -->
 	 *
 	 * @return the value of the '<em>Font Size Expression</em>' attribute.
 	 * @see #setFontSizeExpression(String)

@@ -92,6 +92,9 @@ public enum EEF_FILL_LAYOUT_ORIENTATION implements Enumerator {
 	 * Returns the '<em><b>EEF FILL LAYOUT ORIENTATION</b></em>' literal with the specified literal value. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 *
+	 * @param literal
+	 *            the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static EEF_FILL_LAYOUT_ORIENTATION get(String literal) {
@@ -125,6 +128,9 @@ public enum EEF_FILL_LAYOUT_ORIENTATION implements Enumerator {
 	 * Returns the '<em><b>EEF FILL LAYOUT ORIENTATION</b></em>' literal with the specified integer value. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 *
+	 * @param value
+	 *            the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static EEF_FILL_LAYOUT_ORIENTATION get(int value) {

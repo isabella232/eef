@@ -665,6 +665,16 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 	 * @generated
 	 */
 	@Override
+	public EAttribute getEEFPageDescription_Indented() {
+		return (EAttribute) eefPageDescriptionEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public EClass getEEFValidationRuleDescription() {
 		return eefValidationRuleDescriptionEClass;
 	}
@@ -2435,6 +2445,7 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 		createEAttribute(eefPageDescriptionEClass, EefPackage.EEF_PAGE_DESCRIPTION__PRECONDITION_EXPRESSION);
 		createEReference(eefPageDescriptionEClass, EefPackage.EEF_PAGE_DESCRIPTION__GROUPS);
 		createEReference(eefPageDescriptionEClass, EefPackage.EEF_PAGE_DESCRIPTION__SEMANTIC_VALIDATION_RULES);
+		createEAttribute(eefPageDescriptionEClass, EefPackage.EEF_PAGE_DESCRIPTION__INDENTED);
 
 		eefValidationRuleDescriptionEClass = createEClass(EefPackage.EEF_VALIDATION_RULE_DESCRIPTION);
 		createEAttribute(eefValidationRuleDescriptionEClass, EefPackage.EEF_VALIDATION_RULE_DESCRIPTION__SEVERITY);
@@ -2776,6 +2787,9 @@ public class EefPackageImpl extends EPackageImpl implements EefPackage {
 		initEReference(getEEFPageDescription_SemanticValidationRules(), this.getEEFSemanticValidationRuleDescription(), null,
 				"semanticValidationRules", null, 0, -1, EEFPageDescription.class, !EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, //$NON-NLS-1$
 				EPackageImpl.IS_CHANGEABLE, EPackageImpl.IS_COMPOSITE, EPackageImpl.IS_RESOLVE_PROXIES, !EPackageImpl.IS_UNSETTABLE,
+				EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED);
+		initEAttribute(getEEFPageDescription_Indented(), theEcorePackage.getEBoolean(), "indented", "false", 0, 1, EEFPageDescription.class, //$NON-NLS-1$//$NON-NLS-2$
+				!EPackageImpl.IS_TRANSIENT, !EPackageImpl.IS_VOLATILE, EPackageImpl.IS_CHANGEABLE, !EPackageImpl.IS_UNSETTABLE, !EPackageImpl.IS_ID,
 				EPackageImpl.IS_UNIQUE, !EPackageImpl.IS_DERIVED, EPackageImpl.IS_ORDERED);
 
 		initEClass(eefValidationRuleDescriptionEClass, EEFValidationRuleDescription.class, "EEFValidationRuleDescription", EPackageImpl.IS_ABSTRACT, //$NON-NLS-1$
