@@ -13,6 +13,7 @@ import java.util.Collection;
 import org.eclipse.eef.EEFGroupDescription;
 import org.eclipse.eef.EEFPageDescription;
 import org.eclipse.eef.EEFSemanticValidationRuleDescription;
+import org.eclipse.eef.EEFToolbarAction;
 import org.eclipse.eef.EefPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -43,6 +44,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <li>{@link org.eclipse.eef.impl.EEFPageDescriptionImpl#getSemanticValidationRules <em>Semantic Validation Rules</em>}
  * </li>
  * <li>{@link org.eclipse.eef.impl.EEFPageDescriptionImpl#isIndented <em>Indented</em>}</li>
+ * <li>{@link org.eclipse.eef.impl.EEFPageDescriptionImpl#getActions <em>Actions</em>}</li>
  * </ul>
  *
  * @generated
@@ -187,6 +189,16 @@ public class EEFPageDescriptionImpl extends MinimalEObjectImpl.Container impleme
 	 * @ordered
 	 */
 	protected boolean indented = EEFPageDescriptionImpl.INDENTED_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getActions() <em>Actions</em>}' containment reference list. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 *
+	 * @see #getActions()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EEFToolbarAction> actions;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -387,10 +399,25 @@ public class EEFPageDescriptionImpl extends MinimalEObjectImpl.Container impleme
 	 * @generated
 	 */
 	@Override
+	public EList<EEFToolbarAction> getActions() {
+		if (actions == null) {
+			actions = new EObjectContainmentEList.Resolving<EEFToolbarAction>(EEFToolbarAction.class, this, EefPackage.EEF_PAGE_DESCRIPTION__ACTIONS);
+		}
+		return actions;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 		case EefPackage.EEF_PAGE_DESCRIPTION__SEMANTIC_VALIDATION_RULES:
 			return ((InternalEList<?>) getSemanticValidationRules()).basicRemove(otherEnd, msgs);
+		case EefPackage.EEF_PAGE_DESCRIPTION__ACTIONS:
+			return ((InternalEList<?>) getActions()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -419,6 +446,8 @@ public class EEFPageDescriptionImpl extends MinimalEObjectImpl.Container impleme
 			return getSemanticValidationRules();
 		case EefPackage.EEF_PAGE_DESCRIPTION__INDENTED:
 			return isIndented();
+		case EefPackage.EEF_PAGE_DESCRIPTION__ACTIONS:
+			return getActions();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -458,6 +487,10 @@ public class EEFPageDescriptionImpl extends MinimalEObjectImpl.Container impleme
 		case EefPackage.EEF_PAGE_DESCRIPTION__INDENTED:
 			setIndented((Boolean) newValue);
 			return;
+		case EefPackage.EEF_PAGE_DESCRIPTION__ACTIONS:
+			getActions().clear();
+			getActions().addAll((Collection<? extends EEFToolbarAction>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -494,6 +527,9 @@ public class EEFPageDescriptionImpl extends MinimalEObjectImpl.Container impleme
 		case EefPackage.EEF_PAGE_DESCRIPTION__INDENTED:
 			setIndented(EEFPageDescriptionImpl.INDENTED_EDEFAULT);
 			return;
+		case EefPackage.EEF_PAGE_DESCRIPTION__ACTIONS:
+			getActions().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -527,6 +563,8 @@ public class EEFPageDescriptionImpl extends MinimalEObjectImpl.Container impleme
 			return semanticValidationRules != null && !semanticValidationRules.isEmpty();
 		case EefPackage.EEF_PAGE_DESCRIPTION__INDENTED:
 			return indented != EEFPageDescriptionImpl.INDENTED_EDEFAULT;
+		case EefPackage.EEF_PAGE_DESCRIPTION__ACTIONS:
+			return actions != null && !actions.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

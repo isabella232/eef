@@ -59,4 +59,30 @@ public final class EEFImageUtils {
 			return optionalImage;
 		});
 	}
+
+	/**
+	 * Retrieve an image descriptor from a string path as '/resource/folder/image.png'.
+	 * 
+	 * @param imgPath
+	 *            The image path
+	 * @return The image descriptor
+	 */
+	public static Optional<ImageDescriptor> getImageDescriptor(String imgPath) {
+		return FileProvider.getDefault().getFile(new Path(imgPath)).flatMap(imageFile -> {
+			Optional<ImageDescriptor> optionalImageDescriptor = Optional.empty();
+
+			if (imageFile.exists() && imageFile.canRead()) {
+				try {
+					optionalImageDescriptor = Optional.of(ImageDescriptor.createFromURL(imageFile.toURI().toURL()));
+				} catch (MalformedURLException e) {
+					EEFIdeUiPlugin.INSTANCE.log(e);
+				}
+			} else {
+				String message = MessageFormat.format(Messages.EEFIdeUiPlugin_fileNotFound, imgPath);
+				EEFIdeUiPlugin.getPlugin().error(message);
+			}
+
+			return optionalImageDescriptor;
+		});
+	}
 }

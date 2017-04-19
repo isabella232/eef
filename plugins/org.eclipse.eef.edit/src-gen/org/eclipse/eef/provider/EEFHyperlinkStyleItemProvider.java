@@ -72,7 +72,7 @@ public class EEFHyperlinkStyleItemProvider extends EEFWidgetStyleItemProvider {
 	/**
 	 * This adds a property descriptor for the Font Name Expression feature. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected void addFontNameExpressionPropertyDescriptor(Object object) {
@@ -86,7 +86,7 @@ public class EEFHyperlinkStyleItemProvider extends EEFWidgetStyleItemProvider {
 	/**
 	 * This adds a property descriptor for the Font Size Expression feature. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected void addFontSizeExpressionPropertyDescriptor(Object object) {
@@ -100,7 +100,7 @@ public class EEFHyperlinkStyleItemProvider extends EEFWidgetStyleItemProvider {
 	/**
 	 * This adds a property descriptor for the Font Style Expression feature. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected void addFontStyleExpressionPropertyDescriptor(Object object) {
@@ -147,7 +147,7 @@ public class EEFHyperlinkStyleItemProvider extends EEFWidgetStyleItemProvider {
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached children and by creating
 	 * a viewer notification, which it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override

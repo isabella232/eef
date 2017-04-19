@@ -172,6 +172,7 @@ public class EEFPageDescriptionItemProvider extends ItemProviderAdapter
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(EefPackage.Literals.EEF_PAGE_DESCRIPTION__SEMANTIC_VALIDATION_RULES);
+			childrenFeatures.add(EefPackage.Literals.EEF_PAGE_DESCRIPTION__ACTIONS);
 		}
 		return childrenFeatures;
 	}
@@ -225,7 +226,7 @@ public class EEFPageDescriptionItemProvider extends ItemProviderAdapter
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached children and by creating
 	 * a viewer notification, which it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -242,6 +243,7 @@ public class EEFPageDescriptionItemProvider extends ItemProviderAdapter
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
 		case EefPackage.EEF_PAGE_DESCRIPTION__SEMANTIC_VALIDATION_RULES:
+		case EefPackage.EEF_PAGE_DESCRIPTION__ACTIONS:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 			return;
 		}
@@ -260,6 +262,9 @@ public class EEFPageDescriptionItemProvider extends ItemProviderAdapter
 
 		newChildDescriptors.add(createChildParameter(EefPackage.Literals.EEF_PAGE_DESCRIPTION__SEMANTIC_VALIDATION_RULES,
 				EefFactory.eINSTANCE.createEEFSemanticValidationRuleDescription()));
+
+		newChildDescriptors
+				.add(createChildParameter(EefPackage.Literals.EEF_PAGE_DESCRIPTION__ACTIONS, EefFactory.eINSTANCE.createEEFToolbarAction()));
 	}
 
 	/**

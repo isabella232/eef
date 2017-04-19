@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  * <li>{@link org.eclipse.eef.EEFGroupDescription#getPropertyValidationRules <em>Property Validation Rules</em>}</li>
  * <li>{@link org.eclipse.eef.EEFGroupDescription#getStyle <em>Style</em>}</li>
  * <li>{@link org.eclipse.eef.EEFGroupDescription#getConditionalStyles <em>Conditional Styles</em>}</li>
+ * <li>{@link org.eclipse.eef.EEFGroupDescription#getActions <em>Actions</em>}</li>
  * </ul>
  *
  * @see org.eclipse.eef.EefPackage#getEEFGroupDescription()
@@ -226,5 +227,17 @@ public interface EEFGroupDescription extends EObject {
 	 * @generated
 	 */
 	EList<EEFGroupConditionalStyle> getConditionalStyles();
+
+	/**
+	 * Returns the value of the '<em><b>Actions</b></em>' containment reference list. The list contents are of type
+	 * {@link org.eclipse.eef.EEFToolbarAction}. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * Defines the toolbar's actions of this group. <!-- end-model-doc -->
+	 *
+	 * @return the value of the '<em>Actions</em>' containment reference list.
+	 * @see org.eclipse.eef.EefPackage#getEEFGroupDescription_Actions()
+	 * @model containment="true" resolveProxies="true"
+	 * @generated
+	 */
+	EList<EEFToolbarAction> getActions();
 
 } // EEFGroupDescription

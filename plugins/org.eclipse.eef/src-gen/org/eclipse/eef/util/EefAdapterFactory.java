@@ -51,6 +51,7 @@ import org.eclipse.eef.EEFSemanticValidationRuleDescription;
 import org.eclipse.eef.EEFTextConditionalStyle;
 import org.eclipse.eef.EEFTextDescription;
 import org.eclipse.eef.EEFTextStyle;
+import org.eclipse.eef.EEFToolbarAction;
 import org.eclipse.eef.EEFValidationFixDescription;
 import org.eclipse.eef.EEFValidationRuleDescription;
 import org.eclipse.eef.EEFViewDescription;
@@ -152,6 +153,11 @@ public class EefAdapterFactory extends AdapterFactoryImpl {
 		@Override
 		public Adapter caseEEFGroupDescription(EEFGroupDescription object) {
 			return createEEFGroupDescriptionAdapter();
+		}
+
+		@Override
+		public Adapter caseEEFToolbarAction(EEFToolbarAction object) {
+			return createEEFToolbarActionAdapter();
 		}
 
 		@Override
@@ -487,6 +493,19 @@ public class EefAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEEFGroupDescriptionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eef.EEFToolbarAction <em>EEF Toolbar Action</em>
+	 * }'. <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's
+	 * useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 *
+	 * @return the new adapter.
+	 * @see org.eclipse.eef.EEFToolbarAction
+	 * @generated
+	 */
+	public Adapter createEEFToolbarActionAdapter() {
 		return null;
 	}
 

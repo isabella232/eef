@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  * <li>{@link org.eclipse.eef.EEFPageDescription#getGroups <em>Groups</em>}</li>
  * <li>{@link org.eclipse.eef.EEFPageDescription#getSemanticValidationRules <em>Semantic Validation Rules</em>}</li>
  * <li>{@link org.eclipse.eef.EEFPageDescription#isIndented <em>Indented</em>}</li>
+ * <li>{@link org.eclipse.eef.EEFPageDescription#getActions <em>Actions</em>}</li>
  * </ul>
  *
  * @see org.eclipse.eef.EefPackage#getEEFPageDescription()
@@ -207,5 +208,17 @@ public interface EEFPageDescription extends EObject {
 	 * @generated
 	 */
 	void setIndented(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Actions</b></em>' containment reference list. The list contents are of type
+	 * {@link org.eclipse.eef.EEFToolbarAction}. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * Defines the toolbar's actions of this page. <!-- end-model-doc -->
+	 *
+	 * @return the value of the '<em>Actions</em>' containment reference list.
+	 * @see org.eclipse.eef.EefPackage#getEEFPageDescription_Actions()
+	 * @model containment="true" resolveProxies="true"
+	 * @generated
+	 */
+	EList<EEFToolbarAction> getActions();
 
 } // EEFPageDescription
