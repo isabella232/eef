@@ -10,10 +10,13 @@
  *******************************************************************************/
 package org.eclipse.eef.ide.ui.ext.widgets.reference.internal;
 
+import java.util.Optional;
+
 import org.eclipse.eef.common.ui.api.IEEFFormContainer;
 import org.eclipse.eef.core.api.EditingContextAdapter;
 import org.eclipse.eef.core.ext.widgets.reference.internal.EEFExtReferenceController;
 import org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference.EEFExtReferenceDescription;
+import org.eclipse.eef.ide.ui.api.widgets.EEFHyperlinkListener;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -26,12 +29,14 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.forms.widgets.Hyperlink;
 
 /**
  * This lifecycle manager is used to handle the EEF Extension reference widget for mono-valued EReferences.
@@ -49,6 +54,16 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 	 * The label showing the current value.
 	 */
 	private Label text;
+
+	/**
+	 * The hyperlink showing the current value.
+	 */
+	private Hyperlink hyperlink;
+
+	/**
+	 * The listener on the hyperlink.
+	 */
+	private MouseListener hyperlinkListener;
 
 	/**
 	 * The constructor.
@@ -129,13 +144,20 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 	 */
 	private void createLabel(Composite parent) {
 		this.image = this.widgetFactory.createLabel(parent, "", SWT.NONE); //$NON-NLS-1$
-		this.text = this.widgetFactory.createLabel(parent, "", SWT.NONE); //$NON-NLS-1$
 
 		GridData gridData = new GridData();
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalAlignment = SWT.FILL;
 
-		this.text.setLayoutData(gridData);
+		String onClickExpression = Optional.ofNullable(this.description.getOnClickExpression()).orElse(""); //$NON-NLS-1$
+		if (onClickExpression.isEmpty()) {
+			this.text = this.widgetFactory.createLabel(parent, "", SWT.NONE); //$NON-NLS-1$
+			this.text.setLayoutData(gridData);
+		} else {
+			this.hyperlink = this.widgetFactory.createHyperlink(parent, "", SWT.NONE); //$NON-NLS-1$
+			this.hyperlink.setLayoutData(gridData);
+		}
+
 	}
 
 	/**
@@ -156,7 +178,7 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 	@Override
 	protected void browseButtonCallback() {
 		IWizard wizard = new EEFExtEObjectSelectionWizard(this.target, this.eReference, this.editingContextAdapter);
-		WizardDialog wizardDialog = new WizardDialog(this.text.getShell(), wizard);
+		WizardDialog wizardDialog = new WizardDialog(this.image.getShell(), wizard);
 		wizardDialog.open();
 	}
 
@@ -168,7 +190,7 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 	@Override
 	protected void addButtonCallback() {
 		IWizard wizard = new EEFExtEObjectCreationWizard(this.target, this.eReference, this.editingContextAdapter);
-		WizardDialog wizardDialog = new WizardDialog(this.text.getShell(), wizard);
+		WizardDialog wizardDialog = new WizardDialog(this.image.getShell(), wizard);
 		wizardDialog.open();
 	}
 
@@ -196,12 +218,24 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 			Adapter adapter = this.composedAdapterFactory.adapt((EObject) value, IItemLabelProvider.class);
 			if (adapter instanceof IItemLabelProvider) {
 				IItemLabelProvider labelProvider = (IItemLabelProvider) adapter;
-				this.text.setText(labelProvider.getText(value));
 				this.image.setImage(ExtendedImageRegistry.INSTANCE.getImage(labelProvider.getImage(value)));
+
+				String onClickExpression = Optional.ofNullable(this.description.getOnClickExpression()).orElse(""); //$NON-NLS-1$
+				if (onClickExpression.isEmpty()) {
+					this.text.setText(labelProvider.getText(value));
+				} else {
+					this.hyperlink.setText(labelProvider.getText(value));
+				}
 			}
 		} else if (value == null) {
 			this.image.setImage(null);
-			this.text.setText(Messages.SingleReference_noValue);
+
+			String onClickExpression = Optional.ofNullable(this.description.getOnClickExpression()).orElse(""); //$NON-NLS-1$
+			if (onClickExpression.isEmpty()) {
+				this.text.setText(Messages.SingleReference_noValue);
+			} else {
+				this.hyperlink.setText(Messages.SingleReference_noValue);
+			}
 		}
 	}
 
@@ -229,4 +263,33 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 		return this.image;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.ext.widgets.reference.internal.AbstractEEFExtReferenceLifecycleManager#aboutToBeShown()
+	 */
+	@Override
+	public void aboutToBeShown() {
+		super.aboutToBeShown();
+
+		String onClickExpression = Optional.ofNullable(this.description.getOnClickExpression()).orElse(""); //$NON-NLS-1$
+		if (!onClickExpression.isEmpty()) {
+			this.hyperlinkListener = new EEFHyperlinkListener(this, this.hyperlink, this.container, this.controller);
+			hyperlink.addMouseListener(hyperlinkListener);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see org.eclipse.eef.ide.ui.ext.widgets.reference.internal.AbstractEEFExtReferenceLifecycleManager#aboutToBeHidden()
+	 */
+	@Override
+	public void aboutToBeHidden() {
+		super.aboutToBeHidden();
+
+		if (this.hyperlink != null && !this.hyperlink.isDisposed() && this.hyperlinkListener != null) {
+			this.hyperlink.removeMouseListener(this.hyperlinkListener);
+		}
+	}
 }
