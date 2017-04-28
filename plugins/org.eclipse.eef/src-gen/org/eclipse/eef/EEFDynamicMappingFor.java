@@ -16,12 +16,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.EEFDynamicMappingFor#getIterator <em>Iterator</em>}</li>
  * <li>{@link org.eclipse.eef.EEFDynamicMappingFor#getIterableExpression <em>Iterable Expression</em>}</li>
+ * <li>{@link org.eclipse.eef.EEFDynamicMappingFor#isForceRefresh <em>Force Refresh</em>}</li>
  * <li>{@link org.eclipse.eef.EEFDynamicMappingFor#getIfs <em>Ifs</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.eef.EefPackage#getEEFDynamicMappingFor()
  * @model
@@ -75,6 +76,30 @@ public interface EEFDynamicMappingFor extends EEFControlDescription {
 	 * @generated
 	 */
 	void setIterableExpression(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Force Refresh</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-model-doc --> Used to indicate if the runtime should consider that the presence of this dynamic
+	 * mapping should force the refresh of the user interface. <!-- end-model-doc -->
+	 *
+	 * @return the value of the '<em>Force Refresh</em>' attribute.
+	 * @see #setForceRefresh(boolean)
+	 * @see org.eclipse.eef.EefPackage#getEEFDynamicMappingFor_ForceRefresh()
+	 * @model required="true"
+	 * @generated
+	 */
+	boolean isForceRefresh();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.eef.EEFDynamicMappingFor#isForceRefresh <em>Force Refresh</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @param value
+	 *            the new value of the '<em>Force Refresh</em>' attribute.
+	 * @see #isForceRefresh()
+	 * @generated
+	 */
+	void setForceRefresh(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Ifs</b></em>' containment reference list. The list contents are of type

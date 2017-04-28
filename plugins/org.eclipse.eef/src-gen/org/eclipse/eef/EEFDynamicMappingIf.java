@@ -16,11 +16,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.EEFDynamicMappingIf#getPredicateExpression <em>Predicate Expression</em>}</li>
  * <li>{@link org.eclipse.eef.EEFDynamicMappingIf#getWidget <em>Widget</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.eef.EefPackage#getEEFDynamicMappingIf()
  * @model

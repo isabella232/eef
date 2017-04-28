@@ -14,12 +14,12 @@ package org.eclipse.eef;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.EEFGridLayoutDescription#getNumberOfColumns <em>Number Of Columns</em>}</li>
- * <li>{@link org.eclipse.eef.EEFGridLayoutDescription#isMakeColumnsWithEqualWidth <em>Make Columns With Equal Width
- * </em>}</li>
+ * <li>{@link org.eclipse.eef.EEFGridLayoutDescription#isMakeColumnsWithEqualWidth
+ * <em>Make Columns With Equal Width</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.eef.EefPackage#getEEFGridLayoutDescription()
  * @model

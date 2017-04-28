@@ -535,6 +535,12 @@
         <details key="documentation" value="Used to compute the mappings to create by iterating on the result of this expression."/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="forceRefresh" lowerBound="1"
+        eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Used to indicate if the runtime should consider that the presence of this dynamic mapping should force the refresh of the user interface."/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ifs" lowerBound="1" upperBound="-1"
         eType="#//EEFDynamicMappingIf" containment="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

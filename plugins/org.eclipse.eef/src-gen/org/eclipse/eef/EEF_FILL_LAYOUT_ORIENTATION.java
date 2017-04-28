@@ -85,8 +85,8 @@ public enum EEF_FILL_LAYOUT_ORIENTATION implements Enumerator {
 	 *
 	 * @generated
 	 */
-	public static final List<EEF_FILL_LAYOUT_ORIENTATION> VALUES = Collections.unmodifiableList(Arrays
-			.asList(EEF_FILL_LAYOUT_ORIENTATION.VALUES_ARRAY));
+	public static final List<EEF_FILL_LAYOUT_ORIENTATION> VALUES = Collections
+			.unmodifiableList(Arrays.asList(EEF_FILL_LAYOUT_ORIENTATION.VALUES_ARRAY));
 
 	/**
 	 * Returns the '<em><b>EEF FILL LAYOUT ORIENTATION</b></em>' literal with the specified literal value. <!--
@@ -107,6 +107,9 @@ public enum EEF_FILL_LAYOUT_ORIENTATION implements Enumerator {
 	 * Returns the '<em><b>EEF FILL LAYOUT ORIENTATION</b></em>' literal with the specified name. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 *
+	 * @param name
+	 *            the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static EEF_FILL_LAYOUT_ORIENTATION getByName(String name) {

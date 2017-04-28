@@ -108,8 +108,8 @@ public class EEFLabelConditionalStyleItemProvider extends EEFConditionalStyleIte
 	@Override
 	public String getText(Object object) {
 		String label = ((EEFLabelConditionalStyle) object).getPreconditionExpression();
-		return label == null || label.length() == 0 ? getString("_UI_EEFLabelConditionalStyle_type") : //$NON-NLS-1$
-			getString("_UI_EEFLabelConditionalStyle_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
+		return label == null || label.length() == 0 ? getString("_UI_EEFLabelConditionalStyle_type") //$NON-NLS-1$
+				: getString("_UI_EEFLabelConditionalStyle_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -141,8 +141,8 @@ public class EEFLabelConditionalStyleItemProvider extends EEFConditionalStyleIte
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add(createChildParameter(EefPackage.Literals.EEF_LABEL_CONDITIONAL_STYLE__STYLE,
-				EefFactory.eINSTANCE.createEEFLabelStyle()));
+		newChildDescriptors
+				.add(createChildParameter(EefPackage.Literals.EEF_LABEL_CONDITIONAL_STYLE__STYLE, EefFactory.eINSTANCE.createEEFLabelStyle()));
 	}
 
 }

@@ -25,10 +25,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <em><b>EEF Property Validation Rule Description</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.impl.EEFPropertyValidationRuleDescriptionImpl#getTargets <em>Targets</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

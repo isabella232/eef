@@ -16,11 +16,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.EEFCustomExpression#getIdentifier <em>Identifier</em>}</li>
  * <li>{@link org.eclipse.eef.EEFCustomExpression#getCustomExpression <em>Custom Expression</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.eef.EefPackage#getEEFCustomExpression()
  * @model

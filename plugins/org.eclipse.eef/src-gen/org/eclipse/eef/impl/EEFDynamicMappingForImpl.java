@@ -27,12 +27,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.impl.EEFDynamicMappingForImpl#getIterator <em>Iterator</em>}</li>
  * <li>{@link org.eclipse.eef.impl.EEFDynamicMappingForImpl#getIterableExpression <em>Iterable Expression</em>}</li>
+ * <li>{@link org.eclipse.eef.impl.EEFDynamicMappingForImpl#isForceRefresh <em>Force Refresh</em>}</li>
  * <li>{@link org.eclipse.eef.impl.EEFDynamicMappingForImpl#getIfs <em>Ifs</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -76,6 +77,26 @@ public class EEFDynamicMappingForImpl extends EEFControlDescriptionImpl implemen
 	 * @ordered
 	 */
 	protected String iterableExpression = EEFDynamicMappingForImpl.ITERABLE_EXPRESSION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isForceRefresh() <em>Force Refresh</em>}' attribute. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 *
+	 * @see #isForceRefresh()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean FORCE_REFRESH_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isForceRefresh() <em>Force Refresh</em>}' attribute. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 *
+	 * @see #isForceRefresh()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean forceRefresh = EEFDynamicMappingForImpl.FORCE_REFRESH_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getIfs() <em>Ifs</em>}' containment reference list. <!-- begin-user-doc --> <!--
@@ -161,9 +182,34 @@ public class EEFDynamicMappingForImpl extends EEFControlDescriptionImpl implemen
 	 * @generated
 	 */
 	@Override
+	public boolean isForceRefresh() {
+		return forceRefresh;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public void setForceRefresh(boolean newForceRefresh) {
+		boolean oldForceRefresh = forceRefresh;
+		forceRefresh = newForceRefresh;
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.SET, EefPackage.EEF_DYNAMIC_MAPPING_FOR__FORCE_REFRESH, oldForceRefresh, forceRefresh));
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public EList<EEFDynamicMappingIf> getIfs() {
 		if (ifs == null) {
-			ifs = new EObjectContainmentEList.Resolving<EEFDynamicMappingIf>(EEFDynamicMappingIf.class, this, EefPackage.EEF_DYNAMIC_MAPPING_FOR__IFS);
+			ifs = new EObjectContainmentEList.Resolving<EEFDynamicMappingIf>(EEFDynamicMappingIf.class, this,
+					EefPackage.EEF_DYNAMIC_MAPPING_FOR__IFS);
 		}
 		return ifs;
 	}
@@ -194,6 +240,8 @@ public class EEFDynamicMappingForImpl extends EEFControlDescriptionImpl implemen
 			return getIterator();
 		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__ITERABLE_EXPRESSION:
 			return getIterableExpression();
+		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__FORCE_REFRESH:
+			return isForceRefresh();
 		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__IFS:
 			return getIfs();
 		}
@@ -214,6 +262,9 @@ public class EEFDynamicMappingForImpl extends EEFControlDescriptionImpl implemen
 			return;
 		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__ITERABLE_EXPRESSION:
 			setIterableExpression((String) newValue);
+			return;
+		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__FORCE_REFRESH:
+			setForceRefresh((Boolean) newValue);
 			return;
 		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__IFS:
 			getIfs().clear();
@@ -237,6 +288,9 @@ public class EEFDynamicMappingForImpl extends EEFControlDescriptionImpl implemen
 		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__ITERABLE_EXPRESSION:
 			setIterableExpression(EEFDynamicMappingForImpl.ITERABLE_EXPRESSION_EDEFAULT);
 			return;
+		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__FORCE_REFRESH:
+			setForceRefresh(EEFDynamicMappingForImpl.FORCE_REFRESH_EDEFAULT);
+			return;
 		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__IFS:
 			getIfs().clear();
 			return;
@@ -253,11 +307,13 @@ public class EEFDynamicMappingForImpl extends EEFControlDescriptionImpl implemen
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__ITERATOR:
-			return EEFDynamicMappingForImpl.ITERATOR_EDEFAULT == null ? iterator != null : !EEFDynamicMappingForImpl.ITERATOR_EDEFAULT
-			.equals(iterator);
+			return EEFDynamicMappingForImpl.ITERATOR_EDEFAULT == null ? iterator != null
+					: !EEFDynamicMappingForImpl.ITERATOR_EDEFAULT.equals(iterator);
 		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__ITERABLE_EXPRESSION:
 			return EEFDynamicMappingForImpl.ITERABLE_EXPRESSION_EDEFAULT == null ? iterableExpression != null
-			: !EEFDynamicMappingForImpl.ITERABLE_EXPRESSION_EDEFAULT.equals(iterableExpression);
+					: !EEFDynamicMappingForImpl.ITERABLE_EXPRESSION_EDEFAULT.equals(iterableExpression);
+		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__FORCE_REFRESH:
+			return forceRefresh != EEFDynamicMappingForImpl.FORCE_REFRESH_EDEFAULT;
 		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__IFS:
 			return ifs != null && !ifs.isEmpty();
 		}
@@ -280,6 +336,8 @@ public class EEFDynamicMappingForImpl extends EEFControlDescriptionImpl implemen
 		result.append(iterator);
 		result.append(", iterableExpression: "); //$NON-NLS-1$
 		result.append(iterableExpression);
+		result.append(", forceRefresh: "); //$NON-NLS-1$
+		result.append(forceRefresh);
 		result.append(')');
 		return result.toString();
 	}

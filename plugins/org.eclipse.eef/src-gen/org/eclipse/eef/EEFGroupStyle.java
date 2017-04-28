@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.EEFGroupStyle#getBackgroundColorExpression <em>Background Color Expression</em>}</li>
  * <li>{@link org.eclipse.eef.EEFGroupStyle#getForegroundColorExpression <em>Foreground Color Expression</em>}</li>
@@ -24,7 +25,6 @@ import org.eclipse.emf.ecore.EObject;
  * <li>{@link org.eclipse.eef.EEFGroupStyle#getToggleStyle <em>Toggle Style</em>}</li>
  * <li>{@link org.eclipse.eef.EEFGroupStyle#isExpandedByDefault <em>Expanded By Default</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.eef.EefPackage#getEEFGroupStyle()
  * @model

@@ -98,8 +98,8 @@ public enum EEF_VALIDATION_SEVERITY_DESCRIPTION implements Enumerator {
 	 *
 	 * @generated
 	 */
-	public static final List<EEF_VALIDATION_SEVERITY_DESCRIPTION> VALUES = Collections.unmodifiableList(Arrays
-			.asList(EEF_VALIDATION_SEVERITY_DESCRIPTION.VALUES_ARRAY));
+	public static final List<EEF_VALIDATION_SEVERITY_DESCRIPTION> VALUES = Collections
+			.unmodifiableList(Arrays.asList(EEF_VALIDATION_SEVERITY_DESCRIPTION.VALUES_ARRAY));
 
 	/**
 	 * Returns the '<em><b>EEF VALIDATION SEVERITY DESCRIPTION</b></em>' literal with the specified literal value. <!--

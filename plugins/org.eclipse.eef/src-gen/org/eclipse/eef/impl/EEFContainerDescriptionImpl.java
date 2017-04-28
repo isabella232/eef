@@ -28,11 +28,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.impl.EEFContainerDescriptionImpl#getControls <em>Controls</em>}</li>
  * <li>{@link org.eclipse.eef.impl.EEFContainerDescriptionImpl#getLayout <em>Layout</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -102,8 +102,8 @@ public class EEFContainerDescriptionImpl extends EEFControlDescriptionImpl imple
 			layout = (EEFLayoutDescription) eResolveProxy(oldLayout);
 			if (layout != oldLayout) {
 				InternalEObject newLayout = (InternalEObject) layout;
-				NotificationChain msgs = oldLayout.eInverseRemove(this, InternalEObject.EOPPOSITE_FEATURE_BASE
-						- EefPackage.EEF_CONTAINER_DESCRIPTION__LAYOUT, null, null);
+				NotificationChain msgs = oldLayout.eInverseRemove(this,
+						InternalEObject.EOPPOSITE_FEATURE_BASE - EefPackage.EEF_CONTAINER_DESCRIPTION__LAYOUT, null, null);
 				if (newLayout.eInternalContainer() == null) {
 					msgs = newLayout.eInverseAdd(this, InternalEObject.EOPPOSITE_FEATURE_BASE - EefPackage.EEF_CONTAINER_DESCRIPTION__LAYOUT, null,
 							msgs);
@@ -158,12 +158,12 @@ public class EEFContainerDescriptionImpl extends EEFControlDescriptionImpl imple
 		if (newLayout != layout) {
 			NotificationChain msgs = null;
 			if (layout != null) {
-				msgs = ((InternalEObject) layout).eInverseRemove(this, InternalEObject.EOPPOSITE_FEATURE_BASE
-						- EefPackage.EEF_CONTAINER_DESCRIPTION__LAYOUT, null, msgs);
+				msgs = ((InternalEObject) layout).eInverseRemove(this,
+						InternalEObject.EOPPOSITE_FEATURE_BASE - EefPackage.EEF_CONTAINER_DESCRIPTION__LAYOUT, null, msgs);
 			}
 			if (newLayout != null) {
-				msgs = ((InternalEObject) newLayout).eInverseAdd(this, InternalEObject.EOPPOSITE_FEATURE_BASE
-						- EefPackage.EEF_CONTAINER_DESCRIPTION__LAYOUT, null, msgs);
+				msgs = ((InternalEObject) newLayout).eInverseAdd(this,
+						InternalEObject.EOPPOSITE_FEATURE_BASE - EefPackage.EEF_CONTAINER_DESCRIPTION__LAYOUT, null, msgs);
 			}
 			msgs = basicSetLayout(newLayout, msgs);
 			if (msgs != null) {

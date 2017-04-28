@@ -1534,8 +1534,8 @@ public interface EefPackage extends EPackage {
 	int EEF_HYPERLINK_DESCRIPTION_FEATURE_COUNT = EefPackage.EEF_WIDGET_DESCRIPTION_FEATURE_COUNT + 6;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFDynamicMappingForImpl
-	 * <em>EEF Dynamic Mapping For</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFDynamicMappingForImpl <em>EEF Dynamic Mapping For</em>
+	 * }' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.eclipse.eef.impl.EEFDynamicMappingForImpl
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFDynamicMappingFor()
@@ -1569,13 +1569,21 @@ public interface EefPackage extends EPackage {
 	int EEF_DYNAMIC_MAPPING_FOR__ITERABLE_EXPRESSION = EefPackage.EEF_CONTROL_DESCRIPTION_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Force Refresh</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int EEF_DYNAMIC_MAPPING_FOR__FORCE_REFRESH = EefPackage.EEF_CONTROL_DESCRIPTION_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Ifs</b></em>' containment reference list. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 *
 	 * @generated
 	 * @ordered
 	 */
-	int EEF_DYNAMIC_MAPPING_FOR__IFS = EefPackage.EEF_CONTROL_DESCRIPTION_FEATURE_COUNT + 2;
+	int EEF_DYNAMIC_MAPPING_FOR__IFS = EefPackage.EEF_CONTROL_DESCRIPTION_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>EEF Dynamic Mapping For</em>' class. <!-- begin-user-doc --> <!--
@@ -1584,7 +1592,7 @@ public interface EefPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EEF_DYNAMIC_MAPPING_FOR_FEATURE_COUNT = EefPackage.EEF_CONTROL_DESCRIPTION_FEATURE_COUNT + 3;
+	int EEF_DYNAMIC_MAPPING_FOR_FEATURE_COUNT = EefPackage.EEF_CONTROL_DESCRIPTION_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFDynamicMappingIfImpl <em>EEF Dynamic Mapping If</em>}'
@@ -2503,8 +2511,8 @@ public interface EefPackage extends EPackage {
 	int EEF_HYPERLINK_STYLE_FEATURE_COUNT = EefPackage.EEF_WIDGET_STYLE_FEATURE_COUNT + 4;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFCustomWidgetStyleImpl
-	 * <em>EEF Custom Widget Style</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The meta object id for the '{@link org.eclipse.eef.impl.EEFCustomWidgetStyleImpl <em>EEF Custom Widget Style</em>
+	 * }' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.eclipse.eef.impl.EEFCustomWidgetStyleImpl
 	 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFCustomWidgetStyle()
@@ -3924,9 +3932,8 @@ public interface EefPackage extends EPackage {
 	EReference getEEFLabelDescription_ConditionalStyles();
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.eef.EEFLabelDescription#getActions <em>Actions</em>}'. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.eef.EEFLabelDescription#getActions
+	 * <em>Actions</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @return the meta object for the containment reference list '<em>Actions</em>'.
 	 * @see org.eclipse.eef.EEFLabelDescription#getActions()
@@ -4323,6 +4330,17 @@ public interface EefPackage extends EPackage {
 	EAttribute getEEFDynamicMappingFor_IterableExpression();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eef.EEFDynamicMappingFor#isForceRefresh
+	 * <em>Force Refresh</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the attribute '<em>Force Refresh</em>'.
+	 * @see org.eclipse.eef.EEFDynamicMappingFor#isForceRefresh()
+	 * @see #getEEFDynamicMappingFor()
+	 * @generated
+	 */
+	EAttribute getEEFDynamicMappingFor_ForceRefresh();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.eef.EEFDynamicMappingFor#getIfs
 	 * <em>Ifs</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -4388,9 +4406,8 @@ public interface EefPackage extends EPackage {
 	EReference getEEFCustomWidgetDescription_CustomExpressions();
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.eef.EEFCustomWidgetDescription#getStyle <em>Style</em>}'. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * Returns the meta object for the containment reference '{@link org.eclipse.eef.EEFCustomWidgetDescription#getStyle
+	 * <em>Style</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @return the meta object for the containment reference '<em>Style</em>'.
 	 * @see org.eclipse.eef.EEFCustomWidgetDescription#getStyle()
@@ -6116,6 +6133,14 @@ public interface EefPackage extends EPackage {
 		EAttribute EEF_DYNAMIC_MAPPING_FOR__ITERABLE_EXPRESSION = EefPackage.eINSTANCE.getEEFDynamicMappingFor_IterableExpression();
 
 		/**
+		 * The meta object literal for the '<em><b>Force Refresh</b></em>' attribute feature. <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EAttribute EEF_DYNAMIC_MAPPING_FOR__FORCE_REFRESH = EefPackage.eINSTANCE.getEEFDynamicMappingFor_ForceRefresh();
+
+		/**
 		 * The meta object literal for the '<em><b>Ifs</b></em>' containment reference list feature. <!-- begin-user-doc
 		 * --> <!-- end-user-doc -->
 		 *
@@ -6428,8 +6453,8 @@ public interface EefPackage extends EPackage {
 		EClass EEF_BUTTON_STYLE = EefPackage.eINSTANCE.getEEFButtonStyle();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.eef.impl.EEFCheckboxStyleImpl
-		 * <em>EEF Checkbox Style</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '{@link org.eclipse.eef.impl.EEFCheckboxStyleImpl <em>EEF Checkbox Style</em>
+		 * }' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 *
 		 * @see org.eclipse.eef.impl.EEFCheckboxStyleImpl
 		 * @see org.eclipse.eef.impl.EefPackageImpl#getEEFCheckboxStyle()

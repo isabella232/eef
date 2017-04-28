@@ -50,6 +50,7 @@ public class EEFDynamicMappingForItemProvider extends EEFControlDescriptionItemP
 
 			addIteratorPropertyDescriptor(object);
 			addIterableExpressionPropertyDescriptor(object);
+			addForceRefreshPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -73,15 +74,25 @@ public class EEFDynamicMappingForItemProvider extends EEFControlDescriptionItemP
 	 * @generated
 	 */
 	protected void addIterableExpressionPropertyDescriptor(Object object) {
-		itemPropertyDescriptors
-		.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_EEFDynamicMappingFor_iterableExpression_feature"), //$NON-NLS-1$
-				getString(
-						"_UI_PropertyDescriptor_description", "_UI_EEFDynamicMappingFor_iterableExpression_feature", "_UI_EEFDynamicMappingFor_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						EefPackage.Literals.EEF_DYNAMIC_MAPPING_FOR__ITERABLE_EXPRESSION, true, false, false,
-						ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(), getString("_UI_EEFDynamicMappingFor_iterableExpression_feature"), //$NON-NLS-1$
+				getString("_UI_PropertyDescriptor_description", "_UI_EEFDynamicMappingFor_iterableExpression_feature", //$NON-NLS-1$//$NON-NLS-2$
+						"_UI_EEFDynamicMappingFor_type"), //$NON-NLS-1$
+				EefPackage.Literals.EEF_DYNAMIC_MAPPING_FOR__ITERABLE_EXPRESSION, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				null, null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Force Refresh feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected void addForceRefreshPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(), getString("_UI_EEFDynamicMappingFor_forceRefresh_feature"), //$NON-NLS-1$
+				getString("_UI_PropertyDescriptor_description", "_UI_EEFDynamicMappingFor_forceRefresh_feature", "_UI_EEFDynamicMappingFor_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				EefPackage.Literals.EEF_DYNAMIC_MAPPING_FOR__FORCE_REFRESH, true, false, false, ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null,
+				null));
 	}
 
 	/**
@@ -142,8 +153,8 @@ public class EEFDynamicMappingForItemProvider extends EEFControlDescriptionItemP
 	@Override
 	public String getText(Object object) {
 		String label = ((EEFDynamicMappingFor) object).getIdentifier();
-		return label == null || label.length() == 0 ? getString("_UI_EEFDynamicMappingFor_type") : //$NON-NLS-1$
-			getString("_UI_EEFDynamicMappingFor_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
+		return label == null || label.length() == 0 ? getString("_UI_EEFDynamicMappingFor_type") //$NON-NLS-1$
+				: getString("_UI_EEFDynamicMappingFor_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -160,6 +171,7 @@ public class EEFDynamicMappingForItemProvider extends EEFControlDescriptionItemP
 		switch (notification.getFeatureID(EEFDynamicMappingFor.class)) {
 		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__ITERATOR:
 		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__ITERABLE_EXPRESSION:
+		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__FORCE_REFRESH:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
 		case EefPackage.EEF_DYNAMIC_MAPPING_FOR__IFS:
@@ -179,8 +191,8 @@ public class EEFDynamicMappingForItemProvider extends EEFControlDescriptionItemP
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add(createChildParameter(EefPackage.Literals.EEF_DYNAMIC_MAPPING_FOR__IFS,
-				EefFactory.eINSTANCE.createEEFDynamicMappingIf()));
+		newChildDescriptors
+				.add(createChildParameter(EefPackage.Literals.EEF_DYNAMIC_MAPPING_FOR__IFS, EefFactory.eINSTANCE.createEEFDynamicMappingIf()));
 	}
 
 }

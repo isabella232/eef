@@ -17,13 +17,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.EEFValidationRuleDescription#getSeverity <em>Severity</em>}</li>
  * <li>{@link org.eclipse.eef.EEFValidationRuleDescription#getMessageExpression <em>Message Expression</em>}</li>
  * <li>{@link org.eclipse.eef.EEFValidationRuleDescription#getAudits <em>Audits</em>}</li>
  * <li>{@link org.eclipse.eef.EEFValidationRuleDescription#getFixes <em>Fixes</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.eef.EefPackage#getEEFValidationRuleDescription()
  * @model abstract="true"

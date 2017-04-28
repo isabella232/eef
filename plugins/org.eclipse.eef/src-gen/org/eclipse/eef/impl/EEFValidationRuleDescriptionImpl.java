@@ -30,13 +30,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.impl.EEFValidationRuleDescriptionImpl#getSeverity <em>Severity</em>}</li>
- * <li>{@link org.eclipse.eef.impl.EEFValidationRuleDescriptionImpl#getMessageExpression <em>Message Expression</em>}</li>
+ * <li>{@link org.eclipse.eef.impl.EEFValidationRuleDescriptionImpl#getMessageExpression <em>Message Expression</em>}
+ * </li>
  * <li>{@link org.eclipse.eef.impl.EEFValidationRuleDescriptionImpl#getAudits <em>Audits</em>}</li>
  * <li>{@link org.eclipse.eef.impl.EEFValidationRuleDescriptionImpl#getFixes <em>Fixes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -296,7 +297,7 @@ public abstract class EEFValidationRuleDescriptionImpl extends MinimalEObjectImp
 			return severity != EEFValidationRuleDescriptionImpl.SEVERITY_EDEFAULT;
 		case EefPackage.EEF_VALIDATION_RULE_DESCRIPTION__MESSAGE_EXPRESSION:
 			return EEFValidationRuleDescriptionImpl.MESSAGE_EXPRESSION_EDEFAULT == null ? messageExpression != null
-			: !EEFValidationRuleDescriptionImpl.MESSAGE_EXPRESSION_EDEFAULT.equals(messageExpression);
+					: !EEFValidationRuleDescriptionImpl.MESSAGE_EXPRESSION_EDEFAULT.equals(messageExpression);
 		case EefPackage.EEF_VALIDATION_RULE_DESCRIPTION__AUDITS:
 			return audits != null && !audits.isEmpty();
 		case EefPackage.EEF_VALIDATION_RULE_DESCRIPTION__FIXES:

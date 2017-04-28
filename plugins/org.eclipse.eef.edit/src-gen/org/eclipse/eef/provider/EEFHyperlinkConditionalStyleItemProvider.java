@@ -108,8 +108,8 @@ public class EEFHyperlinkConditionalStyleItemProvider extends EEFConditionalStyl
 	@Override
 	public String getText(Object object) {
 		String label = ((EEFHyperlinkConditionalStyle) object).getPreconditionExpression();
-		return label == null || label.length() == 0 ? getString("_UI_EEFHyperlinkConditionalStyle_type") : //$NON-NLS-1$
-			getString("_UI_EEFHyperlinkConditionalStyle_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
+		return label == null || label.length() == 0 ? getString("_UI_EEFHyperlinkConditionalStyle_type") //$NON-NLS-1$
+				: getString("_UI_EEFHyperlinkConditionalStyle_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -141,8 +141,8 @@ public class EEFHyperlinkConditionalStyleItemProvider extends EEFConditionalStyl
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add(createChildParameter(EefPackage.Literals.EEF_HYPERLINK_CONDITIONAL_STYLE__STYLE,
-				EefFactory.eINSTANCE.createEEFHyperlinkStyle()));
+		newChildDescriptors.add(
+				createChildParameter(EefPackage.Literals.EEF_HYPERLINK_CONDITIONAL_STYLE__STYLE, EefFactory.eINSTANCE.createEEFHyperlinkStyle()));
 	}
 
 }

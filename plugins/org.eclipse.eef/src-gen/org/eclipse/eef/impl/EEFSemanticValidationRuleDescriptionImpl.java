@@ -19,10 +19,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <em><b>EEF Semantic Validation Rule Description</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.eef.impl.EEFSemanticValidationRuleDescriptionImpl#getTargetClass <em>Target Class</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -145,7 +145,7 @@ public class EEFSemanticValidationRuleDescriptionImpl extends EEFValidationRuleD
 		switch (featureID) {
 		case EefPackage.EEF_SEMANTIC_VALIDATION_RULE_DESCRIPTION__TARGET_CLASS:
 			return EEFSemanticValidationRuleDescriptionImpl.TARGET_CLASS_EDEFAULT == null ? targetClass != null
-			: !EEFSemanticValidationRuleDescriptionImpl.TARGET_CLASS_EDEFAULT.equals(targetClass);
+					: !EEFSemanticValidationRuleDescriptionImpl.TARGET_CLASS_EDEFAULT.equals(targetClass);
 		}
 		return super.eIsSet(featureID);
 	}
