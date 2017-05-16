@@ -21,6 +21,9 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.ui.forms.events.ExpansionAdapter;
+import org.eclipse.ui.forms.events.ExpansionEvent;
+import org.eclipse.ui.forms.events.IExpansionListener;
 
 /**
  * Utility methods for SWT.
@@ -82,6 +85,23 @@ public final class SWTUtils {
 		return new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent event) {
+				consumer.accept(event);
+			}
+		};
+	}
+
+	/**
+	 * Static helper method to create an expansion listener for {@link #expansionStateChanged(ExpansionEvent event)})
+	 * method with a lambda expression.
+	 * 
+	 * @param consumer
+	 *            The consumer of the event
+	 * @return IExpansionListener
+	 */
+	public static IExpansionListener expansionListenerAdapter(Consumer<ExpansionEvent> consumer) {
+		return new ExpansionAdapter() {
+			@Override
+			public void expansionStateChanged(ExpansionEvent event) {
 				consumer.accept(event);
 			}
 		};

@@ -23,6 +23,7 @@ import org.eclipse.eef.EEF_TITLE_BAR_STYLE;
 import org.eclipse.eef.EEF_TOGGLE_STYLE;
 import org.eclipse.eef.common.ui.api.EEFWidgetFactory;
 import org.eclipse.eef.common.ui.api.IEEFFormContainer;
+import org.eclipse.eef.common.ui.api.SWTUtils;
 import org.eclipse.eef.core.api.EditingContextAdapter;
 import org.eclipse.eef.core.api.controllers.EEFControllersFactory;
 import org.eclipse.eef.core.api.controllers.IEEFController;
@@ -44,6 +45,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.ui.forms.events.IExpansionListener;
 import org.eclipse.ui.forms.widgets.Section;
 
 /**
@@ -89,6 +91,16 @@ public class EEFGroupLifecycleManager extends AbstractEEFLifecycleManager implem
 	private Section section;
 
 	/**
+	 * The form container.
+	 */
+	private IEEFFormContainer eefFormContainer;
+
+	/**
+	 * The expansion listener.
+	 */
+	private IExpansionListener expansionListener;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param description
@@ -117,7 +129,7 @@ public class EEFGroupLifecycleManager extends AbstractEEFLifecycleManager implem
 	@Override
 	public void createControl(Composite parent, IEEFFormContainer formContainer) {
 		super.createControl(parent, formContainer);
-
+		this.eefFormContainer = formContainer;
 		EEFWidgetFactory widgetFactory = formContainer.getWidgetFactory();
 
 		Composite groupComposite = widgetFactory.createComposite(parent);
@@ -316,6 +328,10 @@ public class EEFGroupLifecycleManager extends AbstractEEFLifecycleManager implem
 	public void aboutToBeShown() {
 		super.aboutToBeShown();
 
+		// Refresh the page when a group is expanded in order to force the computation of the properties view height.
+		this.expansionListener = SWTUtils.expansionListenerAdapter((event) -> this.eefFormContainer.refreshPage());
+		this.section.addExpansionListener(this.expansionListener);
+
 		this.controller.onNewLabel((value) -> Optional.ofNullable(value).ifPresent(this.section::setText));
 
 		this.lifecycleManagers.forEach(IEEFLifecycleManager::aboutToBeShown);
@@ -343,6 +359,9 @@ public class EEFGroupLifecycleManager extends AbstractEEFLifecycleManager implem
 		super.aboutToBeHidden();
 
 		this.controller.removeNewLabelConsumer();
+		if (!this.section.isDisposed()) {
+			this.section.removeExpansionListener(this.expansionListener);
+		}
 
 		this.lifecycleManagers.forEach(IEEFLifecycleManager::aboutToBeHidden);
 	}
