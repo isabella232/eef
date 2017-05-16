@@ -19,11 +19,11 @@ import org.eclipse.eef.core.api.EEFExpressionUtils;
 import org.eclipse.eef.core.api.EEFGroup;
 import org.eclipse.eef.core.api.EEFPage;
 import org.eclipse.eef.core.api.utils.EvalFactory;
+import org.eclipse.eef.ide.ui.properties.internal.RefreshIdsHolder;
 import org.eclipse.eef.properties.ui.api.AbstractEEFTabDescriptor;
 import org.eclipse.eef.properties.ui.api.IEEFSectionDescriptor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * The implementation of the {@link AbstractEEFTabDescriptor} using the {@link EEFPage}.
@@ -73,7 +73,7 @@ public class EEFTabDescriptor extends AbstractEEFTabDescriptor {
 
 			Object groupSemanticElement = eefGroup.getVariableManager().getVariables().get(EEFExpressionUtils.SELF);
 			if (groupSemanticElement instanceof EObject) {
-				identifier.append(EcoreUtil.getURI((EObject) groupSemanticElement));
+				identifier.append(this.getIdForEObject((EObject) groupSemanticElement));
 			}
 			identifier.append(groupSemanticElement.hashCode());
 		}
@@ -90,10 +90,22 @@ public class EEFTabDescriptor extends AbstractEEFTabDescriptor {
 
 		Object pageSemanticElement = this.eefPage.getVariableManager().getVariables().get(EEFExpressionUtils.SELF);
 		if (pageSemanticElement instanceof EObject) {
-			identifier.append(EcoreUtil.getURI((EObject) pageSemanticElement));
+			identifier.append(this.getIdForEObject((EObject) pageSemanticElement));
 		}
 		identifier.append(System.identityHashCode(pageSemanticElement));
 		return identifier.toString();
+	}
+
+	/**
+	 * Returns an unique identifier for the given EObject which will stay the same even after changes which would impact
+	 * its URI (for example, changing the name of an EClass).
+	 * 
+	 * @param eObject
+	 *            The EObject
+	 * @return The unique identifier of the given EObject
+	 */
+	private Integer getIdForEObject(EObject eObject) {
+		return RefreshIdsHolder.getOrCreateID(eObject);
 	}
 
 	/**
