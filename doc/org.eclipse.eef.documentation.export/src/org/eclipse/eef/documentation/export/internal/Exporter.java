@@ -14,7 +14,6 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
-import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Closeables;
 import com.google.common.io.Files;
@@ -27,6 +26,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -246,8 +246,10 @@ public class Exporter {
 			Path outputPath = this.getOutputPath(documentationVersion, path);
 			outputPath.toFile().getParentFile().mkdirs();
 			outputPath.toFile().createNewFile();
-			ByteStreams.copy(inputStream, Files.newOutputStreamSupplier(outputPath.toFile()));
+
+			java.nio.file.Files.copy(inputStream, outputPath.toFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
+			e.printStackTrace();
 			fail(e.getMessage());
 		} finally {
 			try {
@@ -313,7 +315,8 @@ public class Exporter {
 
 		lines.add("  <ul class=\"breadcrumb\">"); //$NON-NLS-1$
 		if (breadcrumbTopics.size() > 0) {
-			lines.add("    <li><a href=\"" + ROOT_DOCUMENTATION_URL + '/' + documentationVersion + "\">" + documentationVersion + "</a> <span class=\"divider\">/</span></li>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			lines.add("    <li><a href=\"" + ROOT_DOCUMENTATION_URL + '/' + documentationVersion + "\">" + documentationVersion //$NON-NLS-1$ //$NON-NLS-2$
+					+ "</a> <span class=\"divider\">/</span></li>"); //$NON-NLS-1$
 		} else {
 			lines.add("    <li><a href=\"" + ROOT_DOCUMENTATION_URL + '/' + documentationVersion + "\">" + documentationVersion + "</a></li>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
