@@ -12,7 +12,10 @@ package org.eclipse.eef.ide.ui.properties.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
+import org.eclipse.eef.EEFContainerDescription;
+import org.eclipse.eef.EEFControlDescription;
 import org.eclipse.eef.EEFDynamicMappingFor;
 import org.eclipse.eef.EefPackage;
 import org.eclipse.eef.core.api.EEFExpressionUtils;
@@ -80,9 +83,7 @@ public class EEFTabDescriptor extends AbstractEEFTabDescriptor {
 
 		// @formatter:off
 		groups.stream().map(EEFGroup::getDescription)
-			.flatMap(description -> description.getControls().stream())
-			.filter(EEFDynamicMappingFor.class::isInstance)
-			.map(EEFDynamicMappingFor.class::cast)
+			.flatMap(description -> description.getControls().stream().flatMap(this::getDynamicMappingFors))
 			.filter(EEFDynamicMappingFor::isForceRefresh)
 			.findFirst()
 			.ifPresent(control -> identifier.append(System.currentTimeMillis()));
@@ -97,9 +98,29 @@ public class EEFTabDescriptor extends AbstractEEFTabDescriptor {
 	}
 
 	/**
+	 * Returns recursively a stream of the dynamic mappings for the given control.
+	 * 
+	 * @param eefControlDescription
+	 *            The description of the control
+	 * @return The stream of the dynamic mapping
+	 */
+	private Stream<EEFDynamicMappingFor> getDynamicMappingFors(EEFControlDescription eefControlDescription) {
+		Stream<EEFDynamicMappingFor> stream = Stream.empty();
+
+		if (eefControlDescription instanceof EEFDynamicMappingFor) {
+			stream = Stream.of((EEFDynamicMappingFor) eefControlDescription);
+		} else if (eefControlDescription instanceof EEFContainerDescription) {
+			EEFContainerDescription eefContainerDescription = (EEFContainerDescription) eefControlDescription;
+			stream = eefContainerDescription.getControls().stream().flatMap(this::getDynamicMappingFors);
+		}
+
+		return stream;
+	}
+
+	/**
 	 * Returns an unique identifier for the given EObject which will stay the same even after changes which would impact
 	 * its URI (for example, changing the name of an EClass).
-	 * 
+	 *
 	 * @param eObject
 	 *            The EObject
 	 * @return The unique identifier of the given EObject
