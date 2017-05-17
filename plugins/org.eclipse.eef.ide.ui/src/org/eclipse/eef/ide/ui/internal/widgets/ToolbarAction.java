@@ -16,11 +16,15 @@ import org.eclipse.eef.EEFToolbarAction;
 import org.eclipse.eef.core.api.EditingContextAdapter;
 import org.eclipse.eef.core.api.controllers.IEEFToolbarActionController;
 import org.eclipse.eef.core.api.utils.EvalFactory;
+import org.eclipse.eef.ide.ui.internal.EEFIdeUiPlugin;
 import org.eclipse.eef.ide.ui.internal.EEFImageUtils;
+import org.eclipse.eef.ide.ui.internal.Icons;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.sirius.common.interpreter.api.IInterpreter;
 import org.eclipse.sirius.common.interpreter.api.IVariableManager;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * An {@link Action} taking tooltip, image and behavior from an {@link EEFToolbarAction}.
@@ -83,14 +87,29 @@ public class ToolbarAction extends Action {
 		this.setToolTipText(actionTooltip);
 
 		String imageExpression = Optional.ofNullable(this.eefToolbarAction.getImageExpression()).orElse(""); //$NON-NLS-1$
-		Object image = EvalFactory.of(interpreter, variableManager).logIfInvalidType(Object.class).evaluate(imageExpression);
+		Object imagePath = EvalFactory.of(interpreter, variableManager).logIfInvalidType(Object.class).evaluate(imageExpression);
 
 		// @formatter:off
-		Optional.ofNullable(image).filter(String.class::isInstance)
+		Optional.ofNullable(imagePath)
+			.filter(String.class::isInstance)
 			.map(String.class::cast)
-			.flatMap(EEFImageUtils::getImageDescriptor)
+			.map(this::computeImageDescriptor)
 			.ifPresent(this::setImageDescriptor);
 		// @formatter:on
+	}
+
+	/**
+	 * Computes the image descriptor to use for the given image path.
+	 * 
+	 * @param imagePath
+	 *            The path of the image
+	 * @return The image descriptor for the image with the given path or a placeholder image if it could not be found
+	 */
+	private ImageDescriptor computeImageDescriptor(String imagePath) {
+		return EEFImageUtils.getImageDescriptor(imagePath).orElseGet(() -> {
+			Image placeholderImage = EEFIdeUiPlugin.getPlugin().getImageRegistry().get(Icons.PLACEHOLDER);
+			return ImageDescriptor.createFromImage(placeholderImage);
+		});
 	}
 
 	/**

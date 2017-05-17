@@ -62,7 +62,7 @@ public final class EEFImageUtils {
 
 	/**
 	 * Retrieve an image descriptor from a string path as '/resource/folder/image.png'.
-	 * 
+	 *
 	 * @param imgPath
 	 *            The image path
 	 * @return The image descriptor
