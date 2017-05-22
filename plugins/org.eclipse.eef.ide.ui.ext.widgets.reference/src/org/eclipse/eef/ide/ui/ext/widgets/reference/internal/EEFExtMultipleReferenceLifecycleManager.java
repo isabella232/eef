@@ -177,6 +177,7 @@ public class EEFExtMultipleReferenceLifecycleManager extends AbstractEEFExtRefer
 		GridData gridData = new GridData();
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalAlignment = SWT.FILL;
+		gridData.verticalAlignment = SWT.BEGINNING;
 		scrolledComposite.setLayoutData(gridData);
 
 		// CHECKSTYLE:OFF
