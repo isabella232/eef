@@ -30,6 +30,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -341,7 +342,7 @@ public abstract class TabElementTreeSelectionDialog extends Dialog implements IP
 		@Override
 		protected boolean isLeafMatch(Viewer viewer, Object element) {
 			if (element instanceof EObject) {
-				String labelText = ((EObject)element).toString();
+				String labelText = ((ILabelProvider)((AbstractTreeViewer)viewer).getLabelProvider()).getText(element);
 				if (labelText != null) {
 					return wordMatches(labelText);
 				}
