@@ -43,10 +43,33 @@
 		</ol>
 		<p>This document contains the release notes for recent major releases of EEF.</p>
 		<h3 id="eef2.0.0">Changes in EEF 2.0.0</h3>
+		<h4 id="SpecifierVisibleChanges">Specifier-Visible Changes</h4>
+		<ul>
+			<li><span class="label label-success">Added</span> You can now create 
+				<em>Toolbar Actions</em> on pages and groups in order to define small buttons in their toolbars.
+			</li>
+			<li><span class="label label-success">Added</span> 
+				<em>Buttons</em> and 
+				<em>Widget Actions</em> can now use an image along with a label thanks to the new 
+				<em>Image expression</em>.
+			</li>
+			<li><span class="label label-success">Added</span> It is now possible to execute some behavior when the end users will click on the 
+				<em>Reference Widget</em> thanks to the addition of an 
+				<em>OnClick expression</em>.
+			</li>
+			<li><span class="label label-success">Added</span> You can indicate that a 
+				<em>Dynamic Mapping For</em> should force the refresh of the user interface with the 
+				<em>Force Refresh</em> property.
+			</li>
+		</ul>
 		<h4 id="DeveloperVisibleChanges">Developer-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-info">Modified</span> The class 
 				<code>org.eclipse.eef.core.api.controllers.AbstractEEFController</code> and all its subclasses now require an EditingContextAdapter.
+			</li>
+			<li><span class="label label-info">Modified</span> The interface 
+				<code>IConsumer</code> has now been replaced by 
+				<code>java.util.Consumer</code>.
 			</li>
 		</ul>
 		<h3 id="eef1.9.0">Changes in EEF 1.9.0</h3>
@@ -55,7 +78,7 @@
 			<li><span class="label label-success">Added</span> Add support for permissions with locks</li>
 		</ul>
 		<h3 id="eef1.8.0">Changes in EEF 1.8.0</h3>
-		<h4 id="SpecifierVisibleChanges">Specifier-Visible Changes</h4>
+		<h4 id="SpecifierVisibleChanges2">Specifier-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-info">Modified</span> The selection variable of the hyperlink widget now refers properly to the value of the hyperlink.</li>
 		</ul>
@@ -64,13 +87,13 @@
 			<li><span class="label label-info">Modified</span> The interfaces of the controllers for the default widget will now return an IStatus in order to support potential issues after the execution of the callback.</li>
 		</ul>
 		<h3 id="eef1.7.2">Changes in EEF 1.7.2</h3>
-		<h4 id="SpecifierVisibleChanges2">Specifier-Visible Changes</h4>
+		<h4 id="SpecifierVisibleChanges3">Specifier-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-info">Modified</span> The dynamic mappings will take into account all the &#171;if&#187; blocks with a valid predicate expression and not only the first one.</li>
 			<li><span class="label label-info">Modified</span> Fixed an issue with the enablement of the widget actions of the reference widget.</li>
 		</ul>
 		<h3 id="eef1.7.1">Changes in EEF 1.7.1</h3>
-		<h4 id="SpecifierVisibleChanges3">Specifier-Visible Changes </h4>
+		<h4 id="SpecifierVisibleChanges4">Specifier-Visible Changes </h4>
 		<ul>
 			<li><span class="label label-info">Modified</span> Fixed an issue where the variable 
 				<code>input</code> was not available for some expressions in the select and radio widget.
@@ -91,7 +114,7 @@
 				<code>enter</code>.
 			</li>
 		</ul>
-		<h4 id="SpecifierVisibleChanges4">Specifier-Visible Changes</h4>
+		<h4 id="SpecifierVisibleChanges5">Specifier-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-success">Added</span> A brand new widget outside of the default library is now available to edit references using an easier approach. Only the name of the reference to edit is necessary and the rest will be computed by the EEF runtime.</li>
 			<li><span class="label label-success">Added</span> Widget actions are now available on labels and hyperlinks.</li>
@@ -130,7 +153,7 @@
 		<ul>
 			<li><span class="label label-success">Added</span> The user interface has been recreated from scratch with a new runtime. As a result multiple changes can be visible in the user interface.</li>
 		</ul>
-		<h4 id="SpecifierVisibleChanges5">Specifier-Visible Changes</h4>
+		<h4 id="SpecifierVisibleChanges6">Specifier-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-success">Added</span> A brand new 
 				<a href="language/overview.html">language</a> is available to create your user interface. Have a look at the documentation for additional details.

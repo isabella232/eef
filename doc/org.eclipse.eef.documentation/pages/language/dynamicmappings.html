@@ -20,6 +20,9 @@
 				<code>eStructuralFeature</code>.
 			</li>
 			<li>ifs: This property will contain all the use cases that can be handled by our dynamic mapping.</li>
+			<li>forceRefresh: This property is used to indicate that the dynamic mapping is based on an iterableExpression which may return a different result overtime for the same object contrary to the example before 
+				<code>aql:self.eClass().eAllStructuralFeatures</code>. By setting forceRefresh to true, we will force the refresh of the user interface when evaluating this dynamic mapping.
+			</li>
 		</ul>
 		<p>An &#171;if&#187; contains the following two properties:</p>
 		<ul>

@@ -13,6 +13,7 @@ h3(#properties). Properties
 * preconditionExpression: The precondition expression is used in order to determine if the page should be displayed or not. This expression must return a boolean.
 * groups: The list of the "groups":page.html that should be used in this page.
 * semanticValidationRules: The validation rules of the page. For more details regarding the validation in EEF, have a look at the documentation of the "validation":validation.html.
+* actions: The list of the Toolbar Actions used to create buttons in the toolbar of the page. Those actions can contain a tooltipExpression wich should return a string used as the tooltip, an actionExpression executed when the user will click on the button and an imageExpression used to configure the appearance of the button. The imageExpression must return a string with the following structure PROJECT_NAME/IMAGE_PATH, for example: org.eclipse.sample/icons/Icon.gif
 
 h4(#variables). Variables
 

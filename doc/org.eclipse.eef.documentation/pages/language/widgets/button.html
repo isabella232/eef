@@ -12,6 +12,7 @@
 		<ul>
 			<li>buttonLabelExpression: This expression is used to compute the label of the button. This expression must return a string.</li>
 			<li>pushExpression: This expression will be executed once the end user will click on the button. This expression does not have to return anything.</li>
+			<li>imageExpression: This expression is used to compute the image to display in the button. This expression must return a string with the following structure PROJECT_NAME/IMAGE_PATH.</li>
 			<li>style: The style of the button widget.</li>
 			<li>conditionalStyle: All the conditional styles of the button widget.</li>
 		</ul>
@@ -23,6 +24,9 @@
 			</li>
 			<li>pushExpression: 
 				<code>aql:self.doSomething()</code>
+			</li>
+			<li>imageExpression: 
+				<code>org.eclipse.example/icons/Icon.gif</code>
 			</li>
 		</ul>
 	</body>

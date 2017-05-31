@@ -8,6 +8,7 @@ The reference widget is used to edit mono-valued and multi-valued references. On
 * referenceOwnerExpression: This expression is used to compute the EObject used to compute the value of the reference. By default, the EObject contained in the variable @self@ will be used. This expression must return an @org.eclipse.emf.ecore.EObject@.
 * style: The style of the reference widget.
 * conditionalStyles: All the conditional styles of the reference widget.
+* onClickExpression: If an onClickExpression is specified, the mono-valued version of the widget will now have a hyperlink instead of a label and the multi-valued version of the widget will react to clicks in the user interface. This expression is executed when the user will click on the widget in a similar fashion as the hyperlink and list widgets.
 
 h3(#editanedreference). Edit an EReference named children
 
