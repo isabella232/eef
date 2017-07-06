@@ -165,6 +165,7 @@ public abstract class SectionPropertiesEditingPart extends CompositePropertiesEd
      * 
      * @see org.eclipse.emf.eef.runtime.impl.parts.CompositePropertiesEditionPart#refresh()
      */
+    @Override
     public void refresh() {
         if (usedAsPropertySection) {
             initSemanticContents();
@@ -301,30 +302,36 @@ public abstract class SectionPropertiesEditingPart extends CompositePropertiesEd
                     if (result != null) {
                         boolean oldLegacySectionAccessible = false;
                         Field legacySectionField = null;
+                        Class<?> cls = result.getClass();
+
                         try {
-                            Class<?> cls = result.getClass();
                             legacySectionField = cls.getDeclaredField("legacySection"); //$NON-NLS-1$
-                            oldLegacySectionAccessible = legacySectionField.isAccessible();
-                            legacySectionField.setAccessible(true);
-                            result = legacySectionField.get(result);
-                            if (result == this) {
-                                Method getId = getMethod(key, "getId"); //$NON-NLS-1$
-                                if (getId != null) {
-                                    String id = (String) callMethod(key, getId);
-                                    return id;
-                                }
-                            }
                         } catch (NoSuchFieldException e) {
-                            EEFRuntimePlugin.getDefault().logError(EEFRuntimeUIMessages.PropertiesEditionSection_legacySection_not_found, e);
-                        } catch (SecurityException e) {
-                            EEFRuntimePlugin.getDefault().logError(EEFRuntimeUIMessages.PropertiesEditionSection_legacySection_not_found, e);
-                        } catch (IllegalArgumentException e) {
-                            EEFRuntimePlugin.getDefault().logError(EEFRuntimeUIMessages.PropertiesEditionSection_legacySection_not_found, e);
-                        } catch (IllegalAccessException e) {
-                            EEFRuntimePlugin.getDefault().logError(EEFRuntimeUIMessages.PropertiesEditionSection_legacySection_not_found, e);
-                        } finally {
-                            if (legacySectionField != null) {
-                                legacySectionField.setAccessible(oldLegacySectionAccessible);
+                            // Do nothing, we are testing if the field exist
+                        }
+
+                        if (legacySectionField != null) {
+                            try {
+                                oldLegacySectionAccessible = legacySectionField.isAccessible();
+                                legacySectionField.setAccessible(true);
+                                result = legacySectionField.get(result);
+                                if (result == this) {
+                                    Method getId = getMethod(key, "getId"); //$NON-NLS-1$
+                                    if (getId != null) {
+                                        String id = (String) callMethod(key, getId);
+                                        return id;
+                                    }
+                                }
+                            } catch (SecurityException e) {
+                                EEFRuntimePlugin.getDefault().logError(EEFRuntimeUIMessages.PropertiesEditionSection_legacySection_not_found, e);
+                            } catch (IllegalArgumentException e) {
+                                EEFRuntimePlugin.getDefault().logError(EEFRuntimeUIMessages.PropertiesEditionSection_legacySection_not_found, e);
+                            } catch (IllegalAccessException e) {
+                                EEFRuntimePlugin.getDefault().logError(EEFRuntimeUIMessages.PropertiesEditionSection_legacySection_not_found, e);
+                            } finally {
+                                if (legacySectionField != null) {
+                                    legacySectionField.setAccessible(oldLegacySectionAccessible);
+                                }
                             }
                         }
                     }
