@@ -225,6 +225,7 @@ public class EEFExtSingleReferenceLifecycleManager extends AbstractEEFExtReferen
 					this.text.setText(labelProvider.getText(value));
 				} else {
 					this.hyperlink.setText(labelProvider.getText(value));
+					this.hyperlink.setData(value);
 				}
 			}
 		} else if (value == null) {
