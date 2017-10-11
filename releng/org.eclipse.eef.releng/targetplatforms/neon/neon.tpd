@@ -1,6 +1,6 @@
 target "Eclipse Neon"
 
-include "http://download.eclipse.org/sirius/updates/nightly/targets/modules/aql-nightly.tpd"
+include "http://download.eclipse.org/sirius/updates/releases/4.1.6/neon/targets/modules/aql-3.6.tpd"
 
 with source requirements
 
@@ -20,7 +20,7 @@ location Eclipse-Shared-License "http://download.eclipse.org/cbi/updates/license
 	org.eclipse.license.feature.group lazy
 }
 
-location Sirius "http://download.eclipse.org/sirius/updates/nightly/latest/neon" {
+location Sirius "http://download.eclipse.org/sirius/updates/releases/4.1.6/neon" {
 	org.eclipse.sirius.interpreter.feature.feature.group lazy
 }
 
