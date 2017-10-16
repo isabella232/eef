@@ -139,7 +139,6 @@ public class EEFDescriptorRegistryEventListener<T> extends AbstractRegistryEvent
 			String message = MessageFormat.format(Messages.DescriptorRegistryEventListener_cannotInstantiateExtension,
 					configurationElement.getAttribute(IMPL_CLASS_DESCRIPTOR_ATTR));
 			EEFTabbedPropertyViewPlugin.getPlugin().error(message, e);
-
 			return false;
 		}
 
