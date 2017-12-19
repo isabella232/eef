@@ -4,6 +4,16 @@ h2. Release Notes for Eclipse EEF
 
 This document contains the release notes for recent major releases of EEF.
 
+h3(#eef1.9.2). Changes in EEF 1.9.2
+
+h4. User-Visible Changes
+
+* <span class="label label-success">Added</span> A conflict resolution policy has been added to the Text widget. The implementation of the text widget now uses a new preference TEXT_CONFLICT_RESOLUTION_MODE, which is not exposed in the UI but can be configured programmatically using EEFPreferences.setTextConflictResolutionMode(). The default preference value can also be overridden by configuration, using the -pluginCustomization startup flag to point to a plugin_customization.ini file with, for example: org.eclipse.eef.ide.ui/TEXT_CONFLICT_RESOLUTION_MODE=USE_LOCAL_VERSION. EEFTextLifecycleManager supports three modes. First, USE_MODEL_VERSION which will overwrite the widget's content with the value computed from the new version of the model (no user feedback). This is the default behavior. Second, USE_LOCAL_VERSION which will keep the current value begin edited by the end-user in the widget (no user feedback). Third, ASK_USER which will open a simple dialog box to ask the user which version to keep. Note that the simple dialog provided is only suitable for short (single-line) text fields.
+
+h4. Developer-Visible Changes
+
+* <span class="label label-success">Added</span> The text widget has been modified to add support for the customization of the conflict resolution policy. Conflict resolution can be customized by providing a custom LifecycleManager which extends the default EEFTextLifecycleManager and overrides either askUserToResolveConflict() to take the preference in consideration, but implement ASK_USER differently, for example with a more sophisticated dialog or resolveEditionConflict() to provide a completely different strategy (possibly ignoring the preference).
+
 h3(#eef1.9.1). Changes in EEF 1.9.1
 
 h4. User-Visible Changes
