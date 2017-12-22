@@ -21,10 +21,12 @@
 <topic href="pages/org/eclipse/eef/ide/ui/api/widgets/package-summary.html" label="org.eclipse.eef.ide.ui.api.widgets"/>
 <topic href="pages/org/eclipse/eef/ide/ui/internal/package-summary.html" label="org.eclipse.eef.ide.ui.internal"/>
 <topic href="pages/org/eclipse/eef/ide/ui/internal/preferences/package-summary.html" label="org.eclipse.eef.ide.ui.internal.preferences"/>
+<topic href="pages/org/eclipse/eef/ide/ui/internal/resource/package-summary.html" label="org.eclipse.eef.ide.ui.internal.resource"/>
 <topic href="pages/org/eclipse/eef/ide/ui/internal/widgets/package-summary.html" label="org.eclipse.eef.ide.ui.internal.widgets"/>
 <topic href="pages/org/eclipse/eef/ide/ui/internal/widgets/quickfix/package-summary.html" label="org.eclipse.eef.ide.ui.internal.widgets.quickfix"/>
 <topic href="pages/org/eclipse/eef/ide/ui/internal/widgets/styles/package-summary.html" label="org.eclipse.eef.ide.ui.internal.widgets.styles"/>
 <topic href="pages/org/eclipse/eef/ide/ui/properties/api/package-summary.html" label="org.eclipse.eef.ide.ui.properties.api"/>
+<topic href="pages/org/eclipse/eef/ide/ui/properties/internal/package-summary.html" label="org.eclipse.eef.ide.ui.properties.internal"/>
 <topic href="pages/org/eclipse/eef/impl/package-summary.html" label="org.eclipse.eef.impl"/>
 <topic href="pages/org/eclipse/eef/properties/ui/api/package-summary.html" label="org.eclipse.eef.properties.ui.api"/>
 <topic href="pages/org/eclipse/eef/properties/ui/internal/package-summary.html" label="org.eclipse.eef.properties.ui.internal"/>
