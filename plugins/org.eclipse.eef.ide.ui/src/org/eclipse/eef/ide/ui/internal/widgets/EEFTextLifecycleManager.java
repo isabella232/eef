@@ -49,6 +49,7 @@ import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -431,9 +432,11 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 		if (widgetStyle instanceof EEFTextStyle) {
 			EEFTextStyle textStyle = (EEFTextStyle) widgetStyle;
 
+			Font defaultFont = this.text.getShell().getFont();
+
 			IEEFTextStyleCallback callback = new EEFStyledTextStyleCallback(this.text);
 			styleHelper.applyTextStyle(textStyle.getFontNameExpression(), textStyle.getFontSizeExpression(), textStyle.getFontStyleExpression(),
-					this.text.getFont(), textStyle.getBackgroundColorExpression(), textStyle.getForegroundColorExpression(), callback);
+					defaultFont, textStyle.getBackgroundColorExpression(), textStyle.getForegroundColorExpression(), callback);
 		}
 	}
 
