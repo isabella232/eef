@@ -56,6 +56,7 @@
 		<ul>
 			<li><span class="label label-success">Added</span> A conflict resolution policy has been added to the Text widget. The implementation of the text widget now uses a new preference TEXT_CONFLICT_RESOLUTION_MODE, which is not exposed in the UI but can be configured programmatically using EEFPreferences.setTextConflictResolutionMode(). The default preference value can also be overridden by configuration, using the -pluginCustomization startup flag to point to a plugin_customization.ini file with, for example: org.eclipse.eef.ide.ui/TEXT_CONFLICT_RESOLUTION_MODE=USE_LOCAL_VERSION. EEFTextLifecycleManager supports three modes. First, USE_MODEL_VERSION which will overwrite the widget&#8217;s content with the value computed from the new version of the model (no user feedback). This is the default behavior. Second, USE_LOCAL_VERSION which will keep the current value begin edited by the end-user in the widget (no user feedback). Third, ASK_USER which will open a simple dialog box to ask the user which version to keep. Note that the simple dialog provided is only suitable for short (single-line) text fields.</li>
 			<li><span class="label label-info">Modified</span> Fix an issue with the refresh of list widgets</li>
+			<li><span class="label label-info">Modified</span> Fix an issue with the conditional style of the text widgets</li>
 		</ul>
 		<h4 id="DeveloperVisibleChanges">Developer-Visible Changes</h4>
 		<ul>
