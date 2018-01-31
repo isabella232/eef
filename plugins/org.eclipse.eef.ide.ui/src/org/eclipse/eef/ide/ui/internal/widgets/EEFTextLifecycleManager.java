@@ -514,7 +514,7 @@ public class EEFTextLifecycleManager extends AbstractEEFWidgetLifecycleManager {
 	protected void notifyTextLossOnLock(String userInput, String textFromModel) {
 		Shell shell = this.text.getShell();
 		if (MessageDialog.openQuestion(shell, Messages.EEFTextLifecycleManager_textLossByLocking_title,
-				MessageFormat.format(Messages.EEFTextLifecycleManager_textLossByLocking_title, userInput))) {
+				MessageFormat.format(Messages.EEFTextLifecycleManager_textLossByLocking_message, userInput))) {
 			Clipboard clipboard = new Clipboard(shell.getDisplay());
 			clipboard.setContents(new Object[] { userInput }, new Transfer[] { TextTransfer.getInstance() });
 			clipboard.dispose();
