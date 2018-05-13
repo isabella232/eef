@@ -18,6 +18,7 @@ package org.eclipse.eef.ide.api.extensions;
  * @param <T>
  *            The type of the Object described
  */
+@Deprecated
 public interface IItemDescriptor<T> {
 	/**
 	 * Returns the identifier.
@@ -42,7 +43,7 @@ public interface IItemDescriptor<T> {
 
 	/**
 	 * Returns the item.
-	 * 
+	 *
 	 * @return The item
 	 */
 	T getItem();

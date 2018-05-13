@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IRegistryEventListener;
  *
  * @author sbegaudeau
  */
+@Deprecated
 public abstract class AbstractRegistryEventListener implements IRegistryEventListener {
 	/**
 	 * This enumeration will be used to distinguish the various states of an incoming event.

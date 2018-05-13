@@ -15,15 +15,15 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.eef.ide.api.extensions.IItemDescriptor;
-import org.eclipse.eef.ide.api.extensions.impl.DescriptorRegistryEventListener;
-import org.eclipse.eef.ide.api.extensions.impl.ItemRegistry;
 import org.eclipse.eef.ide.ui.ext.widgets.reference.api.IEEFExtReferenceViewerFilterProvider;
 import org.eclipse.eef.ide.ui.ext.widgets.reference.api.IEEFExtReferenceViewerFilterProvider.ContextKind;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.ui.EclipseUIPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.sirius.ext.ide.api.DescriptorRegistryEventListener;
+import org.eclipse.sirius.ext.ide.api.IItemDescriptor;
+import org.eclipse.sirius.ext.ide.api.ItemRegistry;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -168,7 +168,7 @@ public class EEFExtReferenceUIPlugin extends EMFPlugin {
 
 		/**
 		 * Returns the viewer filters to use for the given context kind.
-		 * 
+		 *
 		 * @param contextKind
 		 *            The context
 		 * @return The list of the viewer filters

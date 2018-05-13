@@ -27,6 +27,7 @@ import org.eclipse.eef.ide.api.extensions.IItemRegistry;
  * @param <T>
  *            The type of the object described
  */
+@Deprecated
 public class ItemRegistry<T> implements IItemRegistry<T> {
 
 	/**

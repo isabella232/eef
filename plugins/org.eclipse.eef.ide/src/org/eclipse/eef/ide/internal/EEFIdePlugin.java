@@ -20,6 +20,7 @@ import org.osgi.framework.BundleContext;
  *
  * @author sbegaudeau
  */
+@Deprecated
 public class EEFIdePlugin extends EMFPlugin {
 
 	/**

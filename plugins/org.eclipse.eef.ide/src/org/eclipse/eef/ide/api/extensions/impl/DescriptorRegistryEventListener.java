@@ -29,6 +29,7 @@ import org.eclipse.eef.ide.internal.Messages;
  * @param <T>
  *            The type of the Object described
  */
+@Deprecated
 public class DescriptorRegistryEventListener<T> extends AbstractRegistryEventListener {
 	/** Id attribute of the extension point. */
 	public static final String ID_DESCRIPTOR_ATTR = "id"; //$NON-NLS-1$

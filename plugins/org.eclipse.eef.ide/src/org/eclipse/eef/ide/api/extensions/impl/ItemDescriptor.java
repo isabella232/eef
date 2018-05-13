@@ -20,6 +20,7 @@ import org.eclipse.eef.ide.api.extensions.IItemDescriptor;
  * @param <T>
  *            The type of the object described
  */
+@Deprecated
 public class ItemDescriptor<T> implements IItemDescriptor<T> {
 
 	/**

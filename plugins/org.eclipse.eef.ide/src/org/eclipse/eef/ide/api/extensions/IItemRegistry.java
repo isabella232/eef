@@ -20,6 +20,7 @@ import java.util.List;
  * @param <T>
  *            The type of the Objects described
  */
+@Deprecated
 public interface IItemRegistry<T> {
 	/**
 	 * Returns all the {@link IItemDescriptor} of the registry.
@@ -33,8 +34,7 @@ public interface IItemRegistry<T> {
 	 *
 	 * @param id
 	 *            The identifier
-	 * @return The {@link IItemDescriptor} with the given identifier or null if
-	 *         none could be found
+	 * @return The {@link IItemDescriptor} with the given identifier or null if none could be found
 	 */
 	IItemDescriptor<T> getItemDescriptor(String id);
 
@@ -43,9 +43,8 @@ public interface IItemRegistry<T> {
 	 *
 	 * @param descriptor
 	 *            The descriptior
-	 * @return The previous {@link IItemDescriptor} with the same identifier, or
-	 *         null if no registered {@link IItemDescriptor} had the same
-	 *         identifier
+	 * @return The previous {@link IItemDescriptor} with the same identifier, or null if no registered
+	 *         {@link IItemDescriptor} had the same identifier
 	 */
 	IItemDescriptor<T> add(IItemDescriptor<T> descriptor);
 
@@ -54,8 +53,8 @@ public interface IItemRegistry<T> {
 	 *
 	 * @param id
 	 *            The identifier
-	 * @return The {@link IItemDescriptor} removed or null if no registered
-	 *         {@link IItemDescriptor} had an identifier matching the given one
+	 * @return The {@link IItemDescriptor} removed or null if no registered {@link IItemDescriptor} had an identifier
+	 *         matching the given one
 	 */
 	IItemDescriptor<T> remove(String id);
 

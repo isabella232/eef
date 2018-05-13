@@ -18,6 +18,7 @@ import org.eclipse.eef.common.api.utils.I18N.TranslatableMessage;
  *
  * @author sbegaudeau
  */
+@Deprecated
 public final class Messages {
 
 	static {
