@@ -12,8 +12,8 @@
   <name>EEF Parent</name>
 
   <properties>
-    <tycho-version>0.24.0</tycho-version>
-    <tycho-extras-version>0.24.0</tycho-extras-version>
+    <tycho-version>1.1.0</tycho-version>
+    <tycho-extras-version>1.1.0</tycho-extras-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <platform-version-name>oxygen</platform-version-name>
     <tycho.scmUrl>scm:git:http://git.eclipse.org/gitroot/eef/org.eclipse.eef.git</tycho.scmUrl>
@@ -118,6 +118,15 @@
         <version>${tycho-version}</version>
         <extensions>true</extensions>
       </plugin>
+      <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-compiler-plugin</artifactId>
+          <version>${tycho-version}</version>
+          <configuration>
+            <encoding>UTF-8</encoding>
+            <useProjectSettings>false</useProjectSettings>
+          </configuration>
+        </plugin>
     </plugins>
   </build>
   <modules>
