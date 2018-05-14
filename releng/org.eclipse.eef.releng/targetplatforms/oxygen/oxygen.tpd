@@ -22,7 +22,7 @@ location Eclipse-Shared-License "http://download.eclipse.org/cbi/updates/license
 
 location Sirius "http://download.eclipse.org/sirius/updates/nightly/6.0.x/oxygen" {
 	org.eclipse.sirius.interpreter.feature.feature.group lazy
-	org.eclipse.sirius.ext.ide lazy
+	org.eclipse.sirius.runtime.feature.group lazy
 }
 
 location "http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository" {
