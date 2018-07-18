@@ -4,6 +4,11 @@ h2. Release Notes for Eclipse EEF
 
 This document contains the release notes for recent major releases of EEF.
 
+h3(#eef2.1.0). Changes in EEF 2.1.0
+
+* <span class="label label-info">Modified</span> Update the releng process
+* <span class="label label-info">Modified</span> Fix some debug messages
+
 h3(#eef2.0.1). Changes in EEF 2.0.1
 
 h4. User-Visible Changes
