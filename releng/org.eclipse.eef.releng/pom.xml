@@ -142,6 +142,7 @@
     <module>../../plugins/org.eclipse.eef.ide.ui.ext.widgets.reference</module>
 
     <module>../../tests/org.eclipse.eef.tests</module>
+    <module>../../tests/org.eclipse.eef.ui.tests</module>
 
     <module>../../doc/org.eclipse.eef.documentation</module>
     <module>../../doc/org.eclipse.eef.documentation.javadoc</module>

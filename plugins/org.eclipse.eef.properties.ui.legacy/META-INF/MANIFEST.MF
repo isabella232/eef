@@ -17,5 +17,5 @@ Bundle-Localization: plugin
 Export-Package: org.eclipse.eef.properties.ui.legacy.internal;version="2.0.0";x-internal:=true,
  org.eclipse.eef.properties.ui.legacy.internal.eef2legacy;version="2.0.0";x-internal:=true,
  org.eclipse.eef.properties.ui.legacy.internal.extension;version="2.0.0";x-internal:=true,
- org.eclipse.eef.properties.ui.legacy.internal.extension.impl;version="2.0.0";x-internal:=true,
+ org.eclipse.eef.properties.ui.legacy.internal.extension.impl;version="2.0.0";x-friends:="org.eclipse.eef.ui.tests",
  org.eclipse.eef.properties.ui.legacy.internal.legacy2eef;version="2.0.0";x-internal:=true
