@@ -86,9 +86,14 @@ public class LegacyPropertySectionRegistry implements IItemRegistry {
 
 		for (IItemDescriptor itemDescriptor : values) {
 			if (itemDescriptor instanceof IEEFSectionDescriptor) {
+				String legacyContributorId = null;
+				if (itemDescriptor instanceof LegacyPropertySectionItemDescriptor) {
+					legacyContributorId = ((LegacyPropertySectionItemDescriptor) itemDescriptor).getContributionId();
+				}
 				String tab = ((IEEFSectionDescriptor) itemDescriptor).getTargetTab();
 				String sectionTargetTabId = tab;
-				if (tabId.equals(sectionTargetTabId)) {
+				if (((legacyContributorId != null && legacyContributorId.equals(contributorId)) || legacyContributorId == null)
+						&& tabId.equals(sectionTargetTabId)) {
 					String key = sectionTargetTabId + itemDescriptor.getId();
 					eefSectionDescriptors.put(key, (IEEFSectionDescriptor) itemDescriptor);
 				}
