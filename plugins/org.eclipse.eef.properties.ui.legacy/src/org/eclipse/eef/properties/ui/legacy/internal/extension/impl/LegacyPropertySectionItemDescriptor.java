@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015 Obeo.
+ * Copyright (c) 2015, 2018 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@ package org.eclipse.eef.properties.ui.legacy.internal.extension.impl;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -206,5 +207,21 @@ public class LegacyPropertySectionItemDescriptor extends AbstractEEFSectionDescr
 			inputTypes = sectionDescriptor.getInputTypes();
 		}
 		return inputTypes;
+	}
+
+	/**
+	 * Get the contributor Id of the section.
+	 *
+	 * @return the contributor Id of the section, or <code>null</code> if it doesn't exist.
+	 */
+	public String getContributionId() {
+		// @formatter:off
+		return Optional.ofNullable(this.configurationElement)
+				.map(IConfigurationElement::getParent)
+				.filter(IConfigurationElement.class::isInstance)
+				.map(IConfigurationElement.class::cast)
+				.map(element -> element.getAttribute(LegacyPropertySectionsRegistryEventListener.CONTRIBUTOR_ID_ATTR))
+				.orElse(null);
+		// @formatter:on
 	}
 }
