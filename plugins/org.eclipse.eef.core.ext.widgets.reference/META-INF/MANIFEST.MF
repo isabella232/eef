@@ -13,3 +13,4 @@ Bundle-Localization: plugin
 Export-Package: org.eclipse.eef.core.ext.widgets.reference.internal;version="2.0.0";x-friends:="org.eclipse.eef.ide.ui.ext.widgets.reference"
 Import-Package: org.eclipse.core.runtime;version="3.5.0",
  org.eclipse.sirius.common.interpreter.api;version="1.0.0"
+Automatic-Module-Name: org.eclipse.eef.core.ext.widgets.reference

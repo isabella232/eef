@@ -28,3 +28,4 @@ Export-Package: org.eclipse.eef.ide.ui.ext.widgets.reference.api;version="2.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.eef.ide.ui.ext.widgets.reference.internal.EEFExtReferenceUIPlugin$Implementation
 Import-Package: org.eclipse.sirius.common.interpreter.api;version="1.0.0"
+Automatic-Module-Name: org.eclipse.eef.ide.ui.ext.widgets.reference

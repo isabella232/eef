@@ -12,3 +12,4 @@ Require-Bundle: org.junit;bundle-version="[4.0.0,5.0.0)",
  com.google.guava;bundle-version="[15.0.0,22.0.0)",
  org.hamcrest.library;bundle-version="1.3.0"
 Export-Package: org.eclipse.eef.documentation.export.internal;version="1.6.0";x-internal:=true
+Automatic-Module-Name: org.eclipse.eef.documentation.export

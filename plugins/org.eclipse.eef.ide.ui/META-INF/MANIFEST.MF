@@ -33,3 +33,4 @@ Export-Package: org.eclipse.eef.ide.ui.api;version="2.0.0",
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.eef.ide.ui.internal.EEFIdeUiPlugin$Implementation
+Automatic-Module-Name: org.eclipse.eef.ide.ui

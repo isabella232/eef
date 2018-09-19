@@ -29,3 +29,4 @@ Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.eef.sample.custom.widget.colorpicker.ColorPickerPlugin$Implementation
 Export-Package: org.eclipse.eef.sample.custom.widget.colorpicker;version="2.0.0"
+Automatic-Module-Name: org.eclipse.eef.sample.custom.widget.colorpicker

@@ -19,3 +19,4 @@ Export-Package: org.eclipse.eef.core.api;version="2.0.0",
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.eef.core.internal.EEFCorePlugin$Implementation
+Automatic-Module-Name: org.eclipse.eef.core

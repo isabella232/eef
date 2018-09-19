@@ -17,3 +17,4 @@ Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)",
  org.antlr.runtime;bundle-version="[4.3.0,5.0.0)"
 Import-Package: com.google.common.cache;version="[15.0.0,22.0.0)",
  org.eclipse.sirius.common.interpreter.api;version="1.0.0"
+Automatic-Module-Name: org.eclipse.eef.tests
