@@ -1,9 +1,12 @@
 /**
- * Copyright (c) 2016 Obeo.
+ * Copyright (c) 2016, 2018 Obeo.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.htm
+ * https://www.eclipse.org/legal/epl-2.0
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Obeo - initial API and implementation
  */
 package org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference;
@@ -41,7 +44,7 @@ public interface EEFExtReferenceDescription extends EEFWidgetDescription {
 	/**
 	 * Returns the value of the '<em><b>Reference Name Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc --> <!-- begin-model-doc --> The name of the reference to edit. <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Reference Name Expression</em>' attribute.
 	 * @see #setReferenceNameExpression(String)
 	 * @see org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference.EefExtWidgetsReferencePackage#getEEFExtReferenceDescription_ReferenceNameExpression()
@@ -54,7 +57,7 @@ public interface EEFExtReferenceDescription extends EEFWidgetDescription {
 	 * Sets the value of the
 	 * '{@link org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference.EEFExtReferenceDescription#getReferenceNameExpression
 	 * <em>Reference Name Expression</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value
 	 *            the new value of the '<em>Reference Name Expression</em>' attribute.
 	 * @see #getReferenceNameExpression()
@@ -66,7 +69,7 @@ public interface EEFExtReferenceDescription extends EEFWidgetDescription {
 	 * Returns the value of the '<em><b>Reference Owner Expression</b></em>' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc --> <!-- begin-model-doc --> The EObject to use to evaluate the value of the reference <!--
 	 * end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Reference Owner Expression</em>' attribute.
 	 * @see #setReferenceOwnerExpression(String)
 	 * @see org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference.EefExtWidgetsReferencePackage#getEEFExtReferenceDescription_ReferenceOwnerExpression()
@@ -79,7 +82,7 @@ public interface EEFExtReferenceDescription extends EEFWidgetDescription {
 	 * Sets the value of the
 	 * '{@link org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference.EEFExtReferenceDescription#getReferenceOwnerExpression
 	 * <em>Reference Owner Expression</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value
 	 *            the new value of the '<em>Reference Owner Expression</em>' attribute.
 	 * @see #getReferenceOwnerExpression()
@@ -94,7 +97,7 @@ public interface EEFExtReferenceDescription extends EEFWidgetDescription {
 	 * description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>On Click Expression</em>' attribute.
 	 * @see #setOnClickExpression(String)
 	 * @see org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference.EefExtWidgetsReferencePackage#getEEFExtReferenceDescription_OnClickExpression()
@@ -107,7 +110,7 @@ public interface EEFExtReferenceDescription extends EEFWidgetDescription {
 	 * Sets the value of the
 	 * '{@link org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference.EEFExtReferenceDescription#getOnClickExpression
 	 * <em>On Click Expression</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value
 	 *            the new value of the '<em>On Click Expression</em>' attribute.
 	 * @see #getOnClickExpression()
@@ -118,7 +121,7 @@ public interface EEFExtReferenceDescription extends EEFWidgetDescription {
 	/**
 	 * Returns the value of the '<em><b>Style</b></em>' containment reference. <!-- begin-user-doc --> <!-- end-user-doc
 	 * --> <!-- begin-model-doc --> The style of the reference widget <!-- end-model-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Style</em>' containment reference.
 	 * @see #setStyle(EEFExtReferenceWidgetStyle)
 	 * @see org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference.EefExtWidgetsReferencePackage#getEEFExtReferenceDescription_Style()
@@ -131,7 +134,7 @@ public interface EEFExtReferenceDescription extends EEFWidgetDescription {
 	 * Sets the value of the
 	 * '{@link org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference.EEFExtReferenceDescription#getStyle
 	 * <em>Style</em>}' containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @param value
 	 *            the new value of the '<em>Style</em>' containment reference.
 	 * @see #getStyle()
@@ -148,7 +151,7 @@ public interface EEFExtReferenceDescription extends EEFWidgetDescription {
 	 * be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @return the value of the '<em>Conditional Styles</em>' containment reference list.
 	 * @see org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference.EefExtWidgetsReferencePackage#getEEFExtReferenceDescription_ConditionalStyles()
 	 * @model containment="true" resolveProxies="true"

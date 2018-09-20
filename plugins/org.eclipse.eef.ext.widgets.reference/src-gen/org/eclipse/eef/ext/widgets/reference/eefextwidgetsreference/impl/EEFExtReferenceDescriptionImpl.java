@@ -1,9 +1,12 @@
 /**
- * Copyright (c) 2016 Obeo.
+ * Copyright (c) 2016, 2018 Obeo.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.htm
+ * https://www.eclipse.org/legal/epl-2.0
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Obeo - initial API and implementation
  */
 package org.eclipse.eef.ext.widgets.reference.eefextwidgetsreference.impl;
@@ -49,7 +52,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 	/**
 	 * The default value of the '{@link #getReferenceNameExpression() <em>Reference Name Expression</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getReferenceNameExpression()
 	 * @generated
 	 * @ordered
@@ -59,7 +62,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 	/**
 	 * The cached value of the '{@link #getReferenceNameExpression() <em>Reference Name Expression</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getReferenceNameExpression()
 	 * @generated
 	 * @ordered
@@ -69,7 +72,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 	/**
 	 * The default value of the '{@link #getReferenceOwnerExpression() <em>Reference Owner Expression</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getReferenceOwnerExpression()
 	 * @generated
 	 * @ordered
@@ -79,7 +82,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 	/**
 	 * The cached value of the '{@link #getReferenceOwnerExpression() <em>Reference Owner Expression</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getReferenceOwnerExpression()
 	 * @generated
 	 * @ordered
@@ -89,7 +92,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 	/**
 	 * The default value of the '{@link #getOnClickExpression() <em>On Click Expression</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getOnClickExpression()
 	 * @generated
 	 * @ordered
@@ -99,7 +102,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 	/**
 	 * The cached value of the '{@link #getOnClickExpression() <em>On Click Expression</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getOnClickExpression()
 	 * @generated
 	 * @ordered
@@ -109,7 +112,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 	/**
 	 * The cached value of the '{@link #getStyle() <em>Style</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
+	 * 
 	 * @see #getStyle()
 	 * @generated
 	 * @ordered
@@ -119,7 +122,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 	/**
 	 * The cached value of the '{@link #getConditionalStyles() <em>Conditional Styles</em>}' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #getConditionalStyles()
 	 * @generated
 	 * @ordered
@@ -128,7 +131,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	protected EEFExtReferenceDescriptionImpl() {
@@ -137,7 +140,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -147,7 +150,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -157,7 +160,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -173,7 +176,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -183,7 +186,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -199,7 +202,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -209,7 +212,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -224,7 +227,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -254,7 +257,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public EEFExtReferenceWidgetStyle basicGetStyle() {
@@ -263,7 +266,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetStyle(EEFExtReferenceWidgetStyle newStyle, NotificationChain msgs) {
@@ -283,7 +286,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -310,7 +313,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -324,7 +327,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -340,7 +343,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -365,7 +368,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -394,7 +397,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -421,7 +424,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -446,7 +449,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -455,7 +458,7 @@ public class EEFExtReferenceDescriptionImpl extends EEFWidgetDescriptionImpl imp
 			return super.toString();
 		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (referenceNameExpression: "); //$NON-NLS-1$
 		result.append(referenceNameExpression);
 		result.append(", referenceOwnerExpression: "); //$NON-NLS-1$
