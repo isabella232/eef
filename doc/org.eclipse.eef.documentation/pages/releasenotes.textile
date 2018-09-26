@@ -9,6 +9,13 @@ h3(#eef2.1.0). Changes in EEF 2.1.0
 * <span class="label label-info">Modified</span> Update the releng process
 * <span class="label label-info">Modified</span> Fix some debug messages
 
+h3(#eef2.0.2). Changes in EEF 2.0.2
+
+h4. User-Visible Changes
+
+* <span class="label label-info">Modified</span> Fix an issue with the order of the legacy tabs which did not use the afterSection part of the extension declaration
+* <span class="label label-info">Modified</span> Fix an issue with the legacy tabs used by taking into account the contributor id
+
 h3(#eef2.0.1). Changes in EEF 2.0.1
 
 h4. User-Visible Changes

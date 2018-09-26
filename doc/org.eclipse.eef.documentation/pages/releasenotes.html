@@ -15,6 +15,9 @@
 						<a href="#eef2.1.0">Changes in EEF 2.1.0</a>
 					</li>
 					<li>
+						<a href="#eef2.0.2">Changes in EEF 2.0.2</a>
+					</li>
+					<li>
 						<a href="#eef2.0.1">Changes in EEF 2.0.1</a>
 					</li>
 					<li>
@@ -59,8 +62,14 @@
 			<li><span class="label label-info">Modified</span> Update the releng process</li>
 			<li><span class="label label-info">Modified</span> Fix some debug messages</li>
 		</ul>
-		<h3 id="eef2.0.1">Changes in EEF 2.0.1</h3>
+		<h3 id="eef2.0.2">Changes in EEF 2.0.2</h3>
 		<h4 id="UserVisibleChanges">User-Visible Changes</h4>
+		<ul>
+			<li><span class="label label-info">Modified</span> Fix an issue with the order of the legacy tabs which did not use the afterSection part of the extension declaration</li>
+			<li><span class="label label-info">Modified</span> Fix an issue with the legacy tabs used by taking into account the contributor id</li>
+		</ul>
+		<h3 id="eef2.0.1">Changes in EEF 2.0.1</h3>
+		<h4 id="UserVisibleChanges2">User-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-success">Added</span> A conflict resolution policy has been added to the Text widget. The implementation of the text widget now uses a new preference TEXT_CONFLICT_RESOLUTION_MODE, which is not exposed in the UI but can be configured programmatically using EEFPreferences.setTextConflictResolutionMode(). The default preference value can also be overridden by configuration, using the -pluginCustomization startup flag to point to a plugin_customization.ini file with, for example: org.eclipse.eef.ide.ui/TEXT_CONFLICT_RESOLUTION_MODE=USE_LOCAL_VERSION. EEFTextLifecycleManager supports three modes. First, USE_MODEL_VERSION which will overwrite the widget&#8217;s content with the value computed from the new version of the model (no user feedback). This is the default behavior. Second, USE_LOCAL_VERSION which will keep the current value begin edited by the end-user in the widget (no user feedback). Third, ASK_USER which will open a simple dialog box to ask the user which version to keep. Note that the simple dialog provided is only suitable for short (single-line) text fields.</li>
 			<li><span class="label label-info">Modified</span> Fix an issue with the refresh of list widgets</li>
@@ -101,7 +110,7 @@
 			</li>
 		</ul>
 		<h3 id="eef1.9.2">Changes in EEF 1.9.2</h3>
-		<h4 id="UserVisibleChanges2">User-Visible Changes</h4>
+		<h4 id="UserVisibleChanges3">User-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-success">Added</span> A conflict resolution policy has been added to the Text widget. The implementation of the text widget now uses a new preference TEXT_CONFLICT_RESOLUTION_MODE, which is not exposed in the UI but can be configured programmatically using EEFPreferences.setTextConflictResolutionMode(). The default preference value can also be overridden by configuration, using the -pluginCustomization startup flag to point to a plugin_customization.ini file with, for example: org.eclipse.eef.ide.ui/TEXT_CONFLICT_RESOLUTION_MODE=USE_LOCAL_VERSION. EEFTextLifecycleManager supports three modes. First, USE_MODEL_VERSION which will overwrite the widget&#8217;s content with the value computed from the new version of the model (no user feedback). This is the default behavior. Second, USE_LOCAL_VERSION which will keep the current value begin edited by the end-user in the widget (no user feedback). Third, ASK_USER which will open a simple dialog box to ask the user which version to keep. Note that the simple dialog provided is only suitable for short (single-line) text fields.</li>
 		</ul>
@@ -110,7 +119,7 @@
 			<li><span class="label label-success">Added</span> The text widget has been modified to add support for the customization of the conflict resolution policy. Conflict resolution can be customized by providing a custom LifecycleManager which extends the default EEFTextLifecycleManager and overrides either askUserToResolveConflict() to take the preference in consideration, but implement ASK_USER differently, for example with a more sophisticated dialog or resolveEditionConflict() to provide a completely different strategy (possibly ignoring the preference).</li>
 		</ul>
 		<h3 id="eef1.9.1">Changes in EEF 1.9.1</h3>
-		<h4 id="UserVisibleChanges3">User-Visible Changes</h4>
+		<h4 id="UserVisibleChanges4">User-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-info">Modified</span> Improved support for permissions.</li>
 			<li><span class="label label-info">Modified</span> Fixed an issue with the label used by the dialogs of the reference widget to improve the support of meta-models with column label providers.</li>
@@ -125,7 +134,7 @@
 			</li>
 		</ul>
 		<h3 id="eef1.9.0">Changes in EEF 1.9.0</h3>
-		<h4 id="UserVisibleChanges4">User-Visible Changes</h4>
+		<h4 id="UserVisibleChanges5">User-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-success">Added</span> Add support for permissions with locks</li>
 		</ul>
@@ -158,7 +167,7 @@
 			<li><span class="label label-info">Modified</span> Revert the lazy evaluation of the candidates of the select widget.</li>
 		</ul>
 		<h3 id="eef1.7.0">Changes in EEF 1.7.0</h3>
-		<h4 id="UserVisibleChanges5">User-Visible Changes</h4>
+		<h4 id="UserVisibleChanges6">User-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-success">Added</span> Labels and hyperlinks can now have buttons on their right side.</li>
 			<li><span class="label label-info">Modified</span> Trigger the 
@@ -188,7 +197,7 @@
 			<li><span class="label label-success">Added</span> The class EEFStyleHelper is now API in order to help support style and conditional styles for custom widgets. Developers will need to override org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager.getEEFStyleHelper() to provide their own implementation. The easiest way will need to extend the regular implementation and modify the three switchs to provide using the dedicated getters.</li>
 		</ul>
 		<h3 id="eef1.6.2">Changes in EEF 1.6.2</h3>
-		<h4 id="UserVisibleChanges6">User-Visible Changes</h4>
+		<h4 id="UserVisibleChanges7">User-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-info">Modified</span> Trigger the 
 				<code>editExpression</code> of a text widget on focus lost.
@@ -201,7 +210,7 @@
 			<li><span class="label label-info">Modified</span> Fixed an issue the refresh of the Properties view with an EMF proxy</li>
 		</ul>
 		<h3 id="eef1.6.0">Changes in EEF 1.6.0</h3>
-		<h4 id="UserVisibleChanges7">User-Visible Changes</h4>
+		<h4 id="UserVisibleChanges8">User-Visible Changes</h4>
 		<ul>
 			<li><span class="label label-success">Added</span> The user interface has been recreated from scratch with a new runtime. As a result multiple changes can be visible in the user interface.</li>
 		</ul>
