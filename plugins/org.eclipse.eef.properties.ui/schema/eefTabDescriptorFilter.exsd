@@ -118,11 +118,13 @@ Example of IEEFTabDescriptorFilter contribution. In this example, we are providi
 &lt;pre&gt;
 import org.eclipse.eef.properties.ui.api.IEEFTabDescriptor;
 import org.eclipse.eef.properties.ui.api.IEEFTabDescriptorFilter;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.ui.IWorkbenchPart;
 
 public class SampleTabDescriptorFilter implements IEEFTabDescriptorFilter {
 
     @Override
-    public boolean filter(IEEFTabDescriptor tabDescriptor) {
+    public boolean filter(IEEFTabDescriptor tabDescriptor, IWorkbenchPart part, ISelection selection) {
      // Write here a useful condition
         return false;
     }
@@ -133,6 +135,7 @@ This example requires at least the following dependencies:
 &lt;ul&gt;
   &lt;li&gt;org.eclipse.eef.common&lt;/li&gt;
   &lt;li&gt;org.eclipse.eef.properties.ui&lt;/li&gt;
+  &lt;li&gt;org.eclipse.ui&lt;/li&gt;
 &lt;/ul&gt;
       </documentation>
    </annotation>

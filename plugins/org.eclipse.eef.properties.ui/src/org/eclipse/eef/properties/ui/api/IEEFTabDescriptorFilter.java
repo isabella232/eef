@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.eef.properties.ui.api;
 
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.ui.IWorkbenchPart;
+
 /**
  * This interface is used to filter {@link IEEFTabDescriptor}.
  *
@@ -25,5 +28,24 @@ public interface IEEFTabDescriptorFilter {
 	 *
 	 * @return <code>true</code> if the tab descriptor should be used, <code>false</code> otherwise
 	 */
-	boolean filter(IEEFTabDescriptor tabDescriptor);
+	@Deprecated
+	default boolean filter(IEEFTabDescriptor tabDescriptor) {
+		return true;
+	}
+
+	/**
+	 * Returns if a tab descriptor must be filtered or not.
+	 *
+	 * @param tabDescriptor
+	 *            The tab descriptor
+	 * @param part
+	 *            The workbench part
+	 * @param selection
+	 *            The selection
+	 *
+	 * @return <code>true</code> if the tab descriptor should be used, <code>false</code> otherwise
+	 */
+	default boolean filter(IEEFTabDescriptor tabDescriptor, IWorkbenchPart part, ISelection selection) {
+		return this.filter(tabDescriptor);
+	}
 }

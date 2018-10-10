@@ -80,7 +80,7 @@ public class EEFTabbedPropertyRegistry {
 			IEEFTabDescriptorProvider eefTabDescriptorProvider = itemDescriptor.getItem();
 			for (IEEFTabDescriptor eefTabDescriptor : eefTabDescriptorProvider.get(part, input, contributor)) {
 				String eefTabDescriptorId = eefTabDescriptor.getId();
-				if (!eefTabDescriptors.containsKey(eefTabDescriptorId) && filter(eefTabDescriptor)) {
+				if (!eefTabDescriptors.containsKey(eefTabDescriptorId) && filter(eefTabDescriptor, part, input)) {
 					eefTabDescriptors.put(eefTabDescriptorId, eefTabDescriptor);
 				}
 			}
@@ -93,14 +93,18 @@ public class EEFTabbedPropertyRegistry {
 	 *
 	 * @param eefTabDescriptor
 	 *            The tab descriptor
+	 * @param part
+	 *            the workbench part
+	 * @param selection
+	 *            The selection
 	 * @return <code>true</code> if the tab descriptor should be used, <code>false</code> otherwise
 	 */
-	private boolean filter(IEEFTabDescriptor eefTabDescriptor) {
+	private boolean filter(IEEFTabDescriptor eefTabDescriptor, IWorkbenchPart part, ISelection selection) {
 		IItemRegistry<IEEFTabDescriptorFilter> eefTabDescriptorFilterRegistry = EEFTabbedPropertyViewPlugin.getPlugin()
 				.getEEFTabDescriptorFilterRegistry();
 		for (IItemDescriptor<IEEFTabDescriptorFilter> itemDescriptor : eefTabDescriptorFilterRegistry.getItemDescriptors()) {
 			IEEFTabDescriptorFilter eefTabDescriptorFilter = itemDescriptor.getItem();
-			if (!eefTabDescriptorFilter.filter(eefTabDescriptor)) {
+			if (!eefTabDescriptorFilter.filter(eefTabDescriptor, part, selection)) {
 				return false;
 			}
 		}
