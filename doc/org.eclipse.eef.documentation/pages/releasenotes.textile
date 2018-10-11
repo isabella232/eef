@@ -4,7 +4,7 @@ h2. Release Notes for Eclipse EEF
 
 This document contains the release notes for recent major releases of EEF.
 
-h3(#eef2.2.0). Changes in EEF 2.2.0
+h3(#eef2.1.1). Changes in EEF 2.1.1
 
 * <span class="label label-info">Modified</span> Add the workbench part and the selection to the tab descriptor filter extension point.
 
