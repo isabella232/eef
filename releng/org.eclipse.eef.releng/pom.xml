@@ -13,7 +13,7 @@ Contributors: Obeo - initial API and implementation
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <version>2.1.1-SNAPSHOT</version>
+  <version>2.1.2-SNAPSHOT</version>
   <groupId>org.eclipse.eef</groupId>
   <artifactId>org.eclipse.eef.parent</artifactId>
   <packaging>pom</packaging>
@@ -24,7 +24,7 @@ Contributors: Obeo - initial API and implementation
     <tycho-version>1.1.0</tycho-version>
     <tycho-extras-version>1.1.0</tycho-extras-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <platform-version-name>oxygen</platform-version-name>
+    <platform-version-name>photon</platform-version-name>
     <tycho.scmUrl>scm:git:http://git.eclipse.org/gitroot/eef/org.eclipse.eef.git</tycho.scmUrl>
   </properties>
 
