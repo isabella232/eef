@@ -31,7 +31,7 @@ set -e
 
 # The full version (should be taken as an argument)
 export VERSION="2.1.2"
-export PLATFORM="oxygen"
+export PLATFORM="2018-19"
 
 # The type of build being published
 export BUILD_TYPE="nightly"
