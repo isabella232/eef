@@ -50,6 +50,7 @@ Contributors: Obeo - initial API and implementation
               <tocOptions>
                 <mainLabel>EEF Javadoc</mainLabel>
               </tocOptions>
+              <cleanFirst>true</cleanFirst>
               <javadocOptions>
                 <encoding>UTF-8</encoding>
               </javadocOptions>

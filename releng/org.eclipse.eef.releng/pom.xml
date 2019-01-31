@@ -21,12 +21,19 @@ Contributors: Obeo - initial API and implementation
   <name>EEF Parent</name>
 
   <properties>
-    <tycho-version>1.1.0</tycho-version>
-    <tycho-extras-version>1.1.0</tycho-extras-version>
+    <tycho-version>1.4.0-SNAPSHOT</tycho-version>
+    <tycho-extras-version>1.4.0-SNAPSHOT</tycho-extras-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <platform-version-name>photon</platform-version-name>
+    <platform-version-name>2018-09</platform-version-name>
     <tycho.scmUrl>scm:git:http://git.eclipse.org/gitroot/eef/org.eclipse.eef.git</tycho.scmUrl>
   </properties>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>tycho-snapshots</id>
+      <url>https://repo.eclipse.org/content/repositories/tycho-snapshots/</url>
+    </pluginRepository>
+  </pluginRepositories>
 
   <build>
     <plugins>
@@ -163,7 +170,7 @@ Contributors: Obeo - initial API and implementation
     <module>../../tests/org.eclipse.eef.ui.tests</module>
 
     <module>../../doc/org.eclipse.eef.documentation</module>
-    <module>../../doc/org.eclipse.eef.documentation.javadoc</module>
+    <!-- <module>../../doc/org.eclipse.eef.documentation.javadoc</module> -->
     <module>../../doc/org.eclipse.eef.documentation.export</module>
     <module>../../doc/org.eclipse.eef.documentation.ext.widgets.reference</module>
 
