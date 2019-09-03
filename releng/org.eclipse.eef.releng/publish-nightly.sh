@@ -80,7 +80,9 @@ scp -rp "$WKS"/releng/org.eclipse.eef.releng/targetplatforms/* "$SSH_ACCOUNT:$TA
 ssh "$SSH_ACCOUNT" mkdir -p "$TARGET_ROOT/targets"
 scp -rp "$WKS"/releng/org.eclipse.eef.releng/targetplatforms/* "$SSH_ACCOUNT:$TARGET_ROOT/targets"
 echo Publish a dump of the build environment, may be useful to debug
-env | sort > "$SSH_ACCOUNT:$TARGET_DIR/build_env.txt"
+env | sort > build_env.txt
+scp build_env.txt "$SSH_ACCOUNT:$TARGET_DIR/build_env.txt"
+rm build_env.txt
 
  ######################################################################
 # Setup or update the redirects (implemented as composite repos)
