@@ -70,16 +70,16 @@ export WKS="."
 
 echo $TARGET_DIR
 
-# Ensure the target folder exists
+echo Ensure the target folder exists
 ssh "$SSH_ACCOUNT" mkdir -p "$TARGET_DIR"
-# The actual publication of the p2 repo produced by the build
+echo The actual publication of the p2 repo produced by the build
 scp -rp "$WKS"/releng/org.eclipse.eef.update/target/repository/* "$SSH_ACCOUNT:$TARGET_DIR"
-# Publish the target platform definitions used, so that downstream projects can reference them
+echo Publish the target platform definitions used, so that downstream projects can reference them
 ssh "$SSH_ACCOUNT" mkdir -p "$TARGET_DIR/targets"
 scp -rp "$WKS"/releng/org.eclipse.eef.releng/targetplatforms/* "$SSH_ACCOUNT:$TARGET_DIR/targets"
 ssh "$SSH_ACCOUNT" mkdir -p "$TARGET_ROOT/targets"
 scp -rp "$WKS"/releng/org.eclipse.eef.releng/targetplatforms/* "$SSH_ACCOUNT:$TARGET_ROOT/targets"
-# Publish a dump of the build environment, may be useful to debug
+echo Publish a dump of the build environment, may be useful to debug
 env | sort > "$SSH_ACCOUNT:$TARGET_DIR/build_env.txt"
 
  ######################################################################
@@ -122,14 +122,14 @@ EOF
 
 }
 
-# First, a link for the $VERSION (e.g. "1.2.0/luna" => "1.2.0-NYYYYMMDD-HHMM/luna")
+echo First, a link for the $VERSION (e.g. "1.2.0/luna" => "1.2.0-NYYYYMMDD-HHMM/luna")
 create_redirect "$TARGET_ROOT/$VERSION/$PLATFORM" "$BUILD_TYPE/$FULL_VERSION/$PLATFORM"
 create_redirect "$TARGET_ROOT/$VERSION/$PLATFORM/tests" "$BUILD_TYPE/$FULL_VERSION/$PLATFORM/tests"
-# Also create a link for the $STREAM (e.g. "1.2.x/luna" => "1.2.0-NYYYYMMDD-HHMM/luna")
-# and publish the zipped versions there, at stable URLs
+echo Also create a link for the $STREAM (e.g. "1.2.x/luna" => "1.2.0-NYYYYMMDD-HHMM/luna")
+echo and publish the zipped versions there, at stable URLs
 create_redirect "$TARGET_ROOT/$STREAM/$PLATFORM" "$BUILD_TYPE/$FULL_VERSION/$PLATFORM"
 scp -rp "$WKS"/releng/org.eclipse.eef.update/target/org.eclipse.eef.update-*.zip "$SSH_ACCOUNT:$TARGET_ROOT/$STREAM/org.eclipse.eef-$VERSION-$PLATFORM.zip"
-# Also update the global "latest" links if we are building master
+echo Also update the global "latest" links if we are building master
 if [ "master" = "$GIT_BRANCH" ]; then
     create_redirect "$TARGET_ROOT/latest/$PLATFORM" "$BUILD_TYPE/$FULL_VERSION/$PLATFORM"
     scp -rp "$WKS"/releng/org.eclipse.eef.update/target/org.eclipse.eef.update-*.zip "$SSH_ACCOUNT:$TARGET_ROOT/$STREAM/org.eclipse.eef-$VERSION-$PLATFORM.zip"
