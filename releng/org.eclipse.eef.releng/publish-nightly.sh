@@ -31,11 +31,14 @@ set -e
 
 # The full version (should be taken as an argument)
 export VERSION="2.1.2"
-export PLATFORM="2018-12"
+export PLATFORM="2019-06"
 
 # The type of build being published
 export BUILD_TYPE="nightly"
 export BUILD_TYPE_PREFIX="N"
+
+# The SSH account to use
+export SSH_ACCOUNT="genie.sirius@projects-storage.eclipse.org"
 
 # The root folder for all EEF update sites
 export EEF_UPDATES_ROOT="/home/data/httpd/download.eclipse.org/modeling/emft/eef/updates"
@@ -68,16 +71,16 @@ export WKS="."
 echo $TARGET_DIR
 
 # Ensure the target folder exists
-mkdir -p "$TARGET_DIR"
+ssh "$SSH_ACCOUNT" mkdir -p "$TARGET_DIR"
 # The actual publication of the p2 repo produced by the build
-cp -a "$WKS"/releng/org.eclipse.eef.update/target/repository/* "$TARGET_DIR"
+scp -rp "$WKS"/releng/org.eclipse.eef.update/target/repository/* "$SSH_ACCOUNT:$TARGET_DIR"
 # Publish the target platform definitions used, so that downstream projects can reference them
-mkdir -p "$TARGET_DIR/targets"
-cp -a "$WKS"/releng/org.eclipse.eef.releng/targetplatforms/* "$TARGET_DIR/targets"
-mkdir -p "$TARGET_ROOT/targets"
-cp -a "$WKS"/releng/org.eclipse.eef.releng/targetplatforms/* "$TARGET_ROOT/targets"
+ssh "$SSH_ACCOUNT" mkdir -p "$TARGET_DIR/targets"
+scp -rp "$WKS"/releng/org.eclipse.eef.releng/targetplatforms/* "$SSH_ACCOUNT:$TARGET_DIR/targets"
+ssh "$SSH_ACCOUNT" mkdir -p "$TARGET_ROOT/targets"
+scp -rp "$WKS"/releng/org.eclipse.eef.releng/targetplatforms/* "$SSH_ACCOUNT:$TARGET_ROOT/targets"
 # Publish a dump of the build environment, may be useful to debug
-env | sort > "$TARGET_DIR/build_env.txt"
+env | sort > "$SSH_ACCOUNT:$TARGET_DIR/build_env.txt"
 
  ######################################################################
 # Setup or update the redirects (implemented as composite repos)
@@ -88,7 +91,7 @@ create_redirect() {
     FROM="$1"
     TO="$2"
 
-    mkdir -p "$FROM"
+    ssh "$SSH_ACCOUNT" mkdir -p "$FROM"
     cat > "$FROM/compositeArtifacts.xml" <<EOF
 <?xml version='1.0' encoding='UTF-8'?>
 <?compositeArtifactRepository version='1.0.0'?>
@@ -101,6 +104,7 @@ create_redirect() {
   </children>
 </repository>
 EOF
+    scp compositeArtifacts.xml "$SSH_ACCOUNT:$FROM/compositeArtifacts.xml"
 
     cat > "$FROM/compositeContent.xml" <<EOF
 <?xml version='1.0' encoding='UTF-8'?>
@@ -114,6 +118,7 @@ EOF
   </children>
 </repository>
 EOF
+    scp compositeContent.xml "$SSH_ACCOUNT:$FROM/compositeContent.xml"
 
 }
 
@@ -123,10 +128,10 @@ create_redirect "$TARGET_ROOT/$VERSION/$PLATFORM/tests" "$BUILD_TYPE/$FULL_VERSI
 # Also create a link for the $STREAM (e.g. "1.2.x/luna" => "1.2.0-NYYYYMMDD-HHMM/luna")
 # and publish the zipped versions there, at stable URLs
 create_redirect "$TARGET_ROOT/$STREAM/$PLATFORM" "$BUILD_TYPE/$FULL_VERSION/$PLATFORM"
-cp -a "$WKS"/releng/org.eclipse.eef.update/target/org.eclipse.eef.update-*.zip "$TARGET_ROOT/$STREAM/org.eclipse.eef-$VERSION-$PLATFORM.zip"
+scp -rp "$WKS"/releng/org.eclipse.eef.update/target/org.eclipse.eef.update-*.zip "$SSH_ACCOUNT:$TARGET_ROOT/$STREAM/org.eclipse.eef-$VERSION-$PLATFORM.zip"
 # Also update the global "latest" links if we are building master
 if [ "master" = "$GIT_BRANCH" ]; then
     create_redirect "$TARGET_ROOT/latest/$PLATFORM" "$BUILD_TYPE/$FULL_VERSION/$PLATFORM"
-    cp -a "$WKS"/releng/org.eclipse.eef.update/target/org.eclipse.eef.update-*.zip "$TARGET_ROOT/$STREAM/org.eclipse.eef-$VERSION-$PLATFORM.zip"
+    scp -rp "$WKS"/releng/org.eclipse.eef.update/target/org.eclipse.eef.update-*.zip "$SSH_ACCOUNT:$TARGET_ROOT/$STREAM/org.eclipse.eef-$VERSION-$PLATFORM.zip"
 fi
  
