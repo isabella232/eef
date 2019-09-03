@@ -94,7 +94,7 @@ create_redirect() {
     TO="$2"
 
     ssh "$SSH_ACCOUNT" mkdir -p "$FROM"
-    cat > "$FROM/compositeArtifacts.xml" <<EOF
+    cat > "compositeArtifacts.xml" <<EOF
 <?xml version='1.0' encoding='UTF-8'?>
 <?compositeArtifactRepository version='1.0.0'?>
 <repository name='Eclipse EEF' type='org.eclipse.equinox.internal.p2.artifact.repository.CompositeArtifactRepository' version='1.0.0'>
@@ -108,7 +108,7 @@ create_redirect() {
 EOF
     scp compositeArtifacts.xml "$SSH_ACCOUNT:$FROM/compositeArtifacts.xml"
 
-    cat > "$FROM/compositeContent.xml" <<EOF
+    cat > "compositeContent.xml" <<EOF
 <?xml version='1.0' encoding='UTF-8'?>
 <?compositeMetadataRepository version='1.0.0'?>
 <repository name='Eclipse EEF' type='org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepository' version='1.0.0'>
