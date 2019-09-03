@@ -38,7 +38,7 @@ export BUILD_TYPE="nightly"
 export BUILD_TYPE_PREFIX="N"
 
 # The SSH account to use
-export SSH_ACCOUNT="genie.sirius@projects-storage.eclipse.org"
+export SSH_ACCOUNT="genie.eef@projects-storage.eclipse.org"
 
 # The root folder for all EEF update sites
 export EEF_UPDATES_ROOT="/home/data/httpd/download.eclipse.org/modeling/emft/eef/updates"
