@@ -112,7 +112,7 @@ public class LegacyPropertyTabRegistry implements IItemRegistry {
 			String category = propertyCategories.get(i);
 
 			for (IEEFTabDescriptor tab : tabs) {
-				if (category.equals(tab.getCategory())) {
+				if (category != null && category.equals(tab.getCategory())) {
 					categoryList.add(tab);
 				}
 			}
