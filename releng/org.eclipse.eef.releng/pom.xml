@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright (c) 2015, 2018 Obeo.
+Copyright (c) 2015, 2020 Obeo.
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the Eclipse Public License v2.0
 which accompanies this distribution, and is available at
@@ -24,7 +24,7 @@ Contributors: Obeo - initial API and implementation
     <tycho-version>1.4.0</tycho-version>
     <tycho-extras-version>1.4.0</tycho-extras-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <platform-version-name>2018-12</platform-version-name>
+    <platform-version-name>2019-12</platform-version-name>
     <tycho.scmUrl>scm:git:http://git.eclipse.org/gitroot/eef/org.eclipse.eef.git</tycho.scmUrl>
   </properties>
 

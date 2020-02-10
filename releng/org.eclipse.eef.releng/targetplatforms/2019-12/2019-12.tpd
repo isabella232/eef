@@ -1,0 +1,30 @@
+target "Eclipse 2019-12"
+
+include "http://download.eclipse.org/sirius/updates/nightly/targets/modules/aql-nightly.tpd"
+
+with source requirements
+
+location Eclipse-Luna "http://download.eclipse.org/releases/2019-12" {
+	org.eclipse.platform.feature.group lazy
+	org.eclipse.sdk.feature.group lazy
+	org.eclipse.uml2.uml.feature.group lazy
+	org.eclipse.uml2.uml.editor lazy
+	org.eclipse.xtext.sdk.feature.group lazy
+	org.eclipse.xtend.sdk.feature.group lazy
+	org.eclipse.emf.mwe2.runtime.sdk.feature.group lazy
+	org.eclipse.emf.transaction.feature.group lazy
+}
+
+
+location Eclipse-Shared-License "http://download.eclipse.org/cbi/updates/license" {
+	org.eclipse.license.feature.group lazy
+}
+
+location Sirius "http://download.eclipse.org/sirius/updates/releases/6.3.0/photon" {
+	org.eclipse.sirius.interpreter.feature.feature.group lazy
+	org.eclipse.sirius.runtime.feature.group lazy
+}
+
+location "http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository" {
+	org.hamcrest.library
+}
