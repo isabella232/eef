@@ -172,9 +172,11 @@ public abstract class AbstractEEFWidgetLifecycleManager extends AbstractEEFLifec
 		}
 
 		if (needsLabel) {
-			this.label = widgetFactory.createStyledText(composite, SWT.NONE);
+			this.label = widgetFactory.createStyledText(composite, SWT.READ_ONLY);
 			this.label.setEditable(false);
-			this.label.setEnabled(false);
+			this.label.setCaret(null);
+			this.label.setCursor(Display.getCurrent().getSystemCursor(SWT.CURSOR_ARROW));
+			this.label.setDoubleClickEnabled(false);
 			this.label.setLayoutData(new GridData(this.getLabelVerticalAlignment()));
 		}
 
