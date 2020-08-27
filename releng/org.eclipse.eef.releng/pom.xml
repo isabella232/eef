@@ -145,6 +145,20 @@ Contributors: Obeo - initial API and implementation
         </plugin>
     </plugins>
   </build>
+  
+  <distributionManagement>
+    <repository>
+      <id>repo.eclipse.org</id>
+      <name>EEF Repository - Releases</name>
+      <url>https://repo.eclipse.org/content/repositories/eef-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>repo.eclipse.org</id>
+      <name>EEF Repository - Snapshots</name>
+      <url>https://repo.eclipse.org/content/repositories/eef-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+  
   <modules>
     <module>targetplatforms/${platform-version-name}</module>
 
