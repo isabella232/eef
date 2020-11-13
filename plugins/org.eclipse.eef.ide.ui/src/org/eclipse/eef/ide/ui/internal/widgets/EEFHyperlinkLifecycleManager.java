@@ -103,7 +103,7 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	 * {@inheritDoc}
 	 *
 	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#createMainControl(org.eclipse.swt.widgets.Composite,
-	 *      org.eclipse.eef.common.ui.api.IEEFFormContainer)
+	 *          org.eclipse.eef.common.ui.api.IEEFFormContainer)
 	 */
 	@Override
 	protected void createMainControl(Composite parent, IEEFFormContainer formContainer) {
@@ -117,7 +117,7 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		layout.marginRight = 5;
 		hyperlinkComposite.setLayout(layout);
 
-		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		hyperlinkComposite.setLayoutData(gridData);
 
 		this.createHyperlink(hyperlinkComposite);
