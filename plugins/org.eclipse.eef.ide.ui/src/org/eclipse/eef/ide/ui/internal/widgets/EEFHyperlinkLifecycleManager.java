@@ -112,9 +112,11 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 		// this is the parent composite
 		Composite hyperlinkComposite = this.widgetFactory.createFlatFormComposite(parent);
 		GridLayout layout = new GridLayout(2, false);
-		// Remove the 5px left margin only
+		// Align buttons end with other widgets;
+		// In loop line, avoid awkward spaces.
 		layout.marginWidth = 0;
-		layout.marginRight = 5;
+		// Avoid empty horizontal line.
+		layout.marginHeight = 0;
 		hyperlinkComposite.setLayout(layout);
 
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
@@ -148,19 +150,26 @@ public class EEFHyperlinkLifecycleManager extends AbstractEEFWidgetLifecycleMana
 	 *            The parent composite
 	 */
 	private void createWidgetActionButtons(Composite parent) {
-		Composite buttons = this.widgetFactory.createFlatFormComposite(parent);
+		if (!description.getActions().isEmpty()) {
 
-		GridData gridData = new GridData();
-		gridData.grabExcessHorizontalSpace = false;
-		buttons.setLayoutData(gridData);
+			Composite buttons = this.widgetFactory.createComposite(parent);
 
-		buttons.setLayout(new GridLayout(this.description.getActions().size(), true));
+			GridData gridData = new GridData();
+			gridData.grabExcessHorizontalSpace = false;
+			buttons.setLayoutData(gridData);
 
-		// Buttons are visible only if an action is defined
-		for (EEFWidgetAction action : this.description.getActions()) {
-			ActionButton actionButton = new ActionButton(action, buttons, this.widgetFactory, this.interpreter, this.variableManager);
-			actionButtons.add(actionButton);
-		}
+			GridLayout layout = new GridLayout(this.description.getActions().size(), true);
+			// hyperlinkComposite already provide vertical and horizontal spacing.
+			layout.marginHeight = 0;
+			buttons.setLayout(layout);
+
+			// Buttons are visible only if an action is defined
+			for (EEFWidgetAction action : this.description.getActions()) {
+				ActionButton actionButton = new ActionButton(action, buttons, this.widgetFactory, this.interpreter, this.variableManager);
+				actionButtons.add(actionButton);
+			}
+		} // else (no action), avoid extra space
+
 	}
 
 	/**

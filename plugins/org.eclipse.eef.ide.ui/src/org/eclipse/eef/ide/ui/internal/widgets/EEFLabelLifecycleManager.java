@@ -103,7 +103,7 @@ public class EEFLabelLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 	 * {@inheritDoc}
 	 *
 	 * @see org.eclipse.eef.ide.ui.api.widgets.AbstractEEFWidgetLifecycleManager#createMainControl(org.eclipse.swt.widgets.Composite,
-	 *      org.eclipse.eef.common.ui.api.IEEFFormContainer)
+	 *          org.eclipse.eef.common.ui.api.IEEFFormContainer)
 	 */
 	@Override
 	protected void createMainControl(Composite parent, IEEFFormContainer formContainer) {
@@ -112,9 +112,11 @@ public class EEFLabelLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 		// this is the parent composite
 		Composite labelComposite = this.widgetFactory.createFlatFormComposite(parent);
 		GridLayout layout = new GridLayout(2, false);
-		// Remove the 5px left margin only
+		// Align buttons end with other widgets;
+		// In loop line, avoid awkward spaces.
 		layout.marginWidth = 0;
-		layout.marginRight = 5;
+		// Avoid empty horizontal line.
+		layout.marginHeight = 0;
 		labelComposite.setLayout(layout);
 
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
@@ -152,18 +154,24 @@ public class EEFLabelLifecycleManager extends AbstractEEFWidgetLifecycleManager 
 	 *            The parent composite
 	 */
 	private void createWidgetActionButtons(Composite parent) {
-		Composite buttons = this.widgetFactory.createFlatFormComposite(parent);
+		if (!description.getActions().isEmpty()) {
+			Composite buttons = this.widgetFactory.createComposite(parent);
 
-		GridData gridData = new GridData();
-		gridData.grabExcessHorizontalSpace = false;
-		buttons.setLayoutData(gridData);
+			GridData gridData = new GridData();
+			gridData.grabExcessHorizontalSpace = false;
+			buttons.setLayoutData(gridData);
 
-		buttons.setLayout(new GridLayout(this.description.getActions().size(), true));
+			GridLayout layout = new GridLayout(this.description.getActions().size(), true);
+			// labelComposite already provide vertical spacing.
+			layout.marginHeight = 0;
 
-		// Buttons are visible only if an action is defined
-		for (EEFWidgetAction action : this.description.getActions()) {
-			ActionButton actionButton = new ActionButton(action, buttons, this.widgetFactory, this.interpreter, this.variableManager);
-			actionButtons.add(actionButton);
+			buttons.setLayout(layout);
+
+			// Buttons are visible only if an action is defined
+			for (EEFWidgetAction action : this.description.getActions()) {
+				ActionButton actionButton = new ActionButton(action, buttons, this.widgetFactory, this.interpreter, this.variableManager);
+				actionButtons.add(actionButton);
+			}
 		}
 	}
 
