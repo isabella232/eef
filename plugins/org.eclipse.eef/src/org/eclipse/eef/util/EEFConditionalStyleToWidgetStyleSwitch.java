@@ -13,6 +13,7 @@ package org.eclipse.eef.util;
 
 import org.eclipse.eef.EEFButtonConditionalStyle;
 import org.eclipse.eef.EEFCheckboxConditionalStyle;
+import org.eclipse.eef.EEFCustomWidgetConditionalStyle;
 import org.eclipse.eef.EEFHyperlinkConditionalStyle;
 import org.eclipse.eef.EEFLabelConditionalStyle;
 import org.eclipse.eef.EEFListConditionalStyle;
@@ -104,6 +105,11 @@ public class EEFConditionalStyleToWidgetStyleSwitch extends EefSwitch<EEFWidgetS
 	 */
 	@Override
 	public EEFWidgetStyle caseEEFListConditionalStyle(EEFListConditionalStyle object) {
+		return object.getStyle();
+	}
+
+	@Override
+	public EEFWidgetStyle caseEEFCustomWidgetConditionalStyle(EEFCustomWidgetConditionalStyle object) {
 		return object.getStyle();
 	}
 }
